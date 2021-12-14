@@ -65,7 +65,8 @@ public class MyPage extends AbstractPage {
 ----
 
 Typically, the custom fixed width should be applied to a layout containing all visible sections instead of a single section.
-A consistent label width improves readability by makes the layout appear more structured and clean.
+A consistent label width improves readability by makes the layout appear more structured and clean. 
+For setting label alignment see <<section-label-alignment,Label alignment in `@UIFormSection`>>.
 
 [[layout-uisection]]
 ===== Layout Options in @UISection
@@ -75,7 +76,7 @@ A consistent label width improves readability by makes the layout appear more st
 include::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
 ----
 
-The layout for all the components within a `UISection` can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, COLUMN or CUSTOM.
+The layout for all the components within a `UISection` can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL or COLUMN.
 .
 
 [[horizontal-section-layout]]
@@ -84,33 +85,19 @@ Horizontal Section Layout:: With the horizontal layout all input fields are disp
 [[column-section-layout]]
 Column Section Layout:: With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
 
-// TODO LIN-2646
-[[custom-section-layout]]
-Custom Section Layout:: Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v8/framework/layout/layout-customlayout.html[CustomLayout] from Vaadin.
-+
-All you have to do is to create a HTML file located in the `layouts` folder in your theme folder. The HTML file has to be named with the simple name of your PMO and use the file extension `.html`. Within this HTML file you use `<div location="...">` elements as placeholder for every component. Within the `location` attribute you use the PMO property name to reference the component as needed. If you also want to have the placeholder for the PMO defined label you simply use the PMO property name with the suffix `-label`. In the PMO there are no restrictions. The position will be ignored, as it is determined by the HTML template.
-+
-As an example, custom layout can be used to create a address input section where the fields "Street" and "Number" are shown in the same line with a predefined width, as well as the fields "Zip" and "City".
-+
-image::{images}{images-folder-name}/custom_layout.png[Address section with custom layout,align="center"]
-+
-The relevant code for the class declaration and a part of the field declarations are given in this code snippet.
-+
-
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/binding/components/AddressComponent.java[tags=declaration]
-
-include::{source-dir}/org/linkki/samples/playground/binding/components/AddressComponent.java[tags=methods]
-----
-
-// TODO LIN-2646
 [[section-label-alignment]]
 ===== Label alignment in sections
 
 By default, the labels are right aligned in a section. A right alignment has the advantage that the label and the corresponding input control are always visually close. In case the length of the labels vary strongly in a section, left alignment can make a label appear far away from the input control itself. This can make the form look less ordered as the affiliation between the label and the input control is broken visually.
 
-To change this behavior, declare `$linkki-label-alignment: left` before importing `linkki.scss`.
+To change this behavior, set `--linkki-form-item-label-alignment` to `left` on the corresponding component.
+
+.Example
+[source, java]
+----
+Component component = VaadinUiCreator.createComponent(new ExampleSectionPmo(), new BindingContext());
+component.getElement().getStyle().set("--linkki-form-item-label-alignment", "left");
+----
 
 [[section-header-annotation]]
 ===== Adding UI Elements to the Section Header

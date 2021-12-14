@@ -1,6 +1,7 @@
 :jbake-title: Nested Components
 :jbake-type: section
 :jbake-status: published
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
 
 [[nested-pmos]]
 === Nested Components
@@ -14,27 +15,12 @@ image::{images}/11_linkki_incubator/nested_pmo.png[Nested PMO]
 .Outer PMO
 [source,java]
 ----
-@UITextField(position = 0)
-public String getName() {
-	return name;
-}
-
-@UINestedComponent(position = 10, label = "Address")
-public AddressPmo getAddressPmo() {
-	return addressPmo;
+include::{source-dir}/org/linkki/samples/playground/nestedcomponent/NestedComponentPmo.java[tags=nestedcomponentpmo]
 }
 ----
 
-.Inner PMO (AddressPmo) annotated with @UISection
+.Inner PMO (NamePmo) annotated with @UIHorizontalLayout
 [source,java]
 ----
-@UITextField(position = 0)
-public String getCity() {
-	return city;
-}
-
-@UITextField(position = 10)
-public String getCountry() {
-	return country;
-}
+include::{source-dir}/org/linkki/samples/playground/nestedcomponent/NestedComponentPmo.java[tags=innercomponentpmo]
 ----

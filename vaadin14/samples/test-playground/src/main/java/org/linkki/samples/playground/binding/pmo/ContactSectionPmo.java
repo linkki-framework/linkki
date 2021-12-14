@@ -34,7 +34,7 @@ import org.linkki.samples.playground.binding.annotation.UIRadioButtonGroup;
 import org.linkki.samples.playground.binding.model.Contact;
 
 // tag::contactPmo-class[]
-@UISection
+@UISection(caption = "Contact")
 public class ContactSectionPmo {
 
     private Contact contact;

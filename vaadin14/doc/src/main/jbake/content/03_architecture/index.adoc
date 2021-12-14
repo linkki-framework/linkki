@@ -29,7 +29,7 @@ The chapter concludes with <<cross-sectional-binding,Cross-Sectional Data Bindin
 
 ==== linkki Core
 
-The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc. In addition, it provides common usable implementations for reading *linkki* annotations. As a result, `linkki-core` dependent code can stay unmodified when switching to a different UI framework. It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components. If you intend to use linkki with Vaadin 8 (instead of writing your own UI framework mapping), you can directly use the dependency below.
+The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc. In addition, it provides common usable implementations for reading *linkki* annotations. As a result, `linkki-core` dependent code can stay unmodified when switching to a different UI framework. It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components. If you intend to use linkki with Vaadin 14 (instead of writing your own UI framework mapping), you can directly use the dependency below.
 
 To declare the dependency in maven: 
 
@@ -37,7 +37,7 @@ To declare the dependency in maven:
 ----
 <dependency>
     <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-core</artifactId>
+    <artifactId>linkki-core-vaadin14</artifactId>
 </dependency>
 ----
 

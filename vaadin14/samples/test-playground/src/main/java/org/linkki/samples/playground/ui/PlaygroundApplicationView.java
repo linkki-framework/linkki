@@ -135,8 +135,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     }
 
     @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter
-    String parameter) {
+    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");

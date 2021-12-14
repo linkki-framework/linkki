@@ -45,7 +45,6 @@ public class ContactsTableComponent extends Div implements UiUpdateObserver {
         this.contactStorage = contactStorage;
         this.context = bindingContext;
 
-        setText("Contacts");
         createContent(editAction);
         uiUpdated();
     }

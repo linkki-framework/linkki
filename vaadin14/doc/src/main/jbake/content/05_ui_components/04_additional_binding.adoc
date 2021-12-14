@@ -255,7 +255,7 @@ The following configuration options are available for `IconType`:
 |`DYNAMIC`  |the icon is determined by the return value of the method `Resource get<PropertyName>Icon()`. The `value` is ignored. 
 |=== 
 
-TIP: The class `VaadinIcons` contains many Icons for easy use. The Vaadin documentation includes a https://vaadin.com/components/vaadin-icons/java-examples#all-icons[reference page listing all available icons] as well as documentation how to https://vaadin.com/docs/v8/framework/themes/themes-fonticon.html#themes.fonticon.custom.creating[creating your own FontIcons].
+TIP: The class `VaadinIcon` contains many Icons for easy use. The Vaadin documentation includes a https://vaadin.com/components/vaadin-icons/java-examples#all-icons[reference page listing all available icons] as well as documentation how to https://vaadin.com/docs/v14/flow/styling/lumo/icons[Icons].
 
-IMPORTANT: Since annotations do not support a `null` value and `VaadinIcons` do not have a "NO_ICON" we cannot really specify "no icon" to automatically use a dynamic one. Hence we decided to use a quite uncommon icon (NATIVE_BUTTON) as default. If you really need exactly this icon, use `iconType=STATIC` explicitly.
+IMPORTANT: Since annotations do not support a `null` value and `VaadinIcon` do not have a "NO_ICON" we cannot really specify "no icon" to automatically use a dynamic one. Hence we decided to use a quite uncommon icon (NATIVE_BUTTON) as default. If you really need exactly this icon, use `iconType=STATIC` explicitly.
 

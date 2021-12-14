@@ -72,7 +72,7 @@ public class ReportPmo {
     }
 
     @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE)
-    @UITextArea(position = 30, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, width = "50em")
+    @UITextArea(position = 30, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, width = "50em", height = "5em")
     public void description() {
         /* Use description from report (model object) directly */
     }

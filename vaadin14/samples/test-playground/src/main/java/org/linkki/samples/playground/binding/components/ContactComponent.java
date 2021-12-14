@@ -59,8 +59,6 @@ public class ContactComponent extends Div {
 
         this.buttonsSectionPmo = new ButtonsSectionPmo(this::canSave, this::save, this::reset);
 
-        // setCaption("Create / Edit Contact");
-        setText("Create / Edit Contact");
         createContent();
     }
 

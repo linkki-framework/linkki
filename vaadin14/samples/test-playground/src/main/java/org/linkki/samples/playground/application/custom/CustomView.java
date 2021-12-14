@@ -14,7 +14,10 @@
 
 package org.linkki.samples.playground.application.custom;
 
-import com.vaadin.flow.component.Text;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.samples.playground.customlayout.pmo.HotelSearchPmo;
+
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
@@ -26,7 +29,9 @@ public class CustomView extends VerticalLayout {
     private static final long serialVersionUID = 1L;
 
     public CustomView() {
-        add(new Text("Customized View"));
+        // tag::CustomLayoutAnnotation[]
+        add(VaadinUiCreator.createComponent(new HotelSearchPmo(), new BindingContext()));
+        // end::CustomLayoutAnnotation[]
     }
 
 }

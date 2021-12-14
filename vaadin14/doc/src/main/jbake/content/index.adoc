@@ -38,11 +38,11 @@ The only assumption about the business layer is that you use a domain
 
 === Vaadin
 
-*linkki* is a server side framework that can support different UI frameworks. Therefore it is divided into an UI framework independent core and UI framework specific modules like `linkki-core-vaadin8`. Linkki's core module is UI framework independent, but it needs a UI framework specific implementation to work. We offer such implementations based on https://vaadin.com/[Vaadin], which allows you to write UI in Java. The layouts and widgetsets are provided by Vaadin. It also handles the whole communication between the browser and the server.
+*linkki* is a server side framework that can support different UI frameworks. Therefore it is divided into an UI framework independent core and UI framework specific modules like `linkki-core-vaadin14`. Linkki's core module is UI framework independent, but it needs a UI framework specific implementation to work. We offer such implementations based on https://vaadin.com/[Vaadin], which allows you to write UI in Java. The layouts and widgetsets are provided by Vaadin. It also handles the whole communication between the browser and the server.
 
 However, the code has only very few direct dependencies to Vaadin API when using *linkki*. Most of the interaction with Vaadin is encapsulated by *linkki*.
 
-*linkki* currently only supports https://vaadin.com/docs/v8/framework/introduction/intro-overview.html[Vaadin version 8].
+*linkki* currently only supports https://vaadin.com/docs/v14/flow/overview[Vaadin version 14].
 
 === Sections
 The fundamental building blocks for a *linkki* UI are sections. A section is
@@ -69,10 +69,6 @@ The following is the PMO code for the partner data section shown above.
 ----
 include::{source-dir}/org/linkki/doc/PartnerSectionPmo.java[tags=pmo]
 ----
-
-For those parts of your application that need a more sophisticated
-layout, you can define the layout in HTML using Vaadin’s `CustomLayout`
-and bind the controls to a PMO.
 
 === Data binding
 
@@ -118,7 +114,7 @@ shown in a combo box. In fact, all properties of a UI control can be bound this 
 To demonstrate this, we extend our previous example: A partner might now be either a
 person or a company. The date of birth field should then only be enabled for persons. Here is the new section and the code for enabling the date of birth field depending on the type of person.
 
-image::{images-index}input_field_with_code.png[image,width=306,height=125]
+image::{images-index}input_field_with_code.png[]
 
 [source,java]
 ----

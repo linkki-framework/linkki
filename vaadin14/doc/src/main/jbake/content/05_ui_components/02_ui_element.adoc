@@ -271,7 +271,7 @@ The text shown on a button is called a caption. It is not to be confused with a 
 
 [[icon]]
 ===== Icon
-Apart from captions, buttons can be adorned with icons. For this the constants of the Vaadin class `VaadinIcons` are used. For the icon to be displayed the property `showIcon` must be set `true`.
+Apart from captions, buttons can be adorned with icons. For this the constants of the Vaadin class `VaadinIcon` are used. For the icon to be displayed the property `showIcon` must be set `true`.
 
 [[button-theme-variants]]
 ===== Button Variants

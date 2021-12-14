@@ -21,35 +21,31 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 
-// tag::declaration[]
 public class AddressComponent extends FormLayoutSection {
 
     private static final long serialVersionUID = 1L;
 
     public AddressComponent(AddressFields fields) {
-        super("", 1, false);
+        super("Address", 1, false);
         setSizeFull();
 
         TextField street = fields.getStreetTxt();
         TextField zip = fields.getZipTxt();
         TextField city = fields.getCity();
-        // end::declaration[]
         ComboBox<Country> country = fields.getCountryCb();
 
         street.setSizeFull();
         city.setSizeFull();
         country.setSizeFull();
 
-        // tag::methods[]
         HorizontalLayout zipCity = new HorizontalLayout(zip, city);
         zipCity.setSpacing(false);
+        zip.getStyle().set("padding-right", "10px");
 
         getSectionContent().addFormItem(street, street.getLabel());
         getSectionContent().addFormItem(zipCity, "Zip / City");
         getSectionContent().addFormItem(country, country.getLabel());
-        // end::methods[]
 
-        zip.getStyle().set("padding-right", "10px");
         street.setLabel(null);
         country.setLabel(null);
     }

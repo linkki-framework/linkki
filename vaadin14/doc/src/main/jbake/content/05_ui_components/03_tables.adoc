@@ -34,8 +34,8 @@ By design all properties of a PMO are presented in the table. With the annotatio
 
 To modify the column size you could use the properties `width` (in pixels) and `flexGrow`. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
 
-// TODO LIN-2646
-Additionally, with the property `collapsible`, you could specify a `CollapseMode` to let the column be collapsible or initially collapsed.
+// TODO LIN-2138
+// Additionally, with the property `collapsible`, you could specify a `CollapseMode` to let the column be collapsible or initially collapsed.
 
 [[ui-container-pmo]]
 ==== Container PMO

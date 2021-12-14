@@ -45,14 +45,13 @@ TIP: When the data binding of a Vaadin component of a third party library should
 include::{source-dir}/org/linkki/samples/playground/binding/components/ContactComponent.java[tags=manual-binding]
 ----
 
-You can find a sample project with the different binding options on {github-tree}/vaadin8/samples/test-playground/src/main/java/org/linkki/samples/playground/binding[GitHub].
+You can find a sample project with the different binding options on {github-tree}/vaadin14/samples/test-playground/src/main/java/org/linkki/samples/playground/binding[GitHub].
 
 [TIP]
 ====
 Binding summary:
 
 * <<layout, Layout annotations>> like `@UISection` -> simple and quick template with limited configuration options
-* <<manual-section-creation, UiElementCreator>> -> automated creation and binding of UI components with control over the layout
 * <<manual-binding, manual binding>> -> full control, but more effort and direct UI framework dependencies
 
 *linkki* uses certain naming conventions. That way sources of errors and refactoring complexity are reduced.
