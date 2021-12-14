@@ -28,25 +28,3 @@ docker cp $WAR_FILE $V14_NAME:/opt/spring/application.war
 
 # Start the container
 docker start $V14_NAME
-
-# Create vaadin8 container
-V8_NAME="linkki-vaadin8-$BUILD_NAME"
-if [ -n "$(docker container ls --filter="name=^$V8_NAME$" -a -q)" ]; then
-    docker rm --force $V8_NAME
-fi
-
-docker create \
-        --cpus=2 --memory=4g \
-        --name $V8_NAME \
-        --network $NETWORK_NAME \
-        --label "url=$V8_NAME" \
-        --label "entry-path=linkki-sample-test-playground-vaadin8" \
-        --label "retention=${CONTAINER_RETENTION:-discard}" \
-        f10/spring:11
-
-# Copy war to container
-WAR_FILE="vaadin8/samples/test-playground/target/linkki-sample-test-playground-vaadin8.war"
-docker cp $WAR_FILE $V8_NAME:/opt/spring/application.war
-
-# Start the container
-docker start $V8_NAME
