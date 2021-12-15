@@ -84,8 +84,8 @@ public class ContactRowPmo {
         return contact.getAddress().asSingleLineString();
     }
 
-    // tag::contactRowPmo-buttonBinding[]
     @UITableColumn(width = 50)
+    // tag::contactRowPmo-buttonBinding[]
     @BindTooltip("Edit")
     @UIButton(position = 30, icon = VaadinIcon.EDIT, showIcon = true, caption = "")
     public void edit() {

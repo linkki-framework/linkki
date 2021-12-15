@@ -236,8 +236,8 @@ UI elements such as <<ui-button, `@UIButton`>> or <<ui-link, `@UILink`>> can hav
 
 The `@BindIcon` annotation has two properties:
 
-* <<icon-value, `value: String`>>:  
-* <<icon-type, `iconType`: IconTypeType`>>
+* <<icon-value, `value: String`>>  
+* <<icon-type, `iconType: IconTypeType`>>
 
 [[icon-value]]
 Value::

@@ -19,7 +19,6 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
-import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextArea;
@@ -34,7 +33,7 @@ import com.vaadin.flow.component.notification.Notification.Position;
 
 // tag::report-pmo[]
 @UISection
-public class ReportSectionPmo implements PresentationModelObject {
+public class ReportSectionPmo {
 
     private final Report report;
 

@@ -179,10 +179,12 @@ The property `width` can be used to define the width of the combobox using CSS s
 
 [[itemCaptionProvider]]
 ItemCaptionProvider::
-For displaying the individual values in the combobox a `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used. By default it is a `DefaultCaptionProvider` that expects a method `getName()`. Via the property `itemCaptionProvider` an alternative implementation class can be specified. *linkki* offers two additional ones: 
+For displaying the individual values in the combobox a `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used. By default it is a `DefaultCaptionProvider` which determines the caption by trying to call the methods `getName(Locale)`, `getName`, `toString` in that order.
++
+Via the property `itemCaptionProvider` an alternative implementation class can be specified. *linkki* offers two additional ones: 
 +
 * `ToStringCaptionProvider`: uses the `toString()`method of the elements
-* `IdAndNameCaptionProvider`: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
+* `IdAndNameCaptionProvider` in <<fips-extension, linkki-ips>>: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
 
 [[ui-yesnocombobox]]
 ==== UIYesNoComboBox
