@@ -35,8 +35,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * <ul>
  * <li>{@link DefaultCaptionProvider} calls a method {@code getName()} on the value object.</li>
  * <li>{@link ToStringCaptionProvider} simply uses the object's {@link Object#toString()} method.</li>
- * <li>{@link IdAndNameCaptionProvider} calls the methods {@code getName()} and {@code getId()} on the
- * value object and returns a caption in the format "name [id]".</li>
  * </ul>
  */
 @FunctionalInterface
@@ -154,48 +152,6 @@ public interface ItemCaptionProvider<T> {
                         e);
             }
         }
-    }
-
-    /**
-     * A caption provider that returns a String in the format "name [id]" and invokes the methods
-     * {@code getName} and {@code getId} to obtain these values.
-     * 
-     * @deprecated since 1.1, use org.linkki.ips.ui.element.IdAndNameCaptionProvider from
-     *             org.linkki-framework:linkki-ips-vaadin8 instead. This class has been moved to the
-     *             Faktor-IPS-specific linkki module, due to there being no general use-case if linkki
-     *             is not used with Faktor-IPS.
-     */
-    @Deprecated
-    public class IdAndNameCaptionProvider implements ItemCaptionProvider<Object> {
-
-        @Override
-        public String getCaption(Object o) {
-            return getName(o) + " [" + getId(o) + "]";
-        }
-
-        @CheckForNull
-        private String getId(Object value) {
-            return getPropertyValue(value, "getId");
-        }
-
-        @CheckForNull
-        private String getName(Object value) {
-            return getPropertyValue(value, "getName");
-        }
-
-        @CheckForNull
-        private String getPropertyValue(Object value, String methodName) {
-            try {
-                Method method = value.getClass().getMethod(methodName);
-                return (String)method.invoke(value);
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
-                throw new IllegalStateException(
-                        "Can't get value from method " + value.getClass() + "#" + methodName + " of " + value);
-
-            }
-        }
-
     }
 
 }

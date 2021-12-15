@@ -22,6 +22,10 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +41,8 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestModelObject;
 import org.linkki.core.binding.TestPmo;
 import org.linkki.core.binding.descriptor.TestLinkkiComponentDefinition;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
@@ -44,6 +50,12 @@ import org.linkki.core.defaults.nls.TestUiLayoutComponent;
 import org.linkki.core.defaults.section.TestSectionPmo;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.section.annotations.TestUIField2;
+import org.linkki.core.uicreation.UiCreatorTest.UITestSection.TestSectionLayoutComponentDefinitionCreator;
+import org.linkki.core.uicreation.UiCreatorTest.UITestSectionWithLayout.TestSectionWithLayoutComponentDefinitionCreator;
+import org.linkki.core.uicreation.UiCreatorTest.UITestSectionWithLayout.TestSectionWithLayoutDefinitionCreator;
+import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
+import org.linkki.core.uicreation.layout.LinkkiLayout;
+import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -150,18 +162,11 @@ public class UiCreatorTest {
     }
 
     @Test
-    @Deprecated
-    public void testCreateUiComponent_Deprecated() {
-        TestSectionPmo testSectionPmo = new TestSectionPmo();
+    public void testCreateUiComponent_WithLayoutDefinition() {
+        TestSectionWithLayoutPmo testSectionPmo = new TestSectionWithLayoutPmo();
         BindingContext bindingContext = new BindingContext();
 
-        ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
-                                                                      c -> Optional.of(TestLinkkiComponentDefinition
-                                                                              .create(TestUiLayoutComponent::new)),
-                                                                      c -> Optional.of((parent,
-                                                                              pmo,
-                                                                              bc) -> ((TestUiLayoutComponent)parent)
-                                                                                      .addChild(new TestUiComponent())));
+        ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext);
 
         assertThat(componentWrapper.getComponent(), is(instanceOf(TestUiLayoutComponent.class)));
         TestUiLayoutComponent testUiLayoutComponent = (TestUiLayoutComponent)componentWrapper.getComponent();
@@ -175,28 +180,19 @@ public class UiCreatorTest {
     }
 
     @Test
-    @Deprecated
-    @SuppressWarnings("deprecation")
     public void testCreateUiComponent_NoComponentDefinition() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             UiCreator.createComponent(new TestSectionPmo(),
-                                      new BindingContext(),
-                                      c -> Optional.empty(),
-                                      c -> Optional.empty());
+                                      new BindingContext());
         });
     }
 
     @Test
-    @Deprecated
     public void testCreateUiComponent_NoLayoutDefinition() {
-        TestSectionPmo testSectionPmo = new TestSectionPmo();
+        TestSectionWithoutLayoutPmo testSectionPmo = new TestSectionWithoutLayoutPmo();
         BindingContext bindingContext = new BindingContext();
 
-        ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
-                                                                      c -> Optional
-                                                                              .of(TestLinkkiComponentDefinition
-                                                                                      .create(TestUiLayoutComponent::new)),
-                                                                      c -> Optional.empty());
+        ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext);
 
         assertThat(componentWrapper.getComponent(), is(instanceOf(TestUiLayoutComponent.class)));
         TestUiLayoutComponent testUiLayoutComponent = (TestUiLayoutComponent)componentWrapper.getComponent();
@@ -208,5 +204,60 @@ public class UiCreatorTest {
         assertThat(binding, is(not(instanceOf(BindingContext.class))));
     }
 
+    @UITestSectionWithLayout
+    private static class TestSectionWithLayoutPmo extends TestSectionPmo {
+        // nop
+    }
 
+    @UITestSection
+    private static class TestSectionWithoutLayoutPmo extends TestSectionPmo {
+        // nop
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @LinkkiComponent(TestSectionWithLayoutComponentDefinitionCreator.class)
+    @LinkkiLayout(TestSectionWithLayoutDefinitionCreator.class)
+    public @interface UITestSectionWithLayout {
+
+        class TestSectionWithLayoutComponentDefinitionCreator
+                implements ComponentDefinitionCreator<UITestSectionWithLayout> {
+            @Override
+            public LinkkiComponentDefinition create(UITestSectionWithLayout annotation,
+                    AnnotatedElement annotatedElement) {
+                return TestLinkkiComponentDefinition.create(() -> new TestUiLayoutComponent());
+            }
+        }
+
+        class TestSectionWithLayoutDefinitionCreator implements LayoutDefinitionCreator<Annotation> {
+
+            @Override
+            public LinkkiLayoutDefinition create(Annotation annotation, AnnotatedElement annotatedElement) {
+                return new TestSectionWithLayoutDefinition();
+            }
+
+        }
+
+        class TestSectionWithLayoutDefinition implements LinkkiLayoutDefinition {
+
+            @Override
+            public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext) {
+                ((TestUiLayoutComponent)parentComponent).addChild(new TestUiComponent());
+            }
+
+        }
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @LinkkiComponent(TestSectionLayoutComponentDefinitionCreator.class)
+    public @interface UITestSection {
+
+        class TestSectionLayoutComponentDefinitionCreator implements ComponentDefinitionCreator<UITestSection> {
+            @Override
+            public LinkkiComponentDefinition create(UITestSection annotation,
+                    AnnotatedElement annotatedElement) {
+                return TestLinkkiComponentDefinition.create(() -> new TestUiLayoutComponent());
+            }
+        }
+
+    }
 }

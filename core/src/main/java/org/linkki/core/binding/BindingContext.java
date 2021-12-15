@@ -142,21 +142,6 @@ public class BindingContext implements UiUpdateObserver {
      * Adds a binding to the context.
      * 
      * @param binding the Binding that should be added
-     * 
-     * @deprecated Since 1.2 the bindings are weak references. A {@link ComponentWrapper} is necessary
-     *             to register the binding. Use {@link #add(Binding, ComponentWrapper)} to avoid useless
-     *             dummy component wrappers.
-     */
-    @Deprecated
-    public BindingContext add(Binding binding) {
-        add(binding, UiFramework.getComponentWrapperFactory().createComponentWrapper(binding.getBoundComponent()));
-        return this;
-    }
-
-    /**
-     * Adds a binding to the context.
-     * 
-     * @param binding the Binding that should be added
      * @param componentWrapper the component wrapper used to register the binding calling
      *            {@link ComponentWrapper#registerBinding(Binding)}
      */
@@ -262,24 +247,6 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Updates the UI with the data retrieved via bindings registered in this context. Executes
      * afterUpdateHandler that is set in the constructor.
-     * 
-     * @deprecated This method is deprecated since August 1st, 2018 and may be removed in future
-     *             versions. Use {@link #modelChanged()} or {@link #uiUpdated()} instead.
-     */
-    @Deprecated
-    public void updateUI() {
-        /* inline this code into modelChanged() once updateUI() is removed */
-
-        updateFromPmo();
-
-        // Notify handler that the UI was updated for this context and the messages in all
-        // contexts should now be updated
-        afterUpdateHandler.apply();
-    }
-
-    /**
-     * Updates the UI with the data retrieved via bindings registered in this context. Executes
-     * afterUpdateHandler that is set in the constructor.
      * <p>
      * This method should be called when the UI should be updated after a model change to update all
      * {@link Binding Bindings} of this {@link BindingContext} and notify the
@@ -289,7 +256,11 @@ public class BindingContext implements UiUpdateObserver {
      * @see #uiUpdated()
      */
     public void modelChanged() {
-        updateUI();
+        updateFromPmo();
+
+        // Notify handler that the UI was updated for this context and the messages in all
+        // contexts should now be updated
+        afterUpdateHandler.apply();
     }
 
     /**
@@ -308,20 +279,6 @@ public class BindingContext implements UiUpdateObserver {
 
     void updateFromPmo() {
         getBindingStream().forEach(binding -> binding.updateFromPmo());
-    }
-
-    /**
-     * Updates all bindings with the given message list.
-     * <p>
-     * This method is used by a {@link BindingManager} to push validation results to all registered
-     * {@linkplain BindingContext BindingContexts}.
-     * 
-     * @deprecated This method is deprecated since August 1st, 2018 and may be removed in future
-     *             versions. Use {@link #displayMessages(MessageList)} instead.
-     */
-    @Deprecated
-    public final void updateMessages(MessageList messages) {
-        displayMessages(messages);
     }
 
     /**
@@ -417,22 +374,6 @@ public class BindingContext implements UiUpdateObserver {
         return new ElementBinding(componentWrapper,
                 dispatcherFactory.createDispatcherChain(pmo, boundProperty, getBehaviorProvider()), this::modelChanged,
                 aspectDefinitions);
-    }
-
-    /**
-     * @deprecated since January 2019. Instead of overwriting this method, provide a
-     *             {@link PropertyDispatcherFactory} to
-     *             {@link #BindingContext(String, PropertyBehaviorProvider, PropertyDispatcherFactory, Handler)}.
-     *             <b>This method is no longer called!</b>
-     */
-    @Deprecated
-    public final PropertyDispatcher createDispatcherChain(Object pmo,
-            BindingDescriptor bindingDescriptor) {
-        requireNonNull(pmo, "pmo must not be null");
-        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
-
-        return dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor.getBoundProperty(),
-                                                       getBehaviorProvider());
     }
 
 }

@@ -14,7 +14,6 @@
 
 package org.linkki.core.binding.descriptor;
 
-import static java.util.Objects.requireNonNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
@@ -36,18 +35,14 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-@SuppressWarnings("deprecation")
 public class PropertyElementDescriptorsBindingDefinitionTest {
 
     @Test
@@ -142,8 +137,6 @@ public class PropertyElementDescriptorsBindingDefinitionTest {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     // Must be qualified! Otherwise maven would fail to compile
-    @org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition(AnotherTestFieldBindingDefinition.class)
-    @org.linkki.core.binding.uicreation.LinkkiComponent(org.linkki.core.uicreation.BindingDefinitionComponentDefinition.Creator.class)
     @org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(AnotherTestUIFieldAspectDefinitionCreator.class)
     @org.linkki.core.uicreation.LinkkiPositioned
     public @interface AnotherTestUIField {
@@ -173,47 +166,4 @@ public class PropertyElementDescriptorsBindingDefinitionTest {
 
     }
 
-    public static class AnotherTestFieldBindingDefinition implements BindingDefinition {
-
-        private final AnotherTestUIField testUIField;
-
-        public AnotherTestFieldBindingDefinition(AnotherTestUIField testUIField) {
-            this.testUIField = requireNonNull(testUIField, "testUIField must not be null");
-        }
-
-        @Override
-        public TestUiComponent newComponent() {
-            return new TestUiComponent();
-        }
-
-        @Override
-        public String label() {
-            return testUIField.label();
-        }
-
-        @Override
-        public EnabledType enabled() {
-            return testUIField.enabled();
-        }
-
-        @Override
-        public RequiredType required() {
-            return RequiredType.NOT_REQUIRED;
-        }
-
-        @Override
-        public VisibleType visible() {
-            return testUIField.visible();
-        }
-
-        @Override
-        public String modelAttribute() {
-            return testUIField.modelAttribute();
-        }
-
-        @Override
-        public String modelObject() {
-            return testUIField.modelObject();
-        }
-    }
 }

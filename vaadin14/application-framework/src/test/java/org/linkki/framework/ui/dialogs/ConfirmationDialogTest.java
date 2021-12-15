@@ -26,24 +26,6 @@ import com.vaadin.flow.component.html.Label;
  */
 public class ConfirmationDialogTest {
 
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testCancelCallsOk_deprecated() {
-        Handler handler = mock(Handler.class);
-        ConfirmationDialog dialog = new ConfirmationDialog("", new Label(), handler);
-        dialog.cancel();
-        verify(handler).apply();
-    }
-
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testCancelCallsOk_withoutContent_deprecated() {
-        Handler handler = mock(Handler.class);
-        ConfirmationDialog dialog = new ConfirmationDialog("", null, handler);
-        dialog.cancel();
-        verify(handler).apply();
-    }
-
     @Test
     public void testCancelCallsOk() {
         Handler handler = mock(Handler.class);

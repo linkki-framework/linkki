@@ -20,7 +20,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.logging.Logger;
 
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.uicreation.LinkkiPositioned.Position;
@@ -32,7 +31,6 @@ import org.linkki.util.BeanUtils;
  * @see #getPosition(AnnotatedElement)
  * @see LinkkiPositioned
  */
-@SuppressWarnings("deprecation")
 public class PositionAnnotationReader {
 
     private PositionAnnotationReader() {
@@ -56,7 +54,8 @@ public class PositionAnnotationReader {
                 .filter(a -> a.annotationType().isAnnotationPresent(LinkkiPositioned.class))
                 .map(PositionAnnotationReader::getPosition)
                 .reduce((a, b) -> verifySamePosition(element, a, b))
-                .orElseGet(() -> getDeprecatedPosition(element));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "There is no annotation at " + element + " that defines the position."));
     }
 
     /**
@@ -104,24 +103,6 @@ public class PositionAnnotationReader {
         } else {
             return a;
         }
-    }
-
-    private static Integer getDeprecatedPosition(AnnotatedElement element) {
-        return Arrays.stream(element.getAnnotations())
-                .filter(org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition::isLinkkiBindingDefinition)
-                .map(a -> getDeprecatedPosition(a))
-                .reduce((a, b) -> verifySamePosition(element, a, b))
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "There is no annotation at " + element + " that defines the position."));
-    }
-
-    private static Integer getDeprecatedPosition(Annotation a) {
-        Logger.getLogger(PositionAnnotationReader.class.getName())
-                .warning("Getting position from " + a.annotationType().getName()
-                        + " using deprecated BindingDefinition#position. Use @LinkkiPositioned instead!");
-        org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition bindingDefinition = org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition
-                .from(a);
-        return bindingDefinition.position();
     }
 
     /**
