@@ -29,7 +29,6 @@ public class BindAnnotationBoundPropertyCreatorTest {
 
     private BindAnnotationBoundPropertyCreator factory = new BindAnnotationBoundPropertyCreator();
 
-    
     @Test
     public void testCreateBoundProperty() throws Exception {
         Method method = TestClass.class.getMethod("aMethod");
@@ -43,7 +42,6 @@ public class BindAnnotationBoundPropertyCreatorTest {
         assertThat(boundProperty.getModelAttribute(), is("attr"));
     }
 
-    
     @Test
     public void testCreateBoundProperty_DefaultValues() throws Exception {
         Method method = TestClass.class.getMethod("anotherMethod");

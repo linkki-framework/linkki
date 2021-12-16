@@ -33,17 +33,16 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.Query;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UICustomFieldTest {
 
-    private TestModelObject modelObject = new TestModelObject();
+    private final TestModelObject modelObject = new TestModelObject();
 
-    private TestPmo pmo = new TestPmo(modelObject);
+    private final TestPmo pmo = new TestPmo(modelObject);
 
-    private BindingContext bindingContext = new BindingContext();
+    private final BindingContext bindingContext = new BindingContext();
 
     @SuppressWarnings("unchecked")
     private RadioButtonGroup<TestValue> createCustomField() {
@@ -144,7 +143,7 @@ public class UICustomFieldTest {
     }
 
     private static List<TestValue> getAllowedValues(RadioButtonGroup<TestValue> comboBox) {
-        return comboBox.getDataProvider().fetch(new Query<>())
+        return comboBox.getListDataView().getItems()
                 .collect(Collectors.toList());
     }
 
@@ -159,8 +158,8 @@ public class UICustomFieldTest {
 
         private boolean required = false;
 
-        private List<TestValue> availableValues = Arrays.asList(new TestValue("a"), new TestValue("b"),
-                                                                new TestValue("c"));
+        private final List<TestValue> availableValues = Arrays.asList(new TestValue("a"), new TestValue("b"),
+                                                                      new TestValue("c"));
 
         public TestPmo(TestModelObject modelObject) {
             super();
@@ -203,7 +202,7 @@ public class UICustomFieldTest {
     public static class TestValue {
 
         @CheckForNull
-        private String value;
+        private final String value;
 
         public TestValue(String value) {
             this.value = value;

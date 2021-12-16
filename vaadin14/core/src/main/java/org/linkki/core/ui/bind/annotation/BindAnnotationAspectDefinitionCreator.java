@@ -24,7 +24,7 @@ import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.ui.aspects.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
-import org.linkki.core.ui.aspects.HasItemsAvailableValuesAspectDefinition;
+import org.linkki.core.ui.aspects.GenericAvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
@@ -34,7 +34,7 @@ import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.HasListDataView;
 import com.vaadin.flow.data.selection.MultiSelect;
 
 public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCreator<Bind> {
@@ -43,8 +43,8 @@ public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCr
     public LinkkiAspectDefinition create(Bind annotation) {
         EnabledAspectDefinition enabledTypeAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
         return new CompositeAspectDefinition(
-                ifComponentTypeIs(HasItems.class,
-                                  new HasItemsAvailableValuesAspectDefinition(annotation.availableValues())),
+                ifComponentTypeIs(HasListDataView.class,
+                                  new GenericAvailableValuesAspectDefinition(annotation.availableValues())),
                 enabledTypeAspectDefinition,
                 new RequiredAspectDefinition(annotation.required(), enabledTypeAspectDefinition),
                 new VisibleAspectDefinition(annotation.visible()),

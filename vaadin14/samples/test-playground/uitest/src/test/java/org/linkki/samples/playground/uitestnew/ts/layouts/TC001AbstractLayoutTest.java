@@ -127,9 +127,13 @@ abstract class TC001AbstractLayoutTest extends TS001AbstractBasicElementsLayoutT
         JavascriptExecutor jsExecutor = (JavascriptExecutor)driver;
         WebElement shadowRoot = (WebElement)jsExecutor.executeScript("return arguments[0].shadowRoot",
                                                                      field);
-        WebElement groupFieldContainer = shadowRoot.findElement(By.className("vaadin-group-field-container"));
+        WebElement labelSlot = shadowRoot
+                .findElement(By.className("vaadin-group-field-container"))
+                .findElement(By.name("label"));
+        WebElement label = (WebElement)jsExecutor.executeScript("return arguments[0].assignedNodes()[0] ",
+                                                                labelSlot);
 
-        assertThat(groupFieldContainer.getText()).contains("RadioButtons");
+        assertThat(label.getText()).contains("RadioButtons");
     }
 
     @Test

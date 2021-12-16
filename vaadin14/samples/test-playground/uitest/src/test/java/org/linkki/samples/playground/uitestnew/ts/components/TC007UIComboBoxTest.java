@@ -32,7 +32,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
-import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class TC007UIComboBoxTest extends PlaygroundUiTest {
 
@@ -52,23 +51,21 @@ public class TC007UIComboBoxTest extends PlaygroundUiTest {
         assertTrue(selectionList.size() > 0);
 
         String selectedElement = selectionList.get(0);
-
         comboBoxElement.selectByText(selectedElement);
 
-        // Clear selection by clicking 'x'
         clearComboBoxSelection(comboBoxElement);
         assertThat(comboBoxElement.getSelectedText(), is(""));
     }
 
     private void clearComboBoxSelection(ComboBoxElement comboBoxElement) {
-        final WebElement shadowHost = comboBoxElement.$(TextFieldElement.class).id("input");
-        final JavascriptExecutor jsExecutor = (JavascriptExecutor)driver;
-        final WebElement shadowRoot = (WebElement)jsExecutor.executeScript("return arguments[0].shadowRoot",
-                                                                           shadowHost);
-        final WebElement textFieldContainer = shadowRoot.findElement(By.className("vaadin-text-field-container"));
-        // By.id("vaadin-text-field-input-5") geht nicht, da '-5' je nach ComboBox variiert
-        WebElement textFieldInputField = textFieldContainer.findElement(By.cssSelector("div[part=\"input-field\"]"));
-        WebElement clearButton = textFieldInputField.findElement(By.id("clearButton"));
+        final WebElement shadowRoot = getShadowRoot(comboBoxElement);
+        final WebElement clearButton = shadowRoot
+                .findElement(By.id("clearButton"));
         clearButton.click();
+    }
+
+    private WebElement getShadowRoot(WebElement shadowHost) {
+        return (WebElement)((JavascriptExecutor)driver).executeScript("return arguments[0].shadowRoot",
+                                                                      shadowHost);
     }
 }

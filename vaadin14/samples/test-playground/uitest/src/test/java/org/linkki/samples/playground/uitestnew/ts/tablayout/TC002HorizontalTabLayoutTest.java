@@ -23,12 +23,11 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.html.testbench.SpanElement;
+import com.vaadin.flow.component.icon.testbench.IconElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 
 public class TC002HorizontalTabLayoutTest extends PlaygroundUiTest {
@@ -55,7 +54,7 @@ public class TC002HorizontalTabLayoutTest extends PlaygroundUiTest {
     public void testTabHasIcon() {
         TabElement tab = section.$(TabElement.class).id("tab2");
 
-        WebElement icon = tab.findElement(By.tagName("iron-icon"));
+        IconElement icon = tab.$(IconElement.class).first();
 
         assertThat(icon.getAttribute("icon"), is("vaadin:plus"));
     }

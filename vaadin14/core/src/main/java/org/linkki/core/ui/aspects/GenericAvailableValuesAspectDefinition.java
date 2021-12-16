@@ -22,32 +22,23 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.data.binder.HasDataProvider;
-import com.vaadin.flow.data.binder.HasFilterableDataProvider;
-import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.HasListDataView;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.function.SerializablePredicate;
 
 /**
  * An {@link AvailableValuesAspectDefinition} for {@link Component components} that implement
- * {@link HasItems}.
+ * {@link HasListDataView}.
  */
-public class HasItemsAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition<HasItems<?>> {
+public class GenericAvailableValuesAspectDefinition
+        extends AvailableValuesAspectDefinition<HasListDataView<Object, ?>> {
 
-    public HasItemsAvailableValuesAspectDefinition(AvailableValuesType availableValuesType) {
-        super(availableValuesType, HasItemsAvailableValuesAspectDefinition::setDataProvider);
+    public GenericAvailableValuesAspectDefinition(AvailableValuesType availableValuesType) {
+        super(availableValuesType, GenericAvailableValuesAspectDefinition::setDataProvider);
     }
 
-    @SuppressWarnings("unchecked")
-    private static void setDataProvider(HasItems<?> component, ListDataProvider<Object> listDataProvider) {
-        if (component instanceof HasDataProvider) {
-            ((HasDataProvider<Object>)component).setDataProvider(listDataProvider);
-        } else if (component instanceof ComboBox) {
-            ((ComboBox<Object>)component).setDataProvider(listDataProvider);
-        } else if (component instanceof HasFilterableDataProvider) {
-            ((HasFilterableDataProvider<Object, SerializablePredicate<Object>>)component)
-                    .setDataProvider(listDataProvider);
-        }
+    private static void setDataProvider(HasListDataView<Object, ?> component,
+            ListDataProvider<Object> listDataProvider) {
+        component.setItems(listDataProvider);
     }
 
     @SuppressWarnings("unchecked")

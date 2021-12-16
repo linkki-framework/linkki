@@ -185,7 +185,7 @@ public @interface UIRadioButtonGroup {
 
             AvailableValuesAspectDefinition<?> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<RadioButtonGroup<Object>>(
                     annotation.content(),
-                    RadioButtonGroup<Object>::setDataProvider);
+                    RadioButtonGroup<Object>::setItems);
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(

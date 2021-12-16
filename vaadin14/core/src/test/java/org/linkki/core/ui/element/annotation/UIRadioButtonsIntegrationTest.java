@@ -20,10 +20,10 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -41,7 +41,6 @@ import org.linkki.core.uicreation.UiCreator;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
-import com.vaadin.flow.data.provider.ListDataProvider;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -55,7 +54,7 @@ public class UIRadioButtonsIntegrationTest
     @Test
     public void testContent_Dynamic() {
         RadioButtonGroup<String> radioButtons = getDynamicComponent();
-        Collection<?> items = ((ListDataProvider<?>)radioButtons.getDataProvider()).getItems();
+        List<?> items = radioButtons.getListDataView().getItems().collect(Collectors.toList());
 
         assertThat(items, contains("value1", "value2"));
     }
@@ -63,8 +62,7 @@ public class UIRadioButtonsIntegrationTest
     @Test
     public void testContent_Enum() {
         RadioButtonGroup<?> radioButtons = getComponentById("enumValue");
-        Collection<?> items = ((ListDataProvider<?>)radioButtons.getDataProvider()).getItems();
-
+        List<?> items = radioButtons.getListDataView().getItems().collect(Collectors.toList());
         assertThat(items, contains(TestEnum.ENUM_VALUE1, TestEnum.ENUM_VALUE2));
     }
 

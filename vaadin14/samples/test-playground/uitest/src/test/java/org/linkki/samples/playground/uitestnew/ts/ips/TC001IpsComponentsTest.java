@@ -20,13 +20,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.uitest.Locator;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
-import com.vaadin.flow.component.html.testbench.LabelElement;
+import com.vaadin.testbench.TestBenchElement;
 
 public class TC001IpsComponentsTest extends PlaygroundUiTest {
 
@@ -48,18 +48,13 @@ public class TC001IpsComponentsTest extends PlaygroundUiTest {
 
     private abstract class AbstractTC001IpsComponentsTest extends PlaygroundUiTest {
         private TestCaseComponentElement testCaseSection;
-        private LinkkiSectionElement section;
 
         private String expectedlabelValue;
-        private String actualLabelValue;
 
         @BeforeEach
         void setup() {
             super.setUp();
             testCaseSection = goToTestCase(PlaygroundApplicationView.TS004, PlaygroundApplicationView.TC001);
-            section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
-
-            actualLabelValue = section.$(LabelElement.class).first().getText();
         }
 
         AbstractTC001IpsComponentsTest(String labelValue) {
@@ -68,7 +63,10 @@ public class TC001IpsComponentsTest extends PlaygroundUiTest {
 
         @Test
         void testModelAttribute_Label() {
-            assertThat(actualLabelValue, is(expectedlabelValue));
+            TestBenchElement label = testCaseSection.findElement(Locator.byText(expectedlabelValue));
+
+            assertThat(label.getText(), is(expectedlabelValue));
+            assertThat(label.getTagName(), is("label"));
         }
 
     }

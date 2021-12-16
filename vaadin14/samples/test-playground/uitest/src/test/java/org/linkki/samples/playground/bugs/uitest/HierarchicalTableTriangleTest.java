@@ -14,9 +14,9 @@
 
 package org.linkki.samples.playground.bugs.uitest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;

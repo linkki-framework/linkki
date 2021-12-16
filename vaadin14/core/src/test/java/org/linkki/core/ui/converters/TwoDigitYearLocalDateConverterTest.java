@@ -55,7 +55,6 @@ public class TwoDigitYearLocalDateConverterTest {
         assertThat((converter.convertToPresentation(LocalDate.of(2011, 9, 5), context)), is(LocalDate.of(2011, 9, 5)));
     }
 
-    
     @Test
     public void testConvertToPresentation_NullValue() {
         assertNull(converter.convertToPresentation(null, context));

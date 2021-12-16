@@ -22,12 +22,12 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.icon.testbench.IconElement;
 import com.vaadin.testbench.TestBenchElement;
 
 
@@ -96,7 +96,7 @@ public class BindIconTest extends PlaygroundUiTest {
     }
 
     private WebElement getIconElement(TestBenchElement element) {
-        return element.findElement(By.tagName("iron-icon"));
+        return element.$(IconElement.class).first();
     }
 
 }

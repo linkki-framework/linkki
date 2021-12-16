@@ -114,7 +114,7 @@ public class SimpleItemSupplierTest {
         return modelObjects;
     }
 
-    
+
     private Matcher<SimpleItemSupplier<SimplePmo, Integer>> hasPmosForModelobjects(Object... expectedModelObjects) {
         return new TypeSafeMatcher<SimpleItemSupplier<SimplePmo, Integer>>() {
 
@@ -156,7 +156,7 @@ public class SimpleItemSupplierTest {
 
     }
 
-    
+
     private static final class ModelObjectValueMatcher extends TypeSafeMatcher<SimplePmo> {
 
         private Matcher<Object> equalsMatcher;

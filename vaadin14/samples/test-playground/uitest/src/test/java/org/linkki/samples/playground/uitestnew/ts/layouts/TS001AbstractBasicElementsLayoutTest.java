@@ -24,6 +24,7 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModel
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject.SampleEnum;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
@@ -66,7 +67,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(textField.getValue()).isEqualTo("I am a text");
 
         // action
-        textField.sendKeys(" that was changed!");
+        textField.sendKeys(Keys.END + " that was changed!");
 
         // postcondition
         assertThat(textField.getValue()).isEqualTo("I am a text that was changed!");

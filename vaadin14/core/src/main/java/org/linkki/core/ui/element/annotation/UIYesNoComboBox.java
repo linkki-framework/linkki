@@ -124,7 +124,7 @@ public @interface UIYesNoComboBox {
         public LinkkiAspectDefinition create(UIYesNoComboBox annotation) {
             AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
                     AvailableValuesType.ENUM_VALUES_INCL_NULL,
-                    ComboBox<Object>::setDataProvider,
+                    ComboBox<Object>::setItems,
                     ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())) {
 
                 @Override

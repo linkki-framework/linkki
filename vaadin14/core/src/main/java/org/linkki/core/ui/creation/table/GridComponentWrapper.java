@@ -37,7 +37,7 @@ public class GridComponentWrapper<ROW> extends AbstractGridComponentWrapper<ROW>
 
     public GridComponentWrapper(Grid<ROW> grid) {
         super(grid);
-        grid.setDataProvider(new ListDataProvider<>(items));
+        grid.setItems(new ListDataProvider<>(items));
     }
 
     @Override

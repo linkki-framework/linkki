@@ -41,7 +41,7 @@ import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
-import org.linkki.core.ui.aspects.HasItemsAvailableValuesAspectDefinition;
+import org.linkki.core.ui.aspects.GenericAvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
@@ -52,12 +52,12 @@ import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
-import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.HasListDataView;
 
 /**
  * {@link UICustomField} can include other, more individual controls. The property
- * {@link UICustomField#uiControl()} selects the control class. If that class inherits {@link HasItems}
- * the values can be included from {@link AvailableValuesType}.
+ * {@link UICustomField#uiControl()} selects the control class. If that class inherits
+ * {@link HasListDataView} the values can be included from {@link AvailableValuesType}.
  * <p>
  * {@link UICustomField} only supports controls which define an constructor without parameters.
  */
@@ -130,8 +130,8 @@ public @interface UICustomField {
 
         @Override
         public LinkkiAspectDefinition create(UICustomField annotation) {
-            LinkkiAspectDefinition availableValuesAspectDefinition = ifComponentTypeIs(HasItems.class,
-                                                                                       new HasItemsAvailableValuesAspectDefinition(
+            LinkkiAspectDefinition availableValuesAspectDefinition = ifComponentTypeIs(HasListDataView.class,
+                                                                                       new GenericAvailableValuesAspectDefinition(
                                                                                                annotation.content()));
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());

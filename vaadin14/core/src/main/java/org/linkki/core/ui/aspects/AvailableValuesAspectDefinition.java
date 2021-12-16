@@ -30,15 +30,15 @@ import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.HasListDataView;
 import com.vaadin.flow.data.provider.ListDataProvider;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
- * Defines an aspect that updates the set of available values of {@link HasItems}.
+ * Defines an aspect that updates the set of available values of {@link HasListDataView}.
  */
-public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements LinkkiAspectDefinition {
+public class AvailableValuesAspectDefinition<C extends HasListDataView<Object, ?>> implements LinkkiAspectDefinition {
 
     public static final String NAME = "availableValues";
 

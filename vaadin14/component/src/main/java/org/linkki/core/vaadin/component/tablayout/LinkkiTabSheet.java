@@ -51,8 +51,7 @@ public class LinkkiTabSheet {
     @CheckForNull
     private ComponentEventBus eventBus;
 
-    /* private */ LinkkiTabSheet(String id, String caption, @CheckForNull
-    Component captionComponent,
+    /* private */ LinkkiTabSheet(String id, String caption, @CheckForNull Component captionComponent,
             String description,
             Supplier<Component> contentSupplier,
             BooleanSupplier visibilitySupplier,

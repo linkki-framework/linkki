@@ -14,14 +14,13 @@
 package org.linkki.core.binding;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,9 +38,9 @@ import org.linkki.core.ui.bind.annotation.Bind;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.Query;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class BinderIntegrationTest {
@@ -75,8 +74,8 @@ public class BinderIntegrationTest {
         // assertThat(view.numberField.getDescription(), is(emptyString()));
         // assertThat(view.button.getDescription(), is(emptyString()));
 
-        assertThat(view.listSelect.getDataProvider().fetch(new Query<>())
-                .collect(Collectors.toList()), contains("a", "b"));
+        assertTrue(view.listSelect.getListDataView().contains("a"));
+        assertTrue(view.listSelect.getListDataView().contains("b"));
 
         pmo.setNumber(13);
         pmo.setText("foo");
@@ -90,8 +89,7 @@ public class BinderIntegrationTest {
         // assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
         // assertThat(view.numberField.getDescription(), is("test tool tip"));
         // assertThat(view.button.getDescription(), is("test tool tip"));
-        assertThat(view.listSelect.getDataProvider().fetch(new Query<>())
-                .collect(Collectors.toList()), contains("c"));
+        assertTrue(view.listSelect.getListDataView().contains("c"));
 
 
         // Binding view -> pmo
@@ -318,7 +316,7 @@ public class BinderIntegrationTest {
 
         @Bind(pmoProperty = TestPmo.METHOD_ON_CLICK)
         @BindTooltip
-        private Button button = new Button();
+        private final Button button = new Button();
 
         @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT, availableValues = AvailableValuesType.DYNAMIC, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED)
         private ListBox<String> listSelect;
@@ -411,10 +409,11 @@ public class BinderIntegrationTest {
         public static final String METHOD_ON_CLICK = "onClick";
         public static final String TEST_TOOLTIP = "test";
 
-        private TestModelObject modelObject = new TestModelObject();
-        private TestModelObject modelObject2 = new TestModelObject();
+        private final TestModelObject modelObject = new TestModelObject();
+        private final TestModelObject modelObject2 = new TestModelObject();
 
         private String text = "";
+        @Nullable
         private String someothertext = "a";
         private int number = 0;
         private int clickCount = 0;

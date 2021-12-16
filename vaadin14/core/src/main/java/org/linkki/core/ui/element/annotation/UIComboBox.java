@@ -129,7 +129,7 @@ public @interface UIComboBox {
         public LinkkiAspectDefinition create(UIComboBox annotation) {
             AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
                     annotation.content(),
-                    ComboBox<Object>::setDataProvider,
+                    ComboBox<Object>::setItems,
                     ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())) {
 
                 @Override

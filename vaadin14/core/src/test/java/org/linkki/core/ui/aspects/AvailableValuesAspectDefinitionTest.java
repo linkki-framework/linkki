@@ -44,7 +44,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.HasListDataView;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.dom.Element;
 
@@ -52,7 +52,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class AvailableValuesAspectDefinitionTest {
 
-    private static final BiConsumer<HasItems<?>, ListDataProvider<Object>> NOP = (c, p) -> {
+    private static final BiConsumer<HasListDataView<Object, ?>, ListDataProvider<Object>> NOP = (c, p) -> {
         /* NOP */
     };
 
@@ -80,7 +80,7 @@ public class AvailableValuesAspectDefinitionTest {
 
     @Test
     public void testGetValuesDerivedFromDatatype() {
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, NOP);
 
         assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype("foo", TestEnum.class),
@@ -94,8 +94,8 @@ public class AvailableValuesAspectDefinitionTest {
     @Test
     public void testSetDataProvider() {
         @SuppressWarnings("unchecked")
-        BiConsumer<HasItems<?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        BiConsumer<HasListDataView<Object, ?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, dataProviderSetter);
 
         @SuppressWarnings("unchecked")
@@ -108,7 +108,7 @@ public class AvailableValuesAspectDefinitionTest {
 
     @Test
     public void testHandleNullItems() {
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, NOP);
 
         @SuppressWarnings("unchecked")
@@ -123,7 +123,7 @@ public class AvailableValuesAspectDefinitionTest {
 
     @Test
     public void testCreateAspect_Dynamic() {
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, NOP);
 
         Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
@@ -134,7 +134,7 @@ public class AvailableValuesAspectDefinitionTest {
 
     @Test
     public void testCreateAspect_NoValues() {
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.NO_VALUES, NOP);
 
         Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
@@ -146,7 +146,7 @@ public class AvailableValuesAspectDefinitionTest {
 
     @Test
     public void testCreateAspect_EnumValuesExclNull() {
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.ENUM_VALUES_EXCL_NULL, NOP);
 
         Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
@@ -158,7 +158,7 @@ public class AvailableValuesAspectDefinitionTest {
 
     @Test
     public void testCreateAspect_EnumValuesInclNull() {
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.ENUM_VALUES_INCL_NULL, NOP);
 
         Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
@@ -171,8 +171,8 @@ public class AvailableValuesAspectDefinitionTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testCreateUiUpdater() {
-        BiConsumer<HasItems<?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        BiConsumer<HasListDataView<Object, ?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, dataProviderSetter);
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
         when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.THREE));
@@ -194,8 +194,8 @@ public class AvailableValuesAspectDefinitionTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testRefresh() {
-        BiConsumer<HasItems<?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
-        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+        BiConsumer<HasListDataView<Object, ?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, dataProviderSetter);
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
         when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.THREE));
