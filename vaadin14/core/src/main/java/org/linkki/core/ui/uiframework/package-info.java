@@ -12,7 +12,7 @@
  * License.
  */
 /**
- * The Vaadin 8 implementations for {@link org.linkki.core.uiframework.UiFramework}.
+ * The Vaadin specific implementations for {@link org.linkki.core.uiframework.UiFramework}.
  */
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)

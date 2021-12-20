@@ -22,14 +22,18 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import com.vaadin.flow.component.Component;
 
 /**
- * {@link ComponentWrapperFactory} for Vaadin 8 {@link Component Components}.
+ * {@link ComponentWrapperFactory} for Vaadin {@link Component Components}.
  */
-public enum Vaadin14ComponentWrapperFactory implements ComponentWrapperFactory {
+public class VaadinComponentWrapperFactory implements ComponentWrapperFactory {
 
     /**
-     * The singleton instance of {@link Vaadin14ComponentWrapperFactory}.
+     * The singleton instance of {@link VaadinComponentWrapperFactory}.
      */
-    INSTANCE;
+    public static final VaadinComponentWrapperFactory INSTANCE = new VaadinComponentWrapperFactory();
+
+    private VaadinComponentWrapperFactory() {
+        // do not instantiate
+    }
 
     /**
      * {@inheritDoc}
