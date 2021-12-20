@@ -22,7 +22,7 @@ import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.types.ReadOnlyBehaviorType;
-import org.linkki.core.ui.uiframework.Vaadin14ComponentWrapperFactory;
+import org.linkki.core.ui.uiframework.VaadinComponentWrapperFactory;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.textfield.TextField;
@@ -32,7 +32,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public class BindReadOnlyBehaviorAspectDefinitionTest {
 
     private TextField component = new TextField();
-    private ComponentWrapper componentWrapper = Vaadin14ComponentWrapperFactory.INSTANCE
+    private ComponentWrapper componentWrapper = VaadinComponentWrapperFactory.INSTANCE
             .createComponentWrapper(component);
     private TestBehaviorProvider behaviorProvider = new TestBehaviorProvider();
     private PropertyDispatcher propertyDispatcher = new BehaviorDependentDispatcher(

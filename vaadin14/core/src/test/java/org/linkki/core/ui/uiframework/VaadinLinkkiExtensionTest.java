@@ -34,7 +34,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class Vaadin14Test {
+public class VaadinLinkkiExtensionTest {
 
     @AfterEach
     public void cleanUpUi() {
@@ -42,8 +42,8 @@ public class Vaadin14Test {
     }
 
     @Test
-    public void testUiFrameworkIsVaadin14() {
-        assertThat(UiFramework.get(), is(instanceOf(Vaadin14.class)));
+    public void testUiFrameworkIsVaadinLinkkiExtension() {
+        assertThat(UiFramework.get(), is(instanceOf(VaadinLinkkiExtension.class)));
     }
 
     @Test
