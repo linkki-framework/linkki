@@ -45,9 +45,11 @@ public class BindCaptionWithSectionHeaderButtonPmo {
         this.sectionCaption = caption;
     }
 
+    // tag::section-header[]
     @SectionHeader
     @UIButton(position = -10, icon = VaadinIcon.AMBULANCE, showIcon = true, captionType = CaptionType.NONE)
     public void callAnAmbulance() {
+        // end::section-header[]
         // not really
     }
 

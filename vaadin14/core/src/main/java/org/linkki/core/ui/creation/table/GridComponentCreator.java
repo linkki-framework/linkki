@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.uicreation.UiCreator;
@@ -28,7 +27,7 @@ import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.treegrid.TreeGrid;
 
 /**
- * A {@link ColumnBasedComponentCreator} that creates a {@link Grid} component.
+ * A GridComponentCreator that creates a {@link Grid} component.
  */
 public class GridComponentCreator {
 

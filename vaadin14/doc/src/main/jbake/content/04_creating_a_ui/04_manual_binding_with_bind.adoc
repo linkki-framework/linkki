@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
 :github: https://github.com/linkki-framework/linkki
 :github-tree: {github}/tree/master
 :github-blob: {github}/blob/master
@@ -10,7 +10,7 @@
 [[manual-binding]]
 === Manual Binding With `@Bind`
 
-Due to special requirements or custom `Fields` it is sometimes not possible to use the <<pmo-create-ui, automatic creation via `@UISection`>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
+Due to special requirements or custom `Fields` it is sometimes not possible to <<pmo-create-layout, automatically create a layout with an annotated PMO>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
 
 To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Components based on the following classes and interfaces can be used with `@Bind`:
 
@@ -45,14 +45,14 @@ TIP: When the data binding of a Vaadin component of a third party library should
 include::{source-dir}/org/linkki/samples/playground/binding/components/ContactComponent.java[tags=manual-binding]
 ----
 
-You can find a sample project with the different binding options on {github-tree}/vaadin8/samples/test-playground/src/main/java/org/linkki/samples/playground/binding[GitHub].
+You can find a sample project with the different binding options on {github-tree}/vaadin14/samples/test-playground/src/main/java/org/linkki/samples/playground/binding[GitHub].
 
 [TIP]
 ====
 Binding summary:
 
 * <<layout, Layout annotations>> like `@UISection` -> simple and quick template with limited configuration options
-* <<manual-section-creation, UiElementCreator>> -> automated creation and binding of UI components with control over the layout
+* <<ui-creator, UiCreator>> -> automated creation and binding of individual UI components with control over the layout
 * <<manual-binding, manual binding>> -> full control, but more effort and direct UI framework dependencies
 
 *linkki* uses certain naming conventions. That way sources of errors and refactoring complexity are reduced.

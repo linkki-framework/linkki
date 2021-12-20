@@ -52,7 +52,7 @@ Be aware that this change may lead to `NullPointerExceptions` in your code if yo
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/ui/PlaygroundApplicationUI.java[tags=widgetset]
+@Widgetset(LinkkiWidgetset.NAME)
 ----
 
 ==== Empty Selection for Empty Combo Box

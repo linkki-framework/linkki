@@ -52,6 +52,7 @@ public class ContactRowPmo {
     }
 
     @UITableColumn(width = 50)
+    // tag::contactRowPmo-labelHtmlContent[]
     @UILabel(position = 5, label = "", htmlContent = true)
     public String getGender() {
         Icon icon = null;
@@ -67,12 +68,15 @@ public class ContactRowPmo {
         }
         return icon.getElement().getOuterHTML();
     }
+    // end::contactRowPmo-labelHtmlContent[]
 
+    // tag::contactRowPmo-labelBinding[]
     @UITableColumn(flexGrow = 10)
     @UILabel(position = 10, label = "Name")
     public String getName() {
         return contact.getName();
     }
+    // end::contactRowPmo-labelBinding[]
 
     @UITableColumn(flexGrow = 20, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UILabel(position = 20, label = "Address")
@@ -81,11 +85,13 @@ public class ContactRowPmo {
     }
 
     @UITableColumn(width = 50)
+    // tag::contactRowPmo-buttonBinding[]
     @BindTooltip("Edit")
     @UIButton(position = 30, icon = VaadinIcon.EDIT, showIcon = true, caption = "")
     public void edit() {
         editAction.accept(contact);
     }
+    // end::contactRowPmo-buttonBinding[]
 
     @UITableColumn(width = 50)
     @BindTooltip("Delete")

@@ -145,47 +145,12 @@ public class UiCreator {
      */
     public static ComponentWrapper createComponent(Object pmo,
             BindingContext bindingContext) {
-        return createComponent(pmo, bindingContext, ComponentAnnotationReader::findComponentDefinition,
-                               LayoutAnnotationReader::findLayoutDefinition);
-    }
-
-
-    /**
-     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the PMO class by way of
-     * the {@code componentDefinitionFinder}. The {@link LinkkiLayoutDefinition} found via the
-     * {@code layoutDefinitionFinder} is then used to create all children for the component.
-     * 
-     * @param pmo a presentation model object
-     * @param bindingContext used to bind the component and its children
-     * @param componentDefinitionFinder a function to extract a {@link LinkkiComponentDefinition} from
-     *            an {@link AnnotatedElement}, for example
-     *            {@link ComponentAnnotationReader#findComponentDefinition(AnnotatedElement)}
-     * @param layoutDefinitionFinder a function to extract a {@link LinkkiLayoutDefinition} from an
-     *            {@link AnnotatedElement}, for example
-     *            {@link LayoutAnnotationReader#findLayoutDefinition(AnnotatedElement)}
-     * @return a {@link ComponentWrapper} containing the created UI component
-     * 
-     * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} cannot be found
-     * 
-     * @deprecated since 1.1.0 this method is deprecated, use
-     *             {@link #createComponent(Object, BindingContext, LinkkiComponentDefinition, Optional)}
-     *             instead. The functions are simply applied before calling the method because they take
-     *             the PMO given as first parameter.
-     */
-    @Deprecated
-    // necessary for javac compiler
-    @SuppressWarnings("overloads")
-    public static ComponentWrapper createComponent(Object pmo,
-            BindingContext bindingContext,
-            Function<Class<?>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder,
-            Function<Class<?>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder) {
         Class<?> pmoClass = pmo.getClass();
         return createComponent(pmo,
                                bindingContext,
-                               componentDefinitionFinder.apply(pmoClass)
-                                       .orElseThrow(noDefinitionFound(LinkkiComponentDefinition.class,
-                                                                      pmoClass)),
-                               layoutDefinitionFinder.apply(pmoClass));
+                               ComponentAnnotationReader.findComponentDefinition(pmoClass)
+                                       .orElseThrow(noDefinitionFound(LinkkiComponentDefinition.class, pmoClass)),
+                               LayoutAnnotationReader.findLayoutDefinition(pmoClass));
     }
 
     /**

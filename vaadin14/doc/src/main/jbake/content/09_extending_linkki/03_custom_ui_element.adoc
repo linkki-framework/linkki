@@ -1,7 +1,7 @@
 :jbake-title: Custom UI element annotations
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main
 :image-dir: {images}09_extending_linkki
 :github-linkki: https://github.com/linkki-framework/linkki/blob/master
 
@@ -92,7 +92,7 @@ The `UIRadioButtonGroupFieldAspectDefinitionCreator#create()` method gets a refe
 
 .Common LinkkiAspectDefinitions
 |===
-|`AvailableValuesAspectDefinition`| Defines an aspect that updates the set of available values of https://vaadin.com/api/framework/8.8.1/com/vaadin/data/HasItems.html[HasItems].
+|`AvailableValuesAspectDefinition`| Defines an aspect that updates the set of available values of https://vaadin.com/api/platform/14.7.8/com/vaadin/flow/data/binder/HasItems.html[HasItems].
 |`BindReadOnlyAspectDefinition`| Aspect definition for read-only state.
 |`CaptionAspectDefinition`|Aspect definition for caption binding. Assumes that the `ComponentWrapper` wraps a `Component` by default.
 |`EnabledAspectDefinition`|Aspect definition for {github-linkki}/core/src/main/java/org/linkki/core/defaults/ui/aspects/types/EnabledType.java[EnabledType].

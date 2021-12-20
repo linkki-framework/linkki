@@ -21,6 +21,9 @@ To manage one or more `BindingContexts`, a `BindingManager` is used. Each `Bindi
 
 In addition to the creation of `BindingContexts`, a `BindingManager` is also linked to a <<validation-service,ValidationService>> that is invoked upon changes in a `BindingContext`. The results are then propagated to all managed `BindingContexts`.
 
+.Binding, Binding Context
+image::{images}{images-folder-name}/data_binding.png[]
+
 ==== The Scope of UI Updates
 
 A `BindingContext` ensures that all contained bindings are updated if one of them changes. The bindings in turn update their respective UI fields. Thus, a BindingContext defines the "scope" of UI updates for its fields.

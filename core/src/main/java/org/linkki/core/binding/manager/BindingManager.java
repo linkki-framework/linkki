@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.lang3.Validate;
@@ -46,28 +45,6 @@ public abstract class BindingManager {
     /**
      * Creates a new {@link BindingContext} and assigns it to this manager. The class' qualified name is
      * used as context name.
-     * 
-     * @param clazz the class of which the qualified name is used to identify the
-     *            {@linkplain BindingContext} in this manager
-     * 
-     * @throws IllegalArgumentException if there already exists a context for the given class
-     * 
-     * @see BindingContext
-     * @see #createContext(Class, PropertyBehaviorProvider) createContext(String,
-     *      PropertyBehaviorProvider) to start a {@link BindingContext} with a custom
-     *      {@link PropertyBehaviorProvider}
-     * 
-     * @deprecated for removal since June 7th, 2019. Use {@link #getContext(Class)} instead. The
-     *             {@link BindingContext} will be created if it does not already exist).
-     */
-    @Deprecated
-    public BindingContext startNewContext(Class<?> clazz) {
-        return createContext(clazz.getName());
-    }
-
-    /**
-     * Creates a new {@link BindingContext} and assigns it to this manager. The class' qualified name is
-     * used as context name.
      * <p>
      * The {@link BindingContext} can then be retrieved via {@link #getContext(Class)}.
      * 
@@ -86,27 +63,6 @@ public abstract class BindingManager {
      */
     public BindingContext createContext(Class<?> clazz, PropertyBehaviorProvider behaviorProvider) {
         return createContext(clazz.getName(), behaviorProvider);
-    }
-
-    /**
-     * Creates a new {@link BindingContext} with the given name and assigns it to this
-     * {@linkplain BindingManager}.
-     * 
-     * @param name the name of the {@linkplain BindingContext} that identifies it in this manager
-     * 
-     * @throws IllegalArgumentException if there already exists a context with the given name
-     * 
-     * @see BindingContext
-     * @see #createContext(String, PropertyBehaviorProvider) createContext(String,
-     *      PropertyBehaviorProvider) to start a {@link BindingContext} with a custom
-     *      {@link PropertyBehaviorProvider}
-     * 
-     * @deprecated for removal since June 7th, 2019. Use {@link #getContext(String)} instead. The
-     *             {@link BindingContext} will be created if it does not already exist).
-     */
-    @Deprecated
-    public BindingContext startNewContext(String name) {
-        return createContext(name);
     }
 
     /**
@@ -217,46 +173,6 @@ public abstract class BindingManager {
             context = createContext(name);
         }
         return context;
-    }
-
-    /**
-     * @deprecated for removal since May 6th, 2019. Use {@link #getContext(Class)} instead. The
-     *             {@link BindingContext} will be created if it does not already exist).
-     */
-    @Deprecated
-    public Optional<BindingContext> getExistingContext(Class<?> clazz) {
-        requireNonNull(clazz, "clazz must not be null");
-        return getExistingContext(clazz.getName());
-    }
-
-    /**
-     * @deprecated for removal since May 6th, 2019. Use {@link #getContext(String)} instead. The
-     *             {@link BindingContext} will be created if it does not already exist).
-     */
-    @Deprecated
-    public Optional<BindingContext> getExistingContext(String name) {
-        requireNonNull(name, "name must not be null");
-        return Optional.ofNullable(contextsByName.get(name));
-    }
-
-
-    /**
-     * @deprecated for removal since May 6th, 2019. Use {@link #getContext(Class)} instead. The
-     *             {@link BindingContext} will be created if it does not already exist).
-     */
-    @Deprecated
-    public BindingContext getExistingContextOrStartNewOne(Class<?> clazz) {
-        return getContext(clazz);
-    }
-
-
-    /**
-     * @deprecated for removal since May 6th, 2019. Use {@link #getContext(Class)} instead. The
-     *             {@link BindingContext} will be created if it does not already exist).
-     */
-    @Deprecated
-    public BindingContext getExistingContextOrStartNewOne(String name) {
-        return getContext(name);
     }
 
     public void removeContext(BindingContext context) {

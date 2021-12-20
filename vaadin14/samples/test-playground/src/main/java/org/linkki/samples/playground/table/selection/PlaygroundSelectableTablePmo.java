@@ -31,6 +31,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 
 @UISection(caption = "Selectable Table")
+// tag::selectable-table[]
 public class PlaygroundSelectableTablePmo extends SimpleTablePmo<TableModelObject, PlaygroundRowPmo>
         implements SelectableTablePmo<PlaygroundRowPmo> {
 
@@ -38,6 +39,9 @@ public class PlaygroundSelectableTablePmo extends SimpleTablePmo<TableModelObjec
 
     private PlaygroundRowPmo selected;
 
+    // ...
+
+    // end::selectable-table[]
     public static final int INITAL_SELECTED_ROW = 0;
 
     private Handler addHandler;
@@ -65,6 +69,12 @@ public class PlaygroundSelectableTablePmo extends SimpleTablePmo<TableModelObjec
     }
 
     @Override
+    public int getPageLength() {
+        return 7;
+    }
+
+    // tag::selectable-table[]
+    @Override
     public PlaygroundRowPmo getSelection() {
         return selected;
     }
@@ -79,9 +89,5 @@ public class PlaygroundSelectableTablePmo extends SimpleTablePmo<TableModelObjec
         Notification.show(NOTIFICATION_DOUBLE_CLICK + selected.getModelObject().getName());
     }
 
-    @Override
-    public int getPageLength() {
-        return 7;
-    }
-
 }
+// end::selectable-table[]

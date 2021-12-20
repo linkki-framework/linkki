@@ -1,3 +1,0 @@
-The file LinkkiWidgetset.gwt.xml is defined in linkki-vaadin8-addon-client so it may be used individually.
-
-This project is only used to compile the whole widgetset and provide a pre-compiled JS library.

@@ -11,6 +11,6 @@ To use the application framework you need to use the following dependency instea
 ----
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-application-framework-vaadin8</artifactId>
+            <artifactId>linkki-application-framework-vaadin14</artifactId>
         </dependency>
 ----

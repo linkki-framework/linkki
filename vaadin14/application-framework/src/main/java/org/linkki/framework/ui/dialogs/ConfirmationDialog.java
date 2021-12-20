@@ -19,8 +19,6 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Label;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 /**
  * A dialog to present an information to the user, who has to confirm it with OK.
  */
@@ -37,28 +35,6 @@ public class ConfirmationDialog extends OkCancelDialog {
      */
     public ConfirmationDialog(String caption, Handler okHandler, Component... contentComponents) {
         super(caption, okHandler, okHandler, ButtonOption.OK_ONLY, contentComponents);
-    }
-
-    /**
-     * Creates a new dialog.
-     * 
-     * @param caption the caption
-     * @param content a component containing the question to ask
-     * @param okHandler a function that is executed when the OK button was pressed
-     * 
-     * @deprecated use {@link #ConfirmationDialog(String, Handler, Component...)} instead
-     */
-    @Deprecated
-    public ConfirmationDialog(String caption, Component content, Handler okHandler) {
-        this(caption, okHandler, toArray(content));
-    }
-
-    private static Component[] toArray(@CheckForNull Component contentComponent) {
-        if (contentComponent == null) {
-            return new Component[] {};
-        } else {
-            return new Component[] { contentComponent };
-        }
     }
 
     /**

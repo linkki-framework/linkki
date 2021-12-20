@@ -147,7 +147,7 @@ public class ModelObjects {
     public static final class ModelObjectAnnotationException extends IllegalArgumentException {
         private static final long serialVersionUID = 1L;
 
-        private ModelObjectAnnotationException(String description) {
+        public ModelObjectAnnotationException(String description) {
             super(description);
         }
 

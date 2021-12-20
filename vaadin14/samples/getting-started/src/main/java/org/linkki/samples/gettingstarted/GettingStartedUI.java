@@ -14,29 +14,28 @@
 package org.linkki.samples.gettingstarted;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.samples.gettingstarted.model.Report;
 import org.linkki.samples.gettingstarted.pmo.ReportSectionPmo;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 
-@Theme(Lumo.class)
-@Route("")
+// tag::ui-class[]
+@Route("") // <1>
 public class GettingStartedUI extends Div {
 
     private static final long serialVersionUID = 1L;
 
     public GettingStartedUI() {
         UI.getCurrent().getPage().setTitle("linkki :: Getting Started");
-
-        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new ReportSectionPmo(new Report()),
-                                                                              new BindingContext("report-context"));
+        // <2>
+        Component section = VaadinUiCreator.createComponent(new ReportSectionPmo(new Report()),
+                                                            new BindingContext("report-context"));
 
         add(section);
     }
 }
+// end::ui-class[]

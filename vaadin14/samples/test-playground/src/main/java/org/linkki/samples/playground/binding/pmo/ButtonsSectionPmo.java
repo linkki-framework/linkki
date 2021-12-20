@@ -38,6 +38,7 @@ public class ButtonsSectionPmo {
         this.resetAction = resetAction;
     }
 
+    // tag::button[]
     @UIButton(position = 10, showIcon = true, icon = VaadinIcon.CHECK, //
             captionType = CaptionType.NONE, enabled = EnabledType.DYNAMIC, shortcutKeyCode = KeyCode.ENTER, variants = ButtonVariant.LUMO_PRIMARY)
     public void save() {
@@ -52,4 +53,5 @@ public class ButtonsSectionPmo {
     public void reset() {
         resetAction.apply();
     }
+    // end::button[]
 }

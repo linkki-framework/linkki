@@ -31,8 +31,10 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
+// tag::sectionCaption[]
 @UISection(caption = "Children", closeable = true)
 public class ChildrenSectionPmo {
+    // end::sectionCaption[]
 
     @ModelObject(name = "Contact")
     private Contact contact;

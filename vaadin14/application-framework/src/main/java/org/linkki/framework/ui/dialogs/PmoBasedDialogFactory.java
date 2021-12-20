@@ -82,21 +82,6 @@ public class PmoBasedDialogFactory {
     }
 
     /**
-     * Creates a new {@link OkCancelDialog}.
-     * 
-     * @deprecated use {@link #newOkCancelDialog(String, Handler, Object...)} instead.
-     * 
-     * @param title the dialog title
-     * @param pmo the presentation model object providing the data and the layout information
-     * @param okHandler the called when OK is clicked
-     * @return A dialog with the content defined by the given PMO.
-     */
-    @Deprecated
-    public OkCancelDialog newOkCancelDialog(String title, Object pmo, Handler okHandler) {
-        return newOkCancelDialog(title, okHandler, pmo);
-    }
-
-    /**
      * Creates a new dialog with only Ok button.
      *
      * @param title the dialog title
@@ -176,23 +161,6 @@ public class PmoBasedDialogFactory {
     }
 
     /**
-     * Creates a new {@link OkCancelDialog} and opens it.
-     * 
-     * @deprecated use {@link #openOkCancelDialog(String ,Handler ,Handler ,Object...)} instead.
-     * 
-     * @param title the dialog title
-     * @param pmo the presentation model object providing the data and the layout information
-     * @param okHandler the called when OK is clicked
-     * @return A dialog with the content defined by the given PMO.
-     */
-    @Deprecated
-    public OkCancelDialog openOkCancelDialog(String title, Object pmo, Handler okHandler) {
-        OkCancelDialog dialog = newOkCancelDialog(title, okHandler, pmo);
-        dialog.open();
-        return dialog;
-    }
-
-    /**
      * Creates a new {@link OkCancelDialog} based on multiple pmos with okHandler and opens the dialog.
      * 
      * @param title the dialog title
@@ -218,24 +186,6 @@ public class PmoBasedDialogFactory {
      */
     public OkCancelDialog openOkCancelDialog(String title, Handler okHandler, Handler cancelHandler, Object... pmos) {
         OkCancelDialog dialog = newOkCancelDialog(title, okHandler, cancelHandler, pmos);
-        dialog.open();
-        return dialog;
-    }
-
-    /**
-     * Creates a new {@link OkCancelDialog} and opens it.
-     * 
-     * Usage: <code>
-     * PmoBasedDialogFactory.open(factory.newOkCancelDialog(...));
-     * </code>
-     * 
-     * @param dialog the dialog that should be opened
-     * @return A dialog with the content defined by the given PMO.
-     * 
-     * @deprecated use {@link OkCancelDialog#open()}
-     */
-    @Deprecated
-    public static OkCancelDialog open(OkCancelDialog dialog) {
         dialog.open();
         return dialog;
     }

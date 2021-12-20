@@ -42,6 +42,7 @@ public class AddressFieldsWithBindOnGetters {
         countryCb.setItemLabelGenerator(Country::getName);
     }
 
+    // tag::addressFields-methodBinding[]
     @Bind(pmoProperty = "street")
     public TextField getStreetTxt() {
         return streetTxt;
@@ -58,10 +59,14 @@ public class AddressFieldsWithBindOnGetters {
         return countryCb;
     }
 
+    // end::addressFields-methodBinding[]
+
+    // tag::addressFields-custom-bind[]
     @BindValue(pmoProperty = "zip")
     public TextField getZipTxt() {
         return zipTxt;
     }
+    // end::addressFields-custom-bind[]
 
     private static TextField createTextField(String caption) {
         TextField tf = new TextField(caption);

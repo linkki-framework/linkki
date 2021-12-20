@@ -32,13 +32,9 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.section.annotations.TestUIField;
-import org.linkki.core.defaults.ui.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-@SuppressWarnings("deprecation")
 public class PositionAnnotationReaderTest {
 
     @Test
@@ -61,13 +57,6 @@ public class PositionAnnotationReaderTest {
             PositionAnnotationReader.getPosition(PosTestPmo.class.getMethod("testDiffPos"));
         });
 
-    }
-
-    @Test
-    public void testGetPositionAnnotatedElement_BindingDefinition() throws Exception {
-        int position = PositionAnnotationReader.getPosition(PosTestPmo.class.getMethod("testDeprecated"));
-
-        assertThat(position, is(4711));
     }
 
     @Test
@@ -175,11 +164,6 @@ public class PositionAnnotationReaderTest {
             //
         }
 
-        @TestUIFieldDeprecated(position = 4711)
-        public void testDeprecated() {
-            //
-        }
-
     }
 
     @Retention(RetentionPolicy.RUNTIME)
@@ -189,67 +173,6 @@ public class PositionAnnotationReaderTest {
 
         @LinkkiPositioned.Position
         int position();
-
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.METHOD)
-    @org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition(DeprecatedBindingDefinition.class)
-    @interface TestUIFieldDeprecated {
-
-        int position();
-
-    }
-
-    public static class DeprecatedBindingDefinition
-            implements org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition {
-
-        private TestUIFieldDeprecated annotation;
-
-        public DeprecatedBindingDefinition(TestUIFieldDeprecated annotation) {
-            this.annotation = annotation;
-        }
-
-        @Override
-        public int position() {
-            return annotation.position();
-        }
-
-
-        @Override
-        public Object newComponent() {
-            return new Object();
-        }
-
-        @Override
-        public String label() {
-            return "";
-        }
-
-        @Override
-        public EnabledType enabled() {
-            return EnabledType.DISABLED;
-        }
-
-        @Override
-        public VisibleType visible() {
-            return VisibleType.VISIBLE;
-        }
-
-        @Override
-        public RequiredType required() {
-            return RequiredType.REQUIRED;
-        }
-
-        @Override
-        public String modelObject() {
-            return "";
-        }
-
-        @Override
-        public String modelAttribute() {
-            return "";
-        }
 
     }
 

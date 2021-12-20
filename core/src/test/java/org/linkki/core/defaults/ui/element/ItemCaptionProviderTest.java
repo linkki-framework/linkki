@@ -19,7 +19,6 @@ import static org.hamcrest.Matchers.instanceOf;
 
 import java.util.Locale;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.uiframework.UiFramework;
 
@@ -53,22 +52,6 @@ public class ItemCaptionProviderTest {
         ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
 
         assertThat(provider.getCaption(AllMethodsEnum.VALUE), is("getName(Locale)"));
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void testIdAndNameCaptionProvider_AllMethods() {
-        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.IdAndNameCaptionProvider();
-        assertThat(provider.getCaption(AllMethodsEnum.VALUE), is("getName [id]"));
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void testIdAndNameCaptionProvider_MissingGetIdMethod() {
-        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.IdAndNameCaptionProvider();
-        Assertions.assertThrows(IllegalStateException.class, () -> {
-            provider.getCaption(UnnamedEnum.VALUE);
-        });
     }
 
     @Test

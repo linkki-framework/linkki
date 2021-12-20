@@ -23,13 +23,13 @@ import org.linkki.framework.ui.component.Headline;
 import org.linkki.samples.playground.application.model.Report;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.router.Route;
 
 @Route(value = SampleView.NAME, layout = PlaygroundAppLayout.class)
-public class SampleView extends LinkkiTabLayout {
+public class SampleView extends Div {
 
     public static final String NAME = "sample-layout";
 
@@ -38,19 +38,20 @@ public class SampleView extends LinkkiTabLayout {
     private static final List<Report> reports = new ArrayList<>();
 
     public SampleView() {
-        super(Orientation.VERTICAL);
+        LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
 
         // tag::sidebar-addSheet[]
-        addTabSheets(LinkkiTabSheet.builder("CreateReport")
+        tabLayout.addTabSheets(LinkkiTabSheet.builder("CreateReport")
                 .caption(VaadinIcon.STAR_HALF_LEFT_O.create())
                 .content(this::createReportLayout)
                 .build(),
-                     LinkkiTabSheet.builder("ReportList")
-                             .caption(VaadinIcon.FILE_O.create())
-                             .content(this::createReportListLayout)
-                             .build());
+                               LinkkiTabSheet.builder("ReportList")
+                                       .caption(VaadinIcon.FILE_O.create())
+                                       .content(this::createReportListLayout)
+                                       .build());
         // end::sidebar-addSheet[]
-
+        add(tabLayout);
+        setSizeFull();
     }
 
     private VerticalLayout createReportLayout() {

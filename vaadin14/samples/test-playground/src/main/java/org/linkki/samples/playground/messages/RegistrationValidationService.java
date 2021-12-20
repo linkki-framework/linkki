@@ -70,11 +70,13 @@ public class RegistrationValidationService implements ValidationService {
                                     objectProperty(pmo, "confirmPassword"))
                     .create());
         } else if (StringUtils.isEmpty(password)) {
+            // tag::message-builder[]
             Message passwordRequiredMessage = Message
                     .builder("Password is required", Severity.ERROR)
                     .invalidObject(new ObjectProperty(pmo.getUser(), User.PROPERTY_PASSWORD))
                     .markers(ValidationMarker.REQUIRED)
                     .create();
+            // end::message-builder[]
             messages.add(passwordRequiredMessage);
         } else {
             if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$")) {

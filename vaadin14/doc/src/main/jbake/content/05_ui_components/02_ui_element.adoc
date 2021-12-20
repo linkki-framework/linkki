@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
 :images-folder-name: 05_ui_components
 
 [[ui-element]]
@@ -78,7 +78,7 @@ When used in a table, the `label` is used as the column name while the `caption`
 
 HTML Content::
 The content of the label can be styled with HTML if `htmlContent=true` is specified.
-+
+
 .Example HTML Label Content
 [source, java]
 ----
@@ -145,7 +145,7 @@ If no format is specified for a `UIIntegerField`, *linkki* uses the default Java
 [[ui-datefield]]
 ==== UIDateField
 The annotation `@UIDateField` generates a date input field and corresponds to `com.vaadin.ui.DateField`. It allows specifying a date format using the property `dateFormat: String`. If not date format is defined the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
-When the <<widgetset,*linkki* widgetset>> is used, a `MultiformatDateField` is created instead. It allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
+The UIDateField allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
 
 [[ui-combobox]]
 ==== UIComboBox
@@ -179,10 +179,12 @@ The property `width` can be used to define the width of the combobox using CSS s
 
 [[itemCaptionProvider]]
 ItemCaptionProvider::
-For displaying the individual values in the combobox a `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used. By default it is a `DefaultCaptionProvider` that expects a method `getName()`. Via the property `itemCaptionProvider` an alternative implementation class can be specified. *linkki* offers two additional ones: 
+For displaying the individual values in the combobox a `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used. By default it is a `DefaultCaptionProvider` which determines the caption by trying to call the methods `getName(Locale)`, `getName`, `toString` in that order.
++
+Via the property `itemCaptionProvider` an alternative implementation class can be specified. *linkki* offers two additional ones: 
 +
 * `ToStringCaptionProvider`: uses the `toString()`method of the elements
-* `IdAndNameCaptionProvider`: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
+* `IdAndNameCaptionProvider` in <<fips-extension, linkki-ips>>: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
 
 [[ui-yesnocombobox]]
 ==== UIYesNoComboBox
@@ -198,14 +200,6 @@ A `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list li
 * <<ui-combobox-content,`content: AvailableValuesType`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `DefaultCaptionProvider` that delegates to `getName` or `toString`
 * `buttonAlignment: AlignmentType`
-
-[[ui-subsetchooser]]
-==== UISubsetChooser
-For selection of multiple values from a list, *linkki* offers the `@UISubsetChooser`. In this UI control elements are selected by moving them from a list on the left to a list on the right. The display of the individual elements is similar to <<itemCaptionProvider, `UIComboBox`>>, but with a default of `ToStringCaptionProvider`. As with <<ui-combobox-width, UICombobox>> the width can be defined via the property `width`.
-
-The content of a subset chooser must be specified with the method `Collection<T> get<PropertyName>AvailableValues()`. The bound property must be of type `Set<T>`.
-
-The caption of both columns can be set through the properties `leftColumnCaption: String` and `rightColumnCaption: String`.
 
 [[ui-customfield]]
 ==== UICustomField
@@ -230,6 +224,7 @@ include::{source-dir}/org/linkki/samples/playground/messages/RegistrationSection
 ----
 include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-dynamic-field]
 ----
+
 The selectable UI elements are defined via annotations on the method, as is customary. They must, however, fulfill the following requirements, to allow the type to be determined dynamically:
 
 1. the `position` in the UI* annotations must match
@@ -278,7 +273,7 @@ The text shown on a button is called a caption. It is not to be confused with a 
 
 [[icon]]
 ===== Icon
-Apart from captions, buttons can be adorned with icons. For this the constants of the Vaadin class `VaadinIcons` are used. For the icon to be displayed the property `showIcon` must be set `true`.
+Apart from captions, buttons can be adorned with icons. For this the constants of the Vaadin class `VaadinIcon` are used. For the icon to be displayed the property `showIcon` must be set `true`.
 
 [[button-theme-variants]]
 ===== Button Variants

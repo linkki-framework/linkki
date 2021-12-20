@@ -20,6 +20,7 @@ import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.playground.binding.model.Contact;
 
+// tag::simpleContactTablePmo[]
 @UISection
 public class SimpleContactTablePmo extends SimpleTablePmo<Contact, ContactRowPmo> {
 
@@ -37,3 +38,4 @@ public class SimpleContactTablePmo extends SimpleTablePmo<Contact, ContactRowPmo
         return new ContactRowPmo(Contact, editAction, deleteAction);
     }
 }
+// end::simpleContactTablePmo[]

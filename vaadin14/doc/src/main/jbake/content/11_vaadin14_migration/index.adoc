@@ -3,7 +3,6 @@
 :jbake-status: published
 :jbake-order: 1000
 
-:source-dir-v8: ../../../../../../vaadin8/samples/test-playground/src/main/java/org/linkki/samples/playground/
 :source-dir-v14: ../../../../../../vaadin14/samples/test-playground/src/main/java/org/linkki/samples/playground/
 
 
@@ -148,9 +147,22 @@ The following code snippet shows a simple `ApplicationMenuItem` before and after
 | Before migration | After migration
 
 | 
+
 [source,java]
 ----
-include::{source-dir-v8}application/custom/CustomApplicationConfig.java[tags=applicationMenuItemDefinition]
+    @Override
+    public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
+        return Sequence.of(
+                           new ApplicationMenuItemDefinition("Playground", 0) {
+
+                               @Override
+                               protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                                   return menu.addItem(getName(), item -> LinkkiUi.getCurrentNavigator()
+                                           .navigateTo(PlaygroundView.NAME));
+                               }
+
+                           });
+    }
 ----
 |
 [source,java]
@@ -168,9 +180,53 @@ Here is an example of a more complex `ApplicationMenuItem`. This menu item conta
 | Before migration | After migration
 
 | 
+
 [source,java]
 ----
-include::{source-dir-v8}application/custom/CustomMenuItemDefinition.java[tags=class]
+public class CustomMenuItemDefinition extends ApplicationMenuItemDefinition {
+
+    private List<MySubSubMenuItem> subSubMenuItems;
+
+    public CustomMenuItemDefinition(String name, int position, List<MySubSubMenuItem> subSubMenuItems) {
+        super(name, position);
+        this.subSubMenuItems = subSubMenuItems;
+    }
+
+    private List<MySubSubMenuItem> getSubSubMenuItems() {
+        return subSubMenuItems;
+    }
+
+    @Override
+    protected MenuItem internalCreateItem(ApplicationMenu menu) {
+        MenuItem newApplicationMenuItem = menu.addItem(getName(), null, null);
+
+        MenuItem newMenuItem = newApplicationMenuItem.addItem("New", null);
+
+        if (getSubSubMenuItems().size() > 1) {
+            getSubSubMenuItems().forEach(i -> newMenuItem.addItem(i.getName(), i.getCommand()));
+        } else if (getSubSubMenuItems().size() == 1) {
+            MySubSubMenuItem onlyItem = getSubSubMenuItems().get(0);
+            newMenuItem.addItem(onlyItem.getName(), onlyItem.getCommand());
+        }
+        return newApplicationMenuItem;
+    }
+
+    public static class MySubSubMenuItem {
+        private String name;
+
+        public MySubSubMenuItem(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Command getCommand() {
+            return i -> Notification.show(name);
+        }
+    }
+}
 ----
 |
 [source,java]
@@ -183,7 +239,7 @@ include::{source-dir-v14}application/custom/CustomMenuItemDefinitionCreator.java
 ApplicationFooter::
 If no custom implementation of `ApplicationFooter` is used, no migration is needed. +
 In custom implementations:
-+
+
 [cols="a,a"]
 |===
 | Change | Migration
@@ -238,24 +294,23 @@ https://jira.faktorzehn.de/browse/LIN-2158
 
 ===== SidebarLayout has been replaced by LinkkiTabLayout
 
-[source,java]
-----
--- Vaadin 8
-SidebarLayout sidebarLayout = new SidebarLayout();
--- Vaadin 14
-LinkkiTabLayout linkkiTabLayout = LinkkiTabLayout.newSidebarLayout();
-----
+[cols="a,a"]
+|===
+| Before migration | After migration
 
-* `SidebarLayout#addSheet` -> `LinkkiTabLayout#addTabSheet`
-* `SidebarLayout#addSheets` -> `LinkkiTabLayout#addTabSheets`
-* `SidebarLayout#addSelectionListener` -> `LinkkiTabLayout#addSelectedChangeListener`
-* `SidebarLayout#select(id)` -> `LinkkiTabLayout#setSelectedTabSheet(sheet.getId())`
-* `SidebarLayout#select(sheet)` -> `LinkkiTabLayout#setSelectedTabSheet(sheet.getId())`
-* `SidebarLayout#getSelected` -> `LinkkiTabLayout#getSelectedTabSheet`
-* `SidebarLayout#getSidebarSheet(id)` -> `LinkkiTabLayout#getTabSheet(id)`
-* `SidebarLayout#getSidebarSheets` -> `LinkkiTabLayout# getTabSheets`
-* `SidebarSelectionEvent#getOldValue` -> `SelectedChangeEvent#getPreviousTab`
-* `SidebarSelectionEvent#getSelectedSheet` -> `SelectedChangeEvent#getSelectedTab`
+| `SidebarLayout sidebarLayout = new SidebarLayout();` | `LinkkiTabLayout linkkiTabLayout = LinkkiTabLayout.newSidebarLayout();`
+| `SidebarLayout#addSheet` | `LinkkiTabLayout#addTabSheet`
+| `SidebarLayout#addSheets` | `LinkkiTabLayout#addTabSheets`
+| `SidebarLayout#addSelectionListener` | `LinkkiTabLayout#addSelectedChangeListener`
+| `SidebarLayout#select(id)` | `LinkkiTabLayout#setSelectedTabSheet(sheet.getId())`
+| `SidebarLayout#select(sheet)` | `LinkkiTabLayout#setSelectedTabSheet(sheet.getId())`
+| `SidebarLayout#getSelected` | `LinkkiTabLayout#getSelectedTabSheet`
+| `SidebarLayout#getSidebarSheet(id)` | `LinkkiTabLayout#getTabSheet(id)`
+| `SidebarLayout#getSidebarSheets` | `LinkkiTabLayout# getTabSheets`
+| `SidebarSelectionEvent#getOldValue` | `SelectedChangeEvent#getPreviousTab`
+| `SidebarSelectionEvent#getSelectedSheet` | `SelectedChangeEvent#getSelectedTab`
+
+|===
 
 Tab visibility can be controlled using `LinkkiTabSheetBuilder#visibleWhen` and `LinkkiTabLayout#updateSheetVisibility`.
 
@@ -263,21 +318,20 @@ Tab visibility can be controlled using `LinkkiTabSheetBuilder#visibleWhen` and `
 
 For performance reasons, components must be created via a supplier and can no longer be set directly.
 
-[source,java]
-----
--- Vaadin 8
-SidebarSheet sidebarSheet = SidebarSheet(id, icon, name, contentSupplier, uiUpdateObserver);
--- Vaadin 14
-LinkkiTabSheet linkkiTabSheet = LinkkiTabSheet.builder(id)
-				.caption(icon.create()) //.caption(String)
-				.description(name)
-				.content(contentSupplier)
-				.onSelectHandler(uiUpdateObserver)
-				.build();
-----
+[cols="a,a"]
+|===
+| Before migration | After migration
 
-* `SidebarSheet#getButton().getIcon()` -> `LinkkiTabSheet#getTab().getChildren().findFirst().get()`
-* `SidebarSheet#getName` -> `LinkkiTabSheet#getDescription`
+| `SidebarSheet sidebarSheet = SidebarSheet(id, icon, name, contentSupplier, uiUpdateObserver);` | `LinkkiTabSheet linkkiTabSheet = LinkkiTabSheet.builder(id)
+                .caption(icon.create()) //.caption(String)
+                .description(name)
+                .content(contentSupplier)
+                .onSelectHandler(uiUpdateObserver)
+                .build();`
+| `SidebarSheet#getButton().getIcon()` | `LinkkiTabSheet#getTab().getChildren().findFirst().get()`
+| `SidebarSheet#getName` | `LinkkiTabSheet#getDescription`
+
+|===
 
 ==== @UIButton
 ////

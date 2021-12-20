@@ -17,7 +17,6 @@ import org.linkki.core.vaadin.component.section.FormLayoutSection;
 import org.linkki.samples.playground.binding.model.Country;
 
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
@@ -27,7 +26,7 @@ public class AddressComponent extends FormLayoutSection {
     private static final long serialVersionUID = 1L;
 
     public AddressComponent(AddressFields fields) {
-        super("", 1, false);
+        super("Address", 1, false);
         setSizeFull();
 
         TextField street = fields.getStreetTxt();
@@ -39,13 +38,16 @@ public class AddressComponent extends FormLayoutSection {
         city.setSizeFull();
         country.setSizeFull();
 
-        HorizontalLayout zipCity = new HorizontalLayout(new Label("Zip / City"), zip, city);
-        zipCity.setSizeFull();
-        zipCity.setSpacing(true);
-        // zipCity.setCaption("Zip / City");
-        // zipCity.setExpandRatio(city, 1F);
+        HorizontalLayout zipCity = new HorizontalLayout(zip, city);
+        zipCity.setSpacing(false);
+        zip.getStyle().set("padding-right", "10px");
 
-        add(street, zipCity, country);
+        getSectionContent().addFormItem(street, street.getLabel());
+        getSectionContent().addFormItem(zipCity, "Zip / City");
+        getSectionContent().addFormItem(country, country.getLabel());
+
+        street.setLabel(null);
+        country.setLabel(null);
     }
 
 }

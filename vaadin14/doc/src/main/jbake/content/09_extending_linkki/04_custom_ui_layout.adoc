@@ -1,7 +1,7 @@
 :jbake-title: Custom UI layout annotations
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main
 :image-dir: {images}09_extending_linkki
 
 
@@ -84,6 +84,6 @@ The next listing shows how a PMO that is annotated with the `UIHorizontalLayout`
 .Usage of an PMO that is annotated with @UIHorizontalLayout
 [source, java]
 ----
-include::{source-dir}/java/org/linkki/samples/playground/customlayout/CustomLayoutComponent.java[tags=CustomLayoutAnnotation]
+include::{source-dir}/java/org/linkki/samples/playground/application/custom/CustomView.java[tags=CustomLayoutAnnotation]
 ----
-`UiCreator#createComponent` creates Vaadin components from PMO objects and binds them to the passed `BindingContext`.
+`VaadinUiCreator#createComponent` creates Vaadin components from PMO objects and binds them to the passed `BindingContext`.

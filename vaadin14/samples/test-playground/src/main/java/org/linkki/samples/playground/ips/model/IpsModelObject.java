@@ -26,6 +26,7 @@ import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.MsgReplacementParameter;
 import org.faktorips.runtime.ObjectProperty;
 import org.faktorips.runtime.Severity;
+import org.faktorips.runtime.annotation.IpsGenerated;
 import org.faktorips.runtime.internal.AbstractModelObject;
 import org.faktorips.runtime.internal.IpsStringUtils;
 import org.faktorips.runtime.model.annotation.IpsAllowedValues;
@@ -45,7 +46,6 @@ import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
-import org.faktorips.runtime.annotation.IpsGenerated;
 
 /**
  * Implementation for IpsModelObject.
@@ -83,6 +83,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    // tag::PROPERTY_STRING[]
     public static final String PROPERTY_STRING = "string";
 
 
@@ -122,6 +123,7 @@ public class IpsModelObject extends AbstractModelObject {
      */
     public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<>(false,
             null);
+    // end::PROPERTY_STRING[]
 
     /**
      * Member variable for decimal.
@@ -209,11 +211,13 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    // tag::getString[]
     @IpsAttribute(name = "string", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
     @IpsGenerated
     public String getString() {
         return string;
     }
+    // end::getString[]
 
     /**
      * Sets the value of attribute string.
@@ -424,8 +428,8 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
-     * Validates the object (but not its children). Returns <code>true</code> if this object should
-     * continue validating, <code>false</code> otherwise.
+     * Validates the object (but not its children). Returns <code>true</code> if this object should continue
+     * validating, <code>false</code> otherwise.
      *
      * @generated
      */
@@ -456,10 +460,10 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
      * 
-     * @param ml list to which validation errors are added
+     * @param ml      list to which validation errors are added
      * @param context the validation context
-     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should
-     *         be stopped after processing this rule.
+     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should be
+     *         stopped after processing this rule.
      *
      * @restrainedmodifiable
      */

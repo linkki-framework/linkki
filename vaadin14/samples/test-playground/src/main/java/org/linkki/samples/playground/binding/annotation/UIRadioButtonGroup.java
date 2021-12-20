@@ -56,7 +56,7 @@ import org.linkki.samples.playground.binding.annotation.UIRadioButtonGroup.UIRad
 
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 
-
+// tag::custom-annotation[]
 @Retention(RUNTIME) // <1>
 @Target(METHOD) // <1>
 @LinkkiPositioned // <2>
@@ -146,6 +146,8 @@ public @interface UIRadioButtonGroup {
      */
     AlignmentType buttonAlignment() default AlignmentType.VERTICAL;
 
+    // end::custom-annotation[]
+    // tag::component-definition[]
     public static class UIRadioButtonGroupComponentDefinitionCreator
             implements ComponentDefinitionCreator<UIRadioButtonGroup> {
 
@@ -173,7 +175,9 @@ public @interface UIRadioButtonGroup {
                     .withModelObject(annotation.modelObject());
         }
     }
+    // end::component-definition[]
 
+    // tag::aspect-definition[]
     public class UIRadioButtonGroupFieldAspectDefinitionCreator implements AspectDefinitionCreator<UIRadioButtonGroup> {
 
         @Override
@@ -196,4 +200,5 @@ public @interface UIRadioButtonGroup {
                     new DerivedReadOnlyAspectDefinition());
         }
     }
+    // end::aspect-definition[]
 }

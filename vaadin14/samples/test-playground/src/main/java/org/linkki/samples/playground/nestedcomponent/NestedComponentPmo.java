@@ -27,6 +27,7 @@ import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 
+// tag::nestedcomponentpmo[]
 @UISection(caption = "@UINestedComponent")
 public class NestedComponentPmo {
 
@@ -52,6 +53,7 @@ public class NestedComponentPmo {
     public LocalDate getBirthday() {
         return birthday;
     }
+    // end::nestedcomponentpmo[]
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
@@ -96,6 +98,7 @@ public class NestedComponentPmo {
 
     }
 
+    // tag::innercomponentpmo[]
     @UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
     public static class NamePmo {
 
@@ -127,6 +130,7 @@ public class NestedComponentPmo {
 
     }
 
+    // end::innercomponentpmo[]
     @UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
     public static class ButtonPmo {
 

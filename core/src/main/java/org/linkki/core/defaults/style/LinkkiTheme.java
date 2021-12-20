@@ -54,12 +54,6 @@ public class LinkkiTheme {
     /** Style for a single cell within a linkki table */
     public static final String TABLE_CELL = "linkki-table-cell";
 
-    /**
-     * @deprecated since February 18th 2019, horizontal-section-spacing will not affect linkki vaadin8
-     */
-    @Deprecated
-    public static final String SPACING_HORIZONTAL_SECTION = "horizontal-section-spacing";
-
     /** A button that is styled as a text, without additional height. **/
     public static final String BUTTON_TEXT = "linkki-button-text";
 

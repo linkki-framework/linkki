@@ -28,6 +28,7 @@ import com.vaadin.flow.component.textfield.TextField;
  * Input fields for the address using {@link Bind @Bind} annotation on private fields and
  * {@link Binder}.
  */
+// tag::addressFields-class[]
 public class AddressFields {
 
     @Bind(pmoProperty = "street", modelAttribute = Address.PROPERTY_STREET)
@@ -40,9 +41,12 @@ public class AddressFields {
     /* name of pmoProperty is different from the field name */
     @Bind(pmoProperty = "country", availableValues = AvailableValuesType.DYNAMIC, modelAttribute = Address.PROPERTY_COUNTRY)
     private final ComboBox<Country> countryCb;
+    // end::addressFields-class[]
 
+    // tag::addressFields-custom-bind[]
     @BindValue(pmoProperty = "zip", modelAttribute = Address.PROPERTY_ZIP)
     private final TextField zipTxt;
+    // end::addressFields-custom-bind[]
 
     public AddressFields() {
         streetTxt = createTextField("Street");
@@ -72,4 +76,6 @@ public class AddressFields {
         TextField tf = new TextField(caption);
         return tf;
     }
+    // tag::addressFields-class[]
 }
+// end::addressFields-class[]

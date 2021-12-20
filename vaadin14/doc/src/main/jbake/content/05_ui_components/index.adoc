@@ -6,7 +6,7 @@
 [[ui-components]]
 == UI Components
 
-As already described in the section <<pmo-create-ui, how to create a layout>>, UI components are not instantiated directly.
+As already described in the section <<pmo-create-layout, how to create a layout>>, UI components are not instantiated directly.
 Instead, they are declared via annotations on the PMO properties.
 When *linkki* is instructed to create a layout based on a PMO, the annotations are read and corresponding UI components are instantiated.
 The components are arranged using the defined position, while the layout is defined by the layout annotation.

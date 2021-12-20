@@ -4,4 +4,5 @@
 
 [[error-styles]]
 === Error Styles
-*linkki* calls `setComponentError` on all fields bound to properties for which a message with the matching <<object-properties,ObjectProperty>> exists. Vaadin then sets different CSS style classes depending on the `ErrorLevel` of the <<message, message>>, derived from its `Severity`. For example, a text field with a `WARNING` will have the style `v-textfield-error-warning` while a text field with an `ERROR` will have the style class `v-textfield-error-error`. These `ErrorLevel` specific classes are set in addition to a more general one just ending in `-error` such as like `v-textfield-error`.
+// TODO LIN-2554
+*linkki* calls `setErrorMessage(String)` and `setInvalid(boolean)` on all fields that support input validation when they are bound to properties for which a message with the matching <<object-properties,ObjectProperty>> exists. *linkki* then sets different CSS style classes depending on the `ErrorLevel` of the <<message, message>>, derived from its `Severity`.

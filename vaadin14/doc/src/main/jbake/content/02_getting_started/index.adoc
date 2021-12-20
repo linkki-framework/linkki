@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 1
 
-:sample-parent-dir: ../../../../../../vaadin8/samples
+:sample-parent-dir: ../../../../../../vaadin14/samples
 
 [[getting-started]]
 == Getting Started
@@ -12,34 +12,39 @@ You can either add the required dependencies to an existing project or use one o
 
 === Maven dependencies
 
-To create a *linkki* project with Vaadin 8, you need one of the following dependencies depending on the feature set you need:
+To create a *linkki* project with Vaadin 14, you need one of the following dependencies depending on the feature set you need:
 
 .linkki-core
 [source,xml]
 ----
-include::{sample-parent-dir}/pom.xml[tags=linkki-core-vaadin8]
+include::{sample-parent-dir}/pom.xml[tags=linkki-core]
 ----
+
+.linkki-vaadin14-component
+[source,xml]
+----
+include::{sample-parent-dir}/pom.xml[tags=linkki-vaadin14-component]
+----
+
+`linkki-vaadin14-component` contains the following additional features:
+
+* Sidebar layout
 
 .linkki-application-framework
 [source,xml]
 ----
-include::{sample-parent-dir}/pom.xml[tags=linkki-application-framework-vaadin8]
+include::{sample-parent-dir}/pom.xml[tags=linkki-application-framework]
 ----
 
 `linkki-application-framework` contains the following additional features:
 
 * Dialogs
-* Sidebar sheets
 * `LinkkiUi` with `ApplicationLayout` and `ApplicationConfig` as well as an adjusted theme
 * UI Components to display validation messages
 
 
-In addition to the *linkki* dependency, a *linkki* application with Vaadin requires several Vaadin dependencies:
+In addition to the *linkki* dependency, a *linkki* application with Vaadin may require a Vaadin Spring Boot starter.
 
-[source,xml]
-----
-include::{sample-parent-dir}/pom.xml[tags=vaadin]
-----
 
 [[maven-archetypes]]
 === Maven Archetypes
@@ -49,7 +54,7 @@ include::{sample-parent-dir}/pom.xml[tags=vaadin]
 [source,subs="verbatim,attributes"]
 .Plain *linkki*
 ----
-mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-plain-application-vaadin8 -DarchetypeVersion={projectVersion}
+mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-plain-application-vaadin14 -DarchetypeVersion={projectVersion}
 ----
 
 The resulting application can be deployed to your application server of choice or simply started with `mvn clean package org.eclipse.jetty:jetty-maven-plugin:run`, where it can be viewed at `http://localhost:8080/main`.
@@ -57,7 +62,7 @@ The resulting application can be deployed to your application server of choice o
 [source,subs="verbatim,attributes"]
 .*linkki* with CDI
 ----
-mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-cdi-application-vaadin8 -DarchetypeVersion={projectVersion}
+mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-cdi-application-vaadin14 -DarchetypeVersion={projectVersion}
 ----
 
 The resulting application can be deployed to your Java Enterprise Edition 7+ server of choice or simply started with `mvn clean package org.apache.tomee.maven:tomee-maven-plugin:run`, where it can be viewed at `http://localhost:8080/[yourArtifactId]`.
@@ -65,7 +70,7 @@ The resulting application can be deployed to your Java Enterprise Edition 7+ ser
 [source,subs="verbatim,attributes"]
 .*linkki* with Spring Boot
 ----
-mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-spring-application-vaadin8 -DarchetypeVersion={projectVersion}
+mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-spring-application-vaadin14 -DarchetypeVersion={projectVersion}
 ----
 
 The resulting application can be started with `java -jar target/*.war` and be viewed at `http://localhost:8080/`.

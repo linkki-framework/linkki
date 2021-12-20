@@ -3,7 +3,7 @@
 :jbake-status: published
 
 :images-folder-name: 03_architecture
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
 
 [[cross-sectional-binding]]
 === Cross-Sectional Data Binding

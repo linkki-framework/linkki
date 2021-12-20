@@ -16,8 +16,6 @@ package org.linkki.core.binding.descriptor;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -25,16 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
-import org.linkki.core.binding.descriptor.modelobject.ModelObjects;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
-import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.PositionAnnotationReader;
 
@@ -127,110 +122,6 @@ public class UIElementAnnotationReader {
                                                                   propertiesWithSamePosition,
                                                                   annotatedClass.getName()));
                 });
-    }
-
-    /**
-     * Reads the given presentation model object's class to find a method or field annotated with
-     * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
-     * given model object name. Returns a supplier that supplies a model object by invoking that method
-     * or retrieving the field value.
-     *
-     * @param pmo a presentation model object
-     * @param modelObjectName the name of the model object as provided by a method/field annotated with
-     *            {@link ModelObject @ModelObject}
-     *
-     * @return a supplier that supplies a model object by invoking the annotated method or retrieving
-     *         the field value
-     *
-     * @throws ModelObjectAnnotationException if no matching method or field is found, the method has no
-     *             return value, the field has the type {@link Void} or multiple annotations for the
-     *             same model object name are present.
-     * 
-     * @deprecated Since 1.1 there is a dedicated class called {@link ModelObjects} to retrieve the
-     *             model object supplier.
-     */
-    @Deprecated
-    public static Supplier<?> getModelObjectSupplier(Object pmo, String modelObjectName) {
-        try {
-            return ModelObjects.supplierFor(pmo, modelObjectName);
-        } catch (org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException e) {
-            throw new ModelObjectAnnotationException(e.getMessage());
-        }
-    }
-
-    /**
-     * Tests if the presentation model object has a method annotated with
-     * {@link ModelObject @ModelObject} using a given name
-     *
-     * @param pmo an object used for a presentation model
-     * @param modelObjectName the name of the model object
-     *
-     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using the
-     *         given name
-     * @throws ModelObjectAnnotationException if multiple annotations for the model object name are
-     *             present
-     * 
-     * @deprecated Since 1.1 there is a dedicated class called {@link ModelObjects} to retrieve the
-     *             model object supplier.
-     */
-    @Deprecated
-    public static boolean hasModelObjectAnnotation(Object pmo, String modelObjectName) {
-        try {
-            return ModelObjects.isAccessible(pmo, modelObjectName);
-        } catch (org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException e) {
-            throw new ModelObjectAnnotationException(e.getMessage());
-        }
-    }
-
-    /**
-     * Thrown when trying to get a method annotated with {@link ModelObject @ModelObject} via
-     * {@link UIElementAnnotationReader#getModelObjectSupplier(Object, String)} fails.
-     * 
-     * @deprecated since 1.1 it is replaced by
-     *             {@link org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException}
-     */
-    @Deprecated
-    public static final class ModelObjectAnnotationException extends IllegalArgumentException {
-        private static final long serialVersionUID = 1L;
-
-        private ModelObjectAnnotationException(String description) {
-            super(description);
-        }
-
-        public static ModelObjectAnnotationException noAnnotatedMember(Object pmo, String modelObjectName) {
-            return new ModelObjectAnnotationException("Presentation model object class " + pmo.getClass()
-                    + " has no method or field annotated with " + getDescriptionForAnnotation(modelObjectName));
-        }
-
-        public static ModelObjectAnnotationException voidField(Object pmo, Field field) {
-            return new ModelObjectAnnotationException(
-                    "Presentation model object " + pmo + "'s field " + field.getName() + " is annotated with @"
-                            + ModelObject.class.getSimpleName() + " but is of type Void");
-        }
-
-        public static ModelObjectAnnotationException voidMethod(Object pmo, Method method) {
-            return new ModelObjectAnnotationException(
-                    "Presentation model object " + pmo + "'s method " + method.getName() + " is annotated with @"
-                            + ModelObject.class.getSimpleName() + " but returns void");
-        }
-
-        public static ModelObjectAnnotationException multipleMembersAnnotated(Object pmo,
-                String modelObjectName,
-                Member... annotatedMembers) {
-            return new ModelObjectAnnotationException(String.format(
-                                                                    "Presentation model object class %s has multiple members (%s) that are annotated with %s",
-                                                                    pmo.getClass(),
-                                                                    Arrays.stream(annotatedMembers).map(Member::getName)
-                                                                            .collect(Collectors.joining(", ")),
-                                                                    getDescriptionForAnnotation(modelObjectName)));
-        }
-
-        private static String getDescriptionForAnnotation(String modelObjectName) {
-            String annotation = "@" + ModelObject.class.getSimpleName();
-            return ModelObject.DEFAULT_NAME.equals(modelObjectName)
-                    ? annotation
-                    : annotation + " for the model object named \"" + modelObjectName + "\"";
-        }
     }
 
 }

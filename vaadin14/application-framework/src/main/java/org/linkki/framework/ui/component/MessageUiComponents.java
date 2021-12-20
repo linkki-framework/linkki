@@ -15,13 +15,10 @@
 package org.linkki.framework.ui.component;
 
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.binding.validation.message.ObjectProperty;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
@@ -69,32 +66,6 @@ public final class MessageUiComponents {
                 return VaadinIcon.WARNING;
             default:
                 return VaadinIcon.INFO_CIRCLE;
-        }
-    }
-
-    /**
-     * Concatenates the {@link Message#getInvalidObjectProperties() message's invalid object
-     * properties}.
-     * 
-     * @deprecated The invalid object property string was a concatenation of simple class name and
-     *             property name. That was a very technical view of an invalid object property and
-     *             should not be used for describing a property for the end user. If you need this
-     *             representation consider to write your own utility method for this conversion.
-     */
-    @Deprecated
-    public static String getInvalidObjectPropertiesAsString(Message message) {
-        String text = message.getInvalidObjectProperties().stream()
-                .map(MessageUiComponents::toString)
-                .collect(Collectors.joining(", "));
-        return text;
-    }
-
-    private static String toString(ObjectProperty op) {
-        String simpleName = op.getObject().getClass().getSimpleName();
-        if (StringUtils.isEmpty(op.getProperty())) {
-            return simpleName;
-        } else {
-            return simpleName + ": " + op.getProperty();
         }
     }
 

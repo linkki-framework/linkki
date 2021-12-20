@@ -1,0 +1,68 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_releasenotes
+
+=== Version 2.0.0
+
+==== New features and improvements
+
+===== Vaadin 8 modules removed
+
+////
+https://jira.faktorzehn.de/browse/LIN-2577
+////
+
+linkki 2.0.0 does not support Vaadin 8 anymore. Thus, all Vaadin 8 modules are now removed. 
+
+In addition, following deprecated classes and methods are also removed:
+
+.Overview
+[cols="a,a"]
+|=== 
+| Removals | Description
+| Class `org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator` a| Not used anymore.
+| Class `org.linkki.core.defaults.columnbased.ColumnBasedComponentFactory` a| Not used anymore.
+| Class `org.linkki.core.binding.dispatcher.reflection.PropertyNamingConvention` a| Deprecated since Jan. 23rd 2019.
+| Class `org.linkki.util.DateFormatRegistry` a| Deprecated since 2019-02-26. Use the static `org.linkki.util.DateFormats` instead.
+| Static inner class `org.linkki.core.defaults.ui.element.ItemCaptionProvider.IdAndNameCaptionProvider` a| Deprecated since 1.1. Use `org.linkki.ips.ui.element.IdAndNameCaptionProvider` instead.
+| Class `org.linkki.core.uicreation.BindingDefinitionComponentDefinition` a| Deprecated since 1.4.0 because this concept was replaced. The new concept described in <<custom-ui-element-annotation,Creating a custom UI element>>.
+| Class `org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition` a| Deprecated since 1.4.0 because this concept was replaced. The new concept described in <<custom-ui-element-annotation,Creating a custom UI element>>.
+| Class `org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition` a| Deprecated since 1.4.0 because this concept was replaced. The new concept described in <<custom-ui-element-annotation,Creating a custom UI element>>.
+| Static inner class `org.linkki.core.binding.descriptor.UIElementAnnotationReader.ModelObjectAnnotationException` a| Deprecated since 1.1 it is replaced by `org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException`.
+| Method `org.linkki.core.binding.descriptor.UIElementAnnotationReader.hasModelObjectAnnotation(Object, String)` a| Deprecated. Use `org.linkki.core.binding.descriptor.modelobject.ModelObjects.isAccessible(Object, String)` instead .
+| Class `org.linkki.core.defaults.formatters.TemporalAccessorFormatter<T>` a| Deprecated since 1.5.0 as it is not used internally anymore.
+| Class `org.linkki.core.defaults.formatters.LocalDateTimeFormatter` a| Deprecated since 1.5.0 as it is not used internally anymore.
+| Class `org.linkki.core.defaults.formatters.LocalDateFormatter` a| Deprecated since 1.5.0 as it is not used internally anymore.
+| Class `org.linkki.core.defaults.formatters.Formatter<T>` a| Deprecated since 1.5.0 as it is not used internally anymore.
+| Method `org.linkki.core.uicreation.PositionAnnotationReader.getDeprecatedPosition(AnnotatedElement)` a| Not used anymore.
+| Method `org.linkki.core.uicreation.PositionAnnotationReader.getDeprecatedPosition(Annotation)` a| Not used anymore.
+| Method `org.linkki.core.binding.BindingContext.updateUI()` a| Deprecated since August 1st, 2018. Use `org.linkki.core.binding.BindingContex.modelChanged()` or `org.linkki.core.binding.BindingContex.uiUpdated()` instead.
+| Method `org.linkki.core.binding.BindingContext.updateMessages(MessageList)` a| Deprecated since August 1st, 2018. Use `org.linkki.core.binding.BindingContex.displayMessages(MessageList)` instead.
+| Method `org.linkki.core.binding.BindingContext.add(Binding)` a| Deprecated since 1.2. Use `org.linkki.core.binding.BindingContext.add(Binding, ComponentWrapper)` instead.
+| Method `org.linkki.core.binding.descriptor.UIElementAnnotationReader.getModelObjectSupplier(Object, String)` a| Deprecated since 1.1. Use `org.linkki.core.binding.descriptor.modelobject.ModelObjects.supplierFor(Object, String)` instead.
+| Constant `org.linkki.core.defaults.style.LinkkiTheme.SPACING_HORIZONTAL_SECTION` a| Deprecated since February 18th 2019.
+| Method `org.linkki.core.binding.descriptor.UIElementAnnotationReader.getModelObjectSupplier(Object, String)` a| Deprecated since 1.1. Use `org.linkki.core.binding.descriptor.modelobject.ModelObjects.supplierFor(Object, String)` instead.
+| Constant `org.linkki.core.defaults.style.LinkkiTheme.SPACING_HORIZONTAL_SECTION` a| Deprecated since February 18th 2019.
+| Constructor `org.linkki.framework.ui.dialogs.OkCancelDialog.OkCancelDialog(String)` a| Deprecated. Use `org.linkki.framework.ui.dialogs.OkCancelDialog.Builder` instead.
+| Constructor `org.linkki.framework.ui.dialogs.OkCancelDialog.OkCancelDialog(String, Handler)` a| Deprecated. Use `org.linkki.framework.ui.dialogs.OkCancelDialog.Builder` instead.
+| Constructor `org.linkki.framework.ui.dialogs.OkCancelDialog.OkCancelDialog(String, Handler, ButtonOption)` a| Deprecated. Use `org.linkki.framework.ui.dialogs.OkCancelDialog.Builder` instead.
+| Constructor `org.linkki.framework.ui.dialogs.OkCancelDialog.OkCancelDialog(String, Component, Handler, ButtonOption)` a| Deprecated. Use `org.linkki.framework.ui.dialogs.OkCancelDialog.Builder` instead.
+| Constructor `org.linkki.framework.ui.dialogs.ConfirmationDialog.ConfirmationDialog(String, Component, Handler)` a| Deprecated. Use `org.linkki.framework.ui.dialogs.ConfirmationDialog.ConfirmationDialog(String, Handler, Component...)` instead.
+| Method `org.linkki.framework.ui.component.MessageUiComponents.getInvalidObjectPropertiesAsString(Message)` a| Deprecated. The invalid object property string was a concatenation of simple class name and property name. That was a very technical view of an invalid object property and should not be used for describing a property for the end user. If you need this representation consider to write your own utility method for this conversion.
+| Method `org.linkki.core.uicreation.UiCreator.createComponent(Object, BindingContext, Function<Class<?>, Optional<LinkkiComponentDefinition>>, Function<Class<?>, Optional<LinkkiLayoutDefinition>>)` a| Deprecated since February 18th 2019. Use `org.linkki.core.uicreation.UiCreator.createComponent(Object, BindingContext, LinkkiComponentDefinition, Optional<LinkkiLayoutDefinition>)` instead.
+| Method `org.linkki.framework.ui.dialogs.PmoBasedDialogFactory.newOkCancelDialog(String, Object, Handler)` a| Deprecated. Use `org.linkki.framework.ui.dialogs.PmoBasedDialogFactory.newOkCancelDialog(String, Handler, Object...)` instead.
+| Method `org.linkki.framework.ui.dialogs.PmoBasedDialogFactory.openOkCancelDialog(String, Object, Handler)` a| Deprecated. Use `org.linkki.framework.ui.dialogs.PmoBasedDialogFactory.openOkCancelDialog(String, Handler, Handler, Object...)` instead.
+| Static method `org.linkki.framework.ui.dialogs.PmoBasedDialogFactory.open(OkCancelDialog)` a| Deprecated. Call `org.linkki.framework.ui.dialogs.OkCancelDialog.open()` instead.
+| Method `org.linkki.core.binding.manager.BindingManager.getExistingContext(Class<?>)` a| Deprecated since May 6th, 2019. Call `org.linkki.core.binding.manager.BindingManager.getContext(Class<?>)` instead.
+| Method `org.linkki.core.binding.manager.BindingManager.getExistingContextOrStartNewOne(Class<?>)` a| Deprecated since May 6th, 2019. Call `org.linkki.core.binding.manager.BindingManager.getContext(Class<?>)` instead.
+| Method `org.linkki.core.binding.manager.BindingManager.getExistingContext(String)` a| Deprecated since May 6th, 2019. Call `org.linkki.core.binding.manager.BindingManager.getContext(String)` instead.
+| Method `org.linkki.core.binding.manager.BindingManager.getExistingContextOrStartNewOne(String)` a| Deprecated since May 6th, 2019. Call `org.linkki.core.binding.manager.BindingManager.getContext(String)` instead.
+| Method `org.linkki.core.binding.manager.BindingManager.startNewContext(Class<?>)` a| Deprecated since June 7th, 2019. Use `org.linkki.core.binding.manager.BindingManager.getContext(Class<?>)` instead.
+| Method `org.linkki.core.binding.manager.BindingManager.startNewContext(String)` a| Deprecated since June 7th, 2019. Use `org.linkki.core.binding.manager.BindingManager.getContext(String)` instead.
+| Method `org.linkki.core.binding.BindingContext.createDispatcherChain(Object, BindingDescriptor)` a| Deprecated since January 2019. Instead of overwriting this method, provide a `PropertyDispatcherFactory` to `BindingContext(String, PropertyBehaviorProvider, PropertyDispatcherFactory, Handler)`.
+|===
+
+==== Bugfixes

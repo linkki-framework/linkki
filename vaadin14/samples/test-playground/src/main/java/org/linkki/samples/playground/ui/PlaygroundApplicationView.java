@@ -44,8 +44,8 @@ import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButt
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindIconPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
-import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
+import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
 import org.linkki.samples.playground.ts.components.ButtonPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxPmo;
 import org.linkki.samples.playground.ts.components.CustomFieldPmo;
@@ -227,12 +227,15 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
 
     private LinkkiTabSheet addIpsTabSheet() {
         IpsModelObject ipsModelObject = new IpsModelObject();
-
+        // tag::createValidationService[]
         ValidationService validationService = () -> MessageConverter
                 .convert(ipsModelObject.validate(new ValidationContext(UiFramework.getLocale())));
+        // end::createValidationService[]
 
+        // tag::createBindingManager[]
         BindingManager bindingManager = new DefaultBindingManager(validationService,
                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, new IpsPropertyDispatcherFactory());
+        // end::createBindingManager[]
 
         BindingContext bc = bindingManager.getContext("IpsBindingContext");
 
