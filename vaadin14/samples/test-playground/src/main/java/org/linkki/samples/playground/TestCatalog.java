@@ -35,7 +35,7 @@ public class TestCatalog {
      */
     public static final String ITEMS_KEY = "items";
 
-    private static final String BUNDLE_NAME = "org/linkki/samples/playground/testcatalog"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "org/linkki/samples/playground/testcatalog"; // $NON-NLS-1$
 
     private TestCatalog() {
         // do not instantiate

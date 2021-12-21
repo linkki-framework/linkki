@@ -143,16 +143,16 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
     protected OkCancelDialog(String caption, Handler okHandler, Handler cancelHandler,
             ButtonOption buttonOption, Component... contentComponents) {
 
-        this.okHandler = requireNonNull(okHandler, "okHandler must not be null"); //$NON-NLS-1$
-        this.cancelHandler = requireNonNull(cancelHandler, "cancelHandler must not be null"); //$NON-NLS-1$
+        this.okHandler = requireNonNull(okHandler, "okHandler must not be null"); // $NON-NLS-1$
+        this.cancelHandler = requireNonNull(cancelHandler, "cancelHandler must not be null"); // $NON-NLS-1$
 
         this.layout = new VerticalLayout();
         this.contentArea = new VerticalLayout();
         this.buttonArea = new HorizontalLayout();
 
-        this.okButton = new Button(NlsText.getString("OkCancelDialog.OkButtonCaption")); //$NON-NLS-1$
+        this.okButton = new Button(NlsText.getString("OkCancelDialog.OkButtonCaption")); // $NON-NLS-1$
         this.cancelButton = buttonOption == ButtonOption.OK_CANCEL
-                ? new Button(NlsText.getString("OkCancelDialog.CancelButtonCaption")) //$NON-NLS-1$
+                ? new Button(NlsText.getString("OkCancelDialog.CancelButtonCaption")) // $NON-NLS-1$
                 : null;
 
         getContent().setModal(true);
@@ -308,7 +308,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
 
     /** Sets the validation service that validates data in the dialog. */
     public void setValidationService(ValidationService validationService) {
-        this.validationService = requireNonNull(validationService, "validationService must not be null"); //$NON-NLS-1$
+        this.validationService = requireNonNull(validationService, "validationService must not be null"); // $NON-NLS-1$
     }
 
     /**

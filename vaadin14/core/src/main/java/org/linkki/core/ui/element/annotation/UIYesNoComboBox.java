@@ -170,12 +170,12 @@ public @interface UIYesNoComboBox {
         @Override
         @NonNull
         public String getCaption(Object o) {
-            return (o instanceof Boolean) ? booleanToCaption((Boolean)o) : ""; //$NON-NLS-1$
+            return (o instanceof Boolean) ? booleanToCaption((Boolean)o) : ""; // $NON-NLS-1$
         }
 
         private String booleanToCaption(Boolean bool) {
-            return bool ? NlsText.getString("BooleanCaptionProvider.True") //$NON-NLS-1$
-                    : NlsText.getString("BooleanCaptionProvider.False"); //$NON-NLS-1$
+            return bool ? NlsText.getString("BooleanCaptionProvider.True") // $NON-NLS-1$
+                    : NlsText.getString("BooleanCaptionProvider.False"); // $NON-NLS-1$
         }
     }
 }

@@ -97,7 +97,7 @@ public class CustomApplicationConfig implements ApplicationConfig {
 
         @Override
         public String getCopyright() {
-            return "© " + LocalDate.now().getYear() + " Faktor Zehn GmbH - ConVista Consulting"; //$NON-NLS-1$
+            return "© " + LocalDate.now().getYear() + " Faktor Zehn GmbH - ConVista Consulting"; // $NON-NLS-1$
         }
 
         public String getLicense(Locale locale) {

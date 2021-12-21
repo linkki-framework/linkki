@@ -92,7 +92,7 @@ public class LinkkiConverterRegistry implements Serializable {
     public static final LinkkiConverterRegistry DEFAULT = new LinkkiConverterRegistry();
     // CSOON: Declaration
 
-    private final Map<Type, Sequence<Converter<?, ?>>> converters;
+    private final HashMap<Class<?>, Sequence<Converter<?, ?>>> converters;
 
     /**
      * Creates a new {@link LinkkiConverterRegistry} with all default converters.
@@ -195,17 +195,17 @@ public class LinkkiConverterRegistry implements Serializable {
     }
 
     @CheckForNull
-    private Type getPresentationType(Converter<?, ?> converter) {
+    private Class<?> getPresentationType(Converter<?, ?> converter) {
         return getTypeOf(converter, 0);
     }
 
     @CheckForNull
-    private Type getModelType(Converter<?, ?> converter) {
+    private Class<?> getModelType(Converter<?, ?> converter) {
         return getTypeOf(converter, 1);
     }
 
     @CheckForNull
-    private Type getTypeOf(Converter<?, ?> converter, int index) {
+    private Class<?> getTypeOf(Converter<?, ?> converter, int index) {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(converter.getClass(),
                                                                               Converter.class);
         @SuppressWarnings("rawtypes")

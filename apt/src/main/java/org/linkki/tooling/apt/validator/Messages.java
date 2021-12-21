@@ -20,8 +20,8 @@ import javax.lang.model.element.AnnotationMirror;
 
 public final class Messages {
 
-    private static final String BUNDLE_NAME = "org.linkki.tooling.apt.validator.messages"; //$NON-NLS-1$
-    private static final String MESSAGE_KEY = "Message"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "org.linkki.tooling.apt.validator.messages"; // $NON-NLS-1$
+    private static final String MESSAGE_KEY = "Message"; // $NON-NLS-1$
 
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 

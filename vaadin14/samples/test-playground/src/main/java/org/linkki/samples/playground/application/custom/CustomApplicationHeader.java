@@ -45,7 +45,7 @@ public class CustomApplicationHeader extends ApplicationHeader {
     @Override
     protected void addHelpMenuItems(MenuItem helpMenu) {
         helpMenu.getSubMenu()
-                .addItem(new Button(PlaygroundNlsText.getString("ApplicationHeader.Feedback"), //$NON-NLS-1$
+                .addItem(new Button(PlaygroundNlsText.getString("ApplicationHeader.Feedback"), // $NON-NLS-1$
                         VaadinIcon.COMMENT.create()),
                          i -> Notification.show("Thank you for customizing me!"));
         addApplicationInfoMenuItem(helpMenu);

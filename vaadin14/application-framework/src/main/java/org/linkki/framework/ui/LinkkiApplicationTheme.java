@@ -55,10 +55,10 @@ public final class LinkkiApplicationTheme {
     /**
      * Prefix for {@link Message} label style classes. The errorLevel in lower case is used as suffix
      */
-    public static final String MESSAGE_PREFIX = "linkki-message-"; //$NON-NLS-1$
+    public static final String MESSAGE_PREFIX = "linkki-message-"; // $NON-NLS-1$
 
     /** Style class prefix {@link Message} labels. The errorLevel in lower case is used as suffix */
-    public static final String MESSAGE_LIST_STYLE = "linkki-message-list"; //$NON-NLS-1$
+    public static final String MESSAGE_LIST_STYLE = "linkki-message-list"; // $NON-NLS-1$
 
     /**
      * Style for a label that represents a single {@link Message}, created by
@@ -73,10 +73,10 @@ public final class LinkkiApplicationTheme {
     public static final String MESSAGE_ROW = "linkki-message-row";
 
     /** Style class for {@link Headline} */
-    public static final String HEADLINE = "linkki-headline"; //$NON-NLS-1$
+    public static final String HEADLINE = "linkki-headline"; // $NON-NLS-1$
 
     /** Style class for {@link ApplicationInfoDialog} */
-    public static final String APPLICATION_INFO_DIALOG = "linkki-application-info-dialog"; //$NON-NLS-1$
+    public static final String APPLICATION_INFO_DIALOG = "linkki-application-info-dialog"; // $NON-NLS-1$
 
     /**
      * Style class with overflow auto. This is defined in linkki-application.css
@@ -87,7 +87,7 @@ public final class LinkkiApplicationTheme {
      * Style class for table footer that may have sums and should be right aligned and bold. <br>
      * This is defined in linkki-application.css
      */
-    public static final String GRID_FOOTER_SUM = "linkki-grid-footer-sum"; //$NON-NLS-1$
+    public static final String GRID_FOOTER_SUM = "linkki-grid-footer-sum"; // $NON-NLS-1$
 
     /**
      * Style class for {@link UILabel}s, that should be right aligned. This can be used in tables.<br>

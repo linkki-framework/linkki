@@ -58,7 +58,7 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
 
             @Override
             public String getCopyright() {
-                return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
+                return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; // $NON-NLS-1$
             }
         };
     }

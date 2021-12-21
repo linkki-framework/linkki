@@ -19,7 +19,7 @@ public class PlaygroundNlsText {
 
     public static final String I18N = "!Should be loaded from .properties file!";
 
-    private static final String BUNDLE_NAME = "org/linkki/samples/playground/nls/messages"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "org/linkki/samples/playground/nls/messages"; // $NON-NLS-1$
 
     private PlaygroundNlsText() {
         // do not instantiate
