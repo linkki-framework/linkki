@@ -352,7 +352,7 @@ public class BindingContext implements UiUpdateObserver {
         return binding;
     }
 
-    public <T> ContainerBinding bindContainer(Object pmo,
+    public ContainerBinding bindContainer(Object pmo,
             BoundProperty boundProperty,
             List<LinkkiAspectDefinition> aspectDefs,
             ComponentWrapper componentWrapper) {
