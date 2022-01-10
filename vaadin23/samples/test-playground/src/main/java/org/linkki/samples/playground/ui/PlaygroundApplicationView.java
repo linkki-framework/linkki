@@ -73,6 +73,7 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSec
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
+import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
 import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
@@ -208,6 +209,9 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC003, new UITableColumnTablePmo())
                                        .testCase(TC004, DynamicFieldsSection.create())
                                        .testCase(TC005, new NumberFooterTablePmo())
+                                       .createTabSheet(),
+                               TestScenario.id(TS013)
+                                       .testCase(TC001, MessageTableSection.create())
                                        .createTabSheet(),
                                // old tab sheets
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)

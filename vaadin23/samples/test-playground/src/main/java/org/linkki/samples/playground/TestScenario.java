@@ -61,6 +61,7 @@ public class TestScenario {
     private Component createCaptionComponent(String caption, String subtitle) {
         VerticalLayout captionComponent = new VerticalLayout();
         captionComponent.setPadding(false);
+        captionComponent.setSpacing(false);
 
         Label titleLabel = new Label(caption);
         captionComponent.add(titleLabel);

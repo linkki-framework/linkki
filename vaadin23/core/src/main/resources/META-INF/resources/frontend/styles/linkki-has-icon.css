@@ -1,12 +1,13 @@
 .linkki-has-icon {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
 }
-.linkki-has-icon iron-icon {
-    margin: 0 0.5em 0 0;
-    height: 1em;
-    min-height: 1em;
-    min-width: 1em;
-    max-height: 1em;
-    max-width: 1em;
+
+.linkki-has-icon vaadin-icon {
+	height: var(--lumo-font-size-m);
+	min-height: var(--lumo-font-size-m);
+	min-width: var(--lumo-font-size-m);
+	max-height: var(--lumo-font-size-m);
+	max-width: var(--lumo-font-size-m);
 }

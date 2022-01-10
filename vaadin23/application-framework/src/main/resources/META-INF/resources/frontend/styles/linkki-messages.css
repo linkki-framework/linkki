@@ -1,18 +1,19 @@
 .linkki-message-table {
 	border: none;
 }
+
 .linkki-message-row span {
 	white-space: normal;
 }
 
-.linkki-message-error iron-icon {
-    color: var(--linkki-message-error-color, #D24343);
+.linkki-message-error vaadin-icon {
+	color: var(--linkki-message-error-color, #D24343);
 }
 
-.linkki-message-warning iron-icon {
-    color: var(--linkki-message-warning-color, #F2AE55);
+.linkki-message-warning vaadin-icon {
+	color: var(--linkki-message-warning-color, #F2AE55);
 }
 
-.linkki-message-info iron-icon {
-    color: var(--linkki-message-info-color, #99C7FF);
+.linkki-message-info vaadin-icon {
+	color: var(--linkki-message-info-color, #99C7FF);
 }

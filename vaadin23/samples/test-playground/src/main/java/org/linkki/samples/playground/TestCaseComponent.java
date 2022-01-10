@@ -54,6 +54,7 @@ public class TestCaseComponent extends Div {
         add(new Span(TestCatalog.getCaseTitle(testId)));
 
         VerticalLayout description = new VerticalLayout();
+        description.setSpacing(false);
         description.getElement().setAttribute("part", "description");
         description.add(new Span(TestCatalog.getCaseDescription(testId)));
 
