@@ -1,8 +1,8 @@
-:jbake-title: Vaadin 14 Components
+:jbake-title: Vaadin 23 Components
 :jbake-type: section
 :jbake-status: published
 
-:image-dir: {images}12_vaadin14
+:image-dir: {images}12_vaadin23
 :source-dir: ../../../../src/main/java
 
 ==== LinkkiTabLayout

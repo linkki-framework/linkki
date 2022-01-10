@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework.samples</groupId>
-    <artifactId>linkki-sample-test-playground-vaadin14-uitest</artifactId>
+    <artifactId>linkki-sample-test-playground-vaadin23-uitest</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Automated UI Testing for linkki Vaadin 14 Samples Test Playground</name>
+    <name>Automated UI Testing for linkki Vaadin 23 Samples Test Playground</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,7 +25,7 @@
     <dependencies>
         <dependency>
             <groupId>org.linkki-framework.samples</groupId>
-            <artifactId>linkki-sample-test-playground-vaadin14</artifactId>
+            <artifactId>linkki-sample-test-playground-vaadin23</artifactId>
             <version>${project.version}</version>
             <classifier>classes</classifier>
         </dependency>

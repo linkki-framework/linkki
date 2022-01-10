@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
+:source-dir: ../../../../../../vaadin23/samples/test-playground/src/main/java
 :github: https://github.com/linkki-framework/linkki
 :github-tree: {github}/tree/master
 :github-blob: {github}/blob/master
@@ -45,7 +45,7 @@ TIP: When the data binding of a Vaadin component of a third party library should
 include::{source-dir}/org/linkki/samples/playground/binding/components/ContactComponent.java[tags=manual-binding]
 ----
 
-You can find a sample project with the different binding options on {github-tree}/vaadin14/samples/test-playground/src/main/java/org/linkki/samples/playground/binding[GitHub].
+You can find a sample project with the different binding options on {github-tree}/vaadin23/samples/test-playground/src/main/java/org/linkki/samples/playground/binding[GitHub].
 
 [TIP]
 ====

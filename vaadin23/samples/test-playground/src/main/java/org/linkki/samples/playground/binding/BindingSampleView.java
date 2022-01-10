@@ -55,7 +55,7 @@ public class BindingSampleView extends Div implements HasUrlParameter<String> {
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         removeAll();
         // can be switched with URL:
-        // http://localhost:8080/linkki-sample-test-playground-vaadin14/binding/readOnly
+        // http://localhost:8080/linkki-sample-test-playground-vaadin23/binding/readOnly
         boolean readOnly = StringUtils.equals("readOnly", parameter);
 
         BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);

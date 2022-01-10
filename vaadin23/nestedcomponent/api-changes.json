@@ -18,14 +18,13 @@
                     {
                         "regex": true,
                         "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*elemental\\.json\\..*",
-                        "newArchive": "com.vaadin.external.gwt:gwt-elemental:jar:2.8.2.vaadin2",
-                        "justification": "LIN-2651/LIN-2652 :: elemental.json is used by vaadin in component API"
+                        "new": ".*org\\.linkki\\.core\\.binding\\..*",
+                        "justification": "LIN-2651/LIN-2652"
                     },
                     {
-                        "regex": true,
+                        "regex":false,
                         "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.core\\..*",
+                        "new": "interface org.linkki.core.uicreation.layout.LinkkiLayoutDefinition",
                         "justification": "LIN-2651/LIN-2652"
                     },
                     {

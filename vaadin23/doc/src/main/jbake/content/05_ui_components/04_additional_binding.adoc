@@ -1,7 +1,7 @@
 :jbake-title: Aspects
 :jbake-type: section
 :jbake-status: published
-:source-dir-playground: ../../../../../../vaadin14/samples/test-playground/src/main/java
+:source-dir-playground: ../../../../../../vaadin23/samples/test-playground/src/main/java
 :source-dir: ../../../../src/main/java
 
 [[aspects]]

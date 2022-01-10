@@ -49,7 +49,7 @@ public final class DriverProperties {
      * Gets the {@code test.path} property.
      */
     public static String getTestPath() {
-        return SystemProperties.get("test.path").orElse("linkki-sample-test-playground-vaadin14");
+        return SystemProperties.get("test.path").orElse("linkki-sample-test-playground-vaadin23");
     }
 
     /**

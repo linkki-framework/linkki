@@ -9,10 +9,10 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>linkki-vaadin14</artifactId>
+    <artifactId>linkki-vaadin23</artifactId>
     <packaging>pom</packaging>
-    <name>linkki Vaadin 14</name>
-    <description>Vaadin 14 Modules for linkki</description>
+    <name>linkki Vaadin 23</name>
+    <description>Vaadin 23 Modules for linkki</description>
 
     <modules>
         <module>test</module>
@@ -26,7 +26,7 @@
     </modules>
 
     <properties>
-        <!-- this property must also be updated in samples-vaadin14 and uitest -->
+        <!-- this property must also be updated in samples-vaadin23 and uitest -->
         <vaadin.version>
         <!-- tag::vaadin-version[] -->
         22.0.1

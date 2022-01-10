@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:vaadin-dir: ../../../../../../vaadin14
+:vaadin-dir: ../../../../../../vaadin23
 
 [[dependencies]]
 === Dependencies
@@ -16,7 +16,7 @@
 |org.apache.commons |commons-lang3 | {vcommonslang}
 |=======
 
-*linkki-core-vaadin14* depends on the following Vaadin 14 modules:
+*linkki-core-vaadin23* depends on the following Vaadin 23 modules:
  
 |=======
 |groupId | artifactId | version

@@ -1,7 +1,7 @@
 :jbake-title: Displaying Validation Messages
 :jbake-type: section
 :jbake-status: published
-:source-dir-messages: ../../../../../../vaadin14/samples/test-playground/src/main/java
+:source-dir-messages: ../../../../../../vaadin23/samples/test-playground/src/main/java
 
 [[displaying-validation-messages]]
 === Displaying Validation Messages

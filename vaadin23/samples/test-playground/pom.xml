@@ -6,15 +6,15 @@
 
     <parent>
         <groupId>org.linkki-framework.samples</groupId>
-        <artifactId>linkki-samples-vaadin14</artifactId>
+        <artifactId>linkki-samples-vaadin23</artifactId>
         <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>linkki-sample-test-playground-vaadin14</artifactId>
+    <artifactId>linkki-sample-test-playground-vaadin23</artifactId>
     <packaging>war</packaging>
 
-    <name>linkki Vaadin 14 Samples :: Test Playground</name>
+    <name>linkki Vaadin 23 Samples :: Test Playground</name>
         
     <dependencies>
         <dependency>
@@ -29,26 +29,26 @@
 
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-application-framework-vaadin14</artifactId>
+            <artifactId>linkki-application-framework-vaadin23</artifactId>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-ips-vaadin14</artifactId>
+            <artifactId>linkki-ips-vaadin23</artifactId>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-vaadin14-component</artifactId>
+            <artifactId>linkki-vaadin23-component</artifactId>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-core-nestedcomponent-vaadin14</artifactId>
+            <artifactId>linkki-core-nestedcomponent-vaadin23</artifactId>
             <version>2.0.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
 
     <build>
-        <!-- remove version from artifact so we can always link to http://localhost:8080/linkki-sample-test-playground-vaadin14 -->
+        <!-- remove version from artifact so the filename can be used in build scripts -->
         <finalName>${project.artifactId}</finalName>
 
         <resources>

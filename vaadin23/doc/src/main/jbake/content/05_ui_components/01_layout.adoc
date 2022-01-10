@@ -1,7 +1,7 @@
 :jbake-title: Layouts
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
+:source-dir: ../../../../../../vaadin23/samples/test-playground/src/main/java
 :source-dir-doc: ../../../../src/main/java
 :images-folder-name: 05_ui_components
 

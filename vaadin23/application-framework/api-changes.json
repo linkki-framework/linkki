@@ -1,175 +1,34 @@
 {
-  "all-versions": [
-    {
-      "extension": "revapi.filter",
-      "configuration": {
-        "elements": {
-          "exclude": [
-            ".* com\\.vaadin\\.flow\\..*"
-          ]
+    "all-versions": [
+        {
+            "extension": "revapi.filter",
+            "configuration": {
+                "elements": {
+                    "exclude": [
+                        ".* com\\.vaadin\\.flow\\..*"
+                    ]
+                }
+            }
+        },
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.core\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.util\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    }
+                ]
+            }
         }
-      }
-    }
-  ],
-  "1.5.0": [
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "regex": true,
-            "code": "java.method.numberOfParametersChanged",
-            "old": ".*org\\.linkki\\.framework\\.ui\\.application\\..*",
-            "new": ".*org\\.linkki\\.framework\\.ui\\.application\\..*",
-            "justification": "LIN-2488 - ApplicationLayout calls getApplicationConfig method in constructor"
-          },
-          {
-            "code": "java.method.removed",
-            "old": "method org.linkki.framework.state.ApplicationConfig org.linkki.framework.ui.application.ApplicationLayout::getApplicationConfig()",
-            "justification": "LIN-2488 - ApplicationLayout calls getApplicationConfig method in constructor"
-          },
-          {
-            "code": "java.class.removed",
-            "old": "interface org.linkki.framework.state.ApplicationConfig",
-            "justification": "LIN-2488 - Package changed"
-          },
-          {
-            "code": "java.method.parameterTypeChanged",
-            "old": "parameter void org.linkki.framework.ui.application.ApplicationFooter::<init>(===org.linkki.framework.state.ApplicationConfig===)",
-            "new": "parameter void org.linkki.framework.ui.application.ApplicationFooter::<init>(===org.linkki.framework.ui.application.ApplicationInfo===)",
-            "parameterIndex": "0",
-            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
-          },
-          {
-            "code": "java.method.parameterTypeChanged",
-            "old": "parameter java.lang.String org.linkki.framework.ui.application.ApplicationFooter::buildText(===org.linkki.framework.state.ApplicationConfig===)",
-            "new": "parameter java.lang.String org.linkki.framework.ui.application.ApplicationFooter::buildText(===org.linkki.framework.ui.application.ApplicationInfo===)",
-            "parameterIndex": "0",
-            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
-          },
-          {
-            "code": "java.method.visibilityReduced",
-            "old": "method void org.linkki.framework.ui.application.ApplicationFooter::init()",
-            "new": "method void org.linkki.framework.ui.application.ApplicationFooter::init()",
-            "oldVisibility": "public",
-            "newVisibility": "protected",
-            "justification": "LIN-2488 - Not intended to be called externally"
-          },
-          {
-            "code": "java.method.visibilityReduced",
-            "old": "method void org.linkki.framework.ui.application.ApplicationHeader::addRightComponents()",
-            "new": "method void org.linkki.framework.ui.application.ApplicationHeader::addRightComponents()",
-            "oldVisibility": "protected",
-            "newVisibility": "private",
-            "justification": "LIN-2488 - Previously deprecated"
-          },
-          {
-            "regex": true,
-            "code": "java.method.parameterTypeChanged",
-            "old": "parameter void org\\.linkki\\.framework\\.ui\\.application\\.ApplicationHeader::<init>.*",
-            "new": "parameter void org\\.linkki\\.framework\\.ui\\.application\\.ApplicationHeader::<init>.*",
-            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
-          },
-          {
-            "code": "java.method.removed",
-            "old": "method org.linkki.framework.state.ApplicationConfig org.linkki.framework.ui.application.ApplicationHeader::getApplicationConfig()",
-            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
-          },
-          {
-            "code": "java.method.parameterTypeChanged",
-            "old": "parameter void org.linkki.framework.ui.pmo.ApplicationInfoPmo::<init>(===org.linkki.framework.state.ApplicationConfig===)",
-            "new": "parameter void org.linkki.framework.ui.pmo.ApplicationInfoPmo::<init>(===org.linkki.framework.ui.application.ApplicationInfo===)",
-            "parameterIndex": "0",
-            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
-          },
-          {
-            "code": "java.method.removed",
-            "old": "method org.linkki.framework.state.ApplicationConfig org.linkki.framework.ui.pmo.ApplicationInfoPmo::getApplicationConfig()",
-            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
-          },
-          {
-            "code": "java.class.externalClassExposedInAPI",
-            "new": "class com.vaadin.flow.component.notification.GeneratedVaadinNotification<R extends com.vaadin.flow.component.notification.GeneratedVaadinNotification<R>>",
-            "justification": "FIPM-4084/FIPM-4131 - Add NotificationUtil"
-          },
-          {
-            "code": "java.class.externalClassExposedInAPI",
-            "new": "class com.vaadin.flow.component.notification.Notification",
-            "justification": "FIPM-4084/FIPM-4131 - Add NotificationUtil"
-          },
-          {
-            "code": "java.class.externalClassExposedInAPI",
-            "new": "enum com.vaadin.flow.component.notification.NotificationVariant",
-            "justification": "FIPM-4084/FIPM-4131 - Add NotificationUtil"
-          },
-          {
-            "code": "java.method.parameterTypeChanged",
-            "old": "parameter void org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::<init>(java.lang.String, ===int===)",
-            "new": "parameter void org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::<init>(java.lang.String, ===java.lang.Class<? extends com.vaadin.flow.component.Component>===)",
-            "parameterIndex": "1",
-            "justification": "LIN-2523/LIN-2562 - Rework API of ApplicationMenuItemDefinition"
-          },
-          {
-            "code": "java.method.removed",
-            "old": "method int org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::compareTo(org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition)",
-            "justification": "LIN-2523/LIN-2562 - Rework API of ApplicationMenuItemDefinition"
-          },
-          {
-            "code": "java.method.removed",
-            "old": "method java.lang.String org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::getName()",
-            "justification": "LIN-2523/LIN-2562 - Rework API of ApplicationMenuItemDefinition"
-          },
-          {
-            "code": "java.method.removed",
-            "old": "method int org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::getPosition()",
-            "justification": "LIN-2523/LIN-2562 - Rework API of ApplicationMenuItemDefinition"
-          },
-          {
-            "code": "java.method.removed",
-            "old": "method com.vaadin.flow.component.contextmenu.MenuItem org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::internalCreateItem(org.linkki.framework.ui.application.menu.ApplicationMenu)",
-            "justification": "LIN-2523/LIN-2562 - Rework API of ApplicationMenuItemDefinition"
-          },
-          {
-            "code": "java.class.noLongerImplementsInterface",
-            "old": "class org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition",
-            "new": "class org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition",
-            "interface": "java.lang.Comparable<org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition>",
-            "justification": "LIN-2523/LIN-2562 - Rework API of ApplicationMenuItemDefinition"
-          },
-          {
-            "code": "java.annotation.attributeValueChanged",
-            "old": "class org.linkki.framework.ui.application.ApplicationLayout",
-            "new": "class org.linkki.framework.ui.application.ApplicationLayout",
-            "annotationType": "com.vaadin.flow.component.dependency.CssImport.Container",
-            "attribute": "value",
-            "oldValue": "{@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-application-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-utility.css\")}",
-            "newValue": "{@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-application-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-application.css\"), @com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-grid-styles.css\", themeFor = \"vaadin-grid\"), @com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-vaadin-field-styles.css\", themeFor = \"vaadin-*\")}",
-            "justification": "LIN-2542 : Remove required indicator for readonly components; FIPM-4253/FIPM-4255 : Reduce grid header space usage"
-          },
-          {
-            "ignore": true,
-            "code": "java.method.parameterTypeChanged",
-            "old": "parameter void org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::<init>(java.lang.String, ===int===)",
-            "new": "parameter void org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::<init>(java.lang.String, ===java.lang.String===)",
-            "parameterIndex": "1",
-            "justification": "LIN-2467/LIN-2572 :: Update vaadin to 14.7.0"
-          },
-          {
-            "code": "java.field.constantValueChanged",
-            "old": "field org.linkki.framework.ui.LinkkiApplicationTheme.SCROLLABLE",
-            "new": "field org.linkki.framework.ui.LinkkiApplicationTheme.SCROLLABLE",
-            "justification": "FCOM-478/FCOM-700 - Common naming conventions for class names",
-            "oldValue": "l-scrollable",
-            "newValue": "linkki-scrollable"
-          },
-          {
-		  "code": "java.method.removed",
-		  "old": "method void org.linkki.framework.ui.application.ApplicationHeader::addUserMenuItems(com.vaadin.flow.component.contextmenu.MenuItem)",
-		  "justification": "LIN-2571/LIN-2592 - moved to commons"
-		  }
-        ]
-      }
-    }
-  ]
+    ]
 }

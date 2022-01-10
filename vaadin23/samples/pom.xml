@@ -8,12 +8,12 @@
         any defined global dependencies or code-analysis -->
 
     <groupId>org.linkki-framework.samples</groupId>
-    <artifactId>linkki-samples-vaadin14</artifactId>
+    <artifactId>linkki-samples-vaadin23</artifactId>
     <version>2.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
-    <name>linkki Vaadin 14 Samples</name>
+    <name>linkki Vaadin 23 Samples</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -60,26 +60,26 @@
             <!-- tag::linkki-core[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-core-vaadin14</artifactId>
+                <artifactId>linkki-core-vaadin23</artifactId>
                 <version>2.0.0-SNAPSHOT</version>
             </dependency>
             <!-- end::linkki-core[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-ips-vaadin14</artifactId>
+                <artifactId>linkki-ips-vaadin23</artifactId>
                 <version>2.0.0-SNAPSHOT</version>
             </dependency>
-            <!-- tag::linkki-vaadin14-component[] -->
+            <!-- tag::linkki-vaadin23-component[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-vaadin14-component</artifactId>
+                <artifactId>linkki-vaadin23-component</artifactId>
                 <version>2.0.0-SNAPSHOT</version>
             </dependency>
-            <!-- end::linkki-vaadin14-component[] -->
+            <!-- end::linkki-vaadin23-component[] -->
             <!-- tag::linkki-application-framework[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-application-framework-vaadin14</artifactId>
+                <artifactId>linkki-application-framework-vaadin23</artifactId>
                 <version>2.0.0-SNAPSHOT</version>
             </dependency>
             <!-- end::linkki-application-framework[] -->

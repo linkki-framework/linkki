@@ -92,7 +92,7 @@ public class BindIconPmo {
     @BindCaption
     @UILink(position = 21, label = "dynamic", target = LinkTarget.BLANK)
     public String getDynamicLink() {
-        return "/linkki-sample-test-playground-vaadin14/";
+        return "/linkki-sample-test-playground-vaadin23/";
     }
 
     public VaadinIcon getDynamicLinkIcon() {
@@ -107,7 +107,7 @@ public class BindIconPmo {
     @BindCaption
     @UILink(position = 22, label = "static", target = LinkTarget.BLANK)
     public String getStaticLink() {
-        return "/linkki-sample-test-playground-vaadin14/";
+        return "/linkki-sample-test-playground-vaadin23/";
     }
 
     public String getStaticLinkCaption() {

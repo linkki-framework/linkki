@@ -3,7 +3,7 @@
 :jbake-status: published
 
 :image-dir: {images}07_application-framework
-:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
+:source-dir: ../../../../../../vaadin23/samples/test-playground/src/main/java
 
 === ApplicationLayout
 
@@ -34,7 +34,7 @@ For creation, `ApplicationMenuItemDefinition` provides following constructors:
 * `ApplicationMenuItemDefinition(String, Handler)`: Name of the menu and a `Handler` that is executed on click. 
 * `ApplicationMenuItemDefinition(String, List<ApplicationMenuItemDefinition>)`: Name of the menu and a list of `ApplicationMenuItemDefinitions` as sub-menu items. Sub-menus are added in order as defined in the sub-menu list.
 * `ApplicationMenuItemDefinition(String, String)`: Name of the menu and a URL as String to navigate to on click. This method handles both external and internal links.
-* `ApplicationMenuItemDefinition(String, Class<? extends Component>)`: Name of the menu and a `Class` to navigate to. The given class should be a <<vaadin14-migration-views, route component>>.
+* `ApplicationMenuItemDefinition(String, Class<? extends Component>)`: Name of the menu and a `Class` to navigate to. The given class should be a <<vaadin23-migration-views, route component>>.
 
 More complex menu items can be implemented by creating menu item definitions directly instead of inheriting. If the implementation needs to be customizable, it can be easily done by composing `ApplicationMenuItems`.
 The following example uses a factory class to create the menu. A menu item contains one sub-menu item with caption "New". If only one sub-sub-menu item is given, the sub-menu-item shows a notification on click (caption -> New). If multiple sub-sub-menu items are given, those are shown in the sub-menu item (caption -> New -> sub-sub-menu items). This can be used in `ApplicationConfig#getMenuItemDefinitions()`

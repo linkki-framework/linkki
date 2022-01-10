@@ -11,4 +11,4 @@ spring:
 server:
    port: 8080
    servlet:
-      context-path: '/linkki-sample-test-playground-vaadin14'
+      context-path: '/linkki-sample-test-playground-vaadin23'

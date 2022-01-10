@@ -2,13 +2,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.linkki-framework</groupId>
-        <artifactId>linkki-vaadin14</artifactId>
+        <artifactId>linkki-vaadin23</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>linkki-vaadin14-test</artifactId>
-    <name>linkki Vaadin 14 Test</name>
-    <description>linkki Test Utilities for Vaadin 14</description>
+    <artifactId>linkki-vaadin23-test</artifactId>
+    <name>linkki Vaadin 23 Test</name>
+    <description>linkki Test Utilities for Vaadin 23</description>
 
     <dependencies>
         <dependency>

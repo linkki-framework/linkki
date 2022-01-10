@@ -1,18 +1,53 @@
 {
-  "1.1.0": {
-    "revapi": {
-      "ignore": [
-        {
-          "code": "java.method.removed",
-          "old": "method void org.linkki.doc.PersonSectionPmo::firstName()",
-          "justification": "Moved to PersonSectionPmo_modelBinding"
-        },
-        {
-          "code": "java.method.removed",
-          "old": "method void org.linkki.doc.PersonSectionPmo_fieldModelObject::firstName()",
-          "justification": "Moved to PersonSectionPmo_modelBinding"
-        }
-      ]
+  "1.1.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.method.removed",
+            "old": "method void org.linkki.doc.PersonSectionPmo::firstName()",
+            "justification": "Moved to PersonSectionPmo_modelBinding"
+          },
+          {
+            "code": "java.method.removed",
+            "old": "method void org.linkki.doc.PersonSectionPmo_fieldModelObject::firstName()",
+            "justification": "Moved to PersonSectionPmo_modelBinding"
+          }
+        ]
+      }
     }
-  }
+  ],
+  "2.0.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.core\\.binding\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          },
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "interface org.linkki.core.uicreation.layout.LinkkiLayoutDefinition",
+            "justification": "LIN-2651/LIN-2652"
+          },
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "interface org.linkki.util.handler.Handler",
+            "justification": "LIN-2651/LIN-2652"
+          },
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "interface org.linkki.util.validation.ValidationMarker",
+            "justification": "LIN-2651/LIN-2652"
+          }
+        ]
+      }
+    }
+  ]
 }

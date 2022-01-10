@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:base-dir: ../../../../../../vaadin14/samples/getting-started
+:base-dir: ../../../../../../vaadin23/samples/getting-started
 :source-dir: {base-dir}/src/main/java
 :images-folder-name: 02_getting_started
 
@@ -27,12 +27,12 @@ NOTE: Persisting the report is *not* part of this tutorial.
 
 To start this project, you need
 
-* Java 8 +
+* Java 11 +
 * your favorite Java IDE
 * Maven
 * a modern browser
 
-Follow the steps described in <<getting-started, project setup>> to create a new *linkki* Vaadin 14 project.
+Follow the steps described in <<getting-started, project setup>> to create a new *linkki* project.
 
 === Step 1: Domain Model
 

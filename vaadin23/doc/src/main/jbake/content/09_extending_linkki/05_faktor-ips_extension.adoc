@@ -1,14 +1,14 @@
 :jbake-title: Faktor-IPS Extension
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java/
+:source-dir: ../../../../../../vaadin23/samples/test-playground/src/main/java/
 :image-dir: {images}09_extending_linkki
 
 
 [[fips-extension]]
 === Faktor-IPS Extension
 
-*linkki* is often used in conjunction with https://www.faktorzehn.org/de[Faktor-IPS]. The module `linkki-ips-vaadin14` provides some useful functionalities for this combination.
+*linkki* is often used in conjunction with https://www.faktorzehn.org/de[Faktor-IPS]. The module `linkki-ips-vaadin23` provides some useful functionalities for this combination.
 
 To use the extension simply include the following Maven dependency:
 
@@ -16,7 +16,7 @@ To use the extension simply include the following Maven dependency:
 ----
 <dependency>
     <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-ips-vaadin14</artifactId>
+    <artifactId>linkki-ips-vaadin23</artifactId>
 </dependency>
 ----
 

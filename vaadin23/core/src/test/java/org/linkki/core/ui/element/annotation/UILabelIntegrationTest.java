@@ -202,14 +202,13 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Div, Lab
     public static enum NamedEnum {
         VALUE;
 
-        @SuppressWarnings("unused")
         public String getName() {
             return "name";
         }
     }
 
     public static class NamedObject {
-        @SuppressWarnings("unused")
+
         public String getName() {
             return "name";
         }

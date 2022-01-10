@@ -12,6 +12,19 @@
           ]
         }
       }
+    },
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "interface org.linkki.util.validation.ValidationMarker",
+            "justification": "LIN-2651/LIN-2652"
+          }
+        ]
+      }
     }
   ]
 }

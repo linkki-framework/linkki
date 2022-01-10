@@ -3,7 +3,7 @@
 :jbake-status: published
 
 :image-dir: {images}08_nls
-:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main
+:source-dir: ../../../../../../vaadin23/samples/test-playground/src/main
 
 === Location of Resource Bundles
 
