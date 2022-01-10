@@ -1,1 +1,6 @@
+/.npmrc
+/pnpmfile.js
+/webpack.generated.js
+
+node_modules/
 frontend/generated/
