@@ -33,7 +33,7 @@ include::{source-dir}/org/linkki/doc/tab/TabSheetExample.java[tags=createSidebar
 
 A tab can be dynamically set to visible or invisible by providing a `BooleanSupplier` in the builder of `LinkkiTabSheet` using the method `visibleWhen(BooleanSupplier)`. The suppliers must return `true` to set the tab visible and `false` to set it invisible.
 
-The method `LinkkiTabLayout#updateSheetVisibility()` must be triggered to update the visibility state. The method is automatically called by https://vaadin.com/docs/v14/flow/routing/tutorial-routing-lifecycle#afternavigationevent[Vaadin's AfterNavigationEvent], that means the visibility state is at least updated when there is a navigation to the view containing the tabs.
+The method `LinkkiTabLayout#updateSheetVisibility()` must be triggered to update the visibility state. The method is automatically called by https://vaadin.com/docs/latest/flow/routing/lifecycle/#afternavigationevent[Vaadin's AfterNavigationEvent], that means the visibility state is at least updated when there is a navigation to the view containing the tabs.
 
 [[linkkitablayout-selection]]
 ===== Selection Change Events

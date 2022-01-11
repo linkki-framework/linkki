@@ -1,12 +1,12 @@
-:jbake-title: Vaadin 23 Migration
+:jbake-title: Vaadin 8 to 23 Migration
 :jbake-type: chapter
 :jbake-status: published
 :jbake-order: 1000
 
-:source-dir-v14: ../../../../../../vaadin23/samples/test-playground/src/main/java/org/linkki/samples/playground/
+:source-dir-v23: ../../../../../../vaadin23/samples/test-playground/src/main/java/org/linkki/samples/playground/
 
 
-== Vaadin 23 Migration
+== Vaadin 8 to 23 Migration
 
 === Application Framework
 
@@ -23,7 +23,7 @@ https://jira.faktorzehn.de/browse/LIN-2488
 https://jira.faktorzehn.de/browse/LIN-2523
 ////
 
-Navigation has been replaced by https://vaadin.com/docs/v14/flow/routing/tutorial-routing-annotation[Routing], using the `@Route` annotation at the corresponding `Component` itself. With the new changes, it is no longer necessary to extend the UI as the tasks of `LinkkiUi` either became oblivious or is overtaken by `ApplicationLayout`.
+Navigation has been replaced by https://vaadin.com/docs/latest/flow/routing[Routing], using the `@Route` annotation at the corresponding `Component` itself. With the new changes, it is no longer necessary to extend the UI as the tasks of `LinkkiUi` either became oblivious or is overtaken by `ApplicationLayout`.
 
 [[vaadin23-migration-linkkiUi]]
 LinkkiUi::
@@ -167,7 +167,7 @@ The following code snippet shows a simple `ApplicationMenuItem` before and after
 |
 [source,java]
 ----
-include::{source-dir-v14}application/custom/CustomApplicationConfig.java[tags=applicationMenuItemDefinition]
+include::{source-dir-v23}application/custom/CustomApplicationConfig.java[tags=applicationMenuItemDefinition]
 ----
 |===
 +
@@ -231,7 +231,7 @@ public class CustomMenuItemDefinition extends ApplicationMenuItemDefinition {
 |
 [source,java]
 ----
-include::{source-dir-v14}application/custom/CustomMenuItemDefinitionCreator.java[tags=class]
+include::{source-dir-v23}application/custom/CustomMenuItemDefinitionCreator.java[tags=class]
 ----
 |===
 
@@ -421,7 +421,8 @@ public class MyI18NProvider implements I18NProvider {
 https://jira.faktorzehn.de/browse/LIN-2249
 ////
 ==== Theming
-Valo theme has been replaced by Lumo theme. The Lumo Theme is default and there is no @Theme annotation required since vaadin23.  For more information see https://vaadin.com/docs/flow/migration/6-theming.html
+
+Valo theme has been replaced by Lumo theme. The Lumo Theme is default and there is no @Theme annotation required. For more information see https://vaadin.com/docs/flow/migration/6-theming.html
 
 ==== Tooltips
 ////

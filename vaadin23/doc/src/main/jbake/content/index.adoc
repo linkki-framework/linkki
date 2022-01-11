@@ -42,8 +42,6 @@ The only assumption about the business layer is that you use a domain
 
 However, the code has only very few direct dependencies to Vaadin API when using *linkki*. Most of the interaction with Vaadin is encapsulated by *linkki*.
 
-*linkki* currently only supports https://vaadin.com/docs/v14/flow/overview[Vaadin version 14].
-
 === Sections
 The fundamental building blocks for a *linkki* UI are sections. A section is
 defined as a group of related (input) fields/controls. For example, a section

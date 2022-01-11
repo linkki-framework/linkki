@@ -9,7 +9,7 @@
 
 When using *linkki Application Framework*, all views should be displayed in a customized `ApplicationLayout` which provides the application frame. Therefore, the first step to use application framework is to create a subclass of `ApplicationLayout`.
 
-The main purpose of this class is to hold the custom implementation of <<application-config, ApplicationConfig>> in which the application frame is configured. This custom implementation can be passed to the super constructor. The implementation of `ApplicationLayout` itself should have a default constructor which makes it usable as a https://vaadin.com/docs/v14/flow/routing/tutorial-router-layout[RouterLayout].
+The main purpose of this class is to hold the custom implementation of <<application-config, ApplicationConfig>> in which the application frame is configured. This custom implementation can be passed to the super constructor. The implementation of `ApplicationLayout` itself should have a default constructor which makes it usable as a https://vaadin.com/docs/latest/flow/routing/layout[RouterLayout].
 
 .Example ApplicationLayout
 [source,java]
