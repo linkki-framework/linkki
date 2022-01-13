@@ -8,6 +8,12 @@
 
 == Vaadin 8 to 23 Migration
 
+[IMPORTANT]
+.Not yet supported
+==== 
+* Collapsible columns (currently always hidden)
+====
+
 === Application Framework
 
 ==== Messages

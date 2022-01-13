@@ -56,6 +56,8 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
      */
     public void setCollapseMode(CollapseMode collapseMode) {
         // TODO LIN-2138
+        // Hide initially collapsed columns as long as there is no collapse support
+        getComponent().setVisible(!collapseMode.isInitiallyCollapsed());
         // if (collapseMode.isCollapsible() && !grid.isColumnCollapsingAllowed()) {
         // grid.setColumnCollapsingAllowed(true);
         // }
