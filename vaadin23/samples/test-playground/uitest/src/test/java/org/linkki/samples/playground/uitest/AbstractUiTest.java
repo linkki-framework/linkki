@@ -41,6 +41,7 @@ import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
+import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.testbench.TestBenchElement;
@@ -220,4 +221,14 @@ public class AbstractUiTest extends TestBenchTestCase {
         }
     }
 
+    /**
+     * Only works when the tested Component implements {@link HasPrefixAndSuffix} in Vaadin-flow
+     * 
+     * @param element
+     * @return WebElement which contains Suffix
+     */
+
+    public WebElement getSuffix(WebElement element) {
+        return element.findElement(By.cssSelector("div[slot='suffix']"));
+    }
 }

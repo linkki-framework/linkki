@@ -101,7 +101,7 @@ WARNING: Fields marked as `required` are only visually highlighted. *No* validat
 [[standalone-aspects]]
 ==== Standalone Apsect Annotations
 
-Aspects can also be represented by a separate annotation. In this case, those annotations follow the naming convention `@Bind[AspectName]`. Several frequently used aspects are packaged with *linkki* as listed below. It is also very easy to create additional <<creating-aspects, custom aspect annotations>>. 
+Aspects can also be represented by a separate annotation. In this case, those annotations follow the naming convention `@Bind[AspectName]`. A standalone aspect annotation can be added to an annotated PMO property. Some standalone aspect annotation can also be added to an annotated PMO class itself. In the case of binding using the `@Bind` annotation, `@Bind[AspectName]` must be written directly in the field annotated with `@Bind`. Several frequently used aspects are packaged with *linkki* as listed below. It is also very easy to create additional <<creating-aspects, custom aspect annotations>>. 
 
 [options="header"]
 |===
@@ -113,12 +113,13 @@ Aspects can also be represented by a separate annotation. In this case, those an
 | `<<bind-style-names, @BindStyleNames>>` | `Provide style class names for a component`
 | `<<bind-caption, @BindCaption>>` | `Caption handling, using default CaptionType.AUTO`
 | `<<bind-icon, @BindIcon>>` | `Icon handling, using default IconType.AUTO`
+| `<<suffix, @BindSuffix>>` | `Suffix handling, using default SuffixType.AUTO`
 |===
 
 [[tooltips]]
 ===== Tooltips
 
-For displaying tooltips on UI elements *linkki* provides the annotation `@BindTooltip`. This annotation can be added in the PMO binding to the method to which the UI element is bound. In the case of binding using the `@Bind` annotation, `@BindTooltip` must be written directly in the field annotated with `@Bind`.
+For displaying tooltips on UI elements *linkki* provides the annotation `@BindTooltip`. 
 
 The `@BindTooltip` annotation has two properties:
 
@@ -259,3 +260,31 @@ TIP: The class `VaadinIcon` contains many Icons for easy use. The Vaadin documen
 
 IMPORTANT: Since annotations do not support a `null` value and `VaadinIcon` do not have a "NO_ICON" we cannot really specify "no icon" to automatically use a dynamic one. Hence we decided to use a quite uncommon icon (NATIVE_BUTTON) as default. If you really need exactly this icon, use `iconType=STATIC` explicitly.
 
+[[suffix]]
+===== Suffix
+
+The annotation `@BindSuffix` can be used to add a suffix on UI elements.
+
+TIP: This can be useful to display units or currencies.
+
+The `@BindSuffix` annotation has two properties:
+
+* <<suffix-text, `value: String`>>
+* <<suffix-type, `suffixType: SuffixType`>>
+
+[[suffix-text]]
+Value::
+This is the content of the suffix that is set at the end of an UI element.
+[[suffix-type]]
+SuffixType::
+The following configuration options are available for `SuffixType`:
++
+[cols="1,9"]
+.SuffixType
+|===
+|`AUTO`     |the text of the suffix is read from the attribute `value` if it is not empty, otherwise it reacts like `DYNAMIC` (*default*)
+|`STATIC`   |the text of the suffix is read from the attribute `value`
+|`DYNAMIC`  |the text of the suffix is determined by the return value of the method `String get<PropertyName>Suffix()`. The `value` is ignored.
+|===
+
+TIP:  BindSuffix can add a Suffix to UI Elements which supports the HasPrefixAndSuffix interface. Common UI Elements which supports `BindSuffix` are UIIntegerField, UIDoubleField, UIDecimalField, UITextField, UITextArea, UICustomField.
