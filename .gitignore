@@ -21,3 +21,6 @@ target
 **/.idea
 **/*.iml
 **/node_modules
+
+# Created by jenkins job
+.repository

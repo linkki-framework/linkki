@@ -111,6 +111,13 @@ pipeline {
                         }
                     }
                 }
+                stage('Check Git Diffs') {
+                    steps {
+                        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                            sh 'bash .ci/verify_no_changed_files.sh'
+                        }
+                    }
+                }
             }
         }
         // check if the SonarQube quality gate is fulfilled
