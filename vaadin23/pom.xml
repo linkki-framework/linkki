@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.linkki-framework</groupId>
+        <artifactId>linkki</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>linkki-vaadin23</artifactId>
+    <packaging>pom</packaging>
+    <name>linkki Vaadin 23</name>
+    <description>Vaadin 23 Modules for linkki</description>
+
+    <modules>
+        <module>test</module>
+        <module>core</module>
+        <module>application-framework</module>
+        <module>ips</module>
+        <module>component</module>
+        <module>samples</module>
+        <module>doc</module>
+        <module>nestedcomponent</module>
+    </modules>
+
+    <properties>
+        <!-- this property must also be updated in samples-vaadin23 and uitest -->
+        <vaadin.version>
+        <!-- tag::vaadin-version[] -->
+        22.0.1
+        <!-- end::vaadin-version[] -->
+        </vaadin.version>
+        <spring-boot.version>2.5.1</spring-boot.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-core</artifactId>
+                <version>${vaadin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

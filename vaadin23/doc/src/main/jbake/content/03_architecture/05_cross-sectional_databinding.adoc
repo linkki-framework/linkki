@@ -1,0 +1,67 @@
+:jbake-title: Cross-Sectional Data Binding
+:jbake-type: section
+:jbake-status: published
+
+:images-folder-name: 03_architecture
+:source-dir: ../../../../../../vaadin23/samples/test-playground/src/main/java
+
+[[cross-sectional-binding]]
+=== Cross-Sectional Data Binding
+
+Although the state of the UI can be mostly defined by information from PMOs and the domain model, it sometimes must be additionally influenced by other factors, such as system state, for instance. In *linkki* we call this concept _cross-sectional data binding_ because it influences the data binding of multiple fields in a cross-sectional way.
+
+A good example for such aspects is the "browse mode". Many applications distinguish between:
+
+* "Edit Mode", in which data can be entered and modified on the UI
+* "Browse Mode", in which data in forms is shown, but can't be modified
+
+Often, applications toggle between these modes, for instance when "Editing" is started and completed.
+In browse mode all form fields should be read-only. This global editing state of the application thus influences many fields at once. Additionally, the browse mode overrides settings from PMOs. Even when a field is marked as editable by the PMO, it is write protected during browse mode.
+
+*linkki* provides two technical means to implement cross-sectional data binding: `PropertyDispatcher` and `PropertyBehaviors`.
+
+[[property-dispatcher]]
+==== PropertyDispatcher
+
+The `BindingContext` (see <<binding-basics,BindingContext Basics - BindingManager>>) uses a `PropertyDispatcherFactory`, which creates multiple linked `PropertyDispatchers`. These dispatchers in turn are used to bind PMO properties (see <<binding-ui-element-properties,Binding of further UI element properties>>). `PropertyDispatchers` have methods to determine the data type and value of a property. By default *linkki* creates four linked dispatchers, where each delegates to the next if it can't provide the value:
+
+* `BehaviorDependentDispatcher` uses `PropertyBehaviors` (see next section, <<property-behavior,PropertyBehaviors>>)
+* `BindingAnnotationDispatcher` provides information that can be read directly from UI annotations
+* `ReflectionPropertyDispatcher` uses reflection to access methods on PMO or domain model derived from property names
+* `ExceptionPropertyDispatcher` throws an exception if the required property is not found. This often indicates a spelling error in the method name, which causes the `ReflectionPropertyDispatcher` to be unable to find the proper method
+
+.Example for PropertyDispatcher
+image::{images}{images-folder-name}/vertical_binding.png[]
+
+Custom dispatchers can be created via a `PropertyDispatcherFactory`. There, the method `createCustomDispatchers` can be overridden to create one or more custom dispatchers. These dispatchers are inserted between `BehaviorDependentDispatcher` and `BindingAnnotationDispatcher`.
+
+The `DefaultBindingManager` offers a constructor to pass a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'.
+
+[[property-behavior]]
+==== PropertyBehaviors
+
+`PropertyBehaviors` are created by a `PropertyBehaviorProvider` that can be passed to a `BindingContext` as constructor parameter. In this way, the application can configure which `PropertyBehaviors` should be used in the `BindingContext`.
+
+A `BehaviorDependentDispatcher` can control the behavior of properties through `PropertyBehaviors`. Only a selection of properties can be controlled with it: Visibility (`isVisible`), editability (`isWritable`) and visibility of errors (`isShowValidationMessages`). For this, all `PropertyBehaviors` are called; if all return `true`, the `BehaviorDependentDispatcher` sends the request to the next `PropertyDispatcher`, otherwise it returns `false` or an empty error list, or doesn't set the value.
+
+.Veto of a PropertyBehaviors
+image::{images}{images-folder-name}/property_behavior_veto.png[]
+
+For custom behaviors the interface `PropertyBehavior` can be implemented. It also offers static constructor methods to delegate one of the controlled properties to another function:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/BindingSampleView.java[tags=property-behavior]
+----
+
+[[property-behavior-binding-manager]]
+==== Using PropertyBehaviors with a BindingManager
+
+If a `BindingContext` should be managed by a `BindingManager`, it can be created using one of the methods `BindingManager#createContext(Class/String, PropertyBehaviorProvider)`. The created context will then use the given behaviors. Note that these methods will throw `IllegalArgumentExceptions` if a context with the given name or class already exists.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/BindingSampleView.java[tags=property-behavior]
+----
+
+The default implementation `DefaultBindingManager` also provides a constructor in which a default `PropertyBehaviorProvider` can be defined that is then used for all `BindingContexts` created by using `getContext()`. Calling `createContext` with a `PropertyBehaviorProvider` would result in a `BindingContext` that only uses the provided behaviors, ignoring the default property behaviors of the `DefaultBindingManager`. If the default behaviors should not be replaced but only extended, `DefaultBindingManager.getDefaultBehaviorProvider()` allows access to the  `PropertyBehaviorProvider` from which a new one can be created with `PropertyBehaviorProvider.append(PropertyBehavior...)`.

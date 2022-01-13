@@ -13,6 +13,7 @@
  */
 package org.linkki.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,7 +42,9 @@ import edu.umd.cs.findbugs.annotations.CheckReturnValue;
  * To allow access to the elements of this sequence it implements the {@link Iterable} interface and
  * provides methods like {@link #list()} or {@link #stream()} to access the internal list.
  */
-public class Sequence<T> implements Iterable<T> {
+public class Sequence<T> implements Iterable<T>, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final List<T> list;
 

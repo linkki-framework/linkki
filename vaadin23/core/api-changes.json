@@ -1,0 +1,41 @@
+{
+    "all-versions": [
+        {
+            "extension": "revapi.filter",
+            "configuration": {
+                "elements": {
+                    "exclude": [
+                        ".* com\\.vaadin\\.flow\\..*"
+                    ]
+                }
+            }
+        },
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*elemental\\.json\\..*",
+                        "newArchive": "com.vaadin.external.gwt:gwt-elemental:jar:2.8.2.vaadin2",
+                        "justification": "LIN-2651/LIN-2652 :: elemental.json is used by vaadin in component API"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.core\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.util\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    }
+                ]
+            }
+        }
+    ]
+}

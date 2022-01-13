@@ -40,7 +40,7 @@ pipeline {
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Test Playground</h3>
                     <ul>
-                        <li><a href='http://linkki-vaadin14-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'>Vaadin 14</a></li>
+                        <li><a href='http://linkki-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23'>Vaadin 23</a></li>
                     </ul>
                 """
             }
@@ -54,7 +54,7 @@ pipeline {
                     waitUntil {
                         script {
                             try {
-                                sh 'curl --fail http://linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'
+                                sh 'curl --fail http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23'
                                 return true
                             } catch (Exception e) {
                                 return false
@@ -73,18 +73,18 @@ pipeline {
                 }
             }
             parallel {
-                stage('UI Test Vaadin 14') {
+                stage('UI Test') {
                     steps {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
+                            sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test'
                         }
                     }
-        
+
                     environment {
-                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin14'
+                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin23'
                     }
                 }
-        
+
                 // run the SonarQube analysis for this change
                 stage('SonarQube Analysis') {
                     environment {
@@ -103,7 +103,7 @@ pipeline {
                                             sonar:sonar'
                                 }
                             }
-        
+
                             rtp parserName: 'HTML', nullAction: '1', stableText: """
                                 <h3>SonarQube</h3>
                                 <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}' target='_blank'>SonarQube Analysis</a>
@@ -135,7 +135,7 @@ pipeline {
 //            TODO LIN-2506
 //            junit '**/target/surefire-reports-java17/*.xml'
 
-            archiveArtifacts 'vaadin14/doc/target/linkki-core-documentation*/**/*.*, vaadin14/samples/test-playground/uitest/target/uitest/*.png'
+            archiveArtifacts 'vaadin23/doc/target/linkki-core-documentation*/**/*.*, vaadin23/samples/test-playground/uitest/target/uitest/*.png'
         }
 
         regression {

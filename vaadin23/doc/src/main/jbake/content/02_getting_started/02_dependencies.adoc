@@ -1,0 +1,27 @@
+:jbake-title: Dependencies
+:jbake-type: section
+:jbake-status: published
+
+:vaadin-dir: ../../../../../../vaadin23
+
+[[dependencies]]
+=== Dependencies
+
+*linkki-core* depends on the following external libraries:
+  
+|=======
+|groupId | artifactId | version
+
+|com.github.spotbugs |spotbugs-annotations | {vspotbugs}
+|org.apache.commons |commons-lang3 | {vcommonslang}
+|=======
+
+*linkki-core-vaadin23* depends on the following Vaadin 23 modules:
+ 
+|=======
+|groupId | artifactId | version
+
+|com.vaadin | vaadin-core | 
+include::{vaadin-dir}/pom.xml[tags=vaadin-version]
+
+|=======

@@ -1,0 +1,185 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.linkki-framework</groupId>
+        <artifactId>linkki-vaadin23</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <documentation.dtitle>linkki documentation - vaadin23</documentation.dtitle>
+        <basedir.parent>${project.parent.basedir}</basedir.parent>
+        <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
+        <jade.runExternalLinkTests>true</jade.runExternalLinkTests>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <deploymentFolder>${project.version}-vaadin23</deploymentFolder>
+        <sonar.skip>true</sonar.skip>
+    </properties>
+
+    <artifactId>linkki-core-documentation-vaadin23</artifactId>
+
+    <name>Linkki Core Documentation - Vaadin 23</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-core-vaadin23</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin23-component</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- This is included as a provided dependency to allow the maven 
+            compiler to pick up the current version of the annotation processor in the 
+            build. Using the regular way of including it as annotation processor for 
+            the maven-compiler-plugin depends on the annotation processor being installed 
+            in the Maven repository beforehand and as such fails when increasing the 
+            version number or changing the annotation processor. -->
+        <dependency>
+            <groupId>org.linkki-framework.tooling</groupId>
+            <artifactId>linkki-apt</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <compilerArgs>
+                        <arg>-Xlint</arg>
+                        <!-- Because the eclipse compiler and javac differ: 
+                            https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
+                        <arg>-Xlint:-varargs</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>de.faktorzehn.doc</groupId>
+                <artifactId>jade-maven-plugin</artifactId>
+                <version>1.0.3</version>
+                <executions>
+                    <execution>
+                        <id>generate-docs</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate-docs</goal>
+                        </goals>
+                        <configuration>
+                            <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
+                            <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
+                            <excludeLinks>
+                                <excludeLink>.*localhost.*</excludeLink>
+                            </excludeLinks>
+                            <runExternalLinkTests>${jade.runExternalLinkTests}</runExternalLinkTests>
+                            <properties>
+                                <title>${documentation.dtitle}</title>
+                                <readmepath>${basedir.parent}</readmepath>
+                                <vspotbugs>${spotbugs.version}</vspotbugs>
+                                <vcommonslang>${commons-lang3.version}</vcommonslang>
+                                <homelink>https://doc.linkki-framework.org</homelink>
+                                <logo>logo.png</logo>
+                                <projectVersion>${project.version}</projectVersion>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <executions>
+                    <execution>
+                        <id>upload-documentation</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <commands>
+                                <command>rm -rf \
+                                    /var/www/doc.linkki-framework.org/${deploymentFolder}/*</command>
+                            </commands>
+                            <serverId>linkkidoc</serverId>
+                            <fromDir>${jade.outputDirectory}/html</fromDir>
+                            <includes>**/*</includes>
+                            <url>scp://${doc.user}@doc.linkki-framework.org:2004</url>
+                            <toDir>/var/www/doc.linkki-framework.org/${deploymentFolder}</toDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.revapi</groupId>
+                    <artifactId>revapi-maven-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            de.faktorzehn.doc
+                                        </groupId>
+                                        <artifactId>
+                                            jade-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            1.0
+                                        </versionRange>
+                                        <goals>
+                                            <goal>generate-docs</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>3.4.1</version>
+            </extension>
+        </extensions>
+    </build>
+
+</project>

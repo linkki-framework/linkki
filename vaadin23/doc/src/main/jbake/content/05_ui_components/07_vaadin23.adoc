@@ -1,0 +1,54 @@
+:jbake-title: Vaadin 23 Components
+:jbake-type: section
+:jbake-status: published
+
+:image-dir: {images}12_vaadin23
+:source-dir: ../../../../src/main/java
+
+==== LinkkiTabLayout
+
+A component that allows switching between different contents, using either a horizontal or vertical tab bar. Only a single tab can be active at a time.
+
+This is a replacement for the linkki Vaadin 8 `SidebarSheet` and `TabSheetArea`.
+
+image::{image-dir}/tablayout_combined.png[]
+
+===== Create Tabs
+
+Tabs are added to the layout using a `LinkkiTabSheet`. The tab sheet is created using a builder:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/tab/TabSheetExample.java[tags=createTabSheet]
+----
+
+To create a `LinkkiTabSheet` as sidebar layout, use `newSidebarLayout()`, and icons as captions. A description can also be provided which is displayed by hovering the mouse over the icon.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/tab/TabSheetExample.java[tags=createSidebar]
+----
+
+===== Toggle Visibility of Tabs
+
+A tab can be dynamically set to visible or invisible by providing a `BooleanSupplier` in the builder of `LinkkiTabSheet` using the method `visibleWhen(BooleanSupplier)`. The suppliers must return `true` to set the tab visible and `false` to set it invisible.
+
+The method `LinkkiTabLayout#updateSheetVisibility()` must be triggered to update the visibility state. The method is automatically called by https://vaadin.com/docs/latest/flow/routing/lifecycle/#afternavigationevent[Vaadin's AfterNavigationEvent], that means the visibility state is at least updated when there is a navigation to the view containing the tabs.
+
+[[linkkitablayout-selection]]
+===== Selection Change Events
+
+There are several possibilities to receive a selection change event in case a new tab is selected. All events are also triggered for the auto-selection when the first tab is added to the tab layout.
+
+Implement AfterNavigationObserver:: The recommended way is to implement the interface `AfterNavigationObserver` in the content layout. Any component that is part of the selected tab gets the event if it is attached and visible at the time the tab is selected.
+
+Adding a listener to LinkkiTabLayout:: Use the method `addSelectedChangeListener(ComponentEventListener<SelectedChangeEvent>)` to get a `SelectedChangeEvent` containing the selected tab.
+
+Adding a listener to LinkkiTabSheet:: It is also possible to add a listener directly to the `LinkkiTabSheet` using `addTabSelectionChangeListener(ComponentEventListener<TabSheetSelectionChangeEvent>)`. The returned `Registration` could be used to unregister the listener.
+
+[[component-styles]]
+==== ComponentStyles
+New utility class that offers several methods for styling UI components
+
+* `setOverflowAuto(Component)`: Sets the overflow of the given `Component` to "auto". This makes the `Component` automatically scroll if necessary.
+* `setFormItemLabelWidth(Component, String)`: Sets the width of all form item labels in the given `Component`.

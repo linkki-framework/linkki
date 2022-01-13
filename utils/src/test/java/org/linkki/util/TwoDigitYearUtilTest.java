@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 public class TwoDigitYearUtilTest {
 
-    
+
     private TwoDigitYearUtil convertInternaler;
 
     @BeforeEach

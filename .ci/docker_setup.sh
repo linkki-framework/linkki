@@ -7,24 +7,24 @@ if [ -z "$(docker network ls --filter="name=^$NETWORK_NAME$" -q)" ]; then
     docker network create $NETWORK_NAME
 fi
 
-# Create vaadin14 container
-V14_NAME="linkki-vaadin14-$BUILD_NAME"
-if [ -n "$(docker container ls --filter="name=^$V14_NAME$" -a -q)" ]; then
-    docker rm --force $V14_NAME
+# Create container
+CONTAINER_NAME="linkki-$BUILD_NAME"
+if [ -n "$(docker container ls --filter="name=^$CONTAINER_NAME$" -a -q)" ]; then
+    docker rm --force $CONTAINER_NAME
 fi
 
 docker create \
         --cpus=2 --memory=4g \
-        --name $V14_NAME \
+        --name $CONTAINER_NAME \
         --network $NETWORK_NAME \
-        --label "url=$V14_NAME" \
-        --label "entry-path=linkki-sample-test-playground-vaadin14" \
+        --label "url=$CONTAINER_NAME" \
+        --label "entry-path=linkki-sample-test-playground-vaadin23" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
         f10/spring:11
 
 # Copy war to container
-WAR_FILE="vaadin14/samples/test-playground/target/linkki-sample-test-playground-vaadin14.war"
-docker cp $WAR_FILE $V14_NAME:/opt/spring/application.war
+WAR_FILE="vaadin23/samples/test-playground/target/linkki-sample-test-playground-vaadin23.war"
+docker cp $WAR_FILE $CONTAINER_NAME:/opt/spring/application.war
 
 # Start the container
-docker start $V14_NAME
+docker start $CONTAINER_NAME

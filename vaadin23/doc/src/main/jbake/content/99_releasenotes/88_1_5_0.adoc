@@ -1,0 +1,48 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_releasenotes
+
+=== Version 1.5.0
+
+==== New features and improvements
+* `@BindTooltip` now uses the title attribute which can be used on every element. Limitation: Text only. Html Tags are removed.`<br>` tags are converted to `\n`.  
+// https://jira.faktorzehn.de/browse/LIN-2543
+
+// https://jira.faktorzehn.de/browse/LIN-2534
+* `LinkkiTabSheetBuilder#onSelectionHandler` has been removed. There are multiple <<linkkitablayout-selection, alternatives available>>.
+// https://jira.faktorzehn.de/browse/LIN-2524
+* `linkki-application-framework-vaadin23` now includes `linkki-vaadin23-component` and `linkki-core-nestedcomponent-vaadin23` as dependencies
+// https://jira.faktorzehn.de/browse/LIN-2264
+* `@UILink` behaves like a label if the link location (href) is empty.
+// https://jira.faktorzehn.de/browse/LIN-2424
+* `@UILabel` can now be used with data types other than String such as `LocalDate`, `LocalDateTime` and Faktor-IPS `Decimal`. See <<ui-label, documentation of @UILabel>>) for further information.
+* `@UILabel` can now be made right aligned in a table using the style name `LinkkiApplicationTheme#TEXT_RIGHT_ALIGNED`.
+// https://jira.faktorzehn.de/browse/FCOM-478
+* `LinkkiApplicationTheme#GRID_FOOTER_SUM` can now be used with `@BindStyleNames` annotated table PMOs to make table footer text bold and right aligned.
+// https://jira.faktorzehn.de/browse/FIPM-4253
+* `ComponentStyles`: New utility class that offers several methods for styling `Components`. See <<component-styles, ComponentStyles>>.
+
+==== Bugfixes
+
+==== Usage of `@UIComboBox` with items that don't implement `equals`
+// https://jira.faktorzehn.de/browse/LIN-2200
+
+Returning new instances that do not implement `equals` in the getter or available values previously caused a loop that constantly reset the combo box.
+
+While this problem has been fixed, it is still *not recommended* to return new instances that do not implement `equals`.
+This causes problems when expanding the drop down list: Items must be loaded every single time and the selected item is not highlighted correctly.
+
+==== Other bugfixes
+// https://jira.faktorzehn.de/browse/LIN-2509
+* Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.
+// https://jira.faktorzehn.de/browse/LIN-2555
+* Fields now use the https://vaadin.com/api/platform/14/com/vaadin/flow/data/value/ValueChangeMode.html#ON_CHANGE[ValueChangeMode.ON_CHANGE] instead of https://vaadin.com/api/platform/14/com/vaadin/flow/data/value/ValueChangeMode.html#ON_BLUR[ValueChangeMode.ON_BLUR]
+// https://jira.faktorzehn.de/browse/LIN-2567
+* Adding a `LinkkiTabSheet` with Text components to a `LinkkiTabLayout` no longer causes an `UnsupportedOperationException`
+// https://jira.faktorzehn.de/browse/LIN-2561
+* Fix button shortcut behavior
+// https://jira.faktorzehn.de/browse/LIN-2596
+* Width of labels in `FormLayout` can be set using `setFormItemLabelWidth(Component, String)` in <<component-styles, ComponentStyles>>.
