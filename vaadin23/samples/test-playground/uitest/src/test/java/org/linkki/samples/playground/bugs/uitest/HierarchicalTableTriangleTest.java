@@ -16,14 +16,11 @@ package org.linkki.samples.playground.bugs.uitest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.grid.testbench.TreeGridElement;
@@ -39,20 +36,17 @@ public class HierarchicalTableTriangleTest extends AbstractUiTest {
         openTab(TriangleTablePmo.CAPTION);
 
         TreeGridElement gridElement = $(TreeGridElement.class).id("TriangleTablePmo_table");
-        WebElement toggleElement = getToggleElement(gridElement);
 
-        assertThat(toggleElement.getCssValue("visibility"), is("hidden"));
+        assertThat(hasToggle(gridElement.getExpandToggleElement(0, 0)), is(false));
 
         gridElement.getCell(0, 0).click();
         clickSectionHeaderButton(TriangleTablePmo.class, 0);
 
-        assertThat(toggleElement.getCssValue("visibility"), is(not("hidden")));
+        assertThat(hasToggle(gridElement.getExpandToggleElement(0, 0)), is(true));
     }
 
-    private WebElement getToggleElement(TreeGridElement grid) {
-        final JavascriptExecutor jsExecutor = (JavascriptExecutor)driver;
-        final WebElement shadowRoot = (WebElement)jsExecutor.executeScript("return arguments[0].shadowRoot",
-                                                                           grid.getExpandToggleElement(0, 0));
-        return shadowRoot.findElement(By.cssSelector("span[part=\"toggle\"]"));
+    private boolean hasToggle(WebElement element) {
+        // vaadin-grid-tree-toggle with no toggle button have a leaf attribute
+        return !Boolean.valueOf(element.getAttribute("leaf"));
     }
 }

@@ -24,6 +24,7 @@ import org.linkki.samples.playground.table.PlaygroundTablePmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -39,8 +40,10 @@ class TC001TableValidationMarkerTest extends PlaygroundUiTest {
     @Test
     void testLabelAsTableHeader() {
         GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
+        // getHeaderCellContent uses shadow root internally (broken with selenium 3 + chrome 97+)
+        WebElement header = table.findElement(By.xpath("./vaadin-grid-cell-content"));
 
-        assertThat(table.getHeaderCellContent(0, 0).getText(), is("Editable"));
+        assertThat(header.getText(), is("Editable"));
     }
 
     @Test

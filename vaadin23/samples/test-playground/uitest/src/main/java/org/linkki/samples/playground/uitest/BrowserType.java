@@ -28,7 +28,6 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.CapabilityType;
 
 /**
  * BrowserType supported by webdriver. Currently only Chrome is supported.
@@ -48,7 +47,7 @@ public enum BrowserType {
 
             LoggingPreferences logs = new LoggingPreferences();
             logs.enable(LogType.PERFORMANCE, Level.ALL);
-            options.setCapability(CapabilityType.LOGGING_PREFS, logs);
+            options.setCapability("goog:loggingPrefs", logs);
 
             return new ChromeDriver(options);
         }
@@ -66,7 +65,7 @@ public enum BrowserType {
 
             LoggingPreferences logs = new LoggingPreferences();
             logs.enable(LogType.PERFORMANCE, Level.ALL);
-            options.setCapability(CapabilityType.LOGGING_PREFS, logs);
+            options.setCapability("goog:loggingPrefs", logs);
 
             Map<String, String> environment = new HashMap<>();
             environment.put("LANGUAGE", locale.getLanguage() + "_" + locale.getCountry());

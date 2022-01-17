@@ -25,7 +25,6 @@ import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -105,25 +104,6 @@ public class AbstractUiTest extends TestBenchTestCase {
      */
     public String getComboBoxSelection(String id) {
         return $(ComboBoxElement.class).id(id).getSelectedText();
-    }
-
-    /**
-     * Find and click clear button of {@link ComboBox} to clear selection <br>
-     * Implementation taken from <a href=
-     * "https://code-fever.de/artikel/selenium-shadow-dom-und-shadow-root.html">https://code-fever.de/artikel/selenium-shadow-dom-und-shadow-root.html</a>
-     * 
-     * @param id ID of the {@link ComboBox}
-     */
-    public void clearComboBoxSelection(String id) {
-        final WebElement shadowHost = $(ComboBoxElement.class).id(id).$(TextFieldElement.class).id("input");
-        final JavascriptExecutor jsExecutor = (JavascriptExecutor)driver;
-        final WebElement shadowRoot = (WebElement)jsExecutor.executeScript("return arguments[0].shadowRoot",
-                                                                           shadowHost);
-        final WebElement textFieldContainer = shadowRoot.findElement(By.className("vaadin-text-field-container"));
-        // By.id("vaadin-text-field-input-5") geht nicht, da '-5' je nach ComboBox variiert
-        WebElement textFieldInputField = textFieldContainer.findElement(By.cssSelector("div[part=\"input-field\"]"));
-        WebElement clearButton = textFieldInputField.findElement(By.id("clearButton"));
-        clearButton.click();
     }
 
     /**

@@ -26,7 +26,6 @@ import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.Button;
@@ -123,15 +122,7 @@ abstract class TC001AbstractLayoutTest extends TS001AbstractBasicElementsLayoutT
     void testRadioButton_HasLabel() {
         RadioButtonGroupElement field = getTestCaseSection().$(RadioButtonGroupElement.class)
                 .id("enumValueRadioButton");
-
-        JavascriptExecutor jsExecutor = (JavascriptExecutor)driver;
-        WebElement shadowRoot = (WebElement)jsExecutor.executeScript("return arguments[0].shadowRoot",
-                                                                     field);
-        WebElement labelSlot = shadowRoot
-                .findElement(By.className("vaadin-group-field-container"))
-                .findElement(By.name("label"));
-        WebElement label = (WebElement)jsExecutor.executeScript("return arguments[0].assignedNodes()[0] ",
-                                                                labelSlot);
+        WebElement label = field.findElement(By.xpath("./label"));
 
         assertThat(label.getText()).contains("RadioButtons");
     }
