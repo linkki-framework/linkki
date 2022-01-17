@@ -15,7 +15,7 @@
     <packaging>war</packaging>
 
     <name>linkki Vaadin 23 Samples :: Test Playground</name>
-        
+
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -48,7 +48,8 @@
     </dependencies>
 
     <build>
-        <!-- remove version from artifact so the filename can be used in build scripts -->
+        <!-- remove version from artifact so the filename can be used in 
+            build scripts -->
         <finalName>${project.artifactId}</finalName>
 
         <resources>
@@ -117,6 +118,41 @@
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.vaadin</groupId>
+                                        <artifactId>
+                                            vaadin-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [8.12.1,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>prepare-frontend</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute>
+                                            <runOnIncremental>false</runOnIncremental>
+                                            <runOnConfiguration>true</runOnConfiguration>
+                                        </execute>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
