@@ -20,9 +20,14 @@ import java.util.function.Supplier;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class LazyReference<T> {
+/**
+ * A {@link Supplier} that wraps another {@link Supplier} which gets called only once upon the first
+ * call to {@link #get()}; afterwards the value is cached.
+ */
+public class LazyReference<T> implements Supplier<T> {
 
-    private Supplier<T> supplier;
+    private final Supplier<T> supplier;
+
     @CheckForNull
     private T reference;
 
@@ -36,4 +41,14 @@ public class LazyReference<T> {
         }
         return requireNonNull(reference);
     }
+
+    @Override
+    public T get() {
+        return getReference();
+    }
+
+    public static <T> LazyReference<T> lazy(Supplier<T> supplier) {
+        return new LazyReference<>(supplier);
+    }
+
 }

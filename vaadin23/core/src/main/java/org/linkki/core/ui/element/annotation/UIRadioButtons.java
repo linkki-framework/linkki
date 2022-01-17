@@ -132,7 +132,7 @@ public @interface UIRadioButtons {
             AvailableValuesAspectDefinition<?> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                     annotation.content(),
                     (c, data) -> c.setItems(data),
-                    ItemCaptionProvider.instantiate(annotation.itemCaptionProvider()));
+                    ItemCaptionProvider.instantiate(annotation::itemCaptionProvider));
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
@@ -160,7 +160,7 @@ public @interface UIRadioButtons {
             return pmo -> {
                 RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
                 radioButtons.setRenderer(new TextRenderer(
-                        ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())::getUnsafeCaption));
+                        ItemCaptionProvider.instantiate(annotation::itemCaptionProvider)::getUnsafeCaption));
                 AlignmentType alignment = annotation.buttonAlignment();
 
                 if (alignment.equals(AlignmentType.VERTICAL)) {

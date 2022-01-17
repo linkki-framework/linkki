@@ -14,7 +14,7 @@
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.linkki.util.LazyCachingSupplier.lazyCaching;
+import static org.linkki.util.LazyReference.lazy;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -31,7 +31,7 @@ public class AbstractMethodTest {
 
     @Test
     public void testHasNoMethod() {
-        when(descriptor.getReflectionWriteMethod()).thenReturn(lazyCaching(Optional::empty));
+        when(descriptor.getReflectionWriteMethod()).thenReturn(lazy(Optional::empty));
 
         AbstractMethod<?> writeMethod = new WriteMethod<>(descriptor);
 

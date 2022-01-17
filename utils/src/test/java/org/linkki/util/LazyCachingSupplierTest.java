@@ -14,8 +14,8 @@
 
 package org.linkki.util;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,6 +23,7 @@ import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
 
+@Deprecated(since = "2.0")
 public class LazyCachingSupplierTest {
 
     @Test

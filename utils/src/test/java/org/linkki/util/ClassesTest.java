@@ -52,6 +52,20 @@ public class ClassesTest {
         }
     }
 
+    @Test
+    public void testGetType() {
+        Class<? extends ClassesTest> type = Classes.getType(() -> ClassesTest.class, ClassesTest.class);
+
+        assertThat(type, is(ClassesTest.class));
+    }
+
+    @Test
+    public void testGetTypeName() {
+        String typeName = Classes.getTypeName(() -> ClassesTest.class);
+
+        assertThat(typeName, is("org.linkki.util.ClassesTest"));
+    }
+
     public static class PrivateConstructor {
         private PrivateConstructor() {
             // can't be called

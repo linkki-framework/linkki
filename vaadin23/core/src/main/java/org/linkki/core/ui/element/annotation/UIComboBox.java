@@ -130,7 +130,7 @@ public @interface UIComboBox {
             AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
                     annotation.content(),
                     ComboBox<Object>::setItems,
-                    ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())) {
+                    ItemCaptionProvider.instantiate(annotation::itemCaptionProvider)) {
 
                 @Override
                 @SuppressWarnings("unchecked")
@@ -165,7 +165,7 @@ public @interface UIComboBox {
             return pmo -> {
                 ComboBox<?> comboBox = ComponentFactory.newComboBox();
                 comboBox.setItemLabelGenerator(ItemCaptionProvider
-                        .instantiate(annotation.itemCaptionProvider())::getUnsafeCaption);
+                        .instantiate(annotation::itemCaptionProvider)::getUnsafeCaption);
                 comboBox.setWidth(annotation.width());
                 return comboBox;
             };

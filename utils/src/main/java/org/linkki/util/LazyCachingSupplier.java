@@ -19,7 +19,10 @@ import java.util.function.Supplier;
 /**
  * A {@link Supplier} that wraps another {@link Supplier} which gets called only once upon the first
  * call to {@link #get()}; afterwards the value is cached.
+ * 
+ * @deprecated Since 2.0, use {@link LazyReference} instead
  */
+@Deprecated(since = "2.0")
 public class LazyCachingSupplier<T> implements Supplier<T> {
 
     private Supplier<T> wrappedSupplier;

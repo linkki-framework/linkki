@@ -13,7 +13,7 @@
  */
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
-import static org.linkki.util.LazyCachingSupplier.lazyCaching;
+import static org.linkki.util.LazyReference.lazy;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class WriteMethodTest {
     @SuppressWarnings("unused")
     // warning suppressed as object is created to test the constructor, not to use it
     public void testConstructor() {
-        when(descriptor.getReflectionWriteMethod()).thenReturn(lazyCaching(Optional::empty));
+        when(descriptor.getReflectionWriteMethod()).thenReturn(lazy(Optional::empty));
         new WriteMethod<>(descriptor);
     }
 

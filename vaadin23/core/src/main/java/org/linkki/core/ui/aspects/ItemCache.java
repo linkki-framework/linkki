@@ -28,11 +28,11 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
  */
 public class ItemCache {
 
-    private final ItemCaptionProvider<Object> captionProvider;
+    private final ItemCaptionProvider<?> captionProvider;
     private final List<Object> items = new ArrayList<>();
     private final List<String> captions = new ArrayList<>();
 
-    public ItemCache(ItemCaptionProvider<Object> captionProvider) {
+    public ItemCache(ItemCaptionProvider<?> captionProvider) {
         this.captionProvider = requireNonNull(captionProvider, "captionProvider must not be null");
     }
 
@@ -42,7 +42,7 @@ public class ItemCache {
      */
     public boolean replaceContent(List<Object> newItems) {
         List<String> newCaptions = new ArrayList<>(newItems.size());
-        newItems.forEach(i -> newCaptions.add(captionProvider.getCaption(i)));
+        newItems.forEach(i -> newCaptions.add(captionProvider.getUnsafeCaption(i)));
 
         if (!newItems.equals(items) || !newCaptions.equals(captions)) {
             items.clear();

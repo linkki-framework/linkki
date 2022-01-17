@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 import static org.linkki.util.BeanUtils.GET_PREFIX;
 import static org.linkki.util.BeanUtils.IS_PREFIX;
 import static org.linkki.util.BeanUtils.SET_PREFIX;
-import static org.linkki.util.LazyCachingSupplier.lazyCaching;
+import static org.linkki.util.LazyReference.lazy;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -39,9 +39,9 @@ public class PropertyAccessDescriptor<T, V> {
 
     private final Class<? extends T> boundClass;
     private final String propertyName;
-    private final Supplier<Optional<Method>> getter = lazyCaching(this::findGetter);
-    private final Supplier<Optional<Method>> setter = lazyCaching(this::findSetter);
-    private final Supplier<Optional<Method>> invoker = lazyCaching(this::findInvoker);
+    private final Supplier<Optional<Method>> getter = lazy(this::findGetter);
+    private final Supplier<Optional<Method>> setter = lazy(this::findSetter);
+    private final Supplier<Optional<Method>> invoker = lazy(this::findInvoker);
 
     private String capitalizedPropertyName;
 

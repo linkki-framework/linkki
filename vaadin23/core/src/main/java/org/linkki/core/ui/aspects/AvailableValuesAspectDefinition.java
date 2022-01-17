@@ -28,6 +28,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.data.provider.HasListDataView;
@@ -46,16 +47,16 @@ public class AvailableValuesAspectDefinition<C extends HasListDataView<Object, ?
 
     private final BiConsumer<C, ListDataProvider<Object>> dataProviderSetter;
 
-    private final ItemCaptionProvider<Object> itemCaptionProvider;
+    private final ItemCaptionProvider<?> itemCaptionProvider;
 
     public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
             BiConsumer<C, ListDataProvider<Object>> dataProviderSetter) {
-        this(availableValuesType, dataProviderSetter, new ItemCaptionProvider.DefaultCaptionProvider());
+        this(availableValuesType, dataProviderSetter, new DefaultCaptionProvider());
     }
 
     public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
             BiConsumer<C, ListDataProvider<Object>> dataProviderSetter,
-            ItemCaptionProvider<Object> itemCaptionProvider) {
+            ItemCaptionProvider<?> itemCaptionProvider) {
         this.availableValuesType = requireNonNull(availableValuesType, "availableValuesType must not be null");
         this.dataProviderSetter = requireNonNull(dataProviderSetter, "dataProviderSetter must not be null");
         this.itemCaptionProvider = requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
@@ -75,7 +76,8 @@ public class AvailableValuesAspectDefinition<C extends HasListDataView<Object, ?
     }
 
     private void updateItems(ItemCache cache,
-            @Nullable Collection<?> newItemsParam,
+            @Nullable
+            Collection<?> newItemsParam,
             ComponentWrapper componentWrapper) {
         ArrayList<Object> newItems = new ArrayList<>(
                 requireNonNull(newItemsParam, "List of available values must not be null"));

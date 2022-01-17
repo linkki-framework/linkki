@@ -16,10 +16,12 @@ package org.linkki.core.defaults.ui.element;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.linkki.core.defaults.ui.element.ItemCaptionProvider.instantiate;
 
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.core.uiframework.UiFramework;
 
 public class ItemCaptionProviderTest {
@@ -56,16 +58,14 @@ public class ItemCaptionProviderTest {
 
     @Test
     public void testInstantiate_DefaultCaptionProvider() {
-        ItemCaptionProvider<Object> itemCaptionProvider = ItemCaptionProvider
-                .instantiate(ItemCaptionProvider.DefaultCaptionProvider.class);
+        ItemCaptionProvider<?> itemCaptionProvider = instantiate(() -> DefaultCaptionProvider.class);
 
         assertThat(itemCaptionProvider, instanceOf(ItemCaptionProvider.DefaultCaptionProvider.class));
     }
 
     @Test
     public void testInstantiate_ToStringCaptionProvider() {
-        ItemCaptionProvider<Object> itemCaptionProvider = ItemCaptionProvider
-                .instantiate(ItemCaptionProvider.ToStringCaptionProvider.class);
+        ItemCaptionProvider<?> itemCaptionProvider = instantiate(() -> ItemCaptionProvider.ToStringCaptionProvider.class);
 
         assertThat(itemCaptionProvider, instanceOf(ItemCaptionProvider.ToStringCaptionProvider.class));
     }

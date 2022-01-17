@@ -125,7 +125,7 @@ public @interface UIYesNoComboBox {
             AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
                     AvailableValuesType.ENUM_VALUES_INCL_NULL,
                     ComboBox<Object>::setItems,
-                    ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())) {
+                    ItemCaptionProvider.instantiate(annotation::itemCaptionProvider)) {
 
                 @Override
                 protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
@@ -157,7 +157,7 @@ public @interface UIYesNoComboBox {
             return pmo -> {
                 ComboBox<Object> comboBox = ComponentFactory.newComboBox();
                 comboBox.setItemLabelGenerator(ItemCaptionProvider
-                        .instantiate(annotation.itemCaptionProvider())::getUnsafeCaption);
+                        .instantiate(annotation::itemCaptionProvider)::getUnsafeCaption);
                 comboBox.setAllowCustomValue(false);
                 comboBox.setWidth(annotation.width());
                 return comboBox;

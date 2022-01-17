@@ -23,6 +23,7 @@
         <module>samples</module>
         <module>doc</module>
         <module>nestedcomponent</module>
+        <module>apt</module>
     </modules>
 
     <properties>

@@ -33,13 +33,13 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
     public static final String NAME = LabelAspectDefinition.VALUE_ASPECT_NAME;
 
     private final boolean htmlContent;
-    private final ItemCaptionProvider<Object> itemCaptionProvider;
+    private final ItemCaptionProvider<?> itemCaptionProvider;
 
     public LabelValueAspectDefinition(boolean htmlContent) {
         this(htmlContent, new DefaultLabelCaptionProvider());
     }
 
-    public LabelValueAspectDefinition(boolean htmlContent, ItemCaptionProvider<Object> itemCaptionProvider) {
+    public LabelValueAspectDefinition(boolean htmlContent, ItemCaptionProvider<?> itemCaptionProvider) {
         this.htmlContent = htmlContent;
         this.itemCaptionProvider = itemCaptionProvider;
     }
@@ -53,9 +53,9 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
         HasText label = (HasText)componentWrapper.getComponent();
         if (htmlContent) {
-            return v -> label.getElement().setProperty("innerHTML", itemCaptionProvider.getCaption(v));
+            return v -> label.getElement().setProperty("innerHTML", itemCaptionProvider.getUnsafeCaption(v));
         } else {
-            return v -> label.setText(itemCaptionProvider.getCaption(v));
+            return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v));
         }
     }
 }

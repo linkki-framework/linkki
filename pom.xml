@@ -36,7 +36,6 @@
         <module>utils</module>
         <module>core</module>
         <module>vaadin23</module>
-        <module>apt</module>
     </modules>
 
     <properties>
@@ -62,7 +61,10 @@
         </sonar.exclusions>
         <sonar.coverage.exclusions>
             **/org/linkki/samples/**/*.java,
-            **/org/linkki/**/LinkkiComponentUtil.java
+            **/org/linkki/**/LinkkiComponentUtil.java,
+            <!-- hard to test code in APT -->
+            **/org/linkki/tooling/apt/util/ElementUtils.java,
+            **/org/linkki/tooling/apt/util/DynamicMethodUtils.java
         </sonar.coverage.exclusions>
         <sonar.cpd.exclusions>
             **/org/linkki/samples/**/*.java

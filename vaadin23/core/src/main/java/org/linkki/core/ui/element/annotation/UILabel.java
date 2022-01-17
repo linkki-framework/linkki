@@ -14,6 +14,7 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.element.ItemCaptionProvider.instantiate;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -138,7 +139,7 @@ public @interface UILabel {
                     new LabelAspectDefinition(annotation.label()),
                     new VisibleAspectDefinition(annotation.visible()),
                     new LabelValueAspectDefinition(annotation.htmlContent(),
-                            ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())));
+                            instantiate(annotation::itemCaptionProvider)));
         }
     }
 

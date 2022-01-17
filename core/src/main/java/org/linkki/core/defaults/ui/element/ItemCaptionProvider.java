@@ -18,10 +18,12 @@ import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.util.Classes;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -42,16 +44,21 @@ public interface ItemCaptionProvider<T> {
 
     /**
      * Instantiates an {@link ItemCaptionProvider} using the default constructor.
+     * <p>
+     * The method uses {@link Classes#instantiate(Supplier, Class)} with the
+     * {@link DefaultCaptionProvider} as fallback. This may not be the correct default for every
+     * {@link ItemCaptionProvider} but is only evaluated by an annotation processor.
      * 
      * @throws LinkkiBindingException if the class could not be instantiated
      */
-    @SuppressWarnings("unchecked")
-    public static ItemCaptionProvider<Object> instantiate(Class<? extends ItemCaptionProvider<?>> cls) {
+    public static ItemCaptionProvider<?> instantiate(Supplier<Class<? extends ItemCaptionProvider<?>>> cls) {
         try {
-            return (ItemCaptionProvider<Object>)cls.getDeclaredConstructor().newInstance();
-        } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
+            return Classes.instantiate(cls, DefaultCaptionProvider.class);
+        } catch (IllegalArgumentException e) {
             throw new LinkkiBindingException(
-                    "Cannot instantiate item caption provider " + cls.getName() + " using default constructor.", e);
+                    "Cannot instantiate item caption provider " + Classes.getTypeName(cls)
+                            + " using default constructor.",
+                    e);
         }
     }
 
