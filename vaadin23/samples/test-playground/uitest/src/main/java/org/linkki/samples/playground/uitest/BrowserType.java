@@ -60,6 +60,8 @@ public enum BrowserType {
             setSystemPropertyForChrome(this.getDriverName());
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
+            // supposed to solve "Time out receiving message from renderer: 600.000"
+            options.addArguments("--disable-gpu");
             options.addArguments("--lang=" + locale.getLanguage() + "-" + locale.getCountry());
             options.addArguments("--window-size=1280,800");
 
