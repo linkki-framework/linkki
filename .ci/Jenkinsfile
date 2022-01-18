@@ -1,3 +1,5 @@
+library 'f10-jenkins-library@1.0_patches'
+
 pipeline {
     agent any
 
@@ -49,19 +51,7 @@ pipeline {
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
-                // wait with the ui tests until the server is ready
-                timeout(time: 3, unit: 'MINUTES') {
-                    waitUntil {
-                        script {
-                            try {
-                                sh 'curl --fail http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23'
-                                return true
-                            } catch (Exception e) {
-                                return false
-                            }
-                        }
-                    }
-                }
+                waitForServer "http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23"
             }
         }
 
