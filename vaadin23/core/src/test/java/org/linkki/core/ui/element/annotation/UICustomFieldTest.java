@@ -30,7 +30,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextField;
 
@@ -57,7 +57,7 @@ public class UICustomFieldTest {
 
     @Test
     public void testAvailableValues_NotApplicable() {
-        FormLayout section = TestUiUtil.createSectionWith(pmo);
+        FlexLayout section = TestUiUtil.createSectionWith(pmo);
         TextField textField = (TextField)TestUiUtil.getComponentAtIndex(1, section);
 
         // the real test is that this text field could be created, just check the value to check
@@ -80,13 +80,12 @@ public class UICustomFieldTest {
 
     @Test
     public void testSetValue() {
-        // TODO LIN-2051
-        // RadioButtonGroup<TestValue> optionGroup = createCustomField();
-        //
-        // TestValue newValue = new TestValue("b");
-        // TestUiUtil.setUserOriginatedValue(optionGroup, newValue);
+        RadioButtonGroup<TestValue> optionGroup = createCustomField();
 
-        // assertThat(modelObject.getProperty(), is(newValue));
+        TestValue newValue = new TestValue("b");
+        TestUiUtil.setUserOriginatedValue(optionGroup, newValue);
+
+        assertThat(modelObject.getProperty(), is(newValue));
     }
 
     @Test

@@ -57,7 +57,7 @@ public @interface UIFormSection {
         public LinkkiComponentDefinition create(UIFormSection uiFormSection, AnnotatedElement annotatedElement) {
             return pmo -> new FormLayoutSection(
                     PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
-                    1, uiFormSection.closeable());
+                    uiFormSection.closeable());
         }
     }
 

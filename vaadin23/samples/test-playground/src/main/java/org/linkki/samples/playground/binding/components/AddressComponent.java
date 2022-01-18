@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.playground.binding.components;
 
+import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 import org.linkki.samples.playground.binding.model.Country;
 
@@ -26,7 +27,7 @@ public class AddressComponent extends FormLayoutSection {
     private static final long serialVersionUID = 1L;
 
     public AddressComponent(AddressFields fields) {
-        super("Address", 1, false);
+        super("Address", false);
         setSizeFull();
 
         TextField street = fields.getStreetTxt();
@@ -42,9 +43,9 @@ public class AddressComponent extends FormLayoutSection {
         zipCity.setSpacing(false);
         zip.getStyle().set("padding-right", "10px");
 
-        getSectionContent().addFormItem(street, street.getLabel());
-        getSectionContent().addFormItem(zipCity, "Zip / City");
-        getSectionContent().addFormItem(country, country.getLabel());
+        getSectionContent().add(new LabelComponentFormItem(street, street.getLabel()));
+        getSectionContent().add(new LabelComponentFormItem(zipCity, "Zip / City"));
+        getSectionContent().add(new LabelComponentFormItem(country, country.getLabel()));
 
         street.setLabel(null);
         country.setLabel(null);

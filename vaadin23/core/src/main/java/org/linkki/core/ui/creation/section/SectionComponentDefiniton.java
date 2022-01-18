@@ -31,17 +31,15 @@ import org.linkki.core.vaadin.component.section.HorizontalSection;
  */
 public class SectionComponentDefiniton implements LinkkiComponentDefinition {
 
-    public static final SectionComponentDefiniton DEFAULT = new SectionComponentDefiniton(SectionLayout.COLUMN, 1, "",
+    public static final SectionComponentDefiniton DEFAULT = new SectionComponentDefiniton(SectionLayout.COLUMN, "",
             false);
 
     private final SectionLayout layout;
     private final String caption;
     private final boolean closeable;
-    private final int columns;
 
-    public SectionComponentDefiniton(SectionLayout layout, int columns, String caption, boolean closeable) {
+    public SectionComponentDefiniton(SectionLayout layout, String caption, boolean closeable) {
         this.layout = layout;
-        this.columns = columns;
         this.caption = caption;
         this.closeable = closeable;
     }
@@ -59,7 +57,7 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
         } else {
             switch (layout) {
                 case COLUMN:
-                    return new FormLayoutSection(nlsCaption, columns, closeable);
+                    return new FormLayoutSection(nlsCaption, closeable);
                 case HORIZONTAL:
                     return new HorizontalSection(nlsCaption, closeable);
                 default:

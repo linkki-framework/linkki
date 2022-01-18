@@ -31,7 +31,7 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
-import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
+import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.button.Button;

@@ -13,42 +13,36 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import org.linkki.core.vaadin.component.base.LinkkiFormLayout;
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
-import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
-import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep.LabelsPosition;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexDirection;
 
 public class FormLayoutSection extends BaseSection {
 
     private static final long serialVersionUID = 1L;
 
-    private final LinkkiFormLayout content;
-
-    private final int columns;
+    private final FlexLayout content;
 
     /**
      * Creates a new section with the given caption and closable state.
      * 
      * @param caption the caption
-     * @param columns number of columns that should be used by default
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
-    public FormLayoutSection(String caption, int columns, boolean closeable) {
+    public FormLayoutSection(String caption, boolean closeable) {
         super(caption, closeable);
-        this.columns = columns;
         setWidthFull();
         content = createContent();
         add(content);
     }
 
-    private LinkkiFormLayout createContent() {
-        LinkkiFormLayout formLayout = new LinkkiFormLayout();
-        formLayout.setResponsiveSteps(new ResponsiveStep("0", columns, LabelsPosition.ASIDE));
-        formLayout.setWidthFull();
-        return formLayout;
+    private FlexLayout createContent() {
+        FlexLayout layout = new FlexLayout();
+        layout.setFlexDirection(FlexDirection.COLUMN);
+        layout.setWidthFull();
+        return layout;
     }
 
     /**
@@ -61,7 +55,7 @@ public class FormLayoutSection extends BaseSection {
     }
 
     @Override
-    public FormLayout getSectionContent() {
+    public FlexLayout getSectionContent() {
         return content;
     }
 

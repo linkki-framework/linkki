@@ -30,7 +30,7 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
+import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
 import com.vaadin.flow.component.Component;

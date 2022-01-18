@@ -29,7 +29,7 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
-import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
+import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.GridSection;

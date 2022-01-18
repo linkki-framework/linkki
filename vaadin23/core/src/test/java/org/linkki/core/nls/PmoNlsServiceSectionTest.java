@@ -28,8 +28,8 @@ import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class PmoNlsServiceSectionTest {
@@ -57,7 +57,7 @@ public class PmoNlsServiceSectionTest {
         AbstractSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
         HorizontalLayout header = (HorizontalLayout)section.getComponentAt(0);
         sectionHeader = (H4)header.getComponentAt(0);
-        FormLayout sectionContent = ((FormLayoutSection)section).getSectionContent();
+        FlexLayout sectionContent = ((FormLayoutSection)section).getSectionContent();
 
         textfieldLabelWithTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 0);
         textfieldLabelWithoutTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 1);

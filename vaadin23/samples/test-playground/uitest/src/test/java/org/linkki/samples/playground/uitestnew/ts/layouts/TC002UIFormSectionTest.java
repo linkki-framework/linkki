@@ -19,8 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.openqa.selenium.By;
-
-import com.vaadin.flow.component.formlayout.testbench.FormLayoutElement;
+import org.openqa.selenium.WebElement;
 
 class TC002UIFormSectionTest extends TC001AbstractSectionTest {
 
@@ -31,7 +30,7 @@ class TC002UIFormSectionTest extends TC001AbstractSectionTest {
 
     @Test
     void testFormSection_FormItemLabelWidth() {
-        FormLayoutElement formLayoutElement = getTestCaseSection().$(FormLayoutElement.class).first();
+        WebElement formLayoutElement = getTestCaseSection().findElements(By.className("linkki-section")).get(0);
 
         // all form item labels should inherit the width of 200px that is set in form layout section
         // but we just check first form item

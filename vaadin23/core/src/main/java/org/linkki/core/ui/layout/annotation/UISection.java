@@ -68,8 +68,7 @@ public @interface UISection {
         @Override
         public LinkkiComponentDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
             UISection uiSection = annotation;
-            return new SectionComponentDefiniton(uiSection.layout(), uiSection.columns(), uiSection.caption(),
-                    uiSection.closeable());
+            return new SectionComponentDefiniton(uiSection.layout(), uiSection.caption(), uiSection.closeable());
         }
 
     }

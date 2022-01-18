@@ -34,7 +34,7 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -48,7 +48,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     private BindingContext bindingContext;
     private final Function<Object, ? extends P> pmoCreator;
     private Supplier<Object> modelObjectSupplier;
-    private FormLayout defaultSection;
+    private FlexLayout defaultSection;
 
     // needs to be a field due to weak reference
     private UI ui;
@@ -181,11 +181,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
         return createFirstComponent(newDefaultModelObject());
     }
 
-    protected FormLayout createSection(AnnotationTestPmo pmo) {
+    protected FlexLayout createSection(AnnotationTestPmo pmo) {
         return TestUiUtil.createSectionWith(pmo, bindingContext);
     }
 
-    protected FormLayout createSection() {
+    protected FlexLayout createSection() {
         return createSection(newPmo(newDefaultModelObject()));
     }
 
@@ -222,7 +222,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
         return defaultModelObject;
     }
 
-    protected FormLayout getDefaultSection() {
+    protected FlexLayout getDefaultSection() {
         return defaultSection;
     }
 
