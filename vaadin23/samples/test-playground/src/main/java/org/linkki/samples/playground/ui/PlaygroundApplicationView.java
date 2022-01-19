@@ -70,6 +70,7 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorCssLa
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionHorizontalPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
@@ -153,6 +154,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC004, new BasicElementsLayoutBehaviorVerticalLayoutPmo())
                                        .testCase(TC005, new BasicElementsLayoutBehaviorFormLayoutPmo())
                                        .testCase(TC006, new BasicElementsLayoutBehaviorCssLayoutPmo())
+                                       .testCase(TC007, new BasicElementsLayoutBehaviorUiSectionHorizontalPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS002)
                                        .testCase(TC001, new SectionHeaderBehaviorPmo())

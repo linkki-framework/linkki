@@ -25,7 +25,9 @@ import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
@@ -46,9 +48,34 @@ import com.vaadin.flow.component.html.Label;
 public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
     /**
-     * The default uses {@link FormItemComponentWrapper FormItemComponentWrappers} for section content.
+     * Uses {@link FormItemComponentWrapper FormItemComponentWrappers} for section content. Labels are
+     * shown aside of the components.
      */
-    DEFAULT;
+    DEFAULT {
+        @Override
+        protected VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
+                Label label,
+                Component component) {
+            LabelComponentFormItem formItem = new LabelComponentFormItem(component, label);
+            FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
+            section.addContent(formItem);
+            return wrapper;
+        }
+    },
+    /**
+     * Uses {@link LabelComponentWrapper} for section content. Labels are shown on top of the
+     * components.
+     */
+    LABEL_ON_TOP {
+        @Override
+        protected VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
+                Label label,
+                Component component) {
+            VaadinComponentWrapper componentWrapper = new LabelComponentWrapper(component, WrapperType.FIELD);
+            section.addContent(componentWrapper.getComponent());
+            return componentWrapper;
+        }
+    };
 
     /**
      * {@inheritDoc}
@@ -104,17 +131,23 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
     void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
         UiCreator.createUiElement(method, pmo, bindingContext,
-                                  c -> createFormItemAndAddToSection(section, new Label(), (Component)c));
+                                  c -> createComponentWrapperAndAddComponentToSection(section, new Label(),
+                                                                                      (Component)c));
     }
 
-    private FormItemComponentWrapper createFormItemAndAddToSection(BaseSection section,
+    /**
+     * Creates the component wrapper for the given {@link Label} and {@link Component} and adds it to
+     * the given {@link BaseSection}.
+     * <p>
+     * Note that it is necessary to add the component directly to the section in this method. In case of
+     * a {@link FormItemComponentWrapper}, the {@link LabelComponentFormItem} has to be added to the
+     * section, and not the given {@link Component} itself. However, it is not possible to retrieve the
+     * created {@link LabelComponentFormItem} from the {@link FormItemComponentWrapper} after creation.
+     * Thus, the {@link LabelComponentFormItem} has to be added to the section before it is returned.
+     */
+    protected abstract VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
             Label label,
-            Component component) {
-        LabelComponentFormItem formItem = new LabelComponentFormItem(component, label);
-        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
-        section.addContent(formItem);
-        return wrapper;
-    }
+            Component component);
 
     private void createTable(Object parentComponent, Object pmo, BindingContext bindingContext) {
         GridSection section = (GridSection)parentComponent;

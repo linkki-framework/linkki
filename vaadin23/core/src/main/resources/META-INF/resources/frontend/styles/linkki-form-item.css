@@ -1,32 +1,36 @@
+:host {
+    width: 100%;
+}
+
 :host [part="label"]::after {
-	content: var(--lumo-required-field-indicator, "\2022");
-	transition: opacity 0.2s;
-	opacity: 0;
-	color: var(--lumo-primary-text-color);
-	width: 1em;
-	text-align: center;
-	margin-right: -1em;
+    content: var(--lumo-required-field-indicator, "\2022");
+    transition: opacity 0.2s;
+    opacity: 0;
+    color: var(--lumo-primary-text-color);
+    width: 1em;
+    text-align: center;
+    margin-right: -1em;
 }
 
 :host([required]) [part="label"]::after {
-	opacity: 1;
+    opacity: 1;
 }
 
 :host([invalid]) [part="label"]::after {
-	color: var(--lumo-error-text-color);
+    color: var(--lumo-error-text-color);
 }
 
 [part="label"] {
-	text-align: var(--linkki-form-item-label-alignment, right);
-	display: flex;
+    text-align: var(--linkki-form-item-label-alignment, right);
+    display: flex;
 }
 
 [part="label"] ::slotted(label) {
-	flex-grow: 1;
-	width: 100%;
+    flex-grow: 1;
+    width: 100%;
     overflow: hidden;
 }
 
 #label {
-	width: var(--linkki-form-item-label-width, 8em);
+    width: var(--linkki-form-item-label-width, 8em);
 }

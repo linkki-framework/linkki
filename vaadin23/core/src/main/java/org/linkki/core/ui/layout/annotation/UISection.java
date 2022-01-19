@@ -25,7 +25,6 @@ import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundPropert
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.ui.creation.section.SectionComponentDefiniton;
-import org.linkki.core.ui.creation.section.SectionLayoutDefinition;
 import org.linkki.core.ui.layout.annotation.UISection.SectionComponentDefinitonCreator;
 import org.linkki.core.ui.layout.annotation.UISection.SectionLayoutDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -67,8 +66,7 @@ public @interface UISection {
 
         @Override
         public LinkkiComponentDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
-            UISection uiSection = annotation;
-            return new SectionComponentDefiniton(uiSection.layout(), uiSection.caption(), uiSection.closeable());
+            return new SectionComponentDefiniton(annotation.layout(), annotation.caption(), annotation.closeable());
         }
 
     }
@@ -77,7 +75,7 @@ public @interface UISection {
 
         @Override
         public LinkkiLayoutDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
-            return SectionLayoutDefinition.DEFAULT;
+            return annotation.layout().getSectionLayoutDefinition();
         }
 
     }

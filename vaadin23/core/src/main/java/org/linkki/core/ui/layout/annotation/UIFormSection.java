@@ -32,10 +32,10 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 /**
- * Responsible for creating a {@link FormLayoutSection} in the UI from the annotated PMO class that may
+ * Responsible for creating a {@link BaseSection} in the UI from the annotated PMO class that may
  * include other UI-Elements.
  */
 @LinkkiComponent(SectionComponentDefinitonCreator.class)
@@ -55,9 +55,12 @@ public @interface UIFormSection {
 
         @Override
         public LinkkiComponentDefinition create(UIFormSection uiFormSection, AnnotatedElement annotatedElement) {
-            return pmo -> new FormLayoutSection(
-                    PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
-                    uiFormSection.closeable());
+            return pmo -> {
+                BaseSection baseSection = new BaseSection(
+                        PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
+                        uiFormSection.closeable());
+                return baseSection;
+            };
         }
     }
 

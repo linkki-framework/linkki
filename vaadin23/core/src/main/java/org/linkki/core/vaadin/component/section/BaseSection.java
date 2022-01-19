@@ -15,39 +15,54 @@ package org.linkki.core.vaadin.component.section;
 
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 
-import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexDirection;
+import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexWrap;
 
 /**
  * Base class for sections that are supported by the {@link PmoBasedSectionFactory}.
  */
-public abstract class BaseSection extends AbstractSection {
+public class BaseSection extends AbstractSection {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new section with the given caption that is not closable.
-     * 
-     * @param caption the caption
-     */
-    public BaseSection(String caption) {
-        super(caption);
-    }
+    private final FlexLayout content;
 
     /**
-     * Creates a new section with the given caption.
+     * Creates a new section with the given caption and closable state.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
     public BaseSection(String caption, boolean closeable) {
         super(caption, closeable);
+        setWidthFull();
+        content = createContent();
+        add(content);
+    }
+
+    private FlexLayout createContent() {
+        FlexLayout layout = new FlexLayout();
+        layout.setWidthFull();
+        layout.setFlexDirection(FlexDirection.COLUMN);
+        layout.setFlexWrap(FlexWrap.WRAP);
+        layout.setAlignItems(Alignment.BASELINE);
+        return layout;
     }
 
     /**
-     * Adds the given Component to the content of this section.
-     * 
-     * @param component the component to add
+     * Adds the {@link Component}, ignoring {@code propertyName} and {@code label}, as the
+     * {@link FormLayout} uses the {@link Component}'s caption.
      */
-    public abstract void addContent(FormItem component);
+    public void addContent(Component component) {
+        content.add(component);
+    }
+
+    @Override
+    public FlexLayout getSectionContent() {
+        return content;
+    }
 
 }

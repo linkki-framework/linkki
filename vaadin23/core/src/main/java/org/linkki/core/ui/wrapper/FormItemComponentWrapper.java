@@ -18,7 +18,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
@@ -26,7 +26,7 @@ import com.vaadin.flow.component.html.Label;
 
 /**
  * Implementation of the {@link ComponentWrapper} with a Vaadin {@link Component} and a {@link Label}
- * component. These are merged to a {@link FormItem} in a {@link FormLayoutSection}.
+ * component. These are merged to a {@link FormItem} in a {@link BaseSection}.
  */
 public class FormItemComponentWrapper extends VaadinComponentWrapper {
 

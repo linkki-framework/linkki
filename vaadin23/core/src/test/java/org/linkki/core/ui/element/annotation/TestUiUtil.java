@@ -29,7 +29,7 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.AbstractSinglePropertyField;
@@ -82,7 +82,7 @@ public final class TestUiUtil {
 
         bindingContext.modelChanged();
 
-        return ((FormLayoutSection)section).getSectionContent();
+        return ((BaseSection)section).getSectionContent();
     }
 
     @SuppressWarnings("unchecked")

@@ -1,27 +1,27 @@
 .linkki-section {
-	--linkki-section-caption-header-color: var(--lumo-contrast-80pct);
+    --linkki-section-caption-header-color: var(--lumo-contrast-80pct);
 }
 
 .linkki-section-caption {
-	margin-bottom: .5em;
+    margin-bottom: .5em;
 }
 .linkki-section {
     margin-bottom: 1em;
 }
 .linkki-section-caption > h4 {
-	color: var(--linkki-section-caption-header-color);
-	white-space: nowrap;
-	margin: 0 var(--lumo-space-m);
+    color: var(--linkki-section-caption-header-color);
+    white-space: nowrap;
+    margin: 0 var(--lumo-space-m);
 }
 
 .linkki-section-caption > vaadin-button {
-	margin-left: 0;
-	margin-right: var(--lumo-space-m);
+    margin-left: 0;
+    margin-right: var(--lumo-space-m);
 }
 
 .linkki-section-caption:after {
-	height: 1px;
-	margin-bottom: 1px;
-	flex-grow: 1;
-	content: "";
+    height: 1px;
+    margin-bottom: 1px;
+    flex-grow: 1;
+    content: "";
 }

@@ -33,10 +33,8 @@ Both annotations share the attribute to control the content of the <<section-hea
 
 ===== Differences between `@UISection` and `@UIFormSection`
 
-* A `@UISection` uses a `GridLayout` while `@UIFormSection` uses a `FormLayout`, making it easier to customize with CSS.
-* `@UISection` can be used to create a `TableSection` if the PMO class is a  <<ui-container-pmo, Container PMO>>. `@UIFormSection` does not have this functionality.
+* `@UISection` can be used to create a `GridSection` if the PMO class is derived from class <<ui-container-pmo, `ContainerPmo`>>. `@UIFormSection` does not have this functionality.
 * `@UISection` has <<layout-uisection, multiple layout options>> including a multi column layout, `@UIFormSection` only offers single column. 
-* `@UIFormSections` can have a fixed label width to align multiple sections. Label width in `@UISection` is determined by the longest label in each section.
 
 [[formsection-label-width]]
 ===== Label width in @UIFormSection
@@ -80,10 +78,10 @@ The layout for all the components within a `UISection` can be defined with the a
 .
 
 [[horizontal-section-layout]]
-Horizontal Section Layout:: With the horizontal layout all input fields are displayed on a line, side by side in the order of their position. The attribute `columns` is ignored.
+Horizontal Section Layout:: With the horizontal layout all input fields are displayed on a line, side by side in the order of their position. Labels are displayed on top of the component. The attribute `columns` is ignored.
 
 [[column-section-layout]]
-Column Section Layout:: With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
+Column Section Layout:: With the column layout fields are displayed one below the other. Labels are displayed on the left of the component.
 
 [[section-label-alignment]]
 ===== Label alignment in sections

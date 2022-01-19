@@ -28,8 +28,7 @@ import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
-import org.linkki.core.vaadin.component.section.HorizontalSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -53,8 +52,8 @@ public class PmoBasedSectionFactoryTest {
 
     @Test
     public void testSetComponentId() {
-        FormLayoutSection section = (FormLayoutSection)PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(),
-                                                                                                   bindingContext);
+        BaseSection section = (BaseSection)PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(),
+                                                                                       bindingContext);
         Component textField = TestUiUtil.getComponentAtIndex(0, section.getSectionContent());
 
         assertThat(textField.getId(), hasValue("testProperty"));
@@ -63,21 +62,21 @@ public class PmoBasedSectionFactoryTest {
     @Test
     public void testSectionWithDefaultLayout_shouldCreateFormSection() {
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithoutID(), bindingContext);
-        assertThat(section, is(instanceOf(FormLayoutSection.class)));
+        assertThat(section, is(instanceOf(BaseSection.class)));
     }
 
     @Test
     public void testSectionWithHorizontalLayout_shouldCreateHorizontalSection() {
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithHorizontalLayout(),
                                                                               bindingContext);
-        assertThat(section, is(instanceOf(HorizontalSection.class)));
+        assertThat(section, is(instanceOf(BaseSection.class)));
     }
 
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithoutAnnotation(),
                                                                               bindingContext);
-        assertThat(section, is(instanceOf(FormLayoutSection.class)));
+        assertThat(section, is(instanceOf(BaseSection.class)));
         assertThat(section.getId(), hasValue(SectionWithoutAnnotation.class.getSimpleName()));
         assertThat(section.getCaption(), is(""));
     }

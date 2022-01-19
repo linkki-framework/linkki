@@ -26,7 +26,7 @@ import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.textfield.TextField;
@@ -40,7 +40,7 @@ public class VaadinUiCreatorTest {
 
         Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
 
-        assertThat(component, instanceOf(FormLayoutSection.class));
+        assertThat(component, instanceOf(BaseSection.class));
         assertThat(bindingContext.getBindings(), hasSize(1));
 
         Binding binding = bindingContext.getBindings().iterator().next();

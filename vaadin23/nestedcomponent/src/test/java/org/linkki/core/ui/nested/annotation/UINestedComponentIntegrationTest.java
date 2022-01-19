@@ -31,7 +31,7 @@ import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
@@ -43,8 +43,8 @@ public class UINestedComponentIntegrationTest {
 
     @Test
     public void testCreateNestedComponent() {
-        FormLayoutSection component = (FormLayoutSection)VaadinUiCreator.createComponent(new NestedComponentPmo(),
-                                                                                         new BindingContext());
+        BaseSection component = (BaseSection)VaadinUiCreator.createComponent(new NestedComponentPmo(),
+                                                                             new BindingContext());
         List<FormItem> childComponents = component.getSectionContent().getChildren().map(FormItem.class::cast)
                 .collect(Collectors.toList());
         assertThat(childComponents.stream().map(i -> getChild(i, 0)).collect(Collectors.toList()),
@@ -68,8 +68,8 @@ public class UINestedComponentIntegrationTest {
     public void testApsectOnNestedComponent() {
         NestedComponentPmo pmo = new NestedComponentPmo();
         BindingContext bindingContext = new BindingContext();
-        FormLayoutSection component = (FormLayoutSection)VaadinUiCreator.createComponent(pmo,
-                                                                                         bindingContext);
+        BaseSection component = (BaseSection)VaadinUiCreator.createComponent(pmo,
+                                                                             bindingContext);
         LabelComponentFormItem nestedComponent = (LabelComponentFormItem)getChild(component.getSectionContent(), 1);
 
         assertThat(nestedComponent.isVisible(), is(true));

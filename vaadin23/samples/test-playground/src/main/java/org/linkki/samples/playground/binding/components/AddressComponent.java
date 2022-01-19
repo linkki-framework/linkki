@@ -14,7 +14,7 @@
 package org.linkki.samples.playground.binding.components;
 
 import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.samples.playground.binding.model.Country;
 
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -22,7 +22,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 
-public class AddressComponent extends FormLayoutSection {
+public class AddressComponent extends BaseSection {
 
     private static final long serialVersionUID = 1L;
 

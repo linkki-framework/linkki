@@ -19,9 +19,8 @@ import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.GridSection;
-import org.linkki.core.vaadin.component.section.HorizontalSection;
 
 /**
  * Defines how {@link AbstractSection sections} are created.
@@ -55,14 +54,9 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
         if (ContainerPmo.class.isAssignableFrom(pmoClass)) {
             return createTableSection(nlsCaption);
         } else {
-            switch (layout) {
-                case COLUMN:
-                    return new FormLayoutSection(nlsCaption, closeable);
-                case HORIZONTAL:
-                    return new HorizontalSection(nlsCaption, closeable);
-                default:
-                    throw new IllegalStateException("unknown SectionLayout#" + layout);
-            }
+            BaseSection baseSection = new BaseSection(nlsCaption, closeable);
+            baseSection.getSectionContent().setFlexDirection(layout.getFlexDirection());
+            return baseSection;
         }
     }
 
