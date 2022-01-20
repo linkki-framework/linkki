@@ -8,6 +8,19 @@
 === Version 2.0.0
 
 ==== New features and improvements
+===== New Aspect Annotation: @BindSuffix
+////
+https://jira.faktorzehn.de/browse/LIN-579
+////
+
+A new aspect `@BindSuffix` has been introduced. With the aspect, a suffix can be added to input elements to display for example units or currencies. See documentation of <<suffix, @BindSuffix>> for further information.
+
+===== New Aspect Annotation: @BindPlaceholder
+//// 
+https://jira.faktorzehn.de/browse/LIN-410
+////
+
+A new aspect `@BindPlaceholder` has been introduced. With the aspect, a placeholder can be added to UI elements to display a text, while the UI element is empty. See documentation of <<placeholder, @BindPlaceholder>> for further information.
 
 ===== Vaadin 8 modules removed
 

@@ -8,11 +8,8 @@
 === Version 1.5.0
 
 ==== New features and improvements
-*  A new aspect `@BindSuffix` has been introduced. With the aspect, a suffix can be added to input elements to display for example units or currencies. See documentation of <<suffix , @BindSuffix>> for further information.
-// https://jira.faktorzehn.de/browse/LIN-579
 * `@BindTooltip` now uses the title attribute which can be used on every element. Limitation: Text only. Html Tags are removed.`<br>` tags are converted to `\n`.  
 // https://jira.faktorzehn.de/browse/LIN-2543
-
 // https://jira.faktorzehn.de/browse/LIN-2534
 * `LinkkiTabSheetBuilder#onSelectionHandler` has been removed. There are multiple <<linkkitablayout-selection, alternatives available>>.
 // https://jira.faktorzehn.de/browse/LIN-2524

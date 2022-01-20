@@ -114,6 +114,7 @@ Aspects can also be represented by a separate annotation. In this case, those an
 | `<<bind-caption, @BindCaption>>` | `Caption handling, using default CaptionType.AUTO`
 | `<<bind-icon, @BindIcon>>` | `Icon handling, using default IconType.AUTO`
 | `<<suffix, @BindSuffix>>` | `Suffix handling, using default SuffixType.AUTO`
+| `<<placeholder, @BindPlaceholder>>`| `Placeholder handling, using default PlaceholderType.AUTO`
 |===
 
 [[tooltips]]
@@ -278,7 +279,7 @@ This is the content of the suffix that is set at the end of an UI element.
 [[suffix-type]]
 SuffixType::
 The following configuration options are available for `SuffixType`:
-+
+
 [cols="1,9"]
 .SuffixType
 |===
@@ -287,4 +288,30 @@ The following configuration options are available for `SuffixType`:
 |`DYNAMIC`  |the text of the suffix is determined by the return value of the method `String get<PropertyName>Suffix()`. The `value` is ignored.
 |===
 
-TIP:  BindSuffix can add a Suffix to UI Elements which supports the HasPrefixAndSuffix interface. Common UI Elements which supports `BindSuffix` are UIIntegerField, UIDoubleField, UIDecimalField, UITextField, UITextArea, UICustomField.
+TIP:  BindSuffix can add a suffix to UI elements which implement the HasPrefixAndSuffix interface. Common UI elements which support `@BindSuffix` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`.
+
+[[placeholder]]
+===== Placeholder
+
+The annotation `@BindPlaceholder` can be used to display a placeholder on UI elements.
+
+The `@BindPlaceholder` annotation has two properties:
+
+* <<placeholder-text, `value: String`>>
+* <<placeholder-type, `placeholderType: PlaceholderType`>>
+
+[[placeholder-text]]
+Value::
+This is the content that is displayed in an UI element when it is empty.
+
+[[placeholder-type]]
+PlaceholderType::
+The following configuration options are available for `PlaceholderType`:
+
+[cols="1,9"]
+.PlaceholderType
+|===
+|`AUTO`     |the text of the placeholder is read from the attribute `value` if it is not empty, otherwise it reacts like `DYNAMIC` (*default*)
+|`STATIC`   |the text of the placeholder is read from the attribute `value`
+|`DYNAMIC`  |the text of the placeholder is determined by the return value of the method `String get<PropertyName>Placeholder()`. The `value` is ignored.
+|===

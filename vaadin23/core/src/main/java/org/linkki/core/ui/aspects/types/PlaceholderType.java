@@ -14,28 +14,28 @@
 
 package org.linkki.core.ui.aspects.types;
 
-import org.linkki.core.ui.aspects.SuffixAspectDefinition;
+import org.linkki.core.ui.aspects.PlaceholderAspectDefinition;
 
 /**
- * Defines the type of the suffix binding. See {@link SuffixAspectDefinition}
+ * Defines the type of the placeholder binding. See {@link PlaceholderAspectDefinition}
  */
-public enum SuffixType {
+public enum PlaceholderType {
 
     /**
      * 
-     * The suffix is static and given by the value attribute.
+     * The placeholder is static and given by the value attribute.
      */
     STATIC,
 
     /**
-     * Suffix is bound to the property using the method {@code get<PropertyName>Suffix()}.
+     * Placeholder is bound to the property using the method {@code get<PropertyName>Placeholder()}.
      */
     DYNAMIC,
 
     /**
-     * Linkki decides whether the suffix is {@link #DYNAMIC} or {@link #STATIC}. In case the value is
-     * the empty string it calls a method named {@code get<PropertyName>Suffix()}. Otherwise the
-     * specified value is used as suffix.
+     * Linkki decides whether the placeholder is {@link #DYNAMIC} or {@link #STATIC}. In case the value
+     * is the empty string it calls a method named {@code get<PropertyName>Placeholder()}. Otherwise the
+     * specified value is used as placeholder.
      */
     AUTO;
 }

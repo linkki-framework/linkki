@@ -43,6 +43,7 @@ import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindIconPmo;
+import org.linkki.samples.playground.ts.aspects.BindPlaceholderPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ts.aspects.BindSuffixPmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
@@ -192,6 +193,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC007, new BindIconPmo())
                                        .testCase(TC008, new BindStyleNamesPmo())
                                        .testCase(TC009, new BindSuffixPmo())
+                                       .testCase(TC010, new BindPlaceholderPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())
