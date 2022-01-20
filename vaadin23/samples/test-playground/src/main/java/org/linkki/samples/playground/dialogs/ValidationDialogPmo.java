@@ -33,6 +33,7 @@ import org.linkki.util.handler.Handler;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+@UISection
 public class ValidationDialogPmo {
 
     private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(Severity.INFO, Severity.WARNING,

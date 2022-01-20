@@ -22,6 +22,8 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.dialogs.SimpleDialogPmo;
+import org.linkki.samples.playground.dialogs.ValidationDialogPmo;
+import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -147,6 +149,36 @@ public class DialogTest extends AbstractUiTest {
 
         // dialog should close on its own
         waitUntil(d -> !$(DialogElement.class).exists());
+    }
+
+    @Test
+    public void testDialog_WithVerticalLayout() {
+        openDialogViewAndCloseInitialDialog();
+        VerticalLayoutElement section = $(VerticalLayoutElement.class)
+                .id(VerticalLayoutContentDialogPmo.class.getSimpleName());
+        section.$(ButtonElement.class).id("button").click();
+        waitUntil(d -> $(DialogElement.class).exists());
+
+        $(ButtonElement.class).id(OK_BUTTON).click();
+
+        waitForDialogToBeClosed();
+    }
+
+    /**
+     * PMOs must be annotated with a layout annotation (e.g. @UISection). Section PMOs without
+     * annotation are not supported anymore
+     */
+    @Test
+    public void testDialog_ValidationDialogPmo() {
+        openDialogViewAndCloseInitialDialog();
+        VerticalLayoutElement section = $(VerticalLayoutElement.class)
+                .id(ValidationDialogPmo.ButtonSectionPmo.class.getSimpleName());
+        section.$(ButtonElement.class).id("button").click();
+        waitUntil(d -> $(DialogElement.class).exists());
+
+        $(ButtonElement.class).id(OK_BUTTON).click();
+
+        waitForDialogToBeClosed();
     }
 
     private void openDialogViewAndCloseInitialDialog() {

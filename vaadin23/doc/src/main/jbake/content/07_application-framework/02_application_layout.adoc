@@ -1,4 +1,4 @@
-:jbake-title: Components
+:jbake-title: Application Layout
 :jbake-type: section
 :jbake-status: published
 
@@ -17,7 +17,7 @@ The main purpose of this class is to hold the custom implementation of <<applica
 include::{source-dir}/org/linkki/samples/playground/ui/PlaygroundAppLayout.java[tags=app-layout]
 ----
 
-The `ApplicationLayout` that surrounds the view with an `ApplicationHeader` and an optional `ApplicationFooter`.
+The `ApplicationLayout` surrounds the view with an `ApplicationHeader` and an optional `ApplicationFooter`.
 
 The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side.
 
@@ -25,7 +25,16 @@ The footer is hidden by default and can simply contain some application info.
 
 Between `ApplicationHeader` and `ApplicationFooter` is the main area that displays the current view.
 
-==== ApplicationMenuItemDefinition
+[[application-config]]
+==== Application Configuration
+
+The main aspects of the application are configured using the `ApplicationConfig`. This interface needs to be implemented once in every *linkki* application and provided to the `ApplicationLayout`. 
+
+`ApplicationConfig` refers to an `ApplicationInfo`, which defines basic information about the application, such as name and copyright. Furthermore, parts of an `ApplicationLayout` are configured by the `ApplicationConfig`, such as the header, footer, as well as converters that should be used to convert values between UI and the underlying model.
+
+The *linkki* application framework contains the following components:
+
+===== ApplicationMenuItemDefinition
 
 `MenuItems` can be added to the `ApplicationHeader` using `ApplicationMenuItemDefinition`.
 
@@ -70,19 +79,8 @@ SubMenu subMenu = menuBar.addItem("item").getSubMenu();
 itemDefinition.createItem(subMenu);
 ----
 
-[[application-config]]
-=== Application Configuration
-
-The main aspects of the application are configured using the `ApplicationConfig`. This interface needs to be implemented once in every *linkki* application and provided to the `ApplicationLayout`. 
-
-`ApplicationConfig` refers to an `ApplicationInfo` which defines basic information about the application such as name and copyright. Furthermore, parts of `ApplicationLayout` is configured by the `ApplicationConfig`, such as the header, footer, as well as converters that should be used to convert values between UI and the underlying model.
-
-=== Components
-
-The *linkki* application framework contains the following components:
-
 [[sidebarlayout]]
-==== LinkkiTabLayout
+=== LinkkiTabLayout
 
 The `LinkkiTabLayout` is a UI component that gives access to several different views.
 
@@ -99,7 +97,7 @@ Additionally you can supply a `UiUpdateObserver` that is triggered every time th
 include::{source-dir}/org/linkki/samples/playground/application/SampleView.java[tags=sidebar-addSheet]
 ----
 
-==== Headline
+=== Headline
 
 For every sheet it is useful to have a headline that describes the current content. It natively has a headline caption and could be extended by subclasses.
 

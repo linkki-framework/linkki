@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -27,24 +28,27 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
 
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
-public class PmoBasedDialogFactoryTest {
+class PmoBasedDialogFactoryTest {
 
     @Test
-    public void testNewOkCancelDialog_CreationOfDialog() {
+    void testNewOkCancelDialog_CreationOfDialog() {
         Handler okHandler = mock(Handler.class);
         Handler cancelHandler = mock(Handler.class);
 
         OkCancelDialog dialog = new PmoBasedDialogFactory()
-                .newOkCancelDialog("test", okHandler, cancelHandler, ButtonOption.OK_CANCEL, new TestPmo());
+                .newOkCancelDialog("test", okHandler, cancelHandler, ButtonOption.OK_CANCEL, new TestPmoSection());
 
         assertThat(dialog.getCaption(), is("test"));
 
@@ -63,22 +67,22 @@ public class PmoBasedDialogFactoryTest {
     }
 
     @Test
-    public void testNewOkCancelDialog_CreationOfDialog_NoPmo() {
+    void testNewOkCancelDialog_CreationOfDialog_NoPmo() {
         OkCancelDialog dialog = new PmoBasedDialogFactory()
                 .newOkCancelDialog("test", Handler.NOP_HANDLER, Handler.NOP_HANDLER, ButtonOption.OK_CANCEL);
         assertThat(DialogTestUtil.getContents(dialog), hasSize(0));
     }
 
     @Test
-    public void testNewOkCancelDialog_CreationOfDialog_MultiplePmo() {
+    void testNewOkCancelDialog_CreationOfDialog_MultiplePmo() {
         OkCancelDialog dialog = new PmoBasedDialogFactory()
                 .newOkCancelDialog("test", Handler.NOP_HANDLER, Handler.NOP_HANDLER, ButtonOption.OK_CANCEL,
-                                   new TestPmo(), new TestPmo());
+                                   new TestPmoSection(), new TestPmoSection());
         assertThat(DialogTestUtil.getContents(dialog), hasSize(2));
     }
 
     @Test
-    public void testNewOkCancelDialog_ValidationService() {
+    void testNewOkCancelDialog_ValidationService() {
         MessageList ml = new MessageList();
         ValidationService validationService = mock(ValidationService.class);
         when(validationService.getValidationMessages()).thenReturn(ml);
@@ -93,7 +97,7 @@ public class PmoBasedDialogFactoryTest {
     }
 
     @Test
-    public void testNewOkCancelDialog_PropertyBehaviorProvider() {
+    void testNewOkCancelDialog_PropertyBehaviorProvider() {
         PmoBasedDialogFactory dialogFactoryWithoutBehavior = new PmoBasedDialogFactory(
                 ValidationService.NOP_VALIDATION_SERVICE,
                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -101,7 +105,8 @@ public class PmoBasedDialogFactoryTest {
         OkCancelDialog dialog = dialogFactoryWithoutBehavior.newOkCancelDialog("test", Handler.NOP_HANDLER,
                                                                                Handler.NOP_HANDLER,
                                                                                ButtonOption.OK_CANCEL,
-                                                                               new TestPmo(), new TestPmo());
+                                                                               new TestPmoSection(),
+                                                                               new TestPmoSection());
         getAllFields(dialog).forEach(c -> {
             assertFalse(c.isReadOnly());
         });
@@ -113,15 +118,16 @@ public class PmoBasedDialogFactoryTest {
         OkCancelDialog readOnlyDialog = dialogFactoryWithBehavior.newOkCancelDialog("test", Handler.NOP_HANDLER,
                                                                                     Handler.NOP_HANDLER,
                                                                                     ButtonOption.OK_CANCEL,
-                                                                                    new TestPmo(), new TestPmo());
+                                                                                    new TestPmoSection(),
+                                                                                    new TestPmoSection());
         getAllFields(readOnlyDialog).forEach(c -> {
             assertTrue(c.isReadOnly());
         });
     }
 
     @Test
-    public void testNewOkDialog() {
-        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title", new TestPmo());
+    void testNewOkDialog() {
+        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title", new TestPmoSection());
         List<AbstractField<?, ?>> fields = getAllFields(dialog);
         assertThat(fields, hasSize(1));
         assertThat(fields.get(0), is(instanceOf(TextField.class)));
@@ -129,18 +135,42 @@ public class PmoBasedDialogFactoryTest {
     }
 
     @Test
-    public void testNewOkDialog_noPmo() {
+    void testNewOkDialog_noPmo() {
         OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title");
         assertThat(getAllFields(dialog), hasSize(0));
     }
 
     @Test
-    public void testNewOkDialog_MultiplePmos() {
-        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title", new TestPmo(), new TestPmo());
+    void testNewOkDialog_MultiplePmos() {
+        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title", new TestPmoSection(),
+                                                                        new TestPmoSection());
         List<AbstractField<?, ?>> fields = getAllFields(dialog);
         assertThat(fields, hasSize(2));
         fields.forEach(f -> assertThat(f, is(instanceOf(TextField.class))));
         assertThat(dialog.getCaption(), is("title"));
+    }
+
+    @Test
+    void testNewOkDialog_VerticalLayoutPmo() {
+        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title", new TestPmoVerticalLayout());
+        Component component = dialog.getContent().getChildren().findFirst().get();
+        assertThat(component, is(instanceOf(VerticalLayout.class)));
+    }
+
+    @Test
+    void testNewOkDialog_FormSectionPmo() {
+        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title", new TestPmoFormSection());
+        Component component = dialog.getContent().getChildren().findFirst().get();
+        assertThat(component, is(instanceOf(VerticalLayout.class)));
+    }
+
+    @Test
+    void testNewOkDialog_PmoWithoutAnnotation() {
+        TestPmoWithoutAnnotation testPmoWithoutAnnotation = new TestPmoWithoutAnnotation();
+        PmoBasedDialogFactory pmoBasedDialogFactory = new PmoBasedDialogFactory();
+
+        assertThrows(IllegalArgumentException.class,
+                     () -> pmoBasedDialogFactory.newOkDialog("title", testPmoWithoutAnnotation));
     }
 
     private static List<AbstractField<?, ?>> getAllFields(OkCancelDialog dialog) {
@@ -163,7 +193,7 @@ public class PmoBasedDialogFactoryTest {
     }
 
     @UISection
-    public static class TestPmo {
+    public static class TestPmoSection {
 
         private String text = "text";
 
@@ -175,5 +205,19 @@ public class PmoBasedDialogFactoryTest {
         public void setText(String text) {
             this.text = text;
         }
+    }
+
+    @UIFormSection
+    public static class TestPmoFormSection {
+        // no content needed
+    }
+
+    public static class TestPmoWithoutAnnotation {
+        // no content needed
+    }
+
+    @UIVerticalLayout
+    public static class TestPmoVerticalLayout {
+        // no content needed
     }
 }

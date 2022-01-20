@@ -17,6 +17,7 @@ package org.linkki.samples.playground.dialogs;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
+import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.AttachEvent;
@@ -43,6 +44,8 @@ public class DialogsView extends VerticalLayout {
 
         add(VaadinUiCreator.createComponent(new ValidationConfirmationDialog.ButtonSectionPmo(),
                                             new BindingContext(ValidationDialogPmo.class.getName())));
+        add(VaadinUiCreator.createComponent(new VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo(),
+                                            new BindingContext(VerticalLayoutContentDialogPmo.class.getName())));
     }
 
     @Override

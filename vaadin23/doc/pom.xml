@@ -19,7 +19,7 @@
         <jade.runExternalLinkTests>true</jade.runExternalLinkTests>
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
-        <deploymentFolder>${project.version}-vaadin23</deploymentFolder>
+        <deploymentFolder>${project.version}</deploymentFolder>
         <sonar.skip>true</sonar.skip>
     </properties>
 

@@ -20,10 +20,11 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.pmo.PresentationModelObject;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
+
+import com.vaadin.flow.component.Component;
 
 /**
  * A factory to create dialogs with a content based on a {@link PresentationModelObject}. At the moment
@@ -31,7 +32,6 @@ import org.linkki.util.handler.Handler;
  */
 public class PmoBasedDialogFactory {
 
-    private final PmoBasedSectionFactory pmoBasedSectionFactory;
     private final ValidationService validationService;
     private final PropertyBehaviorProvider propertyBehaviorProvider;
 
@@ -78,7 +78,6 @@ public class PmoBasedDialogFactory {
         this.validationService = requireNonNull(validationService, "validationService must not be null");
         this.propertyBehaviorProvider = requireNonNull(propertyBehaviorProvider,
                                                        "propertyBehaviorProvider must not be null");
-        this.pmoBasedSectionFactory = new PmoBasedSectionFactory();
     }
 
     /**
@@ -135,7 +134,7 @@ public class PmoBasedDialogFactory {
         BindingContext bindingContext = bindingManager.getContext(dialog.getClass());
 
         for (Object pmo : pmos) {
-            AbstractSection content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
+            Component content = VaadinUiCreator.createComponent(pmo, bindingContext);
             float expRatio = 0f;
             if (pmo == pmos[pmos.length - 1]) {
                 expRatio = 1f;
