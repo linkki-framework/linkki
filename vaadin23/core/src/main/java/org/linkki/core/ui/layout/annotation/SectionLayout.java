@@ -41,7 +41,16 @@ public enum SectionLayout {
      * <p>
      * <em>Consider using {@link UIFormSection} instead.</em>
      **/
-    COLUMN(FlexDirection.COLUMN, SectionLayoutDefinition.DEFAULT);
+    COLUMN(FlexDirection.COLUMN, SectionLayoutDefinition.DEFAULT),
+
+    /**
+     * Displays section elements stacked in a column. Labels are displayed on top of the component.
+     * <p>
+     * Note that with this option, several components such as {@link UIButton}, {@link UICheckBox},
+     * {@link UILabel} and {@link UILink} do not support labels.
+     */
+    VERTICAL(FlexDirection.COLUMN, SectionLayoutDefinition.LABEL_ON_TOP);
+
 
     private final FlexDirection flexDirection;
     private final SectionLayoutDefinition sectionLayoutDefinition;
