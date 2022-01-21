@@ -9,6 +9,10 @@ class LinkkiTabLayout extends LitElement {
                   display: flex;
                 }
 
+                :host > ::slotted(vaadin-tabs) {
+                  flex-shrink: 0;
+                }
+
                 :host([orientation~="horizontal"]) {
                   flex-direction: column;
                 }
