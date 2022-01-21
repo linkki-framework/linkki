@@ -32,7 +32,7 @@ import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.GridSection;
 
@@ -41,7 +41,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 
 /**
- * Defines how UI components are added to an {@link AbstractSection}.
+ * Defines how UI components are added to an {@link LinkkiSection}.
  * 
  * @see SectionComponentDefiniton SectionComponentDefiniton for the creation of the section
  */
@@ -80,13 +80,13 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     /**
      * {@inheritDoc}
      * <p>
-     * The parent component must be an {@link AbstractSection}.
+     * The parent component must be an {@link LinkkiSection}.
      * 
-     * @throws ClassCastException if the parent component is not an {@link AbstractSection}.
+     * @throws ClassCastException if the parent component is not an {@link LinkkiSection}.
      */
     @Override
     public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext) {
-        createHeaderContent((AbstractSection)parentComponent, pmo, bindingContext);
+        createHeaderContent((LinkkiSection)parentComponent, pmo, bindingContext);
         if (pmo instanceof ContainerPmo) {
             createTable(parentComponent, pmo, bindingContext);
         } else {
@@ -94,7 +94,7 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
         }
     }
 
-    private void createHeaderContent(AbstractSection section, Object pmo, BindingContext bindingContext) {
+    private void createHeaderContent(LinkkiSection section, Object pmo, BindingContext bindingContext) {
         ComponentAnnotationReader.getComponentDefinitionMethods(pmo.getClass())
                 .filter(method -> method.isAnnotationPresent(SectionHeader.class))
                 .forEach(method -> addHeaderComponent(method, section, pmo, bindingContext));
@@ -114,7 +114,7 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
         }
     }
 
-    private void addHeaderComponent(Method method, AbstractSection section, Object pmo, BindingContext bindingContext) {
+    private void addHeaderComponent(Method method, LinkkiSection section, Object pmo, BindingContext bindingContext) {
         NoLabelComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
                                                                     c -> new NoLabelComponentWrapper((Component)c,
                                                                             WrapperType.COMPONENT));

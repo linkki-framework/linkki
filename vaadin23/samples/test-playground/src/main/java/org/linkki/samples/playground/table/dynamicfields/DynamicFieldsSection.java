@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.internal.CurrentInstance;
@@ -35,7 +35,7 @@ public class DynamicFieldsSection {
 
         BindingContext bindingContext = new BindingContext();
 
-        AbstractSection table = new PmoBasedSectionFactory()
+        LinkkiSection table = new PmoBasedSectionFactory()
                 .createSection(new CarTablePmo(carStorage,
                         () -> new NewCarDialog(carStorage, bindingContext::modelChanged)),
                                bindingContext);

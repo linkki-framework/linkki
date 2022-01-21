@@ -23,7 +23,6 @@ import org.linkki.samples.playground.ts.components.DoubleFieldPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class TC003UIDoubleFieldTest extends PlaygroundUiTest {
@@ -97,7 +96,7 @@ public class TC003UIDoubleFieldTest extends PlaygroundUiTest {
     }
 
     private TextFieldElement getTextField(String id) {
-        return $(VerticalLayoutElement.class).id(DoubleFieldPmo.class.getSimpleName())
+        return getSection(DoubleFieldPmo.class)
                 .$(TextFieldElement.class).id(id);
     }
 

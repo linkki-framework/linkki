@@ -29,7 +29,7 @@ import org.linkki.core.nls.sample.NoNlsTablePmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -82,7 +82,7 @@ public class PmoNlsServiceTableSectionTest {
     private String createAndGetTableSectionCaption(ContainerPmo<NlsTableRowPmo> containerPmo) {
         PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
-        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
+        LinkkiSection tableSection = factory.createSection(containerPmo, bindingContext);
         HorizontalLayout header = (HorizontalLayout)tableSection.getComponentAt(0).getElement().getComponent().get();
         return header.getComponentAt(0).getElement().getText();
     }

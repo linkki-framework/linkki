@@ -24,8 +24,7 @@ import org.linkki.core.nls.sample.SamplePmo;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
-import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H4;
@@ -54,10 +53,10 @@ public class PmoNlsServiceSectionTest {
     @BeforeEach
     public void setUp() {
         BindingContext context = new BindingContext();
-        AbstractSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
+        LinkkiSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
         HorizontalLayout header = (HorizontalLayout)section.getComponentAt(0);
         sectionHeader = (H4)header.getComponentAt(0);
-        FlexLayout sectionContent = ((BaseSection)section).getSectionContent();
+        FlexLayout sectionContent = section.getContentWrapper();
 
         textfieldLabelWithTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 0);
         textfieldLabelWithoutTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 1);

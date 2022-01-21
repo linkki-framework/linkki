@@ -28,8 +28,7 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
-import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.AbstractSinglePropertyField;
@@ -78,11 +77,11 @@ public final class TestUiUtil {
 
     public static FlexLayout createSectionWith(Object pmo, BindingContext bindingContext) {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
-        AbstractSection section = sectionFactory.createSection(pmo, bindingContext);
+        LinkkiSection section = sectionFactory.createSection(pmo, bindingContext);
 
         bindingContext.modelChanged();
 
-        return ((BaseSection)section).getSectionContent();
+        return section.getContentWrapper();
     }
 
     @SuppressWarnings("unchecked")

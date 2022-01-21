@@ -24,12 +24,12 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 
 /**
  * Test for {@link ComboBoxNewInstancePmo}.
@@ -41,8 +41,7 @@ public class ComboBoxNewInstanceTest extends AbstractUiTest {
         clickMenuItem(BugCollectionView.NAME);
         openTab(ComboBoxNewInstancePmo.CAPTION);
 
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).attribute("id", "ComboBoxNewInstancePmo")
-                .waitForFirst();
+        LinkkiSectionElement section = getSection(ComboBoxNewInstancePmo.class);
         section.$(ButtonElement.class).id("changeChoicesValues").click();
         resetLogEntries();
 

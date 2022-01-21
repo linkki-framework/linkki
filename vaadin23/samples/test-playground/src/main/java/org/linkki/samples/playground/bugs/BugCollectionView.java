@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
@@ -82,8 +82,8 @@ public class BugCollectionView extends LinkkiTabLayout {
         Object pmo = pmoCreation.apply(bindingContext);
         Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
 
-        if (component instanceof AbstractSection) {
-            AbstractSection section = (AbstractSection)component;
+        if (component instanceof LinkkiSection) {
+            LinkkiSection section = (LinkkiSection)component;
             return LinkkiTabSheet.builder(section.getCaption())
                     .caption(section.getCaption())
                     .content(() -> new VerticalLayout(section))

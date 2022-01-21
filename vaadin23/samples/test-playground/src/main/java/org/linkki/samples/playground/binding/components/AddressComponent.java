@@ -43,9 +43,9 @@ public class AddressComponent extends BaseSection {
         zipCity.setSpacing(false);
         zip.getStyle().set("padding-right", "10px");
 
-        getSectionContent().add(new LabelComponentFormItem(street, street.getLabel()));
-        getSectionContent().add(new LabelComponentFormItem(zipCity, "Zip / City"));
-        getSectionContent().add(new LabelComponentFormItem(country, country.getLabel()));
+        getContentWrapper().add(new LabelComponentFormItem(street, street.getLabel()));
+        getContentWrapper().add(new LabelComponentFormItem(zipCity, "Zip / City"));
+        getContentWrapper().add(new LabelComponentFormItem(country, country.getLabel()));
 
         street.setLabel(null);
         country.setLabel(null);

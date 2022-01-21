@@ -22,6 +22,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
 import org.openqa.selenium.By;
@@ -174,8 +175,8 @@ public class AbstractUiTest extends TestBenchTestCase {
      * @param cls class name of the section
      * @return Section as {@link VerticalLayoutElement}
      */
-    public VerticalLayoutElement getSection(Class<?> cls) {
-        return $(VerticalLayoutElement.class).id(cls.getSimpleName());
+    public LinkkiSectionElement getSection(Class<?> cls) {
+        return $(LinkkiSectionElement.class).id(cls.getSimpleName());
     }
 
     /**

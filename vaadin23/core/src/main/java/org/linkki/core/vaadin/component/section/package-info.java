@@ -12,7 +12,7 @@
  * License.
  */
 /**
- * {@link org.linkki.core.vaadin.component.section.AbstractSection Sections} used to structure UI.
+ * {@link org.linkki.core.vaadin.component.section.LinkkiSection Sections} used to structure UI.
  */
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)

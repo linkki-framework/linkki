@@ -17,7 +17,7 @@ import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.framework.ui.component.MessageUiComponents;
 
 import com.vaadin.flow.component.Component;
@@ -48,7 +48,7 @@ public class MessagesComponent extends Div {
         // end::validation-service[]
 
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
-        AbstractSection section = sectionFactory.createSection(registrationPmo, bindingManager.getContext(getClass()));
+        LinkkiSection section = sectionFactory.createSection(registrationPmo, bindingManager.getContext(getClass()));
 
         VerticalLayout layout = new VerticalLayout();
         layout.add(section);

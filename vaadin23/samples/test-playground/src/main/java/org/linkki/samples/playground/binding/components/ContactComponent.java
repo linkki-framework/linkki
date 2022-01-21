@@ -19,7 +19,7 @@ import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.samples.playground.binding.model.Address;
 import org.linkki.samples.playground.binding.model.Contact;
 import org.linkki.samples.playground.binding.pmo.AddressPmo;
@@ -68,7 +68,7 @@ public class ContactComponent extends Div {
 
     private void createContent() {
 
-        AbstractSection contactSection = sectionFactory.createSection(contactPmo, bindingContext);
+        LinkkiSection contactSection = sectionFactory.createSection(contactPmo, bindingContext);
 
         AddressFields addressFields = new AddressFields();
         AddressComponent addressComponent = new AddressComponent(addressFields);
@@ -77,7 +77,7 @@ public class ContactComponent extends Div {
         new Binder(addressFields, addressPmo).setupBindings(bindingContext);
         // end::manual-binding[]
 
-        AbstractSection childrenSection = sectionFactory.createSection(childrenSectionPmo, bindingContext);
+        LinkkiSection childrenSection = sectionFactory.createSection(childrenSectionPmo, bindingContext);
         Component buttonsSection = VaadinUiCreator.createComponent(buttonsSectionPmo, bindingContext);
 
         VerticalLayout wrapperLayout = new VerticalLayout(contactSection, addressComponent, childrenSection,

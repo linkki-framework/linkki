@@ -18,12 +18,12 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
-import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.GridSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 /**
- * Defines how {@link AbstractSection sections} are created.
+ * Defines how {@link LinkkiSection sections} are created.
  * 
  * @see SectionLayoutDefinition SectionLayoutDefinition for how the section is poulated with UI
  *      components
@@ -55,7 +55,7 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
             return createTableSection(nlsCaption);
         } else {
             BaseSection baseSection = new BaseSection(nlsCaption, closeable);
-            baseSection.getSectionContent().setFlexDirection(layout.getFlexDirection());
+            baseSection.getContentWrapper().setFlexDirection(layout.getFlexDirection());
             return baseSection;
         }
     }

@@ -45,7 +45,7 @@ public class UINestedComponentIntegrationTest {
     public void testCreateNestedComponent() {
         BaseSection component = (BaseSection)VaadinUiCreator.createComponent(new NestedComponentPmo(),
                                                                              new BindingContext());
-        List<FormItem> childComponents = component.getSectionContent().getChildren().map(FormItem.class::cast)
+        List<FormItem> childComponents = component.getContentWrapper().getChildren().map(FormItem.class::cast)
                 .collect(Collectors.toList());
         assertThat(childComponents.stream().map(i -> getChild(i, 0)).collect(Collectors.toList()),
                    contains(instanceOf(TextField.class), instanceOf(Div.class)));
@@ -70,7 +70,7 @@ public class UINestedComponentIntegrationTest {
         BindingContext bindingContext = new BindingContext();
         BaseSection component = (BaseSection)VaadinUiCreator.createComponent(pmo,
                                                                              bindingContext);
-        LabelComponentFormItem nestedComponent = (LabelComponentFormItem)getChild(component.getSectionContent(), 1);
+        LabelComponentFormItem nestedComponent = (LabelComponentFormItem)getChild(component.getContentWrapper(), 1);
 
         assertThat(nestedComponent.isVisible(), is(true));
 

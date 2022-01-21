@@ -13,22 +13,15 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexDirection;
-import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexWrap;
 
 /**
- * Base class for sections that are supported by the {@link PmoBasedSectionFactory}.
+ * Base class for sections. Child components can be added using {@link #addContent(Component)}
  */
-public class BaseSection extends AbstractSection {
+public class BaseSection extends LinkkiSection {
 
     private static final long serialVersionUID = 1L;
-
-    private final FlexLayout content;
 
     /**
      * Creates a new section with the given caption and closable state.
@@ -38,31 +31,24 @@ public class BaseSection extends AbstractSection {
      */
     public BaseSection(String caption, boolean closeable) {
         super(caption, closeable);
-        setWidthFull();
-        content = createContent();
-        add(content);
     }
 
-    private FlexLayout createContent() {
-        FlexLayout layout = new FlexLayout();
-        layout.setWidthFull();
-        layout.setFlexDirection(FlexDirection.COLUMN);
-        layout.setFlexWrap(FlexWrap.WRAP);
-        layout.setAlignItems(Alignment.BASELINE);
-        return layout;
+
+    /**
+     * Adds the {@link Component} to the section's content
+     */
+    public void addContent(Component component) {
+        getContentWrapper().add(component);
     }
 
     /**
-     * Adds the {@link Component}, ignoring {@code propertyName} and {@code label}, as the
-     * {@link FormLayout} uses the {@link Component}'s caption.
+     * {@inheritDoc}
+     * 
+     * @deprecated Use {@link #getContentWrapper()} instead.
      */
-    public void addContent(Component component) {
-        content.add(component);
-    }
-
+    @Deprecated(since = "2.0.0")
     @Override
     public FlexLayout getSectionContent() {
-        return content;
+        return getContentWrapper();
     }
-
 }

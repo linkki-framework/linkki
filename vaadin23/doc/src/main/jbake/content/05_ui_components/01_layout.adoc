@@ -19,7 +19,7 @@ A group of input fields is called _section_.
 Section Header:: A section usually has a _section header_ that contains a descriptive **title** which summarizes the content of the input group. This titled is visually separated from the content by a **separating line** in the header. Without a section header, a section is not directly recognizable as such, but looks like a simple layout. +
 A section may be **closable** with a button in the section header. When closed, its content is collapsed to give a better overview about the whole page.
 
-Content:: The input fields of a section is typically ordered as a form, field description being on the left of the input elements. Instead of input fields, the content of a section can also be a table. If a section contains a table instead of multiple input fields it is called _TableSection_.
+Content:: The input fields of a section is typically ordered as a form, field description being on the left of the input elements. Instead of input fields, the content of a section can also be a table. If a section contains a table instead of multiple input fields it is called _GridSection_.
 
 *linkki* offers two annotations to create a section:
 

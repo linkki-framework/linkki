@@ -14,14 +14,14 @@
 
 package org.linkki.samples.playground.pageobjects;
 
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
-import com.vaadin.testbench.annotations.Attribute;
+import com.vaadin.testbench.TestBenchElement;
+import com.vaadin.testbench.elementsbase.Element;
 
 /**
  * Page object for a linkki section
  */
-@Attribute(name = "class", contains = "linkki-section")
-public class LinkkiSectionElement extends VerticalLayoutElement {
+@Element("linkki-section")
+public class LinkkiSectionElement extends TestBenchElement {
 
     public LinkkiSectionCaptionElement getCaption() {
         return $(LinkkiSectionCaptionElement.class).first();

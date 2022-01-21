@@ -46,7 +46,7 @@ public class SelectableTableSection {
         GridSection section = (GridSection)new PmoBasedSectionFactory()
                 .createSection(selectableTableSectionPmo, new BindingContext("selectableTable"));
 
-        SingleSelect<?, ?> singleSelect = section.getSectionContent().asSingleSelect();
+        SingleSelect<?, ?> singleSelect = section.getGrid().asSingleSelect();
         BindingContext comparisonBindingContext = new BindingContext("selectableTableComparison");
         Component comparisonSection = VaadinUiCreator.createComponent(
                                                                       new SelectionComparisonSectionPmo(

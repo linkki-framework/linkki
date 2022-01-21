@@ -23,7 +23,6 @@ import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class TC002UIIntegerFieldTest extends PlaygroundUiTest {
@@ -92,8 +91,7 @@ public class TC002UIIntegerFieldTest extends PlaygroundUiTest {
     }
 
     private TextFieldElement getTextField(String id) {
-        return $(VerticalLayoutElement.class).id(IntegerFieldPmo.class.getSimpleName())
-                .$(TextFieldElement.class).id(id);
+        return getSection(IntegerFieldPmo.class).$(TextFieldElement.class).id(id);
     }
 
 }

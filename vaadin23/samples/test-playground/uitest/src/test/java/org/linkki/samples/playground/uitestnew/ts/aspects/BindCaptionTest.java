@@ -19,6 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
@@ -31,7 +32,6 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.H4Element;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class BindCaptionTest extends PlaygroundUiTest {
@@ -136,7 +136,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testCheckboxCaption() {
-        VerticalLayoutElement section = getSection(BindCaptionWithoutButtonPmo.class);
+        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
         CheckboxElement checkbox = section.$(CheckboxElement.class)

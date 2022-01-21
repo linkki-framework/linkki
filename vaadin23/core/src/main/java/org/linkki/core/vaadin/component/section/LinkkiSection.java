@@ -24,11 +24,15 @@ import org.linkki.core.vaadin.component.HasCaption;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexDirection;
+import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexWrap;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -39,8 +43,15 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * and edit data. Optionally the section can be closed and opened. When the section is closed only the
  * header is shown.
  */
+@Tag("linkki-section")
+// TODO LIN-2728 Hier machen wir das ähnlich wie bei LinkkiTabLayout:
+// - Wir leiten von HtmlContent ab statt von VerticalLayout
+// - Wir erstellen in ts zwei slots: "header" und "content" oder so
+// - Die Styles von linkki-section.css können wir vermutlich weitgehend als inline Style ins ts umziehen
+// - Alternativ können wir die Styles auch in CSS belassen, und man macht in @CssImport
+// themeFor="linkki-section". Den include für all-imports brauchen wir glaube ich nicht mehr.
 @CssImport(value = "./styles/linkki-section.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
-public abstract class AbstractSection extends VerticalLayout implements HasCaption {
+public class LinkkiSection extends VerticalLayout implements HasCaption {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,6 +59,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
     private final List<Component> headerComponents = new ArrayList<>();
     private final H4 captionLabel;
     private final Button closeButton;
+    private final FlexLayout content;
 
     private boolean open = true;
 
@@ -57,7 +69,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      * 
      * @param caption the caption to display for this section
      */
-    public AbstractSection(@CheckForNull String caption) {
+    public LinkkiSection(@CheckForNull String caption) {
         this(caption, false);
     }
 
@@ -68,7 +80,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
-    public AbstractSection(@CheckForNull String caption, boolean closeable) {
+    public LinkkiSection(@CheckForNull String caption, boolean closeable) {
         setMargin(false);
         setSpacing(false);
         setPadding(false);
@@ -83,6 +95,19 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
         add(header);
 
         setCaption(caption);
+        content = createContent();
+        add(content);
+
+        setWidthFull();
+    }
+
+    private FlexLayout createContent() {
+        FlexLayout layout = new FlexLayout();
+        layout.setWidthFull();
+        layout.setFlexDirection(FlexDirection.COLUMN);
+        layout.setFlexWrap(FlexWrap.WRAP);
+        layout.setAlignItems(Alignment.BASELINE);
+        return layout;
     }
 
     private HorizontalLayout createHeader() {
@@ -206,7 +231,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
     protected void switchOpenStatus() {
         open = !open;
         closeButton.setIcon(open ? VaadinIcon.ANGLE_DOWN.create() : VaadinIcon.ANGLE_RIGHT.create());
-        getSectionContent().setVisible(open);
+        getContentWrapper().setVisible(open);
     }
 
     /**
@@ -215,7 +240,20 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      *           and has to be excluded.
      * 
      * @return the content of this section
+     * @deprecated use {@link #getContentWrapper()} instead.
      */
-    protected abstract Component getSectionContent();
+    @Deprecated(since = "2.0.0")
+    protected Component getSectionContent() {
+        return content;
+    }
+
+    /**
+     * This method has to return the section's content. The section's header is not part of the content.
+     * 
+     * @return the content of this section
+     */
+    public FlexLayout getContentWrapper() {
+        return content;
+    }
 
 }

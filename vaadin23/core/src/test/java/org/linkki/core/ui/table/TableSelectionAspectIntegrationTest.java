@@ -49,7 +49,7 @@ public class TableSelectionAspectIntegrationTest {
         GridSection table = (GridSection)new PmoBasedSectionFactory()
                 .createSection(new TestSelectableTablePmo(), new BindingContext());
         table.getGrid().setPageSize(1);
-        assertThat("Table in table section is selectable", table.getSectionContent().getSelectionModel(),
+        assertThat("Table in table section is selectable", table.getGrid().getSelectionModel(),
                    is(instanceOf(GridSingleSelectionModel.class)));
     }
 

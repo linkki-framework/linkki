@@ -21,7 +21,7 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 
@@ -135,7 +135,7 @@ public class PmoBasedDialogFactory {
         BindingContext bindingContext = bindingManager.getContext(dialog.getClass());
 
         for (Object pmo : pmos) {
-            AbstractSection content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
+            LinkkiSection content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
             float expRatio = 0f;
             if (pmo == pmos[pmos.length - 1]) {
                 expRatio = 1f;

@@ -18,7 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
 
@@ -29,7 +29,7 @@ import com.vaadin.flow.component.Component;
  * It is recommended to use negative numbers for the position of elements marked with this annotation to
  * avoid conflicts with elements placed in the section's content area.
  * 
- * @implNote Components will be added using {@link AbstractSection#addHeaderComponent(Component)}.
+ * @implNote Components will be added using {@link LinkkiSection#addHeaderComponent(Component)}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
