@@ -224,7 +224,7 @@ public class AbstractUiTest extends TestBenchTestCase {
     /**
      * Only works when the tested Component implements {@link HasPrefixAndSuffix} in Vaadin-flow
      * 
-     * @param element
+     * @param element the {@link WebElement} to select the suffix from
      * @return WebElement which contains Suffix
      */
 

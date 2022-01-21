@@ -14,13 +14,24 @@
 
 package org.linkki.samples.playground.uitestnew.ts.layouts;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.linkki.samples.playground.ts.layouts.BasicElementsUISectionLayoutBehaviorComponent;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 
-class TC001UISectionTest extends TC001AbstractSectionTest {
+import com.vaadin.flow.component.tabs.testbench.TabElement;
+
+class TC001UISectionColumnLayoutTest extends TC001AbstractSectionTest {
 
     @Override
     protected String getTestCaseId() {
         return PlaygroundApplicationView.TC001;
     }
 
+    @Override
+    @BeforeEach
+    void setup() {
+        super.setup();
+        getTestCaseSection().getContentWrapper().$(TabElement.class)
+                .id(BasicElementsUISectionLayoutBehaviorComponent.FORM).click();
+    }
 }
