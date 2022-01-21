@@ -17,7 +17,7 @@ import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 // tag::class[]
-@UISection(caption = "Common Data", closeable = true, layout = SectionLayout.COLUMN)
+@UISection(caption = "Common Data", closeable = true, layout = SectionLayout.FORM)
 public class CommonDataSectionPmo {
 
     // ...

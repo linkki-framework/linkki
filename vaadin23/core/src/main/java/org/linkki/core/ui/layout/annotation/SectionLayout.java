@@ -40,8 +40,20 @@ public enum SectionLayout {
      * components.
      * <p>
      * <em>Consider using {@link UIFormSection} instead.</em>
+     * 
+     * @deprecated Use {@link #FORM} instead
      **/
+    @Deprecated(since = "2.0.0")
     COLUMN(FlexDirection.COLUMN, SectionLayoutDefinition.DEFAULT),
+
+    /**
+     * Displays section elements stacked in a column. Labels are displayed on the left of the
+     * components.
+     * <p>
+     * <em>Consider using {@link UIFormSection} instead.</em>
+     **/
+    FORM(FlexDirection.COLUMN, SectionLayoutDefinition.DEFAULT),
+
 
     /**
      * Displays section elements stacked in a column. Labels are displayed on top of the component.

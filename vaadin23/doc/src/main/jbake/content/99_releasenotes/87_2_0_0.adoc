@@ -9,6 +9,19 @@
 
 ==== New features and improvements
 
+[role="api-change"]
+===== LIN-2639 Section Layout
+////
+https://jira.faktorzehn.de/browse/LIN-2639
+////
+
+.Overview
+[cols="a,a"]
+|=== 
+| Changes | Description
+| `org.linkki.core.ui.layout.annotation.SectionLayout.COLUMN` a| Deprecated. Use `org.linkki.core.ui.layout.annotation.SectionLayout.FORM` instead.
+|===
+
 ===== Vaadin 8 modules removed
 
 ////

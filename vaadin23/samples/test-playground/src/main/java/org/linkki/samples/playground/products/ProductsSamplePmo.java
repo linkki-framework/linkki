@@ -52,7 +52,7 @@ public class ProductsSamplePmo {
         // nothing needed
     }
 
-    @UISection(caption = "Sample Section Vertical", layout = SectionLayout.COLUMN)
+    @UISection(caption = "Sample Section Vertical", layout = SectionLayout.FORM)
     public static class Vertical extends ProductsSamplePmo {
         // nothing needed
     }

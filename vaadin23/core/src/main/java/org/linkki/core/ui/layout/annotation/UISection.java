@@ -34,8 +34,8 @@ import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 
 /**
- * Responsible for creating a section in the UI from the annotated PMO class that may include other
- * UI-Elements.
+ * Responsible for creating a section in the UI from the annotated PMO class that may include other UI
+ * elements.
  */
 @LinkkiComponent(SectionComponentDefinitonCreator.class)
 @LinkkiLayout(SectionLayoutDefinitionCreator.class)
@@ -47,12 +47,11 @@ public @interface UISection {
     /**
      * Layout for the section, i.e. whether fields are displayed horizontally or in vertical columns.
      */
-    SectionLayout layout() default SectionLayout.COLUMN;
+    SectionLayout layout() default SectionLayout.FORM;
 
     // TODO LIN-2072
     /**
-     * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other layout
-     * is used.
+     * Currently has no effect.
      */
     int columns() default 1;
 

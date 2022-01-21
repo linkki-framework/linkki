@@ -74,7 +74,7 @@ For setting label alignment see <<section-label-alignment,Label alignment in `@U
 include::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
 ----
 
-The layout for all the components within a `UISection` can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, VERTICAL or COLUMN.
+The layout for all the components within a `UISection` can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, VERTICAL or FORM.
 .
 
 [[horizontal-section-layout]]
@@ -83,8 +83,8 @@ Horizontal Section Layout:: With the horizontal layout all input fields are disp
 [[vertical-section-layout]]
 Vertical Section Layout:: With the vertical layout all input fields are displayed in a column. Labels are displayed on top of the component The attribute `columns` is ignored.
 
-[[column-section-layout]]
-Column Section Layout:: With the column layout fields are displayed one below the other. Labels are displayed on the left of the component. This Layout is used as default if no option is set.
+[[form-section-layout]]
+Form Section Layout:: With the form layout fields are displayed one below the other. Labels are displayed on the left of the component. This Layout is used as default if no option is set.
 
 [[section-label-alignment]]
 ===== Label alignment in sections

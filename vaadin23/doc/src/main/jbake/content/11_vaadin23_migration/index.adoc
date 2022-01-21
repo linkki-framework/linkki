@@ -10,8 +10,9 @@
 
 [IMPORTANT]
 .Not yet supported
-==== 
+====
 * Collapsible columns (currently always hidden)
+* @UISection columns attribute (currently has no effect and will be deprecated when a replacement is available)
 ====
 
 === Application Framework

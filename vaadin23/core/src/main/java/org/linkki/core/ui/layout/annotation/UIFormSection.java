@@ -36,7 +36,7 @@ import org.linkki.core.vaadin.component.section.BaseSection;
 
 /**
  * Responsible for creating a {@link BaseSection} in the UI from the annotated PMO class that may
- * include other UI-Elements.
+ * include other UI elements.
  */
 @LinkkiComponent(SectionComponentDefinitonCreator.class)
 @LinkkiLayout(SectionLayoutDefinitionCreator.class)

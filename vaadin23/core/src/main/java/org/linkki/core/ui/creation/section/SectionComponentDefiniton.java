@@ -30,7 +30,7 @@ import org.linkki.core.vaadin.component.section.GridSection;
  */
 public class SectionComponentDefiniton implements LinkkiComponentDefinition {
 
-    public static final SectionComponentDefiniton DEFAULT = new SectionComponentDefiniton(SectionLayout.COLUMN, "",
+    public static final SectionComponentDefiniton DEFAULT = new SectionComponentDefiniton(SectionLayout.FORM, "",
             false);
 
     private final SectionLayout layout;
