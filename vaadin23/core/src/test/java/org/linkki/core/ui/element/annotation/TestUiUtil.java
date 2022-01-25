@@ -36,9 +36,9 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.internal.AbstractFieldSupport;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.data.binder.HasItems;
 import com.vaadin.flow.data.renderer.Renderer;
 
@@ -71,11 +71,11 @@ public final class TestUiUtil {
      * @param pmo the PMO to which the component is bound is bound
      * @return a {@code Component} that is bound to the model object
      */
-    public static FlexLayout createSectionWith(Object pmo) {
+    public static Div createSectionWith(Object pmo) {
         return createSectionWith(pmo, new BindingContext());
     }
 
-    public static FlexLayout createSectionWith(Object pmo, BindingContext bindingContext) {
+    public static Div createSectionWith(Object pmo, BindingContext bindingContext) {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         LinkkiSection section = sectionFactory.createSection(pmo, bindingContext);
 
@@ -85,7 +85,7 @@ public final class TestUiUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getComponentById(FlexLayout layout, String id) {
+    public static <T> T getComponentById(Div layout, String id) {
         return (T)layout.getChildren()
                 .map(c -> (FormItem)c)
                 .map(fi -> fi.getChildren().findFirst().get())
@@ -95,7 +95,7 @@ public final class TestUiUtil {
                 .orElseThrow(() -> new IllegalStateException("No component with id " + id));
     }
 
-    public static String getLabelOfComponentAt(FlexLayout layout, int row) {
+    public static String getLabelOfComponentAt(Div layout, int row) {
         List<Component> children = layout.getChildren().collect(Collectors.toList());
         FormItem formItem = (FormItem)children.get(row);
         return ((Label)formItem.getChildren().collect(Collectors.toList()).get(1)).getText();

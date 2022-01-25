@@ -77,8 +77,10 @@ import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
+import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
+import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
+import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
 import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
-import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
 import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
@@ -86,13 +88,16 @@ import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 
-@Route(value = "", layout = PlaygroundAppLayout.class)
+@RouteAlias(value = "", layout = PlaygroundAppLayout.class)
+@Route(value = "playground", layout = PlaygroundAppLayout.class)
 @PageTitle("linkki Sample :: Playground")
 public class PlaygroundApplicationView extends Div implements HasUrlParameter<String> {
 
@@ -159,15 +164,19 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC006, new BasicElementsLayoutBehaviorCssLayoutPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS002)
-                                       .testCase(TC001, new SectionHeaderBehaviorPmo())
+                                       .testCase(TC001, new SectionHeaderAnnotationPmo())
                                        .testCase(TC002, () -> {
-                                           Component section = VaadinUiCreator
+                                           Component component = VaadinUiCreator
                                                    .createComponent(new GridSectionLayoutPmo(), new BindingContext(
                                                            GridSectionLayoutPmo.class.getSimpleName()));
-                                           section.getElement().getStyle().set("height", "200px");
-                                           return section;
+                                           component.getElement().getStyle().set("height", "200px");
+                                           return component;
                                        })
                                        .testCase(TC003, new SectionLayoutComponent())
+                                       .testCase(TC004,
+                                                 () -> new VerticalLayout(
+                                                         SectionHeaderBehaviorComponent.createClosableSection(),
+                                                         SectionHeaderBehaviorComponent.createNotClosableSection()))
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())

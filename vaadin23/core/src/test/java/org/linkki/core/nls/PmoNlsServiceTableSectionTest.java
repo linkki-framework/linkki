@@ -32,7 +32,6 @@ import org.linkki.core.ui.element.annotation.TestUiUtil;
 import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class PmoNlsServiceTableSectionTest {
 
@@ -83,8 +82,7 @@ public class PmoNlsServiceTableSectionTest {
         PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
         LinkkiSection tableSection = factory.createSection(containerPmo, bindingContext);
-        HorizontalLayout header = (HorizontalLayout)tableSection.getComponentAt(0).getElement().getComponent().get();
-        return header.getComponentAt(0).getElement().getText();
+        return tableSection.getCaption();
     }
 
 

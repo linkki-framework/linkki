@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.sectionheader;
+package org.linkki.samples.playground.ts.section;
 
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
@@ -20,8 +20,8 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "I am a SectionHeader title")
-public class SectionHeaderBehaviorPmo {
+@UISection(caption = "I am a section caption")
+public class SectionHeaderAnnotationPmo {
 
     private String lastPressed = "none";
 
@@ -46,5 +46,6 @@ public class SectionHeaderBehaviorPmo {
     public String getLabel() {
         return lastPressed;
     }
+
 
 }

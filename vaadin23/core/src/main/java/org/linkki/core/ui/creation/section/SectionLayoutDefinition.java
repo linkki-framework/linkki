@@ -32,9 +32,9 @@ import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.GridSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;

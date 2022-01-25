@@ -14,7 +14,6 @@
 package org.linkki.core.vaadin.component.section;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
 /**
  * Base class for sections. Child components can be added using {@link #addContent(Component)}
@@ -48,7 +47,7 @@ public class BaseSection extends LinkkiSection {
      */
     @Deprecated(since = "2.0.0")
     @Override
-    public FlexLayout getSectionContent() {
+    public Component getSectionContent() {
         return getContentWrapper();
     }
 }

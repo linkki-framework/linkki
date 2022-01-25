@@ -13,9 +13,9 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
@@ -24,16 +24,14 @@ import org.linkki.core.vaadin.component.HasCaption;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexWrap;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -43,24 +41,20 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * header is shown.
  */
 @Tag("linkki-section")
-// TODO LIN-2728 Hier machen wir das ähnlich wie bei LinkkiTabLayout:
-// - Wir leiten von HtmlContent ab statt von VerticalLayout
-// - Wir erstellen in ts zwei slots: "header" und "content" oder so
-// - Die Styles von linkki-section.css können wir vermutlich weitgehend als inline Style ins ts umziehen
-// - Alternativ können wir die Styles auch in CSS belassen, und man macht in @CssImport
-// themeFor="linkki-section". Den include für all-imports brauchen wir glaube ich nicht mehr.
-@CssImport(value = "./styles/linkki-section.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
-public class LinkkiSection extends VerticalLayout implements HasCaption {
+@JsModule("./src/linkki-section.ts")
+public class LinkkiSection extends HtmlComponent implements HasCaption {
 
     public static final String THEME_VARIANT_HORIZONTAL = "horizontal";
 
+    static final String SLOT_HEADER_COMPONENTS = "header-components";
+    static final String SLOT_CLOSE_TOGGLE = "close-toggle";
+    static final String SLOT_CONTENT = "content";
+
     private static final long serialVersionUID = 1L;
 
-    private final HorizontalLayout header;
-    private final List<Component> headerComponents = new ArrayList<>();
     private final H4 captionLabel;
     private final Button closeButton;
-    private final FlexLayout content;
+    private final Div content;
 
     private boolean open = true;
 
@@ -81,70 +75,37 @@ public class LinkkiSection extends VerticalLayout implements HasCaption {
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
+    @SuppressWarnings("deprecation")
     public LinkkiSection(@CheckForNull String caption, boolean closeable) {
-        setMargin(false);
-        setSpacing(false);
-        setPadding(false);
         setClassName(LinkkiTheme.SECTION);
 
         captionLabel = createCaption();
+        captionLabel.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
+
         closeButton = createOpenCloseButton(this::switchOpenStatus);
         closeButton.setVisible(closeable);
-
-        header = createHeader();
-        updateHeader();
-        add(header);
+        closeButton.getElement().setAttribute("slot", SLOT_CLOSE_TOGGLE);
 
         setCaption(caption);
-        content = createContent();
-        add(content);
+        content = new Div();
+        content.getElement().setAttribute("slot", SLOT_CONTENT);
 
+        getElement().appendChild(captionLabel.getElement(), closeButton.getElement(), content.getElement());
         setWidthFull();
     }
 
-    private FlexLayout createContent() {
-        FlexLayout layout = new FlexLayout();
-        layout.setWidthFull();
-        layout.setFlexWrap(FlexWrap.WRAP);
-        layout.setAlignItems(Alignment.BASELINE);
-        return layout;
-    }
-
-    private HorizontalLayout createHeader() {
-        HorizontalLayout headerLayout = new HorizontalLayout();
-        headerLayout.setWidth("100%");
-        headerLayout.setDefaultVerticalComponentAlignment(Alignment.CENTER);
-        headerLayout.addClassName(LinkkiTheme.SECTION_CAPTION);
-
-        headerLayout.add(captionLabel);
-        headerLayout.add(closeButton);
-
-        headerLayout.setMargin(false);
-
-        return headerLayout;
-    }
-
     private static H4 createCaption() {
-        return new H4();
+        H4 h4 = new H4();
+        h4.addClassName(LinkkiTheme.SECTION_CAPTION_TEXT);
+        h4.getStyle().set("margin", "0");
+        return h4;
     }
 
     private static Button createOpenCloseButton(Handler toggleCloseOpen) {
-        // TODO LIN-2249 ButtonPmoBuilder.DEFAULT_STYLES
         Button button = ComponentFactory.newButton(VaadinIcon.ANGLE_DOWN.create(), Collections.emptyList());
-        button.addClassName(LinkkiTheme.BUTTON_TEXT);
         button.addClickListener(e -> toggleCloseOpen.apply());
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         return button;
-    }
-
-    private boolean shouldHeaderBePresent() {
-        return !StringUtils.isEmpty(getCaption())
-                || this.closeButton.isVisible()
-                || !this.headerComponents.isEmpty();
-    }
-
-    private void updateHeader() {
-        header.setVisible(shouldHeaderBePresent());
     }
 
     /**
@@ -157,8 +118,6 @@ public class LinkkiSection extends VerticalLayout implements HasCaption {
     public void setCaption(@CheckForNull String caption) {
         captionLabel.setText(caption);
         captionLabel.setVisible(!StringUtils.isEmpty(caption));
-
-        updateHeader();
     }
 
     @Override
@@ -172,11 +131,10 @@ public class LinkkiSection extends VerticalLayout implements HasCaption {
      * item, if it is present.
      */
     public void addHeaderButton(Button button) {
-        button.addClassName(LinkkiTheme.BUTTON_TEXT);
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        headerComponents.add(button);
-        header.addComponentAtIndex(1, button);
-        updateHeader();
+
+        button.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
+        getElement().insertChild(1, button.getElement());
     }
 
     /**
@@ -189,9 +147,18 @@ public class LinkkiSection extends VerticalLayout implements HasCaption {
             ((Button)component).addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         }
 
-        headerComponents.add(component);
-        header.addComponentAtIndex(header.getComponentCount() - 1, component);
-        updateHeader();
+        component.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
+        getElement().appendChild(component.getElement());
+    }
+
+    /**
+     * Returns all components in the header, not including the caption.
+     * 
+     * @since 2.0.0
+     */
+    public List<Component> getHeaderComponents() {
+        return getChildren().filter(c -> SLOT_HEADER_COMPONENTS.contentEquals(c.getElement().getAttribute("slot")))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -248,11 +215,12 @@ public class LinkkiSection extends VerticalLayout implements HasCaption {
     }
 
     /**
-     * This method has to return the section's content. The section's header is not part of the content.
+     * Returns the section's content. The section's header is not part of the content.
      * 
      * @return the content of this section
+     * @since 2.0.0
      */
-    public FlexLayout getContentWrapper() {
+    public Div getContentWrapper() {
         return content;
     }
 

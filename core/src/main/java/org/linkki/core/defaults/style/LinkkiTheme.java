@@ -21,16 +21,27 @@ public class LinkkiTheme {
     /** Style for a horizontal spacer */
     public static final String HORIZONTAL_SPACER = "linkki-horizontal-spacer";
 
-    /** Style for the section layout component */
+    /**
+     * Style for the section layout component
+     * 
+     * @deprecated Use the tag "linkki-section" to select sections instead.
+     */
+    @Deprecated(since = "2.0.0")
     public static final String SECTION = "linkki-section";
 
-    /** Style for the caption of a section. */
+    /**
+     * @deprecated This class is no longer applied to any parts of a section.
+     */
+    @Deprecated(since = "2.0.0")
     public static final String SECTION_CAPTION = "linkki-section-caption";
 
     /** Style for the caption of a section. */
     public static final String SECTION_CAPTION_TEXT = "linkki-section-caption-text";
 
-    /** Style for the line separating the section's header/caption from the body/content. */
+    /**
+     * @deprecated This class is no longer applied to any parts of a section.
+     */
+    @Deprecated(since = "2.0.0")
     public static final String SECTION_CAPTION_LINE = "linkki-section-caption-line";
 
     /** Style for the label part of a wrapped component */

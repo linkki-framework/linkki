@@ -18,17 +18,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.vaadin.component.section.BaseSection;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 class UIFormSectionIntegrationTest {
 
@@ -41,19 +37,18 @@ class UIFormSectionIntegrationTest {
         assertThat("UiCreator should be able to create a FormSection", component,
                    is(instanceOf(BaseSection.class)));
 
-        BaseSection layout = (BaseSection)component;
+        BaseSection formSection = (BaseSection)component;
 
-        assertThat("Child component should be correctly created", layout.getChildren().count(), is(2L));
-        List<Component> childComponents = layout.getChildren().collect(Collectors.toList());
-        assertThat("First child component should be a HorizontalLayout", childComponents.get(0),
-                   is(instanceOf(HorizontalLayout.class)));
-        assertThat("Second child component should be a FlexLayout", childComponents.get(1),
-                   is(instanceOf(FlexLayout.class)));
+        assertThat(formSection.getCaption(), is("Caption"));
+        assertThat(formSection.getContentWrapper().getComponentCount(), is(1));
     }
 
 
-    @UIFormSection
+    @UIFormSection(caption = "Caption")
     public static class FormSectionPmo {
-        // no content needed for creation test
+        @UITextField(position = 0)
+        public String getText() {
+            return "";
+        }
     }
 }

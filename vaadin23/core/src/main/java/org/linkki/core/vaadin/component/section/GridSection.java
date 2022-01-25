@@ -47,7 +47,6 @@ public class GridSection extends LinkkiSection {
     public void setGrid(Grid<?> grid) {
         this.grid = requireNonNull(grid, "grid must not be null");
         getContentWrapper().add(grid);
-        setFlexGrow(1, grid);
     }
 
     /**

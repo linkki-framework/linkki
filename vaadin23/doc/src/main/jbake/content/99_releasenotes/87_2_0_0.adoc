@@ -29,17 +29,21 @@ For further information see <<layout-uisection, UISection>>.
 
 Due to the rework, following refactorings have been made
 
-.Overview
+.Overview API changes in AbstractSection
 [cols="a,a"]
 |=== 
 | Changes | Description
-| `org.linkki.core.vaadin.component.section.AbstractSection` a| Has been removed and replaced by `org.linkki.core.vaadin.component.section.LinkkiSection`.
-| `org.linkki.core.vaadin.component.section.LinkkiSection` a| New concrete class. Replacement for `org.linkki.core.vaadin.component.section.AbstractSection`. Corresponding code has been moved.
-| `org.linkki.core.vaadin.component.section.BaseSection.getSectionContent()` a| Deprecated. Use `org.linkki.core.vaadin.component.section.BaseSection.getContentWrapper()` instead.
-| `org.linkki.core.vaadin.component.section.GridSection.getSectionContent()` a| Deprecated. Use `org.linkki.core.vaadin.component.section.GridSection.getGrid()` instead.
+| `AbstractSection` a| Has been removed and replaced by `LinkkiSection`.
+| `HorizontalSection` a| Has been removed. `BaseSection` is directly used instead.
+| `LinkkiSection` a| New concrete class. Replacement for `AbstractSection`. Corresponding code has been moved.
+| `BaseSection.getSectionContent()` a| Deprecated. Use `BaseSection.getContentWrapper()` instead.
+| `GridSection.getSectionContent()` a| Deprecated. Use `getGrid()` instead.
 |===
 
-This also results in changes of the HTML structure of sections which are now furthermore `linkki-section` instead of `vaadin-vertical-layouts`. This must be considered when using selectors in UI tests or CSS styling.
+Furthermore, the new `LinkkiSection` is no longer a instance of `VerticalLayout`. This also means that several methods that have been transitively provided by `VerticalLayout` are no longer available. 
+Most prominently, the methods to add child components are removed as these were not intended to be a part of the public API. Instead, `LinkkiSection` offers methods to retrieve the content. From there, you can add children to the content.
+
+These changes also results in changes of the HTML structure of sections which are now furthermore `linkki-section` instead of `vaadin-vertical-layouts`. This must be considered when using selectors in UI tests or CSS styling.
 
 ===== Vaadin 8 modules removed
 

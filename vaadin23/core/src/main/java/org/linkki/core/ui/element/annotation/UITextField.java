@@ -96,11 +96,11 @@ public @interface UITextField {
     /**
      * Specifies the width of the field using a number and a CSS unit, for example "5em" or "50%".
      * <p>
-     * This value is not set by default. If set to 100%, it will take up all available space.
+     * This value is set to 100% by default, which means it takes up all available space.
      * 
      * @see HasSize#setWidth(String)
      */
-    String width() default "";
+    String width() default "100%";
 
     /** Defines the maximal count of characters which can be displayed */
     int maxLength() default 0;

@@ -14,6 +14,10 @@
 
 package org.linkki.samples.playground.pageobjects;
 
+import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.html.testbench.H4Element;
+import com.vaadin.testbench.ElementQuery;
 import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.elementsbase.Element;
 
@@ -23,8 +27,23 @@ import com.vaadin.testbench.elementsbase.Element;
 @Element("linkki-section")
 public class LinkkiSectionElement extends TestBenchElement {
 
-    public LinkkiSectionCaptionElement getCaption() {
-        return $(LinkkiSectionCaptionElement.class).first();
+    public String getCaption() {
+        return $(H4Element.class).first().getText();
     }
 
+    public DivElement getContent() {
+        return $(DivElement.class).attribute("slot", "content").first();
+    }
+
+    public ElementQuery<ButtonElement> getCloseToggle() {
+        return $(ButtonElement.class).attribute("slot", "close-toggle");
+    }
+
+    public ElementQuery<TestBenchElement> getHeaderComponents() {
+        return getHeaderComponents(TestBenchElement.class);
+    }
+
+    public <T extends TestBenchElement> ElementQuery<T> getHeaderComponents(Class<T> clazz) {
+        return $(clazz).attribute("slot", "header-components");
+    }
 }

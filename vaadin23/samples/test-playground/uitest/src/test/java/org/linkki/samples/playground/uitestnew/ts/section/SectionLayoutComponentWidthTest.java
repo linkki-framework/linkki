@@ -148,8 +148,8 @@ public class SectionLayoutComponentWidthTest {
             Double integerFieldWidth = getComponentWidth(INTEGER_FIELD_WITH_DEFAULT_WIDTH);
             Double doubleFieldWidth = getComponentWidth(DOUBLE_FIELD_WITH_DEFAULT_WIDTH);
 
-            assertThat(textAreaWidth).isEqualTo(textFieldWidth).isEqualTo(integerFieldWidth)
-                    .isEqualTo(doubleFieldWidth);
+            assertThat(textAreaWidth).isEqualTo(textFieldWidth);
+            assertThat(integerFieldWidth).isEqualTo(doubleFieldWidth).isLessThan(textFieldWidth);
         }
 
     }

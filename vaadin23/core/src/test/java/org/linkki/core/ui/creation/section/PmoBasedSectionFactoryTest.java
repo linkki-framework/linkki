@@ -27,12 +27,11 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class PmoBasedSectionFactoryTest {
 
@@ -54,7 +53,7 @@ public class PmoBasedSectionFactoryTest {
     public void testSetComponentId() {
         BaseSection section = (BaseSection)PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(),
                                                                                        bindingContext);
-        Component textField = TestUiUtil.getComponentAtIndex(0, section.getSectionContent());
+        Component textField = TestUiUtil.getComponentAtIndex(0, section.getContentWrapper());
 
         assertThat(textField.getId(), hasValue("testProperty"));
     }
@@ -68,14 +67,14 @@ public class PmoBasedSectionFactoryTest {
     @Test
     public void testSectionWithHorizontalLayout_shouldCreateHorizontalSection() {
         LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithHorizontalLayout(),
-                                                                              bindingContext);
+                                                                            bindingContext);
         assertThat(section, is(instanceOf(BaseSection.class)));
     }
 
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
         LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithoutAnnotation(),
-                                                                              bindingContext);
+                                                                            bindingContext);
         assertThat(section, is(instanceOf(BaseSection.class)));
         assertThat(section.getId(), hasValue(SectionWithoutAnnotation.class.getSimpleName()));
         assertThat(section.getCaption(), is(""));
@@ -87,10 +86,9 @@ public class PmoBasedSectionFactoryTest {
         PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
         LinkkiSection tableSection = factory.createSection(containerPmo, bindingContext);
-        HorizontalLayout header = (HorizontalLayout)TestUiUtil.getComponentAtIndex(0, tableSection);
 
-        assertThat(header.getComponentAt(1), instanceOf(Button.class));
-        assertThat(((Button)header.getComponentAt(1)).getText(), is("header button"));
+        assertThat(tableSection.getHeaderComponents().get(1), instanceOf(Button.class));
+        assertThat(((Button)tableSection.getHeaderComponents().get(1)).getText(), is("header button"));
     }
 
     @UISection(caption = "Test")
