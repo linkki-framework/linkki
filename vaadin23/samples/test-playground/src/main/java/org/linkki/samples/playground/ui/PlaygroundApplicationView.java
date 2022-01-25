@@ -70,8 +70,8 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorCssLa
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
-import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionComponent;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
@@ -141,14 +141,17 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
-        Component formSectionComponent = VaadinUiCreator
-                .createComponent(new BasicElementsLayoutBehaviorFormSectionPmo(), new BindingContext(TC002));
-        ComponentStyles.setFormItemLabelWidth(formSectionComponent, "200px");
         tabLayout.addTabSheets(
                                // new test scenarios
                                TestScenario.id(TS001)
                                        .testCase(TC001, new BasicElementsLayoutBehaviorUiSectionComponent())
-                                       .testCase(TC002, formSectionComponent)
+                                       .testCase(TC002, () -> {
+                                           Component component = VaadinUiCreator
+                                                   .createComponent(new BasicElementsLayoutBehaviorFormSectionPmo(),
+                                                                    new BindingContext(TC002));
+                                           ComponentStyles.setFormItemLabelWidth(component, "200px");
+                                           return component;
+                                       })
                                        .testCase(TC003, new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
                                        .testCase(TC004, new BasicElementsLayoutBehaviorVerticalLayoutPmo())
                                        .testCase(TC005, new BasicElementsLayoutBehaviorFormLayoutPmo())
@@ -156,6 +159,13 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .createTabSheet(),
                                TestScenario.id(TS002)
                                        .testCase(TC001, new SectionHeaderBehaviorPmo())
+                                       .testCase(TC002, () -> {
+                                           Component section = VaadinUiCreator
+                                                   .createComponent(new GridSectionLayoutPmo(), new BindingContext(
+                                                           GridSectionLayoutPmo.class.getSimpleName()));
+                                           section.getElement().getStyle().set("height", "200px");
+                                           return section;
+                                       })
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())
