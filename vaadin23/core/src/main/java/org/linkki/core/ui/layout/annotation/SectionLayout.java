@@ -13,13 +13,15 @@
  */
 package org.linkki.core.ui.layout.annotation;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.linkki.core.ui.creation.section.SectionLayoutDefinition;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
-
-import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexDirection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 /**
  * The options for the layout pattern of a section
@@ -33,7 +35,7 @@ public enum SectionLayout {
      * Note that with this option, several components such as {@link UIButton}, {@link UICheckBox},
      * {@link UILabel} and {@link UILink} do not support labels.
      */
-    HORIZONTAL(FlexDirection.ROW, SectionLayoutDefinition.LABEL_ON_TOP),
+    HORIZONTAL(SectionLayoutDefinition.LABEL_ON_TOP, LinkkiSection.THEME_VARIANT_HORIZONTAL),
 
     /**
      * Displays section elements stacked in a column. Labels are displayed on the left of the
@@ -44,7 +46,7 @@ public enum SectionLayout {
      * @deprecated Use {@link #FORM} instead
      **/
     @Deprecated(since = "2.0.0")
-    COLUMN(FlexDirection.COLUMN, SectionLayoutDefinition.DEFAULT),
+    COLUMN(SectionLayoutDefinition.DEFAULT),
 
     /**
      * Displays section elements stacked in a column. Labels are displayed on the left of the
@@ -52,8 +54,7 @@ public enum SectionLayout {
      * <p>
      * <em>Consider using {@link UIFormSection} instead.</em>
      **/
-    FORM(FlexDirection.COLUMN, SectionLayoutDefinition.DEFAULT),
-
+    FORM(SectionLayoutDefinition.DEFAULT),
 
     /**
      * Displays section elements stacked in a column. Labels are displayed on top of the component.
@@ -61,23 +62,23 @@ public enum SectionLayout {
      * Note that with this option, several components such as {@link UIButton}, {@link UICheckBox},
      * {@link UILabel} and {@link UILink} do not support labels.
      */
-    VERTICAL(FlexDirection.COLUMN, SectionLayoutDefinition.LABEL_ON_TOP);
+    VERTICAL(SectionLayoutDefinition.LABEL_ON_TOP);
 
-
-    private final FlexDirection flexDirection;
     private final SectionLayoutDefinition sectionLayoutDefinition;
+    private final String[] themeNames;
 
-    private SectionLayout(FlexDirection flexDirection, SectionLayoutDefinition sectionLayoutDefinition) {
-        this.flexDirection = flexDirection;
+    private SectionLayout(SectionLayoutDefinition sectionLayoutDefinition,
+            String... themeNames) {
         this.sectionLayoutDefinition = sectionLayoutDefinition;
-    }
-
-    public FlexDirection getFlexDirection() {
-        return flexDirection;
+        this.themeNames = themeNames;
     }
 
     public SectionLayoutDefinition getSectionLayoutDefinition() {
         return sectionLayoutDefinition;
+    }
+
+    public List<String> getThemeNames() {
+        return Arrays.asList(themeNames);
     }
 
 }

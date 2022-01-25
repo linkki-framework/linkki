@@ -142,8 +142,7 @@ public class ComponentFactory {
     }
 
     public static <T> ComboBox<T> newComboBox() {
-        ComboBox<T> linkkiComboBox = new ComboBox<>();
-        return linkkiComboBox;
+        return new ComboBox<>();
     }
 
     public static Checkbox newCheckbox() {

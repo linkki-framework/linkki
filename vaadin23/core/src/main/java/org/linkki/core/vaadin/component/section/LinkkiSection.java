@@ -31,7 +31,6 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexDirection;
 import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexWrap;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -52,6 +51,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 // themeFor="linkki-section". Den include für all-imports brauchen wir glaube ich nicht mehr.
 @CssImport(value = "./styles/linkki-section.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
 public class LinkkiSection extends VerticalLayout implements HasCaption {
+
+    public static final String THEME_VARIANT_HORIZONTAL = "horizontal";
 
     private static final long serialVersionUID = 1L;
 
@@ -104,7 +105,6 @@ public class LinkkiSection extends VerticalLayout implements HasCaption {
     private FlexLayout createContent() {
         FlexLayout layout = new FlexLayout();
         layout.setWidthFull();
-        layout.setFlexDirection(FlexDirection.COLUMN);
         layout.setFlexWrap(FlexWrap.WRAP);
         layout.setAlignItems(Alignment.BASELINE);
         return layout;

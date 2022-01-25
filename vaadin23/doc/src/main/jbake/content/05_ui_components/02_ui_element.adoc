@@ -124,7 +124,7 @@ A `com.vaadin.ui.TextField` for text entry. The annotation `UITextfield` has two
 * `maxLength: int`
 * `width: String`
 
-`maxLength` defines the maximum number of characters that can be entered or displayed in the field while `width` defines the visible width of the field using a number and a CSS unit, for example "5em" or "50%". This value is set to 100% by default which means it grabs the available space.
+`maxLength` defines the maximum number of characters that can be entered or displayed in the field while `width` defines the visible width of the field using a number and a CSS unit, for example "5em" or "50%". This value is not set by default. If set to 100% means, that it grabs all available space.
 
 [[ui-textarea]]
 ==== UITextArea

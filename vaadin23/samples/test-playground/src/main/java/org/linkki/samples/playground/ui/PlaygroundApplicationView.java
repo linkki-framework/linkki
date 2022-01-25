@@ -77,6 +77,7 @@ import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
+import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
 import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
 import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
@@ -166,6 +167,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                            section.getElement().getStyle().set("height", "200px");
                                            return section;
                                        })
+                                       .testCase(TC003, new SectionLayoutComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())

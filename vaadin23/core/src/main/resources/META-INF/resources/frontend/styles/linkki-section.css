@@ -1,27 +1,52 @@
-.linkki-section {
-    --linkki-section-caption-header-color: var(--lumo-contrast-80pct);
+linkki-section {
+	--linkki-section-caption-header-color: var(--lumo-contrast-80pct);
+	margin-bottom: 1em;
 }
 
 .linkki-section-caption {
-    margin-bottom: .5em;
-}
-.linkki-section {
-    margin-bottom: 1em;
-}
-.linkki-section-caption > h4 {
-    color: var(--linkki-section-caption-header-color);
-    white-space: nowrap;
-    margin: 0 var(--lumo-space-m);
+	margin-bottom: .5em;
 }
 
-.linkki-section-caption > vaadin-button {
-    margin-left: 0;
-    margin-right: var(--lumo-space-m);
+.linkki-section-caption>h4 {
+	color: var(--linkki-section-caption-header-color);
+	white-space: nowrap;
+	margin: 0 var(--lumo-space-m);
+}
+
+.linkki-section-caption>vaadin-button {
+	margin-left: 0;
+	margin-right: var(--lumo-space-m);
 }
 
 .linkki-section-caption:after {
-    height: 1px;
-    margin-bottom: 1px;
-    flex-grow: 1;
-    content: "";
+	height: 1px;
+	margin-bottom: 1px;
+	flex-grow: 1;
+	content: "";
+}
+
+linkki-section > div {
+	flex-wrap: wrap;
+	flex-direction: column;
+}
+
+linkki-section[theme~="horizontal"]>div {
+	flex-direction: row;
+	gap: var(--lumo-space-m);
+}
+
+linkki-section:not([theme~="horizontal"])>div>vaadin-text-area {
+	width: 100%;
+}
+
+linkki-section:not([theme~="horizontal"])>div>vaadin-form-item>vaadin-text-area	{
+	width: 100%;
+}
+
+linkki-section:not([theme~="horizontal"])>div>vaadin-form-item>vaadin-text-field:not([theme~="align-right"]) {
+	width: 100%;
+}
+
+linkki-section:not([theme~="horizontal"])>div>vaadin-text-field:not([theme~="align-right"])	{
+	width: 100%;
 }

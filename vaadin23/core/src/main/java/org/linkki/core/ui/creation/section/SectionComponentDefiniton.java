@@ -55,7 +55,7 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
             return createTableSection(nlsCaption);
         } else {
             BaseSection baseSection = new BaseSection(nlsCaption, closeable);
-            baseSection.getContentWrapper().setFlexDirection(layout.getFlexDirection());
+            baseSection.getElement().getThemeList().addAll(layout.getThemeNames());
             return baseSection;
         }
     }
