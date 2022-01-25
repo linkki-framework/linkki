@@ -76,8 +76,10 @@ public class BindingSampleView extends Div implements HasUrlParameter<String> {
         SplitLayout panel = new SplitLayout(contactComponent, contactsTable);
         panel.setOrientation(Orientation.HORIZONTAL);
         panel.setSplitterPosition(50);
+        panel.setSizeFull();
 
         add(panel);
+        setSizeFull();
     }
 
 }

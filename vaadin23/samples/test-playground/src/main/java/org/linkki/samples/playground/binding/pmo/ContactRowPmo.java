@@ -23,6 +23,7 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
 import org.linkki.samples.playground.binding.model.Contact;
 
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
@@ -84,18 +85,18 @@ public class ContactRowPmo {
         return contact.getAddress().asSingleLineString();
     }
 
-    @UITableColumn(width = 50)
+    @UITableColumn(width = 60)
     // tag::contactRowPmo-buttonBinding[]
     @BindTooltip("Edit")
-    @UIButton(position = 30, icon = VaadinIcon.EDIT, showIcon = true, caption = "")
+    @UIButton(position = 30, icon = VaadinIcon.EDIT, showIcon = true, caption = "", variants = ButtonVariant.LUMO_TERTIARY_INLINE)
     public void edit() {
         editAction.accept(contact);
     }
     // end::contactRowPmo-buttonBinding[]
 
-    @UITableColumn(width = 50)
+    @UITableColumn(width = 60)
     @BindTooltip("Delete")
-    @UIButton(position = 40, icon = VaadinIcon.TRASH, showIcon = true, caption = "")
+    @UIButton(position = 40, icon = VaadinIcon.TRASH, showIcon = true, caption = "", variants = ButtonVariant.LUMO_TERTIARY_INLINE)
     public void delete() {
         deleteAction.accept(contact);
     }

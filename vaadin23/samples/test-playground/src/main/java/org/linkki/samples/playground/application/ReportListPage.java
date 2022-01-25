@@ -46,7 +46,7 @@ public class ReportListPage extends AbstractPage implements AfterTabSelectedObse
 
     @Override
     public void createContent() {
-        setPadding(false);
+        setPadding(true);
         setId(ID);
         Headline headline = new Headline();
         add(headline);

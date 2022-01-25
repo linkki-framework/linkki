@@ -20,7 +20,9 @@ import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
-public class BasicElementsUISectionLayoutBehaviorComponent extends LinkkiTabLayout {
+import com.vaadin.flow.component.Component;
+
+public class BasicElementsLayoutBehaviorUiSectionComponent extends LinkkiTabLayout {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,25 +32,30 @@ public class BasicElementsUISectionLayoutBehaviorComponent extends LinkkiTabLayo
 
     private static final String DESCRIPTION = "@UISection with SectionLayout.";
 
-    public BasicElementsUISectionLayoutBehaviorComponent() {
+    public BasicElementsLayoutBehaviorUiSectionComponent() {
         setWidthFull();
         BindingContext bindingContext = new BindingContext();
 
         addTabSheet(LinkkiTabSheet.builder(FORM)
                 .description(DESCRIPTION + FORM)
-                .content(() -> VaadinUiCreator.createComponent(new BasicElementsLayoutBehaviorUiSectionPmo(),
-                                                               bindingContext))
+                .content(() -> createSheetContent(new BasicElementsLayoutBehaviorUiSectionPmo(), bindingContext))
                 .build());
         addTabSheet(LinkkiTabSheet.builder(HORIZONTAL)
                 .description(DESCRIPTION + HORIZONTAL)
-                .content(() -> VaadinUiCreator.createComponent(new BasicElementsLayoutBehaviorUiSectionHorizontalPmo(),
-                                                               bindingContext))
+                .content(() -> createSheetContent(new BasicElementsLayoutBehaviorUiSectionHorizontalPmo(),
+                                                  bindingContext))
                 .build());
         addTabSheet(LinkkiTabSheet.builder(VERTICAL)
                 .description(DESCRIPTION + VERTICAL)
-                .content(() -> VaadinUiCreator.createComponent(new BasicElementsLayoutBehaviorUiSectionVerticalPmo(),
-                                                               bindingContext))
+                .content(() -> createSheetContent(new BasicElementsLayoutBehaviorUiSectionVerticalPmo(),
+                                                  bindingContext))
                 .build());
+    }
+
+    private Component createSheetContent(Object pmo, BindingContext bindingContext) {
+        Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
+        component.getElement().getStyle().set("padding", "var(--lumo-space-m)");
+        return component;
     }
 
 }

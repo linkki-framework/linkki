@@ -137,15 +137,6 @@ public @interface UIRadioButtonGroup {
      */
     String modelAttribute() default "";
 
-    /**
-     * Specifies the alignment of the radio buttons. The alignment can be either
-     * {@link AlignmentType#VERTICAL}, which is the default alignment, or
-     * {@link AlignmentType#HORIZONTAL}
-     * 
-     * @return the {@link AlignmentType} that is set
-     */
-    AlignmentType buttonAlignment() default AlignmentType.VERTICAL;
-
     // end::custom-annotation[]
     // tag::component-definition[]
     public static class UIRadioButtonGroupComponentDefinitionCreator

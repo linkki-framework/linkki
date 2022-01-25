@@ -56,7 +56,7 @@ public class SampleView extends Div {
 
     private VerticalLayout createReportLayout() {
         VerticalLayout layout = new VerticalLayout();
-        layout.setPadding(false);
+        layout.setPadding(true);
         layout.add(new Headline("Create Report"));
         ReportPage page = new ReportPage(reports::add);
         page.init();

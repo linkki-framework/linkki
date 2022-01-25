@@ -16,7 +16,7 @@ package org.linkki.samples.playground.ts.layouts;
 
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection
+@UISection(caption = "@UISection")
 public class BasicElementsLayoutBehaviorUiSectionPmo extends AbstractBasicElementsLayoutBehaviorPmo {
     // no content needed
 }

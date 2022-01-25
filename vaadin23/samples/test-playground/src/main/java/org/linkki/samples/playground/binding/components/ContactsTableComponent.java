@@ -57,19 +57,13 @@ public class ContactsTableComponent extends Div implements UiUpdateObserver {
         table.addItemClickListener(e -> ((ContactRowPmo)e.getItem()).edit());
 
         noContentLabel = new VerticalLayout(new Label("No contacts available"));
+        noContentLabel.setWidth(null);
         noContentLabel.setMargin(true);
         add(noContentLabel, table);
     }
 
     @Override
     public void uiUpdated() {
-        // java.lang.IllegalArgumentException: Trying to detach an element from parent that does not
-        // have it.
-        // if (contactStorage.isEmpty()) {
-        // add(noContentLabel);
-        // } else {
-        // add(table);
-        // }
         noContentLabel.setVisible(contactStorage.isEmpty());
         table.setVisible(!contactStorage.isEmpty());
     }

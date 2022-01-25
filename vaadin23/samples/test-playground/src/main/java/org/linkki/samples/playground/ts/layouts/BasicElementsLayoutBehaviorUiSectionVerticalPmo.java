@@ -17,7 +17,7 @@ package org.linkki.samples.playground.ts.layouts;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(layout = SectionLayout.VERTICAL)
+@UISection(caption = "@UISection", layout = SectionLayout.VERTICAL)
 public class BasicElementsLayoutBehaviorUiSectionVerticalPmo extends AbstractBasicElementsLayoutBehaviorPmo {
     // no content needed
 }
