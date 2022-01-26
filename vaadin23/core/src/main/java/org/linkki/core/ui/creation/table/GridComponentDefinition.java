@@ -36,6 +36,7 @@ public class GridComponentDefinition implements LinkkiComponentDefinition {
         ContainerPmo<?> containerPmo = (ContainerPmo<?>)pmo;
         if (containerPmo.isHierarchical()) {
             TreeGrid<?> grid = new TreeGrid<>();
+            grid.setSelectionMode(SelectionMode.NONE);
             grid.addClassName("tree-table");
             grid.setWidth("100%");
             grid.addThemeVariants(variants);

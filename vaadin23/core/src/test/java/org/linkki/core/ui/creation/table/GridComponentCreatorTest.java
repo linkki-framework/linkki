@@ -107,12 +107,26 @@ public class GridComponentCreatorTest {
     }
 
     @Test
+    public void testInitGrid_SelectionDisabled() {
+        Grid<?> table = createTableWithColumns();
+
+        assertThat(table.getSelectionModel(), is(instanceOf(GridNoneSelectionModel.class)));
+    }
+
+    @Test
     public void testInitTreeGrid_ThemeVariants() {
         TreeGrid<?> table = createTreeTableWithColumns();
 
         assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
                                                              GridVariant.LUMO_COMPACT.getVariantName(),
                                                              GridVariant.LUMO_NO_BORDER.getVariantName()));
+    }
+
+    @Test
+    public void testInitTreeGrid_SelectionDisabled() {
+        TreeGrid<?> table = createTreeTableWithColumns();
+
+        assertThat(table.getSelectionModel(), is(instanceOf(GridNoneSelectionModel.class)));
     }
 
     // TODO LIN-2138
