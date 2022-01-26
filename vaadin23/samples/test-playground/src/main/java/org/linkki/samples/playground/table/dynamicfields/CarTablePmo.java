@@ -56,8 +56,9 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo> {
 
     @Override
     public int getPageLength() {
-        return Math.min(ContainerPmo.super.getPageLength(), getItems().size());
+        return 0;
     }
+
     // tag::table-footer[]
 
     @Override

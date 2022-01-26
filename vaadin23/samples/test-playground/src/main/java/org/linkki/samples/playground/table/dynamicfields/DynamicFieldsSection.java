@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.internal.CurrentInstance;
@@ -29,17 +28,20 @@ public class DynamicFieldsSection {
 
     private static final String CAR_STORAGE_ATTRIBUTE = "linkki-sample::car-storage";
 
+    private DynamicFieldsSection() {
+        // no instances
+    }
+
     public static Component create() {
 
         List<Car> carStorage = getCarStorage();
 
         BindingContext bindingContext = new BindingContext();
 
-        AbstractSection table = new PmoBasedSectionFactory()
+        return new PmoBasedSectionFactory()
                 .createSection(new CarTablePmo(carStorage,
                         () -> new NewCarDialog(carStorage, bindingContext::modelChanged)),
                                bindingContext);
-        return table;
     }
 
     // some fake persistent storage

@@ -101,9 +101,8 @@ public class GridComponentCreatorTest {
     public void testInitGrid_ThemeVariants() {
         Grid<?> table = createTableWithColumns();
 
-        assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_NO_ROW_BORDERS.getVariantName(),
-                                                             GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
-                                                             GridVariant.LUMO_ROW_STRIPES.getVariantName(),
+        assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
+                                                             GridVariant.LUMO_COMPACT.getVariantName(),
                                                              GridVariant.LUMO_NO_BORDER.getVariantName()));
     }
 
@@ -111,9 +110,8 @@ public class GridComponentCreatorTest {
     public void testInitTreeGrid_ThemeVariants() {
         TreeGrid<?> table = createTreeTableWithColumns();
 
-        assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_NO_ROW_BORDERS.getVariantName(),
-                                                             GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
-                                                             GridVariant.LUMO_ROW_STRIPES.getVariantName(),
+        assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
+                                                             GridVariant.LUMO_COMPACT.getVariantName(),
                                                              GridVariant.LUMO_NO_BORDER.getVariantName()));
     }
 

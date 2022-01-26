@@ -46,9 +46,9 @@ public class GridComponentCreator {
         requireNonNull(bindingContext, "bindingContext must not be null");
         Grid<ROW> grid = (Grid<ROW>)UiCreator
                 .createComponent(containerPmo, bindingContext,
-                                 new GridComponentDefinition(GridVariant.LUMO_NO_ROW_BORDERS,
+                                 new GridComponentDefinition(
                                          GridVariant.LUMO_WRAP_CELL_CONTENT,
-                                         GridVariant.LUMO_ROW_STRIPES,
+                                         GridVariant.LUMO_COMPACT,
                                          GridVariant.LUMO_NO_BORDER),
                                  c -> createComponentWrapper(containerPmo, c),
                                  Optional.of(new GridLayoutDefinition()))
