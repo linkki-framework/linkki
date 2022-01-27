@@ -23,7 +23,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.data.provider.HasListDataView;
-import com.vaadin.flow.data.provider.ListDataProvider;
 
 /**
  * An {@link AvailableValuesAspectDefinition} for {@link Component components} that implement
@@ -33,12 +32,7 @@ public class GenericAvailableValuesAspectDefinition
         extends AvailableValuesAspectDefinition<HasListDataView<Object, ?>> {
 
     public GenericAvailableValuesAspectDefinition(AvailableValuesType availableValuesType) {
-        super(availableValuesType, GenericAvailableValuesAspectDefinition::setDataProvider);
-    }
-
-    private static void setDataProvider(HasListDataView<Object, ?> component,
-            ListDataProvider<Object> listDataProvider) {
-        component.setItems(listDataProvider);
+        super(availableValuesType, HasListDataView::setItems);
     }
 
     @SuppressWarnings("unchecked")

@@ -129,9 +129,8 @@ public @interface UIRadioButtons {
         @Override
         public LinkkiAspectDefinition create(UIRadioButtons annotation) {
 
-            AvailableValuesAspectDefinition<?> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                    annotation.content(),
-                    (c, data) -> c.setItems(data),
+            AvailableValuesAspectDefinition<RadioButtonGroup<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+                    annotation.content(), RadioButtonGroup::setItems,
                     ItemCaptionProvider.instantiate(annotation::itemCaptionProvider));
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());

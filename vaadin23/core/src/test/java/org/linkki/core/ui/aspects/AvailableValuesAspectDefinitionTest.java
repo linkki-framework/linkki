@@ -26,6 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -45,14 +46,13 @@ import org.mockito.Mockito;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.data.provider.HasListDataView;
-import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.dom.Element;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class AvailableValuesAspectDefinitionTest {
 
-    private static final BiConsumer<HasListDataView<Object, ?>, ListDataProvider<Object>> NOP = (c, p) -> {
+    private static final BiConsumer<HasListDataView<Object, ?>, List<Object>> NOP = (c, p) -> {
         /* NOP */
     };
 
@@ -94,16 +94,15 @@ public class AvailableValuesAspectDefinitionTest {
     @Test
     public void testSetDataProvider() {
         @SuppressWarnings("unchecked")
-        BiConsumer<HasListDataView<Object, ?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
+        BiConsumer<HasListDataView<Object, ?>, List<Object>> dataProviderSetter = mock(BiConsumer.class);
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, dataProviderSetter);
 
-        @SuppressWarnings("unchecked")
-        ListDataProvider<Object> dataProvider = mock(ListDataProvider.class);
+        List<Object> data = new ArrayList<>();
         ComboBox<Object> component = new ComboBox<>();
-        availableValuesAspectDefinition.setDataProvider(new NoLabelComponentWrapper(component), dataProvider);
+        availableValuesAspectDefinition.setDataProvider(new NoLabelComponentWrapper(component), data);
 
-        verify(dataProviderSetter).accept(component, dataProvider);
+        verify(dataProviderSetter).accept(component, data);
     }
 
     @Test
@@ -171,7 +170,7 @@ public class AvailableValuesAspectDefinitionTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testCreateUiUpdater() {
-        BiConsumer<HasListDataView<Object, ?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
+        BiConsumer<HasListDataView<Object, ?>, List<Object>> dataProviderSetter = mock(BiConsumer.class);
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, dataProviderSetter);
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
@@ -181,20 +180,20 @@ public class AvailableValuesAspectDefinitionTest {
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
                                                                             new NoLabelComponentWrapper(
                                                                                     component));
-        ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);
-        verify(dataProviderSetter).accept(eq(component), (ListDataProvider<Object>)dataProviderCaptor.capture());
+        ArgumentCaptor<List<?>> listCaptor = ArgumentCaptor.forClass(List.class);
+        verify(dataProviderSetter).accept(eq(component), (List<Object>)listCaptor.capture());
         @NonNull
-        ListDataProvider<?> dataProvider = dataProviderCaptor.getValue();
+        List<?> list = listCaptor.getValue();
 
         uiUpdater.apply();
 
-        assertThat(dataProvider.getItems(), contains(TestEnum.ONE, TestEnum.THREE));
+        assertThat(list, contains(TestEnum.ONE, TestEnum.THREE));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testRefresh() {
-        BiConsumer<HasListDataView<Object, ?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
+        BiConsumer<HasListDataView<Object, ?>, List<Object>> dataProviderSetter = mock(BiConsumer.class);
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, dataProviderSetter);
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
@@ -205,18 +204,19 @@ public class AvailableValuesAspectDefinitionTest {
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
                                                                             new NoLabelComponentWrapper(
                                                                                     component));
-        ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);
+        ArgumentCaptor<List<?>> listCaptor = ArgumentCaptor.forClass(List.class);
 
-        verify(dataProviderSetter).accept(eq(component), (ListDataProvider<Object>)dataProviderCaptor.capture());
+        verify(dataProviderSetter).accept(eq(component), (List<Object>)listCaptor.capture());
         @NonNull
-        ListDataProvider<Object> dataProvider = (ListDataProvider<Object>)dataProviderCaptor.getValue();
+        List<Object> list = new ArrayList<>(listCaptor.getValue());
         Mockito.reset(dataProviderSetter);
 
+        when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.TWO));
         uiUpdater.apply();
 
-        verify(dataProviderSetter).accept(eq(component), (ListDataProvider<Object>)dataProviderCaptor.capture());
-        ListDataProvider<Object> newDataProvider = (ListDataProvider<Object>)dataProviderCaptor.getValue();
-        assertThat(newDataProvider, is(not(dataProvider)));
+        verify(dataProviderSetter).accept(eq(component), (List<Object>)listCaptor.capture());
+        List<Object> newList = (List<Object>)listCaptor.getValue();
+        assertThat(newList, is(not(list)));
     }
 
 }

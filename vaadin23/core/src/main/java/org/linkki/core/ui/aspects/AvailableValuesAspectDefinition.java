@@ -39,23 +39,23 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 /**
  * Defines an aspect that updates the set of available values of {@link HasListDataView}.
  */
-public class AvailableValuesAspectDefinition<C extends HasListDataView<Object, ?>> implements LinkkiAspectDefinition {
+public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinition {
 
     public static final String NAME = "availableValues";
 
     private final AvailableValuesType availableValuesType;
 
-    private final BiConsumer<C, ListDataProvider<Object>> dataProviderSetter;
+    private final BiConsumer<C, List<Object>> dataProviderSetter;
 
     private final ItemCaptionProvider<?> itemCaptionProvider;
 
     public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
-            BiConsumer<C, ListDataProvider<Object>> dataProviderSetter) {
+            BiConsumer<C, List<Object>> dataProviderSetter) {
         this(availableValuesType, dataProviderSetter, new DefaultCaptionProvider());
     }
 
     public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
-            BiConsumer<C, ListDataProvider<Object>> dataProviderSetter,
+            BiConsumer<C, List<Object>> dataProviderSetter,
             ItemCaptionProvider<?> itemCaptionProvider) {
         this.availableValuesType = requireNonNull(availableValuesType, "availableValuesType must not be null");
         this.dataProviderSetter = requireNonNull(dataProviderSetter, "dataProviderSetter must not be null");
@@ -68,16 +68,14 @@ public class AvailableValuesAspectDefinition<C extends HasListDataView<Object, ?
                                                     propertyDispatcher.getValueClass());
 
         ItemCache cache = new ItemCache(itemCaptionProvider);
-        ListDataProvider<Object> listDataProvider = new ListDataProvider<>(cache.getItems());
 
-        setDataProvider(componentWrapper, listDataProvider);
+        setDataProvider(componentWrapper, cache.getItems());
 
         return () -> updateItems(cache, propertyDispatcher.pull(aspect), componentWrapper);
     }
 
     private void updateItems(ItemCache cache,
-            @Nullable
-            Collection<?> newItemsParam,
+            @Nullable Collection<?> newItemsParam,
             ComponentWrapper componentWrapper) {
         ArrayList<Object> newItems = new ArrayList<>(
                 requireNonNull(newItemsParam, "List of available values must not be null"));
@@ -99,7 +97,7 @@ public class AvailableValuesAspectDefinition<C extends HasListDataView<Object, ?
      *           not update the captions at all.
      */
     protected void refreshAll(ComponentWrapper componentWrapper, List<Object> items) {
-        setDataProvider(componentWrapper, new ListDataProvider<>(items));
+        setDataProvider(componentWrapper, items);
     }
 
     /**
@@ -144,8 +142,8 @@ public class AvailableValuesAspectDefinition<C extends HasListDataView<Object, ?
 
     @SuppressWarnings("unchecked")
     protected void setDataProvider(ComponentWrapper componentWrapper,
-            ListDataProvider<Object> dataProvider) {
-        dataProviderSetter.accept((C)componentWrapper.getComponent(), dataProvider);
+            List<Object> data) {
+        dataProviderSetter.accept((C)componentWrapper.getComponent(), data);
     }
 
     /**

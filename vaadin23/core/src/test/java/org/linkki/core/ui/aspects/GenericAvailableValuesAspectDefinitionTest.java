@@ -20,9 +20,10 @@ import static org.linkki.test.matcher.Matchers.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
@@ -46,13 +47,13 @@ public class GenericAvailableValuesAspectDefinitionTest {
     public void testSetDataProvider_HasDataProvider() {
         GenericAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition = new GenericAvailableValuesAspectDefinition(
                 AvailableValuesType.DYNAMIC);
-        ListDataProvider<Object> dataProvider = new ListDataProvider<Object>(Collections.emptyList());
+        List<Object> list = new ArrayList<>();
         Component component = spy(new TestHasListDataView());
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(component, WrapperType.FIELD);
 
-        hasItemsAvailableValuesAspectDefinition.setDataProvider(componentWrapper, dataProvider);
+        hasItemsAvailableValuesAspectDefinition.setDataProvider(componentWrapper, list);
 
-        verify((HasListDataView<Object, ?>)component).setItems(dataProvider);
+        verify((HasListDataView<Object, ?>)component).setItems(list);
     }
 
 
