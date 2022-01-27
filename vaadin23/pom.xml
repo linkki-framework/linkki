@@ -24,6 +24,7 @@
         <module>doc</module>
         <module>nestedcomponent</module>
         <module>apt</module>
+        <module>archetypes</module>
     </modules>
 
     <properties>
