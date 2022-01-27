@@ -49,10 +49,10 @@ public @interface UISection {
      */
     SectionLayout layout() default SectionLayout.FORM;
 
-    // TODO LIN-2072
     /**
-     * Currently has no effect.
+     * @deprecated Use {@link UIFormSection} and {@link UIFormSection#columns()} instead.
      */
+    @Deprecated(since = "2.0.0")
     int columns() default 1;
 
     /** The caption text for the section. */

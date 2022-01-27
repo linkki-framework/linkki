@@ -28,6 +28,7 @@ import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
@@ -41,6 +42,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * header is shown.
  */
 @Tag("linkki-section")
+@CssImport("./styles/linkki-section.css")
 @JsModule("./src/linkki-section.ts")
 public class LinkkiSection extends HtmlComponent implements HasCaption {
 
@@ -65,7 +67,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      * @param caption the caption to display for this section
      */
     public LinkkiSection(@CheckForNull String caption) {
-        this(caption, false);
+        this(caption, false, 1);
     }
 
     /**
@@ -74,9 +76,10 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      * 
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
+     * @param columns number of columns in which the content components are displayed
      */
     @SuppressWarnings("deprecation")
-    public LinkkiSection(@CheckForNull String caption, boolean closeable) {
+    public LinkkiSection(@CheckForNull String caption, boolean closeable, int columns) {
         setClassName(LinkkiTheme.SECTION);
 
         captionLabel = createCaption();
@@ -91,7 +94,8 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
         content.getElement().setAttribute("slot", SLOT_CONTENT);
 
         getElement().appendChild(captionLabel.getElement(), closeButton.getElement(), content.getElement());
-        setWidthFull();
+        getStyle().set("--section-item-width",
+                       "calc(100% / " + columns + " - var(--linkki-section-horizontal-gap))");
     }
 
     private static H4 createCaption() {

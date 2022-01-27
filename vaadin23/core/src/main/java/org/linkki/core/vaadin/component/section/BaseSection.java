@@ -29,9 +29,19 @@ public class BaseSection extends LinkkiSection {
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
     public BaseSection(String caption, boolean closeable) {
-        super(caption, closeable);
+        this(caption, closeable, 1);
     }
 
+    /**
+     * Creates a new section with the given caption and closable state.
+     * 
+     * @param caption the caption
+     * @param closeable <code>true</code> if the section can be closed and opened.
+     * @param columns number of columns in which the content components are displayed
+     */
+    public BaseSection(String caption, boolean closeable, int columns) {
+        super(caption, closeable, columns);
+    }
 
     /**
      * Adds the {@link Component} to the section's content

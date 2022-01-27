@@ -81,6 +81,7 @@ import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
 import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
+import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
 import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
@@ -177,6 +178,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                                  () -> new VerticalLayout(
                                                          SectionHeaderBehaviorComponent.createClosableSection(),
                                                          SectionHeaderBehaviorComponent.createNotClosableSection()))
+                                       .testCase(TC005, new UiFormSectionMultiColumnComponentsPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())

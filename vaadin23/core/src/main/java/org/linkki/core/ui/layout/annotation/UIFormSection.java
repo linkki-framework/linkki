@@ -51,6 +51,9 @@ public @interface UIFormSection {
     /** Whether or not the section can be collapsed by the user. */
     boolean closeable() default false;
 
+    /** Defines in how many columns the items should be displayed. */
+    int columns() default 1;
+
     public static class SectionComponentDefinitonCreator implements ComponentDefinitionCreator<UIFormSection> {
 
         @Override
@@ -58,7 +61,8 @@ public @interface UIFormSection {
             return pmo -> {
                 BaseSection baseSection = new BaseSection(
                         PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
-                        uiFormSection.closeable());
+                        uiFormSection.closeable(), uiFormSection.columns());
+                baseSection.getElement().getThemeList().addAll(SectionLayout.HORIZONTAL.getThemeNames());
                 return baseSection;
             };
         }

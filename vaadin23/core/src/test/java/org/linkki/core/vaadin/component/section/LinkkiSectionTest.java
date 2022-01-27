@@ -44,7 +44,7 @@ class LinkkiSectionTest {
 
     @Test
     void testClose() {
-        LinkkiSection section = new LinkkiSection("caption", true);
+        LinkkiSection section = new LinkkiSection("caption", true, 1);
         assertThat(section.isClosed(), is(false));
 
         section.close();
@@ -55,7 +55,7 @@ class LinkkiSectionTest {
 
     @Test
     void testClose_AlreadyClosed() {
-        LinkkiSection section = new LinkkiSection("caption", true);
+        LinkkiSection section = new LinkkiSection("caption", true, 1);
         section.close();
         assertThat(section.isClosed(), is(true));
 
@@ -67,7 +67,7 @@ class LinkkiSectionTest {
 
     @Test
     void testOpen() {
-        LinkkiSection section = new LinkkiSection("caption", true);
+        LinkkiSection section = new LinkkiSection("caption", true, 1);
         section.close();
         assertThat(section.isOpen(), is(false));
 
@@ -79,7 +79,7 @@ class LinkkiSectionTest {
 
     @Test
     void testOpen_AlreadyOpen() {
-        LinkkiSection section = new LinkkiSection("caption", true);
+        LinkkiSection section = new LinkkiSection("caption", true, 1);
         assertThat(section.isOpen(), is(true));
 
         section.open();
@@ -90,7 +90,7 @@ class LinkkiSectionTest {
 
     @Test
     void testSwitchOpenStatus() {
-        LinkkiSection section = new LinkkiSection("caption", true);
+        LinkkiSection section = new LinkkiSection("caption", true, 1);
 
         section.close();
 
@@ -107,7 +107,7 @@ class LinkkiSectionTest {
 
     @Test
     void testHeader_Caption() {
-        LinkkiSection section = new LinkkiSection("CAP", false);
+        LinkkiSection section = new LinkkiSection("CAP", false, 1);
         H4 captionLabel = getCaptionLabel(section);
 
         assertThat(captionLabel.isVisible(), is(true));
@@ -123,21 +123,21 @@ class LinkkiSectionTest {
 
     @Test
     void testHeader_CloseButton_CloseableShouldResultInCloseButton() {
-        LinkkiSection section = new LinkkiSection("caption", true);
+        LinkkiSection section = new LinkkiSection("caption", true, 1);
 
         assertThat(getCloseToggle(section).isVisible(), is(true));
     }
 
     @Test
     void testHeader_CloseButton_NotCloseableShouldHideCloseButton() {
-        LinkkiSection section = new LinkkiSection("caption", false);
+        LinkkiSection section = new LinkkiSection("caption", false, 1);
 
         assertThat(getCloseToggle(section).isVisible(), is(false));
     }
 
     @Test
     void testHeader_CloseButtonStyle() {
-        LinkkiSection section = new LinkkiSection("", true);
+        LinkkiSection section = new LinkkiSection("", true, 1);
 
         assertThat(getCloseToggle(section).getThemeNames()
                 .contains(ButtonVariant.LUMO_TERTIARY_INLINE.getVariantName()),
@@ -146,7 +146,7 @@ class LinkkiSectionTest {
 
     @Test
     void testSetCaption() {
-        LinkkiSection section = new LinkkiSection("CAP", false);
+        LinkkiSection section = new LinkkiSection("CAP", false, 1);
         H4 captionLabel = getCaptionLabel(section);
 
         assertThat(captionLabel.isVisible(), is(true));
@@ -160,7 +160,7 @@ class LinkkiSectionTest {
 
     @Test
     void testSetCaption_Null() {
-        LinkkiSection section = new LinkkiSection("CAP", false);
+        LinkkiSection section = new LinkkiSection("CAP", false, 1);
         H4 captionLabel = getCaptionLabel(section);
 
         assertThat(captionLabel.isVisible(), is(true));
@@ -173,7 +173,7 @@ class LinkkiSectionTest {
 
     @Test
     void testSetCaption_Empty() {
-        LinkkiSection section = new LinkkiSection("CAP", false);
+        LinkkiSection section = new LinkkiSection("CAP", false, 1);
         H4 captionLabel = getCaptionLabel(section);
 
         assertThat(captionLabel.isVisible(), is(true));
@@ -186,7 +186,7 @@ class LinkkiSectionTest {
 
     @Test
     void testAddHeaderButton() {
-        LinkkiSection section = new LinkkiSection("CAP", true);
+        LinkkiSection section = new LinkkiSection("CAP", true, 1);
 
         assertThat(section.getHeaderComponents(), hasSize(1)); // caption
 
@@ -212,7 +212,7 @@ class LinkkiSectionTest {
 
     @Test
     void testHeaderButton_Style() {
-        LinkkiSection section = new LinkkiSection("CAP", true);
+        LinkkiSection section = new LinkkiSection("CAP", true, 1);
         Button button1 = new Button();
 
         section.addHeaderButton(button1);

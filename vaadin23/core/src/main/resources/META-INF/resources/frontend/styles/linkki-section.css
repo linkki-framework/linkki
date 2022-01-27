@@ -1,0 +1,3 @@
+linkki-section > div[slot="content"] > * {
+  max-width: var(--section-item-width, 100%);
+}

@@ -19,13 +19,15 @@ https://jira.faktorzehn.de/browse/LIN-2639
 [cols="a,a"]
 |=== 
 | Changes | Description
-| `org.linkki.core.ui.layout.annotation.SectionLayout.COLUMN` a| Used in `UISection`. Deprecated. Use `org.linkki.core.ui.layout.annotation.SectionLayout.FORM` instead.
-| `org.linkki.core.ui.layout.annotation.SectionLayout.FORM` a| `SectionLayout` that displays section elements stacked in a column. Labels are displayed on the left of the components.
-| `org.linkki.core.ui.layout.annotation.SectionLayout.HORIONTAL` a| `SectionLayout` that displays section elements next to each other in a row. Labels are displayed on top of the components. *`UITextField` and `UITextArea` will now take up all available space by default. This can be changed by setting `width=""`. `UITextField` and `UITextArea` then will take up the same space as all other components.*
-| `org.linkki.core.ui.layout.annotation.SectionLayout.VERTICAL` a| New `SectionLayout` that displays section elements stacked in a column. Labels are displayed on top of the component.
+| `SectionLayout.COLUMN` a| Used in `UISection`. Deprecated. Use `SectionLayout.FORM` instead.
+| `SectionLayout.FORM` a| `SectionLayout` that displays section elements stacked in a column. Labels are displayed on the left of the components.
+| `SectionLayout.HORIONTAL` a| `SectionLayout` that displays section elements next to each other in a row. Labels are displayed on top of the components.
+| `SectionLayout.VERTICAL` a| New `SectionLayout` that displays section elements stacked in a column. Labels are displayed on top of the component.
 |===
-For further information see <<layout-uisection, UISection>>.
 
+WARNING: `UITextField` and `UITextArea` will now take up all available space by default. This can be changed by setting `width=""`. `UITextField` and `UITextArea` then will take up the same space as all other components.
+
+For further information see <<layout-uisection, UISection>>.
 
 Due to the rework, following refactorings have been made
 
@@ -44,6 +46,11 @@ Furthermore, the new `LinkkiSection` is no longer a instance of `VerticalLayout`
 Most prominently, the methods to add child components are removed as these were not intended to be a part of the public API. Instead, `LinkkiSection` offers methods to retrieve the content. From there, you can add children to the content.
 
 These changes also results in changes of the HTML structure of sections which are now furthermore `linkki-section` instead of `vaadin-vertical-layouts`. This must be considered when using selectors in UI tests or CSS styling.
+
+[role="api-change"]
+==== Multi-column support moved to @UIFormSection
+
+Support of multi-column layout with `@UISection` is deprecated as it does not make sense with all layout options. Instead, `@UIFormSection` now supports the same functionality. See also documentation for  <<uiformsection, @UIFormSection>>.
 
 ===== Vaadin 8 modules removed
 

@@ -34,7 +34,7 @@ public class GridSection extends LinkkiSection {
     private Grid<?> grid;
 
     public GridSection(String caption, boolean closeable) {
-        super(caption, closeable);
+        super(caption, closeable, 1);
     }
 
     /**

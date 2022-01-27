@@ -10,13 +10,15 @@ class LinkkiSection extends LitElement {
           flex-direction: column;
           box-sizing: border-box;
           margin-bottom: 1em;
+          width: 100%;
+          --linkki-section-horizontal-gap: var(--lumo-space-m);
         }
         
         ::slotted([slot="content"]) {
           display: flex;
           flex-grow: 1;
-        	flex-wrap: wrap;
-        	flex-direction: column;
+          flex-wrap: wrap;
+          flex-direction: column;
           align-items: baseline;
           overflow: auto;
           box-sizing: border-box;
@@ -24,14 +26,14 @@ class LinkkiSection extends LitElement {
         }
 
         :host([theme~="horizontal"]) > ::slotted([slot="content"]) {
-	        flex-direction: row;
-	        gap: var(--lumo-space-m);
+          flex-direction: row;
+          gap: var(--linkki-section-horizontal-gap);
         }
 
         .linkki-section-header, .linkki-section-header-components {
           gap: var(--lumo-space-m);
           display: flex;
-	        white-space: nowrap;
+          white-space: nowrap;
           align-items: center;
         }
 

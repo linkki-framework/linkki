@@ -44,7 +44,6 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
         assertThat(getSection(NotClosableSectionPmo.class).getCloseToggle().exists()).isFalse();
     }
 
-
     @Test
     void testEmptyHeaderShouldTakeNoSpace() {
         LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
