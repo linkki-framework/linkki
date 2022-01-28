@@ -19,13 +19,12 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.TabSheetSelecti
 import com.vaadin.flow.component.ComponentEventListener;
 
 /**
- * Any attached component which is part of a {@link LinkkiTabSheet} and implementing this interface will
- * receive the event after the corresponding tab sheet was selected if the component is visible at that
- * time.
+ * Components implementing this interface will receive a `TabSheetSelectionChangeEvent` when the
+ * `LinkkiTabSheet` they are attached to is selected.
  * <p>
  * The event is only propagated to components which are attached and visible at the time the selection
- * listeners are triggered. Components that are added or become visible within this observer will not
- * receive an event even if they also implement this interface.
+ * listeners are triggered. That means components that are added or become visible within this observer
+ * will not receive the current event, even if they also implement this interface.
  * <p>
  * This event is fired after other selection change listeners added by
  * {@link LinkkiTabSheet#addTabSelectionChangeListener(ComponentEventListener)}.

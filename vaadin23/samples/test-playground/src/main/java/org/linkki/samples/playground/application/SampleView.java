@@ -43,18 +43,18 @@ public class SampleView extends Div {
         // tag::sidebar-addSheet[]
         tabLayout.addTabSheets(LinkkiTabSheet.builder("CreateReport")
                 .caption(VaadinIcon.STAR_HALF_LEFT_O.create())
-                .content(this::createReportLayout)
+                .content(this::createReportPage)
                 .build(),
                                LinkkiTabSheet.builder("ReportList")
                                        .caption(VaadinIcon.FILE_O.create())
-                                       .content(this::createReportListLayout)
+                                       .content(this::createReportListPage)
                                        .build());
         // end::sidebar-addSheet[]
         add(tabLayout);
         setSizeFull();
     }
 
-    private VerticalLayout createReportLayout() {
+    private VerticalLayout createReportPage() {
         VerticalLayout layout = new VerticalLayout();
         layout.setPadding(false);
         layout.add(new Headline("Create Report"));
@@ -64,7 +64,7 @@ public class SampleView extends Div {
         return layout;
     }
 
-    private VerticalLayout createReportListLayout() {
+    private VerticalLayout createReportListPage() {
         ReportListPage listPage = new ReportListPage(reports);
         listPage.setSizeFull();
         listPage.init();

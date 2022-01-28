@@ -30,8 +30,9 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.TabSheetSelecti
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.samples.playground.application.model.Report;
 
+// tag::implementAfterTabSelectedObserver[]
 public class ReportListPage extends AbstractPage implements AfterTabSelectedObserver {
-
+    // end::implementAfterTabSelectedObserver[]
     private static final long serialVersionUID = 1L;
 
     private static final String ID = "ReportListPage";
@@ -67,11 +68,13 @@ public class ReportListPage extends AbstractPage implements AfterTabSelectedObse
         return bindingManager;
     }
 
+    // tag::afterTabSelected[]
     @Override
     public void afterTabSelected(TabSheetSelectionChangeEvent event) {
         update();
     }
 
+    // end::afterTabSelected[]
     public void update() {
         getBindingContext().modelChanged();
     }

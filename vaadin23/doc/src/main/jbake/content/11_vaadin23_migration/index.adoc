@@ -328,16 +328,17 @@ For performance reasons, components must be created via a supplier and can no lo
 |===
 | Before migration | After migration
 
-| `SidebarSheet sidebarSheet = SidebarSheet(id, icon, name, contentSupplier, uiUpdateObserver);` | `LinkkiTabSheet linkkiTabSheet = LinkkiTabSheet.builder(id)
-                .caption(icon.create()) //.caption(String)
+| `SidebarSheet sidebarSheet = SidebarSheet(id, icon, name, contentSupplier, uiUpdateObserver);`* | `LinkkiTabSheet linkkiTabSheet = LinkkiTabSheet.builder(id)
+                .caption(icon.create())
                 .description(name)
                 .content(contentSupplier)
-                .onSelectHandler(uiUpdateObserver)
                 .build();`
 | `SidebarSheet#getButton().getIcon()` | `LinkkiTabSheet#getTab().getChildren().findFirst().get()`
 | `SidebarSheet#getName` | `LinkkiTabSheet#getDescription`
 
 |===
+
+*`UiUpdateObserver` has been replaced by `AfterTabSelectedObserver`. For more information see <<aftertabselectedobserver, AfterTabSelectedObserver>>.
 
 ==== @UIButton
 ////

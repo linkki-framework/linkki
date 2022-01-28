@@ -40,7 +40,7 @@ The method `LinkkiTabLayout#updateSheetVisibility()` must be triggered to update
 
 There are several possibilities to receive a selection change event in case a new tab is selected. All events are also triggered for the auto-selection when the first tab is added to the tab layout.
 
-Implement AfterNavigationObserver:: The recommended way is to implement the interface `AfterNavigationObserver` in the content layout. Any component that is part of the selected tab gets the event if it is attached and visible at the time the tab is selected.
+Implement AfterTabSelectedObserver:: Components implementing this interface will receive a `TabSheetSelectionChangeEvent` when the `LinkkiTabSheet` they are attached to is selected. Additional details and limitations can be found in the javadoc of `AfterTabSelectedObserver`.
 
 Adding a listener to LinkkiTabLayout:: Use the method `addSelectedChangeListener(ComponentEventListener<SelectedChangeEvent>)` to get a `SelectedChangeEvent` containing the selected tab.
 

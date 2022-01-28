@@ -90,12 +90,23 @@ On the left there is a vertical bar containing icons (buttons) for every sheet. 
 
 In order to create a sidebar instantiate the `LinkkiTabLayout` and add `LinkkiTabSheets` that can be built using a builder. Every sheet requires an icon, a name and a content supplier (`Supplier<Component>`). The supplier is called when the sheet is selected for the first time (lazy initialization). This approach only creates the content if it is requested by the user. It also spreads out the component creation, avoiding long loading times at the start.
 
-Additionally you can supply a `UiUpdateObserver` that is triggered every time the sheet is selected, that means it gets visible. Use this observer to update your binding context in case of changes to the underlying model while the sheet was not selected. Our sample application contains a sidebar layout with two sheets that highlights the utility of that approach. The second sheet displays a list of reports which are created on the first sheet. Thus the second sheet needs to be updated every time it is selected because the underlying data might have changed in the meantime.
-
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/application/SampleView.java[tags=sidebar-addSheet]
 ----
+
+[[aftertabselectedobserver]]
+Additionally the tab component can implement `AfterTabSelectedObserver`. Its method `afterTabSelected(TabSheetSelectionChangeEvent)` is called every time the sheet is selected, that means it gets visible. Use this observer to update your binding context in case of changes to the underlying model while the sheet was not selected. 
+
+.Using `AfterTabSelectedObserver`
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=implementAfterTabSelectedObserver]
+
+include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=afterTabSelected]
+----
+
+When adding a PMO as tab component with `VaadinUiCreator#createComponent(Object, BindingContext)` to `LinkkiTabSheet`, use `LinkkiTabSheet#addTabSelectionChangeListener(ComponentEventListener)` to add additional listeners afterwards.
 
 === Headline
 
