@@ -154,7 +154,25 @@ public class ComponentFactory {
         return new Button();
     }
 
+    /**
+     * Creates a new default {@link LinkkiDatePicker} with {@link LinkkiDatePicker#setAutoOpen(boolean)}
+     * set to <code>false</code> and autoselect feature to <code>true</code>
+     * 
+     * @return {@link LinkkiDatePicker}
+     */
     public static LinkkiDatePicker newDateField() {
+        return newDateField(false, true);
+    }
+
+    /**
+     * Creates a {@link LinkkiDatePicker} with the given options
+     * 
+     * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
+     * @param autoselect If <code>true</code>, the date value will be selected when the field is
+     *            focused.
+     * @return {@link LinkkiDatePicker}
+     */
+    public static LinkkiDatePicker newDateField(boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
             throw new IllegalStateException("Creating a date field requires a UI with locale");
         }
@@ -163,6 +181,8 @@ public class ComponentFactory {
         // DatePicker gets confused with year numbers below 1000 anyway
         field.setMin(LocalDate.ofYearDay(1000, 1));
         field.setMax(LocalDate.ofYearDay(9999, 365));
+        field.setAutoOpen(autoOpen);
+        field.getElement().setProperty("autoselect", autoselect);
         return field;
     }
 

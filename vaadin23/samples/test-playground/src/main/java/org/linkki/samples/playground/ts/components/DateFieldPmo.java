@@ -17,14 +17,26 @@ package org.linkki.samples.playground.ts.components;
 import java.time.LocalDate;
 
 import org.linkki.core.ui.element.annotation.UIDateField;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 @UISection
 public class DateFieldPmo {
 
-    private LocalDate date;
+    private String textFieldOne;
+    private LocalDate date = LocalDate.now();
+    private String textFieldTwo;
 
-    @UIDateField(position = 0, label = "@UIDateField")
+    @UITextField(position = 10, label = "@UITextField")
+    public String getTextFieldOne() {
+        return textFieldOne;
+    }
+
+    public void setTextFieldOne(String textFieldOne) {
+        this.textFieldOne = textFieldOne;
+    }
+
+    @UIDateField(position = 20, label = "@UIDateField")
     public LocalDate getDate() {
         return date;
     }
@@ -33,4 +45,12 @@ public class DateFieldPmo {
         this.date = date;
     }
 
+    @UITextField(position = 30, label = "@UITextField")
+    public String getTextFieldTwo() {
+        return textFieldTwo;
+    }
+
+    public void setTextFieldTwo(String textFieldTwo) {
+        this.textFieldTwo = textFieldTwo;
+    }
 }

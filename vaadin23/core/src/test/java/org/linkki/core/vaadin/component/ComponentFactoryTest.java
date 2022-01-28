@@ -14,9 +14,7 @@
 
 package org.linkki.core.vaadin.component;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -29,7 +27,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.textfield.TextArea;
 
-public class ComponentFactoryTest {
+class ComponentFactoryTest {
 
     // needs to be a field due to weak reference
     private UI ui;
@@ -47,55 +45,71 @@ public class ComponentFactoryTest {
     }
 
     @Test
-    public void testNewDateField_BelowRange() {
+    void testNewDateField_BelowRange() {
         DatePicker dateField = ComponentFactory.newDateField();
 
         dateField.setValue(LocalDate.of(999, 1, 1));
 
-        assertThat(dateField.isInvalid(), is(true));
+        assertThat(dateField.isInvalid()).isTrue();
     }
 
     @Test
-    public void testNewDateField_InRangeLowerBound() {
+    void testNewDateField_InRangeLowerBound() {
         DatePicker dateField = ComponentFactory.newDateField();
 
         dateField.setValue(LocalDate.of(1000, 1, 1));
 
-        assertThat(dateField.isInvalid(), is(false));
+        assertThat(dateField.isInvalid()).isFalse();
     }
 
     @Test
-    public void testNewDateField_InRangeUpperBound() {
+    void testNewDateField_InRangeUpperBound() {
         DatePicker dateField = ComponentFactory.newDateField();
 
         dateField.setValue(LocalDate.of(9999, 12, 31));
 
-        assertThat(dateField.isInvalid(), is(false));
+        assertThat(dateField.isInvalid()).isFalse();
     }
 
     @Test
-    public void testNewDateField_AboveRange() {
+    void testNewDateField_AboveRange() {
         DatePicker dateField = ComponentFactory.newDateField();
 
         dateField.setValue(LocalDate.of(10000, 1, 1));
 
-        assertThat(dateField.isInvalid(), is(true));
+        assertThat(dateField.isInvalid()).isTrue();
     }
 
     @Test
-    public void testNewTextArea() {
+    void testNewDateField_Default() {
+        DatePicker dateField = ComponentFactory.newDateField();
+
+        assertThat(dateField.getElement().getProperty("autoselect")).isEqualTo("true");
+        assertThat(dateField.isAutoOpen()).isFalse();
+    }
+
+    @Test
+    void testNewDateField_CustomAutoFeatures() {
+        DatePicker dateField = ComponentFactory.newDateField(true, false);
+
+        assertThat(dateField.getElement().getProperty("autoselect")).isEqualTo("false");
+        assertThat(dateField.isAutoOpen()).isTrue();
+    }
+
+    @Test
+    void testNewTextArea() {
         TextArea textArea = ComponentFactory.newTextArea(250, "500px", "100px");
 
-        assertThat(textArea.getMaxLength(), is(250));
-        assertThat(textArea.getWidth(), is("500px"));
-        assertThat(textArea.getHeight(), is("100px"));
+        assertThat(textArea.getMaxLength()).isEqualTo(250);
+        assertThat(textArea.getWidth()).isEqualTo("500px");
+        assertThat(textArea.getHeight()).isEqualTo("100px");
     }
 
     @Test
-    public void testNewTextArea_EmptyHeight() {
+    void testNewTextArea_EmptyHeight() {
         TextArea textArea = ComponentFactory.newTextArea(250, "500px", "");
 
-        assertThat(textArea.getHeight(), is(nullValue()));
+        assertThat(textArea.getHeight()).isNull();
     }
 
 
