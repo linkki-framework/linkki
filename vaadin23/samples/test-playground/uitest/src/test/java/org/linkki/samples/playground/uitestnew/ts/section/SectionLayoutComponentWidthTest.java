@@ -44,6 +44,9 @@ public class SectionLayoutComponentWidthTest {
     private static final String TEXT_AREA_WITH_CUSTOM_WIDTH = "textAreaWithCustomWidth";
     private static final String TEXT_FIELD_WITH_CUSTOM_WIDTH = "textFieldWithCustomWidth";
 
+    private static final String TEXT_AREA_WITH_EMPTY_WIDTH = "textAreaWithEmptyWidth";
+    private static final String TEXT_FIELD_WITH_EMPTY_WIDTH = "textFieldWithEmptyWidth";
+
     abstract class AbstractBaseSectionComponentWidthTest extends PlaygroundUiTest {
         private TestCaseComponentElement testCaseSection;
 
@@ -84,8 +87,7 @@ public class SectionLayoutComponentWidthTest {
         /**
          * <ul>
          * <li>{@link UITextField} and {@link UITextArea} do have the same default width of 100%</li>
-         * <li>{@link UIIntegerField} and {@link UIDoubleField} do have the same default width of
-         * 100%</li>
+         * <li>{@link UIIntegerField} and {@link UIDoubleField} do have the same default width</li>
          * <li>{@link UIIntegerField} and {@link UIDoubleField} do have a less default width than
          * {@link UITextField} and {@link UITextArea}</li>
          * </ul>
@@ -139,7 +141,7 @@ public class SectionLayoutComponentWidthTest {
         }
 
         /**
-         * All elements do have the same (default) width set
+         * {@link UITextArea} and {@link UITextField} take up all available space in their row
          */
         @Test
         void testComponents_DefaultWidth() {
@@ -152,5 +154,19 @@ public class SectionLayoutComponentWidthTest {
             assertThat(integerFieldWidth).isEqualTo(doubleFieldWidth).isLessThan(textFieldWidth);
         }
 
+        /**
+         * {@link UITextArea} and {@link UITextField} with width="" should have the same width like
+         * other components such as {@link UIIntegerField} for example
+         */
+        @Test
+        void testComponents_EmptyWidth() {
+            Double textFieldWidth = getComponentWidth(TEXT_FIELD_WITH_EMPTY_WIDTH);
+            Double textAreaWidth = getComponentWidth(TEXT_AREA_WITH_EMPTY_WIDTH);
+            Double integerFieldWidth = getComponentWidth(INTEGER_FIELD_WITH_DEFAULT_WIDTH);
+            Double doubleFieldWidth = getComponentWidth(DOUBLE_FIELD_WITH_DEFAULT_WIDTH);
+
+            assertThat(textAreaWidth).isEqualTo(textFieldWidth).isEqualTo(integerFieldWidth)
+                    .isEqualTo(doubleFieldWidth);
+        }
     }
 }

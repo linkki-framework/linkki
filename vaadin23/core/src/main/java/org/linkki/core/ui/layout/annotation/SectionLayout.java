@@ -21,6 +21,8 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
+import org.linkki.core.ui.element.annotation.UITextArea;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 /**
@@ -33,7 +35,9 @@ public enum SectionLayout {
      * components.
      * <p>
      * Note that with this option, several components such as {@link UIButton}, {@link UICheckBox},
-     * {@link UILabel} and {@link UILink} do not support labels.
+     * {@link UILabel} and {@link UILink} do not support labels.<br>
+     * {@link UITextArea} and {@link UITextField} will take up all available space by default. To change
+     * this, {@link UITextArea#width()} resp. {@link UITextField#width()} must be set to "".
      */
     HORIZONTAL(SectionLayoutDefinition.LABEL_ON_TOP, LinkkiSection.THEME_VARIANT_HORIZONTAL),
 

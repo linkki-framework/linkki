@@ -38,12 +38,12 @@ public class ProductsSampleComponents {
     }
 
     public static Component createHorizontalSection() {
-        return VaadinUiCreator.createComponent(new ProductsSamplePmo.Horizontal(),
+        return VaadinUiCreator.createComponent(new ProductsSamplePmo.HorizontalSamplePmo(),
                                                new BindingContext());
     }
 
     public static Component createVerticalSection() {
-        return VaadinUiCreator.createComponent(new ProductsSamplePmo.Vertical(), new BindingContext());
+        return VaadinUiCreator.createComponent(new ProductsSamplePmo.VerticalSamplePmo(), new BindingContext());
     }
 
 }

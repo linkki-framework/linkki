@@ -21,7 +21,7 @@ https://jira.faktorzehn.de/browse/LIN-2639
 | Changes | Description
 | `org.linkki.core.ui.layout.annotation.SectionLayout.COLUMN` a| Used in `UISection`. Deprecated. Use `org.linkki.core.ui.layout.annotation.SectionLayout.FORM` instead.
 | `org.linkki.core.ui.layout.annotation.SectionLayout.FORM` a| `SectionLayout` that displays section elements stacked in a column. Labels are displayed on the left of the components.
-| `org.linkki.core.ui.layout.annotation.SectionLayout.HORIONTAL` a| `SectionLayout` that displays section elements next to each other in a row. Labels are displayed on top of the components.
+| `org.linkki.core.ui.layout.annotation.SectionLayout.HORIONTAL` a| `SectionLayout` that displays section elements next to each other in a row. Labels are displayed on top of the components. *`UITextField` and `UITextArea` will now take up all available space by default. This can be changed by setting `width=""`. `UITextField` and `UITextArea` then will take up the same space as all other components.*
 | `org.linkki.core.ui.layout.annotation.SectionLayout.VERTICAL` a| New `SectionLayout` that displays section elements stacked in a column. Labels are displayed on top of the component.
 |===
 For further information see <<layout-uisection, UISection>>.

@@ -18,9 +18,10 @@ import java.util.List;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.samples.playground.products.ProductsSamplePmo.TableSamplePmo;
 
 @UISection(caption = "Sample Table Section")
-public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelObject, ProductsSamplePmo> {
+public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelObject, TableSamplePmo> {
 
     private final int pageLength;
 
@@ -30,8 +31,8 @@ public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelOb
     }
 
     @Override
-    protected ProductsSamplePmo createRow(ProductsSampleModelObject modelObject) {
-        return new ProductsSamplePmo(modelObject);
+    protected TableSamplePmo createRow(ProductsSampleModelObject modelObject) {
+        return new TableSamplePmo(modelObject);
     }
 
     @Override
