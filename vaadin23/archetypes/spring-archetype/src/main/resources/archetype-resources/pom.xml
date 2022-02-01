@@ -56,7 +56,7 @@
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
-           <plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -79,7 +79,7 @@
         </plugins>
     </build>
     
-    <profiles>
+     <profiles>
         <profile>
             <!-- Production mode is activated using -Pproduction -->
             <id>production</id>

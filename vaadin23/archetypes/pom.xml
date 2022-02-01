@@ -27,6 +27,7 @@
 
     <modules>
         <module>spring-archetype</module>
+        <module>plain-archetype</module>
     </modules>
     <build>
         <extensions>
