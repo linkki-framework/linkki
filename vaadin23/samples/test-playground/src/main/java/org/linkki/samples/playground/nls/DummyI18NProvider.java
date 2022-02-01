@@ -24,9 +24,11 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.i18n.I18NProvider;
 
 /**
- * Dummy implementation that provides English and German locales. This class is necessary because
- * {@link UI#getLocale()} always returns {@link Locale#getDefault()} if no {@link I18NProvider} is
- * registered.
+ * Dummy implementation that provides English and German locales. The locales must be country-specific
+ * since locale data such as the first day of the week is based on the country.
+ * <p>
+ * This class is necessary because {@link UI#getLocale()} always returns {@link Locale#getDefault()} if
+ * no {@link I18NProvider} is registered.
  */
 @Component
 public class DummyI18NProvider implements I18NProvider {
@@ -35,7 +37,7 @@ public class DummyI18NProvider implements I18NProvider {
 
     @Override
     public List<Locale> getProvidedLocales() {
-        return Arrays.asList(Locale.ENGLISH, Locale.GERMAN);
+        return Arrays.asList(Locale.US, Locale.GERMANY);
     }
 
     @Override

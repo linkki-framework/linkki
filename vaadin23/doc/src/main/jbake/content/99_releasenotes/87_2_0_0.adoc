@@ -135,3 +135,5 @@ In addition, following deprecated classes and methods are also removed:
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-2710
 * Fixed default behaviour for `@UIDateField`: The calendar overlay is not opened by default. If `@UIDateField` is focused and a date is entered, pressing tab results in focusing the next component.
+// https://jira.faktorzehn.de/browse/LIN-2583
+* @UIDateField now shows German labels and Monday as the first weekday when the UI locale is German.

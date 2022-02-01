@@ -19,7 +19,7 @@ import org.linkki.core.nls.NlsService;
  * Message bundle for linkki core i18n.
  */
 public class NlsText {
-    private static final String BUNDLE_NAME = "org/linkki/core/vaadin23/nls/messages";
+    private static final String BUNDLE_NAME = "org/linkki/core/ui/nls/messages";
 
     private NlsText() {
         // do not instantiate

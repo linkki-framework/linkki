@@ -89,7 +89,6 @@ dependencies:
   construct-style-sheets-polyfill: 3.0.4
   date-fns: 2.23.0
   lit: 2.0.0
-  luxon: 1.27.0
 devDependencies:
   '@babel/core': 7.16.7
   '@vaadin/application-theme-plugin': link:target/plugins/application-theme-plugin
@@ -6065,10 +6064,6 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
-  /luxon/1.27.0:
-    dev: false
-    resolution:
-      integrity: sha512-VKsFsPggTA0DvnxtJdiExAucKdAnwbCCNlMM5ENvHlxubqWd0xhZcdb4XgZ7QFNhaRhilXCFxHuoObP5BNA4PA==
   /magic-string/0.25.7:
     dependencies:
       sourcemap-codec: 1.4.8
@@ -8800,7 +8795,6 @@ specifiers:
   lit: 2.0.0
   lit-css-loader: 0.1.0
   loader-utils: 2.0.0
-  luxon: 1.27.0
   typescript: 4.4.3
   webpack: 4.46.0
   webpack-cli: 4.9.0

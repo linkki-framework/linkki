@@ -97,6 +97,14 @@ class ComponentFactoryTest {
     }
 
     @Test
+    void testNewDateField_I18n() {
+        ui.setLocale(Locale.GERMAN);
+        DatePicker dateField = ComponentFactory.newDateField();
+
+        assertThat(dateField.getI18n().getToday()).isEqualTo("Heute");
+    }
+
+    @Test
     void testNewTextArea() {
         TextArea textArea = ComponentFactory.newTextArea(250, "500px", "100px");
 

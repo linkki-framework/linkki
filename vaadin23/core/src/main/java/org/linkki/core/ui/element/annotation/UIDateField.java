@@ -48,9 +48,7 @@ import org.linkki.core.ui.element.annotation.UIDateField.DateFieldAspectCreator;
 import org.linkki.core.ui.element.annotation.UIDateField.DateFieldComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
-import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.ComponentFactory;
-import org.linkki.core.vaadin.component.base.LinkkiDatePicker;
 
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.data.converter.Converter;
@@ -133,11 +131,7 @@ public @interface UIDateField {
 
         @Override
         public LinkkiComponentDefinition create(UIDateField annotation, AnnotatedElement annotatedElement) {
-            return pmo -> {
-                LinkkiDatePicker dateField = ComponentFactory.newDateField();
-                dateField.setLocale(UiFramework.getLocale());
-                return dateField;
-            };
+            return pmo -> ComponentFactory.newDateField();
         }
 
     }

@@ -91,8 +91,7 @@
     "@vaadin/virtual-list": "22.0.3",
     "construct-style-sheets-polyfill": "3.0.4",
     "date-fns": "2.23.0",
-    "lit": "2.0.0",
-    "luxon": "1.27.0"
+    "lit": "2.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.16.7",
@@ -211,8 +210,7 @@
       "@vaadin/virtual-list": "22.0.3",
       "construct-style-sheets-polyfill": "3.0.4",
       "date-fns": "2.23.0",
-      "lit": "2.0.0",
-      "luxon": "1.27.0"
+      "lit": "2.0.0"
     },
     "devDependencies": {
       "@babel/core": "7.16.7",
@@ -237,6 +235,6 @@
       "workbox-precaching": "6.4.2",
       "workbox-webpack-plugin": "6.4.2"
     },
-    "hash": "e922fea927b98cc7b91a5cac3352874b85aeff9e4b8b51cc06a064b5ba2ba929"
+    "hash": "d0143d0f1ca88f867bfb7cbbdf58a284ffdd2ff2fbc9fe28841b5c7997b4b09e"
   }
 }

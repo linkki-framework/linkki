@@ -19,13 +19,13 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.LinkkiComponentUtil;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
-import org.linkki.core.vaadin.component.base.LinkkiDatePicker;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
@@ -154,28 +154,26 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a new default {@link LinkkiDatePicker} with {@link LinkkiDatePicker#setAutoOpen(boolean)}
-     * set to <code>false</code> and autoselect feature to <code>true</code>
-     * 
-     * @return {@link LinkkiDatePicker}
+     * Creates a new default {@link DatePicker} with {@link DatePicker#setAutoOpen(boolean)} set to
+     * <code>false</code> and autoselect feature to <code>true</code>
      */
-    public static LinkkiDatePicker newDateField() {
+    public static DatePicker newDateField() {
         return newDateField(false, true);
     }
 
     /**
-     * Creates a {@link LinkkiDatePicker} with the given options
+     * Creates a {@link DatePicker} with the given options
      * 
      * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
      * @param autoselect If <code>true</code>, the date value will be selected when the field is
      *            focused.
-     * @return {@link LinkkiDatePicker}
      */
-    public static LinkkiDatePicker newDateField(boolean autoOpen, boolean autoselect) {
+    public static DatePicker newDateField(boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
             throw new IllegalStateException("Creating a date field requires a UI with locale");
         }
-        LinkkiDatePicker field = new LinkkiDatePicker();
+        DatePicker field = new DatePicker();
+        field.setI18n(DatePickerI18nCreator.createI18n(UI.getCurrent().getLocale()));
         // there is no year zero https://en.wikipedia.org/wiki/Year_zero
         // DatePicker gets confused with year numbers below 1000 anyway
         field.setMin(LocalDate.ofYearDay(1000, 1));
