@@ -12,29 +12,27 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitestnew.ts.sectionheader;
+package org.linkki.samples.playground.uitestnew.ts.section;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionCaptionElement;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Dimension;
 
-import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.testbench.TestBenchElement;
 
-public class TC001SectionHeaderTest extends PlaygroundUiTest {
+public class UISectionHeaderTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
-    private LinkkiSectionCaptionElement sectionCaption;
-    private ButtonElement button1;
-    private ButtonElement button2;
     private DivElement label;
 
     @BeforeEach
@@ -43,53 +41,52 @@ public class TC001SectionHeaderTest extends PlaygroundUiTest {
         testCaseSection = goToTestCase(PlaygroundApplicationView.TS002, PlaygroundApplicationView.TC001);
 
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
-        sectionCaption = section.getCaption();
-
-        button1 = sectionCaption.getHeaderButton("headerButtonLeft");
-        button2 = sectionCaption.getHeaderButton("headerButtonRight");
 
         label = section.$(DivElement.class).id("label");
     }
 
     @Test
     void testSectionHeaderTitle() {
-        assertThat(sectionCaption.getTitle().getText())
-                .isEqualTo("I am a SectionHeader title");
+        assertThat(section.getCaption()).isEqualTo("I am a section caption");
     }
 
     @Test
-    void testSectionHeaderButtons() {
-        assertThat(sectionCaption.getHeaderButtons())
-                .extracting(ButtonElement::getText)
-                .contains("Button 1", "Button 2");
+    void testSectionHeaderComponents() {
+        List<TestBenchElement> headerComponents = section.getHeaderComponents().all();
+
+        assertThat(headerComponents).hasSize(3);
+        assertThat(headerComponents.get(1).getTagName()).isEqualTo("vaadin-button");
+        assertThat(headerComponents.get(1).getText()).isEqualTo("Button 1");
+        assertThat(headerComponents.get(2).getTagName()).isEqualTo("vaadin-button");
+        assertThat(headerComponents.get(2).getText()).isEqualTo("Button 2");
     }
 
     @Test
     void testSectionHeaderButtonsPosition_SameY() {
         driver.manage().window().setSize(new Dimension(1920, 1080));
 
-        assertThat(button1.getLocation().getY())
+        assertThat(section.getHeaderComponents().get(1).getLocation().getY())
                 .describedAs("Button 1 and Button 2 should have the same y position")
-                .isEqualTo(button2.getLocation().getY());
+                .isEqualTo(section.getHeaderComponents().get(2).getLocation().getY());
     }
 
     @Test
     void testSectionHeaderButtonsPosition_Order() {
         driver.manage().window().setSize(new Dimension(1920, 1080));
 
-        assertThat(button1.getLocation().getX())
+        assertThat(section.getHeaderComponents().get(1).getLocation().getX())
                 .describedAs("Button 1 should be left of Button 2")
-                .isLessThan(button2.getLocation().getX());
+                .isLessThan(section.getHeaderComponents().get(2).getLocation().getX());
     }
 
     @Test
     void testLableChangeOnButtonClick() {
         assertThat(label.getText()).isEqualTo("none");
 
-        button1.click();
+        section.getHeaderComponents().get(1).click();
         assertThat(label.getText()).isEqualTo("Button 1");
 
-        button2.click();
+        section.getHeaderComponents().get(2).click();
         assertThat(label.getText()).isEqualTo("Button 2");
     }
 

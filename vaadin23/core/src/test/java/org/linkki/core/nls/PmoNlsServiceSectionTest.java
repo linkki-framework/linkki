@@ -24,17 +24,14 @@ import org.linkki.core.nls.sample.SamplePmo;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
-import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.html.Div;
 
 public class PmoNlsServiceSectionTest {
 
-    private H4 sectionHeader;
+    private String sectionCaption;
 
     private Button buttonWithTranslatedCaption;
 
@@ -54,10 +51,9 @@ public class PmoNlsServiceSectionTest {
     @BeforeEach
     public void setUp() {
         BindingContext context = new BindingContext();
-        AbstractSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
-        HorizontalLayout header = (HorizontalLayout)section.getComponentAt(0);
-        sectionHeader = (H4)header.getComponentAt(0);
-        FormLayout sectionContent = ((FormLayoutSection)section).getSectionContent();
+        LinkkiSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
+        sectionCaption = section.getCaption();
+        Div sectionContent = section.getContentWrapper();
 
         textfieldLabelWithTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 0);
         textfieldLabelWithoutTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 1);
@@ -88,7 +84,7 @@ public class PmoNlsServiceSectionTest {
 
     @Test
     public void testSectionCaption() {
-        assertThat(sectionHeader.getText(), is("Translated section caption"));
+        assertThat(sectionCaption, is("Translated section caption"));
     }
 
     @Test

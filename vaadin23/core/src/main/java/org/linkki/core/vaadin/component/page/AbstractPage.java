@@ -23,7 +23,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -43,7 +43,7 @@ import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
  * 
  * Note: If the page is not injected you need to call {@link #init()} manually!
  * 
- * @see AbstractSection
+ * @see LinkkiSection
  */
 public abstract class AbstractPage extends VerticalLayout implements Page {
 
@@ -99,8 +99,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * 
      * @return The new section created based on the given PMO.
      */
-    protected AbstractSection addSection(Object pmo) {
-        AbstractSection section = sectionFactory.createSection(pmo, getBindingContext());
+    protected LinkkiSection addSection(Object pmo) {
+        LinkkiSection section = sectionFactory.createSection(pmo, getBindingContext());
         add(section);
         return section;
     }
@@ -116,7 +116,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     protected void addSections(@NonNull Object... pmos) {
         addHorizontally(Arrays.stream(pmos)
                 .map(pmo -> sectionFactory.createSection(pmo, getBindingContext()))
-                .toArray(AbstractSection[]::new));
+                .toArray(LinkkiSection[]::new));
     }
 
     /**

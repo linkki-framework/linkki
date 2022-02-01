@@ -10,7 +10,7 @@
 
 [IMPORTANT]
 .Not yet supported
-==== 
+====
 * Collapsible columns (currently always hidden)
 ====
 

@@ -25,7 +25,6 @@ import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundPropert
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.ui.creation.section.SectionComponentDefiniton;
-import org.linkki.core.ui.creation.section.SectionLayoutDefinition;
 import org.linkki.core.ui.layout.annotation.UISection.SectionComponentDefinitonCreator;
 import org.linkki.core.ui.layout.annotation.UISection.SectionLayoutDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -35,8 +34,8 @@ import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 
 /**
- * Responsible for creating a section in the UI from the annotated PMO class that may include other
- * UI-Elements.
+ * Responsible for creating a section in the UI from the annotated PMO class that may include other UI
+ * elements.
  */
 @LinkkiComponent(SectionComponentDefinitonCreator.class)
 @LinkkiLayout(SectionLayoutDefinitionCreator.class)
@@ -48,13 +47,12 @@ public @interface UISection {
     /**
      * Layout for the section, i.e. whether fields are displayed horizontally or in vertical columns.
      */
-    SectionLayout layout() default SectionLayout.COLUMN;
+    SectionLayout layout() default SectionLayout.FORM;
 
-    // TODO LIN-2072
     /**
-     * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other layout
-     * is used.
+     * @deprecated Use {@link UIFormSection} and {@link UIFormSection#columns()} instead.
      */
+    @Deprecated(since = "2.0.0")
     int columns() default 1;
 
     /** The caption text for the section. */
@@ -67,9 +65,7 @@ public @interface UISection {
 
         @Override
         public LinkkiComponentDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
-            UISection uiSection = annotation;
-            return new SectionComponentDefiniton(uiSection.layout(), uiSection.columns(), uiSection.caption(),
-                    uiSection.closeable());
+            return new SectionComponentDefiniton(annotation.layout(), annotation.caption(), annotation.closeable());
         }
 
     }
@@ -78,7 +74,7 @@ public @interface UISection {
 
         @Override
         public LinkkiLayoutDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
-            return SectionLayoutDefinition.DEFAULT;
+            return annotation.layout().getSectionLayoutDefinition();
         }
 
     }

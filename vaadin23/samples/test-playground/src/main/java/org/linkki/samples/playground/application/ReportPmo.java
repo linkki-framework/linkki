@@ -71,7 +71,7 @@ public class ReportPmo {
         return report.getType() != ReportType.BUG;
     }
 
-    @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE)
+    @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE, flexGrow = 10)
     @UITextArea(position = 30, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, width = "50em", height = "5em")
     public void description() {
         /* Use description from report (model object) directly */

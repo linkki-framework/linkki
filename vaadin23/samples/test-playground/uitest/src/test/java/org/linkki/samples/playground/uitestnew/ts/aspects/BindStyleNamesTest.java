@@ -19,12 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class BindStyleNamesTest extends PlaygroundUiTest {
@@ -67,7 +67,7 @@ public class BindStyleNamesTest extends PlaygroundUiTest {
 
     @Test
     void testPmoStyleNames() {
-        VerticalLayoutElement label = $(VerticalLayoutElement.class).id(BindStyleNamesPmo.class.getSimpleName());
+        LinkkiSectionElement label = getSection(BindStyleNamesPmo.class);
         assertThat(label.getClassNames()).contains("style1", "style2", "style3");
     }
 }

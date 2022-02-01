@@ -83,8 +83,7 @@ class TC001LocalizationTest {
 
         @Test
         void testLocalizedSectionTitle() {
-            assertThat(section.getCaption().getTitle().getText())
-                    .contains(localizedPrefix);
+            assertThat(section.getCaption()).contains(localizedPrefix);
         }
 
         @Test

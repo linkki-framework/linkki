@@ -34,7 +34,7 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasStyle;
@@ -167,7 +167,7 @@ public class BindStyleNamesIntegrationTest {
 
     @Test
     public void testSection_static() {
-        AbstractSection section = PmoBasedSectionFactory
+        LinkkiSection section = PmoBasedSectionFactory
                 .createAndBindSection(new TestSectionPmoWithStaticClassStyleNames(),
                                       new BindingContext());
         assertThat(section.getClassName(), containsString(TestSectionPmoWithStaticClassStyleNames.STYLE_1));
@@ -178,7 +178,7 @@ public class BindStyleNamesIntegrationTest {
     public void testSection_dynamic() {
         TestSectionPmoWithDynamicClassStyleNames pmo = new TestSectionPmoWithDynamicClassStyleNames();
         BindingContext bindingContext = new BindingContext();
-        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
+        LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
 
         pmo.setStyleNames(Arrays.asList("gucci", "versace"));
         bindingContext.modelChanged();
@@ -197,7 +197,7 @@ public class BindStyleNamesIntegrationTest {
     public void testSection_dynamic_inherited() {
         TestChildSectionPmoWithDynamicClassStyleNames pmo = new TestChildSectionPmoWithDynamicClassStyleNames();
         BindingContext bindingContext = new BindingContext();
-        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
+        LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
 
         pmo.setStyleNames(Arrays.asList("ml"));
         bindingContext.modelChanged();

@@ -31,7 +31,7 @@ import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 
 /**
@@ -51,7 +51,7 @@ public class PmoBasedSectionFactory {
      * given binding context to the PMO. If the given PMO is a {@link ContainerPmo}, a table section is
      * created.
      */
-    public AbstractSection createSection(Object pmo, BindingContext bindingContext) {
+    public LinkkiSection createSection(Object pmo, BindingContext bindingContext) {
         return createAndBindSection(pmo, bindingContext);
     }
 
@@ -68,7 +68,7 @@ public class PmoBasedSectionFactory {
      * given binding context to the PMO. If the given PMO is a {@link ContainerPmo}, a table section is
      * created.
      */
-    public static AbstractSection createAndBindSection(Object pmo, BindingContext bindingContext) {
+    public static LinkkiSection createAndBindSection(Object pmo, BindingContext bindingContext) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingContext, "bindingContext must not be null");
         Class<? extends Object> pmoClass = pmo.getClass();
@@ -80,7 +80,7 @@ public class PmoBasedSectionFactory {
 
         ComponentWrapper componentWrapper = UiCreator
                 .createComponent(pmo, bindingContext, componentDefinition, Optional.of(layoutDefinition));
-        return (AbstractSection)componentWrapper.getComponent();
+        return (LinkkiSection)componentWrapper.getComponent();
     }
 
 }

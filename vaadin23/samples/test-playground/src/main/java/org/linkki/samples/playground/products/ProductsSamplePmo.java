@@ -37,23 +37,51 @@ public class ProductsSamplePmo {
         return sampleModelObject;
     }
 
-    @UITextField(position = 10, label = "Property 1", modelAttribute = "property")
-    public void property1() {
-        /* model binding only */
-    }
-
-    @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED, modelAttribute = "property2")
-    public void property2() {
-        /* model binding only */
-    }
-
     @UISection(caption = "Sample Section Horizontal", layout = SectionLayout.HORIZONTAL, columns = 2)
-    public static class Horizontal extends ProductsSamplePmo {
-        // nothing needed
+    public static class HorizontalSamplePmo extends ProductsSamplePmo {
+
+        @UITextField(position = 10, label = "Property 1", modelAttribute = "property", width = "")
+        public void property1() {
+            /* model binding only */
+        }
+
+        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED, modelAttribute = "property2", width = "")
+        public void property2() {
+            /* model binding only */
+        }
+
     }
 
-    @UISection(caption = "Sample Section Vertical", layout = SectionLayout.COLUMN)
-    public static class Vertical extends ProductsSamplePmo {
-        // nothing needed
+    @UISection(caption = "Sample Section Vertical", layout = SectionLayout.FORM)
+    public static class VerticalSamplePmo extends ProductsSamplePmo {
+
+        @UITextField(position = 10, label = "Property 1", modelAttribute = "property")
+        public void property1() {
+            /* model binding only */
+        }
+
+        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED, modelAttribute = "property2")
+        public void property2() {
+            /* model binding only */
+        }
+
+    }
+
+    public static class TableSamplePmo extends ProductsSamplePmo {
+
+        public TableSamplePmo(ProductsSampleModelObject sampleModelObject) {
+            super(sampleModelObject);
+        }
+
+        @UITextField(position = 10, label = "Property 1", modelAttribute = "property")
+        public void property1() {
+            /* model binding only */
+        }
+
+        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED, modelAttribute = "property2")
+        public void property2() {
+            /* model binding only */
+        }
+
     }
 }

@@ -26,7 +26,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  * A section containing a single table. This kind of section is created by the
  * {@link PmoBasedSectionFactory} if the presentation model object is a {@link ContainerPmo}.
  */
-public class GridSection extends AbstractSection {
+public class GridSection extends LinkkiSection {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class GridSection extends AbstractSection {
     private Grid<?> grid;
 
     public GridSection(String caption, boolean closeable) {
-        super(caption, closeable);
+        super(caption, closeable, 1);
     }
 
     /**
@@ -46,10 +46,13 @@ public class GridSection extends AbstractSection {
 
     public void setGrid(Grid<?> grid) {
         this.grid = requireNonNull(grid, "grid must not be null");
-        add(grid);
-        setFlexGrow(1, grid);
+        getContentWrapper().add(grid);
     }
 
+    /**
+     * @deprecated Use {@link #getGrid()} instead.
+     */
+    @Deprecated(since = "2.0.0")
     @Override
     public Grid<?> getSectionContent() {
         return getGrid();

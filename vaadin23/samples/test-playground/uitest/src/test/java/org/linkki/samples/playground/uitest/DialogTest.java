@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.dialogs.SimpleDialogPmo;
 import org.linkki.samples.playground.dialogs.ValidationDialogPmo;
 import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -39,13 +40,13 @@ import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class DialogTest extends AbstractUiTest {
+class DialogTest extends AbstractUiTest {
 
     private static final String OVERLAY = "overlay";
     private static final String OK_BUTTON = "okButton";
 
     @Test
-    public void testDialogOnEntry() {
+    void testDialogOnEntry() {
         getDriver().get(DriverProperties.getTestUrl(""));
         clickMenuItem("Dialogs");
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(OVERLAY)));
@@ -58,7 +59,7 @@ public class DialogTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDialog_ClosedOnOk() {
+    void testDialog_ClosedOnOk() {
         openDialogViewAndCloseInitialDialog();
         clickButton("showDialog");
 
@@ -73,9 +74,9 @@ public class DialogTest extends AbstractUiTest {
     // TODO LIN-2226: test DialogErrorHandler
 
     @Test
-    public void testOkCancelDialog() {
+    void testOkCancelDialog() {
         openDialogViewAndCloseInitialDialog();
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(SimpleDialogPmo.class.getSimpleName());
+        LinkkiSectionElement section = getSection(SimpleDialogPmo.class);
 
         section.$(TextFieldElement.class).id("caption").setValue("Awesome dialog");
         section.$(TextFieldElement.class).id("content").setValue("This is awesome!");
@@ -96,7 +97,7 @@ public class DialogTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDialogWithCloseHandler_CloseOnOk_WithDoubleClick() {
+    void testDialogWithCloseHandler_CloseOnOk_WithDoubleClick() {
         openDialogViewAndCloseInitialDialog();
         clickButton("okHandlerDialog");
         waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
@@ -109,7 +110,7 @@ public class DialogTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDialogWithCloseHandler_CloseOnEnter_WithDoubleEnter() {
+    void testDialogWithCloseHandler_CloseOnEnter_WithDoubleEnter() {
         openDialogViewAndCloseInitialDialog();
         clickButton("okHandlerDialog");
         waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
@@ -122,7 +123,7 @@ public class DialogTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDialogWithCloseHandler_CloseOnEnter_WithFocusOnOkButton() {
+    void testDialogWithCloseHandler_CloseOnEnter_WithFocusOnOkButton() {
         openDialogViewAndCloseInitialDialog();
 
         clickButton("okHandlerDialog");
@@ -139,9 +140,9 @@ public class DialogTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDialog_CloseOnViewChange() {
+    void testDialog_CloseOnViewChange() {
         openDialogViewAndCloseInitialDialog();
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(SimpleDialogPmo.class.getSimpleName());
+        LinkkiSectionElement section = getSection(SimpleDialogPmo.class);
         section.$(ButtonElement.class).id("showDialog").click();
         waitUntil(d -> $(DialogElement.class).exists());
 
@@ -152,11 +153,9 @@ public class DialogTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDialog_WithVerticalLayout() {
+    void testDialog_WithVerticalLayout() {
         openDialogViewAndCloseInitialDialog();
-        VerticalLayoutElement section = $(VerticalLayoutElement.class)
-                .id(VerticalLayoutContentDialogPmo.class.getSimpleName());
-        section.$(ButtonElement.class).id("button").click();
+        getSection(VerticalLayoutContentDialogPmo.class).$(ButtonElement.class).id("button").click();
         waitUntil(d -> $(DialogElement.class).exists());
 
         $(ButtonElement.class).id(OK_BUTTON).click();
@@ -169,11 +168,9 @@ public class DialogTest extends AbstractUiTest {
      * annotation are not supported anymore
      */
     @Test
-    public void testDialog_ValidationDialogPmo() {
+    void testDialog_ValidationDialogPmo() {
         openDialogViewAndCloseInitialDialog();
-        VerticalLayoutElement section = $(VerticalLayoutElement.class)
-                .id(ValidationDialogPmo.ButtonSectionPmo.class.getSimpleName());
-        section.$(ButtonElement.class).id("button").click();
+        getSection(ValidationDialogPmo.ButtonSectionPmo.class).$(ButtonElement.class).id("button").click();
         waitUntil(d -> $(DialogElement.class).exists());
 
         $(ButtonElement.class).id(OK_BUTTON).click();

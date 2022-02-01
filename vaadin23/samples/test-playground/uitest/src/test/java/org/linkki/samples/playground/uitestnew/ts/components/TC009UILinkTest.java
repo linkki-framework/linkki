@@ -18,12 +18,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.ts.components.LinkPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.html.testbench.AnchorElement;
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class TC009UILinkTest extends PlaygroundUiTest {
@@ -37,7 +37,7 @@ public class TC009UILinkTest extends PlaygroundUiTest {
 
     @Test
     void test() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(LinkPmo.class.getSimpleName());
+        LinkkiSectionElement section = getSection(LinkPmo.class);
         TextFieldElement caption = section.$(TextFieldElement.class).id("caption");
         TextFieldElement address = section.$(TextFieldElement.class).id("href");
 
@@ -51,7 +51,7 @@ public class TC009UILinkTest extends PlaygroundUiTest {
 
     @Test
     void testLink_withNullLink_shouldBeShowAsLabel() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(LinkPmo.class.getSimpleName());
+        LinkkiSectionElement section = getSection(LinkPmo.class);
         TextFieldElement address = section.$(TextFieldElement.class).id("href");
         AnchorElement link = section.$(AnchorElement.class).id("link");
 
@@ -64,7 +64,7 @@ public class TC009UILinkTest extends PlaygroundUiTest {
 
     @Test
     void testLink_withEmptyLink_shouldBeShowAsLabel() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(LinkPmo.class.getSimpleName());
+        LinkkiSectionElement section = getSection(LinkPmo.class);
         TextFieldElement address = section.$(TextFieldElement.class).id("href");
         AnchorElement link = section.$(AnchorElement.class).id("link");
 
@@ -77,7 +77,7 @@ public class TC009UILinkTest extends PlaygroundUiTest {
 
     @Test
     void testLink_withWhiteSpaceLink_shouldBeShowAsLabel() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(LinkPmo.class.getSimpleName());
+        LinkkiSectionElement section = getSection(LinkPmo.class);
         TextFieldElement address = section.$(TextFieldElement.class).id("href");
         AnchorElement link = section.$(AnchorElement.class).id("link");
 

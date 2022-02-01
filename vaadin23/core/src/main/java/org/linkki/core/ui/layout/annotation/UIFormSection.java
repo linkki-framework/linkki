@@ -32,11 +32,11 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 /**
- * Responsible for creating a {@link FormLayoutSection} in the UI from the annotated PMO class that may
- * include other UI-Elements.
+ * Responsible for creating a {@link BaseSection} in the UI from the annotated PMO class that may
+ * include other UI elements.
  */
 @LinkkiComponent(SectionComponentDefinitonCreator.class)
 @LinkkiLayout(SectionLayoutDefinitionCreator.class)
@@ -51,13 +51,20 @@ public @interface UIFormSection {
     /** Whether or not the section can be collapsed by the user. */
     boolean closeable() default false;
 
+    /** Defines in how many columns the items should be displayed. */
+    int columns() default 1;
+
     public static class SectionComponentDefinitonCreator implements ComponentDefinitionCreator<UIFormSection> {
 
         @Override
         public LinkkiComponentDefinition create(UIFormSection uiFormSection, AnnotatedElement annotatedElement) {
-            return pmo -> new FormLayoutSection(
-                    PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
-                    1, uiFormSection.closeable());
+            return pmo -> {
+                BaseSection baseSection = new BaseSection(
+                        PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
+                        uiFormSection.closeable(), uiFormSection.columns());
+                baseSection.getElement().getThemeList().addAll(SectionLayout.HORIZONTAL.getThemeNames());
+                return baseSection;
+            };
         }
     }
 

@@ -71,14 +71,18 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorCssLa
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
-import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionComponent;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
-import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
+import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
+import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
+import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
+import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
+import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
 import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
@@ -86,13 +90,16 @@ import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 
-@Route(value = "", layout = PlaygroundAppLayout.class)
+@RouteAlias(value = "", layout = PlaygroundAppLayout.class)
+@Route(value = "playground", layout = PlaygroundAppLayout.class)
 @PageTitle("linkki Sample :: Playground")
 public class PlaygroundApplicationView extends Div implements HasUrlParameter<String> {
 
@@ -142,21 +149,37 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
-        Component formSectionComponent = VaadinUiCreator
-                .createComponent(new BasicElementsLayoutBehaviorFormSectionPmo(), new BindingContext(TC001));
-        ComponentStyles.setFormItemLabelWidth(formSectionComponent, "200px");
         tabLayout.addTabSheets(
                                // new test scenarios
                                TestScenario.id(TS001)
-                                       .testCase(TC001, new BasicElementsLayoutBehaviorUiSectionPmo())
-                                       .testCase(TC002, formSectionComponent)
+                                       .testCase(TC001, new BasicElementsLayoutBehaviorUiSectionComponent())
+                                       .testCase(TC002, () -> {
+                                           Component component = VaadinUiCreator
+                                                   .createComponent(new BasicElementsLayoutBehaviorFormSectionPmo(),
+                                                                    new BindingContext(TC002));
+                                           ComponentStyles.setFormItemLabelWidth(component, "200px");
+                                           return component;
+                                       })
                                        .testCase(TC003, new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
                                        .testCase(TC004, new BasicElementsLayoutBehaviorVerticalLayoutPmo())
                                        .testCase(TC005, new BasicElementsLayoutBehaviorFormLayoutPmo())
                                        .testCase(TC006, new BasicElementsLayoutBehaviorCssLayoutPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS002)
-                                       .testCase(TC001, new SectionHeaderBehaviorPmo())
+                                       .testCase(TC001, new SectionHeaderAnnotationPmo())
+                                       .testCase(TC002, () -> {
+                                           Component component = VaadinUiCreator
+                                                   .createComponent(new GridSectionLayoutPmo(), new BindingContext(
+                                                           GridSectionLayoutPmo.class.getSimpleName()));
+                                           component.getElement().getStyle().set("height", "200px");
+                                           return component;
+                                       })
+                                       .testCase(TC003, new SectionLayoutComponent())
+                                       .testCase(TC004,
+                                                 () -> new VerticalLayout(
+                                                         SectionHeaderBehaviorComponent.createClosableSection(),
+                                                         SectionHeaderBehaviorComponent.createNotClosableSection()))
+                                       .testCase(TC005, new UiFormSectionMultiColumnComponentsPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())

@@ -16,6 +16,7 @@ package org.linkki.samples.playground;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
@@ -48,6 +49,10 @@ public class TestScenario {
                 .content(() -> new TestCaseComponent(scenarioId, testCaseId, component))
                 .build());
         return this;
+    }
+
+    public TestScenario testCase(String testCaseId, Supplier<Component> componentSupplier) {
+        return testCase(testCaseId, componentSupplier.get());
     }
 
     public LinkkiTabSheet createTabSheet() {

@@ -13,41 +13,51 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-
-import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
+import com.vaadin.flow.component.Component;
 
 /**
- * Base class for sections that are supported by the {@link PmoBasedSectionFactory}.
+ * Base class for sections. Child components can be added using {@link #addContent(Component)}
  */
-public abstract class BaseSection extends AbstractSection {
+public class BaseSection extends LinkkiSection {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a new section with the given caption that is not closable.
-     * 
-     * @param caption the caption
-     */
-    public BaseSection(String caption) {
-        super(caption);
-    }
-
-    /**
-     * Creates a new section with the given caption.
+     * Creates a new section with the given caption and closable state.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
     public BaseSection(String caption, boolean closeable) {
-        super(caption, closeable);
+        this(caption, closeable, 1);
     }
 
     /**
-     * Adds the given Component to the content of this section.
+     * Creates a new section with the given caption and closable state.
      * 
-     * @param component the component to add
+     * @param caption the caption
+     * @param closeable <code>true</code> if the section can be closed and opened.
+     * @param columns number of columns in which the content components are displayed
      */
-    public abstract void addContent(FormItem component);
+    public BaseSection(String caption, boolean closeable, int columns) {
+        super(caption, closeable, columns);
+    }
 
+    /**
+     * Adds the {@link Component} to the section's content
+     */
+    public void addContent(Component component) {
+        getContentWrapper().add(component);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @deprecated Use {@link #getContentWrapper()} instead.
+     */
+    @Deprecated(since = "2.0.0")
+    @Override
+    public Component getSectionContent() {
+        return getContentWrapper();
+    }
 }

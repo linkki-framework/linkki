@@ -26,6 +26,7 @@ import org.linkki.samples.playground.table.PlaygroundRowPmo;
 import org.linkki.samples.playground.table.TableModelObject;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.selection.SingleSelect;
 
 public class SelectableTableSection {
@@ -43,10 +44,10 @@ public class SelectableTableSection {
                 () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
                 o -> modelObjects.remove(o));
 
-        GridSection section = (GridSection)new PmoBasedSectionFactory()
+        GridSection gridSection = (GridSection)new PmoBasedSectionFactory()
                 .createSection(selectableTableSectionPmo, new BindingContext("selectableTable"));
 
-        SingleSelect<?, ?> singleSelect = section.getSectionContent().asSingleSelect();
+        SingleSelect<?, ?> singleSelect = gridSection.getGrid().asSingleSelect();
         BindingContext comparisonBindingContext = new BindingContext("selectableTableComparison");
         Component comparisonSection = VaadinUiCreator.createComponent(
                                                                       new SelectionComparisonSectionPmo(
@@ -56,7 +57,11 @@ public class SelectableTableSection {
                                                                                       .getSelection(),
                                                                               comparisonBindingContext::modelChanged),
                                                                       comparisonBindingContext);
-        section.add(comparisonSection);
-        return section;
+
+        Div div = new Div();
+        div.setWidthFull();
+        div.add(gridSection);
+        div.add(comparisonSection);
+        return div;
     }
 }

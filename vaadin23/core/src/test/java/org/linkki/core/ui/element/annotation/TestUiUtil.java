@@ -28,16 +28,15 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
-import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.AbstractSinglePropertyField;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.internal.AbstractFieldSupport;
 import com.vaadin.flow.data.binder.HasItems;
@@ -72,21 +71,21 @@ public final class TestUiUtil {
      * @param pmo the PMO to which the component is bound is bound
      * @return a {@code Component} that is bound to the model object
      */
-    public static FormLayout createSectionWith(Object pmo) {
+    public static Div createSectionWith(Object pmo) {
         return createSectionWith(pmo, new BindingContext());
     }
 
-    public static FormLayout createSectionWith(Object pmo, BindingContext bindingContext) {
+    public static Div createSectionWith(Object pmo, BindingContext bindingContext) {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
-        AbstractSection section = sectionFactory.createSection(pmo, bindingContext);
+        LinkkiSection section = sectionFactory.createSection(pmo, bindingContext);
 
         bindingContext.modelChanged();
 
-        return ((FormLayoutSection)section).getSectionContent();
+        return section.getContentWrapper();
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getComponentById(FormLayout layout, String id) {
+    public static <T> T getComponentById(Div layout, String id) {
         return (T)layout.getChildren()
                 .map(c -> (FormItem)c)
                 .map(fi -> fi.getChildren().findFirst().get())
@@ -96,7 +95,7 @@ public final class TestUiUtil {
                 .orElseThrow(() -> new IllegalStateException("No component with id " + id));
     }
 
-    public static String getLabelOfComponentAt(FormLayout layout, int row) {
+    public static String getLabelOfComponentAt(Div layout, int row) {
         List<Component> children = layout.getChildren().collect(Collectors.toList());
         FormItem formItem = (FormItem)children.get(row);
         return ((Label)formItem.getChildren().collect(Collectors.toList()).get(1)).getText();

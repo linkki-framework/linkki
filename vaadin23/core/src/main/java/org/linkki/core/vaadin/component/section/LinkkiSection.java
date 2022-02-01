@@ -13,9 +13,9 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
@@ -24,13 +24,15 @@ import org.linkki.core.vaadin.component.HasCaption;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HtmlComponent;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -39,15 +41,22 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * and edit data. Optionally the section can be closed and opened. When the section is closed only the
  * header is shown.
  */
-@CssImport(value = "./styles/linkki-section.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
-public abstract class AbstractSection extends VerticalLayout implements HasCaption {
+@Tag("linkki-section")
+@CssImport("./styles/linkki-section.css")
+@JsModule("./src/linkki-section.ts")
+public class LinkkiSection extends HtmlComponent implements HasCaption {
+
+    public static final String THEME_VARIANT_HORIZONTAL = "horizontal";
+
+    static final String SLOT_HEADER_COMPONENTS = "header-components";
+    static final String SLOT_CLOSE_TOGGLE = "close-toggle";
+    static final String SLOT_CONTENT = "content";
 
     private static final long serialVersionUID = 1L;
 
-    private final HorizontalLayout header;
-    private final List<Component> headerComponents = new ArrayList<>();
     private final H4 captionLabel;
     private final Button closeButton;
+    private final Div content;
 
     private boolean open = true;
 
@@ -57,8 +66,8 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      * 
      * @param caption the caption to display for this section
      */
-    public AbstractSection(@CheckForNull String caption) {
-        this(caption, false);
+    public LinkkiSection(@CheckForNull String caption) {
+        this(caption, false, 1);
     }
 
     /**
@@ -67,59 +76,40 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      * 
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
+     * @param columns number of columns in which the content components are displayed
      */
-    public AbstractSection(@CheckForNull String caption, boolean closeable) {
-        setMargin(false);
-        setSpacing(false);
-        setPadding(false);
+    @SuppressWarnings("deprecation")
+    public LinkkiSection(@CheckForNull String caption, boolean closeable, int columns) {
         setClassName(LinkkiTheme.SECTION);
 
         captionLabel = createCaption();
+        captionLabel.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
+
         closeButton = createOpenCloseButton(this::switchOpenStatus);
         closeButton.setVisible(closeable);
-
-        header = createHeader();
-        updateHeader();
-        add(header);
+        closeButton.getElement().setAttribute("slot", SLOT_CLOSE_TOGGLE);
 
         setCaption(caption);
-    }
+        content = new Div();
+        content.getElement().setAttribute("slot", SLOT_CONTENT);
 
-    private HorizontalLayout createHeader() {
-        HorizontalLayout headerLayout = new HorizontalLayout();
-        headerLayout.setWidth("100%");
-        headerLayout.setDefaultVerticalComponentAlignment(Alignment.CENTER);
-        headerLayout.addClassName(LinkkiTheme.SECTION_CAPTION);
-
-        headerLayout.add(captionLabel);
-        headerLayout.add(closeButton);
-
-        headerLayout.setMargin(false);
-
-        return headerLayout;
+        getElement().appendChild(captionLabel.getElement(), closeButton.getElement(), content.getElement());
+        getStyle().set("--section-item-width",
+                       "calc(100% / " + columns + " - var(--linkki-section-horizontal-gap))");
     }
 
     private static H4 createCaption() {
-        return new H4();
+        H4 h4 = new H4();
+        h4.addClassName(LinkkiTheme.SECTION_CAPTION_TEXT);
+        h4.getStyle().set("margin", "0");
+        return h4;
     }
 
     private static Button createOpenCloseButton(Handler toggleCloseOpen) {
-        // TODO LIN-2249 ButtonPmoBuilder.DEFAULT_STYLES
         Button button = ComponentFactory.newButton(VaadinIcon.ANGLE_DOWN.create(), Collections.emptyList());
-        button.addClassName(LinkkiTheme.BUTTON_TEXT);
         button.addClickListener(e -> toggleCloseOpen.apply());
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         return button;
-    }
-
-    private boolean shouldHeaderBePresent() {
-        return !StringUtils.isEmpty(getCaption())
-                || this.closeButton.isVisible()
-                || !this.headerComponents.isEmpty();
-    }
-
-    private void updateHeader() {
-        header.setVisible(shouldHeaderBePresent());
     }
 
     /**
@@ -132,8 +122,6 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
     public void setCaption(@CheckForNull String caption) {
         captionLabel.setText(caption);
         captionLabel.setVisible(!StringUtils.isEmpty(caption));
-
-        updateHeader();
     }
 
     @Override
@@ -147,11 +135,10 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      * item, if it is present.
      */
     public void addHeaderButton(Button button) {
-        button.addClassName(LinkkiTheme.BUTTON_TEXT);
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        headerComponents.add(button);
-        header.addComponentAtIndex(1, button);
-        updateHeader();
+
+        button.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
+        getElement().insertChild(1, button.getElement());
     }
 
     /**
@@ -164,9 +151,18 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
             ((Button)component).addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         }
 
-        headerComponents.add(component);
-        header.addComponentAtIndex(header.getComponentCount() - 1, component);
-        updateHeader();
+        component.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
+        getElement().appendChild(component.getElement());
+    }
+
+    /**
+     * Returns all components in the header, not including the caption.
+     * 
+     * @since 2.0.0
+     */
+    public List<Component> getHeaderComponents() {
+        return getChildren().filter(c -> SLOT_HEADER_COMPONENTS.contentEquals(c.getElement().getAttribute("slot")))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -206,7 +202,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
     protected void switchOpenStatus() {
         open = !open;
         closeButton.setIcon(open ? VaadinIcon.ANGLE_DOWN.create() : VaadinIcon.ANGLE_RIGHT.create());
-        getSectionContent().setVisible(open);
+        getContentWrapper().setVisible(open);
     }
 
     /**
@@ -215,7 +211,21 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      *           and has to be excluded.
      * 
      * @return the content of this section
+     * @deprecated use {@link #getContentWrapper()} instead.
      */
-    protected abstract Component getSectionContent();
+    @Deprecated(since = "2.0.0")
+    protected Component getSectionContent() {
+        return content;
+    }
+
+    /**
+     * Returns the section's content. The section's header is not part of the content.
+     * 
+     * @return the content of this section
+     * @since 2.0.0
+     */
+    public Div getContentWrapper() {
+        return content;
+    }
 
 }

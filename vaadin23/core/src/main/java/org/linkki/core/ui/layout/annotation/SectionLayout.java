@@ -13,19 +13,76 @@
  */
 package org.linkki.core.ui.layout.annotation;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.linkki.core.ui.creation.section.SectionLayoutDefinition;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UICheckBox;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UILink;
+import org.linkki.core.ui.element.annotation.UITextArea;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
+
 /**
  * The options for the layout pattern of a section
  */
 public enum SectionLayout {
 
-    /** Displays section elements next to each other in a row */
-    HORIZONTAL,
+    /**
+     * Displays section elements next to each other in a row. Labels are displayed on top of the
+     * components.
+     * <p>
+     * Note that with this option, several components such as {@link UIButton}, {@link UICheckBox},
+     * {@link UILabel} and {@link UILink} do not support labels.<br>
+     * {@link UITextArea} and {@link UITextField} will take up all available space by default. To change
+     * this, {@link UITextArea#width()} resp. {@link UITextField#width()} must be set to "".
+     */
+    HORIZONTAL(SectionLayoutDefinition.LABEL_ON_TOP, LinkkiSection.THEME_VARIANT_HORIZONTAL),
 
     /**
-     * Displays section elements stacked in columns.
+     * Displays section elements stacked in a column. Labels are displayed on the left of the
+     * components.
+     * <p>
+     * <em>Consider using {@link UIFormSection} instead.</em>
+     * 
+     * @deprecated Use {@link #FORM} instead
+     **/
+    @Deprecated(since = "2.0.0")
+    COLUMN(SectionLayoutDefinition.DEFAULT),
+
+    /**
+     * Displays section elements stacked in a column. Labels are displayed on the left of the
+     * components.
      * <p>
      * <em>Consider using {@link UIFormSection} instead.</em>
      **/
-    COLUMN,
+    FORM(SectionLayoutDefinition.DEFAULT),
+
+    /**
+     * Displays section elements stacked in a column. Labels are displayed on top of the component.
+     * <p>
+     * Note that with this option, several components such as {@link UIButton}, {@link UICheckBox},
+     * {@link UILabel} and {@link UILink} do not support labels.
+     */
+    VERTICAL(SectionLayoutDefinition.LABEL_ON_TOP);
+
+    private final SectionLayoutDefinition sectionLayoutDefinition;
+    private final String[] themeNames;
+
+    private SectionLayout(SectionLayoutDefinition sectionLayoutDefinition,
+            String... themeNames) {
+        this.sectionLayoutDefinition = sectionLayoutDefinition;
+        this.themeNames = themeNames;
+    }
+
+    public SectionLayoutDefinition getSectionLayoutDefinition() {
+        return sectionLayoutDefinition;
+    }
+
+    public List<String> getThemeNames() {
+        return Arrays.asList(themeNames);
+    }
 
 }

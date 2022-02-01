@@ -12,15 +12,12 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitestnew.ts.layouts;
+package org.linkki.samples.playground.ts.section;
 
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.core.ui.layout.annotation.SectionLayout;
+import org.linkki.core.ui.layout.annotation.UISection;
 
-class TC001UISectionTest extends TC001AbstractSectionTest {
-
-    @Override
-    protected String getTestCaseId() {
-        return PlaygroundApplicationView.TC001;
-    }
-
+@UISection(caption = "SectionLayout.VERTICAL", layout = SectionLayout.VERTICAL)
+public class UiSectionLayoutVerticalComponentsPmo extends AbstractUiSectionLayoutComponentsPmo {
+    // no content needed
 }

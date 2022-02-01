@@ -18,30 +18,27 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
-import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.GridSection;
-import org.linkki.core.vaadin.component.section.HorizontalSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 /**
- * Defines how {@link AbstractSection sections} are created.
+ * Defines how {@link LinkkiSection sections} are created.
  * 
  * @see SectionLayoutDefinition SectionLayoutDefinition for how the section is poulated with UI
  *      components
  */
 public class SectionComponentDefiniton implements LinkkiComponentDefinition {
 
-    public static final SectionComponentDefiniton DEFAULT = new SectionComponentDefiniton(SectionLayout.COLUMN, 1, "",
+    public static final SectionComponentDefiniton DEFAULT = new SectionComponentDefiniton(SectionLayout.FORM, "",
             false);
 
     private final SectionLayout layout;
     private final String caption;
     private final boolean closeable;
-    private final int columns;
 
-    public SectionComponentDefiniton(SectionLayout layout, int columns, String caption, boolean closeable) {
+    public SectionComponentDefiniton(SectionLayout layout, String caption, boolean closeable) {
         this.layout = layout;
-        this.columns = columns;
         this.caption = caption;
         this.closeable = closeable;
     }
@@ -57,14 +54,9 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
         if (ContainerPmo.class.isAssignableFrom(pmoClass)) {
             return createTableSection(nlsCaption);
         } else {
-            switch (layout) {
-                case COLUMN:
-                    return new FormLayoutSection(nlsCaption, columns, closeable);
-                case HORIZONTAL:
-                    return new HorizontalSection(nlsCaption, closeable);
-                default:
-                    throw new IllegalStateException("unknown SectionLayout#" + layout);
-            }
+            BaseSection baseSection = new BaseSection(nlsCaption, closeable);
+            baseSection.getElement().getThemeList().addAll(layout.getThemeNames());
+            return baseSection;
         }
     }
 

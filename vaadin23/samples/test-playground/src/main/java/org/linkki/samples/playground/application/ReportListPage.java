@@ -24,7 +24,7 @@ import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.vaadin.component.page.AbstractPage;
-import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.tablayout.AfterTabSelectedObserver;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.TabSheetSelectionChangeEvent;
 import org.linkki.framework.ui.component.Headline;
@@ -47,7 +47,7 @@ public class ReportListPage extends AbstractPage implements AfterTabSelectedObse
 
     @Override
     public void createContent() {
-        setPadding(false);
+        setPadding(true);
         setId(ID);
         Headline headline = new Headline();
         add(headline);
@@ -58,7 +58,7 @@ public class ReportListPage extends AbstractPage implements AfterTabSelectedObse
         new Binder(headline, headlinePmo).setupBindings(getBindingContext());
         // end::bind-headline[]
 
-        AbstractSection section = addSection(new ReportTablePmo(reports));
+        LinkkiSection section = addSection(new ReportTablePmo(reports));
         section.setSizeFull();
 
     }

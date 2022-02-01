@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
 import org.openqa.selenium.By;
@@ -37,7 +37,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
-import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
@@ -174,8 +173,8 @@ public class AbstractUiTest extends TestBenchTestCase {
      * @param cls class name of the section
      * @return Section as {@link VerticalLayoutElement}
      */
-    public VerticalLayoutElement getSection(Class<?> cls) {
-        return $(VerticalLayoutElement.class).id(cls.getSimpleName());
+    public LinkkiSectionElement getSection(Class<?> cls) {
+        return $(LinkkiSectionElement.class).id(cls.getSimpleName());
     }
 
     /**
@@ -185,9 +184,7 @@ public class AbstractUiTest extends TestBenchTestCase {
      * @param buttonIndex index of the button
      */
     public void clickSectionHeaderButton(Class<?> cls, int buttonIndex) {
-        getSection(cls).$(HorizontalLayoutElement.class)
-                .attributeContains("class", LinkkiTheme.SECTION_CAPTION).first()
-                .$(ButtonElement.class).get(buttonIndex).click();
+        getSection(cls).getHeaderComponents(ButtonElement.class).get(buttonIndex).click();
     }
 
     /**
@@ -224,7 +221,7 @@ public class AbstractUiTest extends TestBenchTestCase {
     /**
      * Only works when the tested Component implements {@link HasPrefixAndSuffix} in Vaadin-flow
      * 
-     * @param element
+     * @param element the {@link WebElement} to select the suffix from
      * @return WebElement which contains Suffix
      */
 

@@ -29,7 +29,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.formlayout.testbench.FormLayoutElement;
 import com.vaadin.flow.component.html.Label;
 
 abstract class TC001AbstractSectionTest extends TS001AbstractBasicElementsLayoutTest {
@@ -41,7 +40,7 @@ abstract class TC001AbstractSectionTest extends TS001AbstractBasicElementsLayout
      */
     @Test
     void testFormItem_HasLabel() {
-        FormLayoutElement formLayoutElement = getTestCaseSection().$(FormLayoutElement.class).first();
+        WebElement formLayoutElement = getTestCaseSection().findElements(By.className("linkki-section")).get(0);
         List<WebElement> formItems = formLayoutElement.findElements(By.cssSelector("vaadin-form-item"));
 
         assertThat(formItems.stream().allMatch(fi -> hasLabel(fi))).isTrue();

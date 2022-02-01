@@ -29,7 +29,6 @@ import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.uiframework.UiFramework;
-import org.linkki.samples.playground.binding.annotation.AlignmentType;
 import org.linkki.samples.playground.binding.annotation.UIRadioButtonGroup;
 import org.linkki.samples.playground.binding.model.Contact;
 
@@ -68,7 +67,7 @@ public class ContactSectionPmo {
     }
 
     // tag::radiobutton[]
-    @UIRadioButtonGroup(position = 30, label = "Gender", buttonAlignment = AlignmentType.HORIZONTAL, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
+    @UIRadioButtonGroup(position = 30, label = "Gender", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
             itemCaptionProvider = GenderCaptionProvider.class, modelAttribute = Contact.PROPERTY_GENDER)
     public void gender() {
         /* model binding only */

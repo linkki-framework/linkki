@@ -17,9 +17,8 @@ package org.linkki.samples.playground.uitestnew.ts.aspects;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
@@ -30,104 +29,93 @@ import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.H4Element;
-import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
+import com.vaadin.testbench.TestBenchElement;
 
 public class BindCaptionTest extends PlaygroundUiTest {
 
-    @BeforeEach
-    public void setup() {
-        super.setUp();
-    }
-
     @Test
     public void testSectionCaption() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC002);
+        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC002);
+        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
-        H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("section caption");
 
-        assertThat(caption.getText(), is("section caption"));
+        assertThat(section.getCaption(), is("section caption"));
     }
 
     @Test
     public void testSectionCaption_WithEditButton() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC003);
+        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC003);
+        LinkkiSectionElement section = getSection(BindCaptionWithEditButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
-        H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("section caption");
 
-        assertThat(caption.getText(), is("section caption"));
+        assertThat(section.getCaption(), is("section caption"));
     }
 
     @Test
     public void testSectionCaption_WithSectionHeaderButton() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC004);
+        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC004);
+        LinkkiSectionElement section = getSection(BindCaptionWithSectionHeaderButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
-        H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("section caption");
 
-        assertThat(caption.getText(), is("section caption"));
+        assertThat(section.getCaption(), is("section caption"));
     }
 
     @Test
     public void testSectionCaption_WithCloseButton() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC005);
+        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC005);
+        LinkkiSectionElement section = getSection(BindCaptionWithCloseButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
-        H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("section caption");
 
-        assertThat(caption.getText(), is("section caption"));
+        assertThat(section.getCaption(), is("section caption"));
     }
 
     @Test
     public void testSectionCaption_EmptyCaptionHidesElement() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC002);
+        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC002);
+        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
-        H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("");
 
-        assertThat(caption.isDisplayed(), is(false));
+        assertThat(section.$(H4Element.class).first().isDisplayed(), is(false));
     }
 
     @Test
     public void testSectionCaption_ButtonStaysVisibleWithEmptyCaption() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC004);
+        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC004);
+        LinkkiSectionElement section = getSection(BindCaptionWithSectionHeaderButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
-        H4Element caption = getHeader(section).$(H4Element.class).first();
-        ButtonElement button = getHeader(section).$(ButtonElement.class).id("callAnAmbulance");
+        TestBenchElement button = section.getHeaderComponents().id("callAnAmbulance");
 
         captionField.setValue("");
 
-        assertThat(caption.isDisplayed(), is(false));
+        assertThat(section.$(H4Element.class).first().isDisplayed(), is(false));
         assertThat(button.isDisplayed(), is(true));
     }
 
     @Test
     public void testButtonCaption() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC002);
-        TextFieldElement captionField = section.$(TextFieldElement.class)
+        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC002);
+        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
+        TextFieldElement captionField = section.getContent().$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
-        ButtonElement button = section.$(ButtonElement.class).id(BindCaptionWithoutButtonPmo.PROPERTY_BUTTON);
+        ButtonElement button = section.getContent().$(ButtonElement.class)
+                .id(BindCaptionWithoutButtonPmo.PROPERTY_BUTTON);
 
         captionField.setValue("button caption");
 
@@ -136,20 +124,16 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testCheckboxCaption() {
-        VerticalLayoutElement section = getSection(BindCaptionWithoutButtonPmo.class);
-        TextFieldElement captionField = section.$(TextFieldElement.class)
+        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
+        TextFieldElement captionField = section.getContent().$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
-        CheckboxElement checkbox = section.$(CheckboxElement.class)
+        CheckboxElement checkbox = section.getContent().$(CheckboxElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_CHECKBOX);
 
 
         captionField.setValue("checkbox caption");
 
         assertThat(checkbox.getText(), is("checkbox caption"));
-    }
-
-    private HorizontalLayoutElement getHeader(TestCaseComponentElement section) {
-        return section.$(HorizontalLayoutElement.class).first();
     }
 
 }

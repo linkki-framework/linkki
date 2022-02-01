@@ -36,8 +36,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.ui.bind.TestEnum;
-import org.linkki.core.vaadin.component.base.LinkkiFormLayout;
-import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
+import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 
@@ -138,9 +137,8 @@ class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
 
     @Test
     void testSetTooltip() {
-        LinkkiFormLayout layout = new LinkkiFormLayout();
         TextField formTextField = new TextField();
-        LabelComponentFormItem formItem = layout.addFormItem(formTextField, "SomeText");
+        LabelComponentFormItem formItem = new LabelComponentFormItem(formTextField, new Label("SomeText"));
         FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
 
         wrapper.setTooltip("testTip");

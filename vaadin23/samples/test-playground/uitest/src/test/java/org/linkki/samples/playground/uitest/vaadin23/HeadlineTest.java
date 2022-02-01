@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.application.ReportListPage;
 import org.linkki.samples.playground.application.ReportSectionPmo;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
 
@@ -63,7 +64,7 @@ public class HeadlineTest extends AbstractUiTest {
     }
 
     private void addReport() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(ReportSectionPmo.class.getSimpleName());
+        LinkkiSectionElement section = getSection(ReportSectionPmo.class);
         ComboBoxElement comboBoxElement = section.$(ComboBoxElement.class).id("type");
         comboBoxElement.selectByText("Question");
 
