@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:image-dir: {images}08_nls
+:image-dir: {images}08_internationalization
 :source-dir: ../../../../../../vaadin23/samples/test-playground/src/main
 
 === Location of Resource Bundles

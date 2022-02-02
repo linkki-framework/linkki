@@ -1,0 +1,45 @@
+:jbake-title: Date Formats
+:jbake-type: section
+:jbake-status: published
+:source-dir: ../../../../../../vaadin23/samples/test-playground/src/main/java
+
+=== Date Formats
+
+The class `org.linkki.util.DateFormats` is used as the authoritative source for date formats, ensuring consistent formatting throughout the application. UI elements such as <<ui-datefield,`@UIDateField`>> or <<ui-label,`@UILabel`>> automatically use the formats specified there. 
+
+==== Default formats
+
+A few patterns for German and English are registered by default, otherwise patterns specified by the JDK (or ISO if no pattern is available) are used as a fallback.
+
+[%header,cols="a,a"]
+|===
+| Locale | Pattern
+| `en_US` a| `MM/dd/yyyy`
+| `en_GB` a| `dd/MM/yyyy`
+| `en_*` a| `MM/dd/yyyy`
+| `de_*` a| `dd.MM.yyyy`
+|===
+
+==== Registering a custom date format
+
+In case the used format is not suitable, a custom date format can be registered to override it. This can be done either for a single locale, or for all locales with the given language (a country-specific registration takes precedence, regardless of the registration order).
+
+.Example registration for fr_FR and fr_*
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ui/PlaygroundApplicationConfig.java[tags=dateFormatRegistration]
+----
+
+The `DateFormats` storage is global and session-independant, custom date formats should be registered once at application startup. A `static` block inside your `ApplicationConfig` is a possible option.
+
+
+==== Manually formatting a date
+
+`DateFormats#getPattern(Locale)` should be used to stay consistent with the format used in other parts of the application. The returned pattern can be used by the `DateTimeFormatter`.
+
+.Example using the session locale
+[source,java]
+----
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateFormats.getPattern(UiFramework.getLocale()));
+LocalDate.of(2022, 02, 05).format(formatter);
+----

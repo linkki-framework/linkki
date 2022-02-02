@@ -14,6 +14,7 @@
 package org.linkki.samples.playground.ui;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.framework.ui.application.ApplicationConfig;
@@ -29,13 +30,25 @@ import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.dialogs.DialogsView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.samples.playground.products.ProductsSampleDetailView;
+import org.linkki.util.DateFormats;
 import org.linkki.util.Sequence;
 
 /**
  * An {@link ApplicationConfig} using the default {@link ApplicationHeader application header} and
  * {@link ApplicationFooter application footer}.
  */
+// tag::dateFormatRegistration[]
 public class PlaygroundApplicationConfig implements ApplicationConfig {
+
+    static {
+        // this only applies to fr_FR
+        DateFormats.register(Locale.FRANCE, "dd/MM/yy");
+
+        // this applies to other locales with an fr language code, such as fr_CH or fr_BE
+        DateFormats.register("fr", "dd/MM/yyyy");
+    }
+
+    // end::dateFormatRegistration[]
 
     @Override
     public ApplicationInfo getApplicationInfo() {
