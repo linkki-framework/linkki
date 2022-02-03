@@ -46,4 +46,9 @@ public class LinkkiSectionElement extends TestBenchElement {
     public <T extends TestBenchElement> ElementQuery<T> getHeaderComponents(Class<T> clazz) {
         return $(clazz).attribute("slot", "header-components");
     }
+
+    public DivElement getHeader() {
+        return $(DivElement.class).attribute("class", "linkki-section-header").first();
+    }
+
 }

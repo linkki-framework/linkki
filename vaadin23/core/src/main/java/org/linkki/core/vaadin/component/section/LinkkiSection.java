@@ -102,6 +102,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
         H4 h4 = new H4();
         h4.addClassName(LinkkiTheme.SECTION_CAPTION_TEXT);
         h4.getStyle().set("margin", "0");
+        h4.getStyle().set("line-height", "var(--lumo-size-s)");
         return h4;
     }
 

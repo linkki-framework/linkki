@@ -47,11 +47,46 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
     @Test
     void testEmptyHeaderShouldTakeNoSpace() {
         LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
-        section.getContent().$(TextFieldElement.class).id("caption").setValue("");
-        section.getContent().$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").click();
-        section.getContent().$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").click();
+        DivElement content = section.getContent();
 
-        assertThat(section.getSize().getHeight()).isEqualTo(section.getContent().getSize().getHeight());
+        content.$(TextFieldElement.class).id("caption").setValue("");
+        content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(false);
+        content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(false);
+
+        assertThat(section.getSize().getHeight()).isEqualTo(content.getSize().getHeight());
+    }
+
+    @Test
+    void testHeaderHeightShouldNotChange_WhenAllButtonsAreHidden() {
+        LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
+        DivElement content = section.getContent();
+
+        content.$(TextFieldElement.class).id("caption").setValue("FooBaa");
+        content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(true);
+        content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(true);
+
+        int size = section.getHeader().getSize().getHeight();
+
+        content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(false);
+        content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(false);
+
+        assertThat(section.getHeader().getSize().getHeight()).isEqualTo(size);
+    }
+
+    @Test
+    void testHeaderHeightShouldNotChange_WhenCaptionIsHidden() {
+        LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
+        DivElement content = section.getContent();
+
+        content.$(TextFieldElement.class).id("caption").setValue("Foobaa");
+        content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(true);
+        content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(true);
+
+        int size = section.getHeader().getSize().getHeight();
+
+        content.$(TextFieldElement.class).id("caption").setValue("");
+
+        assertThat(section.getHeader().getSize().getHeight()).isEqualTo(size);
     }
 
     @Test
@@ -64,4 +99,5 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
         assertThat(headerComponents.get(3).getTagName()).isEqualTo("vaadin-combo-box");
         assertThat(headerComponents.get(4).getTagName()).isEqualTo("vaadin-checkbox");
     }
+
 }

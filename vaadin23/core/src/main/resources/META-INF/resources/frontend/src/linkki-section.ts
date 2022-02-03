@@ -42,7 +42,8 @@ class LinkkiSection extends LitElement {
         }
 
         ::slotted([slot="header-components"]), ::slotted([slot="close-toggle"]) {
-          margin-bottom: .5em !important;
+          margin-bottom: .5rem !important;
+          min-height: var(--lumo-size-s);
         }
       </style>
 
