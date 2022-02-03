@@ -58,7 +58,7 @@ public enum SectionLayout {
      * <p>
      * <em>Consider using {@link UIFormSection} instead.</em>
      **/
-    FORM(SectionLayoutDefinition.DEFAULT),
+    FORM(SectionLayoutDefinition.DEFAULT, LinkkiSection.THEME_VARIANT_FORM),
 
     /**
      * Displays section elements stacked in a column. Labels are displayed on top of the component.

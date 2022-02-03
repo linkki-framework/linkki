@@ -33,6 +33,7 @@ import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 /**
  * Responsible for creating a {@link BaseSection} in the UI from the annotated PMO class that may
@@ -62,7 +63,7 @@ public @interface UIFormSection {
                 BaseSection baseSection = new BaseSection(
                         PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
                         uiFormSection.closeable(), uiFormSection.columns());
-                baseSection.getElement().getThemeList().addAll(SectionLayout.HORIZONTAL.getThemeNames());
+                baseSection.getElement().getThemeList().add(LinkkiSection.THEME_VARIANT_FORM);
                 return baseSection;
             };
         }

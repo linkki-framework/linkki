@@ -17,3 +17,7 @@
 :host([disabled][readonly]) [part="input-field"] {
   background: transparent;
 }
+
+:host([has-label]) {
+    padding-top: 0;
+}

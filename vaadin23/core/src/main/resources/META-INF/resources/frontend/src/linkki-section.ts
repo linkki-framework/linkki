@@ -10,7 +10,7 @@ class LinkkiSection extends LitElement {
           flex-direction: column;
           box-sizing: border-box;
           width: 100%;
-          --linkki-section-horizontal-gap: var(--lumo-space-m);
+          --linkki-section-gap: var(--lumo-space-m);
         }
         
         ::slotted([slot="content"]) {
@@ -22,11 +22,16 @@ class LinkkiSection extends LitElement {
           overflow: auto;
           box-sizing: border-box;
           width: 100%;
+          gap: var(--linkki-section-gap);
         }
 
         :host([theme~="horizontal"]) > ::slotted([slot="content"]) {
           flex-direction: row;
-          gap: var(--linkki-section-horizontal-gap);
+        }
+
+        :host([theme~="form"]) > ::slotted([slot="content"]) {
+          gap: 0;
+          justify-content: space-between;
         }
 
         .linkki-section-header, .linkki-section-header-components {

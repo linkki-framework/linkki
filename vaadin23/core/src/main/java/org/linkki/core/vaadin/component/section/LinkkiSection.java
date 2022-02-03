@@ -47,6 +47,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public class LinkkiSection extends HtmlComponent implements HasCaption {
 
     public static final String THEME_VARIANT_HORIZONTAL = "horizontal";
+    public static final String THEME_VARIANT_FORM = "form";
 
     static final String SLOT_HEADER_COMPONENTS = "header-components";
     static final String SLOT_CLOSE_TOGGLE = "close-toggle";
@@ -94,8 +95,10 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
         content.getElement().setAttribute("slot", SLOT_CONTENT);
 
         getElement().appendChild(captionLabel.getElement(), closeButton.getElement(), content.getElement());
-        getStyle().set("--section-item-width",
-                       "calc(100% / " + columns + " - var(--linkki-section-horizontal-gap))");
+        if (columns > 1) {
+            getElement().getThemeList().add(THEME_VARIANT_HORIZONTAL);
+        }
+        getStyle().set("--columns", String.valueOf(columns));
     }
 
     private static H4 createCaption() {
