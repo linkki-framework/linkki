@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
-        <vaadin.version>22.0.1</vaadin.version>
+        <vaadin.version>22.0.4</vaadin.version>
         <spotbugs.version>3.1.12</spotbugs.version>
         <spring-boot.version>2.5.1</spring-boot.version>
 
