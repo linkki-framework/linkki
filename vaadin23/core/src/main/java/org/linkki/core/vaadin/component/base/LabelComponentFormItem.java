@@ -24,6 +24,7 @@ import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 
 /**
  * FormItem that only has one component as label. The label shares the required and invalid state with
@@ -56,8 +57,14 @@ public class LabelComponentFormItem extends FormItem {
         addToLabel(label);
 
         if (component instanceof HasValue) {
-            synchronizeAttributeFromField(component, "required", HasValue::isRequiredIndicatorVisible);
-            synchronizeAttributeFromField(component, "readonly", HasValue::isReadOnly);
+            synchronizePropertyFromField(component, "required", HasValue::isRequiredIndicatorVisible);
+            synchronizePropertyFromField(component, "readonly", HasValue::isReadOnly);
+
+            if (component instanceof RadioButtonGroup<?>) {
+                component.getElement()
+                        .addPropertyChangeListener("disabled", e -> getElement()
+                                .setAttribute("readonly", ((RadioButtonGroup<?>)component).isReadOnly()));
+            }
 
             if (component instanceof HasValidation) {
                 component.getElement().addPropertyChangeListener("invalid", "change",
@@ -69,7 +76,7 @@ public class LabelComponentFormItem extends FormItem {
         }
     }
 
-    private void synchronizeAttributeFromField(Component cmpt,
+    private void synchronizePropertyFromField(Component cmpt,
             String attribute,
             Predicate<HasValue<?, ?>> valueOfField) {
         HasValue<?, ?> field = (HasValue<?, ?>)cmpt;
