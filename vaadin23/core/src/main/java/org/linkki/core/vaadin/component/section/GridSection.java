@@ -20,8 +20,6 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 
 import com.vaadin.flow.component.grid.Grid;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
-
 /**
  * A section containing a single table. This kind of section is created by the
  * {@link PmoBasedSectionFactory} if the presentation model object is a {@link ContainerPmo}.
@@ -29,9 +27,6 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 public class GridSection extends LinkkiSection {
 
     private static final long serialVersionUID = 1L;
-
-    @Nullable
-    private Grid<?> grid;
 
     public GridSection(String caption, boolean closeable) {
         super(caption, closeable, 1);
@@ -41,12 +36,14 @@ public class GridSection extends LinkkiSection {
      * Returns the table shown in the section.
      */
     public Grid<?> getGrid() {
-        return grid;
+        return (Grid<?>)getContentWrapper().getComponentAt(0);
     }
 
     public void setGrid(Grid<?> grid) {
-        this.grid = requireNonNull(grid, "grid must not be null");
-        getContentWrapper().add(grid);
+        requireNonNull(grid, "grid must not be null");
+        getContentWrapper()
+                .replace(getContentWrapper().getComponentCount() > 0 ? getContentWrapper().getComponentAt(0) : null,
+                         grid);
     }
 
     /**
@@ -60,6 +57,6 @@ public class GridSection extends LinkkiSection {
 
     @Override
     public String toString() {
-        return "GridSection based on " + (grid == null ? null : grid.getId());
+        return "GridSection based on " + (getGrid() == null ? null : getGrid().getId());
     }
 }
