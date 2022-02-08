@@ -38,6 +38,8 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Defines an aspect that updates the set of available values of {@link HasListDataView}.
+ * 
+ * @param <C> the component type
  */
 public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinition {
 
@@ -68,9 +70,6 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
                                                     propertyDispatcher.getValueClass());
 
         ItemCache cache = new ItemCache(itemCaptionProvider);
-
-        setDataProvider(componentWrapper, cache.getItems());
-
         return () -> updateItems(cache, propertyDispatcher.pull(aspect), componentWrapper);
     }
 

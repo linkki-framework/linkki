@@ -16,8 +16,10 @@ package org.linkki.core.defaults.ui.element;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +40,10 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * <li>{@link DefaultCaptionProvider} calls a method {@code getName()} on the value object.</li>
  * <li>{@link ToStringCaptionProvider} simply uses the object's {@link Object#toString()} method.</li>
  * </ul>
+ * <p>
+ * The {@link ItemCaptionProvider} is called once for each ComboBox and each value during each update.
+ * This is necessary to detect possible changes of the caption for the same object. It is therefore
+ * particularly important that the ItemCaptionProvider is very fast.
  */
 @FunctionalInterface
 public interface ItemCaptionProvider<T> {
@@ -118,30 +124,34 @@ public interface ItemCaptionProvider<T> {
      */
     public class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
 
+        private static final Map<Class<?>, Function<Object, String>> CACHE = new ConcurrentHashMap<>();
+
         @Override
         public String getCaption(Object o) {
-            String name = getName(o);
-            return name != null ? name : StringUtils.EMPTY;
+            String name = CACHE.computeIfAbsent(o.getClass(), c -> getNameFunction(c)).apply(o);
+            return StringUtils.defaultString(name);
         }
 
         @CheckForNull
-        private static String getName(Object value) {
-            Optional<Method> getLocalizedNameMethod = getMethod(value, "getName", Locale.class);
+        private static Function<Object, String> getNameFunction(Class<?> type) {
+            Optional<Method> getLocalizedNameMethod = getMethod(type, "getName", Locale.class);
             if (getLocalizedNameMethod.isPresent()) {
-                return invokeStringMethod(getLocalizedNameMethod.get(), value, UiFramework.getLocale());
+                Method m = getLocalizedNameMethod.get();
+                return o -> invokeStringMethod(m, o, UiFramework.getLocale());
             }
 
-            Optional<Method> getNameMethod = getMethod(value, "getName");
+            Optional<Method> getNameMethod = getMethod(type, "getName");
             if (getNameMethod.isPresent()) {
-                return invokeStringMethod(getNameMethod.get(), value);
+                Method m = getNameMethod.get();
+                return o -> invokeStringMethod(m, o);
             }
 
-            return Objects.toString(value);
+            return Object::toString;
         }
 
-        private static Optional<Method> getMethod(Object value, String name, Class<?>... parameters) {
+        private static Optional<Method> getMethod(Class<?> type, String name, Class<?>... parameters) {
             try {
-                Method method = value.getClass().getMethod(name, parameters);
+                Method method = type.getMethod(name, parameters);
                 return Optional.of(method);
             } catch (NoSuchMethodException e) {
                 return Optional.empty();

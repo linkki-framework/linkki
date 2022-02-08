@@ -18,10 +18,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -41,14 +41,10 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.util.handler.Handler;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.provider.HasListDataView;
-import com.vaadin.flow.dom.Element;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class AvailableValuesAspectDefinitionTest {
 
@@ -169,54 +165,40 @@ public class AvailableValuesAspectDefinitionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testCreateUiUpdater() {
-        BiConsumer<HasListDataView<Object, ?>, List<Object>> dataProviderSetter = mock(BiConsumer.class);
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, dataProviderSetter);
+    public void testUiUpdater() {
+        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+                AvailableValuesType.DYNAMIC, DataComponent<Object>::setItems);
+        DataComponent<TestEnum> component = spy(new DataComponent<>());
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
-        when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.THREE));
-        ComboBox<Object> component = mock(ComboBox.class);
-        when(component.getElement()).thenReturn(new Element("vaadin-combo-box"));
+        when(propertyDispatcher.pull(any())).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.TWO));
+
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
-                                                                            new NoLabelComponentWrapper(
-                                                                                    component));
-        ArgumentCaptor<List<?>> listCaptor = ArgumentCaptor.forClass(List.class);
-        verify(dataProviderSetter).accept(eq(component), (List<Object>)listCaptor.capture());
-        @NonNull
-        List<?> list = listCaptor.getValue();
+                                                                            new NoLabelComponentWrapper(component));
 
+        // items are set initially during the first update
+        verifyNoMoreInteractions(component);
         uiUpdater.apply();
-
-        assertThat(list, contains(TestEnum.ONE, TestEnum.THREE));
+        verify(component).setItems(Arrays.asList(TestEnum.ONE, TestEnum.TWO));
+        verifyNoMoreInteractions(component);
+        // items are updated when the aspect value changes
+        reset(component);
+        when(propertyDispatcher.pull(any())).thenReturn(Arrays.asList(TestEnum.ONE));
+        uiUpdater.apply();
+        verify(component).setItems(Arrays.asList(TestEnum.ONE));
+        verifyNoMoreInteractions(component);
+        // items are not updated when the aspect value stays the same
+        reset(component);
+        uiUpdater.apply();
+        verifyNoMoreInteractions(component);
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testRefresh() {
-        BiConsumer<HasListDataView<Object, ?>, List<Object>> dataProviderSetter = mock(BiConsumer.class);
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, dataProviderSetter);
-        PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
-        when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.THREE));
-        ComboBox<Object> component = mock(ComboBox.class);
-        when(component.getValue()).thenReturn(TestEnum.ONE);
-        when(component.getElement()).thenReturn(new Element("vaadin-combo-box"));
-        Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
-                                                                            new NoLabelComponentWrapper(
-                                                                                    component));
-        ArgumentCaptor<List<?>> listCaptor = ArgumentCaptor.forClass(List.class);
+    private static class DataComponent<T> extends Div {
 
-        verify(dataProviderSetter).accept(eq(component), (List<Object>)listCaptor.capture());
-        @NonNull
-        List<Object> list = new ArrayList<>(listCaptor.getValue());
-        Mockito.reset(dataProviderSetter);
+        private static final long serialVersionUID = 1L;
 
-        when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.TWO));
-        uiUpdater.apply();
-
-        verify(dataProviderSetter).accept(eq(component), (List<Object>)listCaptor.capture());
-        List<Object> newList = (List<Object>)listCaptor.getValue();
-        assertThat(newList, is(not(list)));
+        public void setItems(@SuppressWarnings("unused") List<T> items) {
+            // method is only used for verify
+        }
     }
 
 }
