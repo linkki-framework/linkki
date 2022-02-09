@@ -14,17 +14,23 @@
 
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.aspects.types.PlaceholderType;
+import org.linkki.core.ui.creation.table.AbstractGridComponentWrapper;
+import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextArea;
 
 class BindPlaceholderAspectDefinitionTest {
@@ -40,7 +46,7 @@ class BindPlaceholderAspectDefinitionTest {
         callPlaceholderAspectDefinition(area, "A nice static Placeholder", PlaceholderType.STATIC);
         String placeholderResult = area.getPlaceholder();
 
-        assertThat(placeholderResult, is("A nice static Placeholder"));
+        assertThat(placeholderResult).isEqualTo("A nice static Placeholder");
     }
 
     @Test
@@ -50,7 +56,7 @@ class BindPlaceholderAspectDefinitionTest {
         callPlaceholderAspectDefinition(area, "I can be changed", PlaceholderType.DYNAMIC);
         String placeholderResult = area.getPlaceholder();
 
-        assertThat(placeholderResult, is("I am the superior placeholder"));
+        assertThat(placeholderResult).isEqualTo("I am the superior placeholder");
     }
 
     @Test
@@ -60,7 +66,7 @@ class BindPlaceholderAspectDefinitionTest {
         callPlaceholderAspectDefinition(area, "", PlaceholderType.AUTO);
         String placeholderResult = area.getPlaceholder();
 
-        assertThat(placeholderResult, is("I am the superior placeholder"));
+        assertThat(placeholderResult).isEqualTo("I am the superior placeholder");
     }
 
     @Test
@@ -70,7 +76,42 @@ class BindPlaceholderAspectDefinitionTest {
         callPlaceholderAspectDefinition(area, "I am a placeholder", PlaceholderType.AUTO);
         String suffixResult = area.getPlaceholder();
 
-        assertThat(suffixResult, is("I am a placeholder"));
+        assertThat(suffixResult).isEqualTo("I am a placeholder");
+    }
+
+    @Test
+    void testHasPlaceholder() {
+        TestGridPmo pmo = new TestGridPmo();
+
+        Grid<?> grid = applyPlaceholderAspectDefinition(pmo, "Hidden placeholder");
+
+        assertThat(grid.getElement().hasAttribute(PlaceholderAspectDefinition.HAS_PLACEHOLDER)).isTrue();
+    }
+
+    @Test
+    void testHasPlaceholder_WhenNull_ThenFalse() {
+        TestGridPmo pmo = new TestGridPmo();
+
+        Grid<?> grid = applyPlaceholderAspectDefinition(pmo, null);
+
+        assertThat(grid.getElement().hasAttribute(PlaceholderAspectDefinition.HAS_PLACEHOLDER)).isFalse();
+    }
+
+    @Test
+    void testHasPlaceholder_WhenEmpty_ThenTrue() {
+        TestGridPmo pmo = new TestGridPmo();
+
+        Grid<?> grid = applyPlaceholderAspectDefinition(pmo, "");
+
+        assertThat(grid.getElement().hasAttribute(PlaceholderAspectDefinition.HAS_PLACEHOLDER)).isTrue();
+    }
+
+    private Grid<?> applyPlaceholderAspectDefinition(ContainerPmo<?> pmo, String value) {
+        AbstractGridComponentWrapper<?> componentWrapper = GridComponentCreator.createComponentWrapper(pmo,
+                                                                                                       new Grid<>());
+        new PlaceholderAspectDefinition(value, PlaceholderType.STATIC)
+                .createUiUpdater(dispatcher, componentWrapper).apply();
+        return componentWrapper.getComponent();
     }
 
     private void callPlaceholderAspectDefinition(TextArea area, String value, PlaceholderType placeholderType) {
@@ -90,5 +131,15 @@ class BindPlaceholderAspectDefinitionTest {
         }
 
     }
+
+    static class TestGridPmo implements ContainerPmo<String> {
+
+        @Override
+        public List<String> getItems() {
+            return Collections.emptyList();
+        }
+
+    }
+
 }
 

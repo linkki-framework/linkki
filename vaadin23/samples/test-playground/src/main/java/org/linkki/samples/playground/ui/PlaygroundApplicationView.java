@@ -31,6 +31,9 @@ import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.TableWithValidationSection;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
@@ -242,6 +245,13 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC003, new UITableColumnTablePmo())
                                        .testCase(TC004, DynamicFieldsSection.create())
                                        .testCase(TC005, new NumberFooterTablePmo())
+                                       .testCase(TC006, () -> new VerticalLayout(
+                                               VaadinUiCreator.createComponent(new TableWithPlaceholderPmo(),
+                                                                               new BindingContext()),
+                                               VaadinUiCreator.createComponent(new TableWithEmptyPlaceholderPmo(),
+                                                                               new BindingContext()),
+                                               VaadinUiCreator.createComponent(new TableWithoutPlaceholderPmo(),
+                                                                               new BindingContext())))
                                        .createTabSheet(),
                                TestScenario.id(TS013)
                                        .testCase(TC001, MessageTableSection.create())

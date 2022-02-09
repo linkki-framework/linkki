@@ -48,8 +48,7 @@ class TC004DynamicFieldTest extends PlaygroundUiTest {
     private static final String BUTTON_PMO = "buttonPmo";
 
     @BeforeEach
-    void setup() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC004);
     }
 

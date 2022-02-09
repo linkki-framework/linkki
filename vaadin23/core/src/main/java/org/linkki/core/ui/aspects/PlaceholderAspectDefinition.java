@@ -23,6 +23,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.aspects.types.PlaceholderType;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;
 
 /**
@@ -31,6 +32,7 @@ import com.vaadin.flow.component.textfield.TextField;
  */
 public class PlaceholderAspectDefinition extends ModelToUiAspectDefinition<String> {
     public static final String NAME = "placeholder";
+    public static final String HAS_PLACEHOLDER = "has-placeholder";
 
     private final String value;
     private final PlaceholderType type;
@@ -54,7 +56,7 @@ public class PlaceholderAspectDefinition extends ModelToUiAspectDefinition<Strin
             case STATIC:
                 return Aspect.of(NAME, value);
             default:
-                throw new IllegalStateException("Unknown placeholder type: " + type);
+                throw new IllegalStateException("Unknown " + NAME + " type: " + type);
         }
     }
 
@@ -66,7 +68,15 @@ public class PlaceholderAspectDefinition extends ModelToUiAspectDefinition<Strin
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Component component = (Component)componentWrapper.getComponent();
-        return placeholder -> component.getElement().setProperty("placeholder", placeholder == null ? "" : placeholder);
+        return placeholder -> {
+            if (component instanceof Grid<?>) {
+                component.getElement().getStyle().set("--" + NAME, "'" + placeholder + "'");
+                // Needs to be set as attribute as properties cannot be used in css selectors
+                component.getElement().setAttribute(HAS_PLACEHOLDER, placeholder != null);
+            } else {
+                component.getElement().setProperty(NAME, placeholder == null ? "" : placeholder);
+            }
+        };
     }
 
 }

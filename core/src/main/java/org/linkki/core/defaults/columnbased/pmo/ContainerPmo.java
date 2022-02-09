@@ -123,5 +123,4 @@ public interface ContainerPmo<ROW> {
     default boolean isHierarchical() {
         return HierarchicalRowPmo.class.isAssignableFrom(getItemPmoClass());
     }
-
 }

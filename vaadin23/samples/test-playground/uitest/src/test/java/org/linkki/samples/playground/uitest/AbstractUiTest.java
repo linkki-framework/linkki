@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
@@ -35,6 +36,7 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
@@ -57,7 +59,7 @@ import com.vaadin.testbench.TestBenchTestCase;
  * annotation.
  */
 @TestMethodOrder(OrderAnnotation.class)
-public class AbstractUiTest extends TestBenchTestCase {
+public abstract class AbstractUiTest extends TestBenchTestCase {
 
     @RegisterExtension
     protected static DriverExtension driverExtension = new DriverExtension();
@@ -227,5 +229,9 @@ public class AbstractUiTest extends TestBenchTestCase {
 
     public WebElement getSuffix(WebElement element) {
         return element.findElement(By.cssSelector("div[slot='suffix']"));
+    }
+
+    public GridElement getGrid(Class<? extends ContainerPmo<?>> tablePmoClass) {
+        return $(GridElement.class).id(tablePmoClass.getSimpleName() + "_table");
     }
 }

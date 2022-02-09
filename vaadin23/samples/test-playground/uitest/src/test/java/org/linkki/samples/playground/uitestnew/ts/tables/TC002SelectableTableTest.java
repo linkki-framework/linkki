@@ -37,8 +37,7 @@ import com.vaadin.flow.component.notification.testbench.NotificationElement;
 class TC002SelectableTableTest extends PlaygroundUiTest {
 
     @BeforeEach
-    void setup() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC002);
     }
 

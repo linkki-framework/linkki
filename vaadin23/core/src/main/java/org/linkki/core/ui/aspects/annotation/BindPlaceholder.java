@@ -38,7 +38,7 @@ import org.linkki.core.ui.element.annotation.UITextField;
  * {@link UITextField} or {@link UITextArea}.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.FIELD, ElementType.METHOD })
+@Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
 @LinkkiAspect(BindPlaceholderAspectDefinitionCreator.class)
 public @interface BindPlaceholder {
 

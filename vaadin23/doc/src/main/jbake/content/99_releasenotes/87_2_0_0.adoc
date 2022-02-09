@@ -62,9 +62,12 @@ A new aspect `@BindSuffix` has been introduced. With the aspect, a suffix can be
 ===== New Aspect Annotation: @BindPlaceholder
 //// 
 https://jira.faktorzehn.de/browse/LIN-410
+https://jira.faktorzehn.de/browse/LIN-937
 ////
 
-A new aspect `@BindPlaceholder` has been introduced. With the aspect, a placeholder can be added to UI elements to display a text, while the UI element is empty. See documentation of <<placeholder, @BindPlaceholder>> for further information.
+A new aspect `@BindPlaceholder` has been introduced. With the aspect, a placeholder can be added to UI elements to display a text, while the UI element is empty.
+
+If applied to a table PMO, the given placeholder text will be shown if the table has no items. To hide an empty table without showing any replacement text, you can provide an empty `String` (`""`) as placeholder value with `PlaceholderType#STATIC`. In both cases, table header and footer will also be hidden. See <<placeholder, `@BindPlaceholder`>> and <<placeholder-table-pmo, Using `@BindPlaceholder` on table PMOs>> for further information.
 
 [role="api-change"]
 ===== Creation of dialogs using PMOs with arbitrary layout annotation

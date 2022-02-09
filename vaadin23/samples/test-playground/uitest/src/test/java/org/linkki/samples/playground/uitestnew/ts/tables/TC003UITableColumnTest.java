@@ -30,8 +30,7 @@ import com.vaadin.flow.component.grid.testbench.GridTHTDElement;
 class TC003UITableColumnTest extends PlaygroundUiTest {
 
     @BeforeEach
-    void setup() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC003);
     }
 

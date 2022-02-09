@@ -315,3 +315,15 @@ The following configuration options are available for `PlaceholderType`:
 |`STATIC`   |the text of the placeholder is read from the attribute `value`
 |`DYNAMIC`  |the text of the placeholder is determined by the return value of the method `String get<PropertyName>Placeholder()`. The `value` is ignored.
 |===
+
+
+[[placeholder-table-pmo]]
+The `@BindPlaceholder` annotation can also be used on table PMOs providing a placeholder text that is shown in case the table has no items. Table header and footer will also be hidden.
+
+.`@BindPlaceholder` on table PMO
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/table/SimplePlaygroundTablePmo.java[tags=bindPlaceholder-tablePmo]
+----
+
+TIP: `@BindPlaceholder(value = "", placeholderType = PlaceholderType.STATIC)` will hide empty tables without showing any replacement text. When using `@BindPlaceholder` as annotation only, providing mandatory `getPlaceholder()`-Method and returning empty `String` will do the same.

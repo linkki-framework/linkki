@@ -3,10 +3,25 @@
 }
 
 #footer {
-    text-align: var(--linkki-footer-alignment, left);
-    text-shadow: var(--linkki-footer-text-shadow);
+  text-align: var(--linkki-footer-alignment, left);
+  text-shadow: var(--linkki-footer-text-shadow);
 }
 
 [part~="footer-cell"] ::slotted(vaadin-grid-cell-content) {
-    font-size: var(--lumo-font-size-m);
+  font-size: var(--lumo-font-size-m);
+}
+
+:host([has-placeholder]:not([has-items])) {
+  /* override fixed inline height */
+  height: unset !important;
+}
+
+:host([has-placeholder]:not([has-items])) #table {
+  display: none;
+}
+
+:host([has-placeholder]:not([has-items]))::after {
+  content: var(--placeholder, "");
+  font-style: italic;
+  opacity: 0.7;
 }

@@ -76,6 +76,7 @@ public class GridComponentWrapper<ROW> extends AbstractGridComponentWrapper<ROW>
             items.clear();
             items.addAll(newItems);
             getComponent().getDataProvider().refreshAll();
+            getComponent().getElement().setAttribute("has-items", !newItems.isEmpty());
         }
     }
 

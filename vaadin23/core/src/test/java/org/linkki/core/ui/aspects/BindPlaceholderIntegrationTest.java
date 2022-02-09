@@ -13,22 +13,26 @@
  */
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.aspects.annotation.BindPlaceholder;
 import org.linkki.core.ui.aspects.types.PlaceholderType;
+import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;
 
 class BindPlaceholderIntegrationTest {
@@ -48,7 +52,7 @@ class BindPlaceholderIntegrationTest {
 
         String placeholderResult = textfield.getPlaceholder();
 
-        assertNull(placeholderResult);
+        assertThat(placeholderResult).isNull();
     }
 
     @Test
@@ -57,7 +61,7 @@ class BindPlaceholderIntegrationTest {
 
         String placeholderResult = textfield.getPlaceholder();
 
-        assertThat(placeholderResult, is("I am a nice static placeholder"));
+        assertThat(placeholderResult).isEqualTo("I am a nice static placeholder");
     }
 
     @Test
@@ -68,7 +72,7 @@ class BindPlaceholderIntegrationTest {
         bindingContext.modelChanged();
         String placeholderResult = textfield.getPlaceholder();
 
-        assertThat(placeholderResult, is("I got changed"));
+        assertThat(placeholderResult).isEqualTo("I got changed");
     }
 
     @Test
@@ -79,7 +83,7 @@ class BindPlaceholderIntegrationTest {
         bindingContext.modelChanged();
         String placeholderResult = textfield.getPlaceholder();
 
-        assertThat(placeholderResult, is(""));
+        assertThat(placeholderResult).isEmpty();
     }
 
     @Test
@@ -88,7 +92,7 @@ class BindPlaceholderIntegrationTest {
 
         String placeholderResult = textfield.getPlaceholder();
 
-        assertThat(placeholderResult, is("I am a placeholder"));
+        assertThat(placeholderResult).isEqualTo("I am a placeholder");
     }
 
     @Test
@@ -97,9 +101,35 @@ class BindPlaceholderIntegrationTest {
 
         String placeholderResult = textfield.getPlaceholder();
 
-        assertThat(placeholderResult, is("I am a superior auto placeholder"));
+        assertThat(placeholderResult).isEqualTo("I am a superior auto placeholder");
     }
 
+    @Test
+    void testAspectBindPlaceholderAnnotation_GridPmo_WithoutPlaceholderAnnotation() {
+        Grid<Integer> grid = GridComponentCreator.createGrid(new TestGridWithoutBindPlaceholderPmo(),
+                                                             new BindingContext());
+
+        assertThat(grid.getElement().hasAttribute("has-placeholder")).isFalse();
+        assertThat(grid.getElement().getStyle().get("--placeholder")).isNull();
+    }
+
+    @Test
+    void testAspectBindPlaceholderAnnotation_GridPmo_WithEmptyPlaceholder() {
+        Grid<Integer> grid = GridComponentCreator.createGrid(new TestGridWithEmptyBindPlaceholderPmo(),
+                                                             new BindingContext());
+
+        assertThat(grid.getElement().hasAttribute("has-placeholder")).isTrue();
+        assertThat(grid.getElement().getStyle().get("--placeholder")).isEqualTo("''");
+    }
+
+    @Test
+    void testAspectBindPlaceholderAnnotation_GridPmo_WithNonEmptyPlaceholder() {
+        Grid<Integer> grid = GridComponentCreator.createGrid(new TestGridWithNonEmptyBindPlaceholderPmo(),
+                                                             new BindingContext());
+
+        assertThat(grid.getElement().hasAttribute("has-placeholder")).isTrue();
+        assertThat(grid.getElement().getStyle().get("--placeholder")).isEqualTo("'No items'");
+    }
 
     static class TestWithBindPlaceholderFieldsPmo {
 
@@ -152,5 +182,35 @@ class BindPlaceholderIntegrationTest {
             return "I am a superior auto placeholder";
         }
 
+    }
+
+    @UISection(caption = "TestGridWithoutBindPlaceholder")
+    static class TestGridWithoutBindPlaceholderPmo implements ContainerPmo<Integer> {
+        @Override
+        public List<Integer> getItems() {
+            return Collections.emptyList();
+        }
+    }
+
+    @BindPlaceholder
+    @UISection(caption = "TestGridWithEmptyBindPlaceholder")
+    static class TestGridWithEmptyBindPlaceholderPmo implements ContainerPmo<Integer> {
+        public String getPlaceholder() {
+            return "";
+        }
+
+        @Override
+        public List<Integer> getItems() {
+            return Collections.emptyList();
+        }
+    }
+
+    @BindPlaceholder("No items")
+    @UISection(caption = "TestGridWithNonEmptyBindPlaceholder")
+    static class TestGridWithNonEmptyBindPlaceholderPmo implements ContainerPmo<Integer> {
+        @Override
+        public List<Integer> getItems() {
+            return Collections.emptyList();
+        }
     }
 }

@@ -32,8 +32,7 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 class TC001TableValidationMarkerTest extends PlaygroundUiTest {
 
     @BeforeEach
-    void setup() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC001);
     }
 
