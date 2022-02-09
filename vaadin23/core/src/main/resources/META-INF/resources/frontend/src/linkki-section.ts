@@ -9,7 +9,6 @@ class LinkkiSection extends LitElement {
           display: flex;
           flex-direction: column;
           box-sizing: border-box;
-          margin-bottom: 1em;
           width: 100%;
           --linkki-section-horizontal-gap: var(--lumo-space-m);
         }

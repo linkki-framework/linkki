@@ -16,19 +16,22 @@ package org.linkki.samples.playground.products;
 
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-public class ProductsSamplePmo {
+public abstract class ProductsSamplePmo {
 
     private ProductsSampleModelObject sampleModelObject;
+    private String caption;
 
-    public ProductsSamplePmo() {
-        this(new ProductsSampleModelObject());
+    public ProductsSamplePmo(String caption) {
+        this(caption, new ProductsSampleModelObject());
     }
 
-    public ProductsSamplePmo(ProductsSampleModelObject sampleModelObject) {
+    public ProductsSamplePmo(String caption, ProductsSampleModelObject sampleModelObject) {
+        this.caption = caption;
         this.sampleModelObject = sampleModelObject;
     }
 
@@ -37,8 +40,21 @@ public class ProductsSamplePmo {
         return sampleModelObject;
     }
 
-    @UISection(caption = "Sample Section Horizontal", layout = SectionLayout.HORIZONTAL, columns = 2)
+    public String getCaption() {
+        return caption;
+    }
+
+    @BindCaption
+    @UISection(layout = SectionLayout.HORIZONTAL, columns = 2)
     public static class HorizontalSamplePmo extends ProductsSamplePmo {
+
+        public HorizontalSamplePmo() {
+            super("Sample Section Horizontal");
+        }
+
+        public HorizontalSamplePmo(String caption) {
+            super(caption);
+        }
 
         @UITextField(position = 10, label = "Property 1", modelAttribute = "property", width = "")
         public void property1() {
@@ -49,11 +65,19 @@ public class ProductsSamplePmo {
         public void property2() {
             /* model binding only */
         }
-
     }
 
-    @UISection(caption = "Sample Section Vertical", layout = SectionLayout.FORM)
+    @BindCaption
+    @UISection(layout = SectionLayout.FORM)
     public static class VerticalSamplePmo extends ProductsSamplePmo {
+
+        public VerticalSamplePmo() {
+            super("Sample Section Horizontal");
+        }
+
+        public VerticalSamplePmo(String caption) {
+            super(caption);
+        }
 
         @UITextField(position = 10, label = "Property 1", modelAttribute = "property")
         public void property1() {
@@ -67,10 +91,10 @@ public class ProductsSamplePmo {
 
     }
 
-    public static class TableSamplePmo extends ProductsSamplePmo {
+    public static class RowSamplePmo extends ProductsSamplePmo {
 
-        public TableSamplePmo(ProductsSampleModelObject sampleModelObject) {
-            super(sampleModelObject);
+        public RowSamplePmo(ProductsSampleModelObject sampleModelObject) {
+            super("", sampleModelObject);
         }
 
         @UITextField(position = 10, label = "Property 1", modelAttribute = "property")

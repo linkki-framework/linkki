@@ -24,17 +24,18 @@ import com.vaadin.flow.router.Route;
 
 @Route(value = "products", layout = ProductsSampleAppLayout.class)
 @PageTitle("F10 Products Sample Details")
-public class ProductsSampleDetailView extends VerticalLayout {
+public class ProductsSampleView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    public ProductsSampleDetailView() {
+    public ProductsSampleView() {
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
 
         tabLayout.addTabSheets(//
                                LinkkiTabSheet.builder("overview")//
                                        .caption(VaadinIcon.INFO_CIRCLE.create())//
-                                       .content(ProductsSampleOverviewComponent::new)//
+                                       .content(() -> new HeadlinePageLayout("Overview",
+                                               new ProductsSampleOverviewPage()))//
                                        .build(), //
                                LinkkiTabSheet.builder("userdetails")//
                                        .caption(VaadinIcon.USER.create())//

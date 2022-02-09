@@ -58,6 +58,6 @@ public class ProductsSampleApplicationConfig implements ApplicationConfig {
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(new ApplicationMenuItemDefinition("Start", PlaygroundApplicationView.class),
-                           new ApplicationMenuItemDefinition("Produkt", ProductsSampleDetailView.class));
+                           new ApplicationMenuItemDefinition("Produkt", ProductsSampleView.class));
     }
 }

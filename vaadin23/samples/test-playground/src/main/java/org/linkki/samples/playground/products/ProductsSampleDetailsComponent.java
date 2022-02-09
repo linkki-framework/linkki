@@ -14,12 +14,14 @@
 
 package org.linkki.samples.playground.products;
 
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.ComponentStyles;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.framework.ui.component.Headline;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -34,7 +36,7 @@ import com.vaadin.flow.component.splitlayout.SplitLayoutVariant;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
 /**
- * Sample layout based on the IPM layout.
+ * Layout to display detailed content of a policy or offer.
  */
 public class ProductsSampleDetailsComponent extends VerticalLayout {
 
@@ -52,29 +54,28 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         tabLayout.addTabSheets(
                                LinkkiTabSheet.builder("tab1")
                                        .caption("Just Sections")
-                                       .content(() -> new VerticalLayout(
-                                               ProductsSampleComponents.createVerticalSection(),
-                                               ProductsSampleComponents.createVerticalSection(),
-                                               ProductsSampleComponents.createHorizontalSection(),
-                                               ProductsSampleComponents.createVerticalSection(),
-                                               ProductsSampleComponents.createVerticalSection()))
+                                       .content(() -> new DefaultBindingManagerPage(
+                                               new ProductsSamplePmo.VerticalSamplePmo(),
+                                               new ProductsSamplePmo.VerticalSamplePmo(),
+                                               new ProductsSamplePmo.HorizontalSamplePmo(),
+                                               new ProductsSamplePmo.VerticalSamplePmo(),
+                                               new ProductsSamplePmo.VerticalSamplePmo()))
                                        .build(),
                                LinkkiTabSheet.builder("tab3")
                                        .caption("Tables and Sections")
-                                       .content(() -> new VerticalLayout(
-                                               ProductsSampleComponents.createVerticalSection(),
-                                               ProductsSampleComponents.createHorizontalSection(),
-                                               ProductsSampleComponents.createTableSection(5),
-                                               ProductsSampleComponents.createTableSection(10),
-                                               ProductsSampleComponents.createVerticalSection()))
+                                       .content(() -> new DefaultBindingManagerPage(
+                                               new ProductsSamplePmo.VerticalSamplePmo(),
+                                               new ProductsSamplePmo.HorizontalSamplePmo(),
+                                               new ProductsSampleTablePmo(5, 0),
+                                               new ProductsSampleTablePmo(10, 0),
+                                               new ProductsSamplePmo.VerticalSamplePmo()))
                                        .build());
 
-        // TODO Property API and solution in LIN-2249
-        tabLayout.getElement().getStyle().set("--linkki-form-item-label-width", "15em");
+        ComponentStyles.setFormItemLabelWidth(tabLayout, "15em");
 
         Accordion accordion = new Accordion();
-        accordion.add(createPanel("Tool", VaadinIcon.LIST, ProductsSampleComponents.createVerticalSection()));
-        accordion.add(createPanel("Table", VaadinIcon.TABLE, ProductsSampleComponents.createTableSection(5)));
+        accordion.add(createPanel("Tool", VaadinIcon.LIST, new ProductsSamplePmo.VerticalSamplePmo("")));
+        accordion.add(createPanel("Table", VaadinIcon.TABLE, new ProductsSampleTablePmo(10, 0)));
         VerticalLayout toolsArea = new VerticalLayout(accordion);
         accordion.setSizeFull();
 
@@ -86,14 +87,16 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         add(splitLayout);
     }
 
-    private AccordionPanel createPanel(String caption, VaadinIcon icon, Component content) {
+    private AccordionPanel createPanel(String caption, VaadinIcon icon, Object pmo) {
         LinkkiText toolCaption = new LinkkiText(caption, icon);
-        AccordionPanel accordionPanel = new AccordionPanel(toolCaption, content);
+        AccordionPanel accordionPanel = new AccordionPanel(toolCaption,
+                VaadinUiCreator.createComponent(pmo, new BindingContext()));
         accordionPanel.addThemeVariants(DetailsVariant.REVERSE);
         return accordionPanel;
     }
 
-    private Headline createHeadline() {
+
+    private static Headline createHeadline() {
         Headline headline = new Headline("Details");
         headline.getContent().add(new Span("additional label"));
         headline.getContent()
@@ -103,7 +106,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         return headline;
     }
 
-    private MenuBar createMenuBar(String caption, String... submenus) {
+    private static MenuBar createMenuBar(String caption, String... submenus) {
         MenuBar menuBar = new MenuBar();
         MenuItem item = menuBar.addItem(caption);
         for (String subMenuCaption : submenus) {

@@ -15,28 +15,50 @@
 package org.linkki.samples.playground.products;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
+import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.samples.playground.products.ProductsSamplePmo.TableSamplePmo;
+import org.linkki.samples.playground.products.ProductsSamplePmo.RowSamplePmo;
 
-@UISection(caption = "Sample Table Section")
-public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelObject, TableSamplePmo> {
+@BindCaption
+@UISection
+public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelObject, RowSamplePmo> {
 
     private final int pageLength;
+    private String caption;
 
-    protected ProductsSampleTablePmo(List<? extends ProductsSampleModelObject> modelObjects, int pageLength) {
+    public ProductsSampleTablePmo(int elements, int pageLength) {
+        this("Sample Table Section", elements, pageLength);
+    }
+
+    public ProductsSampleTablePmo(String caption, int elements, int pageLength) {
+        this(caption,
+                IntStream.range(0, elements).mapToObj(i -> new ProductsSampleModelObject("Value of Name " + (i + 1),
+                        "Value of Property 1 " + (i + 1))).collect(Collectors.toList()),
+                pageLength);
+    }
+
+    private ProductsSampleTablePmo(String caption, List<? extends ProductsSampleModelObject> modelObjects,
+            int pageLength) {
         super(modelObjects);
         this.pageLength = pageLength;
+        this.caption = caption;
     }
 
     @Override
-    protected TableSamplePmo createRow(ProductsSampleModelObject modelObject) {
-        return new TableSamplePmo(modelObject);
+    protected RowSamplePmo createRow(ProductsSampleModelObject modelObject) {
+        return new RowSamplePmo(modelObject);
     }
 
     @Override
     public int getPageLength() {
         return pageLength;
+    }
+
+    public String getCaption() {
+        return caption;
     }
 }
