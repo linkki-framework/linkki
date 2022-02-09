@@ -25,22 +25,32 @@ public class HorizontalLayoutComponentDefinition implements LinkkiComponentDefin
 
     private final VerticalAlignment verticalAlignment;
 
+    private final boolean spacing;
+
+    private final boolean padding;
+
     /**
      * Creates a new {@link HorizontalLayoutComponentDefinition} with the given vertical alignment.
      * <p>
      * For use cases where input fields do not have captions, {@link VerticalAlignment#MIDDLE} yields
      * the most consistent looking result. However, captions above input fields would create the effect
      * that input fields themselves are lower than those components without a caption, e.g. buttons. In
-     * this case, consider {@link VerticalAlignment#BOTTOM} to make the controls better aligned.
+     * this case, consider {@link VerticalAlignment#BOTTOM} to make the controls better aligned. The
+     * state of spacing and padding can be applied. When activ then predefined style will apply to the
+     * layout. By default padding is deactivated and spacing is activated.
      */
-    public HorizontalLayoutComponentDefinition(VerticalAlignment verticalAlignment) {
+    public HorizontalLayoutComponentDefinition(VerticalAlignment verticalAlignment, boolean spacing, boolean padding) {
         this.verticalAlignment = verticalAlignment;
+        this.spacing = spacing;
+        this.padding = padding;
     }
 
     @Override
     public Object createComponent(Object pmo) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setDefaultVerticalComponentAlignment(verticalAlignment.getAlignment());
+        layout.setPadding(padding);
+        layout.setSpacing(spacing);
         return layout;
     }
 

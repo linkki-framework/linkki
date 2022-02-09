@@ -89,6 +89,47 @@ public class UIVerticalLayoutIntegrationTest {
                    is(Alignment.END));
     }
 
+    @Test
+    void testPadding_false() {
+        VerticalLayout layout = (VerticalLayout)UiCreator
+                .createComponent(new PaddingVerticalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat(layout.isPadding(), is(false));
+    }
+
+    @Test
+    void testSpacing_false() {
+        VerticalLayout layout = (VerticalLayout)UiCreator
+                .createComponent(new SpacingVerticalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat(layout.isSpacing(), is(false));
+    }
+
+    @Test
+    void testSpacingPadding_false() {
+        VerticalLayout layout = (VerticalLayout)UiCreator
+                .createComponent(new SpacingPaddingVerticalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat(layout.isPadding(), is(false));
+        assertThat(layout.isSpacing(), is(false));
+    }
+
+    @Test
+    void testSpacingPaddingAlignment_falseRight() {
+        VerticalLayout layout = (VerticalLayout)UiCreator
+                .createComponent(new SpacingPaddingAlignmentVerticalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat(layout.isPadding(), is(false));
+        assertThat(layout.isSpacing(), is(false));
+        assertThat("Default horizontal alignment should be as set in the annotation",
+                   layout.getDefaultHorizontalComponentAlignment(),
+                   is(Alignment.END));
+    }
+
     @UIVerticalLayout
     public static class VerticalLayoutPmo {
 
@@ -116,6 +157,26 @@ public class UIVerticalLayoutIntegrationTest {
 
     @UIVerticalLayout(alignment = HorizontalAlignment.RIGHT)
     public static class RightAlignedVerticalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIVerticalLayout(padding = false)
+    public static class PaddingVerticalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIVerticalLayout(spacing = false)
+    public static class SpacingVerticalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIVerticalLayout(spacing = false, padding = false)
+    public static class SpacingPaddingVerticalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIVerticalLayout(spacing = false, padding = false, alignment = HorizontalAlignment.RIGHT)
+    public static class SpacingPaddingAlignmentVerticalLayoutPmo {
         // only class annotation is needed
     }
 }

@@ -56,10 +56,23 @@ public @interface UIHorizontalLayout {
      */
     VerticalAlignment alignment() default VerticalAlignment.MIDDLE;
 
+    /**
+     * The state of{@link HorizontalLayout} padding.
+     * 
+     */
+    boolean padding() default false;
+
+    /**
+     * The state of{@link HorizontalLayout} spacing.
+     * 
+     */
+    boolean spacing() default true;
+
     class HorizontalLayoutComponentDefinitionCreator implements ComponentDefinitionCreator<UIHorizontalLayout> {
         @Override
         public LinkkiComponentDefinition create(UIHorizontalLayout annotation, AnnotatedElement annotatedElement) {
-            return new HorizontalLayoutComponentDefinition(annotation.alignment());
+            return new HorizontalLayoutComponentDefinition(annotation.alignment(),
+                    annotation.spacing(), annotation.padding());
         }
     }
 }

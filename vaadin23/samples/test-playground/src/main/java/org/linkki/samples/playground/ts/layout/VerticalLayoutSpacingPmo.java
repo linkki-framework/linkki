@@ -12,17 +12,32 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.alignment;
+package org.linkki.samples.playground.ts.layout;
 
+import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-@UIVerticalLayout
-public class VerticalLayoutLeftPmo {
+@UIVerticalLayout(spacing = false)
+public class VerticalLayoutSpacingPmo {
 
-    @UITextField(position = 1, width = "15em")
-    public String getText() {
-        return "I should be at the left";
+    @UILabel(position = -1)
+    public String getLabel() {
+        return "Second Layout !";
     }
 
+    @UITextField(position = 1)
+    public String getText() {
+        return "This Layout should have no spacing and padding on";
+    }
+
+    @UITextField(position = 2)
+    public String getText2() {
+        return "This Layout should have no spacing and padding on";
+    }
+
+    @UITextField(position = 3)
+    public String getText3() {
+        return "This Layout should have no spacing and padding on";
+    }
 }

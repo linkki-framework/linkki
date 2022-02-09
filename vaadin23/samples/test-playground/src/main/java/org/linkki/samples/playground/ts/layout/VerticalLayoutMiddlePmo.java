@@ -12,18 +12,18 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.alignment;
+package org.linkki.samples.playground.ts.layout;
 
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.VerticalAlignment;
-import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
+import org.linkki.core.ui.layout.HorizontalAlignment;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-@UIHorizontalLayout(alignment = VerticalAlignment.BOTTOM)
-public class HorizontalLayoutBottomPmo {
+@UIVerticalLayout(alignment = HorizontalAlignment.MIDDLE)
+public class VerticalLayoutMiddlePmo {
 
-    @UITextField(position = 1)
+    @UITextField(position = 1, width = "15em")
     public String getText() {
-        return "I should be at the bottom";
+        return "I should be in the middle";
     }
 
 }

@@ -57,10 +57,24 @@ public @interface UIVerticalLayout {
      */
     HorizontalAlignment alignment() default HorizontalAlignment.LEFT;
 
+    /**
+     * The state of {@link VerticalLayout} padding.
+     *
+     */
+    boolean padding() default true;
+
+    /**
+     * The state of{@link VerticalLayout} spacing.
+     * 
+     */
+    boolean spacing() default true;
+
+
     class VerticalLayoutComponentDefinitionCreator implements ComponentDefinitionCreator<UIVerticalLayout> {
         @Override
         public LinkkiComponentDefinition create(UIVerticalLayout annotation, AnnotatedElement annotatedElement) {
-            return new VerticalLayoutComponentDefinition(annotation.alignment());
+            return new VerticalLayoutComponentDefinition(annotation.alignment(), annotation.spacing(),
+                    annotation.padding());
         }
     }
 }

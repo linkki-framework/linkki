@@ -12,29 +12,29 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.alignment;
+package org.linkki.samples.playground.ts.layout;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 
 import com.vaadin.flow.component.HasStyle;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class VerticalAlignmentTestComponent extends HorizontalLayout {
+public class HorizontalAlignmentTestComponent extends VerticalLayout {
 
     private static final long serialVersionUID = -953072669422111463L;
 
-    public VerticalAlignmentTestComponent() {
-        setHeight("300px");
+    public HorizontalAlignmentTestComponent() {
+        setWidth("600px");
 
-        add(VaadinUiCreator.createComponent(new HorizontalLayoutTopPmo(),
-                                            new BindingContext("HorizontalLayoutTopPmo")));
+        add(VaadinUiCreator.createComponent(new VerticalLayoutLeftPmo(),
+                                            new BindingContext("VerticalLayoutLeftPmo")));
 
-        add(VaadinUiCreator.createComponent(new HorizontalLayoutMiddlePmo(),
-                                            new BindingContext("HorizontalLayoutMiddlePmo")));
+        add(VaadinUiCreator.createComponent(new VerticalLayoutMiddlePmo(),
+                                            new BindingContext("VerticalLayoutMiddlePmo")));
 
-        add(VaadinUiCreator.createComponent(new HorizontalLayoutBottomPmo(),
-                                            new BindingContext("HorizontalLayoutBottomPmo")));
+        add(VaadinUiCreator.createComponent(new VerticalLayoutRightPmo(),
+                                            new BindingContext("VerticalLayoutRightPmo")));
 
         getChildren()
                 .filter(c -> c instanceof HasStyle)

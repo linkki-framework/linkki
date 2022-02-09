@@ -25,18 +25,29 @@ public class VerticalLayoutComponentDefinition implements LinkkiComponentDefinit
 
     private final HorizontalAlignment horizontalAlignment;
 
+    private final boolean spacing;
+
+    private final boolean padding;
+
     /**
      * Creates a new {@link VerticalLayoutComponentDefinition} with the given horizontal alignment.
-     * Vertically, all components are middle aligned.
+     * Vertically, all components are middle aligned. The state of spacing and padding can be applied.
+     * When activ then predefined style will apply to the layout. By default padding is activated and
+     * spacing is activated.
      */
-    public VerticalLayoutComponentDefinition(HorizontalAlignment horizontalAlignment) {
+    public VerticalLayoutComponentDefinition(HorizontalAlignment horizontalAlignment, boolean spacing,
+            boolean padding) {
         this.horizontalAlignment = horizontalAlignment;
+        this.spacing = spacing;
+        this.padding = padding;
     }
 
     @Override
     public Object createComponent(Object pmo) {
         VerticalLayout layout = new VerticalLayout();
         layout.setDefaultHorizontalComponentAlignment(horizontalAlignment.getAlignment());
+        layout.setPadding(padding);
+        layout.setSpacing(spacing);
         return layout;
     }
 

@@ -127,10 +127,9 @@ Beside the section there are some simple Vaadin layouts that can be created with
  * `@UIFormLayout`
  * `@UICssLayout`
 
-Some of these annotations may have special parameters to configure the alignment of the contained components.
+`@UIVerticalLayout` and `@UIHorizontalLayout` have options to configure the alignment/spacing/padding. The alignment and spacing affects the inner elements of the layout, while padding effects the layout itself.
 
 TIP: To create the UI from a PMO with these layouts you should use `VaadinUiCreator`. The `PmoBasedSectionFactory` is only usable for `@UISection` whereas the `VaadinUiCreator` could be used for all kinds of layouts.
-
 
 [[section-id]]
 ==== SectionID

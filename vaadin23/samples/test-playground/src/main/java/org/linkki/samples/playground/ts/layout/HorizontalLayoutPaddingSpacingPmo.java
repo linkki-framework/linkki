@@ -12,18 +12,31 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.alignment;
+package org.linkki.samples.playground.ts.layout;
 
+import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 
-@UIHorizontalLayout(alignment = VerticalAlignment.TOP)
-public class HorizontalLayoutTopPmo {
+@UIHorizontalLayout(padding = true, spacing = false)
+public class HorizontalLayoutPaddingSpacingPmo {
+    @UILabel(position = -1)
+    public String getLabel() {
+        return "Third Layout !";
+    }
 
     @UITextField(position = 1)
     public String getText() {
-        return "I should be at the top";
+        return "This Layout should have padding and no spacing";
     }
 
+    @UITextField(position = 2)
+    public String getText2() {
+        return "This Layout should have padding and no spacing";
+    }
+
+    @UITextField(position = 3)
+    public String getText3() {
+        return "This Layout should have  padding and no spacing";
+    }
 }

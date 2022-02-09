@@ -89,6 +89,48 @@ public class UIHorizontalLayoutIntegrationTest {
                    is(Alignment.CENTER));
     }
 
+    @Test
+    void testPadding_true() {
+        HorizontalLayout layout = (HorizontalLayout)UiCreator
+                .createComponent(new PaddingHorizontalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat(layout.isPadding(), is(true));
+    }
+
+    @Test
+    void testSpacing_false() {
+        HorizontalLayout layout = (HorizontalLayout)UiCreator
+                .createComponent(new SpacingHorizontalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat(layout.isSpacing(), is(false));
+    }
+
+    @Test
+    void testSpacingPadding_falseTrue() {
+        HorizontalLayout layout = (HorizontalLayout)UiCreator
+                .createComponent(new SpacingPaddingHorizontalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat(layout.isPadding(), is(true));
+        assertThat(layout.isSpacing(), is(false));
+    }
+
+    @Test
+    void testSpacingPaddingAlignment_falseTrueBottom() {
+        HorizontalLayout layout = (HorizontalLayout)UiCreator
+                .createComponent(new SpacingPaddingAlignmentHorizontalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat(layout.isPadding(), is(true));
+        assertThat(layout.isSpacing(), is(false));
+        assertThat("Default horizontal alignment should be as set in the annotation",
+                   layout.getDefaultVerticalComponentAlignment(),
+                   is(Alignment.END));
+    }
+
+
     @UIHorizontalLayout
     public static class HorizontalLayoutPmo {
 
@@ -118,4 +160,25 @@ public class UIHorizontalLayoutIntegrationTest {
     public static class MiddleAlignedHorizontalLayoutPmo {
         // only class annotation is needed
     }
+
+    @UIHorizontalLayout(padding = true)
+    public static class PaddingHorizontalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIHorizontalLayout(spacing = false)
+    public static class SpacingHorizontalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIHorizontalLayout(spacing = false, padding = true)
+    public static class SpacingPaddingHorizontalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIHorizontalLayout(spacing = false, padding = true, alignment = VerticalAlignment.BOTTOM)
+    public static class SpacingPaddingAlignmentHorizontalLayoutPmo {
+        // only class annotation is needed
+    }
+
 }

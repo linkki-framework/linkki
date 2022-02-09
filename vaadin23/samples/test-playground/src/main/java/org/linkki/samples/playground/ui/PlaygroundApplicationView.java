@@ -36,8 +36,6 @@ import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
 import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
-import org.linkki.samples.playground.ts.alignment.HorizontalAlignmentTestComponent;
-import org.linkki.samples.playground.ts.alignment.VerticalAlignmentTestComponent;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
@@ -67,6 +65,10 @@ import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
 import org.linkki.samples.playground.ts.ips.IpsPmo;
 import org.linkki.samples.playground.ts.ips.RequiredSectionPmo;
 import org.linkki.samples.playground.ts.ips.VisibleSectionPmo;
+import org.linkki.samples.playground.ts.layout.HorizontalAlignmentTestComponent;
+import org.linkki.samples.playground.ts.layout.HorizontalPaddingSpacingTestComponent;
+import org.linkki.samples.playground.ts.layout.VerticalAlignmentTestComponent;
+import org.linkki.samples.playground.ts.layout.VerticalPaddingSpacingTestComponent;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorCssLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormSectionPmo;
@@ -205,6 +207,8 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                TestScenario.id(TS007)
                                        .testCase(TC001, new VerticalAlignmentTestComponent())
                                        .testCase(TC002, new HorizontalAlignmentTestComponent())
+                                       .testCase(TC003, new HorizontalPaddingSpacingTestComponent())
+                                       .testCase(TC004, new VerticalPaddingSpacingTestComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS008)
                                        .testCase(TC001, new BindTooltipPmo())
