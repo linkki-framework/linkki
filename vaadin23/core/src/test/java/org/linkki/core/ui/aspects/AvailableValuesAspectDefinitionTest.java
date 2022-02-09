@@ -176,7 +176,7 @@ public class AvailableValuesAspectDefinitionTest {
                                                                             new NoLabelComponentWrapper(component));
 
         // items are set initially during the first update
-        verifyNoMoreInteractions(component);
+        reset(component);
         uiUpdater.apply();
         verify(component).setItems(Arrays.asList(TestEnum.ONE, TestEnum.TWO));
         verifyNoMoreInteractions(component);
@@ -190,6 +190,19 @@ public class AvailableValuesAspectDefinitionTest {
         reset(component);
         uiUpdater.apply();
         verifyNoMoreInteractions(component);
+    }
+
+    @Test
+    public void testUiUpdater_SetComboBoxValueBeforeUiUpdate() {
+        AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+                AvailableValuesType.DYNAMIC, ComboBox<Object>::setItems);
+        ComboBox<TestEnum> component = new ComboBox<>();
+
+        availableValuesAspectDefinition.createUiUpdater(mock(PropertyDispatcher.class),
+                                                        new NoLabelComponentWrapper(component));
+
+        // linkki sets values before the UI updater has been called for the first time
+        component.setValue(TestEnum.ONE);
     }
 
     private static class DataComponent<T> extends Div {

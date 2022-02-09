@@ -18,6 +18,7 @@ import static org.linkki.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -68,6 +69,9 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         Aspect<Collection<?>> aspect = createAspect(propertyDispatcher.getProperty(),
                                                     propertyDispatcher.getValueClass());
+
+        // Initialize with an empty collection to be in snyc with current cache.
+        setDataProvider(componentWrapper, Collections.emptyList());
 
         ItemCache cache = new ItemCache(itemCaptionProvider);
         return () -> updateItems(cache, propertyDispatcher.pull(aspect), componentWrapper);

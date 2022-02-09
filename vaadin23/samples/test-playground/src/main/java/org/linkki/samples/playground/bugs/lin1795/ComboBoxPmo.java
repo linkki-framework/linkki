@@ -31,7 +31,7 @@ public class ComboBoxPmo implements PresentationModelObject {
 
     public static final String CAPTION = "LIN-1795";
 
-    private String value;
+    private String value = "not available value";
     private String availableValues;
 
     @UILabel(position = 0)
