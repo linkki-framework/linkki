@@ -1,14 +1,14 @@
 .linkki-application-header {
-	background-color: var(--lumo-primary-color);
-	padding-right: var(--lumo-space-m);
+    background-color: var(--lumo-primary-color);
+    padding-right: var(--lumo-space-m);
 }
 
 .linkki-application-header + div {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 .linkki-application-footer {
-	align-self: center;
+    align-self: center;
 }
 
 .linkki-application-menu {
@@ -17,5 +17,5 @@
 }
 
 .linkki-main-area {
-	overflow: auto;
+    overflow: auto;
 }

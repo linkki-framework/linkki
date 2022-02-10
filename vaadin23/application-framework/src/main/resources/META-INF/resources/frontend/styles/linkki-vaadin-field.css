@@ -1,0 +1,16 @@
+
+:host([required][readonly]) [part="label"]::after, 
+:host([required][readonly]) [part="required-indicator"]::after,
+:host([required][disabled]) [part="label"]::after, 
+:host([required][disabled]) [part="required-indicator"]::after {
+  opacity: 0;
+}
+
+:host([required]) [part="label"]::after,
+:host([required][has-value]:not([disabled]):not([readonly])) [part="required-indicator"]::after {
+  opacity: 1;
+}
+
+:host([has-label]) {
+    padding-top: 0;
+}

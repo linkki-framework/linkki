@@ -30,7 +30,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 /**
  * A text component that can have an additional {@link VaadinIcon}
  */
-@CssImport(value = "./styles/linkki-has-icon.css")
 @CssImport(value = "./styles/linkki-text.css")
 public class LinkkiText extends Div implements HasIcon {
 

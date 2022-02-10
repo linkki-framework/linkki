@@ -20,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.HasIcon;
 
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
@@ -29,8 +28,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 /**
  * An anchor component that can have an additional {@link VaadinIcon}
  */
-@CssImport(value = "./styles/linkki-has-icon.css")
-@CssImport(value = "./styles/linkki-anchor.css")
 public class LinkkiAnchor extends Anchor implements HasIcon {
 
     private static final long serialVersionUID = -1027646873177686722L;

@@ -20,6 +20,10 @@ pipeline {
 
                 preBuildSteps()
                 verifyChangelog file: 'vaadin23/doc/src/main/jbake/content/99_releasenotes/88_1_5_0.adoc'
+                
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                    dependsOn(credentials: 'gerrit_rest') {}
+                }
             }
         }
 

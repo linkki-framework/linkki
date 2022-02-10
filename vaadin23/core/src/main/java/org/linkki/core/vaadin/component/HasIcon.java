@@ -15,11 +15,13 @@
 package org.linkki.core.vaadin.component;
 
 import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 /**
  * A component that can have a {@link VaadinIcon}.
  */
+@CssImport(value = "./styles/linkki-has-icon.css")
 public interface HasIcon extends HasStyle {
 
     public VaadinIcon getIcon();

@@ -17,8 +17,14 @@ package org.linkki.samples.playground;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.theme.Theme;
+
+@Theme("linkki")
 @SpringBootApplication
-public class PlaygroundApplication {
+public class PlaygroundApplication implements AppShellConfigurator {
+
+    private static final long serialVersionUID = 5214399675194827218L;
 
     @SuppressWarnings("resource")
     public static void main(String[] args) {

@@ -79,19 +79,17 @@ public final class LinkkiApplicationTheme {
     public static final String APPLICATION_INFO_DIALOG = "linkki-application-info-dialog"; // $NON-NLS-1$
 
     /**
-     * Style class with overflow auto. This is defined in linkki-application.css
+     * Style class with overflow auto.
      */
     public static final String SCROLLABLE = "linkki-scrollable";
 
     /**
-     * Style class for table footer that may have sums and should be right aligned and bold. <br>
-     * This is defined in linkki-application.css
+     * Style class for table footer that may have sums and should be right aligned and bold.
      */
     public static final String GRID_FOOTER_SUM = "linkki-grid-footer-sum"; // $NON-NLS-1$
 
     /**
-     * Style class for {@link UILabel}s, that should be right aligned. This can be used in tables.<br>
-     * This is defined in linkki-application.css
+     * Style class for {@link UILabel}s, that should be right aligned. This can be used in tables.
      */
     public static final String TEXT_RIGHT_ALIGNED = "linkki-right-aligned";
 

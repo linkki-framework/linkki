@@ -34,11 +34,8 @@ import com.vaadin.flow.server.VaadinSession;
  *           The {@link ErrorHandler} can be customized by overriding the method
  *           {@link #getErrorHandler()}.
  */
-@CssImport(value = "./styles/linkki-application-layout.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
-@CssImport(value = "./styles/linkki-application.css")
-@CssImport(value = "./styles/linkki-grid-styles.css", themeFor = "vaadin-grid")
-@CssImport(value = "./styles/linkki-vaadin-formlayout-styles.css", themeFor = "vaadin-form-layout")
-@CssImport(value = "./styles/linkki-vaadin-field-styles.css", themeFor = "vaadin-*")
+@CssImport(value = "./styles/linkki-application-layout.css")
+@CssImport(value = "./styles/linkki-vaadin-field.css", themeFor = "vaadin-*")
 public abstract class ApplicationLayout extends VerticalLayout implements RouterLayout {
 
     private static final long serialVersionUID = 1L;

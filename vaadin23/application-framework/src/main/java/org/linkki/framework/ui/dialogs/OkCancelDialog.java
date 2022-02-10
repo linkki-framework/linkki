@@ -34,7 +34,6 @@ import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -70,8 +69,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *           between its content and the OK and cancel buttons. (see
  *           {@link MessageList#getFirstMessage(Severity)})
  */
-@CssImport(value = "./styles/ok-cancel-dialog.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
-@CssImport(value = "./styles/dialog-overlay.css", themeFor = "vaadin-dialog-overlay")
 public class OkCancelDialog extends Composite<Dialog> implements HasSize, BeforeLeaveObserver {
 
     public static final String CLASS_NAME_CONTENT_AREA = "content-area";
@@ -128,7 +125,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
     private boolean cancelPressed = false;
     private boolean mayProceed = true;
 
-    private H3 title;
+    private final H3 title;
 
     /**
      * Creates a new dialog.
@@ -502,7 +499,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
     @SuppressWarnings("hiding")
     public static class Builder {
 
-        private String caption;
+        private final String caption;
         private Component[] contentComponents = new Component[] {};
         private Handler okHandler = Handler.NOP_HANDLER;
         private Handler cancelHandler = Handler.NOP_HANDLER;

@@ -21,7 +21,6 @@ import java.util.function.Predicate;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValidation;
 import com.vaadin.flow.component.HasValue;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -30,7 +29,6 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
  * FormItem that only has one component as label. The label shares the required and invalid state with
  * the component.
  */
-@CssImport(value = "./styles/linkki-form-item.css", themeFor = "vaadin-form-item")
 public class LabelComponentFormItem extends FormItem {
 
     private static final long serialVersionUID = 1L;

@@ -45,7 +45,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
  *           <p>
  *           This class is intended to be extended to add additional components.
  */
-@CssImport(value = "./styles/headline.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
+@CssImport(value = "./styles/linkki-headline.css")
 public class Headline extends Composite<HorizontalLayout> {
 
     public static final String HEADER_TITLE = "headerTitle";
