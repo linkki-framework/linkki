@@ -12,10 +12,7 @@
 }
 
 .linkki-application-menu {
-    --_lumo-button-color: var(--lumo-base-color);
-    --lumo-primary-text-color: var(--lumo-base-color);
-}
-.linkki-application-menu.borderless {
+    --_lumo-button-color: var(--lumo-primary-contrast-color);
     --_lumo-button-background-color: transparent;
 }
 
