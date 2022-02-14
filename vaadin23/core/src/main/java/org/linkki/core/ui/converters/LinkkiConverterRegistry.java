@@ -161,14 +161,19 @@ public class LinkkiConverterRegistry implements Serializable {
             return converters.computeIfAbsent(rawPresentationType, t -> Sequence.empty())
                     .stream()
                     .map(Converter.class::cast)
-                    .filter(c -> TypeUtils.equals(getPresentationType(c), rawPresentationType)
-                            && TypeUtils.equals(rawModelType, getModelType(c)))
-                    .findFirst()
+                    .filter(c -> TypeUtils.isAssignable(rawModelType, getModelType(c)))
+                    .max((c0, c1) -> {
+                        boolean c0AssignableToC1 = TypeUtils.isAssignable(getModelType(c0), getModelType(c1));
+                        boolean c1AssignableToC0 = TypeUtils.isAssignable(getModelType(c1), getModelType(c0));
+                        return Boolean.compare(c0AssignableToC1, c1AssignableToC0);
+                    })
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Cannot convert presentation type " + rawPresentationType + " to model type "
                                     + rawModelType));
         }
+
     }
+
 
     /**
      * This method determines whether we should use an identity converter. This might be because of:

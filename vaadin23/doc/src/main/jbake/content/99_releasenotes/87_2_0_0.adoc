@@ -140,3 +140,5 @@ In addition, following deprecated classes and methods are also removed:
 * Fixed default behaviour for `@UIDateField`: The calendar overlay is not opened by default. If `@UIDateField` is focused and a date is entered, pressing tab results in focusing the next component.
 // https://jira.faktorzehn.de/browse/LIN-2583
 * @UIDateField now shows German labels and Monday as the first weekday when the UI locale is German.
+// https://jira.faktorzehn.de/browse/LIN-2658
+* Until now, converters were only found in the `LinkkiConverterRegistry` for the exact matching class. This led e.g. in the case of `Decimal` to the fact that the subclass `DecimalNull` was not formatted correctly. `LinkkiConverterRegistry` now picks the most specific `Converter`. If `FormattedDecimalFieldToStringConverter()` is added to `LinkkiConverterRegistry`, it avoids printing DecimalNull on a `@UILabel` when the `Decimal` value is empty. 

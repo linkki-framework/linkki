@@ -17,12 +17,25 @@ package org.linkki.samples.playground.ts.ips;
 import org.faktorips.values.Decimal;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.ips.decimalfield.UIDecimalField;
 
 @UISection
 public class DecimalLabelPmo {
 
+    private Decimal decimal = Decimal.NULL;
+
     @UILabel(position = 90, label = "Label with a Decimal as Value")
     public Decimal getDecimalLabel() {
-        return Decimal.valueOf(10000.2345);
+        return decimal;
     }
+
+    @UIDecimalField(position = 100, label = "Change Decimal Value")
+    public Decimal getDecimalValue() {
+        return decimal;
+    }
+
+    public void setDecimalValue(Decimal decimal) {
+        this.decimal = decimal;
+    }
+
 }

@@ -24,3 +24,4 @@ target
 
 # Created by jenkins job
 .repository
+.asciidoctorconfig.adoc
