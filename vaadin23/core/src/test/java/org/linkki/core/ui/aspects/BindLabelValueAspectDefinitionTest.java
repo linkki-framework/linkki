@@ -37,23 +37,23 @@ import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 import com.vaadin.flow.server.VaadinSession;
 
-public class LabelValueAspectDefinitionTest {
+class BindLabelValueAspectDefinitionTest {
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockVaadin.setup();
     }
 
     @AfterEach
-    public void cleanUpUi() {
+    void cleanUpUi() {
         UI.setCurrent(null);
         MockVaadin.tearDown();
     }
 
     @Test
-    public void testCreateComponentValueSetter_SetsString() {
+    void testCreateComponentValueSetter_SetsString() {
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new BindLabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept("foo");
@@ -63,9 +63,9 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_UsesToString() {
+    void testCreateComponentValueSetter_UsesToString() {
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new BindLabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept(new Object() {
@@ -79,9 +79,9 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_UsesStandardConverter() {
+    void testCreateComponentValueSetter_UsesStandardConverter() {
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new BindLabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         UI ui = MockUi.mockUi();
@@ -93,9 +93,9 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
+    void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new BindLabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         UI ui = MockUi.mockUi();
@@ -107,9 +107,9 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_UsesCustomConverter() {
+    void testCreateComponentValueSetter_UsesCustomConverter() {
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new BindLabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
 
@@ -137,24 +137,6 @@ public class LabelValueAspectDefinitionTest {
         valueSetter.accept(FooBar.FOO);
 
         assertThat(label.getText(), is("Foo"));
-    }
-
-    @Test
-    public void testCreateComponentValueSetter_HtmlContent() {
-        LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(true)
-                .createComponentValueSetter(new NoLabelComponentWrapper(label));
-
-        valueSetter.accept("<i>foo</i>");
-
-        assertThat(label.getText(), is("<i>foo</i>"));
-
-        valueSetter = new LabelValueAspectDefinition(false)
-                .createComponentValueSetter(new NoLabelComponentWrapper(label));
-
-        valueSetter.accept("foo");
-
-        assertThat(label.getText(), is("foo"));
     }
 
     private enum FooBar {

@@ -26,7 +26,7 @@ import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC009UILinkTest extends PlaygroundUiTest {
+class TC009UILinkTest extends PlaygroundUiTest {
 
     @Override
     @BeforeEach

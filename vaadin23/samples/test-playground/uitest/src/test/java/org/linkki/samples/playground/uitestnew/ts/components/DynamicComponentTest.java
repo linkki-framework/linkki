@@ -26,7 +26,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class DynamicComponentTest extends PlaygroundUiTest {
+class DynamicComponentTest extends PlaygroundUiTest {
 
     @Override
     @BeforeEach

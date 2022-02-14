@@ -25,7 +25,7 @@ import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC003UIDoubleFieldTest extends PlaygroundUiTest {
+class TC003UIDoubleFieldTest extends PlaygroundUiTest {
 
     @Override
     @BeforeEach

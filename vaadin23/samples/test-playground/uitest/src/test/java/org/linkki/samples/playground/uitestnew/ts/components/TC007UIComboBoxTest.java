@@ -24,7 +24,7 @@ import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 
-public class TC007UIComboBoxTest extends PlaygroundUiTest {
+class TC007UIComboBoxTest extends PlaygroundUiTest {
 
     @Override
     @BeforeEach

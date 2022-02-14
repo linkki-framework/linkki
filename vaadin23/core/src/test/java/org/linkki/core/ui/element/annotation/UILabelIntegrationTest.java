@@ -27,12 +27,11 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
-
-import com.vaadin.flow.component.html.Div;
+import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Div, LabelTestPmo> {
+class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiText, LabelTestPmo> {
 
     private static final String STYLES = "blabla";
 
@@ -42,7 +41,7 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Div, Lab
 
     @Test
     void testLabelFieldValue() {
-        Div label = getDynamicComponent();
+        LinkkiText label = getDynamicComponent();
 
         assertThat(label.getClassName(), containsString(STYLES));
         assertThat(label.getText(), is(""));
@@ -50,13 +49,13 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Div, Lab
         ((TestModelObjectWithString)getDefaultModelObject()).setValue("fdsa");
         modelChanged();
         // htmlContent = true
-        assertThat(label.getElement().getProperty("innerHTML"), is("fdsa"));
+        assertThat(label.getText(), is("fdsa"));
     }
 
     @Test
     void testLabelFieldValue_Integer_UsesConverter() {
         setModelObjectSupplier(TestModelObjectWithInteger::new);
-        Div label = getDynamicComponent();
+        LinkkiText label = getDynamicComponent();
 
         assertThat(label.getClassName(), containsString(STYLES));
         assertThat(label.getText(), is(""));
@@ -64,13 +63,13 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Div, Lab
         ((TestModelObjectWithInteger)getDefaultModelObject()).setValue(123456);
         modelChanged();
         // htmlContent = true
-        assertThat(label.getElement().getProperty("innerHTML"), is("123.456"));
+        assertThat(label.getText(), is("123.456"));
     }
 
     @Test
     void testEnabled() {
-        assertThat(getStaticComponent().isEnabled(), is(true));
-        assertThat(getDynamicComponent().isEnabled(), is(true));
+        assertThat(getStaticComponent().getElement().isEnabled(), is(true));
+        assertThat(getDynamicComponent().getElement().isEnabled(), is(true));
     }
 
     @Test

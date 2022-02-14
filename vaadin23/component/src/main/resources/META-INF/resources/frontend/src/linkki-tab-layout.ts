@@ -1,10 +1,8 @@
-import {LitElement, html} from 'lit-element';
+import {LitElement, css, html} from 'lit';
 
 class LinkkiTabLayout extends LitElement {
 
-    render() {
-        return html`
-            <style>
+    static styles = css`
                 :host {
                   display: flex;
                 }
@@ -48,8 +46,10 @@ class LinkkiTabLayout extends LitElement {
                   overflow-y: hidden;
                   --lumo-icon-size-m: 2em;
                 }
-            </style>
-            
+    `;
+
+    render() {
+        return html`
             <slot name="tabs"></slot>
             <slot name="content"></slot>`;
     }

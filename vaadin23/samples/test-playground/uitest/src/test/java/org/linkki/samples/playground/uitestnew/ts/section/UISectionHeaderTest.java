@@ -21,19 +21,19 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Dimension;
 
-import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.testbench.TestBenchElement;
 
 public class UISectionHeaderTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
-    private DivElement label;
+    private LinkkiTextElement label;
 
     @BeforeEach
     void setup() {
@@ -42,7 +42,7 @@ public class UISectionHeaderTest extends PlaygroundUiTest {
 
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
 
-        label = section.$(DivElement.class).id("label");
+        label = section.$(LinkkiTextElement.class).id("label");
     }
 
     @Test

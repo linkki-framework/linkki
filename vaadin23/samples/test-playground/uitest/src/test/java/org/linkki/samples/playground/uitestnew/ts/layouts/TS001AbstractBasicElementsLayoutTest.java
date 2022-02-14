@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject.SampleEnum;
@@ -28,7 +29,6 @@ import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
-import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -52,8 +52,8 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
     @Order(10)
     @Test
     void testLabel_HasText() {
-        DivElement label = testCaseSection.getContentWrapper()//
-                .$(DivElement.class).id("textLabel");
+        LinkkiTextElement label = testCaseSection.getContentWrapper()//
+                .$(LinkkiTextElement.class).id("textLabel");
         assertThat(label.getText()).isEqualTo("I am a text");
     }
 

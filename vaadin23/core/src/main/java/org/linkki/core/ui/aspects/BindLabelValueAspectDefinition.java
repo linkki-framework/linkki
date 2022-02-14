@@ -21,25 +21,24 @@ import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UILabel.DefaultLabelCaptionProvider;
-import org.linkki.core.vaadin.component.base.LinkkiText;
+
+import com.vaadin.flow.component.HasText;
 
 /**
  * The value aspect for label components. The label is a read-only component, hence this aspect only
  * reads the value from model and updates the UI.
  */
-public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object> {
+public class BindLabelValueAspectDefinition extends ModelToUiAspectDefinition<Object> {
 
     public static final String NAME = LabelAspectDefinition.VALUE_ASPECT_NAME;
 
-    private final boolean htmlContent;
     private final ItemCaptionProvider<?> itemCaptionProvider;
 
-    public LabelValueAspectDefinition(boolean htmlContent) {
-        this(htmlContent, new DefaultLabelCaptionProvider());
+    public BindLabelValueAspectDefinition() {
+        this(new DefaultLabelCaptionProvider());
     }
 
-    public LabelValueAspectDefinition(boolean htmlContent, ItemCaptionProvider<?> itemCaptionProvider) {
-        this.htmlContent = htmlContent;
+    public BindLabelValueAspectDefinition(ItemCaptionProvider<?> itemCaptionProvider) {
         this.itemCaptionProvider = itemCaptionProvider;
     }
 
@@ -50,7 +49,7 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
 
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        LinkkiText label = (LinkkiText)componentWrapper.getComponent();
-        return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v), htmlContent);
+        HasText label = (HasText)componentWrapper.getComponent();
+        return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v));
     }
 }

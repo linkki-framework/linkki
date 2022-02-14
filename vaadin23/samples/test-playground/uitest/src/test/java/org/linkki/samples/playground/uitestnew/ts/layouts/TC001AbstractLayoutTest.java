@@ -24,6 +24,7 @@ import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 import org.linkki.core.vaadin.component.base.LinkkiText;
+import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -34,7 +35,6 @@ import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
-import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.PasswordFieldElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
@@ -49,7 +49,7 @@ abstract class TC001AbstractLayoutTest extends TS001AbstractBasicElementsLayoutT
 
     @Test
     void testLabel_HasNoLabel() {
-        DivElement divElement = getTestCaseSection().$(DivElement.class).id("textLabel");
+        LinkkiTextElement divElement = getTestCaseSection().$(LinkkiTextElement.class).id("textLabel");
 
         assertThat(hasLabel(divElement)).isFalse();
     }

@@ -20,14 +20,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
-import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC006IpsUILabelFieldDecimalTest extends PlaygroundUiTest {
+class TC006IpsUILabelFieldDecimalTest extends PlaygroundUiTest {
     private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
 
@@ -40,7 +40,7 @@ public class TC006IpsUILabelFieldDecimalTest extends PlaygroundUiTest {
 
     @Test
     void testDecimalNullUILabel_NormalValue() {
-        DivElement labelField = section.$(DivElement.class).id("decimalLabel");
+        LinkkiTextElement labelField = section.$(LinkkiTextElement.class).id("decimalLabel");
         TextFieldElement field = section.$(TextFieldElement.class).id("decimalValue");
 
         field.setValue("1,00");

@@ -31,15 +31,15 @@ import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 
-public class HeadlineTest extends AbstractUiTest {
+class HeadlineTest extends AbstractUiTest {
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         clickMenuItem("Sample Layout");
     }
 
     @Test
-    public void testHeadline_dynamicTitle() {
+    void testHeadline_dynamicTitle() {
         openTab("ReportList");
 
         String reportListHeadline = $(VerticalLayoutElement.class).id(ReportListPage.class.getSimpleName())

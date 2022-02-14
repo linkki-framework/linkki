@@ -29,7 +29,7 @@ import org.linkki.core.binding.LinkkiBindingException;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.H2;
 
-public class HeadlineTest {
+class HeadlineTest {
 
     @Test
     public void testHeadline_headlineTitle() {
@@ -46,7 +46,7 @@ public class HeadlineTest {
     }
 
     @Test
-    public void testHeadline_missingHeaderTitleMethod() {
+    void testHeadline_missingHeaderTitleMethod() {
         Binder binder = new Binder(new Headline(), new NoHeadlineTitleHeadlinePmo());
         BindingContext bindingContext = new BindingContext();
         assertThrows(LinkkiBindingException.class, () -> binder.setupBindings(bindingContext));

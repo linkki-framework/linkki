@@ -24,11 +24,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePmo;
 import org.linkki.samples.playground.table.selection.SelectionComparisonSectionPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
-import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.grid.testbench.GridTRElement;
@@ -59,9 +59,9 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
 
         clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
 
-        assertThat(findElement(By.id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION)).getText(),
+        assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
                    is("Name 2"));
-        assertThat(findElement(By.id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION)).getText(),
+        assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION).getText(),
                    is("Name 2"));
 
         // TODO LIN-2088 Selection by up-/down arrow keys not working yet?

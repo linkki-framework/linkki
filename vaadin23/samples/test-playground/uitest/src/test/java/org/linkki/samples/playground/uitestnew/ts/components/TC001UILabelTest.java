@@ -18,13 +18,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 
-import com.vaadin.flow.component.html.testbench.DivElement;
-
-public class TC001UILabelTest extends PlaygroundUiTest {
+class TC001UILabelTest extends PlaygroundUiTest {
 
     @Override
     @BeforeEach
@@ -35,29 +34,38 @@ public class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_HtmlContent() {
-        DivElement label = $(DivElement.class).id("htmlContentLabel");
+        LinkkiTextElement label = $(LinkkiTextElement.class).id("htmlContentLabel");
 
-        assertThat(label.getText()).isEqualTo("HTML\nContent");
+        assertThat(label.getLabel()).isEqualTo("Label with HTML Content");
+
+        assertThat(label.getText()).isEqualTo("HTML Content");
         assertThat(label.findElements(By.tagName("i"))).hasSize(1);
         assertThat(label.findElements(By.tagName("b"))).hasSize(1);
-        assertThat(label.getProperty("innerHTML"))
+        assertThat(label.getHTMLContent())
                 .isEqualTo("<i style=\"color: red;\">HTML</i> <b>Content</b>");
     }
 
     @Test
     void testLabel_NotHtmlContent() {
-        DivElement label = $(DivElement.class).id("notHtmlContentLabel");
+        LinkkiTextElement label = $(LinkkiTextElement.class).id("notHtmlContentLabel");
 
         assertThat(label.getText()).isEqualTo("<b>NOT</b> HTML Content");
         assertThat(label.findElements(By.tagName("b"))).isEmpty();
-        assertThat(label.findElement(By.tagName("span")).getProperty("innerHTML"))
+        assertThat(label.getHTMLContent())
                 .isEqualTo("&lt;b&gt;NOT&lt;/b&gt; HTML Content");
     }
 
     @Test
     void testLabel_WithConverterForBigDecimalValues() {
-        DivElement label = $(DivElement.class).id("bigDecimalLabel");
+        LinkkiTextElement label = $(LinkkiTextElement.class).id("bigDecimalLabel");
 
         assertThat(label.getText()).isEqualTo("12.345,679");
+    }
+
+    @Test
+    void testLabel_WithCustomStyle() {
+        LinkkiTextElement label = $(LinkkiTextElement.class).id("styledLabel");
+
+        assertThat(label.getCssValue("color")).isEqualTo("rgba(0, 128, 0, 1)");
     }
 }

@@ -16,53 +16,96 @@ package org.linkki.core.vaadin.component.base;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.HasIcon;
 
+import com.vaadin.flow.component.HasText;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * A text component that can have an additional {@link VaadinIcon}
+ * A text component that can have an additional {@link VaadinIcon} and a label. It also supports a HTML
+ * mode.
  */
-@CssImport(value = "./styles/linkki-text.css")
-public class LinkkiText extends Div implements HasIcon {
+@Tag("linkki-text")
+@JsModule("./src/linkki-text.ts")
+@CssImport(value = "./styles/linkki-has-icon.css")
+public class LinkkiText extends LitTemplate implements HasIcon, HasPrefixAndSuffix, HasText {
 
     public static final String CLASS_NAME = "linkki-text";
 
     private static final long serialVersionUID = -1027646873177686722L;
 
+    private final Span content;
+
     @CheckForNull
     private VaadinIcon icon;
 
-    private String text;
-
+    /**
+     * Creates an empty LinkkiText with no text and no icons.
+     */
     public LinkkiText() {
         this("", null);
     }
 
+    /**
+     * Creates a new LinkkiText component with a plain text and an icon as prefix component.
+     */
     public LinkkiText(String text, @CheckForNull VaadinIcon icon) {
-        this.text = Objects.requireNonNull(text, "text must not be null");
         this.icon = icon;
         addClassName(CLASS_NAME);
-        update();
+        content = new Span();
+        getElement().appendChild(content.getElement());
+        content.setText(text);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @implNote in case of HTML mode it returns the content as string including all HTML tags
+     */
     @Override
     public String getText() {
-        return text;
+        String innerHTML = content.getElement().getProperty("innerHTML");
+        if (innerHTML != null) {
+            return innerHTML;
+        } else {
+            return content.getText();
+        }
     }
 
+    /**
+     * Sets the given text as content of this component.
+     * <p>
+     * To set HTML content use {@link #setText(String, boolean)} instead.
+     * 
+     * @param text the text to set
+     */
     @Override
     public void setText(String text) {
-        if (!StringUtils.equals(text, this.text)) {
-            this.text = text;
-            update();
+        setText(text, false);
+    }
+
+    /**
+     * Sets the given text as content of this component.
+     * 
+     * @param text the text or HTML content to set
+     * @param html use the text as HTML content when <code>true</code>, use the text as plain text
+     *            otherwise
+     */
+    public void setText(String text, boolean html) {
+        if (html) {
+            content.setText(null);
+            content.getElement().setProperty("innerHTML", text);
+        } else {
+            content.getElement().removeProperty("innerHTML");
+            content.setText(text);
         }
     }
 
@@ -76,19 +119,14 @@ public class LinkkiText extends Div implements HasIcon {
     public void setIcon(VaadinIcon icon) {
         if (!Objects.equals(this.icon, icon)) {
             this.icon = icon;
-            update();
+            if (icon != null) {
+                setPrefixComponent(icon.create());
+                setClassName("linkki-has-icon");
+            } else {
+                setPrefixComponent(null);
+                removeClassName("linkki-has-icon");
+            }
         }
-    }
-
-    private void update() {
-        removeAll();
-        if (icon != null) {
-            add(icon.create());
-            addClassName(LinkkiTheme.HAS_ICON);
-        } else {
-            removeClassName(LinkkiTheme.HAS_ICON);
-        }
-        add(new Span(text));
     }
 
 }

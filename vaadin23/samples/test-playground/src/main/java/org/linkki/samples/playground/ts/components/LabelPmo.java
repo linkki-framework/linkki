@@ -19,19 +19,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
+import org.linkki.core.ui.aspects.annotation.BindSuffix;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.samples.playground.ips.model.Marker;
 
-@UISection
+import com.vaadin.flow.component.icon.VaadinIcon;
+
+@UISection(layout = SectionLayout.VERTICAL)
 public class LabelPmo {
 
     @UILabel(position = 10, label = "Label with HTML Content", htmlContent = true)
+    @BindIcon(value = VaadinIcon.ACCORDION_MENU)
+    @BindSuffix("%")
     public String getHtmlContentLabel() {
         return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
     }
@@ -42,6 +50,8 @@ public class LabelPmo {
     }
 
     @UILabel(position = 50, label = "Label with a BigDecimal as Value")
+    @BindIcon(value = VaadinIcon.ACCORDION_MENU)
+    @BindSuffix("%")
     public BigDecimal getBigDecimalLabel() {
         return BigDecimal.valueOf(12345.6789);
     }
@@ -66,6 +76,11 @@ public class LabelPmo {
         return Marker.REQUIRED_INFORMATION_MISSING;
     }
 
+    @UILabel(position = 95, label = "Label with a custom style", styleNames = "style1")
+    public String getStyledLabel() {
+        return "I am a custom styled label";
+    }
+
     @UINestedComponent(position = 100, label = "UILabel in table")
     public LabelTablePmo getLabelTable() {
         return new LabelTablePmo();
@@ -83,6 +98,18 @@ public class LabelPmo {
         public int getPageLength() {
             return 0;
         }
+
+        @Override
+        public Optional<TableFooterPmo> getFooterPmo() {
+            return Optional.of(new TableFooterPmo() {
+
+                @Override
+                public String getFooterText(String column) {
+                    return "Footer for " + column;
+                }
+            });
+        }
+
     }
 
     public static class LabelRowPmo {
@@ -100,7 +127,7 @@ public class LabelPmo {
         }
 
         @UITableColumn(flexGrow = 1)
-        @UILabel(position = 30, styleNames = LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED)
+        @UILabel(position = 30, label = "Right aligned label")
         public String getRightAlignedLabel() {
             return "This label should be right aligned";
         }

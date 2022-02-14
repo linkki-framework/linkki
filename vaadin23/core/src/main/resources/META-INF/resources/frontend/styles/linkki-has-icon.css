@@ -1,8 +1,3 @@
-.linkki-has-icon {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-}
 .linkki-has-icon vaadin-icon {
     height: var(--lumo-font-size-m);
     min-height: var(--lumo-font-size-m);

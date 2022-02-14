@@ -15,29 +15,35 @@
 package org.linkki.core.vaadin.component.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.style.LinkkiTheme;
-import org.mockito.Mockito;
 
+import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
-public class LinkkiTextTest {
+class LinkkiTextTest {
 
     private LinkkiText linkkiText;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
+        MockVaadin.setup();
+
         linkkiText = new LinkkiText();
         linkkiText.setText("Test text");
         linkkiText.setIcon(VaadinIcon.ABACUS);
     }
 
+    @AfterEach
+    void tearDown() {
+        MockVaadin.tearDown();
+    }
+
     @Test
-    public void testSetText() {
+    void testSetText() {
         linkkiText.setText("New test text");
 
         assertThat(linkkiText.getText()).isEqualTo("New test text");
@@ -46,7 +52,14 @@ public class LinkkiTextTest {
     }
 
     @Test
-    public void testSetIcon() {
+    void testSetText_HtmlContent() {
+        linkkiText.setText("<html>New test html text</html>", true);
+
+        assertThat(linkkiText.getText()).isEqualTo("<html>New test html text</html>");
+    }
+
+    @Test
+    void testSetIcon() {
         linkkiText.setIcon(VaadinIcon.ADJUST);
 
         assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.ADJUST);
@@ -54,27 +67,11 @@ public class LinkkiTextTest {
     }
 
     @Test
-    public void testRemoveIcon() {
+    void testRemoveIcon() {
         linkkiText.setIcon(null);
 
         assertThat(linkkiText.getIcon()).isNull();
-        assertThat(linkkiText.getClassName()).doesNotContain(LinkkiTheme.HAS_ICON);
-    }
-
-    @Test
-    public void testUpdateIsNotCalledWhenTextNotChanged() {
-        LinkkiText spy = Mockito.spy(linkkiText);
-        linkkiText.setText("Test text");
-
-        verify(spy, never()).removeAll();
-    }
-
-    @Test
-    public void testUpdateIsNotCalledWhenIconNotChanged() {
-        LinkkiText spy = Mockito.spy(linkkiText);
-        linkkiText.setIcon(VaadinIcon.ABACUS);
-
-        verify(spy, never()).removeAll();
+        assertThat(linkkiText.getClassName()).isNull();
     }
 
 }

@@ -21,6 +21,7 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.ts.components.ButtonPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.DriverProperties;
@@ -34,7 +35,7 @@ import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC010UIButtonTest extends PlaygroundUiTest {
+class TC010UIButtonTest extends PlaygroundUiTest {
 
     @Override
     @BeforeEach
@@ -46,7 +47,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
 
     @Test
     void testOnClick() {
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
         ButtonElement increaseCounterButton = $(ButtonElement.class).id("increaseCounter");
 
         assertThat(counter.getText()).isEqualTo("Counter: 0");
@@ -58,7 +59,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
 
     @Test
     void testOnDoubleClick() {
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
         ButtonElement increaseCounterButton = $(ButtonElement.class).id("increaseCounter");
 
         assertThat(counter.getText()).isEqualTo("Counter: 0");
@@ -72,7 +73,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
 
     @Test
     void testShortcutKey() {
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
 
         sendKeys(null, Keys.ENTER);
@@ -83,7 +84,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     @Disabled("LIN-2620")
     @Test
     void testShortcutKey_FocusOnShortcutButton() {
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
         ButtonElement increaseCounterButton = $(ButtonElement.class).id("buttonWithEnter");
         increaseCounterButton.focus();
@@ -98,9 +99,9 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     @Test
     void testShortcutKey_InSingleLineInput_WithEnter() {
         TextFieldElement textField = $(TextFieldElement.class).id("contentAsTextField");
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
-        assertThat($(DivElement.class).id("contentAsText").getText()).isEmpty();
+        assertThat($(LinkkiTextElement.class).id("contentAsText").getText()).isEmpty();
 
         textField.focus();
         sendKeys(null, "Enter!");
@@ -109,7 +110,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
         assertThat(counter.getText())
                 .describedAs("Button shortcut should be triggered")
                 .isEqualTo("Counter: 1");
-        assertThat($(DivElement.class).id("contentAsText").getText())
+        assertThat($(LinkkiTextElement.class).id("contentAsText").getText())
                 .as("New value of the input should have been sent to server")
                 .isEqualTo("Enter!");
     }
@@ -117,11 +118,11 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     @Test
     void testShortcutKey_InSingleLineInput_WithEnterIfNotEmpty() {
         TextFieldElement textField = $(TextFieldElement.class).id("contentAsTextField");
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
         RadioButtonGroupElement radioButtonGroup = $(RadioButtonGroupElement.class).id("testBehaviorWithTextArea");
         radioButtonGroup.selectByText(ButtonPmo.TestShortcutBehavior.BUTTON_DISABLED_IF_EMPTY.toString());
         assertThat(counter.getText()).isEqualTo("Counter: 0");
-        assertThat($(DivElement.class).id("contentAsText").getText()).isEmpty();
+        assertThat($(LinkkiTextElement.class).id("contentAsText").getText()).isEmpty();
         assertThat($(ButtonElement.class).id("buttonWithEnterIfNotEmpty").isEnabled()).isFalse();
 
         textField.focus();
@@ -131,7 +132,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
         assertThat(counter.getText())
                 .describedAs("Button shortcut should be triggered")
                 .isEqualTo("Counter: 1");
-        assertThat($(DivElement.class).id("contentAsText").getText())
+        assertThat($(LinkkiTextElement.class).id("contentAsText").getText())
                 .as("New value of the input should have been sent to server")
                 .isEqualTo("Enter!");
     }
@@ -139,7 +140,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     @Test
     void testShortcutKey_InMultiLineInput_WithEnter() {
         TextAreaElement textArea = getTextArea();
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
 
         textArea.focus();
@@ -157,7 +158,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
         sendKeys(null, Keys.TAB);
         sendKeys(null, Keys.ENTER);
 
-        assertThat($(DivElement.class).id("contentAsText").getText())
+        assertThat($(LinkkiTextElement.class).id("contentAsText").getText())
                 .as("Value of the text area should have been sent to server")
                 .isEqualTo("Enter!\n1");
         // Two invokes due to LIN-2620
@@ -167,7 +168,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     @Test
     void testShortcut_InMultiLineInput_WithEnterOnShiftEnter() {
         TextAreaElement textArea = getTextArea();
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
 
         textArea.focus();
         sendKeys(null, "Shift+Enter!");
@@ -181,7 +182,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     @Test
     void testShortcut_InMultiLineInput_WithCrtlEnter() {
         TextAreaElement textArea = getTextArea();
-        DivElement counter = getCounter();
+        LinkkiTextElement counter = getCounter();
         RadioButtonGroupElement radioButtonGroup = $(RadioButtonGroupElement.class).id("testBehaviorWithTextArea");
         radioButtonGroup.selectByText(ButtonPmo.TestShortcutBehavior.BUTTON_WITH_CRTL_ENTER.toString());
         assertThat(counter.getText()).isEqualTo("Counter: 0");
@@ -203,8 +204,8 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
         return $(TextAreaElement.class).id("content");
     }
 
-    private DivElement getCounter() {
-        return $(DivElement.class).id("counter");
+    private LinkkiTextElement getCounter() {
+        return $(LinkkiTextElement.class).id("counter");
     }
 
     private void sendKeys(Keys modifier, CharSequence... keys) {

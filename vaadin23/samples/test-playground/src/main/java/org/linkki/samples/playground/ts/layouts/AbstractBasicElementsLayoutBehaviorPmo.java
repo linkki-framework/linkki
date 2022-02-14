@@ -110,7 +110,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UITextField(position = 10, label = "TextField", //
-            modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_TEXT, //
+            width = "50%", modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_TEXT, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void text() {
         // model binding
