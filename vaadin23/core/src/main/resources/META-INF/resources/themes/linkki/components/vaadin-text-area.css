@@ -1,0 +1,12 @@
+:host(:hover:not([readonly]):not([focused]):not([invalid])) [part='input-field'] {
+    background-color: var(--linkki-input-background-hover);
+    border: var(--linkki-input-border-hover);
+}
+
+:host(:hover:not([readonly]):not([focused])) [part='input-field']::after {
+    opacity: 0;
+}
+
+:host([readonly]) [part='input-field'] {
+    border: 1px solid var(--linkki-input-border-readonly);
+}

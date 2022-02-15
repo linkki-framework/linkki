@@ -1,4 +1,12 @@
+:host {
+    background-color: var(--linkki-input-background);
+    border: var(--linkki-input-border);
+}
 
 :host([disabled][readonly]) {
-  background: transparent;
+    background: transparent;
+}
+
+:host([readonly])::after {
+    border: 1px solid var(--linkki-input-border-readonly);
 }

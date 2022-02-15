@@ -1,0 +1,9 @@
+[part='checkbox'] {
+    background-color: var(--linkki-input-background);
+    border: var(--linkki-input-border);
+}
+
+:host(:not([checked]):not([indeterminate]):not([disabled]):hover) [part='checkbox'] {
+    background-color: var(--linkki-input-background-hover);
+    border: var(--linkki-input-border-hover);
+}

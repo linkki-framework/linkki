@@ -45,14 +45,13 @@ class LinkkiTabLayout extends LitElement {
                   flex-shrink: 0;
                   overflow-y: hidden;
                   --lumo-icon-size-m: 2em;
-                }
-    `;
+                }`;
 
-    render() {
-        return html`
+  render() {
+    return html`
             <slot name="tabs"></slot>
             <slot name="content"></slot>`;
-    }
+  }
 }
 
 customElements.define('linkki-tab-layout', LinkkiTabLayout);

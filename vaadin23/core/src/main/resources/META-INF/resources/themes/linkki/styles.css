@@ -1,4 +1,10 @@
 html {
+    --linkki-input-background: var(--lumo-contrast-10pct);
+    --linkki-input-border: none;
+    --linkki-input-background-hover: var(--lumo-contrast-20pct);
+    --linkki-input-border-hover: none;
+    --linkki-input-border-readonly: var(--lumo-contrast-20pct);
+
     --linkki-color-info: hsla(213, 100%, 87%, 1);
     --linkki-color-info-light: hsla(213, 100%, 92%, 1);
     --linkki-color-success: hsla(80, 96%, 70%, 1);
