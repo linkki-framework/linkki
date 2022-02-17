@@ -24,6 +24,7 @@ import org.faktorips.values.Decimal;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
+import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
@@ -31,7 +32,7 @@ import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.samples.playground.table.NumberFooterTablePmo.NumberFooterRowPmo;
 
 @UISection(caption = "Table with table right aligned column and table footer")
-@BindStyleNames(LinkkiApplicationTheme.GRID_FOOTER_SUM)
+@BindStyleNames(LinkkiApplicationTheme.GRID_FOOTER_BOLD)
 public class NumberFooterTablePmo implements ContainerPmo<NumberFooterRowPmo> {
 
     private final TableFooterPmo footer;
@@ -78,8 +79,8 @@ public class NumberFooterTablePmo implements ContainerPmo<NumberFooterRowPmo> {
             return "";
         }
 
-        @UITableColumn(width = 300)
-        @UILabel(position = 20, styleNames = LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED)
+        @UITableColumn(width = 300, textAlign = TextAlignment.END)
+        @UILabel(position = 20)
         public Decimal getDecimal() {
             return Decimal.valueOf(new SecureRandom().nextDouble() * 10);
         }

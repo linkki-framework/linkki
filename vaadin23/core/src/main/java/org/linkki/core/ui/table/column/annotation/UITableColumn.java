@@ -22,8 +22,10 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.table.aspects.ColumnTextAlignAspectDefinition;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.TableColumnAspectDefinitionCreator;
 import org.linkki.core.ui.table.column.aspects.ColumnCollapseAspectDefinition;
 import org.linkki.core.ui.table.column.aspects.ColumnFlexGrowAspectDefinition;
@@ -80,6 +82,13 @@ public @interface UITableColumn {
     CollapseMode collapsible() default CollapseMode.NOT_COLLAPSIBLE;
 
     /**
+     * Configures the alignment of text inside the table column, as well as the header and footer.
+     * <p>
+     * This does not affect the alignment of text inside fields.
+     */
+    TextAlignment textAlign() default TextAlignment.DEFAULT;
+
+    /**
      * Defines whether a column can be collapsed and whether it initially is.
      */
     public enum CollapseMode {
@@ -124,7 +133,8 @@ public @interface UITableColumn {
             return new CompositeAspectDefinition(
                     new ColumnCollapseAspectDefinition(annotation.collapsible()),
                     new ColumnFlexGrowAspectDefinition(flexGrow),
-                    new ColumnWidthAspectDefinition(width));
+                    new ColumnWidthAspectDefinition(width),
+                    new ColumnTextAlignAspectDefinition(annotation.textAlign()));
         }
     }
 }

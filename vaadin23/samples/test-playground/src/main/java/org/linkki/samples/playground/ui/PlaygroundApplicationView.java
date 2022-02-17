@@ -35,6 +35,7 @@ import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmp
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.TableWithValidationSection;
+import org.linkki.samples.playground.table.VaaryingAlignmentTablePmo;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
 import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
@@ -252,6 +253,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                                                                new BindingContext()),
                                                VaadinUiCreator.createComponent(new TableWithoutPlaceholderPmo(),
                                                                                new BindingContext())))
+                                       .testCase(TC007, new VaaryingAlignmentTablePmo())
                                        .createTabSheet(),
                                TestScenario.id(TS013)
                                        .testCase(TC001, MessageTableSection.create())

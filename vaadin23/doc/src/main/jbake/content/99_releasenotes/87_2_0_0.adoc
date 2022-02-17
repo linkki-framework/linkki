@@ -48,7 +48,7 @@ Most prominently, the methods to add child components are removed as these were 
 These changes also results in changes of the HTML structure of sections which are now furthermore `linkki-section` instead of `vaadin-vertical-layouts`. This must be considered when using selectors in UI tests or CSS styling.
 
 [role="api-change"]
-==== Multi-column support moved to @UIFormSection
+===== Multi-column support moved to @UIFormSection
 
 Support of multi-column layout with `@UISection` is deprecated as it does not make sense with all layout options. Instead, `@UIFormSection` now supports the same functionality. See also documentation for  <<uiformsection, @UIFormSection>>.
 
@@ -78,6 +78,15 @@ https://jira.faktorzehn.de/browse/LIN-2649
 Until now, the `PmoBasedDialogFactory` only supported creating a dialog for PMOs annotated with either `@UISection`, `@UIFormSection` or without any layout annotation. With this change, PMOs that are passed to `PmoBasedDialogFactory` *must* be annotated with a <<layout, layout annotation>>. PMOs without any layout annotation are no longer supported and will result in an `IllegalArgumentException`. To avoid this, annotate existing PMOs with a <<layout, layout annotation>>.
 
 For more information refer to <<dialogs, Dialogs>>.
+
+[role="api-change"]
+===== Text alignment inside table columns
+////
+https://jira.faktorzehn.de/browse/LIN-2786
+////
+
+Using the new `textAlign` attribute of <<ui-table-column,`@UITableColumn`>>, text alignment inside the table column can be modified. This also affects text alignment of the header, footer and components that support it.
+The old way of right-alinging text using a CSS class (`styleNames = LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED`) should no longer be used for this purpose. The style `LinkkiApplicationTheme.GRID_FOOTER_SUM` has been deprecated in favor of `LinkkiApplicationTheme.GRID_FOOTER_BOLD`, which can be combined with `textAlign = TextAlignment.END` to achieve the same look.
 
 ===== Vaadin 8 modules removed
 

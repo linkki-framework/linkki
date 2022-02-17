@@ -9,3 +9,7 @@ a:not([href]) {
     --linkki-footer-alignment: right;
     --linkki-footer-text-shadow: 0 .1px 0 currentColor;
 }
+
+.linkki-grid-footer-bold {
+    --linkki-footer-text-shadow: 0 .1px 0 currentColor;
+}

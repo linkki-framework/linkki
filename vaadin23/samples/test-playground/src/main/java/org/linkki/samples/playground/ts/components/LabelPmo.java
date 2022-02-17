@@ -25,6 +25,7 @@ import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindSuffix;
+import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -126,7 +127,7 @@ public class LabelPmo {
             return "a long label with a loooooooooooong word";
         }
 
-        @UITableColumn(flexGrow = 1)
+        @UITableColumn(flexGrow = 1, textAlign = TextAlignment.END)
         @UILabel(position = 30, label = "Right aligned label")
         public String getRightAlignedLabel() {
             return "This label should be right aligned";

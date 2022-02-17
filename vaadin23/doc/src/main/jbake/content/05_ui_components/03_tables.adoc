@@ -37,6 +37,8 @@ To modify the column size you could use the properties `width` (in pixels) and `
 // TODO LIN-2138
 // Additionally, with the property `collapsible`, you could specify a `CollapseMode` to let the column be collapsible or initially collapsed.
 
+It is possible to customize text alignment inside of individual columns by setting the `textAlign` value of the `@UITableColumn` annotation. The alignment also applies to the header and footer of the column.
+
 [[ui-container-pmo]]
 ==== Container PMO
 

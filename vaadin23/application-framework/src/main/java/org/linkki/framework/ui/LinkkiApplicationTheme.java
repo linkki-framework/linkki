@@ -15,7 +15,9 @@ package org.linkki.framework.ui;
 
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.component.Headline;
@@ -85,11 +87,23 @@ public final class LinkkiApplicationTheme {
 
     /**
      * Style class for table footer that may have sums and should be right aligned and bold.
+     * 
+     * @deprecated Use {@link #GRID_FOOTER_BOLD} instead. Additionally,
+     *             {@link UITableColumn#textAlign()} must be set to {@link TextAlignment#END} for
+     *             right-alignment.
      */
+    @Deprecated(since = "2.0.0")
     public static final String GRID_FOOTER_SUM = "linkki-grid-footer-sum"; // $NON-NLS-1$
 
     /**
-     * Style class for {@link UILabel}s, that should be right aligned. This can be used in tables.
+     * Style class for table footer that should be bold.
+     */
+    public static final String GRID_FOOTER_BOLD = "linkki-grid-footer-bold"; // $NON-NLS-1$
+
+    /**
+     * Style class for {@link UILabel}s, that should be right aligned.
+     * <p>
+     * For tables, {@link UITableColumn#textAlign()} should be used instead.
      */
     public static final String TEXT_RIGHT_ALIGNED = "linkki-right-aligned";
 
