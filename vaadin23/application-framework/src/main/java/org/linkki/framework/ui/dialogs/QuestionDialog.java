@@ -13,10 +13,11 @@
  */
 package org.linkki.framework.ui.dialogs;
 
+import org.linkki.util.HtmlSanitizer;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.Html;
 
 /**
  * A modal dialog that asks the user a question that can be confirmed with OK (and not confirmed with
@@ -45,12 +46,8 @@ public class QuestionDialog extends OkCancelDialog {
      * @param okHandler a function that is executed when the OK button was pressed
      */
     public static QuestionDialog open(String caption, String question, Handler okHandler) {
-        Label questionLabel = new Label();
-        questionLabel.setText(question);
-        // TODO LIN-2207 Styling
-        // questionLabel.setStyleName(ValoTheme.LABEL_H3);
-        // questionLabel.setContentMode(ContentMode.HTML);
-        return open(caption, questionLabel, okHandler);
+        Html content = new Html("<span>" + HtmlSanitizer.sanitize(question) + "</span>");
+        return open(caption, content, okHandler);
     }
 
     /**

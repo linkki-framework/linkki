@@ -59,6 +59,7 @@ import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
 import org.linkki.samples.playground.ts.components.TextAreaPmo;
 import org.linkki.samples.playground.ts.components.TextFieldPmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
+import org.linkki.samples.playground.ts.dialogs.QuestionAndConfirmationDialogPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.DecimalLabelPmo;
 import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
@@ -233,6 +234,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .createTabSheet(),
                                TestScenario.id(TS011)
                                        .testCase(TC001, new OkCancelDialogHandlerPmo())
+                                       .testCase(TC002, new QuestionAndConfirmationDialogPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS012)
                                        .testCase(TC001, TableWithValidationSection.create())

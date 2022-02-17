@@ -14,10 +14,11 @@
 package org.linkki.framework.ui.dialogs;
 
 
+import org.linkki.util.HtmlSanitizer;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.Html;
 
 /**
  * A dialog to present an information to the user, who has to confirm it with OK.
@@ -57,12 +58,8 @@ public class ConfirmationDialog extends OkCancelDialog {
     public static ConfirmationDialog open(String caption,
             String infoText,
             Handler okHandler) {
-        Label infoLabel = new Label();
-        infoLabel.setText(infoText);
-        // TODO LIN-2207 Styling
-        // infoLabel.setStyleName(ValoTheme.LABEL_H3);
-        // infoLabel.setContentMode(ContentMode.HTML);
-        return open(caption, infoLabel, okHandler);
+        Html content = new Html("<span>" + HtmlSanitizer.sanitize(infoText) + "</span>");
+        return open(caption, content, okHandler);
     }
 
     /**
