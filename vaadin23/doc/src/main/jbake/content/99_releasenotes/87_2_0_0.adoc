@@ -60,7 +60,7 @@ https://jira.faktorzehn.de/browse/LIN-579
 A new aspect `@BindSuffix` has been introduced. With the aspect, a suffix can be added to input elements to display for example units or currencies. See documentation of <<suffix, @BindSuffix>> for further information.
 
 ===== New Aspect Annotation: @BindPlaceholder
-//// 
+////
 https://jira.faktorzehn.de/browse/LIN-410
 https://jira.faktorzehn.de/browse/LIN-937
 ////
@@ -87,6 +87,16 @@ https://jira.faktorzehn.de/browse/LIN-2786
 
 Using the new `textAlign` attribute of <<ui-table-column,`@UITableColumn`>>, text alignment inside the table column can be modified. This also affects text alignment of the header, footer and components that support it.
 The old way of right-alinging text using a CSS class (`styleNames = LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED`) should no longer be used for this purpose. The style `LinkkiApplicationTheme.GRID_FOOTER_SUM` has been deprecated in favor of `LinkkiApplicationTheme.GRID_FOOTER_BOLD`, which can be combined with `textAlign = TextAlignment.END` to achieve the same look.
+
+[role="api-change"]
+===== LinkkiApplicationTheme.SCROLLABLE removed
+////
+https://jira.faktorzehn.de/browse/LIN-2783
+////
+
+`LinkkiApplicationTheme.SCROLLABLE` has been removed without any replacement. This style only worked for dialogs and is now directly set in the dialog component itself.
+
+If the overflow behavior has to be set to auto, consider using `ComponentStyles.setOverflowAuto` instead.
 
 ===== Vaadin 8 modules removed
 

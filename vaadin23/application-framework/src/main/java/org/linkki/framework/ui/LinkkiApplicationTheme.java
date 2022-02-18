@@ -81,11 +81,6 @@ public final class LinkkiApplicationTheme {
     public static final String APPLICATION_INFO_DIALOG = "linkki-application-info-dialog"; // $NON-NLS-1$
 
     /**
-     * Style class with overflow auto.
-     */
-    public static final String SCROLLABLE = "linkki-scrollable";
-
-    /**
      * Style class for table footer that may have sums and should be right aligned and bold.
      * 
      * @deprecated Use {@link #GRID_FOOTER_BOLD} instead. Additionally,

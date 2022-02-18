@@ -31,6 +31,7 @@ import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.samples.playground.ips.model.Marker;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -77,9 +78,10 @@ public class LabelPmo {
         return Marker.REQUIRED_INFORMATION_MISSING;
     }
 
-    @UILabel(position = 95, label = "Label with a custom style", styleNames = "style1")
+    @UILabel(position = 95, label = "Label with a custom style", styleNames = { "style1",
+            LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED })
     public String getStyledLabel() {
-        return "I am a custom styled label";
+        return "I am a custom styled GREEN and RIGHT ALIGNED label";
     }
 
     @UINestedComponent(position = 100, label = "UILabel in table")

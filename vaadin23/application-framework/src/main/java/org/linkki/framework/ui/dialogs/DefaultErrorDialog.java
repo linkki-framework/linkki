@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.linkki.framework.ui.LinkkiApplicationTheme;
+import org.linkki.core.ui.ComponentStyles;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
@@ -79,7 +79,7 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         TextArea textArea = new TextArea(NlsText.getString("DefaultErrorHandler.errorDialogDetails"));
         textArea.setValue(ExceptionUtils.getStackTrace(t));
         formatText(textArea);
-        textArea.addClassName(LinkkiApplicationTheme.SCROLLABLE);
+        ComponentStyles.setOverflowAuto(textArea);
         return textArea;
     }
 

@@ -88,8 +88,7 @@ include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.ja
 [[label-style-names]]
 Styles::
 To style labels the property `styleNames` can be used to specify a list (actually a `String[]`) of CSS class names.
-+
-TIP: Use `LinkkiApplicationTheme#TEXT_RIGHT_ALIGNED` to right align a label in a table.
+
 
 [[ui-link]]
 ==== UILink

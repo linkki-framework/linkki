@@ -5,6 +5,10 @@ a:not([href]) {
     pointer-events: none;
 }
 
+.linkki-right-aligned > span {
+	text-align: right;
+}
+
 .linkki-grid-footer-sum {
     --linkki-footer-alignment: right;
     --linkki-footer-text-shadow: 0 .1px 0 currentColor;

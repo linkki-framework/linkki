@@ -13,3 +13,6 @@
 #LabelPmo .style1 {
 	color: green;
 }
+#LabelPmo .style1 > span {
+    width: 500px;
+}
