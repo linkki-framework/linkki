@@ -13,7 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.testbench.version>22.0.4</vaadin.testbench.version>
+        <vaadin.testbench.version>22.0.6</vaadin.testbench.version>
         <surefire.version>2.22.2</surefire.version>
         <junit.version>5.7.2</junit.version>
         <commons.version>3.12.0</commons.version>
