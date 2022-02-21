@@ -32,6 +32,7 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasSize;
+import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -42,6 +43,8 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.dom.ClassList;
+import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.BeforeLeaveEvent;
 import com.vaadin.flow.router.BeforeLeaveObserver;
 
@@ -70,7 +73,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *           between its content and the OK and cancel buttons. (see
  *           {@link MessageList#getFirstMessage(Severity)})
  */
-public class OkCancelDialog extends Composite<Dialog> implements HasSize, BeforeLeaveObserver {
+public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSize, BeforeLeaveObserver {
 
     public static final String CLASS_NAME_CONTENT_AREA = "content-area";
     public static final String CLASS_NAME_DIALOG_LAYOUT = "linkki-dialog-layout";
@@ -466,6 +469,26 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
      */
     protected HorizontalLayout getButtonArea() {
         return buttonArea;
+    }
+
+    @Override
+    public Style getStyle() {
+        return layout.getStyle();
+    }
+
+    @Override
+    public void setClassName(String className) {
+        layout.setClassName(className);
+    }
+
+    @Override
+    public String getClassName() {
+        return layout.getClassName();
+    }
+
+    @Override
+    public ClassList getClassNames() {
+        return layout.getClassNames();
     }
 
     /**

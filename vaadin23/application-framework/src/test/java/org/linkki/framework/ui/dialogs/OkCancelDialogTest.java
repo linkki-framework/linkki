@@ -46,7 +46,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-public class OkCancelDialogTest {
+class OkCancelDialogTest {
 
     private UI testUi;
 
@@ -62,7 +62,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testBuilder_DefaultOk() {
+    void testBuilder_DefaultOk() {
         OkCancelDialog dialog = OkCancelDialog.builder("caption").build();
 
         assertThat(dialog.getCaption(), is("caption"));
@@ -74,7 +74,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testBuilder_DefaultCancel() {
+    void testBuilder_DefaultCancel() {
         OkCancelDialog dialog = OkCancelDialog.builder("caption").build();
 
         assertThat(dialog.getCaption(), is("caption"));
@@ -86,7 +86,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testBuilder_OkCaption() {
+    void testBuilder_OkCaption() {
         OkCancelDialog dialog = OkCancelDialog.builder("caption").okCaption("confirm it").build();
 
         assertThat(dialog.getOkCaption(), is("confirm it"));
@@ -94,7 +94,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testBuilder_CancelCaption() {
+    void testBuilder_CancelCaption() {
         OkCancelDialog dialog = OkCancelDialog.builder("").cancelCaption("cancel it").build();
 
         assertThat(dialog.getCancelCaption(), is("cancel it"));
@@ -102,7 +102,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testBuilder_CancelCaption_NoCancelButton() {
+    void testBuilder_CancelCaption_NoCancelButton() {
         // it shouldn't make a difference whether cancelCaption is set before or after buttonOption
         OkCancelDialog dialog = OkCancelDialog.builder("")
                 .buttonOption(ButtonOption.OK_ONLY)
@@ -118,7 +118,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testSetContent() {
+    void testSetContent() {
         OkCancelDialog dialog = OkCancelDialog.builder("").build();
         assertThat(DialogTestUtil.getContents(dialog).size(), is(0));
 
@@ -129,7 +129,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testOk() {
+    void testOk() {
         Handler okHandler = mock(Handler.class);
         Handler cancelHandler = mock(Handler.class);
 
@@ -149,7 +149,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testCancel_ButtonClick() {
+    void testCancel_ButtonClick() {
         Handler okHandler = mock(Handler.class);
         Handler cancelHandler = mock(Handler.class);
 
@@ -169,7 +169,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testCancel_Close() {
+    void testCancel_Close() {
         Handler okHandler = mock(Handler.class);
         Handler cancelHandler = mock(Handler.class);
 
@@ -188,7 +188,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testSetOkCaption() {
+    void testSetOkCaption() {
         OkCancelDialog dialog = OkCancelDialog.builder("").build();
 
         dialog.setOkCaption("confirm it");
@@ -198,7 +198,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testSetCancelCaption() {
+    void testSetCancelCaption() {
         OkCancelDialog dialog = OkCancelDialog.builder("").build();
 
         dialog.setCancelCaption("cancel it");
@@ -208,14 +208,14 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testSetCancelCaption_NoCancelButton() {
+    void testSetCancelCaption_NoCancelButton() {
         OkCancelDialog dialog = OkCancelDialog.builder("").buttonOption(ButtonOption.OK_ONLY).build();
 
         assertThrows(IllegalStateException.class, () -> dialog.setCancelCaption("cancel it"));
     }
 
     @Test
-    public void testContent() {
+    void testContent() {
         Label content1 = new Label("1");
         Label content2 = new Label("2");
 
@@ -227,14 +227,14 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testButtonOption() {
+    void testButtonOption() {
         OkCancelDialog dialog = OkCancelDialog.builder("").buttonOption(ButtonOption.OK_ONLY).build();
         assertThat(DialogTestUtil.getButtons(dialog), hasSize(1));
     }
 
 
     @Test
-    public void testValidate_ShowsNoInitialMessages() {
+    void testValidate_ShowsNoInitialMessages() {
         MessageList messages = new MessageList();
         ValidationService validationService = ValidationService.of(messages);
 
@@ -246,7 +246,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testValidate_ShowsErrorsAndWarning() {
+    void testValidate_ShowsErrorsAndWarning() {
         MessageList messages = new MessageList();
         ValidationService validationService = ValidationService.of(messages);
 
@@ -274,7 +274,7 @@ public class OkCancelDialogTest {
     }
 
     @Test
-    public void testValidate_FiltersMessages() {
+    void testValidate_FiltersMessages() {
         ValidationMarker mandatoryFieldMarker = () -> true;
         Message message = Message.builder("error", Severity.ERROR).markers(mandatoryFieldMarker).create();
         MessageList messages = new MessageList(message);
@@ -299,6 +299,35 @@ public class OkCancelDialogTest {
         assertThat(dialog, is(displayingMessage("error")));
         assertThat(dialog, is(showingDisabledOkButton()));
 
+    }
+
+    @Test
+    void testSetClassName() {
+        OkCancelDialog dialog = OkCancelDialog.builder("caption").build();
+
+        dialog.setClassName("classy");
+        var classes = dialog.getContent().getChildren().findFirst().get().getElement().getAttribute("class");
+
+        assertThat(classes, is("classy"));
+    }
+
+    @Test
+    void testGetClassName() {
+        OkCancelDialog dialog = OkCancelDialog.builder("caption").build();
+
+        dialog.getContent().getChildren().findFirst().get().getElement().setAttribute("class", "classy");
+
+        assertThat(dialog.getClassName(), is("classy"));
+    }
+
+    @Test
+    void testGetClassNames() {
+        OkCancelDialog dialog = OkCancelDialog.builder("caption").build();
+
+        dialog.getContent().getChildren().findFirst().get().getElement().setAttribute("class", "classy");
+        var classList = dialog.getClassNames();
+
+        assertThat(classList.contains("classy"), is(true));
     }
 
     private Matcher<OkCancelDialog> showingDisabledOkButton() {

@@ -15,6 +15,7 @@
 package org.linkki.core.ui;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.formlayout.FormLayout;
 
 /**
@@ -37,7 +38,13 @@ public class ComponentStyles {
      * @param component {@link Component} whose overflow property should be set
      */
     public static void setOverflowAuto(Component component) {
-        component.getElement().getStyle().set("overflow", "auto");
+
+        if (component instanceof HasStyle) {
+            HasStyle componentHasStyle = (HasStyle)component;
+            componentHasStyle.getStyle().set("overflow", "auto");
+        } else {
+            component.getElement().getStyle().set("overflow", "auto");
+        }
     }
 
     /**
@@ -48,6 +55,12 @@ public class ComponentStyles {
      * @param width the width of the label as CSS property, e.g. 12em
      */
     public static void setFormItemLabelWidth(Component component, String width) {
-        component.getElement().getStyle().set("--linkki-form-item-label-width", width);
+        if (component instanceof HasStyle) {
+            HasStyle componentHasStyle = (HasStyle)component;
+            componentHasStyle.getStyle().set("--linkki-form-item-label-width", width);
+        } else {
+            component.getElement().getStyle().set("--linkki-form-item-label-width", width);
+
+        }
     }
 }

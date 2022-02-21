@@ -66,6 +66,7 @@ import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogOverflowPmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogSectionSpacingPmo;
 import org.linkki.samples.playground.ts.dialogs.QuestionAndConfirmationDialogPmo;
+import org.linkki.samples.playground.ts.dialogs.SetFormItemLabelWidthDialogPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.DecimalLabelPmo;
 import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
@@ -243,6 +244,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC002, new QuestionAndConfirmationDialogPmo())
                                        .testCase(TC003, new OkCancelDialogOverflowPmo())
                                        .testCase(TC004, new OkCancelDialogSectionSpacingPmo())
+                                       .testCase(TC005, new SetFormItemLabelWidthDialogPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS012)
                                        .testCase(TC001, TableWithValidationSection.create())
