@@ -33,13 +33,10 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.dialog.testbench.DialogElement;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 
+class OkCancelDialogHandlerTest extends PlaygroundUiTest {
 
-public class OkCancelDialogHandlerTest extends PlaygroundUiTest {
-
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(PlaygroundApplicationView.TS011, PlaygroundApplicationView.TC001);
     }
 
@@ -49,7 +46,7 @@ public class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testOkHandler() {
+    void testOkHandler() {
         DialogElement dialog = openOkCancelDialog();
 
         dialog.$(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID).click();
@@ -58,7 +55,7 @@ public class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testCancelHandler() {
+    void testCancelHandler() {
         DialogElement dialog = openOkCancelDialog();
 
         dialog.$(ButtonElement.class).id(OkCancelDialog.CANCEL_BUTTON_ID).click();
@@ -67,7 +64,7 @@ public class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testEscape() {
+    void testEscape() {
         openOkCancelDialog();
 
         // selenium doesn't like it when elements disappear when sending keys
@@ -78,7 +75,7 @@ public class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testClickOutside() {
+    void testClickOutside() {
         openOkCancelDialog();
 
         findElement(By.tagName("body")).click();

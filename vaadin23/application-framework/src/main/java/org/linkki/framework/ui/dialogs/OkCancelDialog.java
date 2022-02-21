@@ -23,6 +23,7 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.ui.ComponentStyles;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.component.MessageUiComponents;
 import org.linkki.framework.ui.nls.NlsText;
@@ -169,9 +170,6 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         layout.setHorizontalComponentAlignment(Alignment.START, title);
         layout.add(title);
 
-        contentArea.setPadding(false);
-        contentArea.setSpacing(false);
-        contentArea.setSizeFull();
         layout.add(contentArea);
         layout.setFlexGrow(1, contentArea);
 
@@ -193,7 +191,10 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
 
     private void initContentArea(Component... contentComponents) {
         contentArea.addClassName(CLASS_NAME_CONTENT_AREA); // $NON-NLS-1$
-        contentArea.setWidthFull();
+        contentArea.setPadding(false);
+        contentArea.setSpacing(false);
+        contentArea.setSizeFull();
+        ComponentStyles.setOverflowAuto(contentArea);
         for (Component contentComponent : contentComponents) {
             contentArea.add(contentComponent);
         }
