@@ -18,13 +18,13 @@ import java.util.Objects;
 
 import org.linkki.core.vaadin.component.HasIcon;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -36,7 +36,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 @Tag("linkki-text")
 @JsModule("./src/linkki-text.ts")
 @CssImport(value = "./styles/linkki-has-icon.css")
-public class LinkkiText extends LitTemplate implements HasIcon, HasPrefixAndSuffix, HasText {
+public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix, HasText {
 
     public static final String CLASS_NAME = "linkki-text";
 
@@ -58,11 +58,15 @@ public class LinkkiText extends LitTemplate implements HasIcon, HasPrefixAndSuff
      * Creates a new LinkkiText component with a plain text and an icon as prefix component.
      */
     public LinkkiText(String text, @CheckForNull VaadinIcon icon) {
-        this.icon = icon;
         addClassName(CLASS_NAME);
+
         content = new Span();
         getElement().appendChild(content.getElement());
-        content.setText(text);
+
+        setText(text);
+        if (icon != null) {
+            setIcon(icon);
+        }
     }
 
     /**

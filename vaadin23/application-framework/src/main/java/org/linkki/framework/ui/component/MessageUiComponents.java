@@ -20,17 +20,15 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
+import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -70,18 +68,13 @@ public final class MessageUiComponents {
     }
 
     /**
-     * Creates a form layout with a {@link Div} that contains the message's text and an icon
-     * representing its {@link Severity}. The label can be styled with
-     * {@link LinkkiApplicationTheme#MESSAGE_LABEL} and a {@link #getStyle(Severity) style derived from
-     * the severity}.
+     * Creates a {@link LinkkiText} that contains the message's text and an icon representing its
+     * {@link Severity}.
      */
     public static Component createMessageComponent(Message message) {
-        Span messageLabel = new Span();
-        messageLabel.setWidthFull();
         Severity severity = message.getSeverity();
-        messageLabel.add(getIcon(severity).create());
-        messageLabel.add(message.getText());
-        messageLabel.addClassNames(getStyle(severity), LinkkiApplicationTheme.MESSAGE_LABEL, LinkkiTheme.HAS_ICON);
+        LinkkiText messageLabel = new LinkkiText(message.getText(), getIcon(severity));
+        messageLabel.addClassNames(getStyle(severity));
         return messageLabel;
     }
 

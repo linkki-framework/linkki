@@ -23,14 +23,12 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
-import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
@@ -39,15 +37,9 @@ import com.vaadin.flow.server.VaadinSession;
 
 class BindLabelValueAspectDefinitionTest {
 
-    @BeforeEach
-    void setup() {
-        MockVaadin.setup();
-    }
-
     @AfterEach
     void cleanUpUi() {
         UI.setCurrent(null);
-        MockVaadin.tearDown();
     }
 
     @Test

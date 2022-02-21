@@ -22,9 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
@@ -40,7 +38,6 @@ import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
-import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.Icon;
@@ -53,16 +50,6 @@ public class BindIconIntegrationTest {
     private static final String ACADEMY_CAP_NAME = "vaadin:academy-cap";
 
     private final BindingContext bindingContext = new BindingContext();
-
-    @BeforeEach
-    public void setup() {
-        MockVaadin.setup();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        MockVaadin.tearDown();
-    }
 
     @Test
     public void testAspectBindIconAnnotation_Static_withButton() {

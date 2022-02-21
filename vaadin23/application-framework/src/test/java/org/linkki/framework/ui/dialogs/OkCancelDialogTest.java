@@ -34,13 +34,13 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -352,7 +352,7 @@ public class OkCancelDialogTest {
 
                 @NonNull
                 HorizontalLayout layout = dialog.getButtonArea();
-                Span message = (Span)layout.getComponentAt(0);
+                LinkkiText message = (LinkkiText)layout.getComponentAt(0);
                 return text.contentEquals(message.getText());
             }
         };

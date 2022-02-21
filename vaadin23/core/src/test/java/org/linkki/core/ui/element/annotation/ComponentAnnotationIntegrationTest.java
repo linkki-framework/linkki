@@ -32,7 +32,6 @@ import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
-import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
@@ -70,8 +69,6 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
 
     @BeforeEach
     public void setUp() {
-        MockVaadin.setup();
-
         ui = new UI();
         ui.setLocale(Locale.GERMAN);
         UI.setCurrent(ui);
@@ -86,7 +83,6 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     @AfterEach
     public void tearDown() {
         UI.setCurrent(null);
-        MockVaadin.tearDown();
     }
 
     BindingContext getBindingContext() {

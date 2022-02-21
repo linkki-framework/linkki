@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
@@ -39,7 +37,6 @@ import org.linkki.core.ui.test.TestButtonPmo;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.util.handler.Handler;
 
-import com.github.mvysny.kaributesting.v10.MockVaadin;
 
 public class BindingContextIntegrationTest {
 
@@ -50,16 +47,6 @@ public class BindingContextIntegrationTest {
     private ContainerBinding standardSectionBinding;
 
     private BindingContext bindingContext;
-
-    @BeforeEach
-    public void setup() {
-        MockVaadin.setup();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        MockVaadin.tearDown();
-    }
 
     @Test
     public void testRemoveBindingsForComponent() {

@@ -16,12 +16,10 @@ package org.linkki.core.vaadin.component.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.style.LinkkiTheme;
 
-import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 class LinkkiTextTest {
@@ -30,16 +28,9 @@ class LinkkiTextTest {
 
     @BeforeEach
     void setup() {
-        MockVaadin.setup();
-
         linkkiText = new LinkkiText();
         linkkiText.setText("Test text");
         linkkiText.setIcon(VaadinIcon.ABACUS);
-    }
-
-    @AfterEach
-    void tearDown() {
-        MockVaadin.tearDown();
     }
 
     @Test
