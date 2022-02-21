@@ -52,14 +52,14 @@ These changes also results in changes of the HTML structure of sections which ar
 
 Support of multi-column layout with `@UISection` is deprecated as it does not make sense with all layout options. Instead, `@UIFormSection` now supports the same functionality. See also documentation for  <<uiformsection, @UIFormSection>>.
 
-===== New Aspect Annotation: @BindSuffix
+===== New aspect annotation: @BindSuffix
 ////
 https://jira.faktorzehn.de/browse/LIN-579
 ////
 
 A new aspect `@BindSuffix` has been introduced. With the aspect, a suffix can be added to input elements to display for example units or currencies. See documentation of <<suffix, @BindSuffix>> for further information.
 
-===== New Aspect Annotation: @BindPlaceholder
+===== New aspect annotation: @BindPlaceholder
 ////
 https://jira.faktorzehn.de/browse/LIN-410
 https://jira.faktorzehn.de/browse/LIN-937
@@ -97,6 +97,18 @@ https://jira.faktorzehn.de/browse/LIN-2783
 `LinkkiApplicationTheme.SCROLLABLE` has been removed without any replacement. This style only worked for dialogs and is now directly set in the dialog component itself.
 
 If the overflow behavior has to be set to auto, consider using `ComponentStyles.setOverflowAuto` instead.
+
+[role="api-change"]
+===== Label für @UILabel
+////
+https://jira.faktorzehn.de/browse/LIN-2783
+////
+
+Prior to this version, the label of `@UILabel` could only be displayed in `@UISection` when labels are displayed aside of the component. Now the label is also supported with other layout annotations such as `@UIVerticalLayout` or `@UISection` with `layout = VERTICAL`. The label is then displayed on top of the component.
+
+To make this feature possible, `LinkkiText` now creates a web component with the tag `linkki-text`. Therefore, existing stylings that are made on `@UILabel` by adding style names may need to be adjusted. Similarly, selectors in UI tests related to `LinkkiText` may also need to be adjusted.
+
+As a side-effect of this change, `@BindSuffix` can now be used with `@UILabel` to e.g. add icons at the end of the label.
 
 ===== Vaadin 8 modules removed
 

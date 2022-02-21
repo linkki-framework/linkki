@@ -288,7 +288,7 @@ The following configuration options are available for `SuffixType`:
 |`DYNAMIC`  |the text of the suffix is determined by the return value of the method `String get<PropertyName>Suffix()`. The `value` is ignored.
 |===
 
-TIP:  BindSuffix can add a suffix to UI elements which implement the HasPrefixAndSuffix interface. Common UI elements which support `@BindSuffix` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`.
+TIP:  BindSuffix can add a suffix to UI elements which implement the `HasPrefixAndSuffix` interface. Common UI elements which support `@BindSuffix` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`.
 
 [[placeholder]]
 ===== Placeholder
