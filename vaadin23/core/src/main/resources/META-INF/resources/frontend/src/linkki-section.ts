@@ -28,7 +28,7 @@ class LinkkiSection extends LitElement {
     }
 
     :host([theme~="form"]) > ::slotted([slot="content"]) {
-      gap: 0;
+      row-gap: 0;
     }
 
     .linkki-section-header, .linkki-section-header-components {
