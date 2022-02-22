@@ -16,7 +16,7 @@
   height: unset !important;
 }
 
-:host([has-placeholder]:not([has-items])) #table {
+:host([has-placeholder]:not([has-items])) #scroller {
   display: none;
 }
 
