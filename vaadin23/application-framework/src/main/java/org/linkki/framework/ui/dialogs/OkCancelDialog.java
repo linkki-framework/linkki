@@ -491,6 +491,66 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
         return layout.getClassNames();
     }
 
+    @Override
+    public void setWidth(String width) {
+        getContent().setWidth(width);
+    }
+
+    @Override
+    public String getWidth() {
+        return getContent().getWidth();
+    }
+
+    @Override
+    public void setMinWidth(String minWidth) {
+        getContent().setMinWidth(minWidth);
+    }
+
+    @Override
+    public String getMinWidth() {
+        return getContent().getMinWidth();
+    }
+
+    @Override
+    public void setMaxWidth(String maxWidth) {
+        getContent().setMaxWidth(maxWidth);
+    }
+
+    @Override
+    public String getMaxWidth() {
+        return getContent().getMaxWidth();
+    }
+
+    @Override
+    public void setHeight(String height) {
+        getContent().setHeight(height);
+    }
+
+    @Override
+    public String getHeight() {
+        return getContent().getHeight();
+    }
+
+    @Override
+    public void setMinHeight(String minHeight) {
+        getContent().setMinHeight(minHeight);
+    }
+
+    @Override
+    public String getMinHeight() {
+        return getContent().getMinHeight();
+    }
+
+    @Override
+    public void setMaxHeight(String maxHeight) {
+        getContent().setMaxHeight(maxHeight);
+    }
+
+    @Override
+    public String getMaxHeight() {
+        return getContent().getMaxHeight();
+    }
+
     /**
      * Options to choose the buttons.
      */
