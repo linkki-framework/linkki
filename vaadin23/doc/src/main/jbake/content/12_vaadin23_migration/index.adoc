@@ -402,10 +402,22 @@ In Vaadin 23, `Table` has been replaced by `Grid`
 * `PmoBasedTablefactory` has been replaced by `GridComponentCreator`
 * `@UITableColumn`: `expandRatio` replaced by `flexGrow`. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
 
+==== Notifications
+////
+https://jira.faktorzehn.de/browse/FIPM-4131
+////
+In Vaadin 8, there used to be four types of notification: humanized, warning, error and tray. This categorization does not exist anymore. To display notifications based on the severity, linkki provides a new class `NotificationUtil`. See the documentation on <<notifications, notifications>> for more detail.
+
 === Aspect annotations
 
 ==== @BindIcon
 The `@BindIcon` annotation is available for `@UIButton` and all components, that are implementing the `HasIcon` interface. At the moment, these are `@UILabel` and `@UILink`. Using `htmlContent` of the `@UILabel` will override any icon.
+
+==== @BindTooltip
+////
+https://jira.faktorzehn.de/browse/LIN-2543
+////
+HTML content is no longer support for tooltips. 
 
 === NLS
 
@@ -425,23 +437,14 @@ public class MyI18NProvider implements I18NProvider {
 
 === Styling
 ////
-https://jira.faktorzehn.de/browse/LIN-2249
+https://jira.faktorzehn.de/browse/LIN-2623
 ////
-==== Theming
 
-Valo theme has been replaced by Lumo theme. The Lumo Theme is default and there is no @Theme annotation required. For more information see https://vaadin.com/docs/flow/migration/6-theming.html
+In general, the the Sass precompiler is no longer used by default, which means that any existing styling code that utilized SCSS functionalities needs to be adjusted to work in CSS. 
 
-==== Tooltips
-////
-https://jira.faktorzehn.de/browse/LIN-2054
-////
-By now, tooltips are only supported by `LinkkiTabSheet`, using the `LinkkiTabSheet#description` property. Other UI components currently do not support tooltips. For more information see https://vaadin.com/forum/thread/17094165/tooltips
+In addition, all applications need to either apply the `"linkki"` theme or a theme that extends from it to make sure that the linkki components work properly. Detailed instructions are provided in the chapter <<styling, "Styling">>. 
 
-==== Notifications
-////
-https://jira.faktorzehn.de/browse/FIPM-4131
-////
-See <<notifications, Notifications>>
+As the generated HTML has changed drastically, existing styling customizations have to be checked for necessity and, if still necessary, adjusted for the new DOM structure. As Vaadin components are now mostly web components, existing styles that apply to Vaadin components most likely do not work any more. Consult the https://vaadin.com/docs/latest/ds/customization/styling-components[Vaadin documentation on component styling] to adjust the selectors and https://vaadin.com/docs/latest/ds/customization/custom-theme/#vaadin-component-styles[the documentation on theming] for how to include them in the custom theme.
 
 ==== ComponentStyles
 

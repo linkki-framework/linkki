@@ -1,7 +1,0 @@
-:jbake-title: Styling
-:jbake-type: section
-:jbake-status: published
-
-=== Styling
-
-// TODO LIN-2623

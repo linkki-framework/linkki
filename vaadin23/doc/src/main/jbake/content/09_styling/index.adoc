@@ -1,0 +1,83 @@
+:jbake-title: Styling
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 85
+
+[[styling]]
+== Styling
+
+The theming mechanism is provided by Vaadin. Linkki extends the default Lumo theme for additional functionalities of linkki components. Thus, the linkki theme must be applied to make sure the linkki components work correctly.
+
+This chapter focuses on the application and customization of the linkki theme. More in-depth information on the theming mechanism can be found in the https://vaadin.com/docs/latest/ds/customization/using-themes[Vaadin documentation on themes].
+
+=== Applying the linkki theme
+
+A theme can be applied by adding the annotation `@Theme` to a class that implements the interface `AppShellConfigurator`. The linkki theme uses the name `"linkki"`.
+
+In a Spring Boot application, the application configuration class can be used as `AppShellConfigurator`.
+
+.AppShellConfigurator in a Spring Boot application
+[source, java]
+----
+@Theme(theme = "linkki")
+@SpringBootApplication
+public class Application extends SpringBootServletInitializer
+                         implements AppShellConfigurator {
+  ...
+}
+----
+
+In a CDI application, a dedicated class can be created for this purpose. The only requirement for this class is to be in application scope.
+
+.AppShellConfigurator in a CDI application
+[source, java]
+----
+@ApplicationScoped
+@Theme(theme = "linkki")
+public class MyAppShellConfigurator implements AppShellConfigurator {
+    ...
+}
+----
+
+=== Customizing the linkki theme
+
+For general information, see the https://vaadin.com/docs/latest/ds/customization/custom-theme[Vaadin documentation on custom themes].
+
+In general, a certain folder structure is needed for a custom theme. This structure depends on whether the theme will be directedly used in the application in which it is defined, or will it be packaged to be used in a different project.
+
+For direct usage, the minimum requirement includes a folder with the theme name in `frontend/themes`, with a `styles.css`` file and a `theme.json` file.
+
+.Folder structure for a custom theme for the own project
+----
+frontend
+└── themes
+    └── my-theme
+        ├── styles.css
+        └── theme.json
+----
+
+If the theme needs to be packaged for other projects, the theme folder must be in `src/main/resources/META-INF/resources/themes`.
+
+.Folder structure for a custom theme that needs to be pacakged
+----
+src
+└── main
+    └── resources
+        └── META-INF
+            └── resources
+                └── themes
+                    └── my-theme
+                        ├── styles.css
+                        └── theme.json
+----
+
+In both cases, the `theme.json` file must include the following configuration:
+[source, json]
+----
+{
+  "parent": "linkki"
+}
+----
+
+The `styles.css` file contains the CSS customazations one wants to make in the theme. For most simple changes, adjusting some of the Lumo CSS properties should suffice. The https://demo.vaadin.com/lumo-editor/[Lumo theme editor] is a useful tool to visualize the possibilities.
+

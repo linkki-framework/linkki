@@ -110,6 +110,14 @@ To make this feature possible, `LinkkiText` now creates a web component with the
 
 As a side-effect of this change, `@BindSuffix` can now be used with `@UILabel` to e.g. add icons at the end of the label.
 
+[role="api-change"]
+===== Introduction of linkki theme
+////
+https://jira.faktorzehn.de/browse/LIN-2623
+////
+
+The theme `"linkki"` must now be used for all applications. This is done by adding the annotation `@Theme("linkki")` on a class that implements `AppShellConfigurator`. If an existing custom theme is used, it must extend from the linkki theme. Detailed instructions are provided in the chapter <<styling, "Styling">>.
+
 ===== Vaadin 8 modules removed
 
 ////
