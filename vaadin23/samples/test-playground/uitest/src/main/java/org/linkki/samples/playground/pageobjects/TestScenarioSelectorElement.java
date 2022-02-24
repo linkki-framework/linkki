@@ -14,7 +14,7 @@
 
 package org.linkki.samples.playground.pageobjects;
 
-import org.openqa.selenium.NoSuchElementException;
+import static org.linkki.samples.playground.uitest.conditions.VaadinElementConditions.elementDisplayed;
 
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.testbench.TestBenchElement;
@@ -31,13 +31,7 @@ public class TestScenarioSelectorElement extends TestBenchElement {
     public TestCaseSelectorElement selectTestScenario(String id) {
         $(TabElement.class).id(id).click();
 
-        // return first displayed test case selector
-        return $(TestCaseSelectorElement.class).all()
-                .stream()
-                .filter(TestCaseSelectorElement::isDisplayed)
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException(
-                        "No displayed content of test-scenario-selector found!"));
+        return waitUntil(elementDisplayed($(TestCaseSelectorElement.class)));
     }
 
 }
