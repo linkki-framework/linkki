@@ -5,18 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <name>Project base for Vaadin</name>
+    <name>${ApplicationName}</name>
     <version>${version}</version>
     <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
-        <vaadin.version>22.0.4</vaadin.version>
+        <vaadin.version>22.0.6</vaadin.version>
         <jetty.version>9.4.31.v20200723</jetty.version>
     </properties>
     <dependencyManagement>

@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <name>Project base for Spring Boot and Vaadin Flow</name>
+    <name>${ApplicationName}</name>
     <version>${version}</version>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>11</java.version>
-        <vaadin.version>22.0.4</vaadin.version>
+        <vaadin.version>22.0.6</vaadin.version>
     </properties>
 
     <parent>

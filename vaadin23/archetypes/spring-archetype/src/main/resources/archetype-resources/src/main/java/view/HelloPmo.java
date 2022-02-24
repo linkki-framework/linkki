@@ -14,7 +14,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 public class HelloPmo {
 
     private String name;
-    private Handler handler;
+    private final Handler handler;
 
     public HelloPmo(Handler handler) {
         this.handler = handler;

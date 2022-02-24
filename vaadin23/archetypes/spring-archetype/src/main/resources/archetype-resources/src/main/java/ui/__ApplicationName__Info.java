@@ -7,7 +7,7 @@ import org.linkki.framework.ui.application.ApplicationInfo;
 
 public class ${ApplicationName}Info implements ApplicationInfo {
 
-    public static final String APPLICATION_NAME = "Training Sample Application";
+    public static final String APPLICATION_NAME = "${ApplicationName}";
 
     @Override
     public String getApplicationName() {
@@ -21,7 +21,7 @@ public class ${ApplicationName}Info implements ApplicationInfo {
 
     @Override
     public String getApplicationDescription() {
-        return "Faktor Zehn linkki Training Sample Application";
+        return "${ApplicationName}";
     }
 
     @Override

@@ -14,7 +14,7 @@ public class ${ApplicationName}View extends VerticalLayout{
     private static final long serialVersionUID = 1L;
 
     public ${ApplicationName}View() {
-        add(new Headline("linkki example Webapplication"));
+        add(new Headline("${ApplicationName}"));
         setSizeFull();
         ${ApplicationName}Page page = new ${ApplicationName}Page();
         page.init();

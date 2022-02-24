@@ -7,18 +7,19 @@ import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
 import org.linkki.util.handler.Handler;
 
-public class ${ApplicationName}Page extends AbstractPage{
+public class ${ApplicationName}Page extends AbstractPage {
 
-    private BindingManager bindingManager = new DefaultBindingManager();
-    private HelloPmo hellopmo;
+    private static final long serialVersionUID = 1L;
+
+    private final BindingManager bindingManager;
 
     public ${ApplicationName}Page() {
-        this.hellopmo = new HelloPmo(()->createOwnDialog());
+        this.bindingManager = new DefaultBindingManager();
     }
 
     @Override
     public void createContent() {
-        addSection(hellopmo);
+        addSection(new HelloPmo(this::createOwnDialog));
     }
 
     @Override
@@ -27,11 +28,7 @@ public class ${ApplicationName}Page extends AbstractPage{
     }
 
     public void createOwnDialog() {
-        Handler handler = Handler.NOP_HANDLER;
-        ConfirmationDialog dialog = new ConfirmationDialog("Now try to create your own linkki Web Application!",
-                handler);
-        dialog.setWidth("40em");
-        dialog.open();
+        new ConfirmationDialog("Now try to create your own linkki web application!", Handler.NOP_HANDLER).open();
     }
 
 }
