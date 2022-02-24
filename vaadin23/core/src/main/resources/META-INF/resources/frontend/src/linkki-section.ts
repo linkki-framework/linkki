@@ -9,6 +9,7 @@ class LinkkiSection extends LitElement {
       box-sizing: border-box;
       width: 100%;
       --linkki-section-gap: var(--lumo-space-m);
+      --lumo-header-text-color: var(--linkki-section-caption-header-color, var(--lumo-contrast-80pct));
     }
 
     ::slotted([slot="content"]) {
@@ -36,10 +37,6 @@ class LinkkiSection extends LitElement {
       display: flex;
       white-space: nowrap;
       align-items: center;
-    }
-
-    .linkki-section-header > .linkki-section-header-components {
-      color: var(--linkki-section-caption-header-color, var(--lumo-contrast-80pct));
     }
 
     ::slotted([slot="header-components"]), ::slotted([slot="close-toggle"]) {
