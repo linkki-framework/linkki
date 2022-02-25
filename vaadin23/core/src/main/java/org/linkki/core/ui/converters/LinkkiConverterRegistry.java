@@ -14,7 +14,6 @@
 package org.linkki.core.ui.converters;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toMap;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -23,6 +22,7 @@ import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -92,7 +92,7 @@ public class LinkkiConverterRegistry implements Serializable {
     public static final LinkkiConverterRegistry DEFAULT = new LinkkiConverterRegistry();
     // CSOON: Declaration
 
-    private final HashMap<Class<?>, Sequence<Converter<?, ?>>> converters;
+    private final HashMap<Class<?>, Map<Class<?>, Converter<?, ?>>> converters = new HashMap<>();
 
     /**
      * Creates a new {@link LinkkiConverterRegistry} with all default converters.
@@ -114,19 +114,18 @@ public class LinkkiConverterRegistry implements Serializable {
      */
     public LinkkiConverterRegistry(Collection<Converter<?, ?>> customConverters) {
         requireNonNull(customConverters, "customConverters must not be null");
-        this.converters = new HashMap<>();
-        converters.putAll(DEFAULT_CONVERTERS.stream()
-                .collect(toMap(this::getPresentationType,
-                               Sequence::of,
-                               Sequence::with)));
-        converters.putAll(customConverters.stream()
-                .collect(toMap(this::getPresentationType,
-                               Sequence::of,
-                               Sequence::with)));
+        DEFAULT_CONVERTERS.stream().forEach(this::storeConverter);
+        customConverters.stream().forEach(this::storeConverter);
     }
 
     public LinkkiConverterRegistry(Sequence<Converter<?, ?>> customConverters) {
         this(customConverters.list());
+    }
+
+    private void storeConverter(Converter<?, ?> converter) {
+        converters.computeIfAbsent(getPresentationType(converter),
+                                   p -> new LinkedHashMap<>())
+                .put(getModelType(converter), converter);
     }
 
     /**
@@ -158,20 +157,36 @@ public class LinkkiConverterRegistry implements Serializable {
         if (isIdentityNecessary(rawPresentationType, rawModelType)) {
             return (Converter<P, M>)Converter.identity();
         } else {
-            return converters.computeIfAbsent(rawPresentationType, t -> Sequence.empty())
-                    .stream()
-                    .map(Converter.class::cast)
-                    .filter(c -> TypeUtils.isAssignable(rawModelType, getModelType(c)))
-                    .max((c0, c1) -> {
-                        boolean c0AssignableToC1 = TypeUtils.isAssignable(getModelType(c0), getModelType(c1));
-                        boolean c1AssignableToC0 = TypeUtils.isAssignable(getModelType(c1), getModelType(c0));
-                        return Boolean.compare(c0AssignableToC1, c1AssignableToC0);
-                    })
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "Cannot convert presentation type " + rawPresentationType + " to model type "
-                                    + rawModelType));
+            var byPresentationType = converters.get(rawPresentationType);
+
+            if (byPresentationType != null) {
+                return (Converter<P, M>)byPresentationType
+                        .computeIfAbsent(rawModelType,
+                                         mt -> findNextByPresentationType(byPresentationType.values(),
+                                                                          rawPresentationType, mt));
+            } else {
+                throw new IllegalArgumentException(
+                        "Cannot convert presentation type " + presentationType + " to model type "
+                                + modelType);
+            }
         }
 
+    }
+
+    private Converter<?, ?> findNextByPresentationType(
+            Collection<Converter<?, ?>> convertersByPresentationType,
+            Type presentationType,
+            Type modelType) {
+        return convertersByPresentationType.stream()
+                .filter(c -> TypeUtils.isAssignable(modelType, getModelType(c)))
+                .max((c0, c1) -> {
+                    boolean c0AssignableToC1 = TypeUtils.isAssignable(getModelType(c0), getModelType(c1));
+                    boolean c1AssignableToC0 = TypeUtils.isAssignable(getModelType(c1), getModelType(c0));
+                    return Boolean.compare(c0AssignableToC1, c1AssignableToC0);
+                })
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Cannot convert presentation type " + presentationType + " to model type "
+                                + modelType));
     }
 
 
@@ -218,11 +233,15 @@ public class LinkkiConverterRegistry implements Serializable {
         return getRawType(typeArguments.get(typeVariables[index]));
     }
 
+    protected Sequence<Converter<?, ?>> getAllConverters() {
+        return converters.values().stream()
+                .map(Map::values)
+                .flatMap(Collection::stream)
+                .collect(Sequence.collect());
+    }
+
     public LinkkiConverterRegistry with(Converter<?, ?> converter) {
-        return new LinkkiConverterRegistry(converters.values()
-                .stream()
-                .flatMap(Sequence::stream)
-                .collect(Sequence.collect()).with(converter));
+        return new LinkkiConverterRegistry(getAllConverters().with(converter));
     }
 
     /**

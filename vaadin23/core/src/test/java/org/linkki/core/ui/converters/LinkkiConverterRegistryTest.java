@@ -27,7 +27,9 @@ import org.junit.jupiter.api.Test;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.converter.StringToBigIntegerConverter;
 import com.vaadin.flow.data.converter.StringToDateConverter;
+import com.vaadin.flow.data.converter.StringToDoubleConverter;
 
 class LinkkiConverterRegistryTest {
 
@@ -44,30 +46,27 @@ class LinkkiConverterRegistryTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new LinkkiConverterRegistry().findConverter(String.class, Currency.class);
         });
-
     }
 
     @Test
     void testFindConverter_Subclass() {
         LinkkiConverterRegistry linkkiConverterRegistry = new LinkkiConverterRegistry(new MyStringToNumberConverter());
 
-        assertThat(linkkiConverterRegistry.findConverter(String.class, Integer.class),
-                   is(instanceOf(MyStringToNumberConverter.class)));
+        assertThat(linkkiConverterRegistry.findConverter(String.class, CustomBigInteger.class),
+                   is(instanceOf(StringToBigIntegerConverter.class)));
     }
 
     @Test
-    void testFindConverter_MostSpecificUnOrdered() {
+    void testFindConverter_MostSpecificUnordered() {
         LinkkiConverterRegistry linkkiConverterRegistry = new LinkkiConverterRegistry(
                 new MyStringToBigIntegerConverter(), new MyStringToNumberConverter());
 
-        assertThat(linkkiConverterRegistry.findConverter(String.class, MyInteger.class),
+        assertThat(linkkiConverterRegistry.findConverter(String.class, CustomBigInteger.class),
                    is(instanceOf(MyStringToBigIntegerConverter.class)));
-
         assertThat(linkkiConverterRegistry.findConverter(String.class, BigInteger.class),
                    is(instanceOf(MyStringToBigIntegerConverter.class)));
-
         assertThat(linkkiConverterRegistry.findConverter(String.class, Double.class),
-                   is(instanceOf(MyStringToNumberConverter.class)));
+                   is(instanceOf(StringToDoubleConverter.class)));
     }
 
     @Test
@@ -75,14 +74,12 @@ class LinkkiConverterRegistryTest {
         LinkkiConverterRegistry linkkiConverterRegistry = new LinkkiConverterRegistry(
                 new MyStringToNumberConverter(), new MyStringToBigIntegerConverter());
 
-        assertThat(linkkiConverterRegistry.findConverter(String.class, MyInteger.class),
+        assertThat(linkkiConverterRegistry.findConverter(String.class, CustomBigInteger.class),
                    is(instanceOf(MyStringToBigIntegerConverter.class)));
-
         assertThat(linkkiConverterRegistry.findConverter(String.class, BigInteger.class),
                    is(instanceOf(MyStringToBigIntegerConverter.class)));
-
         assertThat(linkkiConverterRegistry.findConverter(String.class, Double.class),
-                   is(instanceOf(MyStringToNumberConverter.class)));
+                   is(instanceOf(StringToDoubleConverter.class)));
     }
 
     @Test
@@ -96,11 +93,13 @@ class LinkkiConverterRegistryTest {
     }
 
     @Test
-    void testFindConverter_overrideDefault() {
+    void testFindConverter_OverrideDefault() {
         LinkkiConverterRegistry linkkiConverterRegistry = new LinkkiConverterRegistry(new MyStringToDateConverter());
 
         assertThat(linkkiConverterRegistry.findConverter(String.class, Date.class),
                    is(instanceOf(MyStringToDateConverter.class)));
+        assertThat(linkkiConverterRegistry.findConverter(String.class, Double.class),
+                   is(instanceOf(StringToDoubleConverter.class)));
     }
 
 
@@ -117,7 +116,6 @@ class LinkkiConverterRegistryTest {
         public String convertToPresentation(Date value, ValueContext context) {
             return null;
         }
-
 
     }
 
@@ -153,27 +151,27 @@ class LinkkiConverterRegistryTest {
 
     }
 
-    public static class MyStringToMyIntegerConverter implements Converter<String, MyInteger> {
+    public static class MyStringToCustomBigIntegerConverter implements Converter<String, CustomBigInteger> {
 
         private static final long serialVersionUID = 1L;
 
         @Override
-        public Result<MyInteger> convertToModel(String value, ValueContext context) {
+        public Result<CustomBigInteger> convertToModel(String value, ValueContext context) {
             return null;
         }
 
         @Override
-        public String convertToPresentation(MyInteger value, ValueContext context) {
+        public String convertToPresentation(CustomBigInteger value, ValueContext context) {
             return null;
         }
 
     }
 
-    public static class MyInteger extends BigInteger {
+    public static class CustomBigInteger extends BigInteger {
 
         private static final long serialVersionUID = 1L;
 
-        public MyInteger(String val, int radix) {
+        public CustomBigInteger(String val, int radix) {
             super(val, radix);
         }
 
