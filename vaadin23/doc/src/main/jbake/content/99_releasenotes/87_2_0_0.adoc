@@ -181,3 +181,5 @@ In addition, following deprecated classes and methods are also removed:
 * @UIDateField now shows German labels and Monday as the first weekday when the UI locale is German.
 // https://jira.faktorzehn.de/browse/LIN-2658
 * Until now, converters were only found in the `LinkkiConverterRegistry` for the exact matching class. This led e.g. in the case of `Decimal` to the fact that the subclass `DecimalNull` was not formatted correctly. `LinkkiConverterRegistry` now picks the most specific `Converter`. If `FormattedDecimalFieldToStringConverter()` is added to `LinkkiConverterRegistry`, it avoids printing DecimalNull on a `@UILabel` when the `Decimal` value is empty. 
+// https://jira.faktorzehn.de/browse/LIN-2804
+* The `OkCancelDialog` OK and Cancel handlers are now triggered only once for a user action. It was possible to trigger them both or twice by pressing the Enter key when the OK or Cancel button was focused.

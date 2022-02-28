@@ -239,7 +239,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC003, new TabLayoutVisibilityComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS011)
-                                       .testCase(TC001, new OkCancelDialogHandlerPmo())
+                                       .testCase(TC001, OkCancelDialogHandlerPmo.create())
                                        .testCase(TC002, new QuestionAndConfirmationDialogPmo())
                                        .testCase(TC003, new OkCancelDialogOverflowPmo())
                                        .testCase(TC004, new OkCancelDialogSectionSpacingPmo())

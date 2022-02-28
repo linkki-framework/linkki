@@ -16,86 +16,127 @@ package org.linkki.samples.playground.uitestnew.ts.dialogs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.AfterEach;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Named;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.TimeoutException;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.dialog.testbench.DialogElement;
-import com.vaadin.flow.component.notification.testbench.NotificationElement;
 
 class OkCancelDialogHandlerTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
         goToTestCase(PlaygroundApplicationView.TS011, PlaygroundApplicationView.TC001);
+        $(ButtonElement.class).id(OkCancelDialogHandlerPmo.RESET_BUTTON_ID).click();
     }
 
-    @AfterEach
-    void closeNotifications() {
-        waitUntil(d -> !$(NotificationElement.class).exists());
-    }
-
-    @Test
-    void testOkHandler() {
-        DialogElement dialog = openOkCancelDialog();
+    @ParameterizedTest
+    @MethodSource("dialogButtons")
+    void testOkHandler_ClickButton(String dialogButton) {
+        DialogElement dialog = openDialog(dialogButton);
 
         dialog.$(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID).click();
 
-        assertHandlerCalled(OkCancelDialogHandlerPmo.MESSAGE_OK);
+        assertThat(getOkCount(), is(1));
+        assertThat(getCancelCount(), is(0));
     }
 
-    @Test
-    void testCancelHandler() {
-        DialogElement dialog = openOkCancelDialog();
+    @ParameterizedTest
+    @MethodSource("dialogButtons")
+    void testOkHandler_EnterKeyOnButton(String dialogButton) {
+        DialogElement dialog = openDialog(dialogButton);
+
+        ButtonElement okButton = dialog.$(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID);
+        okButton.focus();
+        okButton.sendKeys(Keys.ENTER);
+
+        assertThat(getOkCount(), is(1));
+        assertThat(getCancelCount(), is(0));
+    }
+
+    @ParameterizedTest
+    @MethodSource("dialogButtons")
+    void testCancelHandler_ClickButton(String dialogButton) {
+        DialogElement dialog = openDialog(dialogButton);
 
         dialog.$(ButtonElement.class).id(OkCancelDialog.CANCEL_BUTTON_ID).click();
 
-        assertHandlerCalled(OkCancelDialogHandlerPmo.MESSAGE_CANCEL);
+        assertThat(getOkCount(), is(0));
+        assertThat(getCancelCount(), is(1));
     }
 
-    @Test
-    void testEscape() {
-        openOkCancelDialog();
+    @ParameterizedTest
+    @MethodSource("dialogButtons")
+    void testCancelHandler_EnterKeyOnButton(String dialogButton) {
+        DialogElement dialog = openDialog(dialogButton);
+
+        ButtonElement cancelButton = dialog.$(ButtonElement.class).id(OkCancelDialog.CANCEL_BUTTON_ID);
+        cancelButton.focus();
+        cancelButton.sendKeys(Keys.ENTER);
+
+        assertThat(getOkCount(), is(0));
+        assertThat(getCancelCount(), is(1));
+    }
+
+    @ParameterizedTest
+    @MethodSource("dialogButtons")
+    void testCancelHandler_EscapeKey(String dialogButton) {
+        openDialog(dialogButton);
 
         // selenium doesn't like it when elements disappear when sending keys
         // so we cannot send it to the dialog
         findElement(By.tagName("body")).sendKeys(Keys.ESCAPE);
 
-        assertHandlerCalled(OkCancelDialogHandlerPmo.MESSAGE_CANCEL);
+        assertThat(getOkCount(), is(0));
+        assertThat(getCancelCount(), is(1));
     }
 
-    @Test
-    void testClickOutside() {
-        openOkCancelDialog();
+    @ParameterizedTest
+    @MethodSource("dialogButtons")
+    void testCancelHandler_ClickOutsideDialog(String dialogButton) {
+        openDialog(dialogButton);
 
         findElement(By.tagName("body")).click();
 
-        assertHandlerCalled(OkCancelDialogHandlerPmo.MESSAGE_CANCEL);
+        assertThat(getOkCount(), is(0));
+        assertThat(getCancelCount(), is(1));
     }
 
-    private DialogElement openOkCancelDialog() {
-        $(ButtonElement.class).id(OkCancelDialogHandlerPmo.SHOW_DIALOG_BUTTON_ID).click();
+    private static Stream<Arguments> dialogButtons() {
+        return Stream.of(
+                         Arguments.of(Named.of("OkCancelDialog",
+                                               OkCancelDialogHandlerPmo.SHOW_DIALOG_BUTTON_ID)),
+                         // LIN-2804 only occured when a DialogBindingManager was used
+                         Arguments.of(Named.of("OkCancelDialog with DialogBindingManager",
+                                               OkCancelDialogHandlerPmo.SHOW_DIALOG_WITH_BINDING_MANAGER_BUTTON_ID)));
+    }
+
+    private DialogElement openDialog(String dialogButton) {
+        $(ButtonElement.class).id(dialogButton).click();
         return $(DialogElement.class).waitForFirst();
     }
 
-    private void assertHandlerCalled(String handler) {
-        // check that handler is not triggered multiple times
-        assertThrows(TimeoutException.class, () -> {
-            waitUntil(d -> $(NotificationElement.class).all().size() > 1, 1);
-        });
-
-        NotificationElement notification = $(NotificationElement.class).first();
-        assertThat(notification.getText(), is(handler));
+    private int getOkCount() {
+        String okCounter = findElement(By.id("okCounter")).getText();
+        return Integer.valueOf(okCounter);
     }
+
+    private int getCancelCount() {
+        String cancelCounter = findElement(By.id("cancelCounter")).getText();
+        return Integer.valueOf(cancelCounter);
+    }
+
 
 }

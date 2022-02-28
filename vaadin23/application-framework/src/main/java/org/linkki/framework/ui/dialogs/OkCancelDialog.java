@@ -208,13 +208,15 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         okButton.setId(OK_BUTTON_ID);
         okButton.setDisableOnClick(true);
         okButton.addClickListener(e -> {
-            setOkPressed();
-            beforeOkHandler.andThen(() -> {
-                if (mayProceed) {
-                    ok();
-                    getContent().close();
-                }
-            }).apply();
+            if (getContent().isOpened()) {
+                setOkPressed();
+                beforeOkHandler.andThen(() -> {
+                    if (mayProceed) {
+                        ok();
+                        getContent().close();
+                    }
+                }).apply();
+            }
         });
         okButton.addClickShortcut(Key.ENTER);
 
@@ -223,8 +225,10 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
             cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
             cancelButton.setId(CANCEL_BUTTON_ID);
             cancelButton.addClickListener(e -> {
-                setCancelPressed(true);
-                close();
+                if (getContent().isOpened()) {
+                    setCancelPressed(true);
+                    close();
+                }
             });
         }
 

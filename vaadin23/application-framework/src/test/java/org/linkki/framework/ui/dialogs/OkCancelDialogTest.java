@@ -282,6 +282,7 @@ public class OkCancelDialogTest {
 
         OkCancelDialog dialog = OkCancelDialog.builder("caption").build();
         dialog.setValidationService(validationService);
+        dialog.open();
 
         // mandatory field validations are hidden initially
         assertThat(dialog.getValidationDisplayState(), is(ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS));
