@@ -204,6 +204,15 @@ A single style name can be provided as the annotation's value (`@BindStyleNames(
 
 The value can also be omitted, leading to dynamic resolution via a `get<Property>StyleNames()` method that may return a `String` or any `Collection<String>`.
 
+[[bind-combo-box-item-style]]
+===== Combo Box Item Style
+
+With the `@BindComboBoxItemStyle` annotation it is possible to style the items in a combo box popup menu. The annotation can only be used in conjunction with the annotation <<ui-combobox, @UIComboBox>>.
+
+The CSS style names can be specified directly in the annotation and then apply to all items.
+
+Alternatively, the annotation can be specified without style names, in which case a method named `get<Property>ItemStyle()` is called with return type `Function<TYPE, String>`. The type `TYPE` must correspond to the type of the items in the combo box. The function is called for each item in the combo box. This makes it possible to define different styles for individual items.
+
 [[bind-caption]]
 ===== Caption
 

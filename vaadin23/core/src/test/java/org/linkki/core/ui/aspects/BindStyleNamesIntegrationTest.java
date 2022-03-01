@@ -287,9 +287,6 @@ public class BindStyleNamesIntegrationTest {
             return "";
         }
 
-        public String[] getPropertyStyleNames() {
-            return new String[] {};
-        }
     }
 
     @UISection

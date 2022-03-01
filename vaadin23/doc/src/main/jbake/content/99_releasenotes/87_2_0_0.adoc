@@ -27,7 +27,7 @@ https://jira.faktorzehn.de/browse/LIN-2639
 
 WARNING: `UITextField` and `UITextArea` will now take up all available space by default. This can be changed by setting `width=""`. `UITextField` and `UITextArea` then will take up the same space as all other components.
 
-For further information see <<layout-uisection, UISection>>.
+For more information see <<layout-uisection, UISection>>.
 
 Due to the rework, following refactorings have been made
 
@@ -57,7 +57,7 @@ Support of multi-column layout with `@UISection` is deprecated as it does not ma
 https://jira.faktorzehn.de/browse/LIN-579
 ////
 
-A new aspect `@BindSuffix` has been introduced. With the aspect, a suffix can be added to input elements to display for example units or currencies. See documentation of <<suffix, @BindSuffix>> for further information.
+A new aspect `@BindSuffix` has been introduced. With the aspect, a suffix can be added to input elements to display for example units or currencies. See documentation of <<suffix, @BindSuffix>> for more information.
 
 ===== New aspect annotation: @BindPlaceholder
 ////
@@ -67,7 +67,16 @@ https://jira.faktorzehn.de/browse/LIN-937
 
 A new aspect `@BindPlaceholder` has been introduced. With the aspect, a placeholder can be added to UI elements to display a text, while the UI element is empty.
 
-If applied to a table PMO, the given placeholder text will be shown if the table has no items. To hide an empty table without showing any replacement text, you can provide an empty `String` (`""`) as placeholder value with `PlaceholderType#STATIC`. In both cases, table header and footer will also be hidden. See <<placeholder, `@BindPlaceholder`>> and <<placeholder-table-pmo, Using `@BindPlaceholder` on table PMOs>> for further information.
+If applied to a table PMO, the given placeholder text will be shown if the table has no items. To hide an empty table without showing any replacement text, you can provide an empty `String` (`""`) as placeholder value with `PlaceholderType#STATIC`. In both cases, table header and footer will also be hidden. See <<placeholder, `@BindPlaceholder`>> and <<placeholder-table-pmo, Using `@BindPlaceholder` on table PMOs>> for more information.
+
+===== New aspect annotation: @BindComboBoxItemStyle
+////
+https://jira.faktorzehn.de/browse/LIN-2831
+////
+
+A new aspect `@BindComboBoxItemStyle` has been introduced. It can be used in conjunction with `@UIComboBox` to style items in the combo box popup menu.
+
+See <<bind-combo-box-item-style,@BindComboBoxItemStyle>> for more information.
 
 [role="api-change"]
 ===== Creation of dialogs using PMOs with arbitrary layout annotation

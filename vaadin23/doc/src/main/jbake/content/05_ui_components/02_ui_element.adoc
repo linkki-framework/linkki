@@ -159,6 +159,8 @@ A `@UIComboBox` allows selection of a value from a list. It has three additional
 include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-combobox]
 ----
 
+To style items in the combo box popup menu the annotation <<bind-combo-box-item-style,@BindComboBoxItemStyle>> can be used.
+
 [[ui-combobox-content]]
 Content::
 The attribute `content` defines which values are available:
