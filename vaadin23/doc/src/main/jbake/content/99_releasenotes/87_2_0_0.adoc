@@ -49,8 +49,17 @@ These changes also results in changes of the HTML structure of sections which ar
 
 [role="api-change"]
 ===== Multi-column support moved to @UIFormSection
+////
+https://jira.faktorzehn.de/browse/LIN-2813
+////
 
 Support of multi-column layout with `@UISection` is deprecated as it does not make sense with all layout options. Instead, `@UIFormSection` now supports the same functionality. See also documentation for  <<uiformsection, @UIFormSection>>.
+
+===== New annotation properties on @UIHorizontalLayout/UIVerticalLayout
+////
+https://jira.faktorzehn.de/browse/LIN-2023
+////
+New properties `padding()` and `spacing()` can be configured on the annotations `@UIHorizontalLayout` and `@UIVerticalLayout`. For more information see JavaDoc.
 
 ===== New aspect annotation: @BindSuffix
 ////

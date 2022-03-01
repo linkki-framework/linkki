@@ -58,14 +58,12 @@ public @interface UIVerticalLayout {
     HorizontalAlignment alignment() default HorizontalAlignment.LEFT;
 
     /**
-     * The state of {@link VerticalLayout} padding.
-     *
+     * The state of {@link VerticalLayout} padding. {@link VerticalLayout#setPadding(boolean)}
      */
     boolean padding() default true;
 
     /**
-     * The state of{@link VerticalLayout} spacing.
-     * 
+     * The state of {@link VerticalLayout} spacing. {@link VerticalLayout#setSpacing(boolean)}
      */
     boolean spacing() default true;
 

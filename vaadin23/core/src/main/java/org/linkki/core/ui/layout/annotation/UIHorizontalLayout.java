@@ -57,14 +57,12 @@ public @interface UIHorizontalLayout {
     VerticalAlignment alignment() default VerticalAlignment.MIDDLE;
 
     /**
-     * The state of{@link HorizontalLayout} padding.
-     * 
+     * The state of{@link HorizontalLayout} padding. {@link HorizontalLayout#setPadding(boolean)}
      */
     boolean padding() default false;
 
     /**
-     * The state of{@link HorizontalLayout} spacing.
-     * 
+     * The state of{@link HorizontalLayout} spacing. {@link HorizontalLayout#setSpacing(boolean)}
      */
     boolean spacing() default true;
 
