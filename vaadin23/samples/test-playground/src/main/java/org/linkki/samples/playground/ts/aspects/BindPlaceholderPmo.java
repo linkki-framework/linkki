@@ -60,5 +60,4 @@ public class BindPlaceholderPmo {
     public void setPlaceholderStaticText(String staticPlaceholderText) {
         this.staticPlaceholderText = staticPlaceholderText;
     }
-
 }

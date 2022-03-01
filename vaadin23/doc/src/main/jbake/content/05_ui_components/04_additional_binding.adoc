@@ -204,6 +204,8 @@ A single style name can be provided as the annotation's value (`@BindStyleNames(
 
 The value can also be omitted, leading to dynamic resolution via a `get<Property>StyleNames()` method that may return a `String` or any `Collection<String>`.
 
+NOTE: This aspect is an inherited aspect if it is declared on a class. Style names defined in the inheritance hierarchy are all added to the component.
+
 [[bind-combo-box-item-style]]
 ===== Combo Box Item Style
 
@@ -325,9 +327,10 @@ The following configuration options are available for `PlaceholderType`:
 |`DYNAMIC`  |the text of the placeholder is determined by the return value of the method `String get<PropertyName>Placeholder()`. The `value` is ignored.
 |===
 
-
 [[placeholder-table-pmo]]
 The `@BindPlaceholder` annotation can also be used on table PMOs providing a placeholder text that is shown in case the table has no items. Table header and footer will also be hidden.
+
+NOTE: This aspect is an inherited aspect. If a class is annotated with `@BindPlaceholder`, all subclasses will hide their tables using the declared annotation in their super class. It is not possible for subclasses to override this behavior.
 
 .`@BindPlaceholder` on table PMO
 [source,java]

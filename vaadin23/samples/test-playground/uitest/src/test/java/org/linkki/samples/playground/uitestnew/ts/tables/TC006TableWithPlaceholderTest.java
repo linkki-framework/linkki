@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.aspects.PlaceholderAspectDefinition;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
@@ -41,6 +42,25 @@ class TC006TableWithPlaceholderTest extends PlaygroundUiTest {
     @Test
     void testTable_WithPlaceholder() {
         GridElement table = getGrid(TableWithPlaceholderPmo.class);
+
+        assertThat(table.getRowCount()).isEqualTo(1);
+        assertThat(table.hasAttribute(HAS_ITEMS_ATTRIBUTE)).isEqualTo(true);
+        assertThat(table.hasAttribute(PlaceholderAspectDefinition.HAS_PLACEHOLDER)).isEqualTo(true);
+        int heightBeforeDeletion = table.getSize().getHeight();
+
+        deleteRow(table);
+
+        assertThat(table.getRowCount()).isEqualTo(0);
+        assertThat(table.hasAttribute(HAS_ITEMS_ATTRIBUTE)).isEqualTo(false);
+        assertThat(table.getSize().getHeight())
+                .describedAs("The table itself should not be shown anymore.").isLessThan(heightBeforeDeletion);
+        assertThat(table.getSize().getHeight())
+                .describedAs("Height should not be 0 as the placeholder text should be shown.").isNotEqualTo(0);
+    }
+
+    @Test
+    void testTable_WithInheritedPlaceholder() {
+        GridElement table = getGrid(TableWithInheritedPlaceholderPmo.class);
 
         assertThat(table.getRowCount()).isEqualTo(1);
         assertThat(table.hasAttribute(HAS_ITEMS_ATTRIBUTE)).isEqualTo(true);

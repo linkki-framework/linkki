@@ -33,6 +33,7 @@ import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.TableWithValidationSection;
 import org.linkki.samples.playground.table.VaaryingAlignmentTablePmo;
@@ -258,6 +259,8 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC005, new NumberFooterTablePmo())
                                        .testCase(TC006, () -> new VerticalLayout(
                                                VaadinUiCreator.createComponent(new TableWithPlaceholderPmo(),
+                                                                               new BindingContext()),
+                                               VaadinUiCreator.createComponent(new TableWithInheritedPlaceholderPmo(),
                                                                                new BindingContext()),
                                                VaadinUiCreator.createComponent(new TableWithEmptyPlaceholderPmo(),
                                                                                new BindingContext()),

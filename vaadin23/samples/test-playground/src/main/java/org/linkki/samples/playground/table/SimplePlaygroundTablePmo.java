@@ -47,6 +47,13 @@ public abstract class SimplePlaygroundTablePmo extends PlaygroundTablePmo {
 
     }
 
+    @UISection(caption = "Inherited @BindPlaceholder")
+    public static class TableWithInheritedPlaceholderPmo extends TableWithPlaceholderPmo {
+        public TableWithInheritedPlaceholderPmo() {
+            super();
+        }
+    }
+
     @BindPlaceholder(value = "", placeholderType = PlaceholderType.STATIC)
     @UISection(caption = "@BindPlaceholder(value = \"\", placeholderType = PlaceholderType.STATIC)")
     public static class TableWithEmptyPlaceholderPmo extends SimplePlaygroundTablePmo {
