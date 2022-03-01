@@ -1,0 +1,24 @@
+{
+    "all-versions": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.openqa\\.selenium\\..*",
+                        "justification": "Selenium is used in the API"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.junit\\.jupiter\\.api\\..*",
+                        "justification": "JUnit is used in the API"
+                    }
+                ]
+            }
+        }
+    ]
+}

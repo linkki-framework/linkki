@@ -23,15 +23,15 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.Locator;
-import org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.UITestConfiguration;
 
 import com.vaadin.testbench.TestBenchElement;
 
 public class TC001IpsComponentsTest extends PlaygroundUiTest {
 
     @Nested
-    @Configuration(locale = "en")
+    @UITestConfiguration(locale = "en")
     class TC001IpsComponentsTestEn extends AbstractTC001IpsComponentsTest {
         TC001IpsComponentsTestEn() {
             super("A String attribute");
@@ -39,7 +39,7 @@ public class TC001IpsComponentsTest extends PlaygroundUiTest {
     }
 
     @Nested
-    @Configuration(locale = "de")
+    @UITestConfiguration(locale = "de")
     class TC001IpsComponentsTestDe extends AbstractTC001IpsComponentsTest {
         TC001IpsComponentsTestDe() {
             super("Ein String-Attribut");

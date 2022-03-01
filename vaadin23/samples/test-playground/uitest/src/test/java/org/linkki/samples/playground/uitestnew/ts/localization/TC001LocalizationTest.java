@@ -25,8 +25,8 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
-import org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.UITestConfiguration;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.LabelElement;
@@ -36,7 +36,7 @@ import com.vaadin.testbench.TestBenchElement;
 class TC001LocalizationTest {
 
     @Nested
-    @Configuration(locale = "de")
+    @UITestConfiguration(locale = "de")
     class TC001LocalizationTestDe extends BaseTC001LocalizationTest {
         TC001LocalizationTestDe() {
             super("Deutsch", "12.345,67");
@@ -44,7 +44,7 @@ class TC001LocalizationTest {
     }
 
     @Nested
-    @Configuration(locale = "en")
+    @UITestConfiguration(locale = "en")
     class TC001LocalizationTestEn extends BaseTC001LocalizationTest {
         TC001LocalizationTestEn() {
             super("English", "12,345.67");

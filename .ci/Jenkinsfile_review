@@ -19,8 +19,8 @@ pipeline {
                 }
 
                 preBuildSteps()
-                verifyChangelog file: 'vaadin23/doc/src/main/jbake/content/99_releasenotes/88_1_5_0.adoc'
-                
+                verifyChangelog file: 'vaadin23/doc/src/main/jbake/content/99_releasenotes/87_2_0_0.adoc'
+
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                     dependsOn(credentials: 'gerrit_rest') {}
                 }
@@ -29,9 +29,9 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
-                        clean install javadoc:jar \
+                        clean install javadoc:javadoc \
                         -Pproduction \
                         -Dmaven.test.failure.ignore=true \
                         -Djade.runExternalLinkTests=false \
@@ -88,7 +88,7 @@ pipeline {
                                 -Dmaven.test.failure.ignore=true'
                         }
 
-                        archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin23/samples/test-playground/uitest/target/uitest/*.png'
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin23/samples/test-playground/uitest/target/error-screenshots/*.png'
                     }
 
                     environment {
@@ -109,7 +109,7 @@ pipeline {
                                             -Dsonar.projectKey=${PROJECT_NAME} \
                                             -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \
                                             -Dsonar.pullrequest.branch=${GERRIT_REFSPEC} \
-                                            -Dsonar.pullrequest.base=${GERRIT_BRANCH} \
+                                            -Dsonar.pullrequest.base=origin/${GERRIT_BRANCH} \
                                             -Dsonar.login=$SONAR_LOGIN \
                                             sonar:sonar'
                                 }
@@ -129,7 +129,7 @@ pipeline {
                         }
                     }
                 }
-                
+
             }
         }
 

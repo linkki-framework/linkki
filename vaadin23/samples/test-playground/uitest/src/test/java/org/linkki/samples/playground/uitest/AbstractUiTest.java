@@ -23,8 +23,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
-import org.linkki.samples.playground.uitest.extensions.DriverExtension;
-import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
+import org.linkki.testbench.UITestConfiguration;
+import org.linkki.testbench.WebDriverExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -54,18 +54,14 @@ import com.vaadin.testbench.TestBenchTestCase;
  * accessing various elements within the opened web page and by accessing their properties. SetUp method
  * must be called at the beginning of the test.
  * <p>
- * Various browser configuration options are available using the
- * {@link org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration @DriverExtension.Configuration}
- * annotation.
+ * Various browser configuration options are available using the {@link UITestConfiguration} annotation.
  */
 @TestMethodOrder(OrderAnnotation.class)
 public abstract class AbstractUiTest extends TestBenchTestCase {
 
     @RegisterExtension
-    protected static DriverExtension driverExtension = new DriverExtension();
-
-    @RegisterExtension
-    protected ScreenshotOnFailureExtension screenshotExtension = new ScreenshotOnFailureExtension(this);
+    protected static WebDriverExtension driverExtension = new WebDriverExtension(DriverProperties.isHeadless(),
+            DriverProperties.getTestUrl(""));
 
     @BeforeEach
     public void setUp() {

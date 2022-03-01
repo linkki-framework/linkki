@@ -25,13 +25,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
-import org.linkki.samples.playground.uitest.extensions.DriverExtension;
+import org.linkki.testbench.UITestConfiguration;
 import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement.OverlayContentElement;
 
-@DriverExtension.Configuration(locale = "en")
+@UITestConfiguration(locale = "en")
 public class DatePickerEnglishTest extends AbstractUiTest {
 
     @ParameterizedTest

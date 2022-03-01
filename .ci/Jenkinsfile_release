@@ -77,6 +77,8 @@ pipeline {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test'
                 }
+
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin23/samples/test-playground/uitest/target/error-screenshots/*.png'
             }
 
             environment {

@@ -27,8 +27,8 @@ import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
-import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.UITestConfiguration;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
@@ -36,7 +36,7 @@ import com.vaadin.flow.component.dialog.testbench.DialogElement;
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-@DriverExtension.Configuration(locale = "en")
+@UITestConfiguration(locale = "en")
 class TC004DynamicFieldTest extends PlaygroundUiTest {
 
     private static final String CAR_TABLE_PMO = "CarTablePmo" + "_table";

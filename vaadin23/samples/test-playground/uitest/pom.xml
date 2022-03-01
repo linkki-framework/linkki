@@ -13,7 +13,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.testbench.version>22.0.6</vaadin.testbench.version>
         <surefire.version>2.22.2</surefire.version>
         <junit.version>5.8.2</junit.version>
         <commons.version>3.12.0</commons.version>
@@ -31,10 +30,11 @@
         </dependency>
 
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-testbench</artifactId>
-            <version>${vaadin.testbench.version}</version>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin23-testbench-extension</artifactId>
+            <version>${project.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

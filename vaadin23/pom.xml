@@ -14,7 +14,6 @@
     <description>Vaadin 23 Modules for linkki</description>
 
     <modules>
-        <module>test</module>
         <module>core</module>
         <module>application-framework</module>
         <module>ips</module>
@@ -24,10 +23,12 @@
         <module>nestedcomponent</module>
         <module>apt</module>
         <module>archetypes</module>
+        <module>test</module>
+        <module>testbench-extension</module>
     </modules>
 
     <properties>
-        <!-- this property must also be updated in samples-vaadin23 and uitest -->
+        <!-- this property must also be updated in samples-vaadin23 and vaadin23-testbench-extension -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
             22.0.6
