@@ -14,9 +14,9 @@
 
 package org.linkki.util.service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.StreamSupport;
 
 /**
@@ -24,7 +24,7 @@ import java.util.stream.StreamSupport;
  */
 public final class Services {
 
-    private static final Map<Class<?>, Object> INSTANCES = new HashMap<>();
+    private static final Map<Class<?>, Object> INSTANCES = new ConcurrentHashMap<>();
 
     private Services() {
         // util

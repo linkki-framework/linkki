@@ -185,3 +185,5 @@ In addition, following deprecated classes and methods are also removed:
 * The `OkCancelDialog` OK and Cancel handlers are now triggered only once for a user action. It was possible to trigger them both or twice by pressing the Enter key when the OK or Cancel button was focused.
 // https://jira.faktorzehn.de/browse/LIN-2767
 * `ComponentStyles.setFormItemLabelWidth()` can now add a label width to UI elements.
+// https://jira.faktorzehn.de/browse/LIN-2500
+* The `Services` class is now thread safe by using `ConcurrentHashMap` instead of `HashMap`.
