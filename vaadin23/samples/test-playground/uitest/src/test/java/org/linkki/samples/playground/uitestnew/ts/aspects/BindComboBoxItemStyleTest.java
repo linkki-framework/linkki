@@ -46,6 +46,8 @@ class BindComboBoxItemStyleTest extends PlaygroundUiTest {
 
         $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last().getClassNames())
                 .contains("text-secondary"));
+
+        comboBox.closePopup();
     }
 
     @Test
@@ -64,6 +66,7 @@ class BindComboBoxItemStyleTest extends PlaygroundUiTest {
                     .contains(item.getStyleName());
         }
 
+        comboBox.closePopup();
     }
 
 

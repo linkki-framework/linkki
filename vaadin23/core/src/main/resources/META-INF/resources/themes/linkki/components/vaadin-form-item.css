@@ -11,6 +11,7 @@
     flex-grow: 1;
     width: 100%;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 #label {
