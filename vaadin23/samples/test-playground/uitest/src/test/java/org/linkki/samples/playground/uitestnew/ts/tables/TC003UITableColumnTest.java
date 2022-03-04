@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
@@ -31,7 +31,7 @@ class TC003UITableColumnTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC003);
+        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC003);
     }
 
     @Test

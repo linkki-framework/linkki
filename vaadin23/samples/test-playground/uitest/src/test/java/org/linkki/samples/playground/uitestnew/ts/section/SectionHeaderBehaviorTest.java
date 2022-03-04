@@ -21,9 +21,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.section.ClosableSectionPmo;
 import org.linkki.samples.playground.ts.section.NotClosableSectionPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
@@ -35,7 +35,7 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS002, PlaygroundApplicationView.TC004);
+        goToTestCase(TestScenarioView.TS002, TestScenarioView.TC004);
     }
 
     @Test

@@ -22,8 +22,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.components.ButtonPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.DriverProperties;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Keys;
@@ -42,7 +42,7 @@ class TC010UIButtonTest extends PlaygroundUiTest {
     public void setUp() {
         super.setUp();
         getDriver().get(DriverProperties.getTestUrl(""));
-        goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC010);
+        goToTestCase(TestScenarioView.TS005, TestScenarioView.TC010);
     }
 
     @Test

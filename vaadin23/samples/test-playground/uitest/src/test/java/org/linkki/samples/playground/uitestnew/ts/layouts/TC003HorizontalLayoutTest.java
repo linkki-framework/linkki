@@ -14,13 +14,13 @@
 
 package org.linkki.samples.playground.uitestnew.ts.layouts;
 
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 
 class TC003HorizontalLayoutTest extends TC001AbstractLayoutTest {
 
     @Override
     protected String getTestCaseId() {
-        return PlaygroundApplicationView.TC003;
+        return TestScenarioView.TC003;
     }
 
 }

@@ -20,8 +20,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.dialogs.SetFormItemLabelWidthDialogPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -32,7 +32,7 @@ class SetFormItemLabelWidthTest extends PlaygroundUiTest {
 
     @BeforeEach
     void gotToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS011, PlaygroundApplicationView.TC005);
+        goToTestCase(TestScenarioView.TS011, TestScenarioView.TC005);
     }
 
     @Test

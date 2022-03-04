@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
 
@@ -26,7 +26,7 @@ class TC002UIFormSectionTest extends TC001AbstractSectionTest {
 
     @Override
     protected String getTestCaseId() {
-        return PlaygroundApplicationView.TC002;
+        return TestScenarioView.TC002;
     }
 
     @Test

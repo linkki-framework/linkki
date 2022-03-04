@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground;
+package org.linkki.samples.playground.ts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,6 @@ import java.util.function.Supplier;
 
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Anchor;
@@ -73,7 +72,7 @@ public class TestScenario {
     }
 
     private Component createCaptionComponent(String tsId, String tcId, String subtitle) {
-        Anchor captionComponent = new Anchor(PlaygroundApplicationView.getLocation(tsId, tcId));
+        Anchor captionComponent = new Anchor(TestScenarioView.getLocation(tsId, tcId));
         captionComponent.addClassNames("flex", "flex-col", "items-start");
 
         Component titleLink = new Span(tcId == null ? tsId : tcId);

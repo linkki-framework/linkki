@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.components.LinkPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.html.testbench.AnchorElement;
@@ -32,7 +32,7 @@ class TC009UILinkTest extends PlaygroundUiTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC009);
+        goToTestCase(TestScenarioView.TS005, TestScenarioView.TC009);
     }
 
     @Test

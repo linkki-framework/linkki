@@ -21,8 +21,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.dialogs.QuestionAndConfirmationDialogPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -35,7 +35,7 @@ class QuestionAndConfirmationDialogTest extends PlaygroundUiTest {
 
     @BeforeEach
     void gotToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS011, PlaygroundApplicationView.TC002);
+        goToTestCase(TestScenarioView.TS011, TestScenarioView.TC002);
     }
 
     @AfterEach

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -34,7 +34,7 @@ class TC006IpsUILabelFieldDecimalTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase(PlaygroundApplicationView.TS004, PlaygroundApplicationView.TC006);
+        testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC006);
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }
 

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePmo;
 import org.linkki.samples.playground.table.selection.SelectionComparisonSectionPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
@@ -38,7 +38,7 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC002);
+        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC002);
     }
 
     @Test

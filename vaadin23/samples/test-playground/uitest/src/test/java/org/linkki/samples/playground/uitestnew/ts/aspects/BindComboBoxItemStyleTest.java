@@ -22,8 +22,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo.TextColor;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
@@ -35,7 +35,7 @@ class BindComboBoxItemStyleTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        testCaseSection = goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC011);
+        testCaseSection = goToTestCase(TestScenarioView.TS008, TestScenarioView.TC011);
     }
 
     @Test

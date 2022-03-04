@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Point;
 
@@ -38,7 +38,7 @@ public class TC002HorizontalTabLayoutTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase(PlaygroundApplicationView.TS010, PlaygroundApplicationView.TC002);
+        testCaseSection = goToTestCase(TestScenarioView.TS010, TestScenarioView.TC002);
         section = testCaseSection.getContentWrapper().$(DivElement.class).first();
     }
 

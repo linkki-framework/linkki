@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.treetable.TreeTableUpdateNodePmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -30,7 +30,7 @@ class TC003TreeTableUpdateTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS014, PlaygroundApplicationView.TC003);
+        goToTestCase(TestScenarioView.TS014, TestScenarioView.TC003);
     }
 
     @Test

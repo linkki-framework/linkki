@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -34,7 +34,7 @@ class TC006UIDateFieldTest extends PlaygroundUiTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC006);
+        goToTestCase(TestScenarioView.TS005, TestScenarioView.TC006);
     }
 
     @Test

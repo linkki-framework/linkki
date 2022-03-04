@@ -21,8 +21,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -35,7 +35,7 @@ class MulticolumnTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS002, PlaygroundApplicationView.TC005);
+        goToTestCase(TestScenarioView.TS002, TestScenarioView.TC005);
     }
 
     @Test

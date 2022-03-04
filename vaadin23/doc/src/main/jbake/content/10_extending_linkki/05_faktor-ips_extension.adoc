@@ -44,7 +44,7 @@ Calling the Faktor-IPS validation method and converting the messages should be d
 .A minimal validation service using lambda notation
 [source, java,indent=0]
 ----
-include::{source-dir}org/linkki/samples/playground/ui/PlaygroundApplicationView.java[tags=createValidationService]
+include::{source-dir}org/linkki/samples/playground/ts/TestScenarioView.java[tags=createValidationService]
 ----
 
 When the function above is called by *linkki*, the Faktor-IPS object is validated according to the defined validation rules. Rules can add messages to the returned `MessageList`, potentially referencing specific fields using `ObjectProperty`.
@@ -81,7 +81,7 @@ To include the `IpsPropertyDispatcher` as a custom dispatcher in the `BindingCon
 .Using IpsPropertyDispatcherFactory
 [source,java,indent=0]
 ----
-include::{source-dir}org/linkki/samples/playground/ui/PlaygroundApplicationView.java[tags=createBindingManager]
+include::{source-dir}org/linkki/samples/playground/ts/TestScenarioView.java[tags=createBindingManager]
 ----
 
 ==== PROPERTY Constants as Model Attributes

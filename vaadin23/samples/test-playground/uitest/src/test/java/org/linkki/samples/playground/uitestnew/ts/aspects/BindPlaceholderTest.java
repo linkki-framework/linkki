@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -32,8 +32,8 @@ public class BindPlaceholderTest extends PlaygroundUiTest {
     @BeforeEach
     public void setup() {
         super.setUp();
-        section = goToTestCase(PlaygroundApplicationView.TS008,
-                               PlaygroundApplicationView.TC010);
+        section = goToTestCase(TestScenarioView.TS008,
+                               TestScenarioView.TC010);
     }
 
     @Test

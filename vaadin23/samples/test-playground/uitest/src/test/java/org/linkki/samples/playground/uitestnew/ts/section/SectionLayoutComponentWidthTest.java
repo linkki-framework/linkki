@@ -25,10 +25,10 @@ import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.section.UiSectionLayoutFormComponentsPmo;
 import org.linkki.samples.playground.ts.section.UiSectionLayoutHorizontalComponentsPmo;
 import org.linkki.samples.playground.ts.section.UiSectionLayoutVerticalComponentsPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.testbench.TestBenchElement;
@@ -53,7 +53,7 @@ public class SectionLayoutComponentWidthTest {
         @BeforeEach
         void setup() {
             super.setUp();
-            testCaseSection = goToTestCase(PlaygroundApplicationView.TS002, PlaygroundApplicationView.TC003);
+            testCaseSection = goToTestCase(TestScenarioView.TS002, TestScenarioView.TC003);
         }
 
         protected TestCaseComponentElement getTestCaseSection() {

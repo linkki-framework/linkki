@@ -11,7 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.playground.ui;
+package org.linkki.samples.playground.ts;
 
 import java.util.Optional;
 
@@ -29,7 +29,6 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
-import org.linkki.samples.playground.TestScenario;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
@@ -102,6 +101,7 @@ import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponen
 import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
+import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Anchor;
@@ -118,9 +118,9 @@ import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.router.WildcardParameter;
 
 @RouteAlias(value = "", layout = PlaygroundAppLayout.class)
-@Route(value = PlaygroundApplicationView.ROUTE, layout = PlaygroundAppLayout.class)
+@Route(value = TestScenarioView.ROUTE, layout = PlaygroundAppLayout.class)
 @PageTitle("linkki Sample :: Playground")
-public class PlaygroundApplicationView extends Div implements HasUrlParameter<String> {
+public class TestScenarioView extends Div implements HasUrlParameter<String> {
 
     static final String ROUTE = "playground";
 
@@ -163,7 +163,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
 
     private final LinkkiTabLayout tabLayout;
 
-    public PlaygroundApplicationView() {
+    public TestScenarioView() {
         setSizeFull();
         tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");

@@ -21,9 +21,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject.SampleEnum;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Keys;
 
@@ -40,7 +40,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase(PlaygroundApplicationView.TS001, getTestCaseId());
+        testCaseSection = goToTestCase(TestScenarioView.TS001, getTestCaseId());
     }
 
     protected abstract String getTestCaseId();
