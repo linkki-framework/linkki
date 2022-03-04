@@ -25,6 +25,7 @@ import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
+import org.linkki.samples.playground.ts.layouts.AbstractBasicElementsLayoutBehaviorPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -48,10 +49,10 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 abstract class TC001AbstractLayoutTest extends TS001AbstractBasicElementsLayoutTest {
 
     @Test
-    void testLabel_HasNoLabel() {
-        LinkkiTextElement divElement = getTestCaseSection().$(LinkkiTextElement.class).id("textLabel");
+    void testLabel_HasLabel() {
+        LinkkiTextElement textElement = getTestCaseSection().$(LinkkiTextElement.class).id("textLabel");
 
-        assertThat(hasLabel(divElement)).isFalse();
+        assertThat(textElement.getLabel()).isEqualTo("Label");
     }
 
     @Test
@@ -59,7 +60,7 @@ abstract class TC001AbstractLayoutTest extends TS001AbstractBasicElementsLayoutT
         TextFieldElement field = getTestCaseSection().$(TextFieldElement.class)
                 .id(BasicElementsLayoutBehaviorModelObject.PROPERTY_TEXT);
 
-        assertThat(field.getLabel()).isEqualTo("TextField");
+        assertThat(field.getLabel()).isEqualTo(AbstractBasicElementsLayoutBehaviorPmo.TEXT_FIELD_LONG_LABEL);
     }
 
     @Test

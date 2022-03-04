@@ -23,7 +23,7 @@ import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 @UISection(caption = "Dialog with custom label width")
 public class SetFormItemLabelWidthDialogPmo {
 
-    private String width = "15rem";
+    private String width = "240px";
 
     @UIButton(position = 40, label = "Opens a dialog with a custom label width", caption = "Open dialog")
     public void showDialog() {

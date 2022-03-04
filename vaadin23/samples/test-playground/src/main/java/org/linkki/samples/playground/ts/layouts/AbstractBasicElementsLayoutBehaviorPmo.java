@@ -44,6 +44,8 @@ import com.vaadin.flow.component.textfield.PasswordField;
 
 public abstract class AbstractBasicElementsLayoutBehaviorPmo {
 
+    public static final String TEXT_FIELD_LONG_LABEL = "TextFieldWithALongExtendedLabel toTestLabelOverflowBehavior";
+
     private final BasicElementsLayoutBehaviorModelObject modelObject = new BasicElementsLayoutBehaviorModelObject();
 
     // behaviors to be tested
@@ -109,7 +111,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextField(position = 10, label = "TextField", //
+    @UITextField(position = 10, label = TEXT_FIELD_LONG_LABEL, //
             width = "50%", modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_TEXT, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void text() {
