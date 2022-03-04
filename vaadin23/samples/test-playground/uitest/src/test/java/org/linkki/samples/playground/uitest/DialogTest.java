@@ -21,6 +21,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfElements
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.dialogs.SimpleDialogPmo;
 import org.linkki.samples.playground.dialogs.ValidationDialogPmo;
 import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo;
@@ -35,7 +36,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.dialog.testbench.DialogElement;
-import com.vaadin.flow.component.html.testbench.H3Element;
+import com.vaadin.flow.component.html.testbench.H4Element;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -87,8 +88,9 @@ class DialogTest extends AbstractUiTest {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(OVERLAY)));
 
         DialogElement dialog = $(DialogElement.class).first();
-        assertThat(dialog.$(H3Element.class).first().getText(), is("Awesome dialog"));
-        assertThat(dialog.$(VerticalLayoutElement.class).attribute("class", "content-area").first().getText(),
+        assertThat(dialog.$(H4Element.class).first().getText(), is("Awesome dialog"));
+        assertThat(dialog.$(VerticalLayoutElement.class).attribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
+                .first().getText(),
                    is("This is awesome!"));
         assertThat(dialog.$(ButtonElement.class).id(OK_BUTTON).getText(), is("Hell yeah"));
         assertThat(dialog.$(ButtonElement.class).id("cancelButton").getText(), is("Not really"));

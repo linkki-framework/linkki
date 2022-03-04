@@ -47,7 +47,8 @@ class QuestionAndConfirmationDialogTest extends PlaygroundUiTest {
     void testQuestionDialogUsingHtml() {
         DialogElement dialog = openDialog(QuestionAndConfirmationDialogPmo.SHOW_QUESTION_BUTTON_ID);
 
-        String text = dialog.$(VerticalLayoutElement.class).attribute("class", "content-area").first().getText();
+        String text = dialog.$(VerticalLayoutElement.class).attribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
+                .first().getText();
 
         assertThat(text, equalTo("Is this one line\n"
                 + "and this is another one?"));
@@ -59,7 +60,8 @@ class QuestionAndConfirmationDialogTest extends PlaygroundUiTest {
     void testConfirmationDialogUsingHtml() {
         DialogElement dialog = openDialog(QuestionAndConfirmationDialogPmo.SHOW_CONFIRMATION_BUTTON_ID);
 
-        String text = dialog.$(VerticalLayoutElement.class).attribute("class", "content-area").first().getText();
+        String text = dialog.$(VerticalLayoutElement.class).attribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
+                .first().getText();
 
         assertThat(text, equalTo("Confirm that this is one line\n"
                 + "and this is another one."));

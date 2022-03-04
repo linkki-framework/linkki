@@ -1,0 +1,20 @@
+.linkki-dialog-layout {
+	padding: 0;
+}
+.linkki-dialog-caption {
+	font-size: var(--lumo-font-size-xl);
+	font-weight: 200;
+	padding: var(--lumo-space-m);
+	padding-bottom: 0;
+	margin: 0;
+}
+.linkki-dialog-button-bar {
+	background-color: var(--lumo-contrast-5pct);
+	padding: var(--lumo-space-xs) var(--lumo-space-m);
+	border-radius: 0 0 var(--lumo-border-radius-l) var(--lumo-border-radius-l);
+}
+.linkki-dialog-content-area {
+	padding: var(--lumo-space-m);
+    padding-top: 0;
+    margin-top: var(--lumo-space-l);
+}

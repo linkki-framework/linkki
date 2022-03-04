@@ -36,8 +36,10 @@ import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.dialog.DialogVariant;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
@@ -73,9 +75,10 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *           between its content and the OK and cancel buttons. (see
  *           {@link MessageList#getFirstMessage(Severity)})
  */
+@CssImport("./styles/linkki-dialog.css")
 public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSize, BeforeLeaveObserver {
 
-    public static final String CLASS_NAME_CONTENT_AREA = "content-area";
+    public static final String CLASS_NAME_CONTENT_AREA = "linkki-dialog-content-area";
     public static final String CLASS_NAME_DIALOG_LAYOUT = "linkki-dialog-layout";
     public static final String OK_BUTTON_ID = "okButton";
     public static final String CANCEL_BUTTON_ID = "cancelButton";
@@ -129,7 +132,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
     private boolean cancelPressed = false;
     private boolean mayProceed = true;
 
-    private final H3 title;
+    private final H4 title;
 
     /**
      * Creates a new dialog.
@@ -159,16 +162,18 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
         getContent().setModal(true);
         getContent().setResizable(false);
         getContent().setDraggable(true);
+        getContent().addThemeVariants(DialogVariant.LUMO_NO_PADDING);
         getContent().setMaxWidth("100%");
         getContent().setMaxHeight("100%");
 
         layout.setSizeFull();
         layout.setMargin(false);
         layout.setPadding(false);
+        layout.setSpacing(false);
         layout.addClassName(CLASS_NAME_DIALOG_LAYOUT);
         getContent().add(layout);
 
-        title = new H3(caption);
+        title = new H4(caption);
         title.addClassName(LinkkiApplicationTheme.DIALOG_CAPTION);
         layout.setHorizontalComponentAlignment(Alignment.START, title);
         layout.add(title);
@@ -178,6 +183,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
 
         buttonArea.setPadding(false);
         buttonArea.setSpacing(true);
+        buttonArea.setWidthFull();
         buttonArea.addClassName(LinkkiApplicationTheme.DIALOG_BUTTON_BAR);
         buttonArea.setAlignItems(Alignment.CENTER);
         buttonArea.setJustifyContentMode(JustifyContentMode.END);
@@ -194,7 +200,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
 
     private void initContentArea(Component... contentComponents) {
         contentArea.addClassName(CLASS_NAME_CONTENT_AREA); // $NON-NLS-1$
-        contentArea.setPadding(false);
+        contentArea.setPadding(true);
         contentArea.setSpacing(true);
         contentArea.setSizeFull();
         ComponentStyles.setOverflowAuto(contentArea);
