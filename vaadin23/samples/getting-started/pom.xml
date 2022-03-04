@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.linkki-framework.samples</groupId>
         <artifactId>linkki-samples-vaadin23</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.0.0-a20220304-02</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
