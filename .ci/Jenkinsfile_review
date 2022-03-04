@@ -34,7 +34,6 @@ pipeline {
                         clean install javadoc:javadoc \
                         -Pproduction \
                         -Dmaven.test.failure.ignore=true \
-                        -Djade.runExternalLinkTests=false \
                         -Drevapi.skip'
                 }
 
