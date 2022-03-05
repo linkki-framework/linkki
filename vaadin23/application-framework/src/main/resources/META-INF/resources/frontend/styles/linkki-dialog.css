@@ -15,6 +15,28 @@
 }
 .linkki-dialog-content-area {
 	padding: var(--lumo-space-m);
-    padding-top: 0;
-    margin-top: var(--lumo-space-l);
+	padding-top: 0;
+	margin-top: var(--lumo-space-l);
+}
+.linkki-dialog-message-area linkki-text {
+	padding: 0 var(--lumo-space-m);
+	width: 100%;
+	max-width: fit-content;
+}
+.linkki-dialog-message-area linkki-text vaadin-icon {
+	align-self: flex-start;
+	margin-top: var(--lumo-space-xs);
+}
+.linkki-dialog-message-area {
+	padding-bottom: var(--lumo-space-xs);
+	padding-top: var(--lumo-space-m);
+}
+.linkki-dialog-message-area.INFO {
+	border-bottom: 5px solid var(--linkki-message-info-color, #99C7FF);
+}
+.linkki-dialog-message-area.WARNING {
+	border-bottom: 5px solid var(--linkki-message-warning-color, #F2AE55);
+}
+.linkki-dialog-message-area.ERROR {
+	border-bottom: 5px solid var(--linkki-message-error-color, #D24343);
 }

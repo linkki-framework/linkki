@@ -39,6 +39,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.dialog.DialogVariant;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
@@ -79,6 +80,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSize, BeforeLeaveObserver {
 
     public static final String CLASS_NAME_CONTENT_AREA = "linkki-dialog-content-area";
+    public static final String CLASS_NAME_MESSAGE_AREA = "linkki-dialog-message-area";
     public static final String CLASS_NAME_DIALOG_LAYOUT = "linkki-dialog-layout";
     public static final String OK_BUTTON_ID = "okButton";
     public static final String CANCEL_BUTTON_ID = "cancelButton";
@@ -96,6 +98,9 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
      * message.
      */
     private final VerticalLayout contentArea;
+
+    /** The area that contains the validation message(s) */
+    private final Div messageArea;
 
     /** The area that contains all buttons */
     private final HorizontalLayout buttonArea;
@@ -180,6 +185,12 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
 
         layout.add(contentArea);
         layout.setFlexGrow(1, contentArea);
+
+        messageArea = new Div();
+        messageArea.setWidthFull();
+        messageArea.setClassName(CLASS_NAME_MESSAGE_AREA);
+        messageArea.setVisible(false);
+        layout.add(messageArea);
 
         buttonArea.setPadding(false);
         buttonArea.setSpacing(true);
@@ -294,20 +305,22 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
      */
     public MessageList validate() {
         MessageList messages = validationDisplayState.filter(getValidationService().getValidationMessages());
-        messageRow.ifPresent(buttonArea::remove);
+        messageRow.ifPresent(messageArea::remove);
         messages.getSeverity()
                 .flatMap(messages::getFirstMessage)
                 .ifPresent(this::addMessageRow);
         mayProceed = !messages.containsErrorMsg();
         okButton.setEnabled(mayProceed);
+        messageArea.setVisible(messageRow.isPresent());
         return messages;
     }
 
     private void addMessageRow(Message message) {
         Component messageLabel = MessageUiComponents.createMessageComponent(message);
         messageRow = Optional.of(messageLabel);
-        messageLabel.getElement().getStyle().set("width", "unset");
-        buttonArea.addComponentAtIndex(0, messageLabel);
+        messageArea.removeClassNames(Severity.INFO.name(), Severity.WARNING.name(), Severity.ERROR.name());
+        messageArea.addClassName(message.getSeverity().name());
+        messageArea.add(messageLabel);
     }
 
 
@@ -468,6 +481,13 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
      */
     protected VerticalLayout getContentArea() {
         return contentArea;
+    }
+
+    /**
+     * Returns the layout containing the validation messages of the dialog.
+     */
+    protected Div getMessageArea() {
+        return messageArea;
     }
 
     /**
