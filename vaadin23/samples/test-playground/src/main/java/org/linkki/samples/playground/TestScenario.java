@@ -20,10 +20,11 @@ import java.util.function.Supplier;
 
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
 public class TestScenario {
@@ -37,7 +38,7 @@ public class TestScenario {
 
     public TestScenario testCase(String testCaseId, Object pmo) {
         tabSheets.add(LinkkiTabSheet.builder(testCaseId)
-                .caption(createCaptionComponent(testCaseId, TestCatalog.getCaseTitle(scenarioId, testCaseId)))
+                .caption(createTestCaseCaption(testCaseId, TestCatalog.getCaseTitle(scenarioId, testCaseId)))
                 .content(() -> new TestCaseComponent(scenarioId, testCaseId, pmo))
                 .build());
         return this;
@@ -45,7 +46,7 @@ public class TestScenario {
 
     public TestScenario testCase(String testCaseId, Component component) {
         tabSheets.add(LinkkiTabSheet.builder(testCaseId)
-                .caption(createCaptionComponent(testCaseId, TestCatalog.getCaseTitle(scenarioId, testCaseId)))
+                .caption(createTestCaseCaption(testCaseId, TestCatalog.getCaseTitle(scenarioId, testCaseId)))
                 .content(() -> new TestCaseComponent(scenarioId, testCaseId, component))
                 .build());
         return this;
@@ -57,25 +58,31 @@ public class TestScenario {
 
     public LinkkiTabSheet createTabSheet() {
         return LinkkiTabSheet.builder(scenarioId)
-                .caption(createCaptionComponent(scenarioId, TestCatalog.getScenarioTitle(scenarioId)))
+                .caption(createTestScenarioCaption(TestCatalog.getScenarioTitle(scenarioId)))
                 .description(TestCatalog.getScenarioTitle(scenarioId))
                 .content(this::createTestCaseSelector)
                 .build();
     }
 
-    private Component createCaptionComponent(String caption, String subtitle) {
-        VerticalLayout captionComponent = new VerticalLayout();
-        captionComponent.setPadding(false);
-        captionComponent.setSpacing(false);
+    private Component createTestScenarioCaption(String subtitle) {
+        return createCaptionComponent(scenarioId, null, subtitle);
+    }
 
-        Label titleLabel = new Label(caption);
-        captionComponent.add(titleLabel);
+    private Component createTestCaseCaption(String tcId, String subtitle) {
+        return createCaptionComponent(scenarioId, tcId, subtitle);
+    }
 
-        Label subtitleLabel = new Label(subtitle);
-        subtitleLabel.getStyle().set("font-size", "70%");
-        subtitleLabel.getStyle().set("margin", "0");
+    private Component createCaptionComponent(String tsId, String tcId, String subtitle) {
+        Anchor captionComponent = new Anchor(PlaygroundApplicationView.getLocation(tsId, tcId));
+        captionComponent.addClassNames("flex", "flex-col", "items-start");
 
-        captionComponent.add(subtitleLabel);
+        Component titleLink = new Span(tcId == null ? tsId : tcId);
+        captionComponent.add(titleLink);
+
+        Component subtitleLink = new Span(subtitle);
+        subtitleLink.getElement().getStyle().set("font-size", "70%");
+
+        captionComponent.add(subtitleLink);
 
         return captionComponent;
     }
@@ -90,4 +97,5 @@ public class TestScenario {
     public static TestScenario id(String szenarioId) {
         return new TestScenario(szenarioId);
     }
+
 }

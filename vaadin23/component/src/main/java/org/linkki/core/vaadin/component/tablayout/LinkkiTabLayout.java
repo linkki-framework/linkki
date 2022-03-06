@@ -255,7 +255,7 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
      */
     public Optional<LinkkiTabSheet> getTabSheet(String id) {
         return tabSheets.keySet().stream()
-                .filter(t -> t.getId().get().contentEquals(id))
+                .filter(t -> t.getId().get().equals(id))
                 .findFirst()
                 .map(tabSheets::get);
     }

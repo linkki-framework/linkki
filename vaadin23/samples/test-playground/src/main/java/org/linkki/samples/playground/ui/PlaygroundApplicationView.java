@@ -13,6 +13,9 @@
  */
 package org.linkki.samples.playground.ui;
 
+import java.util.Optional;
+
+import org.apache.commons.lang3.StringUtils;
 import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
@@ -32,8 +35,8 @@ import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.TableWithValidationSection;
 import org.linkki.samples.playground.table.VaaryingAlignmentTablePmo;
@@ -101,20 +104,25 @@ import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.OptionalParameter;
+import com.vaadin.flow.router.Location;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.router.WildcardParameter;
 
 @RouteAlias(value = "", layout = PlaygroundAppLayout.class)
-@Route(value = "playground", layout = PlaygroundAppLayout.class)
+@Route(value = PlaygroundApplicationView.ROUTE, layout = PlaygroundAppLayout.class)
 @PageTitle("linkki Sample :: Playground")
 public class PlaygroundApplicationView extends Div implements HasUrlParameter<String> {
+
+    static final String ROUTE = "playground";
 
     private static final long serialVersionUID = 1L;
 
@@ -153,14 +161,11 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
     public static final String MESSAGES_TAB_ID = "messages";
 
+    private final LinkkiTabLayout tabLayout;
+
     public PlaygroundApplicationView() {
         setSizeFull();
-    }
-
-    @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
-        removeAll();
-        LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
+        tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
         tabLayout.addTabSheets(
                                // new test scenarios
@@ -278,14 +283,36 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .createTabSheet(),
                                // old tab sheets
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)
-                                       .caption(VaadinIcon.ROAD_BRANCHES.create())
+                                       .caption(createCaptionComponent(NESTED_COMPONENT_PAGE_TAB_ID,
+                                                                       VaadinIcon.ROAD_BRANCHES))
                                        .description("Nested Components")
                                        .content(NestedComponentPage::new).build(),
                                LinkkiTabSheet.builder(MESSAGES_TAB_ID)
-                                       .caption(VaadinIcon.COMMENT_ELLIPSIS_O.create())
+                                       .caption(createCaptionComponent(MESSAGES_TAB_ID,
+                                                                       VaadinIcon.COMMENT_ELLIPSIS_O))
                                        .description("Messages Component")
                                        .content(MessagesComponent::new).build());
         add(tabLayout);
+    }
+
+    private Anchor createCaptionComponent(String id, VaadinIcon icon) {
+        Icon iconComp = icon.create();
+        iconComp.addClassName("p-xs");
+        return new Anchor(getLocation(id, null),
+                iconComp);
+    }
+
+    @Override
+    public void setParameter(BeforeEvent event, @WildcardParameter String parameter) {
+        if (!parameter.isEmpty()) {
+            Location location = new Location(parameter);
+            tabLayout.setSelectedTabSheet(location.getFirstSegment());
+            location.getSubLocation().ifPresent(l -> selectTc(l.getFirstSegment()));
+        }
+    }
+
+    private void selectTc(String tc) {
+        ((LinkkiTabLayout)tabLayout.getSelectedTabSheet().getContent()).setSelectedTabSheet(tc);
     }
 
     private LinkkiTabSheet addIpsTabSheet() {
@@ -312,5 +339,11 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                 .createTabSheet();
     }
 
+    public static String getLocation(String tsId, String tcId) {
+        return ROUTE + "/" + tsId + Optional.ofNullable(tcId)
+                .filter(StringUtils::isNotBlank)
+                .map(s -> "/" + s)
+                .orElse("");
+    }
 
 }
