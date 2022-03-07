@@ -40,9 +40,8 @@ import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -361,7 +360,7 @@ class OkCancelDialogTest {
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 @NonNull
-                VerticalLayout layout = dialog.getContentArea();
+                Div layout = dialog.getMessageArea();
                 return layout.getChildren().anyMatch(Label.class::isInstance);
             }
         };
@@ -381,7 +380,7 @@ class OkCancelDialogTest {
             protected boolean matchesSafely(OkCancelDialog dialog) {
 
                 @NonNull
-                HorizontalLayout layout = dialog.getButtonArea();
+                Div layout = dialog.getMessageArea();
                 LinkkiText message = (LinkkiText)layout.getComponentAt(0);
                 return text.contentEquals(message.getText());
             }

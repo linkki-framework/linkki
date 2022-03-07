@@ -1,6 +1,9 @@
 linkki-section {
-  --section-item-width: calc((100% - (var(--columns, 1) - 1) * var(--linkki-section-gap)) / var(--columns, 1));
+  	--section-item-width: calc((100% - (var(--columns, 1) - 1) * var(--linkki-section-gap)) / var(--columns, 1));
+}
+linkki-section > div[slot="content"] {
+	overflow: visible;
 }
 linkki-section > div[slot="content"] > * {
-  max-width: var(--section-item-width);
+  	max-width: var(--section-item-width);
 }
