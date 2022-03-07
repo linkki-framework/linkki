@@ -66,6 +66,11 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
     @Override
     public void afterAll(ExtensionContext context) {
+        if (driver == null) {
+            // driver setup might have failed
+            return;
+        }
+
         UITestConfiguration config = getConfiguration(context);
         if (!config.restartAfterEveryTest()) {
             driver.quit();
@@ -74,6 +79,11 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
+        if (driver == null) {
+            // driver setup might have failed
+            return;
+        }
+
         UITestConfiguration config = getConfiguration(context);
         boolean testFailed = context.getExecutionException().isPresent();
 

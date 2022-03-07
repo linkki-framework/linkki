@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -76,24 +77,29 @@ public enum BrowserType {
         }
     };
 
+    private static final Logger LOGGER = Logger.getLogger(BrowserType.class.getName());
+
     protected void setChromeDriverSystemProperty() {
         String property = "webdriver.chrome.driver";
         if (isNull(System.getProperty(property))) {
-            String driver = new File("drivers/" + getDriverForCurrentOS()).getAbsolutePath();
-            System.out.println("Setting " + property + " to " + driver);
-            System.setProperty(property, driver);
+            File driver = getDriverForCurrentOS();
+            if (!driver.exists()) {
+                LOGGER.severe("Driver not present: " + driver.getAbsolutePath() +
+                        " - Download the chromedriver binary from https://chromedriver.chromium.org/downloads");
+                throw new IllegalStateException("Driver not present: " + driver.getAbsolutePath());
+            }
+
+            LOGGER.info("Setting " + property + " to " + driver.getAbsolutePath());
+            System.setProperty(property, driver.getAbsolutePath());
         }
     }
 
-    private String getDriverForCurrentOS() {
-        String os = System.getProperty("os.name");
-
-        if (os.startsWith("Windows")) {
-            return "chromedriver.exe";
-        } else if (os.startsWith("Mac OS X")) {
-            return "chromedriver_osx";
+    private File getDriverForCurrentOS() {
+        File driverDirectory = new File(new File(System.getProperty("user.home"), ".vaadin"), "drivers");
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            return new File(driverDirectory, "chromedriver.exe");
         } else {
-            return "chromedriver";
+            return new File(driverDirectory, "chromedriver");
         }
     }
 
