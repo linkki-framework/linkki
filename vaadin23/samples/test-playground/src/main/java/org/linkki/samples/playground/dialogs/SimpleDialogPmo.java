@@ -77,11 +77,6 @@ public class SimpleDialogPmo {
                 .open();
     }
 
-    @UIButton(position = 50, caption = "Show exception dialog")
-    public void showExceptionDialog() {
-        throw new RuntimeException("Manually triggered exception");
-    }
-
     @UIButton(position = 60, caption = "Open dialog with okHandler")
     public void okHandlerDialog() {
         Html dialogContent = new Html("<div>"

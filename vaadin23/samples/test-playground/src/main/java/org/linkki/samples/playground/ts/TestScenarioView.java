@@ -66,6 +66,7 @@ import org.linkki.samples.playground.ts.components.LinkPmo;
 import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
 import org.linkki.samples.playground.ts.components.TextAreaPmo;
 import org.linkki.samples.playground.ts.components.TextFieldPmo;
+import org.linkki.samples.playground.ts.dialogs.DialogErrorHandlerPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogWithCustomSizePmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogOverflowPmo;
@@ -255,6 +256,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC004, new OkCancelDialogSectionSpacingPmo())
                                        .testCase(TC005, new SetFormItemLabelWidthDialogPmo())
                                        .testCase(TC006, new DialogWithCustomSizePmo())
+                                       .testCase(TC007, new DialogErrorHandlerPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS012)
                                        .testCase(TC001, TableWithValidationSection.create())

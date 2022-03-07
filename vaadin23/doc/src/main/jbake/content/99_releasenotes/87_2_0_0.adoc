@@ -9,6 +9,12 @@
 
 ==== New features and improvements
 
+===== DialogErrorHandler now adds error parameter to URL
+////
+https://jira.faktorzehn.de/browse/FIPM-4286
+////
+`DialogErrorHandler` now adds an error query parameter to the URL before redirecting. See also documentation for <<error-handler, DialogErrorHandler>>.
+
 [role="api-change"]
 ===== Rework of layout options in UISection
 ////
@@ -53,7 +59,7 @@ These changes also results in changes of the HTML structure of sections which ar
 https://jira.faktorzehn.de/browse/LIN-2813
 ////
 
-Support of multi-column layout with `@UISection` is deprecated as it does not make sense with all layout options. Instead, `@UIFormSection` now supports the same functionality. See also documentation for  <<uiformsection, @UIFormSection>>.
+Support of multi-column layout with `@UISection` is deprecated as it does not make sense with all layout options. Instead, `@UIFormSection` now supports the same functionality. See also documentation for <<uiformsection, @UIFormSection>>.
 
 ===== New annotation properties on @UIHorizontalLayout/UIVerticalLayout
 ////

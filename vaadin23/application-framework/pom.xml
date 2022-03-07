@@ -48,6 +48,11 @@
             <version>2.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.mvysny.kaributesting</groupId>
+            <artifactId>karibu-testing-v10</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

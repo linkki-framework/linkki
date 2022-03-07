@@ -131,3 +131,30 @@ Then bind it with the headline:
 ----
 include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=bind-headline]
 ----
+
+[[error-handler]]
+=== ErrorHandler
+
+In case of an unhandled runtime exception, *linkki* shows information about the occurred error such as timestamp, a short description and a detailed stacktrace in a dialog. After confirming the dialog, the user is redirected to either the default main URL, or a custom error URL that can be set by extending the `DialogErrorHandler` and pass it to the `super`-constructor.
+
+.DialogErrorHandler
+[source,java]
+----
+public class DialogErrorHandler implements ErrorHandler {
+    public DialogErrorHandler(BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator, String startView) {
+        this.dialogCreator = dialogCreator;
+        this.startView = startView;
+    }
+    
+    @Override
+    public void error(ErrorEvent event) {
+        ConfirmationDialog dialog = dialogCreator.apply(errorEvent, () -> UI.getCurrent().navigate(startView, QueryParameters.fromString("errorOccurred")));
+        dialog.open();
+    }
+}
+----
+
+In addition, `ApplicationLayout#getErrorHandler()` must be overridden to return your custom `ErrorHandler`.
+
+When redirecting, an additional `errorOccurred` query parameter is added to the URL. This parameter enables the target view to react to the error. It can be useful in some cases to enable or disable certain features in `BeforeLeaveHandler#beforeLeave(BeforeLeaveEvent)` in case of an error. 
+For more information refer to https://vaadin.com/docs/latest/flow/routing/lifecycle/#beforeleaveevent[Vaadin's BeforeLeaveEvent]

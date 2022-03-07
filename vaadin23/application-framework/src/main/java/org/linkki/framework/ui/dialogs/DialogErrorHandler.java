@@ -20,6 +20,8 @@ import org.linkki.framework.ui.application.ApplicationLayout;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.router.Location;
+import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.ErrorEvent;
 import com.vaadin.flow.server.ErrorHandler;
@@ -36,6 +38,12 @@ import com.vaadin.flow.server.ErrorHandler;
  * 
  */
 public class DialogErrorHandler implements ErrorHandler {
+
+    /**
+     * Parameter that is appended as {@link QueryParameters QueryParameter} to the redirected
+     * {@link Location} after an error occurred
+     */
+    public static final String ERROR_PARAM = "errorOccurred";
 
     private static final long serialVersionUID = -6253400229098333633L;
     private static final java.util.logging.Logger LOGGER = Logger.getLogger(DialogErrorHandler.class.getName());
@@ -66,6 +74,6 @@ public class DialogErrorHandler implements ErrorHandler {
     }
 
     private void navigateToStartView() {
-        UI.getCurrent().navigate(startView);
+        UI.getCurrent().navigate(startView, QueryParameters.fromString(ERROR_PARAM));
     }
 }
