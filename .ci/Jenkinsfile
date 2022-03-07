@@ -26,12 +26,6 @@ pipeline {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
                 }
-
-//                TODO LIN-2506
-//                Test next Java LTS
-//                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-//                    sh 'mvn -T 6 -Dsurefire.directory=surefire-reports-java11 test'
-//                }
             }
         }
 
@@ -131,9 +125,6 @@ pipeline {
             junit '**/target/surefire-reports/*.xml'
             recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
             jacoco sourceInclusionPattern: '**/*.java'
-
-//            TODO LIN-2506
-//            junit '**/target/surefire-reports-java17/*.xml'
 
             archiveArtifacts 'vaadin23/doc/target/linkki-core-documentation*/**/*.*'
         }
