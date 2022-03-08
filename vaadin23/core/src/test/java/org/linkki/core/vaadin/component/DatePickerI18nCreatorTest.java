@@ -40,7 +40,6 @@ class DatePickerI18nCreatorTest {
         DatePickerI18n i18n = DatePickerI18nCreator.createI18n(Locale.GERMAN);
 
         assertThat(i18n.getCancel()).isEqualTo("Abbrechen");
-        assertThat(i18n.getClear()).isEqualTo("Löschen");
         assertThat(i18n.getToday()).isEqualTo("Heute");
         assertThat(i18n.getWeekdaysShort()).containsExactly("So", "Mo", "Di", "Mi", "Do", "Fr", "Sa");
         assertThat(i18n.getWeekdays()).containsExactly("Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag",

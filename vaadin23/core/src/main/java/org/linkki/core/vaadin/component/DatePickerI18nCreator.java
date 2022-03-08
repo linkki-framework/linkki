@@ -60,7 +60,6 @@ class DatePickerI18nCreator {
 
     private static void initTexts(DatePickerI18n i18n, Locale locale) {
         getText("cancel", locale).ifPresent(i18n::setCancel);
-        getText("clear", locale).ifPresent(i18n::setClear);
         getText("today", locale).ifPresent(i18n::setToday);
 
         List<String> weekdays = new ArrayList<>(7);

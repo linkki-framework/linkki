@@ -70,10 +70,10 @@ public enum BrowserType {
 
             Map<String, String> environment = new HashMap<>();
             environment.put("LANGUAGE", locale.getLanguage() + "_" + locale.getCountry());
-            ChromeDriverService service = new ChromeDriverService.Builder().usingAnyFreePort()
-                    .withEnvironment(environment).build();
-
-            return new ChromeDriver(service, options);
+            try (ChromeDriverService service = new ChromeDriverService.Builder().usingAnyFreePort()
+                    .withEnvironment(environment).build();) {
+                return new ChromeDriver(service, options);
+            }
         }
     };
 

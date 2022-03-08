@@ -13,6 +13,7 @@
  */
 package org.linkki.testbench;
 
+import java.time.Duration;
 import java.util.Locale;
 
 import org.junit.jupiter.api.extension.AfterAllCallback;
@@ -102,8 +103,9 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
         driver.manage().window().setSize(new Dimension(1440, 900));
 
         driver.get(initialUrl);
-        new WebDriverWait(driver, 10).until(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
-                .toString().equals("complete"));
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
+                        .toString().equals("complete"));
     }
 
     private UITestConfiguration getConfiguration(ExtensionContext context) {
