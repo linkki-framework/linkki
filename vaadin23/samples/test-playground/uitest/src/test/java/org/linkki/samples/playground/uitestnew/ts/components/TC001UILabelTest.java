@@ -18,17 +18,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.By;
 
 class TC001UILabelTest extends PlaygroundUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(TestScenarioView.TS005, TestScenarioView.TC001);
     }
 

@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dialogs;
+package org.linkki.samples.playground.ts.dialogs;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,31 +21,34 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
+import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.util.handler.Handler;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 @UISection
-public class ValidationDialogPmo {
+public class OkCancelDialogMessagePmo {
 
-    private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(Severity.INFO, Severity.WARNING,
+    private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
                                                                         Severity.ERROR);
 
-    private Severity severity = Severity.INFO;
+    @CheckForNull
+    private Severity severity = null;
     private boolean showLongValidationMessage;
     private boolean showTextArea;
 
-    @UIComboBox(position = 10, label = "Message severity", required = RequiredType.REQUIRED, content = AvailableValuesType.DYNAMIC)
+    @UIComboBox(position = 10, label = "Message severity", content = AvailableValuesType.DYNAMIC)
     public Severity getComboBoxValue() {
-        return this.severity;
+        return severity;
     }
 
     public void setComboBoxValue(Severity severity) {
@@ -56,7 +59,7 @@ public class ValidationDialogPmo {
         return COMBOBOX_VALUES;
     }
 
-    @UICheckBox(position = 15, caption = "Show long validation message")
+    @UICheckBox(position = 15, caption = "Show long validation message to test line break")
     public boolean isShowLongValidationMessage() {
         return showLongValidationMessage;
     }
@@ -65,7 +68,7 @@ public class ValidationDialogPmo {
         this.showLongValidationMessage = showLongValidationMessage;
     }
 
-    @UICheckBox(position = 20, caption = "Show text area")
+    @UICheckBox(position = 20, caption = "Show text area to test overflow with messages")
     public boolean isShowTextArea() {
         return showTextArea;
     }
@@ -86,6 +89,9 @@ public class ValidationDialogPmo {
     @NonNull
     public MessageList validate() {
         MessageList messages = new MessageList();
+        if (severity == null) {
+            return messages;
+        }
         if (severity.compareTo(Severity.INFO) >= 0) {
             messages.add(Message.newInfo("info", getValidationMessage("Info validation message")));
         }
@@ -107,14 +113,16 @@ public class ValidationDialogPmo {
                 : baseMessage;
     }
 
-    @UISection(caption = "Validation in dialog")
+    @UIVerticalLayout
     public static class ButtonSectionPmo {
 
-        @UIButton(position = 0, label = "Opens a dialog with PMO and validation", caption = "open dialog")
+        @UIButton(position = 0, caption = "Open dialog")
         public void button() {
-            ValidationDialogPmo validationDialogPmo = new ValidationDialogPmo();
-            new PmoBasedDialogFactory(validationDialogPmo::validate)
-                    .openOkCancelDialog("Validation Dialog Pmo", Handler.NOP_HANDLER, validationDialogPmo);
+            OkCancelDialogMessagePmo validationDialogPmo = new OkCancelDialogMessagePmo();
+            OkCancelDialog dialog = new PmoBasedDialogFactory(validationDialogPmo::validate)
+                    .openOkCancelDialog("Validation Dialog PMO", Handler.NOP_HANDLER, validationDialogPmo);
+            dialog.setWidth("600px");
+
         }
     }
 }

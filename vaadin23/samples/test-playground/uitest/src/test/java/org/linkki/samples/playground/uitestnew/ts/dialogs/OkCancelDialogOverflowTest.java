@@ -18,17 +18,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogOverflowPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
-import org.openqa.selenium.By;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.dialog.testbench.DialogElement;
 
 
-public class OkCancelDialogOverflowTest extends PlaygroundUiTest {
+class OkCancelDialogOverflowTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
@@ -38,13 +36,12 @@ public class OkCancelDialogOverflowTest extends PlaygroundUiTest {
     @Test
     void testOverflow() {
         $(ButtonElement.class).id(OkCancelDialogOverflowPmo.SHOW_DIALOG_BUTTON_ID).click();
-        $(DialogElement.class).waitForFirst();
+        OkCancelDialogElement dialogElement = $(OkCancelDialogElement.class).waitForFirst();
 
         // Content area has height 100%. If it overflows correctly, it should have a significantly lower
         // height as the caption and buttons take up some space. Thus, content area having 100% height
         // is a indicator that it does not overflow correctly.
-        assertThat(findElement(By.className(OkCancelDialog.CLASS_NAME_CONTENT_AREA)).getSize().getHeight())
-                .isLessThan(findElement(By.className(OkCancelDialog.CLASS_NAME_DIALOG_LAYOUT)).getSize()
-                        .getHeight());
+        assertThat(dialogElement.getContentArea().getSize().getHeight())
+                .isLessThan(dialogElement.getDialogLayout().getSize().getHeight());
     }
 }

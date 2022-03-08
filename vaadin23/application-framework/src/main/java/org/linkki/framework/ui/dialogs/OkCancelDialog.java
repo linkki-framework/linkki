@@ -15,8 +15,6 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
-
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
@@ -126,12 +124,6 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
 
     /** Called when the dialog was validated, e.g. after the OK button was clicked */
     private Handler beforeOkHandler = Handler.NOP_HANDLER;
-
-    /**
-     * The message row that displays the first message from the message list if there is a message to
-     * display
-     */
-    private Optional<Component> messageRow = Optional.empty();
 
     private boolean okPressed = false;
     private boolean cancelPressed = false;
@@ -306,22 +298,27 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
      */
     public MessageList validate() {
         MessageList messages = validationDisplayState.filter(getValidationService().getValidationMessages());
-        messageRow.ifPresent(messageArea::remove);
-        messages.getSeverity()
-                .flatMap(messages::getFirstMessage)
-                .ifPresent(this::addMessageRow);
+
+        updateMessageArea(messages);
+
         mayProceed = !messages.containsErrorMsg();
         okButton.setEnabled(mayProceed);
-        messageArea.setVisible(messageRow.isPresent());
+
         return messages;
     }
 
-    private void addMessageRow(Message message) {
-        Component messageLabel = MessageUiComponents.createMessageComponent(message);
-        messageRow = Optional.of(messageLabel);
+
+    private void updateMessageArea(MessageList messages) {
+        messageArea.removeAll();
         messageArea.removeClassNames(Severity.INFO.name(), Severity.WARNING.name(), Severity.ERROR.name());
-        messageArea.addClassName(message.getSeverity().name());
-        messageArea.add(messageLabel);
+
+        messages.getMessageWithHighestSeverity().ifPresent(message -> {
+            Component messageLabel = MessageUiComponents.createMessageComponent(message);
+            messageArea.addClassName(message.getSeverity().name());
+            messageArea.add(messageLabel);
+        });
+
+        messageArea.setVisible(messageArea.getComponentCount() > 0);
     }
 
 

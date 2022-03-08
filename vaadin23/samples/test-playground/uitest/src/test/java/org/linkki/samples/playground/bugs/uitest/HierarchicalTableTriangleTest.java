@@ -32,7 +32,7 @@ public class HierarchicalTableTriangleTest extends AbstractUiTest {
 
     @Test
     public void testTriangleIsShownAfterChildIsAdded() {
-        clickMenuItem(BugCollectionView.NAME);
+        goToView(BugCollectionView.ROUTE);
         openTab(TriangleTablePmo.CAPTION);
 
         TreeGridElement gridElement = $(TreeGridElement.class).id("TriangleTablePmo_table");

@@ -24,8 +24,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 
@@ -38,7 +38,7 @@ public class ComboBoxNewInstanceTest extends AbstractUiTest {
 
     @Test
     public void testValueOnResettingListItemValues() throws InterruptedException {
-        clickMenuItem(BugCollectionView.NAME);
+        goToView(BugCollectionView.ROUTE);
         openTab(ComboBoxNewInstancePmo.CAPTION);
 
         LinkkiSectionElement section = getSection(ComboBoxNewInstancePmo.class);

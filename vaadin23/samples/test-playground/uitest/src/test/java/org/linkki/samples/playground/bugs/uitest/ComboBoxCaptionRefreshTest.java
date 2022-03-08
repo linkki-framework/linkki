@@ -37,7 +37,7 @@ public class ComboBoxCaptionRefreshTest extends AbstractUiTest {
 
     @Test
     public void testValueOnResettingListItemValues() {
-        clickMenuItem(BugCollectionView.NAME);
+        goToView(BugCollectionView.ROUTE);
         openTab(ComboBoxCaptionRefreshPmo.CAPTION);
 
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxCaptionRefreshPmo.PROPERTY_CHOICE);

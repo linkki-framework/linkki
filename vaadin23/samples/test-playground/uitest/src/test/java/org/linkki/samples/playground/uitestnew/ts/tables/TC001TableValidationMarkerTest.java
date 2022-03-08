@@ -51,20 +51,19 @@ class TC001TableValidationMarkerTest extends PlaygroundUiTest {
 
         GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
-        String value = "Name 2";
-        TextFieldElement textField = findTextFieldByValue(table, value);
-        value = "abc";
-        textField.setValue(value);
+        TextFieldElement textField = findTextFieldByValue(table, "Name 2");
+        textField.setValue("abc");
 
         assertThat(textField.getAttribute("invalid"), is("true"));
 
         // switch tabs
-        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC002);
-        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC001);
+
+        openTab(TestScenarioView.TC002);
+        openTab(TestScenarioView.TC001);
         waitUntil(visibilityOfElementLocated(By.id(PlaygroundTablePmo.class.getSimpleName())));
 
         table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
-        textField = findTextFieldByValue(table, value);
+        textField = findTextFieldByValue(table, "abc");
         assertThat(textField.getAttribute("invalid"), is("true"));
     }
 

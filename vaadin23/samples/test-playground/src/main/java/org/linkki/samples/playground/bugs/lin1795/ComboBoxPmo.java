@@ -64,5 +64,4 @@ public class ComboBoxPmo implements PresentationModelObject {
     public void setAvailableValues(String availableValues) {
         this.availableValues = availableValues;
     }
-
 }

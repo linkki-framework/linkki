@@ -30,10 +30,21 @@ public class VaadinElementConditions {
      * @param query the query used to find the element
      */
     public static <T extends TestBenchElement> ExpectedCondition<T> elementDisplayed(ElementQuery<T> query) {
+        return elementDisplayed(query, e -> true);
+    }
+
+    /**
+     * An expectation for checking that a query matches at least one
+     * {@link TestBenchElement#isDisplayed() displayed} element. The first matching element is returned.
+     *
+     * @param query the query used to find the element
+     */
+    public static <T extends TestBenchElement> ExpectedCondition<T> elementDisplayed(ElementQuery<T> query,
+            Predicate<T> filter) {
         return new ExpectedCondition<T>() {
             @Override
             public T apply(WebDriver driver) {
-                return findFirst(query, TestBenchElement::isDisplayed);
+                return findFirst(query, filter.and(TestBenchElement::isDisplayed));
             }
 
             @Override

@@ -17,14 +17,13 @@ package org.linkki.samples.playground.uitestnew.ts.layouts;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject.SampleEnum;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
@@ -35,12 +34,17 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
 
+    private static final String ID_VISIBLE = "allElementsVisible";
+    private static final String ID_REQUIRED = "allElementsRequired";
+    private static final String ID_READ_ONLY = "allElementsReadOnly";
     private TestCaseComponentElement testCaseSection;
 
     @BeforeEach
-    void setup() {
-        super.setUp();
+    protected void goToTestCase() {
         testCaseSection = goToTestCase(TestScenarioView.TS001, getTestCaseId());
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_REQUIRED).setChecked(false);
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_VISIBLE).setChecked(true);
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_READ_ONLY).setChecked(false);
     }
 
     protected abstract String getTestCaseId();
@@ -49,7 +53,6 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         return testCaseSection;
     }
 
-    @Order(10)
     @Test
     void testLabel_HasText() {
         LinkkiTextElement label = testCaseSection.getContentWrapper()//
@@ -57,7 +60,6 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(label.getText()).isEqualTo("I am a text");
     }
 
-    @Order(20)
     @Test
     void testTextField_SetValue() {
         TextFieldElement textField = testCaseSection.getContentWrapper()//
@@ -73,7 +75,6 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(textField.getValue()).isEqualTo("I am a text that was changed!");
     }
 
-    @Order(30)
     @Test
     void testTextArea_SetValue() {
         TextAreaElement textArea = testCaseSection.getContentWrapper()//
@@ -91,7 +92,6 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(textArea.getValue()).isEqualTo("bla bla");
     }
 
-    @Order(40)
     @Test
     void testCheckBox_IsCheckable() {
         CheckboxElement checkBox = testCaseSection.getContentWrapper()//
@@ -108,7 +108,6 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(checkBox.isChecked()).isFalse();
     }
 
-    @Order(50)
     @Test
     void testRadioButtons_IsSelectable() {
         RadioButtonGroupElement radioButtons = testCaseSection.getContentWrapper()//
@@ -125,7 +124,6 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(radioButtons.getSelectedText()).isEqualTo(SampleEnum.VALUE3.getName());
     }
 
-    @Order(60)
     @Test
     void testLink_HasTextAndHref() {
         AnchorElement link = testCaseSection.getContentWrapper()//
@@ -137,16 +135,14 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(link.getAttribute("href")).endsWith("/#");
     }
 
-    @Order(70)
     @Test
     void testTextField_ReadOnly() {
-        testCaseSection.getContentWrapper().$(CheckboxElement.class).id("allElementsReadOnly").click();
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_READ_ONLY).setChecked(true);
 
         assertThat(testCaseSection.getContentWrapper().$(TextFieldElement.class).first().hasAttribute("readonly"))
                 .isTrue();
     }
 
-    @Order(80)
     @Test
     void testTextField_DynamicRequired() {
         TextFieldElement textFieldElement = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
@@ -155,13 +151,12 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(textFieldElement.hasAttribute("required")).isFalse();
 
         // action
-        testCaseSection.getContentWrapper().$(CheckboxElement.class).id("allElementsRequired").click();
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_REQUIRED).setChecked(true);
 
         // postcondition
         assertThat(textFieldElement.hasAttribute("required")).isTrue();
     }
 
-    @Order(90)
     @Test
     void testTextField_Visible() {
         TextFieldElement textFieldElement = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
@@ -170,20 +165,18 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         assertThat(textFieldElement.hasAttribute("hidden")).isFalse();
 
         // action
-        testCaseSection.getContentWrapper().$(CheckboxElement.class).id("allElementsVisible").click();
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_VISIBLE).click();
 
         // postcondition
         assertThat(textFieldElement.getAttribute("hidden")).isEqualTo("true");
     }
 
-    @Order(100)
     @Test
     void testTextField_Required_Empty() {
         TextFieldElement textFieldElement = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
 
         // actions
-        testCaseSection.getContentWrapper().$(CheckboxElement.class).id("allElementsVisible").click();
-        testCaseSection.getContentWrapper().$(CheckboxElement.class).id("allElementsReadOnly").click();
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_REQUIRED).setChecked(true);
         textFieldElement.setValue("");
         textFieldElement.sendKeys("\t");
 

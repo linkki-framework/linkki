@@ -28,6 +28,7 @@ import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
@@ -45,9 +46,9 @@ class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     @ParameterizedTest
     @MethodSource("dialogButtons")
     void testOkHandler_ClickButton(String dialogButton) {
-        DialogElement dialog = openDialog(dialogButton);
+        OkCancelDialogElement dialog = openDialog(dialogButton);
 
-        dialog.$(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID).click();
+        dialog.clickOnOk();
 
         assertThat(getOkCount(), is(1));
         assertThat(getCancelCount(), is(0));
@@ -56,9 +57,9 @@ class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     @ParameterizedTest
     @MethodSource("dialogButtons")
     void testOkHandler_EnterKeyOnButton(String dialogButton) {
-        DialogElement dialog = openDialog(dialogButton);
+        OkCancelDialogElement dialog = openDialog(dialogButton);
 
-        ButtonElement okButton = dialog.$(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID);
+        ButtonElement okButton = dialog.getOkButton();
         okButton.focus();
         okButton.sendKeys(Keys.ENTER);
 
@@ -69,9 +70,9 @@ class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     @ParameterizedTest
     @MethodSource("dialogButtons")
     void testCancelHandler_ClickButton(String dialogButton) {
-        DialogElement dialog = openDialog(dialogButton);
+        OkCancelDialogElement dialog = openDialog(dialogButton);
 
-        dialog.$(ButtonElement.class).id(OkCancelDialog.CANCEL_BUTTON_ID).click();
+        dialog.clickOnCancel();
 
         assertThat(getOkCount(), is(0));
         assertThat(getCancelCount(), is(1));
@@ -80,9 +81,9 @@ class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     @ParameterizedTest
     @MethodSource("dialogButtons")
     void testCancelHandler_EnterKeyOnButton(String dialogButton) {
-        DialogElement dialog = openDialog(dialogButton);
+        OkCancelDialogElement dialog = openDialog(dialogButton);
 
-        ButtonElement cancelButton = dialog.$(ButtonElement.class).id(OkCancelDialog.CANCEL_BUTTON_ID);
+        ButtonElement cancelButton = dialog.getCancelButton();
         cancelButton.focus();
         cancelButton.sendKeys(Keys.ENTER);
 
@@ -127,9 +128,9 @@ class OkCancelDialogHandlerTest extends PlaygroundUiTest {
                                                OkCancelDialogHandlerPmo.SHOW_DIALOG_WITH_BINDING_MANAGER_BUTTON_ID)));
     }
 
-    private DialogElement openDialog(String dialogButton) {
+    private OkCancelDialogElement openDialog(String dialogButton) {
         $(ButtonElement.class).id(dialogButton).click();
-        return $(DialogElement.class).waitForFirst();
+        return $(OkCancelDialogElement.class).waitForFirst();
     }
 
     private int getOkCount() {

@@ -21,8 +21,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.application.ReportListPage;
 import org.linkki.samples.playground.application.ReportSectionPmo;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.application.SampleView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -34,8 +35,8 @@ import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 class HeadlineTest extends AbstractUiTest {
 
     @BeforeEach
-    void setup() {
-        clickMenuItem("Sample Layout");
+    void goToTestView() {
+        goToView(SampleView.NAME);
     }
 
     @Test

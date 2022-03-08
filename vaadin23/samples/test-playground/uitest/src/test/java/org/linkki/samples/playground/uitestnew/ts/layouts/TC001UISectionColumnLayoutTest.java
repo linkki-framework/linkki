@@ -29,8 +29,8 @@ class TC001UISectionColumnLayoutTest extends TC001AbstractSectionTest {
 
     @Override
     @BeforeEach
-    void setup() {
-        super.setup();
+    protected void goToTestCase() {
+        super.goToTestCase();
         getTestCaseSection().getContentWrapper().$(TabElement.class)
                 .id(BasicElementsLayoutBehaviorUiSectionComponent.FORM).click();
     }

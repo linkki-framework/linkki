@@ -20,15 +20,13 @@ import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.dialogs.QuestionAndConfirmationDialogPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.dialog.testbench.DialogElement;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 
 
 class QuestionAndConfirmationDialogTest extends PlaygroundUiTest {
@@ -45,33 +43,31 @@ class QuestionAndConfirmationDialogTest extends PlaygroundUiTest {
 
     @Test
     void testQuestionDialogUsingHtml() {
-        DialogElement dialog = openDialog(QuestionAndConfirmationDialogPmo.SHOW_QUESTION_BUTTON_ID);
+        OkCancelDialogElement dialog = openDialog(QuestionAndConfirmationDialogPmo.SHOW_QUESTION_BUTTON_ID);
 
-        String text = dialog.$(VerticalLayoutElement.class).attribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
-                .first().getText();
+        String text = dialog.getContentArea().getText();
 
         assertThat(text, equalTo("Is this one line\n"
                 + "and this is another one?"));
 
-        dialog.$(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID).click();
+        dialog.clickOnOk();
     }
 
     @Test
     void testConfirmationDialogUsingHtml() {
-        DialogElement dialog = openDialog(QuestionAndConfirmationDialogPmo.SHOW_CONFIRMATION_BUTTON_ID);
+        OkCancelDialogElement dialog = openDialog(QuestionAndConfirmationDialogPmo.SHOW_CONFIRMATION_BUTTON_ID);
 
-        String text = dialog.$(VerticalLayoutElement.class).attribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
-                .first().getText();
+        String text = dialog.getContentArea().getText();
 
         assertThat(text, equalTo("Confirm that this is one line\n"
                 + "and this is another one."));
 
-        dialog.$(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID).click();
+        dialog.clickOnOk();
     }
 
-    private DialogElement openDialog(String buttonId) {
+    private OkCancelDialogElement openDialog(String buttonId) {
         $(ButtonElement.class).id(buttonId).click();
-        return $(DialogElement.class).waitForFirst();
+        return $(OkCancelDialogElement.class).waitForFirst();
     }
 
 }

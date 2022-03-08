@@ -30,10 +30,8 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class TC006UIDateFieldTest extends PlaygroundUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(TestScenarioView.TS005, TestScenarioView.TC006);
     }
 

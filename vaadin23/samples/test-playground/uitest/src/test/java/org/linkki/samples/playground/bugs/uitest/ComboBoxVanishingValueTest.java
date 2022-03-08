@@ -34,7 +34,7 @@ public class ComboBoxVanishingValueTest extends AbstractUiTest {
 
     @Test
     public void testValueOnRefreshWithSameAvailbleValues() {
-        clickMenuItem(BugCollectionView.NAME);
+        goToView(BugCollectionView.ROUTE);
         openTab(ComboBoxVanishingValuePmo.CAPTION);
 
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxVanishingValuePmo.PROPERTY_CHOICE);

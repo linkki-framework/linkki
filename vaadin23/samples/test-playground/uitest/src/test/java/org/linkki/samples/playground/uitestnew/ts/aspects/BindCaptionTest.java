@@ -18,13 +18,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
@@ -124,6 +124,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testCheckboxCaption() {
+        goToTestCase(TestScenarioView.TS008, TestScenarioView.TC002);
         LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
         TextFieldElement captionField = section.getContent().$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);

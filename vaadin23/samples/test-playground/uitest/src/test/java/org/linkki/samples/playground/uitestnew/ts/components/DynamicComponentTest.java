@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
-import org.linkki.samples.playground.uitest.DriverProperties;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.StaleElementReferenceException;
 
@@ -28,26 +27,16 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class DynamicComponentTest extends PlaygroundUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
-        getDriver().get(DriverProperties.getTestUrl(""));
+    void goToTestCase() {
         goToTestCase(TestScenarioView.TS005, TestScenarioView.TC012);
     }
 
     @Test
-    void testDynamicComponent() {
+    void testDynamicComponent_SelectBaaAndSwitchToTextField_TextMustBeBaa() {
         ComboBoxElement dynamicCombobox = $(ComboBoxElement.class).id("value");
-
         assertThat(dynamicCombobox).isNotNull();
         assertThat(dynamicCombobox.getSelectedText()).isEqualTo("foo");
-    }
-
-    @Test
-    void testDynamicComponent_SelectBaaAndSwitchToTextField_TextMustBeBaa() {
-
-        ComboBoxElement dynamicCombobox = $(ComboBoxElement.class).id("value");
         dynamicCombobox.selectByText("baa");
 
         ComboBoxElement typeSelector = $(ComboBoxElement.class).id("type");

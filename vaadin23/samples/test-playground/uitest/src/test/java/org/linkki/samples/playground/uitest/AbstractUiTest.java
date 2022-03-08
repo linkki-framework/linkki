@@ -22,9 +22,9 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.testbench.UITestConfiguration;
 import org.linkki.testbench.WebDriverExtension;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -66,6 +66,11 @@ public abstract class AbstractUiTest extends TestBenchTestCase {
     @BeforeEach
     public void setUp() {
         setDriver(driverExtension.getDriver());
+    }
+
+    public void goToView(String viewName) {
+        getDriver().navigate().to(DriverProperties.getTestUrl(viewName));
+        $(TestBenchElement.class).attributeContains("class", "linkki-main-area").waitForFirst();
     }
 
     /**

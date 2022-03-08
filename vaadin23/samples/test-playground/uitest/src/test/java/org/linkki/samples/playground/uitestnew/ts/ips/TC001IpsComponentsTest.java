@@ -52,8 +52,7 @@ public class TC001IpsComponentsTest extends PlaygroundUiTest {
         private String expectedlabelValue;
 
         @BeforeEach
-        void setup() {
-            super.setUp();
+        void goToTestCase() {
             testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC001);
         }
 

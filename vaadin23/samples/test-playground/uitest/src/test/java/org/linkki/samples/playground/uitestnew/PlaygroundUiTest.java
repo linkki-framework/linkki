@@ -19,15 +19,26 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.pageobjects.TestCaseSelectorElement;
 import org.linkki.samples.playground.pageobjects.TestScenarioSelectorElement;
+import org.linkki.samples.playground.ts.TestCaseComponent;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.DriverProperties;
+import org.linkki.samples.playground.uitest.conditions.VaadinElementConditions;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class PlaygroundUiTest extends AbstractUiTest {
 
     protected TestCaseComponentElement goToTestCase(String testScenarioId, String testCaseId) {
-        TestScenarioSelectorElement testScenarioSelector = $(TestScenarioSelectorElement.class).first();
+        TestScenarioSelectorElement testScenarioSelector = $(TestScenarioSelectorElement.class).waitForFirst();
         TestCaseSelectorElement testCaseSelector = testScenarioSelector.selectTestScenario(testScenarioId);
         return testCaseSelector.selectTestCase(testCaseId);
+    }
+
+    protected TestCaseComponentElement goToTestCaseByUrl(String testScenarioId, String testCaseId) {
+        getDriver().navigate().to(DriverProperties.getTestUrl(testScenarioId + "/" + testCaseId));
+
+        return waitUntil(VaadinElementConditions
+                .elementDisplayed($(TestCaseComponentElement.class)
+                        .attribute("id", TestCaseComponent.getTestId(testScenarioId, testCaseId))));
     }
 
 }

@@ -14,7 +14,7 @@
 
 package org.linkki.samples.playground.pageobjects;
 
-import org.openqa.selenium.NoSuchElementException;
+import org.linkki.samples.playground.uitest.conditions.VaadinElementConditions;
 
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
@@ -31,12 +31,7 @@ public class TestCaseSelectorElement extends VerticalLayoutElement {
     public TestCaseComponentElement selectTestCase(String id) {
         $(TabElement.class).id(id).click();
 
-        // all tab layouts are there in the DOM and we need to get the 'selected' (displayed) one
-        return $(TestCaseComponentElement.class).all()//
-                .stream()//
-                .filter(TestCaseComponentElement::isDisplayed)//
-                .findFirst()//
-                .orElseThrow(() -> new NoSuchElementException("No displayed content of test-case-selector found!"));
+        return waitUntil(VaadinElementConditions.elementDisplayed($(TestCaseComponentElement.class),
+                                                                  e -> e.getAttribute("id").contains(id)));
     }
-
 }

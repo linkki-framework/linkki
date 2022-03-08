@@ -24,9 +24,9 @@ import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 import org.linkki.core.vaadin.component.base.LinkkiText;
-import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.ts.layouts.AbstractBasicElementsLayoutBehaviorPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
+import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

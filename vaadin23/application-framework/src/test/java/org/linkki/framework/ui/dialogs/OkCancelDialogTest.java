@@ -263,6 +263,7 @@ class OkCancelDialogTest {
         messages.clear();
         dialog.validate();
         assertThat(dialog, is(not(displayingMessage())));
+        assertThat(dialog.getMessageArea().isVisible(), is(false));
         assertThat(dialog, is(showingEnabledOkButton()));
 
         // MessageList with warning: warning is displayed, button is enabled

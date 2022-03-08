@@ -42,7 +42,6 @@ public class BindIconTest extends PlaygroundUiTest {
     private static final String DYNAMIC_LINK = "dynamicLink";
     private TestCaseComponentElement section;
 
-
     @BeforeEach
     public void setup() {
         section = goToTestCase(TestScenarioView.TS008, TestScenarioView.TC007);

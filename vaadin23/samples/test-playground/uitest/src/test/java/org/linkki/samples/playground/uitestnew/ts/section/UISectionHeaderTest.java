@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
-import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.Dimension;
 
 import com.vaadin.testbench.TestBenchElement;

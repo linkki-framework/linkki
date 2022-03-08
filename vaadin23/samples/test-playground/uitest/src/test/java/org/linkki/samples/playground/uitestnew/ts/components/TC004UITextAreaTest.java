@@ -26,10 +26,8 @@ import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 
 class TC004UITextAreaTest extends PlaygroundUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(TestScenarioView.TS005, TestScenarioView.TC004);
     }
 

@@ -18,6 +18,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
 import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo;
+import org.linkki.samples.playground.ts.dialogs.OkCancelDialogMessagePmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.AttachEvent;
@@ -26,11 +27,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "dialogs", layout = PlaygroundAppLayout.class)
+@Route(value = DialogsView.NAME, layout = PlaygroundAppLayout.class)
 @PageTitle("linkki Sample :: Dialogs")
 public class DialogsView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
+
+    public static final String NAME = "dialogs";
 
     public DialogsView() {
         setPadding(true);
@@ -39,11 +42,8 @@ public class DialogsView extends VerticalLayout {
                 "The dialogs are created in a different view to test the behavior of dialogs upon view change."));
 
         add(VaadinUiCreator.createComponent(new SimpleDialogPmo(), new BindingContext(getClass().getName())));
-        add(VaadinUiCreator.createComponent(new ValidationDialogPmo.ButtonSectionPmo(),
-                                            new BindingContext(ValidationDialogPmo.class.getName())));
-
         add(VaadinUiCreator.createComponent(new ValidationConfirmationDialog.ButtonSectionPmo(),
-                                            new BindingContext(ValidationDialogPmo.class.getName())));
+                                            new BindingContext(OkCancelDialogMessagePmo.class.getName())));
         add(VaadinUiCreator.createComponent(new VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo(),
                                             new BindingContext(VerticalLayoutContentDialogPmo.class.getName())));
     }

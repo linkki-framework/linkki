@@ -15,10 +15,9 @@
 package org.linkki.samples.playground.uitestnew.ts.aspects;
 
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
@@ -28,11 +27,6 @@ import org.openqa.selenium.WebElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class BindSuffixTest extends PlaygroundUiTest {
-
-    @BeforeEach
-    public void setup() {
-        super.setUp();
-    }
 
     @Test
     public void testSuffixStatic() {

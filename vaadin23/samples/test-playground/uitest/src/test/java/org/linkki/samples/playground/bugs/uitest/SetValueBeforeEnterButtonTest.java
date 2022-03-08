@@ -34,7 +34,7 @@ public class SetValueBeforeEnterButtonTest extends AbstractUiTest {
 
     @Test
     public void testSetValueBeforeEnterButton() {
-        clickMenuItem(BugCollectionView.NAME);
+        goToView(BugCollectionView.ROUTE);
         openTab(TextfieldWithEnterButtonPmo.CAPTION);
 
         TextFieldElement textFieldElement = $(TextFieldElement.class).id("text");

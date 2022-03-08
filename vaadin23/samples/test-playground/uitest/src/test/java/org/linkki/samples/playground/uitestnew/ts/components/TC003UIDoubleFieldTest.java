@@ -27,10 +27,8 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class TC003UIDoubleFieldTest extends PlaygroundUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(TestScenarioView.TS005, TestScenarioView.TC003);
     }
 

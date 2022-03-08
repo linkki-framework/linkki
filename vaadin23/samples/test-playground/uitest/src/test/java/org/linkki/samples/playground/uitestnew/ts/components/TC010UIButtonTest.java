@@ -21,11 +21,10 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.LinkkiTextElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.components.ButtonPmo;
-import org.linkki.samples.playground.uitest.DriverProperties;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
@@ -37,12 +36,9 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class TC010UIButtonTest extends PlaygroundUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
-        getDriver().get(DriverProperties.getTestUrl(""));
-        goToTestCase(TestScenarioView.TS005, TestScenarioView.TC010);
+    void goToTestCase() {
+        goToTestCaseByUrl(TestScenarioView.TS005, TestScenarioView.TC010);
     }
 
     @Test

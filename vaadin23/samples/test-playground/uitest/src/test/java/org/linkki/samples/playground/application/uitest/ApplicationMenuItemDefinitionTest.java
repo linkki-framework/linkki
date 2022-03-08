@@ -17,8 +17,8 @@ package org.linkki.samples.playground.application.uitest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.application.custom.CustomView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
-import org.linkki.samples.playground.uitest.DriverProperties;
 
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 
@@ -26,8 +26,7 @@ public class ApplicationMenuItemDefinitionTest extends AbstractUiTest {
 
     @BeforeEach
     void setup() {
-        getDriver().get(DriverProperties.getTestUrl(""));
-        clickMenuItem("Custom Layout");
+        goToView(CustomView.NAME);
     }
 
     @Test

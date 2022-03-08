@@ -18,6 +18,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-application-framework-vaadin23</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>compile</scope>

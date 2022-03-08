@@ -31,7 +31,7 @@ public class MassValuesComboBoxTest extends AbstractUiTest {
 
     @Test
     public void testValueOnRefreshWithSameAvailbleValues() {
-        clickMenuItem(BugCollectionView.NAME);
+        goToView(BugCollectionView.ROUTE);
         openTab(MassValuesComboBoxPmo.CAPTION);
 
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(MassValuesComboBoxPmo.PROPERTY_MASS_VALUE);

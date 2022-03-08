@@ -17,8 +17,8 @@ package org.linkki.samples.playground.uitestnew.ts.layouts;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
 

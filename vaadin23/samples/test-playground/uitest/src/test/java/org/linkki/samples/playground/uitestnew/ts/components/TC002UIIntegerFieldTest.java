@@ -14,8 +14,8 @@
 
 package org.linkki.samples.playground.uitestnew.ts.components;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,10 +27,8 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class TC002UIIntegerFieldTest extends PlaygroundUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(TestScenarioView.TS005, TestScenarioView.TC002);
     }
 

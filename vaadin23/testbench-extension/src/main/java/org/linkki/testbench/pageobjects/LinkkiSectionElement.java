@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.pageobjects;
+package org.linkki.testbench.pageobjects;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.DivElement;

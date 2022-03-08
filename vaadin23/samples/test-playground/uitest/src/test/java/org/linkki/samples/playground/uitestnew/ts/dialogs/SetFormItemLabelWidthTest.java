@@ -18,14 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.framework.ui.dialogs.OkCancelDialog;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.dialogs.SetFormItemLabelWidthDialogPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.dialog.testbench.DialogElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
 
 class SetFormItemLabelWidthTest extends PlaygroundUiTest {
@@ -39,9 +38,9 @@ class SetFormItemLabelWidthTest extends PlaygroundUiTest {
     void testDialog_WithCustomLabelWidth() {
         LinkkiSectionElement section = getSection(SetFormItemLabelWidthDialogPmo.class);
         section.$(ButtonElement.class).id("showDialog").click();
-        waitUntil(d -> $(DialogElement.class).exists());
 
-        DivElement label = $(DialogElement.class).first()
+        OkCancelDialogElement dialogElement = $(OkCancelDialogElement.class).waitForFirst();
+        DivElement label = dialogElement
                 .$(LinkkiSectionElement.class).first()
                 .getContent()
                 .$("vaadin-form-item").first()
@@ -49,6 +48,6 @@ class SetFormItemLabelWidthTest extends PlaygroundUiTest {
 
         assertThat(label.getCssValue("width")).isEqualTo("240px");
 
-        $(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID).click();
+        dialogElement.clickOnOk();
     }
 }

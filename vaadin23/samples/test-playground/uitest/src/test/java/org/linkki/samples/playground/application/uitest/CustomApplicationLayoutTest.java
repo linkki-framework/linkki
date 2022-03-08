@@ -20,8 +20,8 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
+import org.linkki.samples.playground.application.custom.CustomView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
-import org.linkki.samples.playground.uitest.DriverProperties;
 
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
@@ -31,8 +31,7 @@ class CustomApplicationLayoutTest extends AbstractUiTest {
 
     @BeforeEach
     void setup() {
-        getDriver().get(DriverProperties.getTestUrl(""));
-        clickMenuItem("Custom Layout");
+        goToView(CustomView.NAME);
     }
 
     @Test

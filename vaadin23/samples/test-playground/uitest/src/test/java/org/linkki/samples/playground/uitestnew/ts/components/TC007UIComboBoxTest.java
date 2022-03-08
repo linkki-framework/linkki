@@ -26,10 +26,8 @@ import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 
 class TC007UIComboBoxTest extends PlaygroundUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void goToTestCase() {
         goToTestCase(TestScenarioView.TS005, TestScenarioView.TC007);
     }
 

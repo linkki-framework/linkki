@@ -19,19 +19,16 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.framework.ui.dialogs.OkCancelDialog;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.dialogs.DialogWithCustomSizePmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
-import org.openqa.selenium.WebElement;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.dialog.testbench.DialogElement;
-import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-class DialogSizeTest extends PlaygroundUiTest {
+class OkCancelDialogSizeTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
@@ -44,12 +41,10 @@ class DialogSizeTest extends PlaygroundUiTest {
         section.$(TextFieldElement.class).id("width").setValue("600px");
         section.$(TextFieldElement.class).id("height").setValue("600px");
         section.$(ButtonElement.class).id("showDialog").click();
-        waitUntil(d -> $(DialogElement.class).exists());
 
-        WebElement dialog = $(DialogElement.class).first().$(DivElement.class).id("overlay");
+        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).waitForFirst();
         var dialogWidth = dialog.getSize().getWidth();
         var dialogHeight = dialog.getSize().getHeight();
-        $(ButtonElement.class).id(OkCancelDialog.OK_BUTTON_ID).click();
 
         assertThat(dialogWidth, is(600));
         assertThat(dialogHeight, is(600));

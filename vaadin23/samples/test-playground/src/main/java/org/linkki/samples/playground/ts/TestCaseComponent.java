@@ -40,12 +40,12 @@ public class TestCaseComponent extends Div {
     private static final long serialVersionUID = 1L;
 
     public TestCaseComponent(String sceneId, String testCaseId, Object pmo) {
-        this(sceneId + "." + testCaseId,
+        this(getTestId(sceneId, testCaseId),
                 VaadinUiCreator.createComponent(pmo, new BindingContext(pmo.getClass().getSimpleName())));
     }
 
     public TestCaseComponent(String sceneId, String testCaseId, Component component) {
-        this(sceneId + "." + testCaseId, component);
+        this(getTestId(sceneId, testCaseId), component);
     }
 
     public TestCaseComponent(String testId, Component content) {
@@ -74,5 +74,9 @@ public class TestCaseComponent extends Div {
         VerticalLayout contentWrapper = new VerticalLayout(content);
         contentWrapper.setId("content-wrapper");
         add(contentWrapper);
+    }
+
+    public static String getTestId(String sceneId, String testCaseId) {
+        return sceneId + "." + testCaseId;
     }
 }

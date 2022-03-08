@@ -30,10 +30,8 @@ public class BindPlaceholderTest extends PlaygroundUiTest {
     private TestCaseComponentElement section;
 
     @BeforeEach
-    public void setup() {
-        super.setUp();
-        section = goToTestCase(TestScenarioView.TS008,
-                               TestScenarioView.TC010);
+    void goToTestCase() {
+        section = goToTestCase(TestScenarioView.TS008, TestScenarioView.TC010);
     }
 
     @Test

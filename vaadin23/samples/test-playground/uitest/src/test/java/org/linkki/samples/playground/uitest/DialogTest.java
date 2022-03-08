@@ -20,13 +20,15 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfEl
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfElementsToBe;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
+import org.linkki.samples.playground.dialogs.DialogsView;
 import org.linkki.samples.playground.dialogs.SimpleDialogPmo;
-import org.linkki.samples.playground.dialogs.ValidationDialogPmo;
 import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo;
-import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -47,6 +49,11 @@ class DialogTest extends AbstractUiTest {
     private static final String OVERLAY = "overlay";
     private static final String OK_BUTTON = "okButton";
 
+    @BeforeEach
+    void goToDialogsView() {
+        goToView(DialogsView.NAME);
+    }
+
     @Test
     void testDialogOnEntry() {
         getDriver().get(DriverProperties.getTestUrl(""));
@@ -62,7 +69,7 @@ class DialogTest extends AbstractUiTest {
 
     @Test
     void testDialog_ClosedOnOk() {
-        openDialogViewAndCloseInitialDialog();
+        closeInitialDialog();
         clickButton("showDialog");
 
         waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
@@ -77,7 +84,7 @@ class DialogTest extends AbstractUiTest {
 
     @Test
     void testOkCancelDialog() {
-        openDialogViewAndCloseInitialDialog();
+        closeInitialDialog();
         LinkkiSectionElement section = getSection(SimpleDialogPmo.class);
 
         section.$(TextFieldElement.class).id("caption").setValue("Awesome dialog");
@@ -101,7 +108,7 @@ class DialogTest extends AbstractUiTest {
 
     @Test
     void testDialogWithCloseHandler_CloseOnOk_WithDoubleClick() {
-        openDialogViewAndCloseInitialDialog();
+        closeInitialDialog();
         clickButton("okHandlerDialog");
         waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
         assertThat($(DialogElement.class).all().size(), is(1));
@@ -116,7 +123,7 @@ class DialogTest extends AbstractUiTest {
     @Disabled("Disabled due to enter shortcuts issues vaadin 23")
     @Test
     void testDialogWithCloseHandler_CloseOnEnter_WithDoubleEnter() {
-        openDialogViewAndCloseInitialDialog();
+        closeInitialDialog();
         clickButton("okHandlerDialog");
         waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
         assertThat($(DialogElement.class).all().size(), is(1));
@@ -129,7 +136,7 @@ class DialogTest extends AbstractUiTest {
 
     @Test
     void testDialogWithCloseHandler_CloseOnEnter_WithFocusOnOkButton() {
-        openDialogViewAndCloseInitialDialog();
+        closeInitialDialog();
 
         clickButton("okHandlerDialog");
         waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
@@ -148,7 +155,7 @@ class DialogTest extends AbstractUiTest {
     @Disabled("Disabled due to navigation issues with vaadin 23")
     @Test
     void testDialog_CloseOnViewChange() {
-        openDialogViewAndCloseInitialDialog();
+        closeInitialDialog();
         LinkkiSectionElement section = getSection(SimpleDialogPmo.class);
         section.$(ButtonElement.class).id("showDialog").click();
         waitUntil(d -> $(DialogElement.class).exists());
@@ -161,7 +168,7 @@ class DialogTest extends AbstractUiTest {
 
     @Test
     void testDialog_WithVerticalLayout() {
-        openDialogViewAndCloseInitialDialog();
+        closeInitialDialog();
         getSection(VerticalLayoutContentDialogPmo.class).$(ButtonElement.class).id("button").click();
         waitUntil(d -> $(DialogElement.class).exists());
 
@@ -170,25 +177,8 @@ class DialogTest extends AbstractUiTest {
         waitForDialogToBeClosed();
     }
 
-    /**
-     * PMOs must be annotated with a layout annotation (e.g. @UISection). Section PMOs without
-     * annotation are not supported anymore
-     */
-    @Test
-    void testDialog_ValidationDialogPmo() {
-        openDialogViewAndCloseInitialDialog();
-        getSection(ValidationDialogPmo.ButtonSectionPmo.class).$(ButtonElement.class).id("button").click();
-        waitUntil(d -> $(DialogElement.class).exists());
-
-        $(ButtonElement.class).id(OK_BUTTON).click();
-
-        waitForDialogToBeClosed();
-    }
-
-    private void openDialogViewAndCloseInitialDialog() {
-        getDriver().get(DriverProperties.getTestUrl(""));
-        clickMenuItem("Dialogs");
-        clickButton(OK_BUTTON);
+    private void closeInitialDialog() {
+        $(OkCancelDialogElement.class).waitForFirst().clickOnOk();
         waitUntil(invisibilityOfElementLocated(By.id(OVERLAY)));
         waitUntil(numberOfElementsToBe(By.tagName("vaadin-dialog"), 0));
         assertThat($(NotificationElement.class).all().size(), is(0));
