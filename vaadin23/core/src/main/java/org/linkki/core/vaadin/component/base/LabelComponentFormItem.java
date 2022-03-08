@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasValidation;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Label;
@@ -55,21 +54,12 @@ public class LabelComponentFormItem extends FormItem {
         addToLabel(label);
 
         if (component instanceof HasValue) {
-            synchronizePropertyFromField(component, "required", HasValue::isRequiredIndicatorVisible);
             synchronizePropertyFromField(component, "readonly", HasValue::isReadOnly);
 
             if (component instanceof RadioButtonGroup<?>) {
                 component.getElement()
                         .addPropertyChangeListener("disabled", e -> getElement()
                                 .setAttribute("readonly", ((RadioButtonGroup<?>)component).isReadOnly()));
-            }
-
-            if (component instanceof HasValidation) {
-                component.getElement().addPropertyChangeListener("invalid", "change",
-                                                                 e -> getElement()
-                                                                         .setAttribute("invalid",
-                                                                                       ((HasValidation)component)
-                                                                                               .isInvalid()));
             }
         }
     }

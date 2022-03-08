@@ -16,6 +16,7 @@ package org.linkki.samples.playground.bugs;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
@@ -38,14 +39,20 @@ import org.linkki.samples.playground.bugs.lin2622.MassValuesComboBoxPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "bugs", layout = PlaygroundAppLayout.class)
+@Route(value = BugCollectionView.ROUTE, layout = PlaygroundAppLayout.class)
 @PageTitle("linkki Sample :: " + BugCollectionView.NAME)
-public class BugCollectionView extends LinkkiTabLayout {
+public class BugCollectionView extends LinkkiTabLayout implements HasUrlParameter<String> {
+
+    public static final String ROUTE = "bugs";
 
     public static final String NAME = "Bugs";
 
@@ -60,7 +67,8 @@ public class BugCollectionView extends LinkkiTabLayout {
                      createTabSheet(PmoReadonlyModelNotReadonlyPmo::new),
                      createTabSheet(DoubleClickPmo::new),
                      createTabSheet(ComboBoxPmo::new),
-                     LinkkiTabSheet.builder(OnlyTablePmo.CAPTION)
+                     LinkkiTabSheet.builder(OnlyTablePmo.LIN_1797)
+                             .caption(createCaptionLink(OnlyTablePmo.LIN_1797, OnlyTablePmo.CAPTION))
                              .content(() -> new PmoBasedSectionFactory().createSection(new OnlyTablePmo(),
                                                                                        new BindingContext()))
                              .build(),
@@ -73,6 +81,13 @@ public class BugCollectionView extends LinkkiTabLayout {
                      createTabSheet(MassValuesComboBoxPmo::new));
     }
 
+    @Override
+    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
+        if (StringUtils.isNoneEmpty(parameter)) {
+            setSelectedTabSheet(parameter);
+        }
+    }
+
     private LinkkiTabSheet createTabSheet(Supplier<Object> pmoCreation) {
         return createTabSheet(bc -> pmoCreation.get());
     }
@@ -82,16 +97,24 @@ public class BugCollectionView extends LinkkiTabLayout {
         Object pmo = pmoCreation.apply(bindingContext);
         Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
 
+        String caption;
         if (component instanceof LinkkiSection) {
-            LinkkiSection section = (LinkkiSection)component;
-            return LinkkiTabSheet.builder(section.getCaption())
-                    .caption(section.getCaption())
-                    .content(() -> new VerticalLayout(section))
-                    .build();
+            caption = ((LinkkiSection)component).getCaption();
         } else {
-            return LinkkiTabSheet.builder(pmo.getClass().getSimpleName())
-                    .content(() -> component)
-                    .build();
+            caption = pmo.getClass().getSimpleName();
         }
+        String id = toId(caption);
+        return LinkkiTabSheet.builder(id)
+                .caption(createCaptionLink(id, caption))
+                .content(() -> new VerticalLayout(component))
+                .build();
+    }
+
+    private Component createCaptionLink(String id, String caption) {
+        return new Anchor(ROUTE + "/" + id, caption);
+    }
+
+    private String toId(String caption) {
+        return caption.replaceAll("[^a-zA-Z0-9\\-\\_]", "-");
     }
 }

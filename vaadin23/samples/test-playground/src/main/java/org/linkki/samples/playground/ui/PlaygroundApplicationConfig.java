@@ -30,6 +30,7 @@ import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.dialogs.DialogsView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.samples.playground.products.ProductsSampleView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.util.DateFormats;
 import org.linkki.util.Sequence;
 
@@ -79,7 +80,7 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence
-                .of(new ApplicationMenuItemDefinition("Playground", PlaygroundApplicationView.class),
+                .of(new ApplicationMenuItemDefinition("Playground", TestScenarioView.class),
                     new ApplicationMenuItemDefinition("Dialogs", DialogsView.class),
                     new ApplicationMenuItemDefinition("Sample Layout", SampleView.class),
                     new ApplicationMenuItemDefinition("Custom Layout", CustomView.class),

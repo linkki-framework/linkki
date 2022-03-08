@@ -21,8 +21,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -32,7 +32,7 @@ public class BindStyleNamesTest extends PlaygroundUiTest {
 
     @BeforeEach
     public void goToTestCase() {
-        testCaseSection = goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC008);
+        testCaseSection = goToTestCase(TestScenarioView.TS008, TestScenarioView.TC008);
     }
 
     @Test

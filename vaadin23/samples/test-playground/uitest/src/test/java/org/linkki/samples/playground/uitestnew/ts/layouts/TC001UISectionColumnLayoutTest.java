@@ -15,8 +15,8 @@
 package org.linkki.samples.playground.uitestnew.ts.layouts;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionComponent;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 
@@ -24,7 +24,7 @@ class TC001UISectionColumnLayoutTest extends TC001AbstractSectionTest {
 
     @Override
     protected String getTestCaseId() {
-        return PlaygroundApplicationView.TC001;
+        return TestScenarioView.TC001;
     }
 
     @Override

@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.WebElement;
 
@@ -36,8 +36,8 @@ public class BindSuffixTest extends PlaygroundUiTest {
 
     @Test
     public void testSuffixStatic() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC009);
+        TestCaseComponentElement section = goToTestCase(TestScenarioView.TS008,
+                                                        TestScenarioView.TC009);
         TextFieldElement suffixTextField = section.$(TextFieldElement.class)
                 .id("suffixStaticText");
         WebElement suffixDiv = getSuffix(suffixTextField);
@@ -48,8 +48,8 @@ public class BindSuffixTest extends PlaygroundUiTest {
 
     @Test
     public void testSuffixDynamic_WithValue() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC009);
+        TestCaseComponentElement section = goToTestCase(TestScenarioView.TS008,
+                                                        TestScenarioView.TC009);
 
         TextFieldElement suffixTextField = section.$(TextFieldElement.class)
                 .id("suffixDynamicText");
@@ -67,8 +67,8 @@ public class BindSuffixTest extends PlaygroundUiTest {
 
     @Test
     public void testSuffixDynamic_WithEmptyValue() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
-                                                        PlaygroundApplicationView.TC009);
+        TestCaseComponentElement section = goToTestCase(TestScenarioView.TS008,
+                                                        TestScenarioView.TC009);
 
         TextFieldElement suffixTextField = section.$(TextFieldElement.class)
                 .id("suffixDynamicText");

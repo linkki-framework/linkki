@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.UITestConfiguration;
 
@@ -68,7 +68,7 @@ class TC001LocalizationTest {
         @BeforeEach
         void setup() {
             super.setUp();
-            testCaseSection = goToTestCase(PlaygroundApplicationView.TS003, PlaygroundApplicationView.TC001);
+            testCaseSection = goToTestCase(TestScenarioView.TS003, TestScenarioView.TC001);
 
             section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
             allFormItems = section.$("vaadin-form-item").all();

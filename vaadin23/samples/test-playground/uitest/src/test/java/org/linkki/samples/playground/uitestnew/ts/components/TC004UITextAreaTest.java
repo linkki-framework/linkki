@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
@@ -30,7 +30,7 @@ class TC004UITextAreaTest extends PlaygroundUiTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC004);
+        goToTestCase(TestScenarioView.TS005, TestScenarioView.TC004);
     }
 
     @Test

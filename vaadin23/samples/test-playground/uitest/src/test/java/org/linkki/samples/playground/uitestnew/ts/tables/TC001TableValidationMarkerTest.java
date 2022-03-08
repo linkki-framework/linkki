@@ -21,7 +21,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -33,7 +33,7 @@ class TC001TableValidationMarkerTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC001);
+        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC001);
     }
 
     @Test
@@ -59,8 +59,8 @@ class TC001TableValidationMarkerTest extends PlaygroundUiTest {
         assertThat(textField.getAttribute("invalid"), is("true"));
 
         // switch tabs
-        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC002);
-        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC001);
+        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC002);
+        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC001);
         waitUntil(visibilityOfElementLocated(By.id(PlaygroundTablePmo.class.getSimpleName())));
 
         table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");

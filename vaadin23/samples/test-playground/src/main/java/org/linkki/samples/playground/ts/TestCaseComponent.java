@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground;
+package org.linkki.samples.playground.ts;
 
 import java.util.Arrays;
 

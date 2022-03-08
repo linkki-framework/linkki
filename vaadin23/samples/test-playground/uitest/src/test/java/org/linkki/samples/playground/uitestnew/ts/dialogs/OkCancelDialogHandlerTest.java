@@ -25,8 +25,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -38,7 +38,7 @@ class OkCancelDialogHandlerTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS011, PlaygroundApplicationView.TC001);
+        goToTestCase(TestScenarioView.TS011, TestScenarioView.TC001);
         $(ButtonElement.class).id(OkCancelDialogHandlerPmo.RESET_BUTTON_ID).click();
     }
 

@@ -26,7 +26,7 @@ import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.application.custom.CustomMenuItemDefinitionCreator.MySubSubMenuItem;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.notification.Notification;
@@ -46,7 +46,7 @@ public class CustomApplicationConfig implements ApplicationConfig {
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(
                            // tag::applicationMenuItemDefinition[]
-                           new ApplicationMenuItemDefinition("Playground", PlaygroundApplicationView.class)
+                           new ApplicationMenuItemDefinition("Playground", TestScenarioView.class)
                            // end::applicationMenuItemDefinition[]
                            ,
                            new ApplicationMenuItemDefinition("Click Handler Constructor Variants",

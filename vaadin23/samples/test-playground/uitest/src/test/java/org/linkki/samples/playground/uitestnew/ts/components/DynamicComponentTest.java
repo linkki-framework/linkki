@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitest.DriverProperties;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -33,7 +33,7 @@ class DynamicComponentTest extends PlaygroundUiTest {
     public void setUp() {
         super.setUp();
         getDriver().get(DriverProperties.getTestUrl(""));
-        goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC012);
+        goToTestCase(TestScenarioView.TS005, TestScenarioView.TC012);
     }
 
     @Test

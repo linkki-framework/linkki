@@ -17,7 +17,7 @@ package org.linkki.samples.playground.uitestnew.ts.tablayout;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -35,7 +35,7 @@ public class TC003TabLayoutVisibilityTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase(PlaygroundApplicationView.TS010, PlaygroundApplicationView.TC003);
+        testCaseSection = goToTestCase(TestScenarioView.TS010, TestScenarioView.TC003);
         section = testCaseSection.getContentWrapper().$(DivElement.class).first();
     }
 

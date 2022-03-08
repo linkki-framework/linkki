@@ -19,11 +19,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -36,7 +36,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption() {
-        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC002);
+        goToTestCase(TestScenarioView.TS008, TestScenarioView.TC002);
         LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
@@ -48,7 +48,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_WithEditButton() {
-        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC003);
+        goToTestCase(TestScenarioView.TS008, TestScenarioView.TC003);
         LinkkiSectionElement section = getSection(BindCaptionWithEditButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
@@ -60,7 +60,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_WithSectionHeaderButton() {
-        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC004);
+        goToTestCase(TestScenarioView.TS008, TestScenarioView.TC004);
         LinkkiSectionElement section = getSection(BindCaptionWithSectionHeaderButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
@@ -72,7 +72,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_WithCloseButton() {
-        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC005);
+        goToTestCase(TestScenarioView.TS008, TestScenarioView.TC005);
         LinkkiSectionElement section = getSection(BindCaptionWithCloseButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
@@ -84,7 +84,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_EmptyCaptionHidesElement() {
-        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC002);
+        goToTestCase(TestScenarioView.TS008, TestScenarioView.TC002);
         LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
@@ -96,7 +96,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_ButtonStaysVisibleWithEmptyCaption() {
-        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC004);
+        goToTestCase(TestScenarioView.TS008, TestScenarioView.TC004);
         LinkkiSectionElement section = getSection(BindCaptionWithSectionHeaderButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
@@ -110,7 +110,7 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testButtonCaption() {
-        goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC002);
+        goToTestCase(TestScenarioView.TS008, TestScenarioView.TC002);
         LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
         TextFieldElement captionField = section.getContent().$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);

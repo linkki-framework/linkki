@@ -21,7 +21,7 @@ import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.util.Sequence;
 
 /**
@@ -57,7 +57,7 @@ public class ProductsSampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.of(new ApplicationMenuItemDefinition("Start", PlaygroundApplicationView.class),
+        return Sequence.of(new ApplicationMenuItemDefinition("Start", TestScenarioView.class),
                            new ApplicationMenuItemDefinition("Produkt", ProductsSampleView.class));
     }
 }

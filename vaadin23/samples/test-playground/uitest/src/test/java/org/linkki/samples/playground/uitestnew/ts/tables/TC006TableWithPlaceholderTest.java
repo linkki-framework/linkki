@@ -23,7 +23,7 @@ import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmp
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -36,7 +36,7 @@ class TC006TableWithPlaceholderTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC006);
+        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC006);
     }
 
     @Test

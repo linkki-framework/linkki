@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
@@ -35,7 +35,7 @@ class TC001MessageTableTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        goToTestCase(PlaygroundApplicationView.TS013, PlaygroundApplicationView.TC001);
+        goToTestCase(TestScenarioView.TS013, TestScenarioView.TC001);
     }
 
     @Test
