@@ -1,4 +1,20 @@
 
+html {
+    --linkki-color-info: hsla(213, 100%, 87%, 1);
+    --linkki-color-info-light: hsla(213, 100%, 92%, 1);
+    --linkki-color-success: hsla(80, 96%, 70%, 1);
+    --linkki-color-success-light: hsla(80, 96%, 90%, 1);
+    --linkki-color-warning: hsla(50, 100%, 70%, 1);
+    --linkki-color-warning-light: hsla(50, 100%, 90%, 1);
+    --linkki-color-error: hsla(0, 61%, 54%, 1);
+    --linkki-color-error-light: hsla(0, 61%, 95%, 1);
+
+    --linkki-message-info-color: var(--linkki-color-info);
+    --linkki-message-warning-color: var(--linkki-color-warning);
+    --linkki-message-error-color: var(--linkki-color-error);
+}
+
+
 a:not([href]) {
     color: inherit;
     text-decoration: none;
@@ -6,7 +22,7 @@ a:not([href]) {
 }
 
 .linkki-right-aligned > span {
-	text-align: right;
+    text-align: right;
 }
 
 .linkki-grid-footer-sum {

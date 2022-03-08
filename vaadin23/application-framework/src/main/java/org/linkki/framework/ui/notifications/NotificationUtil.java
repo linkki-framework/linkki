@@ -21,17 +21,20 @@ import org.linkki.framework.ui.nls.NlsText;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
-import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 @CssImport("./styles/linkki-notification.css")
 public class NotificationUtil {
+
+    public static final String LINKKI_NOTIFICATION_INFO = "info";
+    public static final String LINKKI_NOTIFICATION_WARNING = "warning";
+    public static final String LINKKI_NOTIFICATION_ERROR = "error";
 
     private static int infoDuration = 3000;
     private static int warningDuration = 3000;
@@ -138,16 +141,16 @@ public class NotificationUtil {
         Notification notification = new Notification(content);
         if (severity == Severity.INFO) {
             notification.setDuration(infoDuration);
+            notification.addThemeName(LINKKI_NOTIFICATION_INFO);
         } else if (severity == Severity.WARNING) {
             notification.setDuration(warningDuration);
-            notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+            notification.addThemeName(LINKKI_NOTIFICATION_WARNING);
         } else if (severity == Severity.ERROR) {
             notification.setDuration(0);
-            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            notification.addThemeName(LINKKI_NOTIFICATION_ERROR);
 
             Button closeButton = new Button(NlsText.getString("NotificationUtil.CloseButtonCaption"),
                     e -> notification.close());
-            closeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             notification.add(closeButton);
         }
 
@@ -155,8 +158,10 @@ public class NotificationUtil {
         return notification;
     }
 
-    private static Div createMessageListComponent(MessageList messages) {
-        Div component = new Div();
+    private static Component createMessageListComponent(MessageList messages) {
+        VerticalLayout component = new VerticalLayout();
+        component.setClassName("linkki-notification-messagelist");
+        component.setPadding(false);
         messages.forEach(m -> {
             LinkkiText m2 = new LinkkiText();
             m2.setText(m.getText());

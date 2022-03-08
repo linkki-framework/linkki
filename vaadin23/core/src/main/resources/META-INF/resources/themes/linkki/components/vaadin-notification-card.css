@@ -1,0 +1,17 @@
+
+:host([theme~='success']) [part='overlay'] {
+    background-color: var(--linkki-color-success);
+}
+:host([theme~='info']) [part='overlay'] {
+    background-color: var(--linkki-color-info);
+}
+:host([theme~='warning']) [part='overlay'] {
+    background-color: var(--linkki-color-warning);
+}
+:host([theme~='error']) [part='overlay'] {
+    background-color: var(--linkki-color-error);
+}
+
+[part='content'] linkki-text {
+    color: inherit;
+}

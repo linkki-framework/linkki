@@ -14,8 +14,7 @@
 
 package org.linkki.samples.playground.uitestnew.ts.messages;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,8 +42,8 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         GridElement grid = $(GridElement.class).id(MESSAGE_TABLE);
         IconElement icon = grid.getCell(0, 0).$(IconElement.class).first();
 
-        assertThat(icon.getCssValue("color"), is("rgba(210, 67, 67, 1)"));
-        assertThat(icon.getAttribute("icon"), is("vaadin:exclamation-circle"));
+        assertThat(icon.getCssValue("color")).isEqualTo("rgba(209, 66, 66, 1)");
+        assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:exclamation-circle");
     }
 
     @Test
@@ -52,8 +51,8 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         GridElement grid = $(GridElement.class).id(MESSAGE_TABLE);
         IconElement icon = grid.getCell(1, 0).$(IconElement.class).first();
 
-        assertThat(icon.getCssValue("color"), is("rgba(242, 174, 85, 1)"));
-        assertThat(icon.getAttribute("icon"), is("vaadin:warning"));
+        assertThat(icon.getCssValue("color")).isEqualTo("rgba(255, 230, 102, 1)");
+        assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:warning");
     }
 
     @Test
@@ -61,8 +60,8 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         GridElement grid = $(GridElement.class).id(MESSAGE_TABLE);
         IconElement icon = grid.getCell(2, 0).$(IconElement.class).first();
 
-        assertThat(icon.getCssValue("color"), is("rgba(153, 199, 255, 1)"));
-        assertThat(icon.getAttribute("icon"), is("vaadin:info-circle"));
+        assertThat(icon.getCssValue("color")).isEqualTo("rgba(189, 219, 255, 1)");
+        assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:info-circle");
     }
 
 }

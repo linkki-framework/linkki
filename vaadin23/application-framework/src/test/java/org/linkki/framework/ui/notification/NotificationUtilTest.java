@@ -16,7 +16,9 @@ package org.linkki.framework.ui.notification;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_ERROR;
+import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_INFO;
+import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_WARNING;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.validation.message.Severity;
@@ -24,7 +26,6 @@ import org.linkki.framework.ui.notifications.NotificationUtil;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 
 public class NotificationUtilTest {
 
@@ -48,23 +49,21 @@ public class NotificationUtilTest {
     public void testCreateNotification_InfoTheme() {
         Notification notification = NotificationUtil.createNotification(Severity.INFO, "title", new Div());
 
-        assertThat(notification.getThemeName(), is(nullValue()));
+        assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_INFO), is(true));
     }
 
     @Test
     public void testCreateNotification_WarningTheme() {
         Notification notification = NotificationUtil.createNotification(Severity.WARNING, "title", new Div());
 
-        String variant = NotificationVariant.LUMO_PRIMARY.getVariantName();
-        assertThat(notification.hasThemeName(variant), is(true));
+        assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_WARNING), is(true));
     }
 
     @Test
     public void testCreateNotification_ErrorTheme() {
         Notification notification = NotificationUtil.createNotification(Severity.ERROR, "title", new Div());
 
-        String variant = NotificationVariant.LUMO_ERROR.getVariantName();
-        assertThat(notification.hasThemeName(variant), is(true));
+        assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_ERROR), is(true));
     }
 
 }
