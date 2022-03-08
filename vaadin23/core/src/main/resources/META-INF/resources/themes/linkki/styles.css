@@ -5,18 +5,14 @@ html {
     --linkki-input-border-hover: none;
     --linkki-input-border-readonly: var(--lumo-contrast-20pct);
 
-    --linkki-color-info: hsla(213, 100%, 87%, 1);
-    --linkki-color-info-light: hsla(213, 100%, 92%, 1);
-    --linkki-color-success: hsla(80, 96%, 70%, 1);
-    --linkki-color-success-light: hsla(80, 96%, 90%, 1);
-    --linkki-color-warning: hsla(50, 100%, 70%, 1);
-    --linkki-color-warning-light: hsla(50, 100%, 90%, 1);
-    --linkki-color-error: hsla(0, 61%, 54%, 1);
-    --linkki-color-error-light: hsla(0, 61%, 95%, 1);
-
-    --linkki-message-info-color: var(--linkki-color-info);
-    --linkki-message-warning-color: var(--linkki-color-warning);
-    --linkki-message-error-color: var(--linkki-color-error);
+    --linkki-info-color: hsla(213, 80%, 70%, 1);
+    --linkki-info-color-light: hsla(213, 80%, 90%, 1);
+    --linkki-info-color-dark: hsla(213, 80%, 40%, 1);
+    --linkki-warning-color: hsla(50, 80%, 50%, 1);
+    --linkki-warning-color-light: hsla(50, 80%, 90%, 1);
+    --linkki-warning-color-dark: hsla(50, 80%, 30%, 1);
+    
+    --lumo-error-color: hsla(0, 61%, 54%, 1);
 }
 
 a:not([href]) {
@@ -36,4 +32,18 @@ a:not([href]) {
 
 .linkki-grid-footer-bold {
     --linkki-footer-text-shadow: 0 .1px 0 currentColor;
+}
+
+[severity="info"] {
+    --lumo-error-color-10pct: var(--linkki-info-color-light);
+    --lumo-error-color-50pct: var(--linkki-info-color-dark);
+    --lumo-error-text-color: var(--linkki-info-color-dark);
+}
+[severity="warning"] {
+    --lumo-error-color-10pct: var(--linkki-warning-color-light);
+    --lumo-error-color-50pct: var(--linkki-warning-color-dark);
+    --lumo-error-text-color: var(--linkki-warning-color-dark);
+}
+[severity="error"] {
+
 }

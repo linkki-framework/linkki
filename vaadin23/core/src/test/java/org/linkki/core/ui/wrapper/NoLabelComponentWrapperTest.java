@@ -22,6 +22,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.validation.message.Message;
@@ -33,6 +34,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.dom.Element;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -90,6 +92,7 @@ public class NoLabelComponentWrapperTest extends BaseComponentWrapperTest {
     @Test
     public void testSetValidationMessages_NotOnVanillaComponent() {
         Component component = mock(Component.class);
+        when(component.getElement()).thenReturn(mock(Element.class));
         NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(component,
                 WrapperType.FIELD);
 
@@ -105,7 +108,8 @@ public class NoLabelComponentWrapperTest extends BaseComponentWrapperTest {
                 WrapperType.FIELD);
         ArgumentCaptor<String> errorMessageCaptor = ArgumentCaptor.forClass(String.class);
 
-        MessageList messages = new MessageList(Message.newError("e", "testError"),
+        MessageList messages = new MessageList(Message.newWarning("w", "testWarning"),
+                Message.newError("e", "testError"),
                 Message.newWarning("w", "testWarning"));
         wrapper.setValidationMessages(messages);
 
@@ -114,7 +118,6 @@ public class NoLabelComponentWrapperTest extends BaseComponentWrapperTest {
         @NonNull
         String errorMessage = errorMessageCaptor.getValue();
         assertThat(errorMessage, containsString("testError"));
-        assertThat(errorMessage, containsString("testWarning"));
     }
 
     @Test
@@ -126,7 +129,7 @@ public class NoLabelComponentWrapperTest extends BaseComponentWrapperTest {
         MessageList messages = new MessageList();
         wrapper.setValidationMessages(messages);
 
-        verify(component).setErrorMessage("");
+        verify(component).setErrorMessage(null);
     }
 
     @Test

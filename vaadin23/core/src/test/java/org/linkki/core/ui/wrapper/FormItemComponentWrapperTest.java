@@ -123,7 +123,7 @@ class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
     void testDisplayMessages_noMessages() {
         selectBinding.displayMessages(messageList);
 
-        verify(selectField).setErrorMessage("");
+        verify(selectField).setErrorMessage(null);
         assertThat(selectField.isInvalid(), is(false));
     }
 

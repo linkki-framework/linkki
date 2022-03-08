@@ -16,11 +16,8 @@ package org.linkki.core.ui.wrapper;
 
 
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.linkki.core.binding.Binding;
-import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
@@ -36,6 +33,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * Base class to wrap vaadin components.
  */
 public abstract class VaadinComponentWrapper implements ComponentWrapper {
+
+    private static final String SEVERITY_ATTRIBUTE_NAME = "severity";
 
     private static final long serialVersionUID = 1L;
 
@@ -79,16 +78,21 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
     @Override
     public void setValidationMessages(MessageList messagesForProperty) {
         if (component instanceof HasValidation) {
+            component.getElement().removeAttribute(SEVERITY_ATTRIBUTE_NAME);
             HasValidation field = (HasValidation)component;
-            field.setErrorMessage(formatMessages(messagesForProperty));
-            field.setInvalid(messagesForProperty.containsErrorMsg());
+            setHelperMessage(messagesForProperty, field);
+            field.setInvalid(!messagesForProperty.isEmpty());
+            messagesForProperty.getMessageWithHighestSeverity()
+                    .ifPresent(m -> component.getElement().setAttribute(SEVERITY_ATTRIBUTE_NAME,
+                                                                        m.getSeverity().name().toLowerCase()));
         }
     }
 
-    private String formatMessages(MessageList messages) {
-        return StreamSupport.stream(messages.spliterator(), false)
-                .map(Message::getText)
-                .collect(Collectors.joining("\n"));
+    private void setHelperMessage(MessageList messagesForProperty, HasValidation field) {
+        messagesForProperty.getMessageWithHighestSeverity()
+                .ifPresentOrElse(
+                                 m -> field.setErrorMessage(m.getText()),
+                                 () -> field.setErrorMessage(null));
     }
 
     @Override
