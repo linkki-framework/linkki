@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %p %m %ex%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Prevent logging of individual HTTP requests -->
+    <logger name="io.netty" level="INFO" />
+    <logger name="org.asynchttpclient.netty" level="INFO" />
+
+    <root level="TRACE">
+        <appender-ref ref="stdout" />
+    </root>
+</configuration>
