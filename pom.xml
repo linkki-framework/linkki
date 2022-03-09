@@ -85,6 +85,8 @@
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                     <compilerArgs>
+                        <arg>-Xmaxwarns</arg>
+                        <arg>500</arg>
                         <arg>-Xlint</arg>
                         <!-- Because the eclipse compiler and javac differ: 
                             https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
