@@ -1,4 +1,3 @@
-
 html {
     --linkki-color-info: hsla(213, 100%, 87%, 1);
     --linkki-color-info-light: hsla(213, 100%, 92%, 1);
@@ -13,7 +12,6 @@ html {
     --linkki-message-warning-color: var(--linkki-color-warning);
     --linkki-message-error-color: var(--linkki-color-error);
 }
-
 
 a:not([href]) {
     color: inherit;

@@ -16,18 +16,19 @@ package org.linkki.core.vaadin.component.base;
 
 import java.util.Objects;
 
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.HasIcon;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * A text component that can have an additional {@link VaadinIcon} and a label. It also supports a HTML
@@ -35,7 +36,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @Tag("linkki-text")
 @JsModule("./src/linkki-text.ts")
-@CssImport(value = "./styles/linkki-has-icon.css")
 public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix, HasText {
 
     public static final String CLASS_NAME = "linkki-text";
@@ -120,15 +120,15 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
     }
 
     @Override
-    public void setIcon(VaadinIcon icon) {
+    public void setIcon(@Nullable VaadinIcon icon) {
         if (!Objects.equals(this.icon, icon)) {
             this.icon = icon;
             if (icon != null) {
                 setPrefixComponent(icon.create());
-                setClassName("linkki-has-icon");
+                setClassName(LinkkiTheme.HAS_ICON);
             } else {
                 setPrefixComponent(null);
-                removeClassName("linkki-has-icon");
+                removeClassName(LinkkiTheme.HAS_ICON);
             }
         }
     }

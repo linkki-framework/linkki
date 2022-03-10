@@ -24,6 +24,7 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * An anchor component that can have an additional {@link VaadinIcon}
@@ -62,7 +63,7 @@ public class LinkkiAnchor extends Anchor implements HasIcon {
     }
 
     @Override
-    public void setIcon(VaadinIcon icon) {
+    public void setIcon(@Nullable VaadinIcon icon) {
         if (!Objects.equals(this.icon, icon)) {
             this.icon = icon;
             if (icon != null) {

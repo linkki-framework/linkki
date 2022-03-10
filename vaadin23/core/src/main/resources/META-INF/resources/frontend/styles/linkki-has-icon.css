@@ -5,3 +5,9 @@
     max-height: var(--lumo-font-size-m);
     max-width: var(--lumo-font-size-m);
 }
+
+a.linkki-has-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+}
