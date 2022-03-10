@@ -13,6 +13,7 @@
 :host(:not([label-position='top'])) #label {
     display: flex;
     justify-content: var(--linkki-form-item-label-alignment, end);
+    text-align: var(--linkki-form-item-label-alignment, end);
     position: relative;
 }
 
