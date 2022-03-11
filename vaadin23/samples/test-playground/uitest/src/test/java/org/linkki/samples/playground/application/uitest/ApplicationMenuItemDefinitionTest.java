@@ -31,7 +31,7 @@ public class ApplicationMenuItemDefinitionTest extends AbstractUiTest {
 
     @Test
     void testApplicationMenuItem_ExternalLink() {
-        clickMenuItem("Click Handler Constructor Variants");
+        clickMenuItemById("click-handler");
         clickContextMenuItem("External Link");
 
         Assertions.assertThat(getDriver().getCurrentUrl()).isEqualTo("https://www.linkki-framework.org/");
@@ -40,7 +40,7 @@ public class ApplicationMenuItemDefinitionTest extends AbstractUiTest {
     @Test
     void testApplicationMenuItem_RelativeLink() {
         String applicationSampleUrl = getDriver().getCurrentUrl();
-        clickMenuItem("Click Handler Constructor Variants");
+        clickMenuItemById("click-handler");
         clickContextMenuItem("Relative Link to Bugs");
 
         Assertions.assertThat(getDriver().getCurrentUrl())
@@ -50,7 +50,7 @@ public class ApplicationMenuItemDefinitionTest extends AbstractUiTest {
     @Test
     void testApplicationMenuItem_NavigateToClass() {
         String applicationSampleUrl = getDriver().getCurrentUrl();
-        clickMenuItem("Click Handler Constructor Variants");
+        clickMenuItemById("click-handler");
         clickContextMenuItem("Route Class to Bugs");
 
         Assertions.assertThat(getDriver().getCurrentUrl())
@@ -59,7 +59,7 @@ public class ApplicationMenuItemDefinitionTest extends AbstractUiTest {
 
     @Test
     void testApplicationMenuItem_Handler() {
-        clickMenuItem("Click Handler Constructor Variants");
+        clickMenuItemById("click-handler");
         clickContextMenuItem("Handler");
 
         Assertions.assertThat($(NotificationElement.class).exists()).isTrue();

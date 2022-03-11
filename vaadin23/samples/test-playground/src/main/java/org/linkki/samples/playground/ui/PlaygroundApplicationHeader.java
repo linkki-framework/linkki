@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.ui;
 
+import java.util.List;
+
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
@@ -37,21 +39,18 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
     @Override
     protected void addHelpMenuItems(MenuItem helpMenu) {
         super.addHelpMenuItems(helpMenu);
-        helpMenu.getSubMenu().addItem("Locale",
-                                      i -> {
-                                          new PmoBasedDialogFactory()
-                                                  .newOkDialog("Browser Locale",
-                                                               new LocaleInfoPmo())
-                                                  .open();
-                                      });
-        helpMenu.getSubMenu().addItem("Toogle Dark Mode",
-                                      i -> {
-                                          ThemeList themeList = UI.getCurrent().getElement().getThemeList();
-                                          if (themeList.contains(Lumo.DARK)) {
-                                              themeList.remove(Lumo.DARK);
-                                          } else {
-                                              themeList.add(Lumo.DARK);
-                                          }
-                                      });
+        List.of(new ApplicationMenuItemDefinition("Locale", "appmenu-locale",
+                () -> new PmoBasedDialogFactory()
+                        .newOkDialog("Browser Locale", new LocaleInfoPmo()).open()),
+                new ApplicationMenuItemDefinition("Toogle Dark Mode", "appmenu-dark-mode",
+                        () -> {
+                            ThemeList themeList = UI.getCurrent().getElement().getThemeList();
+                            if (themeList.contains(Lumo.DARK)) {
+                                themeList.remove(Lumo.DARK);
+                            } else {
+                                themeList.add(Lumo.DARK);
+                            }
+                        }))
+                .forEach(i -> i.createItem(helpMenu.getSubMenu()));
     }
 }

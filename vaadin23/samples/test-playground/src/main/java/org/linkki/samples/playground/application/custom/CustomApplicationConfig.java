@@ -46,27 +46,31 @@ public class CustomApplicationConfig implements ApplicationConfig {
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(
                            // tag::applicationMenuItemDefinition[]
-                           new ApplicationMenuItemDefinition("Playground", TestScenarioView.class)
+                           new ApplicationMenuItemDefinition("Playground", "playground", TestScenarioView.class)
                            // end::applicationMenuItemDefinition[]
                            ,
-                           new ApplicationMenuItemDefinition("Click Handler Constructor Variants",
-                                   Arrays.asList(new ApplicationMenuItemDefinition("External Link",
+                           new ApplicationMenuItemDefinition("Click Handler Constructor Variants", "click-handler",
+                                   Arrays.asList(new ApplicationMenuItemDefinition("External Link", "external-link",
                                            "https://www.linkki-framework.org"),
                                                  new ApplicationMenuItemDefinition("Relative Link to Bugs",
+                                                         "bugs-relative",
                                                          "bugs"),
                                                  new ApplicationMenuItemDefinition("Route Class to Bugs",
+                                                         "bugs-route-class",
                                                          BugCollectionView.class),
-                                                 new ApplicationMenuItemDefinition("Handler",
+                                                 new ApplicationMenuItemDefinition("Handler", "handler",
                                                          () -> Notification.show("Handler")))),
                            // customizable menu item definition
                            CustomMenuItemDefinitionCreator
-                                   .createMenuItem("Customizable Definition: Multiple Sub-sub-menus", Arrays
-                                           .asList(new MySubSubMenuItem("Item 1"),
-                                                   new MySubSubMenuItem("Item 2"))),
+                                   .createMenuItem("Customizable Definition: Multiple Sub-sub-menus",
+                                                   "multiple-sub-sub-menu", Arrays
+                                                           .asList(new MySubSubMenuItem("Item 1", "item-1"),
+                                                                   new MySubSubMenuItem("Item 2", "item-2"))),
                            CustomMenuItemDefinitionCreator
-                                   .createMenuItem("Customizable Definition: Single Sub-sub-menu", Collections
-                                           .singletonList(new MySubSubMenuItem(
-                                                   "Item 1"))));
+                                   .createMenuItem("Customizable Definition: Single Sub-sub-menu",
+                                                   "single-sub-sub-menu", Collections
+                                                           .singletonList(new MySubSubMenuItem(
+                                                                   "Item 1", "item-1"))));
     }
 
     @Override

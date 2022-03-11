@@ -80,13 +80,13 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence
-                .of(new ApplicationMenuItemDefinition("Playground", TestScenarioView.class),
-                    new ApplicationMenuItemDefinition("Dialogs", DialogsView.class),
-                    new ApplicationMenuItemDefinition("Sample Layout", SampleView.class),
-                    new ApplicationMenuItemDefinition("Custom Layout", CustomView.class),
-                    new ApplicationMenuItemDefinition("Binding", BindingSampleView.class),
-                    new ApplicationMenuItemDefinition("F10 Produkte", ProductsSampleView.class),
-                    new ApplicationMenuItemDefinition(BugCollectionView.NAME, BugCollectionView.class));
+                .of(new ApplicationMenuItemDefinition("Playground", "playground", TestScenarioView.class),
+                    new ApplicationMenuItemDefinition("Dialogs", "dialogs", DialogsView.class),
+                    new ApplicationMenuItemDefinition("Sample Layout", "sample-layout", SampleView.class),
+                    new ApplicationMenuItemDefinition("Custom Layout", "custom-layout", CustomView.class),
+                    new ApplicationMenuItemDefinition("Binding", "binding", BindingSampleView.class),
+                    new ApplicationMenuItemDefinition("F10 Produkte", "f10-products", ProductsSampleView.class),
+                    new ApplicationMenuItemDefinition(BugCollectionView.NAME, "bugs", BugCollectionView.class));
     }
 
     @Override

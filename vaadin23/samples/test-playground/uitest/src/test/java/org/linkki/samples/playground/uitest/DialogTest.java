@@ -57,7 +57,7 @@ class DialogTest extends AbstractUiTest {
     @Test
     void testDialogOnEntry() {
         getDriver().get(DriverProperties.getTestUrl(""));
-        clickMenuItem("Dialogs");
+        clickMenuItemById("dialogs");
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(OVERLAY)));
 
         assertThat($(DialogElement.class).all().size(), is(1));

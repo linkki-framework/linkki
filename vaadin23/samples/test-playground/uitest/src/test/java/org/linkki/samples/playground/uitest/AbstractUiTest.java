@@ -13,10 +13,10 @@
  */
 package org.linkki.samples.playground.uitest;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -134,17 +134,17 @@ public abstract class AbstractUiTest extends TestBenchTestCase {
     }
 
     /**
-     * Find the menubar element based on the text and click on the first menu item.
+     * Find the menubar element based on the id and click on the menu item if it exists.
      *
-     * @param text the text of the {@link MenuBar}
+     * @param id the id of the {@link MenuBar}
      */
-    public void clickMenuItem(String text) {
-        $(MenuBarElement.class).first().getButtons().stream()//
-                .filter(e -> StringUtils.equals(e.getText(), text))//
+    public void clickMenuItemById(String id) {
+        $(MenuBarElement.class).id("linkki-application-menu")//
+                .getButtons().stream()//
+                .map(b -> b.findElements(By.id(id)))//
+                .flatMap(Collection<WebElement>::stream)
                 .findFirst()//
-                .ifPresentOrElse(TestBenchElement::click, () -> {
-                    throw new NoSuchElementException("No MenuBarElement with text " + text + " could be found");
-                });
+                .ifPresent(WebElement::click);
     }
 
     /**

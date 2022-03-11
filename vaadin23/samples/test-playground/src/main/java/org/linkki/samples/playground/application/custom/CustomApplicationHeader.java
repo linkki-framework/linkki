@@ -22,10 +22,8 @@ import org.linkki.samples.playground.application.custom.CustomApplicationConfig.
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.Sequence;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -44,10 +42,9 @@ public class CustomApplicationHeader extends ApplicationHeader {
 
     @Override
     protected void addHelpMenuItems(MenuItem helpMenu) {
-        helpMenu.getSubMenu()
-                .addItem(new Button(PlaygroundNlsText.getString("ApplicationHeader.Feedback"), // $NON-NLS-1$
-                        VaadinIcon.COMMENT.create()),
-                         i -> Notification.show("Thank you for customizing me!"));
+        new ApplicationMenuItemDefinition(PlaygroundNlsText.getString("ApplicationHeader.Feedback"), "appmenu-custom",
+                () -> Notification.show("Thank you for customizing me!"))
+                        .createItem(helpMenu.getSubMenu());
         addApplicationInfoMenuItem(helpMenu);
     }
 

@@ -51,6 +51,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
  */
 public class ApplicationHeader extends Composite<HorizontalLayout> {
 
+    static final String APPMENU_RIGHT_ID = "appmenu-right";
+    static final String APPMENU_HELP_ID = "appmenu-help";
+    static final String APPMENU_INFO_ID = "appmenu-info";
+
     private static final long serialVersionUID = 1L;
 
     private final ApplicationInfo applicationInfo;
@@ -128,6 +132,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      */
     protected MenuBar createRightMenuBar() {
         MenuBar rightMenuBar = new MenuBar();
+        rightMenuBar.setId(APPMENU_RIGHT_ID);
         rightMenuBar.addThemeVariants(MenuBarVariant.LUMO_ICON);
         rightMenuBar.addClassNames(LinkkiApplicationTheme.APPLICATION_MENU, LinkkiTheme.BORDERLESS);
         addHelpMenu(rightMenuBar);
@@ -143,6 +148,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      */
     protected MenuItem addHelpMenu(MenuBar parent) {
         MenuItem helpMenu = parent.addItem(VaadinIcon.QUESTION_CIRCLE.create());
+        helpMenu.setId(APPMENU_HELP_ID);
         addHelpMenuItems(helpMenu);
         return helpMenu;
     }
@@ -166,9 +172,17 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * is created in {@link #addHelpMenu(MenuBar)}.
      */
     protected void addApplicationInfoMenuItem(MenuItem helpMenu) {
-        helpMenu.getSubMenu()
-                .addItem(NlsText.getString("ApplicationHeader.Info"), i -> new ApplicationInfoDialog(
-                        createApplicationInfoPmo()).open());
+        new ApplicationMenuItemDefinition(NlsText.getString("ApplicationHeader.Info"), APPMENU_INFO_ID,
+                this::showApplicationInfo).createItem(helpMenu.getSubMenu());
+    }
+
+    /**
+     * Displays the {@link ApplicationInfo}.
+     * 
+     * @see #createApplicationInfoPmo()
+     */
+    protected void showApplicationInfo() {
+        new ApplicationInfoDialog(createApplicationInfoPmo()).open();
     }
 
     /**

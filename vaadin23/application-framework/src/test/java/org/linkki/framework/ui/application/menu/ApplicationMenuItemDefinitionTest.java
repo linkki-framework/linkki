@@ -15,9 +15,7 @@
 package org.linkki.framework.ui.application.menu;
 
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,55 +54,61 @@ class ApplicationMenuItemDefinitionTest {
 
     @Test
     void testCreateItem_MenuBar_NoSubMenu() {
-        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition("name", Handler.NOP_HANDLER);
+        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition("name", "id",
+                Handler.NOP_HANDLER);
         ApplicationMenu menuBar = new ApplicationMenu();
 
         itemDefinition.createItem(menuBar);
 
-        assertThat(menuBar.getItems(), hasSize(1));
-        assertThat(menuBar.getItems().get(0).getText(), is("name"));
-        assertThat(menuBar.getItems().get(0).getSubMenu().getItems(), hasSize(0));
+        assertThat(menuBar.getItems()).hasSize(1);
+        assertThat(menuBar.getItems().get(0).getText()).isEqualTo("name");
+        assertThat(menuBar.getItems().get(0).getId()).hasValue("id");
+        assertThat(menuBar.getItems().get(0).getSubMenu().getItems()).hasSize(0);
     }
 
     @Test
     void testCreateItem_MenuBar_SubMenu() {
-        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition("name",
-                Arrays.asList(new ApplicationMenuItemDefinition("sub", Handler.NOP_HANDLER)));
+        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition("name", "id",
+                Arrays.asList(new ApplicationMenuItemDefinition("sub", "sub-id", Handler.NOP_HANDLER)));
         ApplicationMenu menuBar = new ApplicationMenu();
 
         itemDefinition.createItem(menuBar);
 
-        assertThat(menuBar.getItems(), hasSize(1));
-        assertThat(menuBar.getItems().get(0).getText(), is("name"));
-        assertThat(menuBar.getItems().get(0).getSubMenu().getItems(), hasSize(1));
-        assertThat(menuBar.getItems().get(0).getSubMenu().getItems().get(0).getText(), is("sub"));
+        assertThat(menuBar.getItems()).hasSize(1);
+        assertThat(menuBar.getItems().get(0).getText()).isEqualTo("name");
+        assertThat(menuBar.getItems().get(0).getId()).hasValue("id");
+        assertThat(menuBar.getItems().get(0).getSubMenu().getItems()).hasSize(1);
+        assertThat(menuBar.getItems().get(0).getSubMenu().getItems().get(0).getText()).isEqualTo("sub");
+        assertThat(menuBar.getItems().get(0).getSubMenu().getItems().get(0).getId()).hasValue("sub-id");
     }
 
     @Test
     void testCreateItem_SubMenu_NoSubMenu() {
-        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition("name", Handler.NOP_HANDLER);
+        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition("name", "id",
+                Handler.NOP_HANDLER);
         MenuBar menuBar = new MenuBar();
         SubMenu subMenu = menuBar.addItem("item").getSubMenu();
 
         itemDefinition.createItem(subMenu);
 
-        assertThat(subMenu.getItems(), hasSize(1));
-        assertThat(subMenu.getItems().get(0).getText(), is("name"));
+        assertThat(subMenu.getItems()).hasSize(1);
+        assertThat(subMenu.getItems().get(0).getText()).isEqualTo("name");
+        assertThat(subMenu.getItems().get(0).getId()).hasValue("id");
     }
 
     @Test
     void testCreateItem_SubMenu_SubMenu() {
-        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition("name",
-                Arrays.asList(new ApplicationMenuItemDefinition("sub", Handler.NOP_HANDLER)));
+        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition("name", "id",
+                Arrays.asList(new ApplicationMenuItemDefinition("sub", "sub-id", Handler.NOP_HANDLER)));
         MenuBar menuBar = new MenuBar();
         SubMenu subMenu = menuBar.addItem("item").getSubMenu();
 
         itemDefinition.createItem(subMenu);
 
-        assertThat(subMenu.getItems(), hasSize(1));
-        assertThat(subMenu.getItems().get(0).getText(), is("name"));
-        assertThat(subMenu.getItems().get(0).getSubMenu().getItems(), hasSize(1));
-        assertThat(subMenu.getItems().get(0).getSubMenu().getItems().get(0).getText(), is("sub"));
+        assertThat(subMenu.getItems()).hasSize(1);
+        assertThat(subMenu.getItems().get(0).getText()).isEqualTo("name");
+        assertThat(subMenu.getItems().get(0).getSubMenu().getItems()).hasSize(1);
+        assertThat(subMenu.getItems().get(0).getSubMenu().getItems().get(0).getText()).isEqualTo("sub");
     }
 
     @Test
@@ -127,4 +131,19 @@ class ApplicationMenuItemDefinitionTest {
 
         verify(testPage).setLocation("http://some?param=test");
     }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void testCreateItem_WithSpecialName() {
+        ApplicationMenuItemDefinition itemDefinition = new ApplicationMenuItemDefinition(
+                "Name With  some   - special Characters! ",
+                Arrays.asList(new ApplicationMenuItemDefinition("sub", Handler.NOP_HANDLER)));
+        ApplicationMenu menuBar = new ApplicationMenu();
+
+        itemDefinition.createItem(menuBar);
+
+        assertThat(menuBar.getItems()).hasSize(1);
+        assertThat(menuBar.getItems().get(0).getId()).hasValue("appmenu-name-with-some-special-characters");
+    }
+
 }

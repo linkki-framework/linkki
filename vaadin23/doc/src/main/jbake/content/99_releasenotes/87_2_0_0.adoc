@@ -135,6 +135,22 @@ To make this feature possible, `LinkkiText` now creates a web component with the
 As a side-effect of this change, `@BindSuffix` can now be used with `@UILabel` to e.g. add icons at the end of the label.
 
 [role="api-change"]
+===== ID for ApplicationMenuItems
+
+////
+https://jira.faktorzehn.de/browse/LIN-2859
+////
+
+It is now possible to set IDs for `ApplicationMenuItems`. All constructors of `ApplicationMenuItemDefinition` were extended with a parameter for the ID. The old constructors have been deprecated. If they are still used the ID is derived from the name of the `ApplicationMenuItem` and converted to an appripriate format with the prefix `appmenu-` (see <<application-menu-item-definition, documentation>>).
+
+Additionally the right menu and its items have been enriched with IDs:
+|===
+| `appmenu-right` | the right menu bar
+| `appmenu-help` | the help menu within the right menu bar
+| `appmenu-info` | the info submenu within the help menu
+|===
+
+[role="api-change"]
 ===== Introduction of linkki theme
 ////
 https://jira.faktorzehn.de/browse/LIN-2623
@@ -204,6 +220,8 @@ In addition, following deprecated classes and methods are also removed:
 | Method `org.linkki.core.binding.manager.BindingManager.startNewContext(String)` a| Deprecated since June 7th, 2019. Use `org.linkki.core.binding.manager.BindingManager.getContext(String)` instead.
 | Method `org.linkki.core.binding.BindingContext.createDispatcherChain(Object, BindingDescriptor)` a| Deprecated since January 2019. Instead of overwriting this method, provide a `PropertyDispatcherFactory` to `BindingContext(String, PropertyBehaviorProvider, PropertyDispatcherFactory, Handler)`.
 |===
+
+
 
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-2710
