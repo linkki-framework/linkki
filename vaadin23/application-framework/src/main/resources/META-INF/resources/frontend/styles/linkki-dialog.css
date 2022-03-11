@@ -14,9 +14,8 @@
 	border-radius: 0 0 var(--lumo-border-radius-l) var(--lumo-border-radius-l);
 }
 .linkki-dialog-content-area {
-	padding: var(--lumo-space-m);
-	padding-top: 0;
-	margin-top: var(--lumo-space-l);
+	padding: 0 var(--lumo-space-m);
+	margin: var(--lumo-space-m) 0;
 }
 .linkki-dialog-message-area linkki-text {
 	padding: 0 var(--lumo-space-m);
@@ -29,7 +28,6 @@
 }
 .linkki-dialog-message-area {
 	padding-bottom: var(--lumo-space-xs);
-	padding-top: var(--lumo-space-m);
 }
 .linkki-dialog-message-area.INFO {
 	border-bottom: 5px solid var(--linkki-message-info-color, #99C7FF);

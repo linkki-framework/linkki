@@ -204,8 +204,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
 
     private void initContentArea(Component... contentComponents) {
         contentArea.addClassName(CLASS_NAME_CONTENT_AREA); // $NON-NLS-1$
-        contentArea.setPadding(true);
-        contentArea.setSpacing(true);
+        contentArea.setPadding(false);
+        contentArea.setSpacing(false);
         contentArea.setSizeFull();
         ComponentStyles.setOverflowAuto(contentArea);
         for (Component contentComponent : contentComponents) {
