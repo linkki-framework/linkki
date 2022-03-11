@@ -106,12 +106,16 @@ class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     @ParameterizedTest
     @MethodSource("dialogButtons")
     void testCancelHandler_ClickOutsideDialog(String dialogButton) {
-        openDialog(dialogButton);
+        DialogElement dialog = openDialog(dialogButton);
 
         findElement(By.tagName("body")).click();
 
+
         assertThat(getOkCount(), is(0));
-        assertThat(getCancelCount(), is(1));
+        assertThat(getCancelCount(), is(0));
+
+        // other tests timeout when dialog isn't closed
+        dialog.$(ButtonElement.class).id(OkCancelDialog.CANCEL_BUTTON_ID).click();
     }
 
     private static Stream<Arguments> dialogButtons() {

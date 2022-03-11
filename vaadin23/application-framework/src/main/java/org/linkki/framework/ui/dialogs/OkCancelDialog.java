@@ -165,6 +165,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
                 : null;
 
         getContent().setModal(true);
+        getContent().setCloseOnOutsideClick(false);
         getContent().setResizable(false);
         getContent().setDraggable(true);
         getContent().addThemeVariants(DialogVariant.LUMO_NO_PADDING);
