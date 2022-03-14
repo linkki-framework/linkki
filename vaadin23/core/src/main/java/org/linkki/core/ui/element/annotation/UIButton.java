@@ -154,7 +154,6 @@ public @interface UIButton {
                 }
 
                 button.addThemeVariants(annotation.variants());
-                button.getElement().setProperty("style", " --lumo-clickable-cursor: pointer;");
 
                 createShortcutKey(annotation)
                         .ifPresent(key -> button.addClickShortcut(key, annotation.shortcutKeyModifiers()));
