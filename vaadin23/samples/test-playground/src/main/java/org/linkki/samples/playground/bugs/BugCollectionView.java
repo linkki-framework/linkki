@@ -36,6 +36,7 @@ import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
 import org.linkki.samples.playground.bugs.lin2555.TextfieldWithEnterButtonPmo;
 import org.linkki.samples.playground.bugs.lin2567.TabSheetContentWithText;
 import org.linkki.samples.playground.bugs.lin2622.MassValuesComboBoxPmo;
+import org.linkki.samples.playground.bugs.lin2915.OverflowIssues;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.Component;
@@ -76,9 +77,16 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      createTabSheet(Lin1890HierarchicalTablePmo::new),
                      createTabSheet(TriangleTablePmo::new),
                      createTabSheet(TextfieldWithEnterButtonPmo::new),
-                     LinkkiTabSheet.builder(TabSheetContentWithText.CAPTION).content(TabSheetContentWithText::new)
+                     LinkkiTabSheet.builder(TabSheetContentWithText.CAPTION)
+                             .caption(createCaptionLink(TabSheetContentWithText.CAPTION,
+                                                        TabSheetContentWithText.CAPTION))
+                             .content(TabSheetContentWithText::new)
                              .build(),
-                     createTabSheet(MassValuesComboBoxPmo::new));
+                     createTabSheet(MassValuesComboBoxPmo::new),
+                     LinkkiTabSheet.builder("LIN-2915")
+                             .caption(createCaptionLink("LIN-2915", "LIN-2915"))
+                             .content(OverflowIssues::new)
+                             .build());
     }
 
     @Override

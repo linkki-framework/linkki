@@ -7,3 +7,10 @@
     background-color: var(--linkki-input-background-hover);
     border: var(--linkki-input-border-hover);
 }
+
+/*
+ * Fix for Vaadin issue https://github.com/vaadin/web-components/issues/3570
+ */
+.vaadin-checkbox-wrapper {
+    height: auto;
+}

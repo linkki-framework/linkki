@@ -1,0 +1,6 @@
+
+/* Fixes for Vaadin issue https://github.com/vaadin/web-components/issues/3571
+ */
+:host([theme~='tertiary-inline']) {
+    min-width: auto;
+}

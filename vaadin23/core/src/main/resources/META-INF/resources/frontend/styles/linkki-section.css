@@ -1,9 +1,15 @@
 linkki-section {
   	--section-item-width: calc((100% - (var(--columns, 1) - 1) * var(--linkki-section-gap)) / var(--columns, 1));
 }
+
+/*
+ * Sections should be scrollable
+ * see https://jira.faktorzehn.de/browse/LIN-2915
+ */
 linkki-section > div[slot="content"] {
-	overflow: visible;
+	overflow: auto;
 }
+
 linkki-section > div[slot="content"] > * {
   	max-width: var(--section-item-width);
 }

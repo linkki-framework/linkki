@@ -34,4 +34,9 @@
  
 [part="required-indicator"]::after {
     position: absolute;
+    height: 0;
+    overflow: hidden;
+}
+:host([required]) [part='required-indicator']::after {
+    height: auto;
 }
