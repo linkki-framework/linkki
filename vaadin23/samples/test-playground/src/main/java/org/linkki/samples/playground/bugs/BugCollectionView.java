@@ -36,6 +36,7 @@ import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
 import org.linkki.samples.playground.bugs.lin2555.TextfieldWithEnterButtonPmo;
 import org.linkki.samples.playground.bugs.lin2567.TabSheetContentWithText;
 import org.linkki.samples.playground.bugs.lin2622.MassValuesComboBoxPmo;
+import org.linkki.samples.playground.bugs.lin2867.FocusringBug;
 import org.linkki.samples.playground.bugs.lin2915.OverflowIssues;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
@@ -86,6 +87,10 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      LinkkiTabSheet.builder("LIN-2915")
                              .caption(createCaptionLink("LIN-2915", "LIN-2915"))
                              .content(OverflowIssues::new)
+                             .build(),
+                     LinkkiTabSheet.builder("LIN-2867")
+                             .caption(createCaptionLink("LIN-2867", "LIN-2867"))
+                             .content(FocusringBug::new)
                              .build());
     }
 
