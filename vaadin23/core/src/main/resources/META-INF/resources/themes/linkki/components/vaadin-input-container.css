@@ -8,5 +8,5 @@
 }
 
 :host([readonly])::after {
-    border: 1px solid var(--linkki-input-border-readonly);
+    border: 1px var(--linkki-input-border-style-readonly) var(--linkki-input-border-readonly);
 }
