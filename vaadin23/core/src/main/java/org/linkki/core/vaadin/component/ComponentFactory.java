@@ -30,6 +30,7 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.Autocomplete;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
@@ -67,7 +68,9 @@ public class ComponentFactory {
      * Creates a new {@link TextField} with an unlimited maximal character count and an undefined width.
      */
     public static TextField newTextField() {
-        return new TextField();
+        TextField textField = new TextField();
+        textField.setAutocomplete(Autocomplete.OFF);
+        return textField;
     }
 
     /**

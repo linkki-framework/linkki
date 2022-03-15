@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.element.annotation;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -23,6 +24,8 @@ import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
 
 import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.textfield.Autocomplete;
+import com.vaadin.flow.component.textfield.HasAutocomplete;
 
 public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?, ?>, P extends AnnotationTestPmo>
         extends ComponentAnnotationIntegrationTest<F, P> {
@@ -58,4 +61,20 @@ public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?, 
                     AnnotationTestPmo.DEFAULT_TOOLTIP,
                     AnnotationTestPmo.TEST_TOOLTIP);
     }
+
+
+    /**
+     * All default fields that support {@link HasAutocomplete autocomplete} should disable this feature.
+     */
+    @Test
+    void testAutocompleteOff() {
+        F component = createFirstComponent();
+
+        if (component instanceof HasAutocomplete) {
+            HasAutocomplete autocompleteComponent = (HasAutocomplete)component;
+
+            assertThat(autocompleteComponent.getAutocomplete()).isEqualTo(Autocomplete.OFF);
+        }
+    }
+
 }
