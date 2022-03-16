@@ -14,22 +14,24 @@
 
 package org.linkki.core.ui.aspects.types;
 
+import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
 /**
  * Defines the text alignment.
  *
  * @see UITableColumn#textAlign()
+ * @see UIComboBox#textAlign()
  */
 public enum TextAlignment {
 
     /** Text alignment is not changed */
     DEFAULT,
-    /** Text is aligned to the start */
-    START,
+    /** Text is left-aligned */
+    LEFT,
     /** Text is center-aligned */
     CENTER,
-    /** Text is aligned to the end */
-    END;
+    /** Text is right-aligned */
+    RIGHT;
 
 }

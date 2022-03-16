@@ -24,11 +24,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
+import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.StaticModelToUiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
@@ -43,10 +47,12 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
+import org.linkki.core.ui.aspects.BindComboBoxItemStyleAspectDefinition;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UIComboBox.ComboBoxAspectCreator;
 import org.linkki.core.ui.element.annotation.UIComboBox.ComboBoxComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -54,6 +60,7 @@ import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.ComboBoxVariant;
 
 /**
  * Creates a ComboBox with the specified parameters.
@@ -118,7 +125,19 @@ public @interface UIComboBox {
      * Default value assumes that the value class has a method "getName" and uses this method for the
      * String representation.
      */
-    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
+    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider()
+
+    default DefaultCaptionProvider.class;
+
+    /**
+     * The alignment of the text. Use {@link TextAlignment#RIGHT} for numeric value.
+     * <p>
+     * Text alignment is set for both the selected value and the values in the drop down list. When used
+     * in combination with {@link BindComboBoxItemStyleAspectDefinition} the style for the drop down
+     * list is overwritten by the bind annotation. Therefore it may be necessary to set the style class
+     * "text-left", "text-center" or "text-right" manually.
+     */
+    TextAlignment textAlign() default TextAlignment.DEFAULT;
 
     /**
      * Aspect definition creator for the {@link UIComboBox} annotation.
@@ -127,21 +146,9 @@ public @interface UIComboBox {
 
         @Override
         public LinkkiAspectDefinition create(UIComboBox annotation) {
-            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
-                    annotation.content(),
-                    ComboBox<Object>::setItems,
-                    ItemCaptionProvider.instantiate(annotation::itemCaptionProvider)) {
-
-                @Override
-                @SuppressWarnings("unchecked")
-                protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
-                    boolean dynamicItemsEmpty = annotation.content() == AvailableValuesType.DYNAMIC && items.isEmpty();
-                    boolean hasNullItem = items.removeIf(i -> i == null);
-                    ((ComboBox<Object>)componentWrapper.getComponent())
-                            .setClearButtonVisible(hasNullItem || dynamicItemsEmpty);
-                }
-
-            };
+            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new ComboBoxAvailableValuesAspectDefinition(
+                    annotation.content(), ComboBox<Object>::setItems,
+                    ItemCaptionProvider.instantiate(annotation::itemCaptionProvider), annotation);
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
@@ -154,8 +161,90 @@ public @interface UIComboBox {
                     availableValuesAspectDefinition,
                     new VisibleAspectDefinition(annotation.visible()),
                     new ValueAspectDefinition(),
-                    new DerivedReadOnlyAspectDefinition());
+                    new DerivedReadOnlyAspectDefinition(),
+                    new TextAlignAspectDefinition(annotation.textAlign()));
         }
+
+        private final class ComboBoxAvailableValuesAspectDefinition
+                extends AvailableValuesAspectDefinition<ComboBox<Object>> {
+            private final UIComboBox annotation;
+
+            private ComboBoxAvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
+                    BiConsumer<ComboBox<Object>, List<Object>> dataProviderSetter,
+                    ItemCaptionProvider<?> itemCaptionProvider, UIComboBox annotation) {
+                super(availableValuesType, dataProviderSetter, itemCaptionProvider);
+                this.annotation = annotation;
+            }
+
+            @Override
+            @SuppressWarnings("unchecked")
+            protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
+                boolean dynamicItemsEmpty = annotation.content() == AvailableValuesType.DYNAMIC && items.isEmpty();
+                boolean hasNullItem = items.removeIf(i -> i == null);
+                ((ComboBox<Object>)componentWrapper.getComponent())
+                        .setClearButtonVisible(hasNullItem || dynamicItemsEmpty);
+            }
+        }
+
+        private final class TextAlignAspectDefinition extends StaticModelToUiAspectDefinition<TextAlignment> {
+
+            public static final String NAME = "textAlignment";
+            private final TextAlignment textAlignment;
+
+            public TextAlignAspectDefinition(TextAlignment textAlignment) {
+                this.textAlignment = textAlignment;
+            }
+
+            @Override
+            public Aspect<TextAlignment> createAspect() {
+                return Aspect.of(NAME, textAlignment);
+            }
+
+            @Override
+            public Consumer<TextAlignment> createComponentValueSetter(ComponentWrapper componentWrapper) {
+                return ta -> setTextAlign(componentWrapper, ta);
+            }
+
+            private void setTextAlign(ComponentWrapper componentWrapper, TextAlignment alignment) {
+                if (alignment != TextAlignment.DEFAULT) {
+                    String style = getStyle(alignment);
+                    new BindComboBoxItemStyleAspectDefinition(getStyle(alignment))
+                            .createComponentValueSetter(componentWrapper)
+                            .accept($ -> style);
+                    ComboBox<?> comboBox = (ComboBox<?>)componentWrapper.getComponent();
+                    comboBox.addThemeVariants(getVariant(alignment));
+                }
+            }
+
+            private ComboBoxVariant getVariant(TextAlignment alignment) {
+                switch (alignment) {
+                    // Vaadin names the variants LEFT/CENTER/RIGHT but uses css value start/center/end
+                    case LEFT:
+                        return ComboBoxVariant.LUMO_ALIGN_LEFT;
+                    case CENTER:
+                        return ComboBoxVariant.LUMO_ALIGN_CENTER;
+                    case RIGHT:
+                        return ComboBoxVariant.LUMO_ALIGN_RIGHT;
+                    default:
+                        throw new IllegalArgumentException("Invalid text alignment: " + alignment.name());
+                }
+            }
+
+            private String getStyle(TextAlignment alignment) {
+                switch (alignment) {
+                    case LEFT:
+                        return "text-left";
+                    case CENTER:
+                        return "text-center";
+                    case RIGHT:
+                        return "text-right";
+                    default:
+                        throw new IllegalArgumentException("Invalid text alignment: " + alignment.name());
+                }
+            }
+
+        }
+
     }
 
     static class ComboBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UIComboBox> {

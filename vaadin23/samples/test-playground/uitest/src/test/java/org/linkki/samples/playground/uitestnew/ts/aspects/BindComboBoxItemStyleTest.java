@@ -28,6 +28,7 @@ import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.html.testbench.InputTextElement;
 import com.vaadin.testbench.TestBenchElement;
 
 class BindComboBoxItemStyleTest extends PlaygroundUiTest {
@@ -65,6 +66,19 @@ class BindComboBoxItemStyleTest extends PlaygroundUiTest {
             assertThat(comboItem.$(DivElement.class).last().getClassNames())
                     .contains(item.getStyleName());
         }
+
+        comboBox.closePopup();
+    }
+
+    @Test
+    void testDynamicItemStyleWithAlignment() {
+        ComboBoxElement comboBox = testCaseSection.$(ComboBoxElement.class).id("alignedText");
+        assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("end");
+
+        comboBox.openPopup();
+
+        $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last().getClassNames())
+                .contains("text-right", "text-primary"));
 
         comboBox.closePopup();
     }

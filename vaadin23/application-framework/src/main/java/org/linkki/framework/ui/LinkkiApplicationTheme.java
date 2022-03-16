@@ -84,7 +84,7 @@ public final class LinkkiApplicationTheme {
      * Style class for table footer that may have sums and should be right aligned and bold.
      * 
      * @deprecated Use {@link #GRID_FOOTER_BOLD} instead. Additionally,
-     *             {@link UITableColumn#textAlign()} must be set to {@link TextAlignment#END} for
+     *             {@link UITableColumn#textAlign()} must be set to {@link TextAlignment#RIGHT} for
      *             right-alignment.
      */
     @Deprecated(since = "2.0.0")

@@ -79,7 +79,7 @@ public class NumberFooterTablePmo implements ContainerPmo<NumberFooterRowPmo> {
             return "";
         }
 
-        @UITableColumn(width = 300, textAlign = TextAlignment.END)
+        @UITableColumn(width = 300, textAlign = TextAlignment.RIGHT)
         @UILabel(position = 20)
         public Decimal getDecimal() {
             return Decimal.valueOf(new SecureRandom().nextDouble() * 10);

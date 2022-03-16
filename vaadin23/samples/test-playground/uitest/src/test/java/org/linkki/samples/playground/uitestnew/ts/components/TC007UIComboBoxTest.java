@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.uitestnew.ts.components;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -23,6 +24,8 @@ import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.html.testbench.InputTextElement;
 
 class TC007UIComboBoxTest extends PlaygroundUiTest {
 
@@ -48,4 +51,46 @@ class TC007UIComboBoxTest extends PlaygroundUiTest {
     private boolean hasClearButton(ComboBoxElement element) {
         return element.hasAttribute("clear-button-visible");
     }
+
+    @Test
+    void testLeftAligned() {
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("leftAligned");
+
+        comboBox.openPopup();
+
+        // should be 'left' but Vaadin set 'start' instead
+        assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("start");
+        $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last()
+                .getCssValue("text-align")).isEqualTo("left"));
+
+        comboBox.closePopup();
+    }
+
+    @Test
+    void testCenterAligned() {
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("centerAligned");
+
+        comboBox.openPopup();
+
+        assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("center");
+        $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last()
+                .getCssValue("text-align")).isEqualTo("center"));
+
+        comboBox.closePopup();
+    }
+
+    @Test
+    void testRightAligned() {
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("rightAligned");
+
+        comboBox.openPopup();
+
+        // should be 'right' but Vaadin set 'end' instead
+        assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("end");
+        $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last()
+                .getCssValue("text-align")).isEqualTo("right"));
+
+        comboBox.closePopup();
+    }
+
 }

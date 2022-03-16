@@ -129,7 +129,7 @@ public class LabelPmo {
             return "a long label with a loooooooooooong word";
         }
 
-        @UITableColumn(flexGrow = 1, textAlign = TextAlignment.END)
+        @UITableColumn(flexGrow = 1, textAlign = TextAlignment.RIGHT)
         @UILabel(position = 30, label = "Right aligned label")
         public String getRightAlignedLabel() {
             return "This label should be right aligned";

@@ -17,6 +17,7 @@ package org.linkki.samples.playground.ts.aspects;
 import java.util.function.Function;
 
 import org.linkki.core.ui.aspects.annotation.BindComboBoxItemStyle;
+import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -48,6 +49,20 @@ public class BindComboBoxItemStylePmo {
 
     public Function<TextColor, String> getTextColorItemStyle() {
         return tc -> tc.styleClass;
+    }
+
+    @UIComboBox(position = 20, label = "Style with alignment", textAlign = TextAlignment.RIGHT)
+    @BindComboBoxItemStyle
+    public TextColor getAlignedText() {
+        return textColor;
+    }
+
+    public void setAlignedText(TextColor textColor) {
+        this.textColor = textColor;
+    }
+
+    public Function<TextColor, String> getAlignedTextItemStyle() {
+        return tc -> "text-primary text-right";
     }
 
     public enum TextColor {

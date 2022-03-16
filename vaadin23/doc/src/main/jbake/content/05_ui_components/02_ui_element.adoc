@@ -187,6 +187,10 @@ Via the property `itemCaptionProvider` an alternative implementation class can b
 * `ToStringCaptionProvider`: uses the `toString()`method of the elements
 * `IdAndNameCaptionProvider` in <<fips-extension, linkki-ips>>: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
 
+[[ui-combobox-textAlign]]
+TextAlign::
+The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop down menu. `RIGHT` is recommended for numeric values. If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop down list. Instead, an https://vaadin.com/docs/latest/ds/foundation/utility-classes/#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
+
 [[ui-yesnocombobox]]
 ==== UIYesNoComboBox
 A `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list like a <<ui-combobox, `UIComboBox`>>. The difference is that the values are not a generic enumeration or list but the well known boolean values `true` and `false` (and for `Boolean`, the option `null`). It has two properties known from the <<ui-combobox, `UIComboBox`>>:

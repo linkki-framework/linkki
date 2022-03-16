@@ -100,7 +100,7 @@ class BindComboBoxItemStyleAspectDefinitionTest {
 
         assertThat(jsonObject.get("lr_0_" + BindComboBoxItemStyleAspectDefinition.LABEL).asString(),
                    is(EXPECTED_LABEL));
-        assertThat(jsonObject.get("lr_0_" + BindComboBoxItemStyleAspectDefinition.CLASS).asString(),
+        assertThat(jsonObject.get("lr_0_" + BindComboBoxItemStyleAspectDefinition.STYLE).asString(),
                    is(EXPECTED_STYLE));
 
         MockVaadin.tearDown();

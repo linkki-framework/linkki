@@ -35,12 +35,13 @@ public class ColumnTextAlignAspectDefinition extends StaticColumnAspectDefinitio
     }
 
     private static ColumnTextAlign getColumnTextAlign(TextAlignment alignment) {
+        // TODO LIN-2930 Vaadin does not distinguish between left/right but uses start/end
         switch (alignment) {
-            case START:
+            case LEFT:
                 return ColumnTextAlign.START;
             case CENTER:
                 return ColumnTextAlign.CENTER;
-            case END:
+            case RIGHT:
                 return ColumnTextAlign.END;
             default:
                 throw new IllegalArgumentException("Invalid text alignment: " + alignment.name());

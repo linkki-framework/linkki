@@ -63,9 +63,9 @@ public class ColumnTextAlignAspectDefinitionTest {
 
     private static Stream<Arguments> alignments() {
         return Stream.of(
-                         Arguments.of(TextAlignment.START, ColumnTextAlign.START),
+                         Arguments.of(TextAlignment.LEFT, ColumnTextAlign.START),
                          Arguments.of(TextAlignment.CENTER, ColumnTextAlign.CENTER),
-                         Arguments.of(TextAlignment.END, ColumnTextAlign.END));
+                         Arguments.of(TextAlignment.RIGHT, ColumnTextAlign.END));
     }
 
 }

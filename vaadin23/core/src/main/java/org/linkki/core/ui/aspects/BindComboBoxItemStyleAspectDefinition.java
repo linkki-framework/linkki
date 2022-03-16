@@ -46,7 +46,7 @@ public class BindComboBoxItemStyleAspectDefinition extends StaticModelToUiAspect
     public static final String NAME = "itemStyle";
 
     static final String LABEL = "label";
-    static final String CLASS = "class";
+    static final String STYLE = "style";
 
     private final List<String> staticStyles;
 
@@ -73,8 +73,8 @@ public class BindComboBoxItemStyleAspectDefinition extends StaticModelToUiAspect
         @SuppressWarnings("unchecked")
         var comboBox = (ComboBox<Object>)componentWrapper.getComponent();
         return f -> comboBox
-                .setRenderer(LitRenderer.of("<div class=\"${item." + CLASS + "}\">${item." + LABEL + "}</div>")
-                        .withProperty(CLASS, f::apply)
+                .setRenderer(LitRenderer.of("<div class=\"${item." + STYLE + "}\">${item." + LABEL + "}</div>")
+                        .withProperty(STYLE, f::apply)
                         .withProperty(LABEL, comboBox.getItemLabelGenerator()::apply));
     }
 

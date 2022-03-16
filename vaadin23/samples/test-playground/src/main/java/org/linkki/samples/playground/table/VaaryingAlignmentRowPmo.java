@@ -31,7 +31,7 @@ public class VaaryingAlignmentRowPmo {
         return "Label text";
     }
 
-    @UITableColumn(flexGrow = 1, textAlign = TextAlignment.START)
+    @UITableColumn(flexGrow = 1, textAlign = TextAlignment.LEFT)
     @UILink(position = 10, label = "@UILink - START alignment")
     public String getLink() {
         return "https://linkki-framework.org/";
@@ -51,7 +51,7 @@ public class VaaryingAlignmentRowPmo {
         this.checked = checked;
     }
 
-    @UITableColumn(flexGrow = 1, textAlign = TextAlignment.END)
+    @UITableColumn(flexGrow = 1, textAlign = TextAlignment.RIGHT)
     @UIButton(position = 30, label = "@UIButton - END alignment")
     public void button() {
         // do nothing

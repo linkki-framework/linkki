@@ -84,14 +84,15 @@ A new aspect `@BindPlaceholder` has been introduced. With the aspect, a placehol
 
 If applied to a table PMO, the given placeholder text will be shown if the table has no items. To hide an empty table without showing any replacement text, you can provide an empty `String` (`""`) as placeholder value with `PlaceholderType#STATIC`. In both cases, table header and footer will also be hidden. See <<placeholder, `@BindPlaceholder`>> and <<placeholder-table-pmo, Using `@BindPlaceholder` on table PMOs>> for more information.
 
-===== New aspect annotation: @BindComboBoxItemStyle
+===== New aspect annotation: @BindComboBoxItemStyle and property UIComboBox#textAlign
 ////
 https://jira.faktorzehn.de/browse/LIN-2831
+https://jira.faktorzehn.de/browse/LIN-2810
 ////
 
-A new aspect `@BindComboBoxItemStyle` has been introduced. It can be used in conjunction with `@UIComboBox` to style items in the combo box popup menu.
+A new aspect <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>> has been introduced. It can be used in conjunction with `@UIComboBox` to style items in the combo box popup menu.
 
-See <<bind-combo-box-item-style,@BindComboBoxItemStyle>> for more information.
+Also, a new property <<ui-combobox-textAlign, `textAlign`>> has been added to `@UIComboBox`.
 
 [role="api-change"]
 ===== Creation of dialogs using PMOs with arbitrary layout annotation

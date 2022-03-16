@@ -17,6 +17,7 @@ package org.linkki.samples.playground.ts.components;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -25,6 +26,9 @@ public class ComboBoxPmo {
 
     private Direction directionWithoutNull;
     private Direction directionWithNull;
+    private Direction leftAligned;
+    private Direction centerAligned;
+    private Direction rightAligned;
 
     @UIComboBox(position = 0, label = "Without null", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = CaptionProvider.class)
     public Direction getDirectionWithoutNull() {
@@ -42,6 +46,33 @@ public class ComboBoxPmo {
 
     public void setDirectionWithNull(Direction directionWithNull) {
         this.directionWithNull = directionWithNull;
+    }
+
+    @UIComboBox(position = 20, label = "Left align", itemCaptionProvider = CaptionProvider.class, textAlign = TextAlignment.LEFT)
+    public Direction getLeftAligned() {
+        return leftAligned;
+    }
+
+    public void setLeftAligned(Direction direction) {
+        this.leftAligned = direction;
+    }
+
+    @UIComboBox(position = 21, label = "Center align", itemCaptionProvider = CaptionProvider.class, textAlign = TextAlignment.CENTER)
+    public Direction getCenterAligned() {
+        return centerAligned;
+    }
+
+    public void setCenterAligned(Direction direction) {
+        this.centerAligned = direction;
+    }
+
+    @UIComboBox(position = 22, label = "Right align", itemCaptionProvider = CaptionProvider.class, textAlign = TextAlignment.RIGHT)
+    public Direction getRightAligned() {
+        return rightAligned;
+    }
+
+    public void setRightAligned(Direction direction) {
+        this.rightAligned = direction;
     }
 
     public enum Direction {

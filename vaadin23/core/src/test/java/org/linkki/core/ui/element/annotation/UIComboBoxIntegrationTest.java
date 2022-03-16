@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -38,6 +39,7 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UIComboBoxIntegrationTest.ComboBoxTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -48,6 +50,7 @@ import org.linkki.core.uiframework.UiFramework;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.ComboBoxVariant;
 import com.vaadin.flow.data.provider.Query;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -198,6 +201,27 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         // assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
     }
 
+    @Test
+    public void testAlignLeft() {
+        ComboBox<TestEnum> comboBox = getComponentById("leftAlign");
+
+        assertThat(comboBox.getThemeNames()).contains(ComboBoxVariant.LUMO_ALIGN_LEFT.getVariantName());
+    }
+
+    @Test
+    public void testAlignCenter() {
+        ComboBox<TestEnum> comboBox = getComponentById("centerAlign");
+
+        assertThat(comboBox.getThemeNames()).contains(ComboBoxVariant.LUMO_ALIGN_CENTER.getVariantName());
+    }
+
+    @Test
+    public void testAlignRight() {
+        ComboBox<TestEnum> comboBox = getComponentById("rightAlign");
+
+        assertThat(comboBox.getThemeNames()).contains(ComboBoxVariant.LUMO_ALIGN_RIGHT.getVariantName());
+    }
+
     @Override
     protected ComboBoxTestModelObject getDefaultModelObject() {
         return (ComboBoxTestModelObject)super.getDefaultModelObject();
@@ -246,6 +270,22 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         public TestEnum getFoo() {
             return TestEnum.THREE;
         }
+
+        @UIComboBox(position = 10, textAlign = TextAlignment.LEFT)
+        public TestEnum getLeftAlign() {
+            return TestEnum.ONE;
+        }
+
+        @UIComboBox(position = 11, textAlign = TextAlignment.CENTER)
+        public TestEnum getCenterAlign() {
+            return TestEnum.ONE;
+        }
+
+        @UIComboBox(position = 12, textAlign = TextAlignment.RIGHT)
+        public TestEnum getRightAlign() {
+            return TestEnum.ONE;
+        }
+
     }
 
     protected static class ComboBoxTestModelObject {
