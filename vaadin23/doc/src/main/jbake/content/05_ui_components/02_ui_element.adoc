@@ -213,7 +213,7 @@ WARNING: `@UICustomField` only supports controls with a parameter-less construct
 .UICustomField Example: PasswordField
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/messages/RegistrationSectionPmo.java[tags=ui-custom-field]
+include::{source-dir}/org/linkki/samples/playground/ts/components/CustomFieldPmo.java[tags=ui-custom-field]
 ----
 
 [[dynamicfield]]

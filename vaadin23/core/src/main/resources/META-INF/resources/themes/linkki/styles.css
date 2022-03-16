@@ -49,9 +49,6 @@ a:not([href]) {
     --lumo-error-color-50pct: var(--linkki-warning-color-dark);
     --lumo-error-text-color: var(--linkki-warning-color-dark);
 }
-[severity="error"] {
-
-}
 
 /* 
  * FONT MAPPING FOR SEGOE UI

@@ -1,4 +1,3 @@
-
 :host([theme~='warning']) [part='overlay'] {
     background-color: var(--linkki-warning-color);
 }

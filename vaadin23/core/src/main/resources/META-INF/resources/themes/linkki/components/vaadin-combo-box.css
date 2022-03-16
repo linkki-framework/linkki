@@ -1,15 +1,3 @@
-:host(:hover:not([readonly]):not([focused]):not([invalid])) [part='input-field'] {
-    background-color: var(--linkki-input-background-hover);
-    border: var(--linkki-input-border-hover);
-}
-
-:host(:hover:not([readonly]):not([focused])) [part='input-field']::after {
-    opacity: 0;
-}
-
-/*
- * Fix for Vaadin bug
- */
-:host([focus-ring]) [part='input-field'] {
-    box-shadow: inset 0 0 0 2px var(--lumo-primary-color-50pct);
-}
+@import "error-message.css";
+@import "input-field-focus-ring.css";
+@import "input-field-hover.css";

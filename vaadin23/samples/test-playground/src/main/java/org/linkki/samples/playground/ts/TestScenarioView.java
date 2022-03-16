@@ -30,7 +30,6 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
-import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
@@ -92,6 +91,7 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSec
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
+import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
@@ -161,7 +161,6 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String DYNAMIC_ASPECT_TAB_ID = "dynamic";
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
-    public static final String MESSAGES_TAB_ID = "messages";
 
     private final LinkkiTabLayout tabLayout;
 
@@ -258,7 +257,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC005, new SetFormItemLabelWidthDialogPmo())
                                        .testCase(TC006, new DialogWithCustomSizePmo())
                                        .testCase(TC007, new DialogErrorHandlerPmo())
-                                       .testCase(TC008, new OkCancelDialogMessagePmo.ButtonSectionPmo())
+                                       .testCase(TC008, new OkCancelDialogMessagePmo())
                                        .createTabSheet(),
                                TestScenario.id(TS012)
                                        .testCase(TC001, TableWithValidationSection.create())
@@ -279,6 +278,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .createTabSheet(),
                                TestScenario.id(TS013)
                                        .testCase(TC001, MessageTableSection.create())
+                                       .testCase(TC002, FieldValidationPmo.createComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS014)
                                        .testCase(TC001, TreeTableSection.createPersonTreeTableSection())
@@ -290,12 +290,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .caption(createCaptionComponent(NESTED_COMPONENT_PAGE_TAB_ID,
                                                                        VaadinIcon.ROAD_BRANCHES))
                                        .description("Nested Components")
-                                       .content(NestedComponentPage::new).build(),
-                               LinkkiTabSheet.builder(MESSAGES_TAB_ID)
-                                       .caption(createCaptionComponent(MESSAGES_TAB_ID,
-                                                                       VaadinIcon.COMMENT_ELLIPSIS_O))
-                                       .description("Messages Component")
-                                       .content(MessagesComponent::new).build());
+                                       .content(NestedComponentPage::new).build());
         add(tabLayout);
     }
 

@@ -1,0 +1,3 @@
+:host([has-error-message]) [part='error-message'] {
+  max-height: unset;
+}

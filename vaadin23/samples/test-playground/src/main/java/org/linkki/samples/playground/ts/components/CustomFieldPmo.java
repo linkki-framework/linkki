@@ -24,6 +24,7 @@ public class CustomFieldPmo {
 
     private String secret;
 
+    // tag::ui-custom-field[]
     @UICustomField(position = 0, label = "Secret", uiControl = PasswordField.class)
     public String getSecret() {
         return secret;
@@ -32,5 +33,5 @@ public class CustomFieldPmo {
     public void setSecret(String secret) {
         this.secret = secret;
     }
-
+    // end::ui-custom-field[]
 }

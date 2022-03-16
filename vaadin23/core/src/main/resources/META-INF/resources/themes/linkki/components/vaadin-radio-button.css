@@ -1,3 +1,5 @@
+@import "error-message.css";
+
 [part='radio'] {
     background-color: var(--linkki-input-background);
     border: var(--linkki-input-border);
