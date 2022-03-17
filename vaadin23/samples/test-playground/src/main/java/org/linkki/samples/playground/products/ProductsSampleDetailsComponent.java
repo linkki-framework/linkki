@@ -42,6 +42,8 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
+    private final LinkkiTabLayout tabLayout;
+
     public ProductsSampleDetailsComponent() {
 
         setHeightFull();
@@ -49,7 +51,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
 
         add(createHeadline());
 
-        LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
+        tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
         tabLayout.addTabSheets(
                                LinkkiTabSheet.builder("tab1")
@@ -113,6 +115,10 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
             item.getSubMenu().addItem(subMenuCaption);
         }
         return menuBar;
+    }
+
+    LinkkiTabLayout getTabLayout() {
+        return tabLayout;
     }
 
 }

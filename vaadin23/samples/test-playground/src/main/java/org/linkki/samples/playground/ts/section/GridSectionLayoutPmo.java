@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo.GridSectionLayoutRowPmo;
 
@@ -33,15 +34,20 @@ public class GridSectionLayoutPmo implements ContainerPmo<GridSectionLayoutRowPm
 
     public static class GridSectionLayoutRowPmo {
 
+        private String label2 = "label2";
+
         @UILabel(position = 0)
         public String getLabel1() {
             return "label1";
         }
 
-        @UILabel(position = 1)
+        @UITextField(position = 1)
         public String getLabel2() {
-            return "label2";
+            return label2;
         }
 
+        public void setLabel2(String label2) {
+            this.label2 = label2;
+        }
     }
 }

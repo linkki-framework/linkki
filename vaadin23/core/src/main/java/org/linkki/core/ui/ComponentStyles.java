@@ -14,6 +14,8 @@
 
 package org.linkki.core.ui;
 
+import org.linkki.core.vaadin.component.section.LinkkiSection;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -38,13 +40,7 @@ public class ComponentStyles {
      * @param component {@link Component} whose overflow property should be set
      */
     public static void setOverflowAuto(Component component) {
-
-        if (component instanceof HasStyle) {
-            HasStyle componentHasStyle = (HasStyle)component;
-            componentHasStyle.getStyle().set("overflow", "auto");
-        } else {
-            component.getElement().getStyle().set("overflow", "auto");
-        }
+        setStyle(component, "overflow", "auto");
     }
 
     /**
@@ -55,12 +51,26 @@ public class ComponentStyles {
      * @param width the width of the label as CSS property, e.g. 12em
      */
     public static void setFormItemLabelWidth(Component component, String width) {
+        setStyle(component, "--linkki-form-item-label-width", width);
+    }
+
+    private static void setStyle(Component component, String name, String value) {
+        if (component instanceof HasStyle) {
+            ((HasStyle)component).getStyle().set(name, value);
+        } else {
+            component.getElement().getStyle().set(name, value);
+        }
+    }
+
+    /**
+     * Makes all contained {@link LinkkiSection} have a card-like style.
+     */
+    public static void setCardLikeSections(Component component) {
         if (component instanceof HasStyle) {
             HasStyle componentHasStyle = (HasStyle)component;
-            componentHasStyle.getStyle().set("--linkki-form-item-label-width", width);
+            componentHasStyle.addClassName(LinkkiSection.CLASS_SECTION_STYLE_CARD);
         } else {
-            component.getElement().getStyle().set("--linkki-form-item-label-width", width);
-
+            component.getElement().getClassList().add(LinkkiSection.CLASS_SECTION_STYLE_CARD);
         }
     }
 }

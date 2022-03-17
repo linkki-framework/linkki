@@ -1,5 +1,5 @@
 linkki-section {
-  	--section-item-width: calc((100% - (var(--columns, 1) - 1) * var(--linkki-section-gap)) / var(--columns, 1));
+    --section-item-width: calc((100% - (var(--columns, 1) - 1) * var(--linkki-section-gap)) / var(--columns, 1));
 }
 
 /*
@@ -7,9 +7,16 @@ linkki-section {
  * see https://jira.faktorzehn.de/browse/LIN-2915
  */
 linkki-section > div[slot="content"] {
-	overflow: auto;
+    overflow: auto;
 }
 
 linkki-section > div[slot="content"] > * {
-  	max-width: var(--section-item-width);
+    max-width: var(--section-item-width);
+}
+
+.section-style-card linkki-section {
+    --linkki-section-background: linear-gradient(var(--lumo-contrast-5pct), var(--lumo-contrast-5pct)), linear-gradient(var(--lumo-base-color), var(--lumo-base-color));
+    --linkki-section-padding: var(--lumo-space-m);
+    --linkki-readonly-text-color: var(--lumo-body-text-color);
+    --linkki-grid-background: var(--linkki-section-background);
 }

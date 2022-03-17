@@ -3,6 +3,10 @@
     border: var(--linkki-input-border);
 }
 
+:host([readonly]) {
+    color: var(--linkki-readonly-text-color, var(--lumo-secondary-text-color));
+}
+
 :host([disabled][readonly]) {
     background: transparent;
 }

@@ -22,8 +22,9 @@ class LinkkiSection extends LitElement {
       box-sizing: border-box;
       width: 100%;
       gap: var(--linkki-section-gap);
-      background-color: var(--linkki-section-background, transparent);
+      background: var(--linkki-section-background, transparent);
       padding: var(--linkki-section-padding, 0);
+      border-radius: var(--linkki-section-border-radius, var(--lumo-border-radius-m));
     }
 
     :host([theme~="horizontal"]) > ::slotted([slot="content"]) {

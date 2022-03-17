@@ -46,6 +46,10 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 @JsModule("./src/linkki-section.ts")
 public class LinkkiSection extends HtmlComponent implements HasCaption {
 
+    /**
+     * CSS class that can be applied to arbitrary layout to make all contained sections card-like.
+     */
+    public static final String CLASS_SECTION_STYLE_CARD = "section-style-card";
     public static final String THEME_VARIANT_HORIZONTAL = "horizontal";
     public static final String THEME_VARIANT_FORM = "form";
 
