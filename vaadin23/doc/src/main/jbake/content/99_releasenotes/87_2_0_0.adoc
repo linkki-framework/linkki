@@ -110,7 +110,7 @@ https://jira.faktorzehn.de/browse/LIN-2786
 ////
 
 Using the new `textAlign` attribute of <<ui-table-column,`@UITableColumn`>>, text alignment inside the table column can be modified. This also affects text alignment of the header, footer and components that support it.
-The old way of right-alinging text using a CSS class (`styleNames = LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED`) should no longer be used for this purpose. The style `LinkkiApplicationTheme.GRID_FOOTER_SUM` has been deprecated in favor of `LinkkiApplicationTheme.GRID_FOOTER_BOLD`, which can be combined with `textAlign = TextAlignment.END` to achieve the same look.
+The old way of right-aligning text using a CSS class (`styleNames = LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED`) should no longer be used for this purpose. The style `LinkkiApplicationTheme.GRID_FOOTER_SUM` has been deprecated in favor of `LinkkiApplicationTheme.GRID_FOOTER_BOLD`, which can be combined with `textAlign = TextAlignment.END` to achieve the same look.
 
 [role="api-change"]
 ===== LinkkiApplicationTheme.SCROLLABLE removed
@@ -141,7 +141,7 @@ As a side-effect of this change, `@BindSuffix` can now be used with `@UILabel` t
 https://jira.faktorzehn.de/browse/LIN-2859
 ////
 
-It is now possible to set IDs for `ApplicationMenuItems`. All constructors of `ApplicationMenuItemDefinition` were extended with a parameter for the ID. The old constructors have been deprecated. If they are still used the ID is derived from the name of the `ApplicationMenuItem` and converted to an appripriate format with the prefix `appmenu-` (see <<application-menu-item-definition, documentation>>).
+It is now possible to set IDs for `ApplicationMenuItems`. All constructors of `ApplicationMenuItemDefinition` were extended with a parameter for the ID. The old constructors have been deprecated. If they are still used the ID is derived from the name of the `ApplicationMenuItem` and converted to an appropriate format with the prefix `appmenu-` (see <<application-menu-item-definition, documentation>>).
 
 Additionally the right menu and its items have been enriched with IDs:
 |===

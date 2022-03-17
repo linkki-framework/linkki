@@ -68,6 +68,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
         super();
         this.sectionFactory = requireNonNull(sectionFactory, "sectionFactory must not be null");
         setPadding(true);
+        getStyle().set("gap", "var(--linkki-section-gap)");
     }
 
     /**
