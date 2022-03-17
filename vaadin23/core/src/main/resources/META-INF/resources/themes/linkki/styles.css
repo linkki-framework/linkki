@@ -8,11 +8,11 @@ html {
     --linkki-input-border-style-readonly: solid;
 
     --linkki-info-color: hsla(213, 80%, 70%, 1);
-    --linkki-info-color-light: hsla(213, 80%, 90%, 1);
-    --linkki-info-color-dark: hsla(213, 80%, 40%, 1);
+    --linkki-info-color-10pct: hsla(213, 80%, 50%, 0.13);
+    --linkki-info-color-50pct: hsla(213, 80%, 50%, 0.8);
     --linkki-warning-color: hsla(50, 80%, 50%, 1);
-    --linkki-warning-color-light: hsla(50, 80%, 90%, 1);
-    --linkki-warning-color-dark: hsla(50, 80%, 30%, 1);
+    --linkki-warning-color-10pct: hsla(50, 80%, 50%, 0.2);
+    --linkki-warning-color-50pct: hsla(50, 80%, 40%, 0.8);
     
     --linkki-section-gap: var(--lumo-space-l);
     
@@ -22,6 +22,19 @@ html {
     
     /* prefer 'Segoe UI' over Roboto */ 
     --lumo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+[theme~="dark"] {
+    /* needs to be set again to respect the dark lumo values */
+    --linkki-input-background: var(--lumo-contrast-10pct);
+    --linkki-input-background-hover: var(--lumo-contrast-20pct);
+
+    --linkki-info-color: hsla(213, 80%, 70%, 1);
+    --linkki-info-color-10pct: hsla(213, 80%, 70%, 0.3);
+    --linkki-info-color-50pct: hsla(213, 80%, 70%, 0.8);
+    --linkki-warning-color: hsla(50, 80%, 50%, 1);
+    --linkki-warning-color-10pct: hsla(50, 80%, 50%, 0.3);
+    --linkki-warning-color-50pct: hsla(50, 80%, 70%, 0.8);
 }
 
 a:not([href]) {
@@ -44,14 +57,14 @@ a:not([href]) {
 }
 
 [severity="info"] {
-    --lumo-error-color-10pct: var(--linkki-info-color-light);
-    --lumo-error-color-50pct: var(--linkki-info-color-dark);
-    --lumo-error-text-color: var(--linkki-info-color-dark);
+    --lumo-error-color-10pct: var(--linkki-info-color-10pct);
+    --lumo-error-color-50pct: var(--linkki-info-color-50pct);
+    --lumo-error-text-color: var(--linkki-info-color-50pct);
 }
 [severity="warning"] {
-    --lumo-error-color-10pct: var(--linkki-warning-color-light);
-    --lumo-error-color-50pct: var(--linkki-warning-color-dark);
-    --lumo-error-text-color: var(--linkki-warning-color-dark);
+    --lumo-error-color-10pct: var(--linkki-warning-color-10pct);
+    --lumo-error-color-50pct: var(--linkki-warning-color-50pct);
+    --lumo-error-text-color: var(--linkki-warning-color-50pct);
 }
 
 /* 

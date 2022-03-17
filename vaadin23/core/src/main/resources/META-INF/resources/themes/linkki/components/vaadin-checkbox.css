@@ -11,6 +11,14 @@
 }
 
 /*
+ * Set pointer as cursor when really clickable
+ */
+:host(:not([disabled])) .vaadin-checkbox-wrapper,
+:host(:not([disabled])) ::slotted(label) {
+    cursor: var(--lumo-clickable-cursor);
+}
+
+/*
  * Fix for Vaadin issue https://github.com/vaadin/web-components/issues/3570
  */
 .vaadin-checkbox-wrapper {

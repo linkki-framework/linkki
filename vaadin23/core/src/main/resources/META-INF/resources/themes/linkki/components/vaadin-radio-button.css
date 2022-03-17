@@ -16,3 +16,11 @@
 :host([disabled]) [part='radio']::after {
     border-color: var(--linkki-input-border-readonly);
 }
+
+/*
+ * Set pointer as cursor when really clickable
+ */
+:host(:not([disabled])) .vaadin-radio-button-wrapper,
+:host(:not([disabled])) ::slotted(label) {
+    cursor: var(--lumo-clickable-cursor);
+}
