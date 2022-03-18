@@ -60,6 +60,7 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
             treeData.addItems(rootItems, this::getCurrentChildren);
             if (rootItemsChanged) {
                 getComponent().getDataProvider().refreshAll();
+                getComponent().getElement().setAttribute("has-items", !rootItems.isEmpty());
             }
         }
     }

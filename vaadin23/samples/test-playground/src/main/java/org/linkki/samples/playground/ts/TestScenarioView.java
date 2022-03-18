@@ -286,6 +286,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC001, TreeTableSection.createPersonTreeTableSection())
                                        .testCase(TC002, TreeTableSection.createLeagueTreeTableSection())
                                        .testCase(TC003, TreeTableSection.createUpdateNodeTreeTableSection())
+                                       .testCase(TC004, TreeTableSection.createTreeTableWithPlaceholderSection())
                                        .createTabSheet(),
                                // old tab sheets
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)

@@ -14,12 +14,14 @@
 
 package org.linkki.core.ui.creation.table;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -126,6 +128,21 @@ public class TreeGridComponentWrapperTest {
         componentWrapper.setItems(items);
 
         assertThat(eventCount, is(1));
+    }
+
+    @Test
+    void testHasItemsAttribute() {
+        TreeGridComponentWrapper<Integer> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
+
+        assertThat(componentWrapper.getComponent().getElement().hasAttribute("has-items")).isFalse();
+
+        componentWrapper.setItems(Arrays.asList(1, 2, 3));
+
+        assertThat(componentWrapper.getComponent().getElement().hasAttribute("has-items")).isTrue();
+
+        componentWrapper.setItems(Collections.emptyList());
+
+        assertThat(componentWrapper.getComponent().getElement().hasAttribute("has-items")).isFalse();
     }
 
     private static class Row implements HierarchicalRowPmo<Row> {

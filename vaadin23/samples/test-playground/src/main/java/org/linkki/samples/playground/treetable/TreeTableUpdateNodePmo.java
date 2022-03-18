@@ -40,11 +40,6 @@ public class TreeTableUpdateNodePmo implements ContainerPmo<SimpleTreeNodeRowPmo
         return items;
     }
 
-    @Override
-    public boolean isHierarchical() {
-        return true;
-    }
-
     public class SimpleTreeNodeRowPmo implements HierarchicalRowPmo<SimpleTreeLeafRowPmo> {
 
         private final String text;

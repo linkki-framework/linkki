@@ -14,6 +14,7 @@
 package org.linkki.samples.playground.treetable;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.samples.playground.treetable.dynamic.Bundesliga;
 import org.linkki.samples.playground.treetable.dynamic.League;
@@ -50,5 +51,11 @@ public class TreeTableSection {
                 .createGrid(new TreeTableUpdateNodePmo(),
                             new BindingContext(
                                     TreeTableUpdateNodePmo.class.getSimpleName()));
+    }
+
+    public static Component createTreeTableWithPlaceholderSection() {
+        return VaadinUiCreator
+                .createComponent(new TreeTablePlaceholderTablePmo(),
+                                 new BindingContext());
     }
 }
