@@ -19,9 +19,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
+import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.playground.products.ProductsSamplePmo.RowSamplePmo;
+
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 @BindCaption
 @UISection
@@ -51,6 +56,12 @@ public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelOb
     @Override
     protected RowSamplePmo createRow(ProductsSampleModelObject modelObject) {
         return new RowSamplePmo(modelObject);
+    }
+
+    @SectionHeader
+    @UIButton(position = -10, icon = VaadinIcon.PLUS, showIcon = true, captionType = CaptionType.NONE)
+    public void plus() {
+        // does nothing
     }
 
     @Override

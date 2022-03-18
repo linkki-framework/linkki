@@ -50,6 +50,11 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      * CSS class that can be applied to arbitrary layout to make all contained sections card-like.
      */
     public static final String CLASS_SECTION_STYLE_CARD = "section-style-card";
+    /**
+     * CSS class that can be applied to arbitrary component to make all contained sections captions less
+     * prominent.
+     */
+    public static final String CLASS_SECTION_SECONDARY_CAPTION = "section-style-secondary-caption";
     public static final String THEME_VARIANT_HORIZONTAL = "horizontal";
     public static final String THEME_VARIANT_FORM = "form";
 

@@ -14,12 +14,15 @@
 
 package org.linkki.samples.playground.products;
 
-import org.linkki.core.ui.ComponentStyles;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+
 import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -35,6 +38,7 @@ public class ProductsSampleView extends VerticalLayout {
     private final ProductsSampleDetailsComponent detailsComponent;
 
     private boolean cardLikeSections = false;
+    private boolean secondaryCaption = false;
 
     public ProductsSampleView() {
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
@@ -53,35 +57,59 @@ public class ProductsSampleView extends VerticalLayout {
                                        .content(() -> detailsComponent)
                                        .build());
 
-        Button cardSectionToggleButton = new Button();
-        cardSectionToggleButton.getStyle().set("margin", "0");
-        cardSectionToggleButton.getStyle().set("background", "none");
-        cardSectionToggleButton.getStyle().set("padding", "0.25rem 1rem");
-        cardSectionToggleButton.getStyle().set("position", "absolute");
-        cardSectionToggleButton.getStyle().set("bottom", "var(--lumo-space-m)");
-        updateCardLikeClass(cardSectionToggleButton);
-        cardSectionToggleButton.addClickListener(e -> {
-            cardLikeSections = !cardLikeSections;
-            updateCardLikeClass(e.getSource());
-        });
+        var styleTogglesWrapper = new Div(createStyleToggleButton(LinkkiSection.CLASS_SECTION_STYLE_CARD,
+                                                                  () -> cardLikeSections,
+                                                                  b -> cardLikeSections = b,
+                                                                  VaadinIcon.GRID_BIG, VaadinIcon.GRID_BIG_O),
+                createStyleToggleButton(LinkkiSection.CLASS_SECTION_SECONDARY_CAPTION, () -> secondaryCaption,
+                                        b -> secondaryCaption = b, VaadinIcon.LEVEL_UP, VaadinIcon.LEVEL_DOWN));
 
-        tabLayout.getTabsComponent().add(cardSectionToggleButton);
+        styleTogglesWrapper.getStyle().set("position", "absolute");
+        styleTogglesWrapper.getStyle().set("bottom", "var(--lumo-space-m)");
+        styleTogglesWrapper.getStyle().set("margin", "0");
+        styleTogglesWrapper.getStyle().set("display", "flex");
+        styleTogglesWrapper.getStyle().set("flex-wrap", "wrap");
+        styleTogglesWrapper.getStyle().set("flex-direction", "column");
+
+        tabLayout.getTabsComponent().add(styleTogglesWrapper);
         add(tabLayout);
 
         setPadding(false);
         setSizeFull();
     }
 
-    private void updateCardLikeClass(Button button) {
-        if (cardLikeSections) {
-            button.setIcon(VaadinIcon.GRID_BIG.create());
-            ComponentStyles.setCardLikeSections(overviewPage);
-            ComponentStyles.setCardLikeSections(detailsComponent.getTabLayout());
-        } else {
-            button.setIcon(VaadinIcon.GRID_BIG_O.create());
-            overviewPage.removeClassName(LinkkiSection.CLASS_SECTION_STYLE_CARD);
-            detailsComponent.getTabLayout().removeClassName(LinkkiSection.CLASS_SECTION_STYLE_CARD);
-        }
+    private Button createStyleToggleButton(String className,
+            BooleanSupplier hasClassNameSupplier,
+            Consumer<Boolean> setHasClassName,
+            VaadinIcon hasClassNameIcon,
+            VaadinIcon hasNoClassNameIcon) {
+        var button = new Button();
+        button.getStyle().set("background", "none");
+        button.getStyle().set("padding", "0.25rem 1rem");
 
+        updateClass(button, className, hasClassNameSupplier.getAsBoolean(), hasClassNameIcon, hasNoClassNameIcon);
+        button.addClickListener(e -> {
+            setHasClassName.accept(!hasClassNameSupplier.getAsBoolean());
+            updateClass(e.getSource(), className, hasClassNameSupplier.getAsBoolean(), hasClassNameIcon,
+                        hasNoClassNameIcon);
+        });
+
+        return button;
+    }
+
+    private void updateClass(Button button,
+            String className,
+            boolean hasClassName,
+            VaadinIcon hasClassNameIcon,
+            VaadinIcon hasNoClassNameIcon) {
+        if (hasClassName) {
+            button.setIcon(hasClassNameIcon.create());
+            overviewPage.addClassName(className);
+            detailsComponent.getTabLayout().addClassName(className);
+        } else {
+            button.setIcon(hasNoClassNameIcon.create());
+            overviewPage.removeClassName(className);
+            detailsComponent.getTabLayout().removeClassName(className);
+        }
     }
 }

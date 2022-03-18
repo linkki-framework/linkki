@@ -20,3 +20,12 @@ linkki-section > div[slot="content"] > * {
     --linkki-readonly-text-color: var(--lumo-body-text-color);
     --linkki-grid-background: var(--linkki-section-background);
 }
+
+.section-style-secondary-caption linkki-section [slot~="header-components"] {
+    --linkki-section-header-margin-bottom: var(--lumo-space-xs);
+}
+
+.section-style-secondary-caption linkki-section .linkki-section-caption-text[slot~="header-components"] {
+    --lumo-header-text-color: var(--lumo-secondary-text-color);
+    font-size: var(--lumo-font-size-m);
+}

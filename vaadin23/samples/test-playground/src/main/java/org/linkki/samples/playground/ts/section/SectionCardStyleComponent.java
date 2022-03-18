@@ -19,7 +19,9 @@ import java.util.List;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
@@ -29,6 +31,7 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSec
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionVerticalPmo;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class SectionCardStyleComponent {
@@ -87,6 +90,16 @@ public class SectionCardStyleComponent {
 
         public void setValue(String value) {
             this.value = value;
+        }
+    }
+
+    @UISection(caption = "Grid section plus")
+    public static class GridSectionPlusPmo extends GridSectionLayoutPmo {
+
+        @SectionHeader
+        @UIButton(position = -1, showIcon = true, icon = VaadinIcon.PLUS)
+        public void plus() {
+            // does nothing
         }
     }
 }
