@@ -8,7 +8,7 @@ class LinkkiSection extends LitElement {
       flex-direction: column;
       box-sizing: border-box;
       width: 100%;
-      --linkki-section-gap: var(--lumo-space-m);
+      --linkki-section-content-gap: var(--lumo-space-m);
       --lumo-header-text-color: var(--linkki-section-caption-header-color, var(--lumo-contrast-80pct));
     }
 
@@ -21,7 +21,7 @@ class LinkkiSection extends LitElement {
       overflow: auto;
       box-sizing: border-box;
       width: 100%;
-      gap: var(--linkki-section-gap);
+      gap: var(--linkki-section-content-gap);
       background: var(--linkki-section-background, transparent);
       padding: var(--linkki-section-padding, 0);
       border-radius: var(--linkki-section-border-radius, var(--lumo-border-radius-m));
