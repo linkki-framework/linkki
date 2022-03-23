@@ -17,7 +17,6 @@ linkki-section > div[slot="content"] > * {
 .section-style-card linkki-section {
     --linkki-section-background: linear-gradient(var(--lumo-contrast-5pct), var(--lumo-contrast-5pct)), linear-gradient(var(--lumo-base-color), var(--lumo-base-color));
     --linkki-section-padding: var(--lumo-space-m);
-    --linkki-readonly-text-color: var(--lumo-body-text-color);
     --linkki-grid-background: var(--linkki-section-background);
 }
 

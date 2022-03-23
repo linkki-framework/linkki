@@ -1,6 +1,7 @@
 :host {
     background-color: var(--linkki-input-background);
     border: var(--linkki-input-border);
+    font-weight: 400;
 }
 
 :host([readonly]) {

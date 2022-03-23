@@ -1,11 +1,9 @@
 html {
     /* linkki properties */
     --linkki-input-background: var(--lumo-contrast-10pct);
-    --linkki-input-border: none;
     --linkki-input-background-hover: var(--lumo-contrast-20pct);
-    --linkki-input-border-hover: none;
-    --linkki-input-border-readonly: var(--lumo-contrast-20pct);
-    --linkki-input-border-style-readonly: solid;
+    --linkki-input-border-color-readonly: var(--lumo-contrast-20pct);
+    --linkki-readonly-text-color: var(--lumo-body-text-color);
 
     --linkki-info-color: hsla(213, 80%, 70%, 1);
     --linkki-info-color-10pct: hsla(213, 80%, 50%, 0.13);
@@ -13,6 +11,7 @@ html {
     --linkki-warning-color: hsla(50, 80%, 50%, 1);
     --linkki-warning-color-10pct: hsla(50, 80%, 50%, 0.2);
     --linkki-warning-color-50pct: hsla(50, 80%, 40%, 0.8);
+    
     
     --linkki-section-gap: var(--lumo-space-l);
     
@@ -25,16 +24,21 @@ html {
 }
 
 [theme~="dark"] {
-    /* needs to be set again to respect the dark lumo values */
+    /* needs to be set color settings again to respect the dark lumo values */
     --linkki-input-background: var(--lumo-contrast-10pct);
     --linkki-input-background-hover: var(--lumo-contrast-20pct);
-
+    --linkki-input-border-color-readonly: var(--lumo-contrast-20pct);
+    --linkki-readonly-text-color: var(--lumo-body-text-color);
+    
     --linkki-info-color: hsla(213, 80%, 70%, 1);
     --linkki-info-color-10pct: hsla(213, 80%, 70%, 0.3);
     --linkki-info-color-50pct: hsla(213, 80%, 70%, 0.8);
     --linkki-warning-color: hsla(50, 80%, 50%, 1);
     --linkki-warning-color-10pct: hsla(50, 80%, 50%, 0.3);
     --linkki-warning-color-50pct: hsla(50, 80%, 70%, 0.8);
+
+    /* lumo properties */
+    --lumo-error-color: hsla(0, 61%, 54%, 1);
 }
 
 a:not([href]) {
