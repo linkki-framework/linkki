@@ -21,6 +21,12 @@ linkki-section > div[slot="content"] > * {
     --linkki-grid-background: var(--linkki-section-background);
 }
 
+.linkki-section-caption-text {
+    margin: 0;
+    line-height: var(--lumo-size-s);
+    font-weight: 400;
+}
+
 .section-style-secondary-caption {
     /* Only has an effect in AbstractPage */
     --linkki-section-gap: var(--lumo-space-m);
