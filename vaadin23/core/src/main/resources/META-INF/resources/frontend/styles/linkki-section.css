@@ -2,40 +2,12 @@ linkki-section {
     --section-item-width: calc((100% - (var(--columns, 1) - 1) * var(--linkki-section-gap)) / var(--columns, 1));
 }
 
-/*
- * Sections should be scrollable
- * see https://jira.faktorzehn.de/browse/LIN-2915
- */
-linkki-section > div[slot="content"] {
-    overflow: auto;
-}
-
 linkki-section > div[slot="content"] > * {
     max-width: var(--section-item-width);
-}
-
-.section-style-card linkki-section {
-    --linkki-section-background: linear-gradient(var(--lumo-contrast-5pct), var(--lumo-contrast-5pct)), linear-gradient(var(--lumo-base-color), var(--lumo-base-color));
-    --linkki-section-padding: var(--lumo-space-m);
-    --linkki-grid-background: var(--linkki-section-background);
 }
 
 .linkki-section-caption-text {
     margin: 0;
     line-height: var(--lumo-size-s);
     font-weight: 400;
-}
-
-.section-style-secondary-caption {
-    /* Only has an effect in AbstractPage */
-    --linkki-section-gap: var(--lumo-space-m);
-}
-
-.section-style-secondary-caption linkki-section [slot~="header-components"] {
-    --linkki-section-header-margin-bottom: var(--lumo-space-xs);
-}
-
-.section-style-secondary-caption linkki-section .linkki-section-caption-text[slot~="header-components"] {
-    --lumo-header-text-color: var(--lumo-secondary-text-color);
-    font-size: var(--lumo-font-size-m);
 }

@@ -89,6 +89,7 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormS
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionComponent;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
+import org.linkki.samples.playground.ts.linkkipage.CardSectionPageComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
@@ -96,7 +97,6 @@ import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
-import org.linkki.samples.playground.ts.section.SectionCardStyleComponent;
 import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
 import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
@@ -143,7 +143,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TS012 = "TS012";
     public static final String TS013 = "TS013";
     public static final String TS014 = "TS014";
-
+    public static final String TS015 = "TS015";
 
     public static final String TC001 = "TC001";
     public static final String TC002 = "TC002";
@@ -200,7 +200,6 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                          SectionHeaderBehaviorComponent.createClosableSection(),
                                                          SectionHeaderBehaviorComponent.createNotClosableSection()))
                                        .testCase(TC005, new UiFormSectionMultiColumnComponentsPmo())
-                                       .testCase(TC006, SectionCardStyleComponent.create())
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())
@@ -287,6 +286,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC002, TreeTableSection.createLeagueTreeTableSection())
                                        .testCase(TC003, TreeTableSection.createUpdateNodeTreeTableSection())
                                        .testCase(TC004, TreeTableSection.createTreeTableWithPlaceholderSection())
+                                       .createTabSheet(),
+                               TestScenario.id(TS015)
+                                       .testCase(TC001, CardSectionPageComponent.create())
                                        .createTabSheet(),
                                // old tab sheets
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)

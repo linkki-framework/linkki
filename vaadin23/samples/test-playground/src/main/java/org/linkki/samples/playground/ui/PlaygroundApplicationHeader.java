@@ -14,8 +14,7 @@
 
 package org.linkki.samples.playground.ui;
 
-import java.util.List;
-
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
@@ -37,10 +36,13 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
     @Override
     protected void addHelpMenuItems(MenuItem helpMenu) {
         super.addHelpMenuItems(helpMenu);
-        List.of(new ApplicationMenuItemDefinition("Locale", "appmenu-locale",
+        new ApplicationMenuItemDefinition("Locale", "appmenu-locale",
                 () -> new PmoBasedDialogFactory()
-                        .newOkDialog("Browser Locale", new LocaleInfoPmo()).open()),
-                new ThemeVariantToggleMenuItemDefinition("Dark Theme", "appmenu-theme-dark", Lumo.DARK))
-                .forEach(i -> i.createItem(helpMenu.getSubMenu()));
+                        .newOkDialog("Browser Locale", new LocaleInfoPmo()).open()).createItem(helpMenu.getSubMenu());
+        new ThemeVariantToggleMenuItemDefinition("Dark theme", "appmenu-theme-dark", Lumo.DARK)
+                .createItem(helpMenu.getSubMenu());
+        new ThemeVariantToggleMenuItemDefinition("Card theme", "appmenu-theme-card",
+                LinkkiTheme.VARIANT_CARD_SECTION_PAGES)
+                        .createItem(helpMenu.getSubMenu());
     }
 }

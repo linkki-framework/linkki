@@ -12,30 +12,37 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.section;
+package org.linkki.samples.playground.ts.linkkipage;
 
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.ComponentStyles;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionHorizontalPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionVerticalPmo;
+import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.dom.ThemeList;
 
-public class SectionCardStyleComponent {
-    public static final String FORM = SectionLayout.FORM.name();
+public class CardSectionPageComponent {
+
+    private static final String FORM = SectionLayout.FORM.name();
     private static final String HORIZONTAL = SectionLayout.HORIZONTAL.name();
     private static final String VERTICAL = SectionLayout.VERTICAL.name();
 
@@ -48,42 +55,43 @@ public class SectionCardStyleComponent {
     }
 
     private static Component createTabLayoutWithCardLikeSections() {
-        LinkkiTabLayout tabLayoutWithCardLikeSections = new LinkkiTabLayout();
-        tabLayoutWithCardLikeSections.setWidthFull();
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        tabLayout.setWidthFull();
 
-        tabLayoutWithCardLikeSections.addTabSheet(LinkkiTabSheet.builder(FORM)
+        tabLayout.addTabSheet(LinkkiTabSheet.builder(FORM)
                 .description(DESCRIPTION + FORM)
-                .content(() -> createSheetContent(new BasicElementsLayoutBehaviorUiSectionPmo(),
-                                                  new GridSectionLayoutPmo()))
+                .content(() -> new SimpleSectionsPage(new BasicElementsLayoutBehaviorUiSectionPmo(),
+                        new GridSectionPlusPmo()))
                 .build());
-        tabLayoutWithCardLikeSections.addTabSheet(LinkkiTabSheet.builder(HORIZONTAL)
+        tabLayout.addTabSheet(LinkkiTabSheet.builder(HORIZONTAL)
                 .description(DESCRIPTION + HORIZONTAL)
-                .content(() -> createSheetContent(new BasicElementsLayoutBehaviorUiSectionHorizontalPmo(),
-                                                  new GridSectionLayoutPmo()))
+                .content(() -> new SimpleSectionsPage(new BasicElementsLayoutBehaviorUiSectionHorizontalPmo(),
+                        new GridSectionPlusPmo()))
                 .build());
-        tabLayoutWithCardLikeSections.addTabSheet(LinkkiTabSheet.builder(VERTICAL)
+        tabLayout.addTabSheet(LinkkiTabSheet.builder(VERTICAL)
                 .description(DESCRIPTION + VERTICAL)
-                .content(() -> createSheetContent(new BasicElementsLayoutBehaviorUiSectionVerticalPmo(),
-                                                  new GridSectionLayoutPmo()))
+                .content(() -> new SimpleSectionsPage(new BasicElementsLayoutBehaviorUiSectionVerticalPmo(),
+                        new GridSectionPlusPmo()))
                 .build());
-        ComponentStyles.setCardLikeSections(tabLayoutWithCardLikeSections);
-        return tabLayoutWithCardLikeSections;
+        return tabLayout;
     }
 
-    private static Component createSheetContent(Object... pmos) {
-        var bindingContext = new BindingContext();
-        var wrapperLayout = new VerticalLayout();
-        List.of(pmos).stream().map(pmo -> VaadinUiCreator.createComponent(pmo, bindingContext))
-                .forEachOrdered(wrapperLayout::add);
-        return wrapperLayout;
-    }
-
-    @UISection(caption = "Simple section")
+    @UISection(caption = "Section not in LinkkkiPage")
     public static class SimpleSectionPmo {
 
         private String value;
 
-        @UITextField(position = 0)
+        @UIButton(position = 0, caption = "Toggle card theme globally")
+        public void toggleTheme() {
+            ThemeList themeList = UI.getCurrent().getElement().getThemeList();
+            if (themeList.contains(LinkkiTheme.VARIANT_CARD_SECTION_PAGES)) {
+                themeList.remove(LinkkiTheme.VARIANT_CARD_SECTION_PAGES);
+            } else {
+                themeList.add(LinkkiTheme.VARIANT_CARD_SECTION_PAGES);
+            }
+        }
+
+        @UITextField(position = 10)
         public String getValue() {
             return value;
         }
@@ -101,5 +109,27 @@ public class SectionCardStyleComponent {
         public void plus() {
             // does nothing
         }
+    }
+
+    private static class SimpleSectionsPage extends AbstractPage {
+
+        private static final long serialVersionUID = 1L;
+        private final BindingManager bindingManager;
+
+        public SimpleSectionsPage(Object... pmos) {
+            bindingManager = new DefaultBindingManager();
+            List.of(pmos).forEach(this::addSection);
+        }
+
+        @Override
+        public void createContent() {
+            // does nothing
+        }
+
+        @Override
+        protected BindingManager getBindingManager() {
+            return bindingManager;
+        }
+
     }
 }

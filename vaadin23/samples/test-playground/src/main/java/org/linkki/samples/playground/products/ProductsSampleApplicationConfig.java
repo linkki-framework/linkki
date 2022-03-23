@@ -22,6 +22,7 @@ import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.samples.playground.ts.TestScenarioView;
+import org.linkki.samples.playground.ui.PlaygroundApplicationHeader;
 import org.linkki.util.Sequence;
 
 /**
@@ -59,5 +60,10 @@ public class ProductsSampleApplicationConfig implements ApplicationConfig {
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(new ApplicationMenuItemDefinition("Start", "start", TestScenarioView.class),
                            new ApplicationMenuItemDefinition("Produkt", "product", ProductsSampleView.class));
+    }
+
+    @Override
+    public ApplicationHeaderDefinition getHeaderDefinition() {
+        return PlaygroundApplicationHeader::new;
     }
 }

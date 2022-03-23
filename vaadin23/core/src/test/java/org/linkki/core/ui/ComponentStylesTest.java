@@ -17,7 +17,6 @@ package org.linkki.core.ui;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -65,26 +64,6 @@ class ComponentStylesTest {
 
         assertThat(dialog.getElement().getStyle().get("overflow")).isNull();
         assertThat(dialog.getContentLayout().getStyle().get("overflow")).isEqualTo("auto");
-    }
-
-    @Test
-    void testSetCardLikeSections_NoHasStyle() {
-        var dialog = new Dialog();
-        assertThat(dialog).isNotInstanceOf(HasStyle.class);
-
-        ComponentStyles.setCardLikeSections(dialog);
-
-        assertThat(dialog.getElement().getClassList()).contains(LinkkiSection.CLASS_SECTION_STYLE_CARD);
-    }
-
-    @Test
-    void testSetCardLikeSections_HasStyle() {
-        var dialog = new DialogWithStyleOnContentLayout();
-
-        ComponentStyles.setCardLikeSections(dialog);
-
-        assertThat(dialog.getElement().getClassList()).doesNotContain(LinkkiSection.CLASS_SECTION_STYLE_CARD);
-        assertThat(dialog.getClassNames()).contains(LinkkiSection.CLASS_SECTION_STYLE_CARD);
     }
 
     private static class DialogWithStyleOnContentLayout extends Dialog implements HasStyle {

@@ -26,6 +26,7 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -45,6 +46,7 @@ import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
  * 
  * @see LinkkiSection
  */
+@CssImport(value = "./styles/linkki-page.css")
 public abstract class AbstractPage extends VerticalLayout implements Page {
 
     private static final long serialVersionUID = 1L;
@@ -67,8 +69,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     public AbstractPage(PmoBasedSectionFactory sectionFactory) {
         super();
         this.sectionFactory = requireNonNull(sectionFactory, "sectionFactory must not be null");
+        addClassName("linkki-page");
         setPadding(true);
-        getStyle().set("gap", "var(--linkki-section-gap)");
     }
 
     /**

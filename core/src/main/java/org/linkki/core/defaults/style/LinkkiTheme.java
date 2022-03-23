@@ -18,6 +18,11 @@ package org.linkki.core.defaults.style;
  */
 public class LinkkiTheme {
 
+    /**
+     * Applies a card style to all LinkkiSections inside of AbstractPages.
+     */
+    public static final String VARIANT_CARD_SECTION_PAGES = "card-section-pages";
+
     /** Style for a horizontal spacer */
     public static final String HORIZONTAL_SPACER = "linkki-horizontal-spacer";
 

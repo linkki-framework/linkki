@@ -14,8 +14,6 @@
 
 package org.linkki.core.ui;
 
-import org.linkki.core.vaadin.component.section.LinkkiSection;
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -59,18 +57,6 @@ public class ComponentStyles {
             ((HasStyle)component).getStyle().set(name, value);
         } else {
             component.getElement().getStyle().set(name, value);
-        }
-    }
-
-    /**
-     * Makes all contained {@link LinkkiSection} have a card-like style.
-     */
-    public static void setCardLikeSections(Component component) {
-        if (component instanceof HasStyle) {
-            HasStyle componentHasStyle = (HasStyle)component;
-            componentHasStyle.addClassName(LinkkiSection.CLASS_SECTION_STYLE_CARD);
-        } else {
-            component.getElement().getClassList().add(LinkkiSection.CLASS_SECTION_STYLE_CARD);
         }
     }
 }

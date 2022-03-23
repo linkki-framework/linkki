@@ -10,6 +10,7 @@ class LinkkiSection extends LitElement {
       width: 100%;
       --linkki-section-content-gap: var(--lumo-space-m);
       --lumo-header-text-color: var(--linkki-section-caption-header-color, var(--lumo-contrast-80pct));
+      --linkki-grid-background: var(--linkki-section-background, var(--lumo-base-color));
     }
 
     ::slotted([slot="content"]) {
@@ -18,6 +19,7 @@ class LinkkiSection extends LitElement {
       flex-wrap: wrap;
       flex-direction: column;
       align-items: baseline;
+      /* Sections should be scrollable see https://jira.faktorzehn.de/browse/LIN-2915 */
       overflow: auto;
       box-sizing: border-box;
       width: 100%;
