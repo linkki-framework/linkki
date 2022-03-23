@@ -1,0 +1,46 @@
+:jbake-title: Customizing the linkki theme
+:jbake-type: section
+:jbake-status: published
+
+=== Customizing the linkki theme
+
+For general information, see the https://vaadin.com/docs/latest/ds/customization/custom-theme[Vaadin documentation on custom themes].
+
+In general, a certain folder structure is needed for a custom theme. This structure depends on whether the theme will be directedly used in the application in which it is defined, or will it be packaged to be used in a different project.
+
+For direct usage, the minimum requirement includes a folder with the theme name in `frontend/themes`, with a `styles.css`` file and a `theme.json` file.
+
+.Folder structure for a custom theme for the own project
+----
+frontend
+└── themes
+    └── my-theme
+        ├── styles.css
+        └── theme.json
+----
+
+If the theme needs to be packaged for other projects, the theme folder must be in `src/main/resources/META-INF/resources/themes`.
+
+.Folder structure for a custom theme that needs to be pacakged
+----
+src
+└── main
+    └── resources
+        └── META-INF
+            └── resources
+                └── themes
+                    └── my-theme
+                        ├── styles.css
+                        └── theme.json
+----
+
+In both cases, the `theme.json` file must include the following configuration:
+[source, json]
+----
+{
+  "parent": "linkki"
+}
+----
+
+The `styles.css` file contains the CSS customizations one wants to make in the theme. For most simple changes, adjusting some of the Lumo CSS properties should suffice. The https://demo.vaadin.com/lumo-editor/[Lumo theme editor] is a useful tool to visualize the possibilities.
+

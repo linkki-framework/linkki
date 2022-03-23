@@ -1,0 +1,20 @@
+:jbake-title: Variants
+:jbake-type: section
+:jbake-status: published
+
+=== Variants of the linkki theme
+
+linkki theme has several variants that can be used to customize all components. 
+
+==== Variants 
+
+Card section pages ("card-section-pages"):: Sections inside of all `AbstractPage` components have a card like design.
+
+Compact ("compact"):: Smaller spaces for a more compact look.
+
+The variant names are also available as constants in the class `LinkkiTheme`.
+
+==== Applying a variant
+
+Just like the <<apply-linkki-theme, linkki Theme>>, the variant is also defined by the `AppShellConfigurator` with the annotation `@Theme`. The attribute `variant` should be set with the variant name. Multiple variants can be provided by combining the variant names in a space separated string.
+
