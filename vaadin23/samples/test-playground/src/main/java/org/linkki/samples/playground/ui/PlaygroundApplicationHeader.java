@@ -14,15 +14,14 @@
 
 package org.linkki.samples.playground.ui;
 
-import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition;
 import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.theme.lumo.Lumo;
 
 public class PlaygroundApplicationHeader extends ApplicationHeader {
 
@@ -36,15 +35,12 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
     @Override
     protected void addHelpMenuItems(MenuItem helpMenu) {
         super.addHelpMenuItems(helpMenu);
+        addThemeVariantToggles(helpMenu, ThemeVariantToggleMenuItemDefinition.LUMO_DARK,
+                               ThemeVariantToggleMenuItemDefinition.LINKKI_CARD,
+                               ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT);
         new ApplicationMenuItemDefinition("Locale", "appmenu-locale",
                 () -> new PmoBasedDialogFactory()
-                        .newOkDialog("Browser Locale", new LocaleInfoPmo()).open()).createItem(helpMenu.getSubMenu());
-        new ThemeVariantToggleMenuItemDefinition("Dark theme", "appmenu-theme-dark", Lumo.DARK)
-                .createItem(helpMenu.getSubMenu());
-        new ThemeVariantToggleMenuItemDefinition("Card theme", "appmenu-theme-card",
-                LinkkiTheme.VARIANT_CARD_SECTION_PAGES)
-                        .createItem(helpMenu.getSubMenu());
-        new ThemeVariantToggleMenuItemDefinition("Compact theme", "appmenu-theme-compact", "compact")
-                .createItem(helpMenu.getSubMenu());
+                        .newOkDialog("Browser Locale", new LocaleInfoPmo()).open())
+                                .createItem(helpMenu.getSubMenu());
     }
 }

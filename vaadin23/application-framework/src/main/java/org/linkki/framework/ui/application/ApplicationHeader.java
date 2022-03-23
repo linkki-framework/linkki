@@ -15,9 +15,12 @@ package org.linkki.framework.ui.application;
 
 import static org.linkki.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
@@ -53,6 +56,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     static final String APPMENU_RIGHT_ID = "appmenu-right";
     static final String APPMENU_HELP_ID = "appmenu-help";
     static final String APPMENU_INFO_ID = "appmenu-info";
+    static final String APPMENU_THEME_ID = "appmenu-theme";
 
     private static final long serialVersionUID = 1L;
 
@@ -173,6 +177,20 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     protected void addApplicationInfoMenuItem(MenuItem helpMenu) {
         new ApplicationMenuItemDefinition(NlsText.getString("ApplicationHeader.Info"), APPMENU_INFO_ID,
                 this::showApplicationInfo).createItem(helpMenu.getSubMenu());
+    }
+
+    /**
+     * Adds an menu item containing toggles for the given theme variants.
+     * 
+     * @see ThemeVariantToggleMenuItemDefinition
+     */
+    protected void addThemeVariantToggles(MenuItem helpMenu, ThemeVariantToggleMenuItemDefinition... themeVariants) {
+        if (themeVariants.length == 1) {
+            themeVariants[0].createItem(helpMenu.getSubMenu());
+        } else if (themeVariants.length > 1) {
+            new ApplicationMenuItemDefinition(NlsText.getString("ApplicationHeader.Theme"), APPMENU_THEME_ID,
+                    List.of(themeVariants)).createItem(helpMenu.getSubMenu());
+        }
     }
 
     /**

@@ -15,6 +15,8 @@
 package org.linkki.framework.ui.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition.LINKKI_CARD;
+import static org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -22,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.Sequence;
 import org.linkki.util.handler.Handler;
 
@@ -104,6 +107,50 @@ class ApplicationHeaderTest {
         assertThat(helpMenuItem.getSubMenu().getItems()).hasSize(1);
         MenuItem applicationInfoItem = helpMenuItem.getSubMenu().getItems().get(0);
         assertThat(applicationInfoItem.getId()).hasValue(ApplicationHeader.APPMENU_INFO_ID);
+    }
+
+    @Test
+    void testAddThemeVariantToggles_SingleItem() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        header.init();
+
+        MenuBar rightComponent = (MenuBar)((HorizontalLayout)header.getContent().getComponentAt(1)).getComponentAt(0);
+        MenuItem helpMenuItem = rightComponent.getItems().get(0);
+        header.addThemeVariantToggles(helpMenuItem, LINKKI_CARD);
+
+        assertThat(helpMenuItem.getSubMenu().getItems()).anyMatch(mi -> mi.getText().equals("Card Theme"));
+    }
+
+    @Test
+    void testAddThemeVariantToggles_MultipleItems() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        header.init();
+
+        MenuBar rightComponent = (MenuBar)((HorizontalLayout)header.getContent().getComponentAt(1)).getComponentAt(0);
+        MenuItem helpMenuItem = rightComponent.getItems().get(0);
+        header.addThemeVariantToggles(helpMenuItem, LINKKI_CARD, LINKKI_COMPACT);
+
+        assertThat(helpMenuItem.getSubMenu().getItems()).anyMatch(mi -> mi.getText().equals("Themes"));
+        assertThat(helpMenuItem.getSubMenu().getItems().get(1).getText())
+                .isEqualTo(NlsText.getString("ApplicationHeader.Theme"));
+        assertThat(helpMenuItem.getSubMenu().getItems().get(1).getSubMenu().getItems().stream().map(MenuItem::getText))
+                .contains("Card Theme", "Compact Theme");
+    }
+
+    @Test
+    void testAddThemeVariantToggles_NoItems() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        header.init();
+
+        MenuBar rightComponent = (MenuBar)((HorizontalLayout)header.getContent().getComponentAt(1)).getComponentAt(0);
+        MenuItem helpMenuItem = rightComponent.getItems().get(0);
+        header.addThemeVariantToggles(helpMenuItem);
+
+        assertThat(helpMenuItem.getSubMenu().getItems().stream().map(MenuItem::getText))
+                .doesNotContain("Themes", "Card Theme", "Compact Theme");
     }
 
     @Test

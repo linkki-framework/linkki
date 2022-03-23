@@ -30,6 +30,11 @@ public class LinkkiTheme {
      */
     public static final String VARIANT_CARD_SECTION_PAGES = "card-section-pages";
 
+    /**
+     * A theme variant for smaller input fields and less space.
+     */
+    public static final String VARIANT_COMPACT = "compact";
+
     /** Style for the caption of a section. */
     public static final String SECTION_CAPTION_TEXT = "linkki-section-caption-text";
 

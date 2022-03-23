@@ -47,6 +47,7 @@ The menu bar on the right contains a help menu by default. In the help menu, a s
 . Create a custom subclass of `ApplicationHeader`
 . In the subclass:
  * To customize items of the help menu, override `addHelpMenuItems`
+ ** To add submenu items for toggling between different theme variants, use `addThemeVariantToggles(MenuItem, ThemeVariantToggleMenuItemDefinition...)`
  * To customize items of the menu bar, override `createRightMenuBar`
 . Use the custom subclass in `ApplicationConfig#getHeaderDefinition`
 
@@ -58,6 +59,7 @@ The right menu and its items have the following IDs by default:
 | `appmenu-right` | the right menu bar
 | `appmenu-help` | the help menu within the right menu bar
 | `appmenu-info` | the info submenu within the help menu
+| `appmenu-theme` | the theme variant submenu within the help menu
 |===
 
 As HTML IDs are very convenient for UI testing, custom items added to the menu should also set an ID. 
@@ -67,6 +69,22 @@ As HTML IDs are very convenient for UI testing, custom items added to the menu s
 ====
 The class <<application-menu-item-definition, ApplicationMenuItemDefinition>> can be used to create items for the right menu.
 ====
+
+[[theme-variant-toggle-menu-item-definition]]
+===== ThemeVariantToggleMenuItemDefinition
+
+`MenuItems` for theme variants can be added using the method `addThemeVariantToggles(MenuItem, ThemeVariantToggleMenuItemDefinition...)` when overriding `addHelpMenuItems(MenuItem)` in your subclass of `ApplicationHeader`.
+
+.ApplicationHeader
+[source,java]
+----
+@Override
+protected void addHelpMenuItems(MenuItem helpMenu) {
+    ThemeVariantToggleMenuItemDefinition menuItem = new ThemeVariantToggleMenuItemDefinition("Custom Theme", "appmenu-theme-custom-theme-id", "custom-theme-variant")
+    addThemeVariantToggles(helpMenu, menuItem);
+}
+----
+
 
 [[application-menu-item-definition]]
 ===== ApplicationMenuItemDefinition

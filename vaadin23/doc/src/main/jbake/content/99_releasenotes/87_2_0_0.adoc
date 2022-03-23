@@ -149,6 +149,7 @@ Additionally the right menu and its items have been enriched with IDs:
 | `appmenu-right` | the right menu bar
 | `appmenu-help` | the help menu within the right menu bar
 | `appmenu-info` | the info submenu within the help menu
+| `appmenu-theme` | the theme variant submenu within the help menu
 |===
 
 [role="api-change"]
@@ -161,6 +162,12 @@ The theme `"linkki"` must now be used for all applications. This is done by addi
 
 The class `org.linkki.core.defaults.style.LinkkiTheme` was moved to `org.linkki.core.ui.theme.LinkkiTheme` and
 contains the new theme name, variant names and relevant css class names.
+
+===== Introduction of ThemeVariantToggleMenuItemDefinition
+////
+https://jira.faktorzehn.de/browse/FCOM-904
+////
+The `ThemeVariantToggleMenuItemDefinition` can be used when adding submenu items for theme variants to the `ApplicationHeader`. For detailed information see <<theme-variant-toggle-menu-item-definition, `ThemeVariantToggleMenuItemDefinition`>>.
 
 ===== Disabled browser autocomplete for all default fields
 ////
