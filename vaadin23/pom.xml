@@ -34,7 +34,7 @@
             23.0.0
             <!-- end::vaadin-version[] -->
         </vaadin.version>
-        <spring-boot.version>2.6.1</spring-boot.version>
+        <spring-boot.version>2.6.4</spring-boot.version>
     </properties>
 
     <dependencyManagement>

@@ -16,7 +16,7 @@
         <surefire.version>2.22.2</surefire.version>
         <junit.version>5.8.2</junit.version>
         <commons.version>3.12.0</commons.version>
-        <assertj.version>3.19.0</assertj.version>
+        <assertj.version>3.22.0</assertj.version>
 
         <java.version>11</java.version>
     </properties>
