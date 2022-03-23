@@ -16,7 +16,7 @@ package org.linkki.core.vaadin.component.base;
 
 import java.util.Objects;
 
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.vaadin.component.HasIcon;
 
 import com.vaadin.flow.component.Component;

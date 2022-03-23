@@ -15,7 +15,11 @@ package org.linkki.core.defaults.style;
 
 /**
  * Constants for the CSS styles used throughout the application.
+ * 
+ * @deprecated since 2.0 use framework specific LinkkiTheme class, for example
+ *             org.linkki.core.ui.theme.LinkkiTheme
  */
+@Deprecated
 public class LinkkiTheme {
 
     /**

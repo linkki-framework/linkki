@@ -14,7 +14,7 @@
 
 package org.linkki.samples.playground.ui;
 
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;

@@ -15,7 +15,6 @@ package org.linkki.framework.ui.application;
 
 import static org.linkki.util.Objects.requireNonNull;
 
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
@@ -134,7 +133,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
         MenuBar rightMenuBar = new MenuBar();
         rightMenuBar.setId(APPMENU_RIGHT_ID);
         rightMenuBar.addThemeVariants(MenuBarVariant.LUMO_ICON);
-        rightMenuBar.addClassNames(LinkkiApplicationTheme.APPLICATION_MENU, LinkkiTheme.BORDERLESS);
+        rightMenuBar.addClassNames(LinkkiApplicationTheme.APPLICATION_MENU);
         addHelpMenu(rightMenuBar);
 
         return rightMenuBar;

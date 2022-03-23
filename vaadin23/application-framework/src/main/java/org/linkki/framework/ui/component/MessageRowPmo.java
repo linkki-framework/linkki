@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.icon.VaadinIcon;

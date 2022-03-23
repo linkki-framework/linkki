@@ -14,7 +14,7 @@
 
 package org.linkki.core.vaadin.component;
 
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.dependency.CssImport;

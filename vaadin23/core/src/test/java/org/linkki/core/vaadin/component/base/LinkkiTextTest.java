@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 

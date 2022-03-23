@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.vaadin.component.ComponentFactory;
 import org.linkki.core.vaadin.component.HasCaption;
 import org.linkki.util.handler.Handler;
@@ -88,10 +88,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param columns number of columns in which the content components are displayed
      */
-    @SuppressWarnings("deprecation")
     public LinkkiSection(@CheckForNull String caption, boolean closeable, int columns) {
-        setClassName(LinkkiTheme.SECTION);
-
         captionLabel = createCaption();
         captionLabel.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
 

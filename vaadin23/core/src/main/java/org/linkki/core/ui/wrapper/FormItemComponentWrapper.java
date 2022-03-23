@@ -16,7 +16,7 @@ package org.linkki.core.ui.wrapper;
 
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
 import org.linkki.core.vaadin.component.section.BaseSection;
 

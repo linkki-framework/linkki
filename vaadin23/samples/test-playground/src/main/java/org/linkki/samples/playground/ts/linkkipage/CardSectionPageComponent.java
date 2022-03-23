@@ -19,7 +19,7 @@ import java.util.List;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;

@@ -159,6 +159,9 @@ https://jira.faktorzehn.de/browse/LIN-2623
 
 The theme `"linkki"` must now be used for all applications. This is done by adding the annotation `@Theme("linkki")` on a class that implements `AppShellConfigurator`. If an existing custom theme is used, it must extend from the linkki theme. Detailed instructions are provided in the chapter <<styling, "Styling">>.
 
+The class `org.linkki.core.defaults.style.LinkkiTheme` was moved to `org.linkki.core.ui.theme.LinkkiTheme` and
+contains the new theme name, variant names and relevant css class names.
+
 ===== Disabled browser autocomplete for all default fields
 ////
 https://jira.faktorzehn.de/browse/LIN-2826

@@ -16,7 +16,7 @@ package org.linkki.core.ui.creation.table;
 
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
