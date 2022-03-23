@@ -22,9 +22,7 @@ import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.util.Sequence;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 public class PlaygroundApplicationHeader extends ApplicationHeader {
@@ -42,15 +40,7 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
         List.of(new ApplicationMenuItemDefinition("Locale", "appmenu-locale",
                 () -> new PmoBasedDialogFactory()
                         .newOkDialog("Browser Locale", new LocaleInfoPmo()).open()),
-                new ApplicationMenuItemDefinition("Toogle Dark Mode", "appmenu-dark-mode",
-                        () -> {
-                            ThemeList themeList = UI.getCurrent().getElement().getThemeList();
-                            if (themeList.contains(Lumo.DARK)) {
-                                themeList.remove(Lumo.DARK);
-                            } else {
-                                themeList.add(Lumo.DARK);
-                            }
-                        }))
+                new ThemeVariantToggleMenuItemDefinition("Dark Theme", "appmenu-theme-dark", Lumo.DARK))
                 .forEach(i -> i.createItem(helpMenu.getSubMenu()));
     }
 }
