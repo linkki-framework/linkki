@@ -12,7 +12,6 @@ html {
     --linkki-warning-color-10pct: hsla(50, 80%, 50%, 0.2);
     --linkki-warning-color-50pct: hsla(50, 80%, 40%, 0.8);
     
-    
     --linkki-section-gap: var(--lumo-space-l);
     
     /* lumo properties */
@@ -24,7 +23,7 @@ html {
 }
 
 [theme~="dark"] {
-    /* needs to be set color settings again to respect the dark lumo values */
+    /* needs to be set again to respect the dark lumo values */
     --linkki-input-background: var(--lumo-contrast-10pct);
     --linkki-input-background-hover: var(--lumo-contrast-20pct);
     --linkki-input-border-color-readonly: var(--lumo-contrast-20pct);

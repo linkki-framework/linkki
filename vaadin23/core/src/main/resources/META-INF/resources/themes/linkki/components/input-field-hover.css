@@ -1,4 +1,3 @@
 :host(:hover:not([readonly]):not([focused]):not([invalid])) [part='input-field'] {
     background-color: var(--linkki-input-background-hover);
-    border: var(--linkki-input-border-hover);
 }
