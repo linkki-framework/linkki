@@ -29,7 +29,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -172,28 +171,6 @@ class TC010UIButtonTest extends PlaygroundUiTest {
 
         assertThat(textArea.getValue()).isEqualTo("Shift+Enter!\n");
         assertThat(counter.getText()).isEqualTo("Counter: 0");
-    }
-
-    @Disabled("LIN-2621")
-    @Test
-    void testShortcut_InMultiLineInput_WithCrtlEnter() {
-        TextAreaElement textArea = getTextArea();
-        LinkkiTextElement counter = getCounter();
-        RadioButtonGroupElement radioButtonGroup = $(RadioButtonGroupElement.class).id("testBehaviorWithTextArea");
-        radioButtonGroup.selectByText(ButtonPmo.TestShortcutBehavior.BUTTON_WITH_CRTL_ENTER.toString());
-        assertThat(counter.getText()).isEqualTo("Counter: 0");
-        textArea.focus();
-
-        sendKeys(null, "Crtl+Enter!");
-        sendKeys(Keys.CONTROL, Keys.ENTER);
-
-        assertThat(textArea.getValue())
-                .describedAs("Crtl+Enter should not add new line")
-                .isEqualTo("Crtl+Enter!");
-        assertThat(counter.getText()).isEqualTo("Counter: 1");
-        assertThat($(DivElement.class).id("contentAsText").getText())
-                .as("Value of the text area should have been sent to server")
-                .isEqualTo("Crtl+Enter!");
     }
 
     private TextAreaElement getTextArea() {

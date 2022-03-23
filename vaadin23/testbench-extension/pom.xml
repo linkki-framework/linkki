@@ -13,7 +13,7 @@
     <description>Extension for the Vaadin Testbench</description>
 
     <properties>
-        <vaadin.testbench.version>23.0.0</vaadin.testbench.version>
+        <vaadin.testbench.version>23.0.2</vaadin.testbench.version>
     </properties>
 
     <dependencies>
