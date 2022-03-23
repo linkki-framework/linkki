@@ -2,7 +2,15 @@
     gap: var(--lumo-space-xl);
 }
 
+.linkki-page vaadin-horizontal-layout[theme~="spacing"] {
+    gap: var(--lumo-space-xl);
+}
+
 [theme~="card-section-pages"] .linkki-page {
+    gap: var(--lumo-space-m);
+}
+
+[theme~="card-section-pages"] .linkki-page vaadin-horizontal-layout[theme~="spacing"] {
     gap: var(--lumo-space-m);
 }
 

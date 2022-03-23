@@ -40,6 +40,19 @@ html {
     --lumo-error-color: hsla(0, 61%, 54%, 1);
 }
 
+[theme~="compact"] {
+  --lumo-size-xl: 3rem;
+  --lumo-size-l: 2.5rem;
+  --lumo-size-m: 2rem;
+  --lumo-size-s: 1.75rem;
+  --lumo-size-xs: 1.5rem;
+  --lumo-space-xl: 2rem;
+  --lumo-space-l: 1.375rem;
+  --lumo-space-m: 0.7rem;
+  --lumo-space-s: 0.35rem;
+  --lumo-space-xs: 0.2rem;
+} 
+
 a:not([href]) {
     color: inherit;
     text-decoration: none;

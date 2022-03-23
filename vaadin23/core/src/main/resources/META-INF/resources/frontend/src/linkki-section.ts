@@ -45,7 +45,7 @@ class LinkkiSection extends LitElement {
     }
 
     ::slotted([slot="header-components"]), ::slotted([slot="close-toggle"]) {
-      margin-bottom: var(--linkki-section-header-margin-bottom, .5rem) !important;
+      margin-bottom: var(--linkki-section-header-margin-bottom, var(--lumo-space-xs)) !important;
       min-height: var(--lumo-size-s);
     }
   `;

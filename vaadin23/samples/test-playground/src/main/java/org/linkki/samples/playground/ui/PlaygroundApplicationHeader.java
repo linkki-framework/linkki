@@ -44,5 +44,7 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
         new ThemeVariantToggleMenuItemDefinition("Card theme", "appmenu-theme-card",
                 LinkkiTheme.VARIANT_CARD_SECTION_PAGES)
                         .createItem(helpMenu.getSubMenu());
+        new ThemeVariantToggleMenuItemDefinition("Compact theme", "appmenu-theme-compact", "compact")
+                .createItem(helpMenu.getSubMenu());
     }
 }

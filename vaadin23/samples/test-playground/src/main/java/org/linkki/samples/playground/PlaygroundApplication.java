@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
 
-@Theme("linkki")
+@Theme(value = "linkki", variant = "compact")
 @SpringBootApplication
 public class PlaygroundApplication implements AppShellConfigurator {
 
