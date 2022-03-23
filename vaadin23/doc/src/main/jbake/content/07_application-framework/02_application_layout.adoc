@@ -17,7 +17,7 @@ The main purpose of this class is to hold the custom implementation of <<applica
 include::{source-dir}/org/linkki/samples/playground/ui/PlaygroundAppLayout.java[tags=app-layout]
 ----
 
-The `ApplicationLayout` surrounds the view with an <<application-header`ApplicationHeader`>> and an optional `ApplicationFooter`.
+The `ApplicationLayout` surrounds the view with an <<application-header,`ApplicationHeader`>> and an optional `ApplicationFooter`.
 
 The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side. 
 
