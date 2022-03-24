@@ -4,3 +4,7 @@
     align-self: center;
     font-weight: normal;
 }
+
+.linkki-headline {
+    flex-wrap: wrap;
+}

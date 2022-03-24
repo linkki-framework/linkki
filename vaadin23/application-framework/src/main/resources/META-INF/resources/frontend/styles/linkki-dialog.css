@@ -4,21 +4,21 @@
 .linkki-dialog-caption {
 	font-size: var(--lumo-font-size-xl);
 	font-weight: 200;
-	padding: var(--lumo-space-m);
+	padding: var(--lumo-space-l);
 	padding-bottom: 0;
 	margin: 0;
 }
 .linkki-dialog-button-bar {
 	background-color: var(--lumo-contrast-5pct);
-	padding: var(--lumo-space-xs) var(--lumo-space-m);
+	padding: var(--lumo-space-s) var(--lumo-space-l);
 	border-radius: 0 0 var(--lumo-border-radius-l) var(--lumo-border-radius-l);
 }
 .linkki-dialog-content-area {
-	padding: 0 var(--lumo-space-m);
-	margin: var(--lumo-space-m) 0;
+	padding: 0 var(--lumo-space-l);
+	margin: var(--lumo-space-l) 0;
 }
 .linkki-dialog-message-area linkki-text {
-	padding: 0 var(--lumo-space-m);
+	padding: 0 var(--lumo-space-l);
 	width: 100%;
 	max-width: fit-content;
 }
