@@ -18,6 +18,7 @@ import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.nls.NlsText;
+import org.linkki.util.HtmlSanitizer;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -84,45 +85,39 @@ public class NotificationUtil {
 
     /**
      * Creates and opens an info notification. Info notifications close automatically after the
-     * {@link #setInfoDuration(int) specified duration}.
+     * {@link #setInfoDuration(int) specified duration}. The description supports HTML content, which
+     * will be {@link HtmlSanitizer#sanitize(String) sanitized}.
      * 
      * @return the shown notification
      */
     public static Notification showInfo(String title, String description) {
-        Div content = new Div();
-        content.add(description);
-
-        Notification notification = createNotification(Severity.INFO, title, content);
+        Notification notification = createNotification(Severity.INFO, title, createContent(description));
         notification.open();
         return notification;
     }
 
     /**
      * Creates and opens an warning notification. Warning notifications close automatically after the
-     * {@link #setWarningDuration(int) specified duration}.
+     * {@link #setWarningDuration(int) specified duration}. The description supports HTML content, which
+     * will be {@link HtmlSanitizer#sanitize(String) sanitized}.
      * 
      * @return the shown notification
      */
     public static Notification showWarning(String title, String description) {
-        Div content = new Div();
-        content.add(description);
-
-        Notification notification = createNotification(Severity.WARNING, title, content);
+        Notification notification = createNotification(Severity.WARNING, title, createContent(description));
         notification.open();
         return notification;
     }
 
     /**
      * Creates and opens an error notification. Error notifications do not close automatically, the
-     * close button has to be pressed.
+     * close button has to be pressed. The description supports HTML content, which will be
+     * {@link HtmlSanitizer#sanitize(String) sanitized}.
      * 
      * @return the shown notification
      */
     public static Notification showError(String title, String description) {
-        Div content = new Div();
-        content.add(description);
-
-        Notification notification = createNotification(Severity.ERROR, title, content);
+        Notification notification = createNotification(Severity.ERROR, title, createContent(description));
         notification.open();
         return notification;
     }
@@ -156,6 +151,12 @@ public class NotificationUtil {
 
         notification.setPosition(Position.TOP_CENTER);
         return notification;
+    }
+
+    private static Div createContent(String description) {
+        Div content = new Div();
+        content.getElement().setProperty("innerHTML", HtmlSanitizer.sanitize(description));
+        return content;
     }
 
     private static Component createMessageListComponent(MessageList messages) {

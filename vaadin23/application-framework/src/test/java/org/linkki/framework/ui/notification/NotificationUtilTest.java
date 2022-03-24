@@ -20,14 +20,28 @@ import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTI
 import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_INFO;
 import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_WARNING;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.framework.ui.notifications.NotificationUtil;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.dom.Element;
 
 public class NotificationUtilTest {
+
+    private final UI ui = new UI();
+
+    @BeforeEach
+    public void setUp() {
+        UI.setCurrent(ui);
+    }
 
     @Test
     public void testSetInfoDuration() {
@@ -64,6 +78,39 @@ public class NotificationUtilTest {
         Notification notification = NotificationUtil.createNotification(Severity.ERROR, "title", new Div());
 
         assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_ERROR), is(true));
+    }
+
+    @Test
+    public void testShowInfo_HtmlContent() {
+        Notification notification = NotificationUtil.showInfo("title", "<b>bold</b><a>anchor</a>");
+
+        Element description = getContent(notification).get(1).getElement();
+        assertThat(description.getProperty("innerHTML"), is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+    }
+
+    @Test
+    public void testShowWarning_HtmlContent() {
+        Notification notification = NotificationUtil.showWarning("title", "<b>bold</b><a>anchor</a>");
+
+        Element description = getContent(notification).get(1).getElement();
+        assertThat(description.getProperty("innerHTML"), is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+    }
+
+    @Test
+    public void testShowError_HtmlContent() {
+        Notification notification = NotificationUtil.showError("title", "<b>bold</b><a>anchor</a>");
+
+        Element description = getContent(notification).get(1).getElement();
+        assertThat(description.getProperty("innerHTML"), is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+    }
+
+    private List<Component> getContent(Notification notification) {
+        Component content = notification.getChildren()
+                .filter(c -> c.getElement().getClassList().contains("linkki-notification-content"))
+                .findFirst()
+                .orElseThrow();
+
+        return content.getChildren().collect(Collectors.toList());
     }
 
 }

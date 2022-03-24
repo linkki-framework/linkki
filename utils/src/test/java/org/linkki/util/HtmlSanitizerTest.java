@@ -14,9 +14,9 @@
 
 package org.linkki.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +59,11 @@ public class HtmlSanitizerTest {
         assertThat(HtmlSanitizer.sanitize("div"), is("div"));
         assertThat(HtmlSanitizer.sanitize("<div"), is("&lt;div"));
         assertThat(HtmlSanitizer.sanitize("div>"), is("div&gt;"));
+    }
+
+    @Test
+    public void testSanitize_Attributes() {
+        assertThat(HtmlSanitizer.sanitize("<div style=\"\">"), is("&lt;div style=\"\"&gt;"));
     }
 
 }
