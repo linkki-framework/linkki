@@ -22,17 +22,30 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.util.Sequence;
 
+import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class ApplicationLayoutTest {
+class ApplicationLayoutTest {
+
+    @BeforeEach
+    void initCurrentUi() {
+        MockVaadin.setup();
+    }
+
+    @AfterEach
+    void cleanUpCurrentUi() {
+        MockVaadin.tearDown();
+    }
 
     @Test
-    public void testApplicationLayout() {
+    void testApplicationLayout() {
         ApplicationLayout applicationLayout = new ApplicationLayout(new MinimalApplicationConfig()) {
             private static final long serialVersionUID = 1L;
         };
@@ -42,7 +55,7 @@ public class ApplicationLayoutTest {
     }
 
     @Test
-    public void testApplicationLayout_WithFooter() {
+    void testApplicationLayout_WithFooter() {
         ApplicationLayout applicationLayout = new ApplicationLayout(new ApplicationConfigWithFooter()) {
             private static final long serialVersionUID = 1L;
         };
@@ -52,12 +65,7 @@ public class ApplicationLayoutTest {
                    contains(isA(ApplicationHeader.class), isA(VerticalLayout.class), isA(ApplicationFooter.class)));
     }
 
-
     private static class MinimalApplicationConfig implements ApplicationConfig {
-
-        public MinimalApplicationConfig() {
-            super();
-        }
 
         @Override
         public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
@@ -71,10 +79,6 @@ public class ApplicationLayoutTest {
     }
 
     private static class ApplicationConfigWithFooter implements ApplicationConfig {
-
-        public ApplicationConfigWithFooter() {
-            super();
-        }
 
         @Override
         public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {

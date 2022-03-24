@@ -18,6 +18,7 @@ import org.linkki.framework.ui.dialogs.DefaultErrorDialog;
 import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 
 import com.vaadin.flow.component.HasElement;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
@@ -53,6 +54,8 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
         setPadding(false);
         setSizeFull();
 
+        UI.getCurrent().getElement().getThemeList().addAll(config.getDefaultVariants());
+
         // header
         ApplicationHeader header = config.getHeaderDefinition().create(config.getApplicationInfo(),
                                                                        config.getMenuItemDefinitions());
@@ -80,7 +83,6 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
             vaadinSession.setAttribute(LinkkiConverterRegistry.class, config.getConverterRegistry());
             vaadinSession.setErrorHandler(getErrorHandler());
         }
-
     }
 
     @Override

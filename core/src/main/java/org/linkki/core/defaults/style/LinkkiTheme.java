@@ -16,10 +16,10 @@ package org.linkki.core.defaults.style;
 /**
  * Constants for the CSS styles used throughout the application.
  * 
- * @deprecated since 2.0 use framework specific LinkkiTheme class, for example
+ * @deprecated Use framework specific LinkkiTheme class, for example
  *             org.linkki.core.ui.theme.LinkkiTheme
  */
-@Deprecated
+@Deprecated(since = "2.0.0")
 public class LinkkiTheme {
 
     /**
@@ -27,7 +27,12 @@ public class LinkkiTheme {
      */
     public static final String VARIANT_CARD_SECTION_PAGES = "card-section-pages";
 
-    /** Style for a horizontal spacer */
+    /**
+     * Style for a horizontal spacer
+     * 
+     * @deprecated as the class is does not have an effect anymore.
+     */
+    @Deprecated(since = "2.0.0")
     public static final String HORIZONTAL_SPACER = "linkki-horizontal-spacer";
 
     /**
@@ -44,7 +49,12 @@ public class LinkkiTheme {
     @Deprecated(since = "2.0.0")
     public static final String SECTION_CAPTION = "linkki-section-caption";
 
-    /** Style for the caption of a section. */
+    /**
+     * Style for the caption of a section.
+     * 
+     * @deprecated Use the constant in LinkkiSection instead.
+     */
+    @Deprecated(since = "2.0.0")
     public static final String SECTION_CAPTION_TEXT = "linkki-section-caption-text";
 
     /**
@@ -53,9 +63,24 @@ public class LinkkiTheme {
     @Deprecated(since = "2.0.0")
     public static final String SECTION_CAPTION_LINE = "linkki-section-caption-line";
 
-    /** Style for the label part of a wrapped component */
+    /**
+     * Style for the label part of a wrapped component
+     * 
+     * @deprecated as the class name is not used anymore.
+     */
+    @Deprecated(since = "2.0.0")
     public static final String COMPONENTWRAPPER_LABEL = "linkki-label-caption";
+
+    /**
+     * @deprecated as the class name is not necessary anymore. The label width is always fixed.
+     */
+    @Deprecated(since = "2.0.0")
     public static final String LABEL_FIXED_WIDTH = "linkki-label-fixed-width";
+
+    /**
+     * @deprecated as the class name is not necessary anymore. The label width is always fixed.
+     */
+    @Deprecated
     public static final String LABEL_FIXED_WIDTH_LONG = "linkki-label-fixed-width-long";
 
     /**
@@ -65,7 +90,10 @@ public class LinkkiTheme {
 
     /**
      * Style for components that should be rendered without a border, for example components in tables
+     * 
+     * @deprecated as this class does not have an effect anymore.
      */
+    @Deprecated(since = "2.0.0")
     public static final String BORDERLESS = "borderless";
 
     /** Style for tables created by linkki */
@@ -74,7 +102,13 @@ public class LinkkiTheme {
     /** Style for a single cell within a linkki table */
     public static final String TABLE_CELL = "linkki-table-cell";
 
-    /** A button that is styled as a text, without additional height. **/
+    /**
+     * A button that is styled as a text, without additional height.
+     * 
+     * @deprecated as this class does not have an effect anymore. For linkki-vaadin-23, use
+     *             ButtonVariant instead.
+     */
+    @Deprecated(since = "2.0.0")
     public static final String BUTTON_TEXT = "linkki-button-text";
 
     /** A component that contains an icon **/

@@ -13,9 +13,11 @@
  */
 package org.linkki.framework.ui.application;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.util.Sequence;
@@ -59,6 +61,13 @@ public interface ApplicationConfig {
      */
     default LinkkiConverterRegistry getConverterRegistry() {
         return LinkkiConverterRegistry.DEFAULT;
+    }
+
+    /**
+     * Default global theme variants that should be applied.
+     */
+    default List<String> getDefaultVariants() {
+        return List.of(LinkkiTheme.VARIANT_COMPACT);
     }
 
     @FunctionalInterface

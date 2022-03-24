@@ -62,7 +62,7 @@ public final class TestApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.of(new ApplicationMenuItemDefinition(UiFramework.getLocale().getDisplayCountry(),
+        return Sequence.of(new ApplicationMenuItemDefinition(UiFramework.getLocale().getDisplayCountry(), "id",
                 Handler.NOP_HANDLER));
     }
 

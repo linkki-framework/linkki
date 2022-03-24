@@ -184,12 +184,12 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * 
      * @see ThemeVariantToggleMenuItemDefinition
      */
-    protected void addThemeVariantToggles(MenuItem helpMenu, ThemeVariantToggleMenuItemDefinition... themeVariants) {
+    protected void addThemeVariantToggles(MenuItem menuItem, ThemeVariantToggleMenuItemDefinition... themeVariants) {
         if (themeVariants.length == 1) {
-            themeVariants[0].createItem(helpMenu.getSubMenu());
+            themeVariants[0].createItem(menuItem.getSubMenu());
         } else if (themeVariants.length > 1) {
             new ApplicationMenuItemDefinition(NlsText.getString("ApplicationHeader.Theme"), APPMENU_THEME_ID,
-                    List.of(themeVariants)).createItem(helpMenu.getSubMenu());
+                    List.of(themeVariants)).createItem(menuItem.getSubMenu());
         }
     }
 

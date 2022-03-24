@@ -1,0 +1,35 @@
+:jbake-title: LinkkiTabLayout
+:jbake-type: section
+:jbake-status: published
+
+:image-dir: {images}07_application-framework
+:source-dir: ../../../../../../vaadin23/samples/test-playground/src/main/java
+
+[[sidebarlayout]]
+=== LinkkiTabLayout
+
+The `LinkkiTabLayout` is a UI component that gives access to several different views.
+
+image::{image-dir}/sidebar-layout.png[]
+
+On the left there is a vertical bar containing icons (buttons) for every sheet. The tooltip of the button displays the name of the corresponding sheet. The content of the selected sheet is displayed to the right of the bar.
+
+In order to create a sidebar instantiate the `LinkkiTabLayout` and add `LinkkiTabSheets` that can be built using a builder. Every sheet requires an icon, a name and a content supplier (`Supplier<Component>`). The supplier is called when the sheet is selected for the first time (lazy initialization). This approach only creates the content if it is requested by the user. It also spreads out the component creation, avoiding long loading times at the start.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/application/SampleView.java[tags=sidebar-addSheet]
+----
+
+[[aftertabselectedobserver]]
+Additionally the tab component can implement `AfterTabSelectedObserver`. Its method `afterTabSelected(TabSheetSelectionChangeEvent)` is called every time the sheet is selected, that means it gets visible. Use this observer to update your binding context in case of changes to the underlying model while the sheet was not selected. 
+
+.Using `AfterTabSelectedObserver`
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=implementAfterTabSelectedObserver]
+
+include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=afterTabSelected]
+----
+
+When adding a PMO as tab component with `VaadinUiCreator#createComponent(Object, BindingContext)` to `LinkkiTabSheet`, use `LinkkiTabSheet#addTabSelectionChangeListener(ComponentEventListener)` to add additional listeners afterwards.

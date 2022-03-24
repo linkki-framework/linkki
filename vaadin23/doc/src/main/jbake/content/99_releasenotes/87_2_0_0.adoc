@@ -156,6 +156,9 @@ Additionally the right menu and its items have been enriched with IDs:
 ===== Introduction of linkki theme
 ////
 https://jira.faktorzehn.de/browse/LIN-2623
+https://jira.faktorzehn.de/browse/LIN-2971
+https://jira.faktorzehn.de/browse/LIN-2945
+https://jira.faktorzehn.de/browse/FCOM-904
 ////
 
 The theme `"linkki"` must now be used for all applications. This is done by adding the annotation `@Theme("linkki")` on a class that implements `AppShellConfigurator`. If an existing custom theme is used, it must extend from the linkki theme. Detailed instructions are provided in the chapter <<styling, "Styling">>.
@@ -163,11 +166,9 @@ The theme `"linkki"` must now be used for all applications. This is done by addi
 The class `org.linkki.core.defaults.style.LinkkiTheme` was moved to `org.linkki.core.ui.theme.LinkkiTheme` and
 contains the new theme name, variant names and relevant css class names.
 
-===== Introduction of ThemeVariantToggleMenuItemDefinition
-////
-https://jira.faktorzehn.de/browse/FCOM-904
-////
-The `ThemeVariantToggleMenuItemDefinition` can be used when adding submenu items for theme variants to the `ApplicationHeader`. For detailed information see <<theme-variant-toggle-menu-item-definition, `ThemeVariantToggleMenuItemDefinition`>>.
+New <<linkki-theme-variants, variants>> are also introduced along with the linkki theme. `ApplicationConfig` is extended with a <<default-variants, `getDefaultVariants`>> method accordingly to determine which variants should be set initially. If not overriden, the compact variant is applied.
+
+In addition, it is also possible to toggle the theme variants at runtime. To make this more convenient, a <<theme-variant-toggle-menu-item-definition, variant toggle menu item>> can be built into the application menu, for example in a user or setting menu. 
 
 ===== Disabled browser autocomplete for all default fields
 ////

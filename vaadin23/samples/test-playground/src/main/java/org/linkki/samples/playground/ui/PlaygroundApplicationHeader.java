@@ -22,6 +22,8 @@ import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
 
 public class PlaygroundApplicationHeader extends ApplicationHeader {
 
@@ -33,14 +35,18 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
     }
 
     @Override
-    protected void addHelpMenuItems(MenuItem helpMenu) {
-        super.addHelpMenuItems(helpMenu);
-        addThemeVariantToggles(helpMenu, ThemeVariantToggleMenuItemDefinition.LUMO_DARK,
+    protected MenuBar createRightMenuBar() {
+        MenuBar rightMenuBar = super.createRightMenuBar();
+        MenuItem settings = rightMenuBar.addItem(VaadinIcon.COG.create());
+        settings.setId("appmenu-settings");
+        addThemeVariantToggles(settings, ThemeVariantToggleMenuItemDefinition.LUMO_DARK,
                                ThemeVariantToggleMenuItemDefinition.LINKKI_CARD,
                                ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT);
         new ApplicationMenuItemDefinition("Locale", "appmenu-locale",
                 () -> new PmoBasedDialogFactory()
                         .newOkDialog("Browser Locale", new LocaleInfoPmo()).open())
-                                .createItem(helpMenu.getSubMenu());
+                                .createItem(settings.getSubMenu());
+        return rightMenuBar;
     }
+
 }
