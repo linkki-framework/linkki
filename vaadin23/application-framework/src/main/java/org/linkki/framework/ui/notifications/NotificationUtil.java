@@ -68,7 +68,8 @@ public class NotificationUtil {
      * Creates and opens a notification with the {@link MessageList#getSeverity() maximum severity}
      * contained in the message list. The notification contains a list of all messages with an icon
      * corresponding to their individual severity. If the given message list is empty, an info
-     * notification containing only the title will be displayed.
+     * notification containing only the title will be displayed. The messages support HTML content,
+     * which will be {@link HtmlSanitizer#sanitize(String) sanitized}.
      */
     public static Notification show(String title, MessageList messages) {
         if (!messages.isEmpty()) {
@@ -165,7 +166,7 @@ public class NotificationUtil {
         component.setPadding(false);
         messages.forEach(m -> {
             LinkkiText m2 = new LinkkiText();
-            m2.setText(m.getText());
+            m2.setText(HtmlSanitizer.sanitize(m.getText()), true);
             if (m.getSeverity() == Severity.INFO) {
                 m2.setIcon(VaadinIcon.INFO_CIRCLE);
             } else if (m.getSeverity() == Severity.WARNING) {

@@ -23,8 +23,11 @@ import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTI
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.framework.ui.notifications.NotificationUtil;
 
@@ -34,17 +37,23 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.dom.Element;
 
-public class NotificationUtilTest {
+class NotificationUtilTest {
 
-    private final UI ui = new UI();
+    private UI ui;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        ui = new UI();
         UI.setCurrent(ui);
     }
 
+    @AfterEach
+    void tearDown() {
+        UI.setCurrent(null);
+    }
+
     @Test
-    public void testSetInfoDuration() {
+    void testSetInfoDuration() {
         NotificationUtil.setInfoDuration(3600);
 
         Notification notification = NotificationUtil.createNotification(Severity.INFO, "title", new Div());
@@ -52,7 +61,7 @@ public class NotificationUtilTest {
     }
 
     @Test
-    public void testSetWarningDuration() {
+    void testSetWarningDuration() {
         NotificationUtil.setWarningDuration(1800);
 
         Notification notification = NotificationUtil.createNotification(Severity.WARNING, "title", new Div());
@@ -60,28 +69,28 @@ public class NotificationUtilTest {
     }
 
     @Test
-    public void testCreateNotification_InfoTheme() {
+    void testCreateNotification_InfoTheme() {
         Notification notification = NotificationUtil.createNotification(Severity.INFO, "title", new Div());
 
         assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_INFO), is(true));
     }
 
     @Test
-    public void testCreateNotification_WarningTheme() {
+    void testCreateNotification_WarningTheme() {
         Notification notification = NotificationUtil.createNotification(Severity.WARNING, "title", new Div());
 
         assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_WARNING), is(true));
     }
 
     @Test
-    public void testCreateNotification_ErrorTheme() {
+    void testCreateNotification_ErrorTheme() {
         Notification notification = NotificationUtil.createNotification(Severity.ERROR, "title", new Div());
 
         assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_ERROR), is(true));
     }
 
     @Test
-    public void testShowInfo_HtmlContent() {
+    void testShowInfo_HtmlContent() {
         Notification notification = NotificationUtil.showInfo("title", "<b>bold</b><a>anchor</a>");
 
         Element description = getContent(notification).get(1).getElement();
@@ -89,7 +98,7 @@ public class NotificationUtilTest {
     }
 
     @Test
-    public void testShowWarning_HtmlContent() {
+    void testShowWarning_HtmlContent() {
         Notification notification = NotificationUtil.showWarning("title", "<b>bold</b><a>anchor</a>");
 
         Element description = getContent(notification).get(1).getElement();
@@ -97,11 +106,26 @@ public class NotificationUtilTest {
     }
 
     @Test
-    public void testShowError_HtmlContent() {
+    void testShowError_HtmlContent() {
         Notification notification = NotificationUtil.showError("title", "<b>bold</b><a>anchor</a>");
 
         Element description = getContent(notification).get(1).getElement();
         assertThat(description.getProperty("innerHTML"), is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+    }
+
+    @Test
+    void testShow_HtmlContent() {
+        MessageList messageList = new MessageList(Message.newInfo("infoTitle", "<b>bold</b><a>anchor</a>"),
+                Message.newWarning("warningTitle", "<b>bold</b><i>italic</i>"));
+        Notification notification = NotificationUtil.show("title", messageList);
+
+        String infoMessageDescription = getContent(notification).get(1).getElement().getChild(0).getChild(0)
+                .getProperty("innerHTML");
+        String warningMessageDescription = getContent(notification).get(1).getElement().getChild(1).getChild(0)
+                .getProperty("innerHTML");
+
+        assertThat(infoMessageDescription, is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+        assertThat(warningMessageDescription, is("<b>bold</b><i>italic</i>"));
     }
 
     private List<Component> getContent(Notification notification) {
