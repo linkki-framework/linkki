@@ -57,6 +57,23 @@ public class FocusringBug extends VerticalLayout {
         HorizontalLayout horizontalLayout = new HorizontalLayout(primaryButton, new Button("Button 3"));
         horizontalLayout.setPadding(false);
         add(horizontalLayout);
+
+
+        TextField textFieldWithError = new TextField();
+        textFieldWithError.setInvalid(true);
+        textFieldWithError.getElement().setAttribute("severity", "error");
+        add(textFieldWithError);
+
+        TextField textFieldWithWarning = new TextField();
+        textFieldWithWarning.setInvalid(true);
+        textFieldWithWarning.getElement().setAttribute("severity", "warning");
+        add(textFieldWithWarning);
+
+        TextField textFieldWithInfo = new TextField();
+        textFieldWithInfo.setInvalid(true);
+        textFieldWithInfo.getElement().setAttribute("severity", "info");
+        add(textFieldWithInfo);
+
     }
 
 }
