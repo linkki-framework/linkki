@@ -1,14 +1,28 @@
 {
-	"all-versions": [
-		{
-			"extension": "revapi.filter",
-			"configuration": {
-				"elements": {
-					"exclude": [
-						".* com\\.vaadin\\.flow\\..*"
-					]
-				}
-			}
-		}
-	]
+    "all-versions": [
+        {
+            "extension": "revapi.filter",
+            "configuration": {
+                "elements": {
+                    "exclude": [
+                        ".* com\\.vaadin\\.flow\\..*"
+                    ]
+                }
+            }
+        },
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.junit\\.jupiter\\.api\\..*",
+                        "justification": "JUnit is used in the API"
+                    }
+                ]
+            }
+        }
+    ]
 }

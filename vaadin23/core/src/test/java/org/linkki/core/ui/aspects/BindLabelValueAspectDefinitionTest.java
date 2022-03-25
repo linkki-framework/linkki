@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
-import org.linkki.core.ui.mock.MockUi;
+import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
@@ -35,12 +35,8 @@ import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 import com.vaadin.flow.server.VaadinSession;
 
+@ExtendWith(VaadinUIExtension.class)
 class BindLabelValueAspectDefinitionTest {
-
-    @AfterEach
-    void cleanUpUi() {
-        UI.setCurrent(null);
-    }
 
     @Test
     void testCreateComponentValueSetter_SetsString() {
@@ -72,12 +68,10 @@ class BindLabelValueAspectDefinitionTest {
 
     @Test
     void testCreateComponentValueSetter_UsesStandardConverter() {
+        UI.getCurrent().setLocale(Locale.GERMAN);
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new BindLabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
-
-        UI ui = MockUi.mockUi();
-        when(ui.getLocale()).thenReturn(Locale.GERMAN);
 
         valueSetter.accept(Integer.valueOf(123456));
 
@@ -86,12 +80,10 @@ class BindLabelValueAspectDefinitionTest {
 
     @Test
     void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
+        UI.getCurrent().setLocale(Locale.US);
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new BindLabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
-
-        UI ui = MockUi.mockUi();
-        when(ui.getLocale()).thenReturn(Locale.US);
 
         valueSetter.accept(Integer.valueOf(123456));
 

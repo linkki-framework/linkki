@@ -19,30 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.Locale;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.ui.test.VaadinUIExtension;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.textfield.TextArea;
 
+@ExtendWith(VaadinUIExtension.class)
 class ComponentFactoryTest {
-
-    // needs to be a field due to weak reference
-    private UI ui;
-
-    @BeforeEach
-    public void setUp() {
-        ui = new UI();
-        ui.setLocale(Locale.ENGLISH);
-        UI.setCurrent(ui);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        UI.setCurrent(null);
-    }
 
     @Test
     void testNewDateField_BelowRange() {
@@ -98,7 +84,7 @@ class ComponentFactoryTest {
 
     @Test
     void testNewDateField_I18n() {
-        ui.setLocale(Locale.GERMAN);
+        UI.getCurrent().setLocale(Locale.GERMAN);
         DatePicker dateField = ComponentFactory.newDateField();
 
         assertThat(dateField.getI18n().getToday()).isEqualTo("Heute");

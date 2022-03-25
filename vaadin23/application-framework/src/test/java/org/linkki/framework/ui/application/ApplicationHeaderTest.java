@@ -18,36 +18,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition.LINKKI_CARD;
 import static org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.Sequence;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
+@ExtendWith(VaadinUIExtension.class)
 class ApplicationHeaderTest {
-
-    private UI testUi;
-
-    @BeforeEach
-    public void initCurrentUi() {
-        testUi = new UI();
-        UI.setCurrent(testUi);
-    }
-
-    @AfterEach
-    public void cleanUpCurrentUi() {
-        UI.setCurrent(null);
-    }
 
     @Test
     void testLeftMenu() {

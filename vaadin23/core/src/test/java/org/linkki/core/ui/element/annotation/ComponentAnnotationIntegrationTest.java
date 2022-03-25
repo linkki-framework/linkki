@@ -24,12 +24,13 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
+import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
 import com.vaadin.flow.component.Component;
@@ -38,6 +39,7 @@ import com.vaadin.flow.component.html.Div;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+@ExtendWith(VaadinUIExtension.class)
 public abstract class ComponentAnnotationIntegrationTest<C extends Component, P extends AnnotationTestPmo> {
 
     protected static final String PROPERTY_VALUE = "value";
@@ -49,9 +51,6 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     private final Function<Object, ? extends P> pmoCreator;
     private Supplier<Object> modelObjectSupplier;
     private Div defaultSection;
-
-    // needs to be a field due to weak reference
-    private UI ui;
 
     public ComponentAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
             Function<Object, ? extends P> pmoCreator) {
@@ -69,20 +68,13 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
 
     @BeforeEach
     public void setUp() {
-        ui = new UI();
-        ui.setLocale(Locale.GERMAN);
-        UI.setCurrent(ui);
+        UI.getCurrent().setLocale(Locale.GERMAN);
 
         defaultModelObject = newDefaultModelObject();
         defaultPmo = newPmo(defaultModelObject);
 
         bindingContext = new BindingContext();
         defaultSection = TestUiUtil.createSectionWith(defaultPmo, bindingContext);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        UI.setCurrent(null);
     }
 
     BindingContext getBindingContext() {

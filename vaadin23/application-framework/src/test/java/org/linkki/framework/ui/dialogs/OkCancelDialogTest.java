@@ -26,39 +26,26 @@ import static org.mockito.Mockito.verify;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+@ExtendWith(VaadinUIExtension.class)
 class OkCancelDialogTest {
-
-    private UI testUi;
-
-    @BeforeEach
-    public void initCurrentUi() {
-        testUi = new UI();
-        UI.setCurrent(testUi);
-    }
-
-    @AfterEach
-    public void cleanUpCurrentUi() {
-        UI.setCurrent(null);
-    }
 
     @Test
     void testBuilder_DefaultOk() {

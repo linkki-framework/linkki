@@ -12,7 +12,7 @@
  * License.
  */
 /**
- * Mocks for UI tests.
+ * Utilities for UI tests.
  */
 @edu.umd.cs.findbugs.annotations.DefaultAnnotation(edu.umd.cs.findbugs.annotations.NonNull.class)
-package org.linkki.core.ui.mock;
+package org.linkki.core.ui.test;

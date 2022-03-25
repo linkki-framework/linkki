@@ -145,5 +145,4 @@ class ApplicationMenuItemDefinitionTest {
         assertThat(menuBar.getItems()).hasSize(1);
         assertThat(menuBar.getItems().get(0).getId()).hasValue("appmenu-name-with-some-special-characters");
     }
-
 }

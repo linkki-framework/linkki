@@ -19,9 +19,8 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.Locale;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
@@ -32,42 +31,29 @@ import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.mock.MockUi;
+import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.ips.test.model.TestIpsObject;
 import org.linkki.ips.test.model.TestIpsObject2;
 
 import com.vaadin.flow.component.UI;
 
+@ExtendWith(VaadinUIExtension.class)
 public class IpsPropertyDispatcherTest {
 
-    @SuppressWarnings("unused")
-    private UI ui;
+    private final TestPmoWithIpsModelObject pmo = new TestPmoWithIpsModelObject();
 
-    private TestPmoWithIpsModelObject pmo = new TestPmoWithIpsModelObject();
-
-    private PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
-
-
-    @BeforeEach
-    public void setUp() {
-        ui = MockUi.mockUi();
-    }
-
-    @AfterEach
-    public void cleanUpUi() {
-        UI.setCurrent(null);
-    }
+    private final PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
 
     @Test
     public void testPull() {
-        MockUi.setLocale(Locale.GERMANY);
+        UI.getCurrent().setLocale(Locale.GERMANY);
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_FOO);
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
         assertThat(string, is("Foo auf Deutsch"));
 
-        MockUi.setLocale(Locale.ENGLISH);
+        UI.getCurrent().setLocale(Locale.ENGLISH);
         string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
         assertThat(string, is("Foo in English"));
@@ -75,7 +61,7 @@ public class IpsPropertyDispatcherTest {
 
     @Test
     public void testPull_DefaultLocale() {
-        MockUi.setLocale(Locale.ITALY);
+        UI.getCurrent().setLocale(Locale.ITALY);
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_FOO);
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
@@ -94,14 +80,14 @@ public class IpsPropertyDispatcherTest {
 
     @Test
     public void testPull_Class() {
-        MockUi.setLocale(Locale.GERMANY);
+        UI.getCurrent().setLocale(Locale.GERMANY);
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain("");
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
         assertThat(string, is("Ein Testobjekt"));
 
-        MockUi.setLocale(Locale.ENGLISH);
+        UI.getCurrent().setLocale(Locale.ENGLISH);
         string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
         assertThat(string, is("A test object"));
@@ -109,7 +95,7 @@ public class IpsPropertyDispatcherTest {
 
     @Test
     public void testPull_Class_OverwritingModelObjectClass() {
-        MockUi.setLocale(Locale.ENGLISH);
+        UI.getCurrent().setLocale(Locale.ENGLISH);
         pmo.setIpsObject(new TestIpsObject2());
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain("");
 
@@ -117,7 +103,7 @@ public class IpsPropertyDispatcherTest {
 
         assertThat(string, is("A test object overwriting the label"));
 
-        MockUi.setLocale(Locale.GERMANY);
+        UI.getCurrent().setLocale(Locale.GERMANY);
         string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
         // no German label in TestIpsObject2, so we fall back to the default locale

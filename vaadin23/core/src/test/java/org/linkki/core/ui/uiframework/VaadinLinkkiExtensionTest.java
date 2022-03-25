@@ -17,15 +17,13 @@ package org.linkki.core.ui.uiframework;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.Mockito.when;
 
 import java.util.Locale;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.ui.mock.MockUi;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.flow.component.Component;
@@ -34,12 +32,8 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+@ExtendWith(VaadinUIExtension.class)
 public class VaadinLinkkiExtensionTest {
-
-    @AfterEach
-    public void cleanUpUi() {
-        UI.setCurrent(null);
-    }
 
     @Test
     public void testUiFrameworkIsVaadinLinkkiExtension() {
@@ -47,14 +41,17 @@ public class VaadinLinkkiExtensionTest {
     }
 
     @Test
-    public void testGetUiLocale() {
-        assertThat(UI.getCurrent(), is(nullValue()));
+    public void testGetUiLocale_Null() {
+        UI.setCurrent(null);
+
         assertThat(UiFramework.getLocale(), is(Locale.GERMAN));
+    }
 
-        UI ui = MockUi.mockUi();
-        when(ui.getLocale()).thenReturn(Locale.ITALIAN);
+    @Test
+    public void testGetUiLocale_Italian() {
+        UI.getCurrent().setLocale(Locale.ITALIAN);
+
         assertThat(UiFramework.getLocale(), is(Locale.ITALIAN));
-
     }
 
     @Test
