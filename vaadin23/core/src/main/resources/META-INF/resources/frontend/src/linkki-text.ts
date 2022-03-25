@@ -8,7 +8,7 @@ class LinkkiText extends LitElement {
 
   static styles = css`
     :host {
-      display: inline-flex;
+      display: flex;
       outline: none;
     }
 
