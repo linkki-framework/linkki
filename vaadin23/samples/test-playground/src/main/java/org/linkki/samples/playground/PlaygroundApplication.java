@@ -18,6 +18,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.server.AppShellSettings;
 import com.vaadin.flow.theme.Theme;
 
 @Theme(value = "linkki")
@@ -31,4 +32,11 @@ public class PlaygroundApplication implements AppShellConfigurator {
         SpringApplication.run(PlaygroundApplication.class);
     }
 
+    // tag::favicon[]
+    @Override
+    public void configurePage(AppShellSettings settings) {
+        settings.addFavIcon("icon", "favicon-192.png", "192x192");
+        settings.addLink("shortcut icon", "favicon-192.png");
+    }
+    // end::favicon[]
 }
