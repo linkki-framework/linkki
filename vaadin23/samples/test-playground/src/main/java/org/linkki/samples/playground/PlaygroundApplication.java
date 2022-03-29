@@ -36,7 +36,6 @@ public class PlaygroundApplication implements AppShellConfigurator {
     @Override
     public void configurePage(AppShellSettings settings) {
         settings.addFavIcon("icon", "favicon-192.png", "192x192");
-        settings.addLink("shortcut icon", "favicon-192.png");
     }
     // end::favicon[]
 }
