@@ -96,6 +96,7 @@ import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
+import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
@@ -200,6 +201,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                          SectionHeaderBehaviorComponent.createClosableSection(),
                                                          SectionHeaderBehaviorComponent.createNotClosableSection()))
                                        .testCase(TC005, new UiFormSectionMultiColumnComponentsPmo())
+                                       .testCase(TC006, new SectionsWithPlaceholder())
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())

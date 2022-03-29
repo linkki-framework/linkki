@@ -11,3 +11,13 @@ linkki-section > div[slot="content"] > * {
     line-height: var(--lumo-size-s);
     font-weight: 400;
 }
+
+.placeholder-label {
+   font-style: italic;
+   opacity: 0.7;
+}
+
+linkki-section vaadin-form-item .placeholder-label {
+  position: relative;
+  left: calc(-1 * var(--linkki-form-item-label-width, 8em));
+}

@@ -84,6 +84,8 @@ A new aspect `@BindPlaceholder` has been introduced. With the aspect, a placehol
 
 If applied to a table PMO, the given placeholder text will be shown if the table has no items. To hide an empty table without showing any replacement text, you can provide an empty `String` (`""`) as placeholder value with `PlaceholderType#STATIC`. In both cases, table header and footer will also be hidden. See <<placeholder, `@BindPlaceholder`>> and <<placeholder-table-pmo, Using `@BindPlaceholder` on table PMOs>> for more information.
 
+Placeholder is not supported for sections yet. However, you could create a <<ui-label,@UILabel>> with a dynamic visible binding and add the CSS class `LinkkiTheme.PLACEHOLDER_LABEL`.
+
 ===== New aspect annotation: @BindComboBoxItemStyle and property UIComboBox#textAlign
 ////
 https://jira.faktorzehn.de/browse/LIN-2831

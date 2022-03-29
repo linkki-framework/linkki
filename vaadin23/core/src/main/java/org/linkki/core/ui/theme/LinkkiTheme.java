@@ -47,8 +47,11 @@ public class LinkkiTheme {
     /** A component that contains an icon **/
     public static final String HAS_ICON = "linkki-has-icon";
 
+    /** Style class for labels that should look like placeholders in table sections. **/
+    public static final String PLACEHOLDER_LABEL = "placeholder-label";
+
     private LinkkiTheme() {
-        // prevent initialization
+        // prevent instantiation
     }
 
 }
