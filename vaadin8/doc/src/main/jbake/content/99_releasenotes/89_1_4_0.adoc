@@ -5,6 +5,15 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 1.4.5 
+
+==== Bugfixes
+
+////
+https://jira.faktorzehn.de/browse/LIN-2848
+////
+* `UILabel` in tables now wrap instead of being cut off if the column was not wide enough to display the whole text. 
+
 === Version 1.4.4
 
 The Vaadin version was updated to 8.14.3.

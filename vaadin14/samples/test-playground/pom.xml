@@ -101,6 +101,7 @@
                         </goals>
                     </execution>
                 </executions>
+                <version>2.6.5</version>
             </plugin>
 
             <plugin>

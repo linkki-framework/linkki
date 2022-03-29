@@ -15786,6 +15786,10 @@ div.v-layout.v-horizontal.v-widget {
 	white-space: nowrap;
 }
 
+.sample .v-label {
+	white-space: normal;
+}
+
 .sample .borderLayout {
 	padding: 5px;
 	border-style: dotted;
