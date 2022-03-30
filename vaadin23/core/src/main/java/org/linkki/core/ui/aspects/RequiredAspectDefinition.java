@@ -34,7 +34,7 @@ import com.vaadin.flow.component.listbox.ListBoxBase;
 public class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
     public static final String NAME = "required";
-    private EnabledAspectDefinition enabledAspectDefinition;
+    private final EnabledAspectDefinition enabledAspectDefinition;
     private final RequiredType requiredType;
 
     public RequiredAspectDefinition(RequiredType requiredType, EnabledAspectDefinition enabledTypeAspectDefinition) {
@@ -74,7 +74,7 @@ public class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean>
         Object component = componentWrapper.getComponent();
 
         if (component instanceof ListBoxBase<?, ?, ?>) {
-            // TODO LIN-2070 ListBoxBase does not support setRequiredIndicatorVisible
+            // LIN-2070 ListBoxBase does not support setRequiredIndicatorVisible
             return Consumers.nopConsumer();
         }
 

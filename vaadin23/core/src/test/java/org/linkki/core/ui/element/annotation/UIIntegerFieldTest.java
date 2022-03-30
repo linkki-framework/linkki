@@ -21,7 +21,7 @@ import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UIIntegerFieldTest {
+class UIIntegerFieldTest {
 
     protected static class TestModelObjectWithPrimitiveInteger {
 
@@ -86,7 +86,7 @@ public class UIIntegerFieldTest {
     }
 
     @Test
-    public void testSetValue_WithPrimitiveIntegerInModelObject() {
+    void testSetValue_WithPrimitiveIntegerInModelObject() {
         TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
 
         // No assertions needed, we just make sure no exception is thrown
@@ -94,18 +94,7 @@ public class UIIntegerFieldTest {
     }
 
     @Test
-    public void testSetValue_WithPrimitiveIntegerInModelObject_FailsForNull() {
-        @SuppressWarnings("unused")
-        TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
-
-        // TODO LIN-2056
-        // Assertions.assertThrows(ListenerMethod.MethodException.class, () -> {
-        // TestUiUtil.setUserOriginatedValue(textField, null);
-        // });
-    }
-
-    @Test
-    public void testSetValue_WithObjectIntegerInModelObject() {
+    void testSetValue_WithObjectIntegerInModelObject() {
         TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
 
         // No assertions needed, we just make sure no exception is thrown

@@ -27,16 +27,16 @@ import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.textfield.Autocomplete;
 import com.vaadin.flow.component.textfield.HasAutocomplete;
 
-public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?, ?>, P extends AnnotationTestPmo>
+abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?, ?>, P extends AnnotationTestPmo>
         extends ComponentAnnotationIntegrationTest<F, P> {
 
-    public FieldAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
+    FieldAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
             Function<Object, ? extends P> pmoCreator) {
         super(modelObjectSupplier, pmoCreator);
     }
 
     @Test
-    public void testRequired() {
+    void testRequired() {
         assertThat(getStaticComponent().isRequiredIndicatorVisible(), is(true));
         testBinding(F::isRequiredIndicatorVisible, AnnotationTestPmo::setRequired, false);
     }
@@ -46,17 +46,16 @@ public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?, 
      * 
      * @see FieldValueAspectDefinition#prepareFieldToHandleNullForRequiredFields(AbstractField)
      */
-    @SuppressWarnings("javadoc")
-    public abstract void testNullInputIfRequired();
+    abstract void testNullInputIfRequired();
 
     @Test
-    public void testReadonlyWithoutSetter() {
+    void testReadonlyWithoutSetter() {
         assertThat(getStaticComponent().isReadOnly(), is(true));
         assertThat(getDynamicComponent().isReadOnly(), is(false));
     }
 
     @Test
-    public void testDynamicTooltip() {
+    void testDynamicTooltip() {
         testBinding(item -> item.getElement().getAttribute("title"), AnnotationTestPmo::setTooltip,
                     AnnotationTestPmo.DEFAULT_TOOLTIP,
                     AnnotationTestPmo.TEST_TOOLTIP);

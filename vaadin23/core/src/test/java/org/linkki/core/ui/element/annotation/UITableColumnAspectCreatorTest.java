@@ -24,10 +24,10 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-public class UITableColumnAspectCreatorTest {
+class UITableColumnAspectCreatorTest {
 
     @Test
-    public void testWidthAndExpandRatioCanBeCombined() throws NoSuchMethodException, SecurityException {
+    void testWidthAndExpandRatioCanBeCombined() throws NoSuchMethodException, SecurityException {
         assertNotNull(create("methodWithWidthAnnotation"));
         assertNotNull(create("methodWithFlexGrowAnnotation"));
         assertNotNull(create("methodWithEmptyAnnotation"));

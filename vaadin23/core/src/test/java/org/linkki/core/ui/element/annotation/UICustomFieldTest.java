@@ -36,7 +36,7 @@ import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UICustomFieldTest {
+class UICustomFieldTest {
 
     private final TestModelObject modelObject = new TestModelObject();
 
@@ -50,13 +50,13 @@ public class UICustomFieldTest {
     }
 
     @Test
-    public void testAvailableValues() {
+    void testAvailableValues() {
         RadioButtonGroup<TestValue> optionGroup = createCustomField();
         assertThat(getAllowedValues(optionGroup), contains(pmo.availableValues.toArray()));
     }
 
     @Test
-    public void testAvailableValues_NotApplicable() {
+    void testAvailableValues_NotApplicable() {
         Div section = TestUiUtil.createSectionWith(pmo);
         TextField textField = (TextField)TestUiUtil.getComponentAtIndex(1, section);
 
@@ -66,7 +66,7 @@ public class UICustomFieldTest {
     }
 
     @Test
-    public void testGetValue() {
+    void testGetValue() {
         RadioButtonGroup<TestValue> optionGroup = createCustomField();
 
         assertThat(optionGroup.getValue(), is(modelObject.getProperty()));
@@ -79,7 +79,7 @@ public class UICustomFieldTest {
     }
 
     @Test
-    public void testSetValue() {
+    void testSetValue() {
         RadioButtonGroup<TestValue> optionGroup = createCustomField();
 
         TestValue newValue = new TestValue("b");
@@ -89,7 +89,7 @@ public class UICustomFieldTest {
     }
 
     @Test
-    public void testEnabled() {
+    void testEnabled() {
         pmo.enabled = false;
         RadioButtonGroup<TestValue> optionGroup = createCustomField();
 
@@ -102,7 +102,7 @@ public class UICustomFieldTest {
     }
 
     @Test
-    public void testVisible() {
+    void testVisible() {
         pmo.visible = false;
         RadioButtonGroup<TestValue> optionGroup = createCustomField();
 
@@ -115,7 +115,7 @@ public class UICustomFieldTest {
     }
 
     @Test
-    public void testRequired() {
+    void testRequired() {
         pmo.required = false;
         RadioButtonGroup<TestValue> optionGroup = createCustomField();
 

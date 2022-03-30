@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
@@ -55,14 +56,14 @@ import com.vaadin.flow.data.provider.Query;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<ComboBox<TestEnum>, ComboBoxTestPmo> {
+class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<ComboBox<TestEnum>, ComboBoxTestPmo> {
 
-    public UIComboBoxIntegrationTest() {
+    UIComboBoxIntegrationTest() {
         super(ComboBoxTestModelObject::new, ComboBoxTestPmo::new);
     }
 
     @Test
-    public void testNullSelection() {
+    void testNullSelection() {
         assertThat(getStaticComponent().isAllowCustomValue(), is(false));
 
         List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
@@ -80,14 +81,14 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     }
 
     @Test
-    public void testStaticAvailableValues() {
+    void testStaticAvailableValues() {
         ComboBox<TestEnum> staticComboBox = getStaticComponent();
         assertThat(getAllowedValues(staticComboBox), contains(TestEnum.ONE, TestEnum.TWO,
                                                               TestEnum.THREE));
     }
 
     @Test
-    public void testDynamicAvailableValues() {
+    void testDynamicAvailableValues() {
         assertThat(getAllowedValues(getDynamicComponent()), contains(TestEnum.ONE, TestEnum.TWO,
                                                                      TestEnum.THREE));
 
@@ -100,7 +101,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     }
 
     @Test
-    public void testCaptionProvider() {
+    void testCaptionProvider() {
         assertThat(getDynamicComponent().getItemLabelGenerator().apply(null), is(""));
         assertThat(getDynamicComponent().getItemLabelGenerator().apply(TestEnum.ONE), is("Oans"));
         assertThat(getStaticComponent().getItemLabelGenerator().apply(TestEnum.ONE),
@@ -108,7 +109,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     }
 
     @Test
-    public void testCaptionProvider_NoDefaultConstructor() {
+    void testCaptionProvider_NoDefaultConstructor() {
         NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
 
         BindingContext bindingContext = new BindingContext();
@@ -120,7 +121,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     }
 
     @Test
-    public void testValue() {
+    void testValue() {
         ComboBox<TestEnum> comboBox = getDynamicComponent();
         comboBox.setValue(TestEnum.THREE);
         assertThat(comboBox.getValue(), is(TestEnum.THREE));
@@ -129,13 +130,12 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         modelChanged();
         assertThat(comboBox.getValue(), is(TestEnum.TWO));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(comboBox, TestEnum.ONE);
-        // assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+        TestUiUtil.setUserOriginatedValue(comboBox, TestEnum.ONE);
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
     }
 
     @Test
-    public void testValueRemainsWhenChangingAvailableValues() {
+    void testValueRemainsWhenChangingAvailableValues() {
         getDefaultModelObject().setValue(TestEnum.THREE);
         assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
 
@@ -145,7 +145,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     }
 
     @Test
-    public void testEmptyValuesAllowsNull() {
+    void testEmptyValuesAllowsNull() {
         ComboBox<TestEnum> comboBox = getDynamicComponent();
 
         getDefaultPmo().setValueAvailableValues(Collections.emptyList());
@@ -158,22 +158,21 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     }
 
     @Test
-    public void testNullInputIfRequired() {
+    void testNullInputIfRequired() {
         ComboBox<TestEnum> comboBox = getDynamicComponent();
         getDefaultPmo().setRequired(true);
         modelChanged();
         assertThat(comboBox.isRequiredIndicatorVisible(), is(true));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(comboBox, TestEnum.ONE);
-        // assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
-        //
-        // TestUiUtil.setUserOriginatedValue(comboBox, (TestEnum)null);
-        // assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+        TestUiUtil.setUserOriginatedValue(comboBox, TestEnum.ONE);
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+
+        TestUiUtil.setUserOriginatedValue(comboBox, (TestEnum)null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
     @Test
-    public void testInitReadOnlyField() {
+    void testInitReadOnlyField() {
         ComboBox<TestEnum> comboBox = getStaticComponent();
         comboBox.setReadOnly(false);
         ComponentUtil.setData(comboBox, Binding.class, null);
@@ -196,27 +195,26 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     }
 
     @Test
-    public void testDerivedLabel() {
-        // TODO LIN-2051
-        // assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
     }
 
     @Test
-    public void testAlignLeft() {
+    void testAlignLeft() {
         ComboBox<TestEnum> comboBox = getComponentById("leftAlign");
 
         assertThat(comboBox.getThemeNames()).contains(ComboBoxVariant.LUMO_ALIGN_LEFT.getVariantName());
     }
 
     @Test
-    public void testAlignCenter() {
+    void testAlignCenter() {
         ComboBox<TestEnum> comboBox = getComponentById("centerAlign");
 
         assertThat(comboBox.getThemeNames()).contains(ComboBoxVariant.LUMO_ALIGN_CENTER.getVariantName());
     }
 
     @Test
-    public void testAlignRight() {
+    void testAlignRight() {
         ComboBox<TestEnum> comboBox = getComponentById("rightAlign");
 
         assertThat(comboBox.getThemeNames()).contains(ComboBoxVariant.LUMO_ALIGN_RIGHT.getVariantName());

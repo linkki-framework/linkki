@@ -44,15 +44,15 @@ import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UIRadioButtonsIntegrationTest
+class UIRadioButtonsIntegrationTest
         extends ComponentAnnotationIntegrationTest<RadioButtonGroup<String>, RadioButtonTestPmo> {
 
-    public UIRadioButtonsIntegrationTest() {
+    UIRadioButtonsIntegrationTest() {
         super(TestModelObjectWithString::new, RadioButtonTestPmo::new);
     }
 
     @Test
-    public void testContent_Dynamic() {
+    void testContent_Dynamic() {
         RadioButtonGroup<String> radioButtons = getDynamicComponent();
         List<?> items = radioButtons.getListDataView().getItems().collect(Collectors.toList());
 
@@ -60,35 +60,35 @@ public class UIRadioButtonsIntegrationTest
     }
 
     @Test
-    public void testContent_Enum() {
+    void testContent_Enum() {
         RadioButtonGroup<?> radioButtons = getComponentById("enumValue");
         List<?> items = radioButtons.getListDataView().getItems().collect(Collectors.toList());
         assertThat(items, contains(TestEnum.ENUM_VALUE1, TestEnum.ENUM_VALUE2));
     }
 
     @Test
-    public void testContent_DefaultSelection() {
+    void testContent_DefaultSelection() {
         RadioButtonGroup<?> radioButtons = getDynamicComponent();
 
         assertThat(radioButtons.getOptionalValue(), is(Optional.empty()));
     }
 
     @Test
-    public void testAlignment_Horizontal() {
+    void testAlignment_Horizontal() {
         RadioButtonGroup<String> radioButtons = getComponentById("valueHorizontal");
 
         assertThat(radioButtons.getThemeNames(), not(contains(RadioGroupVariant.LUMO_VERTICAL.getVariantName())));
     }
 
     @Test
-    public void testAlignment_Vertical() {
+    void testAlignment_Vertical() {
         RadioButtonGroup<String> radioButtons = getComponentById("valueVertical");
 
         assertThat(radioButtons.getThemeNames(), contains(RadioGroupVariant.LUMO_VERTICAL.getVariantName()));
     }
 
     @Test
-    public void testCaptionProvider() {
+    void testCaptionProvider() {
         RadioButtonGroup<TestEnum> radioButtons = TestUiUtil.getComponentById(getDefaultSection(), "enumValue");
 
         String caption = radioButtons.getItemRenderer().createComponent(TestEnum.ENUM_VALUE1).getElement().getText();
@@ -97,7 +97,7 @@ public class UIRadioButtonsIntegrationTest
     }
 
     @Test
-    public void testCaptionProvider_NoDefaultConstructor() {
+    void testCaptionProvider_NoDefaultConstructor() {
         NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
 
         BindingContext bindingContext = new BindingContext();
@@ -110,7 +110,7 @@ public class UIRadioButtonsIntegrationTest
 
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         TestModelObjectWithString modelObject = (TestModelObjectWithString)getDefaultModelObject();
         RadioButtonGroup<String> radioButtons = getDynamicComponent();
 
@@ -121,14 +121,13 @@ public class UIRadioButtonsIntegrationTest
     }
 
     @Test
-    public void testSelect() {
-        // TODO LIN-2051
-        // TestModelObjectWithString modelObject = (TestModelObjectWithString)getDefaultModelObject();
-        // RadioButtonGroup<String> radioButtons = getDynamicComponent();
+    void testSelect() {
+        TestModelObjectWithString modelObject = (TestModelObjectWithString)getDefaultModelObject();
+        RadioButtonGroup<String> radioButtons = getDynamicComponent();
 
-        // TestUiUtil.setUserOriginatedValue(radioButtons, "value2");
+        TestUiUtil.setUserOriginatedValue(radioButtons, "value2");
 
-        // assertThat(modelObject.getValue(), is("value2"));
+        assertThat(modelObject.getValue(), is("value2"));
     }
 
     @UISection

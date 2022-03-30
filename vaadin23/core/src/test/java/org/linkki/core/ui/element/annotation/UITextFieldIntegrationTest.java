@@ -14,6 +14,7 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
@@ -29,17 +30,17 @@ import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextField, TextFieldTestPmo> {
+class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextField, TextFieldTestPmo> {
 
     private static final String WIDTH = "42em";
     private static final int MAX_LENGTH = 8;
 
-    public UITextFieldIntegrationTest() {
+    UITextFieldIntegrationTest() {
         super(TestModelObjectWithString::new, TextFieldTestPmo::new);
     }
 
     @Test
-    public void testTextVieldValue() {
+    void testTextVieldValue() {
         TestModelObjectWithString modelObject = new TestModelObjectWithString();
         TextField textField = createFirstComponent(modelObject);
 
@@ -47,39 +48,37 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
         assertThat(textField.getWidth(), is("42em"));
         assertThat(textField.getValue(), is(""));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(textField, "asdf");
-        // assertThat(modelObject.getValue(), is("asdf"));
+        TestUiUtil.setUserOriginatedValue(textField, "asdf");
+        assertThat(modelObject.getValue(), is("asdf"));
 
         modelObject.setValue("fdsa");
         getBindingContext().modelChanged();
         assertThat(textField.getValue(), is("fdsa"));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(textField, null);
-        // assertThat(modelObject.getValue(), is(nullValue()));
+        // clearing textfield results in ""
+        TestUiUtil.setUserOriginatedValue(textField, textField.getEmptyValue());
+        assertThat(modelObject.getValue(), is(emptyString()));
     }
 
     @Test
     @Override
-    public void testNullInputIfRequired() {
+    void testNullInputIfRequired() {
         TextField textField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
         modelChanged();
         assertThat(textField.isRequiredIndicatorVisible(), is(true));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(textField, "something");
-        // assertThat(getDefaultModelObject().getValue(), is("something"));
-        //
-        // TestUiUtil.setUserOriginatedValue(textField, null);
-        // assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+        TestUiUtil.setUserOriginatedValue(textField, "something");
+        assertThat(getDefaultModelObject().getValue(), is("something"));
+
+        // clearing textfield results in ""
+        TestUiUtil.setUserOriginatedValue(textField, textField.getEmptyValue());
+        assertThat(getDefaultModelObject().getValue(), is(emptyString()));
     }
 
     @Test
-    public void testDerivedLabel() {
-        // TODO LIN-2051
-        // assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
     }
 
     @Override

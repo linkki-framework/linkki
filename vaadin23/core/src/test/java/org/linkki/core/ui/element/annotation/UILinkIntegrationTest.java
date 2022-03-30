@@ -23,24 +23,24 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UILink.LinkTarget;
 import org.linkki.core.ui.element.annotation.UILinkIntegrationTest.LinkTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
 import com.vaadin.flow.component.html.Anchor;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Anchor, LinkTestPmo> {
+class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Anchor, LinkTestPmo> {
 
-    public UILinkIntegrationTest() {
+    UILinkIntegrationTest() {
         super(LinkTestPmo::new);
     }
 
     @Test
-    public void testValue_Dynamic() {
-        Anchor link = getDynamicComponent();
+    void testValue_Dynamic() {
+        LinkkiAnchor link = (LinkkiAnchor)getDynamicComponent();
 
         assertThat(getDefaultPmo().getValue(), is(nullValue()));
-        // TODO LIN-2052
-        // assertThat(link.getIcon(), is(nullValue()));
+        assertThat(link.getIcon(), is(nullValue()));
 
         getDefaultPmo().setValue("https://faktorzehn.org");
         modelChanged();
@@ -54,7 +54,7 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<An
     }
 
     @Test
-    public void testLinkCaption() {
+    void testLinkCaption() {
         Anchor anchor = getDynamicComponent();
 
         assertThat(anchor.getText(), is(LinkTestPmo.INITIAL_CAPTION));
@@ -66,21 +66,21 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<An
     }
 
     @Test
-    public void testLinkCaption_Static() {
+    void testLinkCaption_Static() {
         Anchor anchor = getStaticComponent();
 
         assertThat(anchor.getText(), is(LinkTestPmo.STATIC_CAPTION));
     }
 
     @Test
-    public void testLinkCaption_Default() {
+    void testLinkCaption_Default() {
         Anchor anchor = getComponentById("defaultsLink");
 
         assertThat(anchor.getText(), is(""));
     }
 
     @Test
-    public void testTarget_Dynamic() {
+    void testTarget_Dynamic() {
         Anchor anchor = getDynamicComponent();
 
         assertThat(anchor.getTarget().get(), is("_top"));
@@ -97,20 +97,21 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<An
     }
 
     @Test
-    public void testTarget_Static() {
+    void testTarget_Static() {
         Anchor anchor = getStaticComponent();
 
         assertThat(anchor.getTarget().get(), is("_blank"));
     }
 
     @Test
-    public void testTarget_Default() {
+    void testTarget_Default() {
         Anchor anchor = getComponentById("defaultsLink");
 
         assertThat(anchor.getTarget().get(), is("_self"));
     }
 
-    public void testEnabled() {
+    @Test
+    void testEnabled() {
         assertThat(getStaticComponent().isEnabled(), is(true));
         assertThat(getDynamicComponent().isEnabled(), is(true));
     }

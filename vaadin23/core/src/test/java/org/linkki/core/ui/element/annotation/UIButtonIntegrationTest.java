@@ -37,14 +37,14 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button, ButtonTestPmo> {
+class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button, ButtonTestPmo> {
 
-    public UIButtonIntegrationTest() {
+    UIButtonIntegrationTest() {
         super(TestModelObjectWithString::new, ButtonTestPmo::new);
     }
 
     @Test
-    public void testStaticButtonProperties() {
+    void testStaticButtonProperties() {
         Button button = getDynamicComponent();
         assertThat(button.getIcon().getElement().getAttribute("icon"),
                    is(VaadinIcon.ADJUST.create().getElement().getAttribute("icon")));
@@ -56,7 +56,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     }
 
     @Test
-    public void testCreateButtonShortcut() {
+    void testCreateButtonShortcut() {
         ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
 
         Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("value"));
@@ -67,7 +67,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     }
 
     @Test
-    public void testCreateButtonShortcut_NoKeys() {
+    void testCreateButtonShortcut_NoKeys() {
         ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
 
         Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("doFoo"));
@@ -76,7 +76,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     }
 
     @Test
-    public void testCreateButtonShortcut_MultipleKeys() {
+    void testCreateButtonShortcut_MultipleKeys() {
         ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
 
         Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("staticValue"));
@@ -89,7 +89,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     }
 
     @Test
-    public void testDynamicCaptionType() {
+    void testDynamicCaptionType() {
         Button button = getDynamicComponent();
         assertThat(button.getText(), is("dynamic"));
 
@@ -99,7 +99,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     }
 
     @Test
-    public void testButtonClick() {
+    void testButtonClick() {
         getDefaultPmo().setEnabled(true);
         modelChanged();
         Button button = getDynamicComponent();
@@ -110,14 +110,14 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     }
 
     @Test
-    public void testDerivedCaption() {
+    void testDerivedCaption() {
         Button button = getComponentById("doFoo");
 
         assertThat(button.getText(), is("DoFoo"));
     }
 
     @Test
-    public void testThemeVariants() {
+    void testThemeVariants() {
         Button button = getComponentById("smallSuccess");
         String smallVariant = ButtonVariant.LUMO_SMALL.getVariantName();
         String successVariant = ButtonVariant.LUMO_SUCCESS.getVariantName();

@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -50,15 +51,15 @@ import com.vaadin.flow.shared.Registration;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UICustomFieldIntegrationTest
+class UICustomFieldIntegrationTest
         extends ComponentAnnotationIntegrationTest<ComboBox<TestEnum>, ComponentAnnotationTestPmo> {
 
-    public UICustomFieldIntegrationTest() {
+    UICustomFieldIntegrationTest() {
         super(ComponentAnnotationTestModelObject::new, ComponentAnnotationTestPmo::new);
     }
 
     @Test
-    public void testDynamicAvailableValues() {
+    void testDynamicAvailableValues() {
         assertThat(getAllowedValues(getDynamicComponent()), contains(TestEnum.ONE, TestEnum.TWO,
                                                                      TestEnum.THREE));
 
@@ -72,28 +73,26 @@ public class UICustomFieldIntegrationTest
 
 
     @Test
-    public void testNullInputIfRequired() {
+    void testNullInputIfRequired() {
         ComboBox<TestEnum> component = getDynamicComponent();
         getDefaultPmo().setRequired(true);
         modelChanged();
         assertThat(component.isRequiredIndicatorVisible(), is(true));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(component, TestEnum.ONE);
-        // assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
-        //
-        // TestUiUtil.setUserOriginatedValue(component, (TestEnum)null);
-        // assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+        TestUiUtil.setUserOriginatedValue(component, TestEnum.ONE);
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+
+        TestUiUtil.setUserOriginatedValue(component, (TestEnum)null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
     @Test
-    public void testDerivedLabel() {
-        // TODO LIN-2051
-        // assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
     }
 
     @Test
-    public void testCreateComponent_NoDefaultConstructor() {
+    void testCreateComponent_NoDefaultConstructor() {
         NoDefaultConstructorComponentPmo pmo = new NoDefaultConstructorComponentPmo();
         BindingContext bindingContext = new BindingContext();
         Function<Component, ComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper(c);
@@ -103,7 +102,7 @@ public class UICustomFieldIntegrationTest
     }
 
     @Test
-    public void testWidth() {
+    void testWidth() {
         ComponentAnnotationTestPmo pmo = new ComponentAnnotationTestPmo(getDefaultModelObject());
         BindingContext bindingContext = new BindingContext();
         Function<Component, ComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper(c);
@@ -115,7 +114,7 @@ public class UICustomFieldIntegrationTest
     }
 
     @Test
-    public void testWidth_IgnoreIfNotHasSize() {
+    void testWidth_IgnoreIfNotHasSize() {
         NoSizeComponentPmo pmo = new NoSizeComponentPmo();
         BindingContext bindingContext = new BindingContext();
         Function<Component, ComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper(c);

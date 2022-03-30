@@ -14,6 +14,7 @@
 package org.linkki.core.binding;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -34,7 +35,9 @@ import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.bind.annotation.Bind;
+import org.linkki.core.ui.element.annotation.TestUiUtil;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.textfield.TextField;
@@ -43,19 +46,19 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class BinderIntegrationTest {
+class BinderIntegrationTest {
 
 
     private BindingContext bindingContext;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
         bindingContext = bindingManager.getContext("");
     }
 
     @Test
-    public void testSetupBindings() {
+    void testSetupBindings() {
         TestView view = new TestView();
         TestPmo pmo = new TestPmo();
         view.initFields();
@@ -69,10 +72,9 @@ public class BinderIntegrationTest {
         assertThat(bindingContext.getBindings(), hasSize(4));
 
         // Binding pmo -> view
-        // TODO LIN-2054
-        // assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
-        // assertThat(view.numberField.getDescription(), is(emptyString()));
-        // assertThat(view.button.getDescription(), is(emptyString()));
+        assertThat(getTooltip(view.textField), is(TestPmo.TEST_TOOLTIP));
+        assertThat(getTooltip(view.numberField), is(emptyString()));
+        assertThat(getTooltip(view.button), is(emptyString()));
 
         assertTrue(view.listSelect.getListDataView().contains("a"));
         assertTrue(view.listSelect.getListDataView().contains("b"));
@@ -86,25 +88,24 @@ public class BinderIntegrationTest {
 
         assertThat(view.numberField.getValue(), is("13"));
         assertThat(view.textField.getValue(), is("foo"));
-        // assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
-        // assertThat(view.numberField.getDescription(), is("test tool tip"));
-        // assertThat(view.button.getDescription(), is("test tool tip"));
+        assertThat(getTooltip(view.textField), is(TestPmo.TEST_TOOLTIP));
+        assertThat(getTooltip(view.numberField), is("test tool tip"));
+        assertThat(getTooltip(view.button), is("test tool tip"));
         assertTrue(view.listSelect.getListDataView().contains("c"));
 
 
         // Binding view -> pmo
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(view.numberField, "42");
-        // TestUiUtil.setUserOriginatedValue(view.textField, "bar");
+        TestUiUtil.setUserOriginatedValue(view.numberField, "42");
+        TestUiUtil.setUserOriginatedValue(view.textField, "bar");
         view.button.click();
         view.button.click();
-        // assertThat(pmo.getNumber(), is(42));
-        // assertThat(pmo.getText(), is("bar"));
-        // assertThat(pmo.getClickCount(), is(2));
+        assertThat(pmo.getNumber(), is(42));
+        assertThat(pmo.getText(), is("bar"));
+        assertThat(pmo.getClickCount(), is(2));
     }
 
     @Test
-    public void testEnabledTypeBinding() {
+    void testEnabledTypeBinding() {
         TestView view = new TestView();
         TestPmo pmo = new TestPmo();
         view.initFields();
@@ -113,8 +114,8 @@ public class BinderIntegrationTest {
         binder.setupBindings(bindingContext);
 
         assertThat(view.listSelect.isEnabled(), is(false));
-        // TODO LIN-2070
-        // assertThat(view.listSelect.isRequiredIndicatorVisible(), is(true));
+        // LIN-2070 ListBoxBase does not support setRequiredIndicatorVisible
+        assertThat(view.listSelect.isRequiredIndicatorVisible(), is(false));
 
         pmo.setNumberEnabled(false);
         bindingContext.modelChanged();
@@ -134,7 +135,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetupBindings_ThrowsExceptionForNullField() {
+    void testSetupBindings_ThrowsExceptionForNullField() {
         TestView view = new TestView();
 
         // precondition as textField is binded with the field
@@ -148,7 +149,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetupBindings_ThrowsExceptionForMethodReturningNull() {
+    void testSetupBindings_ThrowsExceptionForMethodReturningNull() {
         TestView view = new TestView();
 
         // precondition as numberField is binded with the getter method
@@ -161,7 +162,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetupBindings_ThrowsExceptionForAnnotatedNonComponentField() {
+    void testSetupBindings_ThrowsExceptionForAnnotatedNonComponentField() {
         IllegalFieldAnnotationView view = new IllegalFieldAnnotationView();
 
         Binder binder = new Binder(view, new TestPmo());
@@ -171,7 +172,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithParameters() {
+    void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithParameters() {
         IllegalMethodParamtersView view = new IllegalMethodParamtersView();
 
         Binder binder = new Binder(view, new TestPmo());
@@ -182,7 +183,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithNonComponentReturnType() {
+    void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithNonComponentReturnType() {
         IllegalMethodReturnTypeView view = new IllegalMethodReturnTypeView();
 
         Binder binder = new Binder(view, new TestPmo());
@@ -192,7 +193,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetUpBindings_modelBinding() {
+    void testSetUpBindings_modelBinding() {
         ModelBindingView view = new ModelBindingView();
         TestPmo pmo = new TestPmo();
         pmo.getTestModelObject().setModelProperty("1");
@@ -215,7 +216,7 @@ public class BinderIntegrationTest {
      * If both pmo property and model attribute are valid, the pmo property is used.
      */
     @Test
-    public void testSetUpBindings_modelBinding_validPmoPropertyAndModelAttribute() {
+    void testSetUpBindings_modelBinding_validPmoPropertyAndModelAttribute() {
         ModelBindingView view = new ModelBindingView();
         TestPmo pmo = new TestPmo();
         pmo.getTestModelObject().setModelProperty("not text");
@@ -232,7 +233,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetUpBindings_modelBinding_invalidPmoProperty() {
+    void testSetUpBindings_modelBinding_invalidPmoProperty() {
         ModelBindingView view = new ModelBindingView();
         TestPmo pmo = new TestPmo();
         pmo.getTestModelObject().setModelProperty("1");
@@ -253,7 +254,7 @@ public class BinderIntegrationTest {
      */
 
     @Test
-    public void testSetUpBindings_modelBinding_invalidModelAttribute() {
+    void testSetUpBindings_modelBinding_invalidModelAttribute() {
         ModelBindingView view = new ModelBindingView();
         TestPmo pmo = new TestPmo();
 
@@ -268,7 +269,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetUpBindings_modelBinding_alternativeModelAttribute() {
+    void testSetUpBindings_modelBinding_alternativeModelAttribute() {
         ModelBindingView view = new ModelBindingView();
         TestPmo pmo = new TestPmo();
         pmo.getTestModelObject2().setModelProperty("2");
@@ -288,7 +289,7 @@ public class BinderIntegrationTest {
     }
 
     @Test
-    public void testSetUpBindings_modelBinding_pmoPropertyModelAttributeCombined() {
+    void testSetUpBindings_modelBinding_pmoPropertyModelAttributeCombined() {
         ModelBindingView view = new ModelBindingView();
         TestPmo pmo = new TestPmo();
         pmo.getTestModelObject().setModelProperty("1");
@@ -305,6 +306,10 @@ public class BinderIntegrationTest {
         bindingContext.modelChanged();
         assertThat(view.pmoPropertyModelAttributeCombined.getValue(), is("11"));
         assertThat(view.pmoPropertyModelAttributeCombined.isRequiredIndicatorVisible(), is(false));
+    }
+
+    private String getTooltip(Component component) {
+        return component.getElement().getAttribute("title");
     }
 
     @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")

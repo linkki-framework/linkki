@@ -17,10 +17,8 @@ package org.linkki.core.ui.element.annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.linkki.core.binding.BindingContext;
@@ -39,7 +37,8 @@ import com.vaadin.flow.component.grid.Grid.Column;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.internal.AbstractFieldSupport;
-import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.HasListDataView;
+import com.vaadin.flow.data.provider.ListDataView;
 import com.vaadin.flow.data.renderer.Renderer;
 
 public final class TestUiUtil {
@@ -101,11 +100,6 @@ public final class TestUiUtil {
         return ((Label)formItem.getChildren().collect(Collectors.toList()).get(1)).getText();
     }
 
-    @SuppressWarnings("unused")
-    public static <T> void setUserOriginatedValue(AbstractField<?, T> field, T value) {
-        // TODO LIN-2051
-    }
-
     public static <T> void setUserOriginatedValue(AbstractSinglePropertyField<?, T> field, T value) {
         try {
             Field fieldSupportField = AbstractField.class.getDeclaredField("fieldSupport");
@@ -119,19 +113,12 @@ public final class TestUiUtil {
 
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
                 | NoSuchMethodException | InvocationTargetException e) {
-            throw new RuntimeException("Failed to set user-originated value", e);
+            throw new RuntimeException("Failed to set user-originated value", e.getCause());
         }
     }
 
-    @SuppressWarnings("unused")
-    public static <T> void setUserOriginatedValues(AbstractField<?, T> field, Set<T> value) {
-        // TODO LIN-2051
-    }
-
-    @SuppressWarnings("unused")
-    public static <T> List<T> getData(HasItems<T> hasDataProvider) {
-        // TODO LIN-2051
-        return Collections.emptyList();
+    public static <T> List<T> getData(HasListDataView<T, ? extends ListDataView<T, ?>> hasDataProvider) {
+        return hasDataProvider.getListDataView().getItems().collect(Collectors.toList());
     }
 
     public static Component getComponentAtIndex(int index, Component component) {

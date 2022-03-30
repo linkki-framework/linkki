@@ -14,6 +14,7 @@
 package org.linkki.core.ui.bind;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -42,12 +43,12 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 
-public class DynamicFieldBindingTest {
+class DynamicFieldBindingTest {
 
     private static final int POS = 1;
 
     @Test
-    public void testDynamicField_shouldBindToTextField() {
+    void testDynamicField_shouldBindToTextField() {
         String value = "value";
         Pmo pmo = new Pmo(new Model(value, false));
         BindingContext bindingContext = new BindingContext();
@@ -59,10 +60,9 @@ public class DynamicFieldBindingTest {
         TextField txt = (TextField)component;
         assertThat(txt.getValue(), is(value));
 
-        // TODO LIN-2051
-        // String newValue = "new value";
-        // TestUiUtil.setUserOriginatedValue(txt, newValue);
-        // assertThat(pmo.model.paymentMethod, is(newValue));
+        String newValue = "new value";
+        TestUiUtil.setUserOriginatedValue(txt, newValue);
+        assertThat(pmo.model.paymentMethod, is(newValue));
 
         pmo.model.paymentMethod = null;
 
@@ -72,7 +72,7 @@ public class DynamicFieldBindingTest {
     }
 
     @Test
-    public void testDynamicField_shouldBindToComboBox() {
+    void testDynamicField_shouldBindToComboBox() {
         String value = "semi-annual";
         Pmo pmo = new Pmo(new Model(value, true));
         BindingContext bindingContext = new BindingContext();
@@ -83,15 +83,14 @@ public class DynamicFieldBindingTest {
 
         @SuppressWarnings("unchecked")
         ComboBox<String> cb = (ComboBox<String>)component;
-        // TODO LIN-2051
-        // assertThat(TestUiUtil.getData(cb),
-        // contains(pmo.getPaymentMethodAvailableValues().toArray()));
-        // assertThat(cb.getValue(), is(value));
+        assertThat(TestUiUtil.getData(cb),
+                   contains(pmo.getPaymentMethodAvailableValues().toArray()));
+        assertThat(cb.getValue(), is(value));
 
 
-        // String newValue = "annual";
-        // TestUiUtil.setUserOriginatedValue(cb, newValue);
-        // assertThat(pmo.model.paymentMethod, is(newValue));
+        String newValue = "annual";
+        TestUiUtil.setUserOriginatedValue(cb, newValue);
+        assertThat(pmo.model.paymentMethod, is(newValue));
 
         pmo.model.paymentMethod = null;
 
@@ -100,7 +99,7 @@ public class DynamicFieldBindingTest {
     }
 
     @Test
-    public void testDynamicField_differentModelAttribute() {
+    void testDynamicField_differentModelAttribute() {
         BindingContext bindingContext = new BindingContext();
 
         PmoWithDifferentModelAttributes pmoWithTextField = new PmoWithDifferentModelAttributes(new Model(),
@@ -117,28 +116,28 @@ public class DynamicFieldBindingTest {
     }
 
     @Test
-    public void testDynamicField_missingMethod_shouldThrowIllegalStateException() {
+    void testDynamicField_missingMethod_shouldThrowIllegalStateException() {
         Assertions.assertThrows(IllegalStateException.class, () -> {
             TestUiUtil.createFirstComponentOf(new PmoWithoutMethod());
         });
     }
 
     @Test
-    public void testDynamicField_illegalClass_shouldThrowIllegalStateException() {
+    void testDynamicField_illegalClass_shouldThrowIllegalStateException() {
         Assertions.assertThrows(IllegalStateException.class, () -> {
             TestUiUtil.createFirstComponentOf(new PmoWithWrongClass());
         });
     }
 
     @Test
-    public void testDynamicField_inconsistentPmoPropertyNames_shouldThrowIllegalStateException() {
+    void testDynamicField_inconsistentPmoPropertyNames_shouldThrowIllegalStateException() {
         Assertions.assertThrows(IllegalStateException.class, () -> {
             TestUiUtil.createFirstComponentOf(new PmoWith2MethodsAnnotated());
         });
     }
 
     @Test
-    public void testDynamicFiled_inconsistentLabelText_shouldThrowIllegalArgumentException() {
+    void testDynamicFiled_inconsistentLabelText_shouldThrowIllegalArgumentException() {
         Assertions.assertThrows(IllegalStateException.class, () -> {
             TestUiUtil.createFirstComponentOf(new PmoWithInconsistentLabelText());
         });
@@ -194,7 +193,7 @@ public class DynamicFieldBindingTest {
     @UISection
     public static class Pmo {
 
-        private Model model;
+        private final Model model;
 
         Pmo(Model model) {
             this.model = model;
@@ -226,8 +225,8 @@ public class DynamicFieldBindingTest {
 
     public static class PmoWithDifferentModelAttributes {
 
-        private Model model;
-        private Class<?> componentType;
+        private final Model model;
+        private final Class<?> componentType;
 
         PmoWithDifferentModelAttributes(Model model, Class<?> componentType) {
             this.model = model;

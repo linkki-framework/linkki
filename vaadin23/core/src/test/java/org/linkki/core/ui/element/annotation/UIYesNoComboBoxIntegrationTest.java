@@ -43,25 +43,24 @@ import com.vaadin.flow.data.provider.Query;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UIYesNoComboBoxIntegrationTest
+class UIYesNoComboBoxIntegrationTest
         extends ComponentAnnotationIntegrationTest<ComboBox<Boolean>, YesNoComboBoxTestPmo> {
 
-    public UIYesNoComboBoxIntegrationTest() {
+    UIYesNoComboBoxIntegrationTest() {
         super(YesNoComboBoxTestModelObject::new, YesNoComboBoxTestPmo::new);
     }
 
     @Test
-    public void testNullSelection() {
+    void testNullSelection() {
         assertThat(getAllowedValues(getStaticComponent()), contains(true, false));
 
         ComboBox<Boolean> comboBox = getDynamicComponent();
         assertThat(getAllowedValues(comboBox), contains(null, true, false));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(comboBox, (Boolean)null);
-        // assertThat(getDefaultModelObject().value, is(nullValue()));
+        TestUiUtil.setUserOriginatedValue(comboBox, (Boolean)null);
+        assertThat(getDefaultModelObject().value, is(nullValue()));
 
-        // TestUiUtil.setUserOriginatedValue(comboBox, false);
+        TestUiUtil.setUserOriginatedValue(comboBox, false);
 
         getDefaultModelObject().value = true;
         modelChanged();
@@ -69,13 +68,13 @@ public class UIYesNoComboBoxIntegrationTest
     }
 
     @Test
-    public void testStaticAvailableValues() {
+    void testStaticAvailableValues() {
         assertThat(getAllowedValues(getDynamicComponent()), contains(null, true, false));
         assertThat(getAllowedValues(getStaticComponent()), contains(true, false));
     }
 
     @Test
-    public void testCaptionProvider() {
+    void testCaptionProvider() {
         assertThat(getDynamicComponent().getItemLabelGenerator().apply(true), is("true"));
         assertThat(getDynamicComponent().getItemLabelGenerator().apply(null),
                    is(NullCaptionTestCaptionProvider.NULL_CAPTION));
@@ -83,7 +82,7 @@ public class UIYesNoComboBoxIntegrationTest
     }
 
     @Test
-    public void testCaptionProvider_NoDefaultConstructor() {
+    void testCaptionProvider_NoDefaultConstructor() {
         NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
 
         BindingContext bindingContext = new BindingContext();
@@ -95,7 +94,7 @@ public class UIYesNoComboBoxIntegrationTest
     }
 
     @Test
-    public void testValue() {
+    void testValue() {
         ComboBox<Boolean> comboBox = getDynamicComponent();
 
         assertThat(comboBox.getValue(), is(nullValue()));
@@ -104,31 +103,28 @@ public class UIYesNoComboBoxIntegrationTest
         modelChanged();
         assertThat(comboBox.getValue(), is(true));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(comboBox, false);
-        // assertThat(getDefaultModelObject().getValue(), is(false));
+        TestUiUtil.setUserOriginatedValue(comboBox, false);
+        assertThat(getDefaultModelObject().getValue(), is(false));
     }
 
 
     @Test
-    public void testNullInputIfRequired() {
+    void testNullInputIfRequired() {
         ComboBox<Boolean> comboBox = getDynamicComponent();
         getDefaultPmo().setRequired(true);
         modelChanged();
         assertThat(comboBox.isRequiredIndicatorVisible(), is(true));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(comboBox, true);
-        // assertThat(getDefaultModelObject().getValue(), is(true));
-        //
-        // TestUiUtil.setUserOriginatedValue(comboBox, (Boolean)null);
-        // assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+        TestUiUtil.setUserOriginatedValue(comboBox, true);
+        assertThat(getDefaultModelObject().getValue(), is(true));
+
+        TestUiUtil.setUserOriginatedValue(comboBox, (Boolean)null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
     @Test
-    public void testDerivedLabel() {
-        // TODO LIN-2051
-        // assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
     }
 
     @Override

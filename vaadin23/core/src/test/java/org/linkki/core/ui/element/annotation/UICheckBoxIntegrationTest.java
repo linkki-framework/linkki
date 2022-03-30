@@ -31,31 +31,30 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox, TestCheckBoxPmo> {
+class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox, TestCheckBoxPmo> {
 
-    public UICheckBoxIntegrationTest() {
+    UICheckBoxIntegrationTest() {
         super(TestModelObjectWithObjectBoolean::new, TestCheckBoxPmo::new);
     }
 
     @Test
-    public void testSetValueWithPrimitiveBooleanInModelObject() {
+    void testSetValueWithPrimitiveBooleanInModelObject() {
         TestModelObjectWithPrimitiveBoolean modelObject = new TestModelObjectWithPrimitiveBoolean();
         Checkbox checkBox = createFirstComponent(modelObject);
 
         assertThat(modelObject.getValue(), is(false));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(checkBox, Boolean.TRUE);
-        // assertThat(modelObject.getValue(), is(true));
-        //
-        // TestUiUtil.setUserOriginatedValue(checkBox, Boolean.FALSE);
-        // assertThat(modelObject.getValue(), is(false));
-        //
-        // TestUiUtil.setUserOriginatedValue(checkBox, true);
-        // assertThat(modelObject.getValue(), is(true));
-        //
-        // TestUiUtil.setUserOriginatedValue(checkBox, false);
-        // assertThat(modelObject.getValue(), is(false));
+        TestUiUtil.setUserOriginatedValue(checkBox, Boolean.TRUE);
+        assertThat(modelObject.getValue(), is(true));
+
+        TestUiUtil.setUserOriginatedValue(checkBox, Boolean.FALSE);
+        assertThat(modelObject.getValue(), is(false));
+
+        TestUiUtil.setUserOriginatedValue(checkBox, true);
+        assertThat(modelObject.getValue(), is(true));
+
+        TestUiUtil.setUserOriginatedValue(checkBox, false);
+        assertThat(modelObject.getValue(), is(false));
 
         modelObject.setValue(true);
         getBindingContext().modelChanged();
@@ -67,24 +66,23 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
     }
 
     @Test
-    public void testSetValueWithObjectBooleanInModelObject() {
+    void testSetValueWithObjectBooleanInModelObject() {
         TestModelObjectWithObjectBoolean modelObject = new TestModelObjectWithObjectBoolean();
         Checkbox checkBox = createFirstComponent(modelObject);
 
         assertThat(modelObject.getValue(), is(nullValue()));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(checkBox, Boolean.TRUE);
-        // assertThat(modelObject.getValue(), is(true));
-        //
-        // TestUiUtil.setUserOriginatedValue(checkBox, Boolean.FALSE);
-        // assertThat(modelObject.getValue(), is(false));
-        //
-        // TestUiUtil.setUserOriginatedValue(checkBox, true);
-        // assertThat(modelObject.getValue(), is(true));
-        //
-        // TestUiUtil.setUserOriginatedValue(checkBox, false);
-        // assertThat(modelObject.getValue(), is(false));
+        TestUiUtil.setUserOriginatedValue(checkBox, Boolean.TRUE);
+        assertThat(modelObject.getValue(), is(true));
+
+        TestUiUtil.setUserOriginatedValue(checkBox, Boolean.FALSE);
+        assertThat(modelObject.getValue(), is(false));
+
+        TestUiUtil.setUserOriginatedValue(checkBox, true);
+        assertThat(modelObject.getValue(), is(true));
+
+        TestUiUtil.setUserOriginatedValue(checkBox, false);
+        assertThat(modelObject.getValue(), is(false));
 
         modelObject.setValue(Boolean.TRUE);
         getBindingContext().modelChanged();
@@ -98,15 +96,14 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         getBindingContext().modelChanged();
         assertThat(checkBox.getValue(), is(false));
 
-        // TestUiUtil.setUserOriginatedValue(checkBox, true);
-        // modelObject.setValue(null);
-        // getBindingContext().modelChanged();
-        // assertThat(checkBox.getValue(), is(false));
+        TestUiUtil.setUserOriginatedValue(checkBox, true);
+        modelObject.setValue(null);
+        getBindingContext().modelChanged();
+        assertThat(checkBox.getValue(), is(false));
     }
 
     @Test
-    public void testCaptionBinding() {
-        // TODO LIN-2057
+    void testCaptionBinding() {
         Checkbox checkBoxWithNoCaption = getDynamicComponent();
         assertThat(checkBoxWithNoCaption.getLabel(), is(emptyString()));
 
@@ -119,13 +116,17 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
 
     @Test
     @Override
-    public void testNullInputIfRequired() {
-        // TODO LIN-2051
-        // Checkbox checkBox = getDynamicComponent();
+    void testNullInputIfRequired() {
+        Checkbox checkBox = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        modelChanged();
+        assertThat(checkBox.isRequiredIndicatorVisible(), is(true));
 
-        // Assertions.assertThrows(NullPointerException.class, () -> {
-        // TestUiUtil.setUserOriginatedValue(checkBox, null);
-        // });
+        TestUiUtil.setUserOriginatedValue(checkBox, true);
+        assertThat(getDefaultModelObject().getValue(), is(true));
+
+        TestUiUtil.setUserOriginatedValue(checkBox, false);
+        assertThat(getDefaultModelObject().getValue(), is(false));
     }
 
     @Override

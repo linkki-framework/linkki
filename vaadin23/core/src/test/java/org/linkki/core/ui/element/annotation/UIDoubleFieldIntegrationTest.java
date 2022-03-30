@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
@@ -35,7 +36,7 @@ import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextField, DoubleFieldTestPmo> {
+class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextField, DoubleFieldTestPmo> {
 
     private static final String FANCY_FORMAT = "##,##,##.###";
 
@@ -43,13 +44,13 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
 
     private final NumberFormat formatter;
 
-    public UIDoubleFieldIntegrationTest() {
+    UIDoubleFieldIntegrationTest() {
         super(TestModelObjectWithObjectDouble::new, DoubleFieldTestPmo::new);
         formatter = new DecimalFormat(FANCY_FORMAT, DecimalFormatSymbols.getInstance(UiFramework.getLocale()));
     }
 
     @Test
-    public void testSetValue_WithPrimitiveDoubleInModelObject() {
+    void testSetValue_WithPrimitiveDoubleInModelObject() {
         TestModelObjectWithPrimitiveDouble modelObject = new TestModelObjectWithPrimitiveDouble();
         TextField textField = createFirstComponent(modelObject);
 
@@ -65,7 +66,7 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
     }
 
     @Test
-    public void testSetValue_WithPrimitiveDoubleInModelObject_RevertsForNull() {
+    void testSetValue_WithPrimitiveDoubleInModelObject_RevertsForNull() {
         TextField textField = createFirstComponent(new TestModelObjectWithPrimitiveDouble());
         TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
         assertThat(textField.getValue(), is(formatter.format(1.0)));
@@ -76,9 +77,8 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         assertThat(textField.getValue(), is(formatter.format(1.0)));
     }
 
-
     @Test
-    public void testSetValue_WithObjectDoubleInModelObject() {
+    void testSetValue_WithObjectDoubleInModelObject() {
         TestModelObjectWithObjectDouble modelObject = new TestModelObjectWithObjectDouble();
         TextField textField = createFirstComponent(modelObject);
 
@@ -91,14 +91,13 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         getBindingContext().modelChanged();
         assertThat(textField.getValue(), is(formatter.format(2.0)));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(textField, null);
-        // assertThat(modelObject.getValue(), is(nullValue()));
+        TestUiUtil.setUserOriginatedValue(textField, textField.getEmptyValue());
+        assertThat(modelObject.getValue(), is(nullValue()));
     }
 
     @Test
     @Override
-    public void testNullInputIfRequired() {
+    void testNullInputIfRequired() {
         TextField doubleField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
         modelChanged();
@@ -107,13 +106,12 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         TestUiUtil.setUserOriginatedValue(doubleField, formatter.format(1.0));
         assertThat(getDefaultModelObject().getValue(), is(1.0));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(doubleField, null);
-        // assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+        TestUiUtil.setUserOriginatedValue(doubleField, doubleField.getEmptyValue());
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
     @Test
-    public void testDerivedLabel() {
+    void testDerivedLabel() {
         assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
     }
 
