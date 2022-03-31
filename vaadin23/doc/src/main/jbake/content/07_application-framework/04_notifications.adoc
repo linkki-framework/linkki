@@ -1,6 +1,7 @@
 :jbake-title: Notifications
 :jbake-type: section
 :jbake-status: published
+
 :image-dir: {images}07_application-framework
 
 [[notifications]]
@@ -13,6 +14,6 @@ image::{image-dir}/notifications.png[]
 Info and warning notifications close automatically after the configured time. Error notifications require the "Close" to be pressed.
 
 ==== MessageList
-When displaying a `MessageList`, the severity of the notifaction is equal to the maximum severity in the `MessageList`. Additionally, each message has an icon corresponding to its individual severity.
+When displaying a `MessageList`, the severity of the notification is equal to the maximum severity in the `MessageList`. Additionally, each message has an icon corresponding to its individual severity.
 
 image::{image-dir}/notification_messagelist.png[]

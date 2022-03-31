@@ -1,4 +1,4 @@
-:jbake-title: UI Element
+:jbake-title: UI Elements
 :jbake-type: section
 :jbake-status: published
 
@@ -6,7 +6,7 @@
 :images-folder-name: 05_ui_components
 
 [[ui-element]]
-=== UI Element
+=== UI Elements
 Both fields and buttons are "UI elements". The following types are provided:
 
 [[ui-field]]
@@ -17,7 +17,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-link, `UILink`>> |Hyperlink
 |<<ui-textfield,`UITextField`>> |Field for single line text entry
 |<<ui-textarea,`UITextArea`>> |Area for multiline text entry
-|<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>> |Entry field for numbers
+|<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>> |Field for numbers
 |<<ui-checkbox,`UICheckbox`>> |Control for boolean input
 |<<ui-datefield,`UIDateField`>> |Field for date entry with date picker
 |<<ui-combobox,`UIComboBox`>> |Dropdown field with predefined options
@@ -71,7 +71,7 @@ The annotation `@UILabel` generates an independent UI element displaying `String
 
 The annotated method must return a value that is convertable to `String`. This can either be achieved by a registered converter at `LinkkiConverterRegistry`, or by a `ItemCaptionProvider` that can be provided to the `UILabel` annotation.
 
-If the Faktor-IPS linkki extension is used, the `FormattedDecimalFieldToStringConverter` should be registered to `LinkkiConverterRegistry` in order to display Faktor-IPS Decimal values property.
+If the Faktor-IPS *linkki* extension is used, the `FormattedDecimalFieldToStringConverter` should be registered to `LinkkiConverterRegistry` in order to display Faktor-IPS Decimal values property.
 
 TIP: A `@UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside or on top of the `UILabel`. +
 When used in a table, the `label` is used as the column name while the `caption` is displayed in the table cell. 
@@ -109,7 +109,7 @@ When used in a table, the `label` is used as the column name while the `caption`
 [[ui-checkbox]]
 ==== UICheckbox
 
-`@UICheckbox` creates a `com.vaadin.ui.CheckBox` that is bound to a `boolean` property.
+`@UICheckbox` creates a `com.vaadin.flow.component.checkbox.Checkbox` that is bound to a `boolean` property.
 
 Instead of a label on the left side of the UI element, checkboxes usually have a caption on the right. This caption must be set with the property `caption`. If no caption is desired, an empty String must be set. 
 
@@ -118,7 +118,7 @@ When used in a table, the `label` is used as the column name while the `caption`
 
 [[ui-textfield]]
 ==== UITextField
-A `com.vaadin.ui.TextField` for text entry. The annotation `UITextfield` has two additional properties:
+A `com.vaadin.flow.component.textfield.TextField` for text entry. The annotation `UITextfield` has two additional properties:
 
 * `maxLength: int`
 * `width: String`
@@ -127,11 +127,12 @@ A `com.vaadin.ui.TextField` for text entry. The annotation `UITextfield` has two
 
 [[ui-textarea]]
 ==== UITextArea
-The annotation `UITextArea` corresponds to a `com.vaadin.ui.TextArea`. It is used for entering or displaying text that has more than one line.`UITextArea` has all the properties of the annotation `UITextfield`. In addition, it also has: 
+The annotation `UITextArea` corresponds to a `com.vaadin.flow.component.textfield.TextArea`. It is used for entering or displaying text that has more than one line.`UITextArea` has all the properties of the annotation `UITextfield`. In addition, it also has: 
 
-* `rows: int`
+* `height: String`
 
-The property `rows` defines the height of the `UITextArea`, not how many rows can be entered. Its default value is `1`.
+The property `height` defines the height of the `UITextArea`, not how many rows can be entered. It returns a `String` using a number and a CSS unit, for example "5em". Its default value is `3em`.
+
 
 [[ui-numberfield]]
 ==== UIIntegerField and UIDoubleField
@@ -143,7 +144,7 @@ If no format is specified for a `UIIntegerField`, *linkki* uses the default Java
 
 [[ui-datefield]]
 ==== UIDateField
-The annotation `@UIDateField` generates a date input field and corresponds to `com.vaadin.ui.DateField`. It allows specifying a date format using the property `dateFormat: String`. If not date format is defined the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
+The annotation `@UIDateField` generates a date input field and corresponds to `com.vaadin.flow.component.datepicker.DatePicker`. It allows specifying a date format using the property `dateFormat: String`. If not date format is defined the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
 The UIDateField allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
 
 [[ui-combobox]]
@@ -210,7 +211,7 @@ A `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list li
 ==== UICustomField
 Other controls can also easily be generated and bound by *linkki*. For this the annotation `@UICustomField` is used. 
 
-The control class is specified with the property `uiControl: Class<? extends Field<?>>`. If the control implements `com.vaadin.data.HasItems<T>` the values can be defined by `content: AvailableValuesType` like with <<ui-combobox,UIComboBox>>.
+The control class is specified with the property `uiControl: Class<? extends Field<?>>`. If the control implements `com.vaadin.flow.data.provider.HasListDataView<T, V>` the values can be defined by `content: AvailableValuesType` like with <<ui-combobox,UIComboBox>>.
 
 WARNING: `@UICustomField` only supports controls with a parameter-less constructor.
 

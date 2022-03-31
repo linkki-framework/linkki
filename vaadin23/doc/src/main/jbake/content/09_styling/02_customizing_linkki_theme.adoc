@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-=== Customizing the linkki theme
+=== Customizing the *linkki* theme
 
 For general information, see the https://vaadin.com/docs/latest/ds/customization/custom-theme[Vaadin documentation on custom themes].
 
@@ -21,7 +21,7 @@ frontend
 
 If the theme needs to be packaged for other projects, the theme folder must be in `src/main/resources/META-INF/resources/themes`.
 
-.Folder structure for a custom theme that needs to be pacakged
+.Folder structure for a custom theme that needs to be packaged
 ----
 src
 └── main

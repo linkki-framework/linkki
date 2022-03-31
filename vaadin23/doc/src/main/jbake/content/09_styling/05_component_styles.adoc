@@ -1,0 +1,11 @@
+:jbake-title: Component Styles
+:jbake-type: section
+:jbake-status: published
+
+
+[[component-styles]]
+=== Component Styles
+The `ComponentStyles` utility class offers several methods for styling UI components:
+
+* `setOverflowAuto(Component)`: Sets the overflow of the given `Component` to "auto". This makes the `Component` automatically scroll if necessary.
+* `setFormItemLabelWidth(Component, String)`: Sets the width of all form item labels in the given `Component`.

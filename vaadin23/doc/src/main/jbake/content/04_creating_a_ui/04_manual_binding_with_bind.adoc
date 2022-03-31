@@ -14,12 +14,13 @@ Due to special requirements or custom `Fields` it is sometimes not possible to <
 
 To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Components based on the following classes and interfaces can be used with `@Bind`:
 
-* `com.vaadin.ui.Component`
-* `com.vaadin.ui.AbstractField<T>`
-* `com.vaadin.ui.Label`
-* `com.vaadin.ui.Button`
-* `com.vaadin.data.HasValue<V>`
-* `com.vaadin.data.HasItems<T>`
+* `com.vaadin.flow.component.Component`
+* `com.vaadin.flow.component.AbstractField<C, T>`
+* `com.vaadin.flow.component.html.Label`
+* `com.vaadin.flow.component.html.H2`
+* `com.vaadin.flow.component.button.Button`
+* `com.vaadin.flow.component.HasValue<E, V>`
+* `com.vaadin.flow.data.provider.HasListDataView<T, V>`
 
 
 Then, the data binding can be created via the {github-blob}/core/src/main/java/org/linkki/core/binding/Binder.java[`Binder`].

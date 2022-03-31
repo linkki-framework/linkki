@@ -14,7 +14,7 @@ For example, *linkki* relies on naming conventions to find required methods at r
 Some of the checks the annotation processor does:
 
 * ensuring that methods being used by *linkki* are public
-* ensuring that positions of components are unique inside a pmo
+* ensuring that positions of components are unique inside a PMO
 * ensuring that dynamic fields have the same position and are accompanied by a get<PropertyName>ComponentType method
 * ensuring that specified model bindings actually exist
 * and more

@@ -1,6 +1,7 @@
 :jbake-title: Dialogs
 :jbake-type: section
 :jbake-status: published
+
 :source-dir: ../../../../../../vaadin23/samples/test-playground/src/main/java
 
 [[dialogs]]

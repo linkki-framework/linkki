@@ -49,7 +49,7 @@ include::{source-dir}org/linkki/samples/playground/ts/TestScenarioView.java[tags
 
 When the function above is called by *linkki*, the Faktor-IPS object is validated according to the defined validation rules. Rules can add messages to the returned `MessageList`, potentially referencing specific fields using `ObjectProperty`.
 
-These messages are then converted, and displayed to the user. Messages referring to an `ObjectProperty` bound by linkki to a UI field, are shown in the UI accordingly. It is possible to define <<error-styles, further styling>>.
+These messages are then converted, and displayed to the user. Messages referring to an `ObjectProperty` bound by *linkki* to a UI field, are shown in the UI accordingly. It is possible to define <<error-styles, further styling>>.
 
 [[ips-property-dispatcher]]
 ==== Faktor-IPS Property Dispatcher

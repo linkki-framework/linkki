@@ -13,7 +13,7 @@ With *linkki*, UI components are defined in so called Presentation Model Objects
 The PMO isn't required to hold all data itself. It can delegate to domain model objects (see <<domain-model-binding,Data on Multiple Layers>>) to directly make use of existing domain logic.
 
 [[pmo]]
-==== linkki PMO and PMO properties
+==== *linkki* PMO and PMO properties
 
 In *linkki*, PMOs are Plain Old Java Objects (POJOs), in which data for individual UI layouts are structured.
 

@@ -3,9 +3,9 @@
 :jbake-status: published
 
 [[apply-linkki-theme]]
-=== Applying the linkki theme
+=== Applying the *linkki* theme
 
-A theme can be applied by adding the annotation `@Theme` to a class that implements the interface `AppShellConfigurator`. The linkki theme uses the name `"linkki"`.
+A theme can be applied by adding the annotation `@Theme` to a class that implements the interface `AppShellConfigurator`. The *linkki* theme uses the name `"linkki"`.
 
 In a Spring Boot application, the application configuration class can be used as `AppShellConfigurator`.
 

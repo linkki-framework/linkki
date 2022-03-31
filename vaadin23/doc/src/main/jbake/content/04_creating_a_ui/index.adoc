@@ -15,4 +15,4 @@ The first approach is hopefully sufficient in almost all cases. It defines the *
 
 The second approach defines a way to create components and bindings from the content of a PMO without defining the layout. It may be useful in cases of very specific layouts that are rarely used.
 
-The third approach leaves the creation of UI elements entirely to the developer and only uses linkki for data binding.
+The third approach leaves the creation of UI elements entirely to the developer and only uses *linkki* for data binding.

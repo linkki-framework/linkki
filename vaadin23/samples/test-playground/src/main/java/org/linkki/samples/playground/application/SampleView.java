@@ -39,8 +39,6 @@ public class SampleView extends Div {
 
     public SampleView() {
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
-
-        // tag::sidebar-addSheet[]
         tabLayout.addTabSheets(LinkkiTabSheet.builder("CreateReport")
                 .caption(VaadinIcon.STAR_HALF_LEFT_O.create())
                 .content(this::createReportPage)
@@ -49,7 +47,6 @@ public class SampleView extends Div {
                                        .caption(VaadinIcon.FILE_O.create())
                                        .content(this::createReportListPage)
                                        .build());
-        // end::sidebar-addSheet[]
         add(tabLayout);
         setSizeFull();
     }

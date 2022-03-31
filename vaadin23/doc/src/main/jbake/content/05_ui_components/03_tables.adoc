@@ -63,7 +63,7 @@ In general, a container PMO have to implement the interface `ContainerPmo<ROW>`.
 
 The method `List<ROW> getItems()` is called by the `ContainerBinding` to add the elements to the table. It should always return the same instance of `List<ROW>` as long as the items do not change. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
 
-By overriding the default method `int getPageLength()` the number of rows shown can be controlled. By default 15 rows are shown. It is a common tactic to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
+By overriding the default method `int getPageLength()` the number of rows shown can be controlled. By default 15 rows are shown. It is a common practice to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
 
 [source, java]
 ----

@@ -9,8 +9,8 @@ To use the application framework you need to use the following dependency instea
 
 [source,xml]
 ----
-        <dependency>
-            <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-application-framework-vaadin23</artifactId>
-        </dependency>
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-application-framework-vaadin23</artifactId>
+</dependency>
 ----

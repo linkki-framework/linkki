@@ -3,9 +3,9 @@
 :jbake-status: published
 
 [[linkki-theme-variants]]
-=== Variants of the linkki theme
+=== Variants of the *linkki* theme
 
-linkki theme has several variants that can be used to customize all components. 
+*linkki* theme has several variants that can be used to customize all components. 
 
 ==== Variants 
 
@@ -17,7 +17,7 @@ The variant names are also available as constants in the class `LinkkiTheme`.
 
 ==== Applying a variant
 
-In generall, theme variants can be added at runtime with `UI.getCurrent().getElement().getThemeList().add`.
+In general, theme variants can be added at runtime with `UI.getCurrent().getElement().getThemeList().add`.
 
 When using <<application-layout, `ApplicationLayout`>>, default variants that should apply initially can be set in  <<default-variants, `ApplicationConfig`>>.
 

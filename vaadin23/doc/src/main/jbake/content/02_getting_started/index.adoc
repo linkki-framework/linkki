@@ -75,7 +75,7 @@ image::{images}{images-folder-name}/app_structure.png[]
 
 `BusinessPartner`:: A spring specific class which allows our project to be run as a Java application. This class will not be found in the plain archetype.
 
-`BusinessPartnerInfo`:: Defines basic information about our linkki application.
+`BusinessPartnerInfo`:: Defines basic information about our *linkki* application.
 
 `BusinessPartnerConfig`:: Provides an instance of our `BusinessPartnerInfo` class and provides `ApplicationMenuItemDefinition` items to create an `ApplicationMenu` for the `ApplicationHeader`.
 

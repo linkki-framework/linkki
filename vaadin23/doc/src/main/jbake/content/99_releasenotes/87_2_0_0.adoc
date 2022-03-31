@@ -155,7 +155,7 @@ Additionally the right menu and its items have been enriched with IDs:
 |===
 
 [role="api-change"]
-===== Introduction of linkki theme
+===== Introduction of *linkki* theme
 ////
 https://jira.faktorzehn.de/browse/LIN-2623
 https://jira.faktorzehn.de/browse/LIN-2971
@@ -163,12 +163,12 @@ https://jira.faktorzehn.de/browse/LIN-2945
 https://jira.faktorzehn.de/browse/FCOM-904
 ////
 
-The theme `"linkki"` must now be used for all applications. This is done by adding the annotation `@Theme("linkki")` on a class that implements `AppShellConfigurator`. If an existing custom theme is used, it must extend from the linkki theme. Detailed instructions are provided in the chapter <<styling, "Styling">>.
+The theme `"linkki"` must now be used for all applications. This is done by adding the annotation `@Theme("linkki")` on a class that implements `AppShellConfigurator`. If an existing custom theme is used, it must extend from the *linkki* theme. Detailed instructions are provided in the chapter <<styling, "Styling">>.
 
 The class `org.linkki.core.defaults.style.LinkkiTheme` was moved to `org.linkki.core.ui.theme.LinkkiTheme` and
 contains the new theme name, variant names and relevant css class names.
 
-New <<linkki-theme-variants, variants>> are also introduced along with the linkki theme. `ApplicationConfig` is extended with a <<default-variants, `getDefaultVariants`>> method accordingly to determine which variants should be set initially. If not overriden, the compact variant is applied.
+New <<linkki-theme-variants, variants>> are also introduced along with the *linkki* theme. `ApplicationConfig` is extended with a <<default-variants, `getDefaultVariants`>> method accordingly to determine which variants should be set initially. If not overriden, the compact variant is applied.
 
 In addition, it is also possible to toggle the theme variants at runtime. To make this more convenient, a <<theme-variant-toggle-menu-item-definition, variant toggle menu item>> can be built into the application menu, for example in a user or setting menu. 
 
@@ -177,7 +177,7 @@ In addition, it is also possible to toggle the theme variants at runtime. To mak
 https://jira.faktorzehn.de/browse/LIN-2826
 ////
 
-Since linkki was created primarily for business applications, the autocomplete feature of the browser is rather undesirable and was often disabled in the customer projects. Therefore with linkki 2.0 the autocomplete is disabled on all default fields.
+Since *linkki* was created primarily for business applications, the autocomplete feature of the browser is rather undesirable and was often disabled in the customer projects. Therefore with *linkki* 2.0 the autocomplete is disabled on all default fields.
 
 ===== Vaadin 8 modules removed
 
@@ -185,7 +185,7 @@ Since linkki was created primarily for business applications, the autocomplete f
 https://jira.faktorzehn.de/browse/LIN-2577
 ////
 
-linkki 2.0.0 does not support Vaadin 8 anymore. Thus, all Vaadin 8 modules are now removed. 
+*linkki* 2.0.0 does not support Vaadin 8 anymore. Thus, all Vaadin 8 modules are now removed. 
 
 In addition, following deprecated classes and methods are also removed:
 

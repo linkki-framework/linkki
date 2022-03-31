@@ -24,7 +24,7 @@ The `ValidationService` can return a `ValidationDisplayState` via `getValidation
 
 [[message]]
 ==== Message and MessageList
-A `Message` has a human readable text, an error code and a `Severity` (one of `INFORMATION`, `WARNING`, `ERROR`). It may also contain a set of <<object-properties,ObjectProperties>> to refer to specific invalid properties of an object. Additionally there may be <<validation-marker,ValidationMarkers>> to distinguish different kinds of validation messages.
+A `Message` has a human readable text, an error code and a `Severity` (one of `INFO`, `WARNING`, `ERROR`). It may also contain a set of <<object-properties,ObjectProperties>> to refer to specific invalid properties of an object. Additionally there may be <<validation-marker,ValidationMarkers>> to distinguish different kinds of validation messages.
 
 The easiest way to create a `Message` is to use its builder (via the `builder()` method). Alternatively, a `Message` can also be created using the static factory methods (`newError(String, String)`, `newWarning(String, String)`, `newInfo(String, String)`) or by directly calling the constructor.
 

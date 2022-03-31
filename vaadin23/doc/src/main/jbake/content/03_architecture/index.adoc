@@ -27,9 +27,9 @@ The chapter concludes with <<cross-sectional-binding,Cross-Sectional Data Bindin
 
 *linkki* is split into several modules from which you can pick what you need:
 
-==== linkki Core
+==== *linkki* Core
 
-The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc. In addition, it provides common usable implementations for reading *linkki* annotations. As a result, `linkki-core` dependent code can stay unmodified when switching to a different UI framework. It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components. If you intend to use linkki with Vaadin 23 (instead of writing your own UI framework mapping), you can directly use the dependency below.
+The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc. In addition, it provides common usable implementations for reading *linkki* annotations. As a result, `linkki-core` dependent code can stay unmodified when switching to a different UI framework. It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components. If you intend to use *linkki* with Vaadin 23 (instead of writing your own UI framework mapping), you can directly use the dependency below.
 
 To declare the dependency in maven: 
 
@@ -42,7 +42,7 @@ To declare the dependency in maven:
 ----
 
 [[maven-dependency-core-vaadin]]
-==== linkki Core for Vaadin
+==== *linkki* Core for Vaadin
 
 To use *linkki* with Vaadin you need to reference a module providing all the Vaadin version specific implementations and all component annotations described in <<ui-components, UI Components>>. 
 
@@ -56,7 +56,7 @@ Use the following dependency:
 </dependency>
 ----
 
-==== linkki Application Framework for Vaadin
+==== *linkki* Application Framework for Vaadin
 
 The application framework contains additional classes for building business applications, described in <<application-framework, Application Framework>>.
-See <<maven-dependency-application-framework, Maven Dependency for the linkki Application Framework>>.
+See <<maven-dependency-application-framework, Maven Dependency for the *linkki* Application Framework>>.

@@ -6,11 +6,14 @@
 :source-dir-v23: ../../../../../../vaadin23/samples/test-playground/src/main/java/org/linkki/samples/playground/
 
 
-== Vaadin 8 to 23 Migration
+== Vaadin 8 to Flow Migration
 
 [IMPORTANT]
 .Not yet supported
 ====
+////
+https://jira.faktorzehn.de/browse/LIN-2138
+////
 * Collapsible columns (currently always hidden)
 ====
 
@@ -138,10 +141,10 @@ The API of `ApplicationMenuItemDefinition` is completely reworked. Instead of ex
 
 | The methods `createItem` and `internalCreateItem` are removed. Instead, new constructors are introduced: 
 
-* with name and a `Handler` that is executed on click. 
-* with name and a list of `ApplicationMenuItemDefinitions` as sub-menu items
-* with name and a URL String to navigate to on click. This method handles both external and internal links.
-* with name and a `Class` to navigate to. The given class should be a <<vaadin23-migration-views, route component>>. 
+* with name, id and a `Handler` that is executed on click. 
+* with name, id and a list of `ApplicationMenuItemDefinitions` as sub-menu items
+* with name, id and a URL String to navigate to on click. This method handles both external and internal links.
+* with name, id and a `Class` to navigate to. The given class should be a <<vaadin23-migration-views, route component>>. 
 | Use the existing implementation of `internalCreateItem` and `createItem` to directly create new instances of `ApplicationMenuItemDefinition`. A few examples are provided below.
 |===
 +
@@ -268,7 +271,6 @@ In custom implementations:
 
 [[vaadin23-migration-views]]
 Views::
-//TODO FIPM-4214
 [cols="a,a"]
 |===
 |Change | Migration
@@ -278,7 +280,6 @@ Views::
 
 | Views must be annotated with `@Route`.
 | Annotate all views with `@Route`. If the view was previously annotated with `CDIView` or `@SpringView`, you may now need to specify the route explicitly.
-//TODO FIPM-4214 ViewScoped
 |===
 
 Other changes::
@@ -286,7 +287,7 @@ Other changes::
 
 === Components
 
-* linkki dialogs are now extending `Composite<Dialog>` instead of `Window`.
+* Dialogs are now extending `Composite<Dialog>` instead of `Window`.
 * `MessageUiComponents` are now displayed using `Grid` instead of `Table`
 
 ==== TabSheetArea has been replaced by LinkkiTabLayout
@@ -345,7 +346,7 @@ For performance reasons, components must be created via a supplier and can no lo
 https://jira.faktorzehn.de/browse/LIN-2142
 ////
 * `styleNames()` has been replaced by `variants()`, which now returns an Array of `ButtonVariant`
-* `shortcutKeyCode` now returns `String[]`. Commonly used `KeyCodes` in linkki are defined in `KeyCode`. An overview of all supported keys can be found in Vaadin's `Key` class. 
+* `shortcutKeyCode` now returns `String[]`. Commonly used `KeyCodes` in *linkki* are defined in `KeyCode`. An overview of all supported keys can be found in Vaadin's `Key` class. 
 * `shortcutModifierKeys` now returns an Array of `KeyModifier`. For a list of available modifiers, see Vaadin's enum class `KeyModifier`.
 
 ==== @UIDateField
@@ -360,14 +361,6 @@ The date format of a @UIDateField is now controlled by `DateFormats` and the loc
 https://jira.faktorzehn.de/browse/LIN-2059
 ////
 Attribute `rows` does not exists anymore. It has been replaced by `height`, which returns a `String`, specifying the height of the component using a number and a CSS unit, for example "5em".
-
-==== @UILabel
-////
-https://jira.faktorzehn.de/browse/LIN-2053
-////
-The usage of the `ContentMode` for `@UILabel` in Vaadin 8 has changed. Instead of setting `Label#setContentMode` to `true` when using `Label#htmlContent` , you can use `getElement().setProperty("innerHTML", "<b>My html content</b>")` of the corresponding component, as now used in linkki `LabelValueAspectDefinition`.
-
-For a further example, see https://vaadin.com/forum/thread/17133860/label-contentmode-html
 
 ==== ComponentFactory
 ////
@@ -397,7 +390,7 @@ The `setIcon` method for `Component` has been deleted. It is only available for 
 ////
 https://jira.faktorzehn.de/browse/LIN-2088
 ////
-In Vaadin 23, `Table` has been replaced by `Grid`
+In Vaadin Flow, `Table` has been replaced by `Grid`
 
 * `PmoBasedTablefactory` has been replaced by `GridComponentCreator`
 * `@UITableColumn`: `expandRatio` replaced by `flexGrow`. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
@@ -406,7 +399,7 @@ In Vaadin 23, `Table` has been replaced by `Grid`
 ////
 https://jira.faktorzehn.de/browse/FIPM-4131
 ////
-In Vaadin 8, there used to be four types of notification: humanized, warning, error and tray. This categorization does not exist anymore. To display notifications based on the severity, linkki provides a new class `NotificationUtil`. See the documentation on <<notifications, notifications>> for more detail.
+In Vaadin 8, there used to be four types of notification: humanized, warning, error and tray. This categorization does not exist anymore. To display notifications based on the severity, *linkki* provides a new class `NotificationUtil`. See the documentation on <<notifications, notifications>> for more detail.
 
 === Aspect annotations
 
@@ -442,7 +435,7 @@ https://jira.faktorzehn.de/browse/LIN-2623
 
 In general, the the Sass precompiler is no longer used by default, which means that any existing styling code that utilized SCSS functionalities needs to be adjusted to work in CSS. 
 
-In addition, all applications need to either apply the `"linkki"` theme or a theme that extends from it to make sure that the linkki components work properly. Detailed instructions are provided in the chapter <<styling, "Styling">>. 
+In addition, all applications need to either apply the `"linkki"` theme or a theme that extends from it to make sure that the *linkki* components work properly. Detailed instructions are provided in the chapter <<styling, "Styling">>. 
 
 As the generated HTML has changed drastically, existing styling customizations have to be checked for necessity and, if still necessary, adjusted for the new DOM structure. As Vaadin components are now mostly web components, existing styles that apply to Vaadin components most likely do not work any more. Consult the https://vaadin.com/docs/latest/ds/customization/styling-components[Vaadin documentation on component styling] to adjust the selectors and https://vaadin.com/docs/latest/ds/customization/custom-theme/#vaadin-component-styles[the documentation on theming] for how to include them in the custom theme.
 
@@ -451,7 +444,7 @@ As the generated HTML has changed drastically, existing styling customizations h
 In Vaadin 8, sections created with `@UISection` have a dynamic label width by default, i.e. the labels are as long as the longest label.
 For `@UIFormSection`, `LinkkiTheme` offered style names to set a fixed width.
 
-This behavior has changed with Vaadin 23. All sections now have a fixed label width by default. It is not possible to have dynamic label width anymore.
+This behavior has changed with Vaadin Flow. All sections now have a fixed label width by default. It is not possible to have dynamic label width anymore.
 To set a custom label width, you can use `ComponentStyles.setFormItemLabelWidth(Component, String)`. 
 This replaces the class names `LinkkiTheme.LABEL_FIXED_WIDTH` and `LinkkiTheme.LABEL_FIXED_WIDTH_LONG`.
 

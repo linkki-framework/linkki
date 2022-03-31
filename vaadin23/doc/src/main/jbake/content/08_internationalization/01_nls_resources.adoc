@@ -7,12 +7,12 @@
 
 === Location of Resource Bundles
 
-The translations used by the PMO NLS service must be located in the project's resource folder, mirroring the path of the used pmo. For example:
+The translations used by the PMO NLS service must be located in the project's resource folder, mirroring the path of the used PMO. For example:
 
 .An example of a NLS folder structure
 image::{image-dir}/nlsFolderStructure.png[]
 
-In this example, NLS Strings in org.linkki.samples.binding.pmo.ButtonsSectionPmo that need to be translated must be defined in org.linkki.samples.binding.pmo.linkki-messages.properties.
+In this example, NLS Strings in `org.linkki.samples.binding.pmo.ButtonsSectionPmo` that need to be translated must be defined in `org.linkki.samples.binding.pmo.linkki-messages.properties`.
 
 These `.properties` files contain messages in text form, each file represents one supported language for the PMOs in the same folder. It's important that these files share the base name `linkki-messages`. A file with the base name has to be present in the resource folder and acts as fall back option if no specific `.properties` file is found for a locale. You can support as many languages as you want by simple adding another `.properties` file to the resource folder, its name consisting of the base name and the language code separated by `_`. As shown in the example above, the German translations are represented by the file `linkki-messages_de.properties`. Note that each of these files has to contain the same items, but translated for the language they represent.
 

@@ -34,6 +34,7 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
         super(applicationInfo, menuItemDefinitions);
     }
 
+    // tag::applicationheader-createRightMenuBar[]
     @Override
     protected MenuBar createRightMenuBar() {
         MenuBar rightMenuBar = super.createRightMenuBar();
@@ -42,6 +43,7 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
         addThemeVariantToggles(settings, ThemeVariantToggleMenuItemDefinition.LUMO_DARK,
                                ThemeVariantToggleMenuItemDefinition.LINKKI_CARD,
                                ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT);
+        // end::applicationheader-createRightMenuBar[]
         new ApplicationMenuItemDefinition("Locale", "appmenu-locale",
                 () -> new PmoBasedDialogFactory()
                         .newOkDialog("Browser Locale", new LocaleInfoPmo()).open())
