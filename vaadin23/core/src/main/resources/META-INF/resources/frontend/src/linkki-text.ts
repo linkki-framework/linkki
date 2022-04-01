@@ -8,8 +8,15 @@ class LinkkiText extends LitElement {
 
   static styles = css`
     :host {
-      display: flex;
+      display: inline-flex;
       outline: none;
+    }
+
+    :host:before {
+      /* set the default height to normal line height */
+      content: '\\2003';
+      width: 0;
+      display: inline-block;
     }
 
     :host([hidden]) {

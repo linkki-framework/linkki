@@ -134,5 +134,13 @@ public class LabelPmo {
         public String getRightAlignedLabel() {
             return "This label should be right aligned";
         }
+
+        @UITableColumn(flexGrow = 0)
+        @UILabel(position = 40, label = "Icon")
+        @BindIcon(value = VaadinIcon.ARROW_CIRCLE_LEFT)
+        public String getIconOnly() {
+            return "";
+        }
+
     }
 }
