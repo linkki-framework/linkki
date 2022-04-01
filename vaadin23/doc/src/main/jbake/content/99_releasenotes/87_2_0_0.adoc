@@ -5,6 +5,12 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.0.1
+
+==== Bugfixes
+// https://jira.faktorzehn.de/browse/LIN-2999
+* Fixed right-alignment of text inside tables
+
 === Version 2.0.0
 
 ==== New features and improvements
