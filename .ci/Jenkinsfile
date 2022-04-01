@@ -5,10 +5,10 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'linkki'
-        BUILD_NAME = 'master'
+        BUILD_NAME = '2.0-patches'
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
-        CONTAINER_RETENTION = 'permanent-on'
+        CONTAINER_RETENTION = 'keep'
         MAVEN_OPTS = '-Xmx768m'
     }
 
