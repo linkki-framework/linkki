@@ -482,3 +482,13 @@ public class MyPage extends AbstractPAge {
 To apply a custom label width to all sections inside a `Component`, the surrounding layout such as `AbstractPage` can be passed as the `Component`-Parameter.
 
 For more information see <<component-styles, ComponentStyles>>.
+
+=== Views
+
+==== PageTitle
+////
+https://jira.faktorzehn.de/browse/LIN-2223
+////
+
+In order to set a page title for a view, the `View` class has to be annotated with either `@PageTitle` or has to implement the `HasDynamicTitle` interface.
+For more Information see https://vaadin.com/docs/latest/flow/routing/page-titles[Updating the Page Title During Navigation]
