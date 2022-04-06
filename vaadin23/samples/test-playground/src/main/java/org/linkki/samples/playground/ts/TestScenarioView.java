@@ -39,9 +39,9 @@ import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithout
 import org.linkki.samples.playground.table.TableWithValidationSection;
 import org.linkki.samples.playground.table.VaryingAlignmentTablePmo;
 import org.linkki.samples.playground.table.collapsible.CollapsibleColumnTablePmo;
+import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
-import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo;
 import org.linkki.samples.playground.treetable.TreeTableSection;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
@@ -97,11 +97,11 @@ import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
-import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
 import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
+import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
 import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
@@ -200,7 +200,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC004,
                                                  () -> new VerticalLayout(
                                                          SectionHeaderBehaviorComponent.createClosableSection(),
-                                                         SectionHeaderBehaviorComponent.createNotClosableSection()))
+                                                         SectionHeaderBehaviorComponent.createNotClosableSection(),
+                                                         SectionHeaderBehaviorComponent
+                                                                 .createSectionWithRightComponent()))
                                        .testCase(TC005, new UiFormSectionMultiColumnComponentsPmo())
                                        .testCase(TC006, new SectionsWithPlaceholder())
                                        .createTabSheet(),

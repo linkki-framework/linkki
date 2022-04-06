@@ -40,4 +40,11 @@ public class SectionHeaderBehaviorComponent {
                                                                                new BindingContext());
         return section;
     }
+
+    public static LinkkiSection createSectionWithRightComponent() {
+        LinkkiSection section = new LinkkiSection("Section with right aligned component", true, 1);
+        section.addRightHeaderComponent(new Button("Right aligned"));
+        return section;
+    }
+
 }

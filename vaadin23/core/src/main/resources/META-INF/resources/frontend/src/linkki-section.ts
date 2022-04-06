@@ -37,17 +37,23 @@ class LinkkiSection extends LitElement {
       row-gap: 0;
     }
 
-    .linkki-section-header, .linkki-section-header-components {
+    .linkki-section-header, .linkki-section-header-components, .linkki-section-right-header-components {
       gap: var(--lumo-space-m);
       display: flex;
       white-space: nowrap;
       align-items: center;
     }
+    
+    .linkki-section-right-header-components {
+      flex-grow: 1;
+      justify-content: end;
+    }
 
-    ::slotted([slot="header-components"]), ::slotted([slot="close-toggle"]) {
+    ::slotted([slot="header-components"]), ::slotted([slot="close-toggle"]), ::slotted([slot="right-aligned-components"]) {
       margin-bottom: var(--linkki-section-header-margin-bottom, var(--lumo-space-xs)) !important;
       min-height: var(--lumo-size-s);
     }
+
   `;
 
   render() {
@@ -56,7 +62,10 @@ class LinkkiSection extends LitElement {
         <div class="linkki-section-header-components">
           <slot name="header-components">
         </div>
-        <slot name="close-toggle">
+        <slot name="close-toggle"></slot>
+        <div class="linkki-section-right-header-components"> 
+         <slot name="right-header-components"></slot>
+        </div>
       </div>
       <slot name="content"></slot>
     `;

@@ -18,9 +18,13 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
@@ -241,14 +245,37 @@ class LinkkiSectionTest {
                    Matchers.contains(ButtonVariant.LUMO_TERTIARY_INLINE.getVariantName()));
     }
 
+    @Test
+    void testAddRightHeaderComponent_WithoutComponents() {
+        LinkkiSection section = new LinkkiSection("Caption");
+
+        int headerComponents = getHeaderComponents(section, LinkkiSection.SLOT_RIGHT_HEADER_COMPONENTS).size();
+
+        assertThat(headerComponents, is(0));
+    }
+
+    @Test
+    void testAddRightHeaderComponent_WithComponents() {
+        LinkkiSection section = new LinkkiSection("Caption");
+        section.addRightHeaderComponent(new Button("test1"));
+        section.addRightHeaderComponent(new Button("test2"));
+
+        int headerComponents = getHeaderComponents(section, LinkkiSection.SLOT_RIGHT_HEADER_COMPONENTS).size();
+
+        assertThat(headerComponents, is(2));
+    }
+
     private H4 getCaptionLabel(LinkkiSection linkkiSection) {
         return (H4)linkkiSection.getHeaderComponents().get(0);
     }
 
     private Button getCloseToggle(LinkkiSection section) {
-        return (Button)section.getChildren()
-                .filter(c -> LinkkiSection.SLOT_CLOSE_TOGGLE.contentEquals(c.getElement().getAttribute("slot")))
-                .findFirst().get();
+        return (Button)getHeaderComponents(section, LinkkiSection.SLOT_CLOSE_TOGGLE).get(0);
     }
 
+    private List<Component> getHeaderComponents(LinkkiSection section, String slot) {
+        return section.getChildren()
+                .filter(c -> slot.contentEquals(c.getElement().getAttribute("slot")))
+                .collect(Collectors.toList());
+    }
 }
