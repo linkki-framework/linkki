@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.table.uitablecolumn;
+package org.linkki.samples.playground.table.columnwidth;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,14 +21,14 @@ import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo.UITableColumnRowPmo;
+import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo.ColumnWidthRowPmo;
 
 @UISection(caption = "Table with UITableColumn Annotation using width and flexGrow")
-public class UITableColumnTablePmo implements ContainerPmo<UITableColumnRowPmo> {
+public class ColumnWidthTablePmo implements ContainerPmo<ColumnWidthRowPmo> {
 
     @Override
-    public List<UITableColumnRowPmo> getItems() {
-        return Collections.singletonList(new UITableColumnRowPmo());
+    public List<ColumnWidthRowPmo> getItems() {
+        return Collections.singletonList(new ColumnWidthRowPmo());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class UITableColumnTablePmo implements ContainerPmo<UITableColumnRowPmo> 
         return 1;
     }
 
-    public static class UITableColumnRowPmo {
+    public static class ColumnWidthRowPmo {
 
         @UITableColumn(width = 50)
         @UILabel(position = 10, label = "1")

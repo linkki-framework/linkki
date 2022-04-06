@@ -233,6 +233,8 @@ public abstract class AbstractUiTest extends TestBenchTestCase {
     }
 
     public GridElement getGrid(Class<? extends ContainerPmo<?>> tablePmoClass) {
-        return $(GridElement.class).id(tablePmoClass.getSimpleName() + "_table");
+        GridElement gridElement = $(GridElement.class).id(tablePmoClass.getSimpleName() + "_table");
+        gridElement.scrollIntoView();
+        return gridElement;
     }
 }

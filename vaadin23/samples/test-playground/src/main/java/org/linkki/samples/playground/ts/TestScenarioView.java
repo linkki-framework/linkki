@@ -37,10 +37,11 @@ import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInh
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.TableWithValidationSection;
-import org.linkki.samples.playground.table.VaaryingAlignmentTablePmo;
+import org.linkki.samples.playground.table.VaryingAlignmentTablePmo;
+import org.linkki.samples.playground.table.collapsible.CollapsibleColumnTablePmo;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
-import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
+import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo;
 import org.linkki.samples.playground.treetable.TreeTableSection;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
@@ -265,7 +266,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS012)
                                        .testCase(TC001, TableWithValidationSection.create())
                                        .testCase(TC002, SelectableTableSection.create())
-                                       .testCase(TC003, new UITableColumnTablePmo())
+                                       .testCase(TC003, new ColumnWidthTablePmo())
                                        .testCase(TC004, DynamicFieldsSection.create())
                                        .testCase(TC005, new NumberFooterTablePmo())
                                        .testCase(TC006, () -> new VerticalLayout(
@@ -277,7 +278,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                                                new BindingContext()),
                                                VaadinUiCreator.createComponent(new TableWithoutPlaceholderPmo(),
                                                                                new BindingContext())))
-                                       .testCase(TC007, new VaaryingAlignmentTablePmo())
+                                       .testCase(TC007, new VaryingAlignmentTablePmo())
+                                       .testCase(TC008, new CollapsibleColumnTablePmo())
                                        .createTabSheet(),
                                TestScenario.id(TS013)
                                        .testCase(TC001, MessageTableSection.create())
