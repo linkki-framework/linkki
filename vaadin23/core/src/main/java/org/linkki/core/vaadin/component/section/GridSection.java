@@ -13,12 +13,21 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import static java.util.Objects.requireNonNull;
-
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.menubar.MenuBarVariant;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.creation.table.GridColumnWrapper;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
-import com.vaadin.flow.component.grid.Grid;
+import java.util.Optional;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A section containing a single table. This kind of section is created by the
@@ -43,7 +52,44 @@ public class GridSection extends LinkkiSection {
         requireNonNull(grid, "grid must not be null");
         getContentWrapper()
                 .replace(getContentWrapper().getComponentCount() > 0 ? getContentWrapper().getComponentAt(0) : null,
-                         grid);
+                        grid);
+
+        addRightHeaderComponent(createColumnCollapseToggleMenu(grid));
+    }
+
+    private MenuBar createColumnCollapseToggleMenu(Grid<?> grid) {
+        var menuBar = new MenuBar();
+        menuBar.addThemeVariants(MenuBarVariant.LUMO_ICON, MenuBarVariant.LUMO_TERTIARY_INLINE);
+        var toggleItem = menuBar.addItem(VaadinIcon.MENU.create());
+
+        grid.getColumns().stream()
+                .filter(this::isColumnCollapsible)
+                .forEach(column -> addSubMenuItem(toggleItem, column));
+
+        if (toggleItem.getSubMenu().getItems().isEmpty()) {
+            menuBar.setVisible(false);
+        }
+        return menuBar;
+    }
+
+    private Boolean isColumnCollapsible(Grid.Column<?> column) {
+        return Optional.ofNullable(ComponentUtil.getData(column, UITableColumn.CollapseMode.class))
+                .map(UITableColumn.CollapseMode::isCollapsible).orElse(false);
+    }
+
+    private void addSubMenuItem(MenuItem toggleItem, Grid.Column<?> column) {
+        var header = Optional
+                .ofNullable(ComponentUtil.getData(column, GridColumnWrapper.KEY_HEADER))
+                .map(String::valueOf).orElse("");
+        var columnItem = toggleItem.getSubMenu().addItem(header);
+        columnItem.setCheckable(true);
+        columnItem.setChecked(column.isVisible());
+        columnItem.addClickListener(event -> toggleVisibility(column, event));
+    }
+
+    /* private */ void toggleVisibility(Grid.Column<?> c, ClickEvent<MenuItem> event) {
+        c.setVisible(!c.isVisible());
+        event.getSource().setChecked(c.isVisible());
     }
 
     /**

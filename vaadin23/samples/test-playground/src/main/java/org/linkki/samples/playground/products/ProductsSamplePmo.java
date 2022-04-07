@@ -14,17 +14,29 @@
 
 package org.linkki.samples.playground.products;
 
+import org.faktorips.values.Decimal;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
+import org.linkki.core.ui.aspects.types.TextAlignment;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.ips.decimalfield.UIDecimalField;
+
+import java.math.RoundingMode;
+import java.util.List;
+
+import static org.linkki.core.defaults.ui.aspects.types.AvailableValuesType.DYNAMIC;
+import static org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode.INITIALLY_COLLAPSED;
 
 public abstract class ProductsSamplePmo {
 
-    private ProductsSampleModelObject sampleModelObject;
-    private String caption;
+    private final ProductsSampleModelObject sampleModelObject;
+    private final String caption;
 
     public ProductsSamplePmo(String caption) {
         this(caption, new ProductsSampleModelObject());
@@ -93,10 +105,17 @@ public abstract class ProductsSamplePmo {
 
     public static class RowSamplePmo extends ProductsSamplePmo {
 
+        private final List<Decimal> decimalOptions = List.of(Decimal.valueOf(0), Decimal.valueOf(100), Decimal.valueOf(200));
+        private Decimal decimal;
+        private Decimal decimalSelection;
+
         public RowSamplePmo(ProductsSampleModelObject sampleModelObject) {
             super("", sampleModelObject);
+            decimal = Decimal.valueOf(Math.random() * 1000).round(2, RoundingMode.HALF_UP);
+            decimalSelection = decimalOptions.get(0);
         }
 
+        @UITableColumn(flexGrow = 1)
         @UITextField(position = 10, label = "Property 1", modelAttribute = "property")
         public void property1() {
             /* model binding only */
@@ -107,5 +126,45 @@ public abstract class ProductsSamplePmo {
             /* model binding only */
         }
 
+        @UITableColumn(textAlign = TextAlignment.RIGHT)
+        @UIDecimalField(position = 30, label = "Decimal")
+        public Decimal getDecimal() {
+            return decimal;
+        }
+
+        public void setDecimal(Decimal decimal) {
+            this.decimal = decimal;
+        }
+
+        @UITableColumn(collapsible = INITIALLY_COLLAPSED)
+        @UILabel(position = 40, label = "19%")
+        public Decimal getDecimalPercentage() {
+            return decimal.multiply(Decimal.valueOf(0.19));
+        }
+
+        @UITableColumn(collapsible = INITIALLY_COLLAPSED)
+        @UILabel(position = 50, label = "7%")
+        public Decimal getDecimalOtherPercentage() {
+            return decimal.multiply(Decimal.valueOf(0.07));
+        }
+
+        @UIComboBox(position = 60, label = "Selection", content = DYNAMIC)
+        public Decimal getDecimalSelection() {
+            return decimalSelection;
+        }
+
+        public void setDecimalSelection(Decimal decimalSelection) {
+            this.decimalSelection = decimalSelection;
+        }
+
+        public List<Decimal> getDecimalSelectionAvailableValues() {
+            return decimalOptions;
+        }
+
+        @UITableColumn(textAlign = TextAlignment.RIGHT)
+        @UILabel(position = 70, label = "Decimal label")
+        public Decimal getDecimalLabel() {
+            return decimal.subtract(decimalSelection).round(2, RoundingMode.HALF_UP);
+        }
     }
 }
