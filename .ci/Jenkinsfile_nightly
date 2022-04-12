@@ -64,6 +64,16 @@ pipeline {
                 MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin23'
             }
         }
+        
+        stage('Java 17 Test') {
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -T 6 -P Java17Test test'
+                }
+
+                junit '**/target/surefire-reports-java17/*.xml'
+            }
+        }
 
         stage('External Link Tests') {
             steps {

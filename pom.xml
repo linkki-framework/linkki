@@ -51,6 +51,7 @@
         <spotbugs.version>4.6.0</spotbugs.version>
         <checkstyle.version>8.45.1</checkstyle.version>
         <java.version>11</java.version>
+        <apt.tests.skip>false</apt.tests.skip>
 
         <surefire.directory>surefire-reports</surefire.directory>
 
@@ -612,6 +613,18 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>Java17Test</id>
+            <properties>
+                <java.version>17</java.version>
+                <surefire.directory>surefire-reports-java17</surefire.directory>
+                <jade.skip>true</jade.skip>
+                <asciidoctor.skip>true</asciidoctor.skip>
+                <!-- APT tests have annotation processor, which is currently set to Java 11 
+                    To fix it, we would have to build APT with Java 17, which is outside of current scope -->
+                <apt.tests.skip>true</apt.tests.skip>
+            </properties>
         </profile>
     </profiles>
 </project>
