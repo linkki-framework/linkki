@@ -1,0 +1,24 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_releasenotes
+
+=== Version 2.1.0
+
+==== New features and improvements
+
+===== Collapsible columns
+////
+https://jira.faktorzehn.de/browse/LIN-2138
+////
+With Vaadin 8, the property `collapsible` in the annotation `@UITableColumn` could be used to create a menu with which the user can toggle the visibility of a column. This menu was only visible on hover, and appeared on the right top corner of the table. 
+
+As the reimplemented table in Vaadin Flow dropped support for the feature, the support of the `collapsible` property of `@UITableColumn` was also reduced. In the previous version, only the option `INITIALLY_COLLAPSED` had an effect. Any column with this option was simply not visible at all.
+
+With this version, the feature of collapsible columns is supported again in linkki, however only for tables created inside of a section using `@UISection`. The new column selection menu is now always visible, greatly improving the usability of this feature. 
+
+For more information see chapter "<<ui-table-column, @UITableColumn>>".
+
+==== Bugfixes

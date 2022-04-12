@@ -32,11 +32,15 @@ IMPORTANT: The properties of a table column are described using the properties i
 
 By design all properties of a PMO are presented in the table. With the annotation `@UITableColumn` additional properties of a table column could be bound.
 
-To modify the column size you could use the properties `width` (in pixels) and `flexGrow`. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
+Column size::
+You can use the properties `width` (in pixels) and `flexGrow` to modify the column size. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
 
-// TODO LIN-2138
-// Additionally, with the property `collapsible`, you could specify a `CollapseMode` to let the column be collapsible or initially collapsed.
+Collapsible columns::
+The property `collapsible` can make a column collapsible, i.e. the user can toggle the visibility of a column. It also defines if a collapsible column should be initally collapsed.
++
+This feature only works if the table is created inside of a <<layout-section, section>>. If there are any collapsible columns in the table, a right aligned header menu is displayed in the created section with which the user can toggle the visibility of a collapsible column.
 
+Text alignment::
 It is possible to customize text alignment inside of individual columns by setting the `textAlign` value of the `@UITableColumn` annotation. The alignment also applies to the header and footer of the column.
 
 [[ui-container-pmo]]
