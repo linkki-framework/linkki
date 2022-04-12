@@ -22,7 +22,7 @@ import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "Columns with vaarying alignment")
+@UISection(caption = "Columns with varying alignment")
 public class VaryingAlignmentTablePmo implements ContainerPmo<VaryingAlignmentRowPmo> {
 
     private final List<VaryingAlignmentRowPmo> items = Arrays.asList(new VaryingAlignmentRowPmo());
@@ -39,7 +39,7 @@ public class VaryingAlignmentTablePmo implements ContainerPmo<VaryingAlignmentRo
 
     @Override
     public Optional<TableFooterPmo> getFooterPmo() {
-        return Optional.of($ -> "footer");
+        return Optional.of(column -> "footer");
     }
 
 }

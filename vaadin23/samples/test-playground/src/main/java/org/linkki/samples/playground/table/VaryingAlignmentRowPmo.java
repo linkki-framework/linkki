@@ -32,13 +32,9 @@ public class VaryingAlignmentRowPmo {
     }
 
     @UITableColumn(flexGrow = 1, textAlign = TextAlignment.LEFT)
-    @UILink(position = 10, label = "@UILink - START alignment")
+    @UILink(position = 10, label = "@UILink - START alignment", caption = "Link")
     public String getLink() {
         return "https://linkki-framework.org/";
-    }
-
-    public String getLinkCaption() {
-        return "Link";
     }
 
     @UITableColumn(flexGrow = 1, textAlign = TextAlignment.CENTER)
