@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.creation.table;
 
+import com.vaadin.flow.component.ComponentUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
@@ -28,6 +29,7 @@ import com.vaadin.flow.component.grid.Grid.Column;
 public class GridColumnWrapper extends VaadinComponentWrapper {
 
     public static final WrapperType COLUMN_TYPE = WrapperType.of("column-header");
+    public static final String KEY_HEADER = "header";
 
     private static final long serialVersionUID = 1L;
 
@@ -46,6 +48,7 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
     public void setLabel(String labelText) {
         if (!StringUtils.isEmpty(labelText)) {
             getComponent().setHeader(labelText);
+            ComponentUtil.setData(getComponent(), KEY_HEADER, labelText);
         }
     }
 
@@ -55,16 +58,8 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
      * @param collapseMode The {@link CollapseMode} that should be set
      */
     public void setCollapseMode(CollapseMode collapseMode) {
-        // TODO LIN-2138
-        // Hide initially collapsed columns as long as there is no collapse support
+        ComponentUtil.setData(getComponent(), CollapseMode.class, collapseMode);
         getComponent().setVisible(!collapseMode.isInitiallyCollapsed());
-        // if (collapseMode.isCollapsible() && !grid.isColumnCollapsingAllowed()) {
-        // grid.setColumnCollapsingAllowed(true);
-        // }
-        // if (grid.isColumnCollapsingAllowed()) {
-        // grid.setColumnCollapsible(propertyName, collapseMode.isCollapsible());
-        // grid.setColumnCollapsed(propertyName, collapseMode.isInitiallyCollapsed());
-        // }
     }
 
     /**
@@ -101,5 +96,4 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
     public String toString() {
         return "ColumnHeaderWrapper [" + getComponent().getGrid().getId() + "#" + getComponent().getId() + "]";
     }
-
 }

@@ -60,6 +60,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
 
     static final String SLOT_HEADER_COMPONENTS = "header-components";
     static final String SLOT_CLOSE_TOGGLE = "close-toggle";
+    static final String SLOT_RIGHT_HEADER_COMPONENTS = "right-header-components";
     static final String SLOT_CONTENT = "content";
 
     private static final long serialVersionUID = 1L;
@@ -104,6 +105,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
         if (columns > 1) {
             getElement().getThemeList().add(THEME_VARIANT_HORIZONTAL);
         }
+
         getStyle().set("--columns", String.valueOf(columns));
     }
 
@@ -143,10 +145,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      * item, if it is present.
      */
     public void addHeaderButton(Button button) {
-        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-
-        button.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
-        getElement().insertChild(1, button.getElement());
+        addComponentToHeaderLayout(button, SLOT_HEADER_COMPONENTS, true);
     }
 
     /**
@@ -155,12 +154,34 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      * present.
      */
     public void addHeaderComponent(Component component) {
+        addComponentToHeaderLayout(component, SLOT_HEADER_COMPONENTS, false);
+    }
+
+    /**
+     * Adds a component to the header. The new component is added on the right end.
+     */
+    public void addRightHeaderComponent(Component component) {
+        addComponentToHeaderLayout(component, SLOT_RIGHT_HEADER_COMPONENTS, false);
+    }
+
+    /**
+     * Configures a {@link Component} before adding the {@link Component}.
+     * 
+     * @param component the {@link Component} to add
+     * @param slot the Slot to insert the {@link Component}
+     * @param insertLeft if <code>true</code>, the {@link Component} is inserted at the most left, else
+     *            it is appended
+     */
+    private void addComponentToHeaderLayout(Component component, String slot, boolean insertLeft) {
         if (component instanceof Button) {
             ((Button)component).addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         }
-
-        component.getElement().setAttribute("slot", SLOT_HEADER_COMPONENTS);
-        getElement().appendChild(component.getElement());
+        component.getElement().setAttribute("slot", slot);
+        if (insertLeft) {
+            getElement().insertChild(1, component.getElement());
+        } else {
+            getElement().appendChild(component.getElement());
+        }
     }
 
     /**

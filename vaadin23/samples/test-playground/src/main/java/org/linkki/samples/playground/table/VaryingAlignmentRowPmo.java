@@ -21,7 +21,7 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
-public class VaaryingAlignmentRowPmo {
+public class VaryingAlignmentRowPmo {
 
     boolean checked = true;
 

@@ -37,10 +37,11 @@ import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInh
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.TableWithValidationSection;
-import org.linkki.samples.playground.table.VaaryingAlignmentTablePmo;
+import org.linkki.samples.playground.table.VaryingAlignmentTablePmo;
+import org.linkki.samples.playground.table.collapsible.CollapsibleColumnTablePmo;
+import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
-import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
 import org.linkki.samples.playground.treetable.TreeTableSection;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
@@ -96,11 +97,11 @@ import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
-import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
 import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
+import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
 import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
@@ -199,7 +200,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC004,
                                                  () -> new VerticalLayout(
                                                          SectionHeaderBehaviorComponent.createClosableSection(),
-                                                         SectionHeaderBehaviorComponent.createNotClosableSection()))
+                                                         SectionHeaderBehaviorComponent.createNotClosableSection(),
+                                                         SectionHeaderBehaviorComponent
+                                                                 .createSectionWithRightComponent()))
                                        .testCase(TC005, new UiFormSectionMultiColumnComponentsPmo())
                                        .testCase(TC006, new SectionsWithPlaceholder())
                                        .createTabSheet(),
@@ -265,7 +268,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS012)
                                        .testCase(TC001, TableWithValidationSection.create())
                                        .testCase(TC002, SelectableTableSection.create())
-                                       .testCase(TC003, new UITableColumnTablePmo())
+                                       .testCase(TC003, new ColumnWidthTablePmo())
                                        .testCase(TC004, DynamicFieldsSection.create())
                                        .testCase(TC005, new NumberFooterTablePmo())
                                        .testCase(TC006, () -> new VerticalLayout(
@@ -277,7 +280,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                                                new BindingContext()),
                                                VaadinUiCreator.createComponent(new TableWithoutPlaceholderPmo(),
                                                                                new BindingContext())))
-                                       .testCase(TC007, new VaaryingAlignmentTablePmo())
+                                       .testCase(TC007, new VaryingAlignmentTablePmo())
+                                       .testCase(TC008, new CollapsibleColumnTablePmo())
                                        .createTabSheet(),
                                TestScenario.id(TS013)
                                        .testCase(TC001, MessageTableSection.create())

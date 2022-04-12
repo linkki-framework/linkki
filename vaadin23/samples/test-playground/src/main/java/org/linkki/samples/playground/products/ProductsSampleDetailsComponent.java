@@ -14,14 +14,6 @@
 
 package org.linkki.samples.playground.products;
 
-import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.ComponentStyles;
-import org.linkki.core.ui.creation.VaadinUiCreator;
-import org.linkki.core.vaadin.component.base.LinkkiText;
-import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
-import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
-import org.linkki.framework.ui.component.Headline;
-
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -34,6 +26,22 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayoutVariant;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.ui.ComponentStyles;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
+import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.core.vaadin.component.base.LinkkiText;
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
+import org.linkki.framework.ui.component.Headline;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Layout to display detailed content of a policy or offer.
@@ -54,30 +62,30 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
         tabLayout.addTabSheets(
-                               LinkkiTabSheet.builder("tab1")
-                                       .caption("Just Sections")
-                                       .content(() -> new DefaultBindingManagerPage(
-                                               new ProductsSamplePmo.VerticalSamplePmo(),
-                                               new ProductsSamplePmo.VerticalSamplePmo(),
-                                               new ProductsSamplePmo.HorizontalSamplePmo(),
-                                               new ProductsSamplePmo.VerticalSamplePmo(),
-                                               new ProductsSamplePmo.VerticalSamplePmo()))
-                                       .build(),
-                               LinkkiTabSheet.builder("tab3")
-                                       .caption("Tables and Sections")
-                                       .content(() -> new DefaultBindingManagerPage(
-                                               new ProductsSamplePmo.VerticalSamplePmo(),
-                                               new ProductsSamplePmo.HorizontalSamplePmo(),
-                                               new ProductsSampleTablePmo(5, 0),
-                                               new ProductsSampleTablePmo(10, 0),
-                                               new ProductsSamplePmo.VerticalSamplePmo()))
-                                       .build());
+                LinkkiTabSheet.builder("tab1")
+                        .caption("Just Sections")
+                        .content(() -> new DefaultBindingManagerPage(
+                                new ProductsSamplePmo.VerticalSamplePmo(),
+                                new ProductsSamplePmo.VerticalSamplePmo(),
+                                new ProductsSamplePmo.HorizontalSamplePmo(),
+                                new ProductsSamplePmo.VerticalSamplePmo(),
+                                new ProductsSamplePmo.VerticalSamplePmo()))
+                        .build(),
+                LinkkiTabSheet.builder("tab3")
+                        .caption("Tables and Sections")
+                        .content(() -> new DefaultBindingManagerPage(
+                                new ProductsSamplePmo.VerticalSamplePmo(),
+                                new ProductsSamplePmo.HorizontalSamplePmo(),
+                                new ProductsSampleTablePmo(5, 0),
+                                new ProductsSampleTablePmo(10, 0),
+                                new ProductsSamplePmo.VerticalSamplePmo()))
+                        .build());
 
         ComponentStyles.setFormItemLabelWidth(tabLayout, "15em");
 
         Accordion accordion = new Accordion();
         accordion.add(createPanel("Tool", VaadinIcon.LIST, new ProductsSamplePmo.VerticalSamplePmo("")));
-        accordion.add(createPanel("Table", VaadinIcon.TABLE, new ProductsSampleTablePmo(10, 0)));
+        accordion.add(createPanel("Table", VaadinIcon.TABLE, new AccordionTablePmo()));
         VerticalLayout toolsArea = new VerticalLayout(accordion);
         accordion.setSizeFull();
 
@@ -88,15 +96,6 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
 
         add(splitLayout);
     }
-
-    private AccordionPanel createPanel(String caption, VaadinIcon icon, Object pmo) {
-        LinkkiText toolCaption = new LinkkiText(caption, icon);
-        AccordionPanel accordionPanel = new AccordionPanel(toolCaption,
-                VaadinUiCreator.createComponent(pmo, new BindingContext()));
-        accordionPanel.addThemeVariants(DetailsVariant.REVERSE);
-        return accordionPanel;
-    }
-
 
     private static Headline createHeadline() {
         Headline headline = new Headline("Details");
@@ -117,8 +116,65 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         return menuBar;
     }
 
+    private AccordionPanel createPanel(String caption, VaadinIcon icon, Object pmo) {
+        LinkkiText toolCaption = new LinkkiText(caption, icon);
+        AccordionPanel accordionPanel = new AccordionPanel(toolCaption,
+                VaadinUiCreator.createComponent(pmo, new BindingContext()));
+        accordionPanel.addThemeVariants(DetailsVariant.REVERSE);
+        return accordionPanel;
+    }
+
     LinkkiTabLayout getTabLayout() {
         return tabLayout;
     }
 
+    @UISection
+    private static class AccordionTablePmo implements ContainerPmo<AccordionRowPmo> {
+
+        @Override
+        public List<AccordionRowPmo> getItems() {
+            return List.of(new AccordionRowPmo(Optional.empty(), LocalDate.now(), "process 2"),
+                    new AccordionRowPmo(Optional.of(VaadinIcon.ARROW_RIGHT), LocalDate.now().minusDays(1), "process 1"),
+                    new AccordionRowPmo(Optional.empty(), LocalDate.now().minusDays(2), "process 1"));
+        }
+
+        @Override
+        public int getPageLength() {
+            return 0;
+        }
+    }
+
+    private static class AccordionRowPmo {
+
+        private final Optional<VaadinIcon> icon;
+        private final LocalDate date;
+        private final String text;
+
+        public AccordionRowPmo(Optional<VaadinIcon> icon, LocalDate date, String text) {
+            this.icon = icon;
+            this.date = date;
+            this.text = text;
+        }
+
+        @UITableColumn(width = 23)
+        @BindIcon
+        @UILabel(position = 10)
+        public String getIcon() {
+            return "";
+        }
+
+        public VaadinIcon getIconIcon() {
+            return icon.orElse(null);
+        }
+
+        @UILabel(position = 20, label = "Date")
+        public LocalDate getDate() {
+            return date;
+        }
+
+        @UILabel(position = 30, label = "Text")
+        public String getText() {
+            return text;
+        }
+    }
 }
