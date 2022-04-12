@@ -14,8 +14,7 @@ class LinkkiText extends LitElement {
 
     :host:before {
       /* set the default height to normal line height */
-      content: '\\2003';
-      width: 0;
+      content: '\\200b';
       display: inline-block;
     }
 
@@ -96,8 +95,7 @@ class LinkkiText extends LitElement {
     }
 
     :host([label])::before {
-      content: '\\2003';
-      width: 0;
+      content: '\\200b';
       height: var(--lumo-text-field-size);
       box-sizing: border-box;
       display: inline-flex;

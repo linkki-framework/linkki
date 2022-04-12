@@ -22,3 +22,6 @@ With this version, the feature of collapsible columns is supported again in link
 For more information see chapter "<<ui-table-column, @UITableColumn>>".
 
 ==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3006
+* Empty `UILabel` columns with a small width no longer display dots (...) in Mozilla Firefox
