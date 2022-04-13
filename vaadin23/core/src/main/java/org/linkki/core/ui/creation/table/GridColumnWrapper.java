@@ -94,6 +94,7 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
 
     @Override
     public String toString() {
-        return "ColumnHeaderWrapper [" + getComponent().getGrid().getId() + "#" + getComponent().getId() + "]";
+        return getClass().getSimpleName() + " [" + getComponent().getGrid().getId() + "#" + getComponent().getId()
+                + "]";
     }
 }

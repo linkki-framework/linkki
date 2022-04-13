@@ -25,6 +25,7 @@ import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.table.aspects.ColumnSortableAspectDefinition;
 import org.linkki.core.ui.table.aspects.ColumnTextAlignAspectDefinition;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.TableColumnAspectDefinitionCreator;
 import org.linkki.core.ui.table.column.aspects.ColumnCollapseAspectDefinition;
@@ -89,6 +90,15 @@ public @interface UITableColumn {
     TextAlignment textAlign() default TextAlignment.DEFAULT;
 
     /**
+     * Configures whether a column can be sorted. The annotated method
+     * <ul>
+     * <li>must be a getter method (model objects/model attributes are not supported)</li>
+     * <li>must return a type that is {@link Comparable}
+     * </ul>
+     */
+    boolean sortable() default false;
+
+    /**
      * Defines whether a column can be collapsed and whether it initially is.
      */
     public enum CollapseMode {
@@ -134,7 +144,8 @@ public @interface UITableColumn {
                     new ColumnCollapseAspectDefinition(annotation.collapsible()),
                     new ColumnFlexGrowAspectDefinition(flexGrow),
                     new ColumnWidthAspectDefinition(width),
-                    new ColumnTextAlignAspectDefinition(annotation.textAlign()));
+                    new ColumnTextAlignAspectDefinition(annotation.textAlign()),
+                    new ColumnSortableAspectDefinition(annotation.sortable()));
         }
     }
 }

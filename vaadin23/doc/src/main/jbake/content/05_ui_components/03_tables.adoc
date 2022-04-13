@@ -35,10 +35,18 @@ By design all properties of a PMO are presented in the table. With the annotatio
 Column size::
 You can use the properties `width` (in pixels) and `flexGrow` to modify the column size. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
 
+[[collapsible-columns]]
 Collapsible columns::
 The property `collapsible` can make a column collapsible, i.e. the user can toggle the visibility of a column. It also defines if a collapsible column should be initally collapsed.
 +
 This feature only works if the table is created inside of a <<layout-section, section>>. If there are any collapsible columns in the table, a right aligned header menu is displayed in the created section with which the user can toggle the visibility of a collapsible column.
+
+[[sortable-columns]]
+Sortable columns::
+The property `sortable` allows the column to be sorted. The type of the column value must implement `Comparable`, which defines the order in which the values are sorted.
++
+WARNING: Model bindings (`modelAttribute`) can not be used with sortable columns, a getter method must be used.
+
 
 Text alignment::
 It is possible to customize text alignment inside of individual columns by setting the `textAlign` value of the `@UITableColumn` annotation. The alignment also applies to the header and footer of the column.

@@ -36,6 +36,7 @@ import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmp
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
+import org.linkki.samples.playground.table.SortableTablePmo;
 import org.linkki.samples.playground.table.TableWithEmptyLabelColumnPmo;
 import org.linkki.samples.playground.table.TableWithValidationSection;
 import org.linkki.samples.playground.table.VaryingAlignmentTablePmo;
@@ -285,6 +286,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC008, new CollapsibleColumnTablePmo())
                                        .testCase(TC009,
                                                  VaadinUiCreator.createComponent(new TableWithEmptyLabelColumnPmo(),
+                                                                                 new BindingContext()))
+                                       .testCase(TC010,
+                                                 VaadinUiCreator.createComponent(new SortableTablePmo(),
                                                                                  new BindingContext()))
                                        .createTabSheet(),
                                TestScenario.id(TS013)
