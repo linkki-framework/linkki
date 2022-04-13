@@ -1,4 +1,4 @@
-:jbake-title: Vaadin 8 to 23 Migration
+:jbake-title: Vaadin 8 to Flow Migration
 :jbake-type: chapter
 :jbake-status: published
 :jbake-order: 1000
@@ -7,15 +7,6 @@
 
 
 == Vaadin 8 to Flow Migration
-
-[IMPORTANT]
-.Not yet supported
-====
-////
-https://jira.faktorzehn.de/browse/LIN-2138
-////
-* Collapsible columns (currently always hidden)
-====
 
 === Application Framework
 
@@ -34,7 +25,7 @@ https://jira.faktorzehn.de/browse/LIN-2523
 
 Navigation has been replaced by https://vaadin.com/docs/latest/flow/routing[Routing], using the `@Route` annotation at the corresponding `Component` itself. With the new changes, it is no longer necessary to extend the UI as the tasks of `LinkkiUi` either became oblivious or is overtaken by `ApplicationLayout`.
 
-[[vaadin23-migration-linkkiUi]]
+[[vaadinflow-migration-linkkiUi]]
 LinkkiUi::
 +
 |=== 
@@ -44,7 +35,7 @@ LinkkiUi::
 | Remove sub-classes of `LinkkiUi`.
 |===
 
-[[vaadin23-migration-applicationLayout]]
+[[vaadinflow-migration-applicationLayout]]
 ApplicationLayout::
 +
 [cols="a,a"]
@@ -54,7 +45,7 @@ ApplicationLayout::
 | * The constructor now takes `ApplicationConfig` as a parameter.
   * #getApplicationConfig` has been removed.
 | * Create a new sub-class of `ApplicationLayout` (e.g. `MyApplicationLayout`) 
-  * In the new subclass, pass an instance of the customized `ApplicationConfig` to the super constructor. This `ApplicationConfig` was previously used in the implementation of <<vaadin23-migration-linkkiUi, `LinkkiUi`>>.
+  * In the new subclass, pass an instance of the customized `ApplicationConfig` to the super constructor. This `ApplicationConfig` was previously used in the implementation of <<vaadinflow-migration-linkkiUi, `LinkkiUi`>>.
 
 | `#createApplicationNavigator` has been removed.
 | No migration needed
@@ -71,11 +62,11 @@ ApplicationConfig::
 | Reorganize import in the project where `ApplicationConfig` is used.
 
 |`ApplicationConfig#createApplicationLayout` has been removed. 
-| Move the implementation of `#createApplicationLayout` to the implementation of <<vaadin23-migration-applicationLayout, `ApplicationLayout`>>.
+| Move the implementation of `#createApplicationLayout` to the implementation of <<vaadinflow-migration-applicationLayout, `ApplicationLayout`>>.
 
 | Name, version, description and copyright are moved to `ApplicationInfo`.
 | * Create a new implementation of `ApplicationInfo` that contains the existing implementation for name, version, description and copyright. +
-If additional information needs to be stored to be displayed in the header and footer, follow the migration steps for the <<vaadin23-migration-applicationHeader, `ApplicationHeader`>> and  the <<vaadin23-migration-applicationFooter, `ApplicationFooter`>>.
+If additional information needs to be stored to be displayed in the header and footer, follow the migration steps for the <<vaadinflow-migration-applicationHeader, `ApplicationHeader`>> and  the <<vaadinflow-migration-applicationFooter, `ApplicationFooter`>>.
   * Return a instance of the new implementation in `ApplicationConfig#getApplicationInfo.
 
 | The return type `ApplicationHeaderDefinition` of `ApplicationConfig#ApplicationHeaderDefinition` has changed:
@@ -83,16 +74,16 @@ If additional information needs to be stored to be displayed in the header and f
   * Until now: creates a `ApplicationHeader` from an `ApplicationMenu`
   * New: creates an `ApplicationHeader` from an `ApplicationInfo` and a sequence of  `ApplicationMenuItemDefinitions`.
 | * If `getHeaderDefinition` was not overridden, no migration is needed.
-  * If a custom implementation of `ApplicationHeader` was used, consult migration steps of the <<vaadin23-migration-applicationHeader, `ApplicationHeader`>>.
+  * If a custom implementation of `ApplicationHeader` was used, consult migration steps of the <<vaadinflow-migration-applicationHeader, `ApplicationHeader`>>.
 
 | `ApplicationConfig#ApplicationFooterDefinition` has changed:
   * Until now: creates a `ApplicationFooter` from an `ApplicationConfig`
   * New: creates an `ApplicationFooter` from an `ApplicationInfo`
 | * If `getFooterDefinition` was not overridden, no migration is needed.
-  * If a custom implementation of `ApplicationFooter` was used, consult migration steps of the <<vaadin23-migration-applicationFooter, `ApplicationFooter`>>.
+  * If a custom implementation of `ApplicationFooter` was used, consult migration steps of the <<vaadinflow-migration-applicationFooter, `ApplicationFooter`>>.
 |===
 
-[[vaadin23-migration-applicationHeader]]
+[[vaadinflow-migration-applicationHeader]]
 ApplicationHeader::
 If no custom implementation of `ApplicationHeader` is used, no migration is needed. +
 In custom implementations:
@@ -121,10 +112,10 @@ In custom implementations:
 | In the subclasses, override and move the code to `addRightComponents(HorizontalLayout)`.
 
 | API of `ApplicationMenuItemDefinition` has changed, resulting in changes in `getMenuItemDefinitions`.
-| See migration steps of the <<vaadin23-migration-applicationMenuItemDefinition, ApplicationMenuItemDefinition>>.
+| See migration steps of the <<vaadinflow-migration-applicationMenuItemDefinition, ApplicationMenuItemDefinition>>.
 |===
 
-[[vaadin23-migration-applicationMenuItemDefinition]]
+[[vaadinflow-migration-applicationMenuItemDefinition]]
 ApplicationMenuItemDefinition::
 +
 The API of `ApplicationMenuItemDefinition` is completely reworked. Instead of extending the class for customization, the new API is intended to be easily composable for customization.
@@ -144,7 +135,7 @@ The API of `ApplicationMenuItemDefinition` is completely reworked. Instead of ex
 * with name, id and a `Handler` that is executed on click. 
 * with name, id and a list of `ApplicationMenuItemDefinitions` as sub-menu items
 * with name, id and a URL String to navigate to on click. This method handles both external and internal links.
-* with name, id and a `Class` to navigate to. The given class should be a <<vaadin23-migration-views, route component>>. 
+* with name, id and a `Class` to navigate to. The given class should be a <<vaadinflow-migration-views, route component>>. 
 | Use the existing implementation of `internalCreateItem` and `createItem` to directly create new instances of `ApplicationMenuItemDefinition`. A few examples are provided below.
 |===
 +
@@ -244,7 +235,7 @@ include::{source-dir-v23}application/custom/CustomMenuItemDefinitionCreator.java
 ----
 |===
 
-[[vaadin23-migration-applicationFooter]]
+[[vaadinflow-migration-applicationFooter]]
 ApplicationFooter::
 If no custom implementation of `ApplicationFooter` is used, no migration is needed. +
 In custom implementations:
@@ -269,7 +260,7 @@ In custom implementations:
 | This method should not be called externally anymore. Remove external calls.
 |===
 
-[[vaadin23-migration-views]]
+[[vaadinflow-migration-views]]
 Views::
 [cols="a,a"]
 |===
