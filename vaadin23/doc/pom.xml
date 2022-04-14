@@ -77,7 +77,7 @@
             <plugin>
                 <groupId>de.faktorzehn.doc</groupId>
                 <artifactId>jade-maven-plugin</artifactId>
-                <version>1.0.4</version>
+                <version>1.0.5</version>
                 <configuration>
                     <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
                     <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
