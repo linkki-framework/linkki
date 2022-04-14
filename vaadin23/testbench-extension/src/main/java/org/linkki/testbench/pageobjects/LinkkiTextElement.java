@@ -15,20 +15,38 @@
 package org.linkki.testbench.pageobjects;
 
 import com.vaadin.flow.component.html.testbench.SpanElement;
+import com.vaadin.flow.component.icon.testbench.IconElement;
+import com.vaadin.testbench.ElementQuery;
 import com.vaadin.testbench.HasLabel;
 import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.elementsbase.Element;
+import org.openqa.selenium.By;
 
 @Element("linkki-text")
 public class LinkkiTextElement extends TestBenchElement implements HasLabel {
 
     @Override
     public String getText() {
-        return $(SpanElement.class).first().getText();
+        return getContent().getText();
     }
 
     public String getHTMLContent() {
-        return $(SpanElement.class).first().getPropertyString("innerHTML");
+        return getContent().getPropertyString("innerHTML");
     }
 
+    public TestBenchElement getContent() {
+        return findElement(By.cssSelector("*:not([slot])"));
+    }
+
+    public IconElement getIcon() {
+        return getIconQuery().first();
+    }
+
+    public boolean hasIcon() {
+        return getIconQuery().exists();
+    }
+
+    private ElementQuery<IconElement> getIconQuery() {
+        return $(IconElement.class).hasAttribute("slot");
+    }
 }

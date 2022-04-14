@@ -126,13 +126,13 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
 
     @Test
     void testLink_HasTextAndHref() {
-        AnchorElement link = testCaseSection.getContentWrapper()//
-                .$(AnchorElement.class)
+        var link = testCaseSection.getContentWrapper()//
+                .$(LinkkiTextElement.class)
                 .id("link");
 
         // conditions
         assertThat(link.getText()).isEqualTo("I am a Link to #");
-        assertThat(link.getAttribute("href")).endsWith("/#");
+        assertThat(link.getContent().getAttribute("href")).endsWith("/#");
     }
 
     @Test

@@ -14,86 +14,99 @@
 
 package org.linkki.core.ui.aspects.annotation;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
+import com.vaadin.flow.component.icon.VaadinIcon;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.aspects.IconAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindIcon.BindIconAspectDefinitionCreator;
 
-import com.vaadin.flow.component.icon.VaadinIcon;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
-public class BindIconTest {
+class BindIconTest {
 
-    @BindIcon(iconType = IconType.DYNAMIC)
     @Test
-    public void testCreateAspect_Dynamic() {
-        BindIconAspectDefinitionCreator bindIconAspectDefinitionCreator = new BindIconAspectDefinitionCreator();
-        IconAspectDefinition linkkiAspectDefinition = bindIconAspectDefinitionCreator.create(getCurrentAnnotation());
+    void testCreateAspect_Dynamic() {
+        BindIconAspectDefinitionCreator aspectDefinitionCreator = new BindIconAspectDefinitionCreator();
+        var testObject = new Object() {
+            @BindIcon(iconType = IconType.DYNAMIC)
+            public void testMethod() {
+            }
+        };
+        IconAspectDefinition aspectDefinition = aspectDefinitionCreator.create(getBindIconAnnotation(testObject));
 
-        Aspect<VaadinIcon> aspect = linkkiAspectDefinition.createAspect();
+        Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
         assertThat(aspect.isValuePresent(), is(false));
         assertThat(aspect.getName(), is(IconAspectDefinition.NAME));
     }
 
-    @BindIcon
     @Test
-    public void testCreateAspect_AutoDynamic() {
+    void testCreateAspect_AutoDynamic() {
         BindIconAspectDefinitionCreator bindIconAspectDefinitionCreator = new BindIconAspectDefinitionCreator();
-        IconAspectDefinition linkkiAspectDefinition = bindIconAspectDefinitionCreator.create(getCurrentAnnotation());
+        var testObject = new Object() {
+            @BindIcon
+            public void testMethod() {
+            }
+        };
+        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator.create(getBindIconAnnotation(testObject));
 
-        Aspect<VaadinIcon> aspect = linkkiAspectDefinition.createAspect();
+        Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
         assertThat(aspect.isValuePresent(), is(false));
         assertThat(aspect.getName(), is(IconAspectDefinition.NAME));
     }
 
-    @BindIcon(VaadinIcon.ABACUS)
     @Test
-    public void testCreateAspect_AutoStaticIcon() {
+    void testCreateAspect_AutoStaticIcon() {
         BindIconAspectDefinitionCreator bindIconAspectDefinitionCreator = new BindIconAspectDefinitionCreator();
-        IconAspectDefinition linkkiAspectDefinition = bindIconAspectDefinitionCreator.create(getCurrentAnnotation());
+        var testObject = new Object() {
+            @BindIcon(VaadinIcon.ABACUS)
+            public void testMethod() {
+            }
+        };
+        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator.create(getBindIconAnnotation(testObject));
 
-        Aspect<VaadinIcon> aspect = linkkiAspectDefinition.createAspect();
+        Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
         assertThat(aspect.getValue(), is(VaadinIcon.ABACUS));
         assertThat(aspect.getName(), is(IconAspectDefinition.NAME));
     }
 
-    @BindIcon(iconType = IconType.STATIC)
     @Test
-    public void testCreateAspect_NativeButton() {
+    void testCreateAspect_NativeButton() {
         BindIconAspectDefinitionCreator bindIconAspectDefinitionCreator = new BindIconAspectDefinitionCreator();
-        IconAspectDefinition linkkiAspectDefinition = bindIconAspectDefinitionCreator.create(getCurrentAnnotation());
+        var testObject = new Object() {
+            @BindIcon(iconType = IconType.STATIC)
+            public void testMethod() {
+            }
+        };
+        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator.create(getBindIconAnnotation(testObject));
 
-        Aspect<VaadinIcon> aspect = linkkiAspectDefinition.createAspect();
+        Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
         assertThat(aspect.getValue(), is(VaadinIcon.NATIVE_BUTTON));
         assertThat(aspect.getName(), is(IconAspectDefinition.NAME));
     }
 
-    @BindIcon(value = VaadinIcon.ABSOLUTE_POSITION, iconType = IconType.STATIC)
     @Test
-    public void testCreateAspect_Static() {
+    void testCreateAspect_Static() {
         BindIconAspectDefinitionCreator bindIconAspectDefinitionCreator = new BindIconAspectDefinitionCreator();
-        IconAspectDefinition linkkiAspectDefinition = bindIconAspectDefinitionCreator.create(getCurrentAnnotation());
+        var testObject = new Object() {
+            @BindIcon(value = VaadinIcon.ABSOLUTE_POSITION, iconType = IconType.STATIC)
+            public void testMethod() {
+            }
+        };
+        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator.create(getBindIconAnnotation(testObject));
 
-        Aspect<VaadinIcon> aspect = linkkiAspectDefinition.createAspect();
+        Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
         assertThat(aspect.getValue(), is(VaadinIcon.ABSOLUTE_POSITION));
         assertThat(aspect.getName(), is(IconAspectDefinition.NAME));
     }
 
-    private BindIcon getCurrentAnnotation() {
-        try {
-            String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
-            return this.getClass().getMethod(methodName).getAnnotation(BindIcon.class);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
-        }
+    private BindIcon getBindIconAnnotation(Object object) {
+       return object.getClass().getMethods()[0].getAnnotation(BindIcon.class);
     }
-
 }

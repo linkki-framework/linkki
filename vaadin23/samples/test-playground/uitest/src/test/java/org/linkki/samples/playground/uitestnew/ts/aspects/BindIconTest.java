@@ -14,24 +14,22 @@
 
 package org.linkki.samples.playground.uitestnew.ts.aspects;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
+import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.icon.testbench.IconElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.WebElement;
 
-import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.html.testbench.AnchorElement;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.icon.testbench.IconElement;
-import com.vaadin.testbench.TestBenchElement;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
-public class BindIconTest extends PlaygroundUiTest {
+class BindIconTest extends PlaygroundUiTest {
 
     private static final String VAADIN_STATIC_ICON = "vaadin:compile";
     private static final String VAADIN_MOBILE_ICON = "vaadin:mobile";
@@ -51,7 +49,7 @@ public class BindIconTest extends PlaygroundUiTest {
      * Button with @BindIcon should show an icon even if showIcon = false in @UIButton
      */
     @Test
-    public void testBindIcon_withButton() {
+    void testBindIcon_withButton() {
         ButtonElement button = section.$(ButtonElement.class).id("staticButton");
 
         WebElement icon = getIconElement(button);
@@ -62,7 +60,7 @@ public class BindIconTest extends PlaygroundUiTest {
      * Dynamic @BindIcon should work and should override icon attribute of @UIButton
      */
     @Test
-    public void testBindIcon_withButton_dynamic() {
+    void testBindIcon_withButton_dynamic() {
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
 
         ButtonElement button = section.$(ButtonElement.class).id("dynamicButton");
@@ -73,29 +71,27 @@ public class BindIconTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testBindIcon_withLinkAndIconOnly() {
-        AnchorElement anchor = section.$(AnchorElement.class).id(STATIC_LINK);
+    void testBindIcon_withLinkAndIconOnly() {
+        var anchor = section.$(LinkkiTextElement.class).id(STATIC_LINK);
 
-        WebElement icon = getIconElement(anchor);
         assertThat(anchor.getText(), is("Text"));
-        assertThat(icon.getAttribute("icon"), is(VAADIN_STATIC_ICON));
+        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_STATIC_ICON));
     }
 
     @Test
-    public void testBindIcon_withLinkTextAndIcon() {
+    void testBindIcon_withLinkTextAndIcon() {
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
 
-        AnchorElement anchor = section.$(AnchorElement.class).id(DYNAMIC_LINK);
+        var anchor = section.$(LinkkiTextElement.class).id(DYNAMIC_LINK);
         assertThat(anchor.getText(), is("Text"));
-        assertThat(getIconElement(anchor).getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_MOBILE_ICON));
 
 
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
-        assertThat(getIconElement(anchor).getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_MOBILE_ICON));
     }
 
-    private WebElement getIconElement(TestBenchElement element) {
+    private WebElement getIconElement(ButtonElement element) {
         return element.$(IconElement.class).first();
     }
-
 }

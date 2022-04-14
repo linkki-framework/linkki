@@ -37,5 +37,29 @@
                 ]
             }
         }
+    ],
+    "2.1.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.class.noLongerInheritsFromClass",
+                        "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+                        "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+                        "justification": "LIN-2886 :: Inherits from LinkkiText instead",
+                        "superClass": "com.vaadin.flow.component.HtmlComponent"
+                    },
+                    {
+                        "code": "java.class.nonFinalClassInheritsFromNewClass",
+                        "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+                        "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+                        "superClass": "org.linkki.core.vaadin.component.base.LinkkiText",
+                        "justification": "LIN-2886 :: Make UILink show labels above the component"
+                    }
+                ]
+            }
+        }
     ]
 }

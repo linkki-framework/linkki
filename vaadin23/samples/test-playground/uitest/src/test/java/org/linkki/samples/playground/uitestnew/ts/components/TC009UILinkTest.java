@@ -25,6 +25,7 @@ import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 
 import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
+import org.linkki.testbench.pageobjects.LinkkiTextElement;
 
 class TC009UILinkTest extends PlaygroundUiTest {
 
@@ -35,23 +36,23 @@ class TC009UILinkTest extends PlaygroundUiTest {
 
     @Test
     void test() {
-        LinkkiSectionElement section = getSection(LinkPmo.class);
-        TextFieldElement caption = section.$(TextFieldElement.class).id("caption");
-        TextFieldElement address = section.$(TextFieldElement.class).id("href");
+        var section = getSection(LinkPmo.class);
+        var caption = section.$(TextFieldElement.class).id("caption");
+        var address = section.$(TextFieldElement.class).id("href");
 
         caption.setValue("FaktorZehn");
         address.setValue("http://faktorzehn.de/");
 
-        AnchorElement link = section.$(AnchorElement.class).id("link");
-        assertThat(link.getAttribute("href")).isEqualTo("http://faktorzehn.de/");
+        var link = section.$(LinkkiTextElement.class).id("link");
+        assertThat(link.getContent().getAttribute("href")).isEqualTo("http://faktorzehn.de/");
         assertThat(link.getText()).isEqualTo("FaktorZehn");
     }
 
     @Test
     void testLink_withNullLink_shouldBeShowAsLabel() {
-        LinkkiSectionElement section = getSection(LinkPmo.class);
-        TextFieldElement address = section.$(TextFieldElement.class).id("href");
-        AnchorElement link = section.$(AnchorElement.class).id("link");
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
 
         address.setValue(null);
 
@@ -62,9 +63,9 @@ class TC009UILinkTest extends PlaygroundUiTest {
 
     @Test
     void testLink_withEmptyLink_shouldBeShowAsLabel() {
-        LinkkiSectionElement section = getSection(LinkPmo.class);
-        TextFieldElement address = section.$(TextFieldElement.class).id("href");
-        AnchorElement link = section.$(AnchorElement.class).id("link");
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
 
         address.setValue("");
 
@@ -75,9 +76,9 @@ class TC009UILinkTest extends PlaygroundUiTest {
 
     @Test
     void testLink_withWhiteSpaceLink_shouldBeShowAsLabel() {
-        LinkkiSectionElement section = getSection(LinkPmo.class);
-        TextFieldElement address = section.$(TextFieldElement.class).id("href");
-        AnchorElement link = section.$(AnchorElement.class).id("link");
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
 
         address.setValue(" ");
 

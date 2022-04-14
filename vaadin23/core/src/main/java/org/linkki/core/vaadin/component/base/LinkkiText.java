@@ -42,7 +42,7 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
 
     private static final long serialVersionUID = -1027646873177686722L;
 
-    private final Span content;
+    private final HasText content;
 
     @CheckForNull
     private VaadinIcon icon;
@@ -58,15 +58,23 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
      * Creates a new LinkkiText component with a plain text and an icon as prefix component.
      */
     public LinkkiText(String text, @CheckForNull VaadinIcon icon) {
+        this(new Span(), text, icon);
+    }
+
+    protected LinkkiText(HasText content, String text, @CheckForNull VaadinIcon icon) {
         addClassName(CLASS_NAME);
 
-        content = new Span();
+        this.content = content;
         getElement().appendChild(content.getElement());
 
         setText(text);
         if (icon != null) {
             setIcon(icon);
         }
+    }
+
+    protected HasText getContent() {
+        return content;
     }
 
     /**
@@ -76,11 +84,11 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
      */
     @Override
     public String getText() {
-        String innerHTML = content.getElement().getProperty("innerHTML");
+        String innerHTML = getContent().getElement().getProperty("innerHTML");
         if (innerHTML != null) {
             return innerHTML;
         } else {
-            return content.getText();
+            return getContent().getText();
         }
     }
 
@@ -105,11 +113,11 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
      */
     public void setText(String text, boolean html) {
         if (html) {
-            content.setText(null);
-            content.getElement().setProperty("innerHTML", text);
+            getContent().setText(null);
+            getContent().getElement().setProperty("innerHTML", text);
         } else {
-            content.getElement().removeProperty("innerHTML");
-            content.setText(text);
+            getContent().getElement().removeProperty("innerHTML");
+            getContent().setText(text);
         }
     }
 
@@ -123,14 +131,17 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
     public void setIcon(@Nullable VaadinIcon icon) {
         if (!Objects.equals(this.icon, icon)) {
             this.icon = icon;
+            setIconOnComponent(icon);
             if (icon != null) {
-                setPrefixComponent(icon.create());
                 setClassName(LinkkiTheme.HAS_ICON);
             } else {
-                setPrefixComponent(null);
                 removeClassName(LinkkiTheme.HAS_ICON);
             }
         }
+    }
+
+    protected void setIconOnComponent(@CheckForNull VaadinIcon icon) {
+        setPrefixComponent(icon == null ? null : icon.create());
     }
 
 }

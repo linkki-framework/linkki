@@ -14,74 +14,101 @@
 
 package org.linkki.core.vaadin.component.base;
 
-import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ui.theme.LinkkiTheme;
-import org.linkki.core.vaadin.component.HasIcon;
-
+import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.AnchorTargetValue;
 import com.vaadin.flow.component.icon.VaadinIcon;
-
+import com.vaadin.flow.server.AbstractStreamResource;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import org.linkki.core.ui.theme.LinkkiTheme;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * An anchor component that can have an additional {@link VaadinIcon}
  */
-public class LinkkiAnchor extends Anchor implements HasIcon {
+public class LinkkiAnchor extends LinkkiText implements Focusable<LinkkiAnchor> {
 
     private static final long serialVersionUID = -1027646873177686722L;
 
-    @CheckForNull
-    private VaadinIcon icon;
-
-    private String text;
-
     public LinkkiAnchor() {
-        this.icon = null;
-        this.text = "";
+        super(new Anchor(), "", null);
     }
 
     @Override
-    public String getText() {
-        return text;
+    protected Anchor getContent() {
+        return (Anchor)super.getContent();
     }
 
     @Override
-    public void setText(String text) {
-        if (!StringUtils.equals(text, this.text)) {
-            this.text = text;
-            update();
-        }
+    protected void setIconOnComponent(@CheckForNull VaadinIcon icon) {
+        setSuffixComponent(icon == null ? null : icon.create());
     }
 
-    @CheckForNull
+    /**
+     * @see Anchor#removeHref()
+     */
+    public void removeHref() {
+        getContent().removeHref();
+    }
+
+    /**
+     * @see Anchor#getHref()
+     */
+    public String getHref() {
+        return getContent().getHref();
+    }
+
+    /**
+     * @see Anchor#setHref(String)
+     */
+    public void setHref(String href) {
+        getContent().setHref(href);
+    }
+
+    /**
+     * @see Anchor#setHref(AbstractStreamResource)
+     */
+    public void setHref(AbstractStreamResource href) {
+        getContent().setHref(href);
+    }
+
+    /**
+     * @see Anchor#onEnabledStateChanged(boolean)
+     */
     @Override
-    public VaadinIcon getIcon() {
-        return this.icon;
+    public void onEnabledStateChanged(boolean enabled) {
+        super.onEnabledStateChanged(enabled);
+        getContent().onEnabledStateChanged(enabled);
     }
 
-    @Override
-    public void setIcon(@Nullable VaadinIcon icon) {
-        if (!Objects.equals(this.icon, icon)) {
-            this.icon = icon;
-            if (icon != null) {
-                addClassName(LinkkiTheme.HAS_ICON);
-            } else {
-                removeClassName(LinkkiTheme.HAS_ICON);
-            }
-            update();
-        }
+    /**
+     * @see Anchor#getTarget()
+     */
+    public Optional<String> getTarget() {
+        return getContent().getTarget();
     }
 
-    private void update() {
-        removeAll();
-
-        super.setText(text);
-        if (icon != null) {
-            add(icon.create());
-        }
+    /**
+     * @see Anchor#setTarget(String)
+     */
+    public void setTarget(String target) {
+        getContent().setTarget(target);
     }
 
+    /**
+     * @see Anchor#setTarget(AnchorTargetValue)
+     */
+    public void setTarget(AnchorTargetValue target) {
+        getContent().setTarget(target);
+    }
+
+    /**
+     * @see Anchor#getTargetValue()
+     */
+    public AnchorTargetValue getTargetValue() {
+        return getContent().getTargetValue();
+    }
 }

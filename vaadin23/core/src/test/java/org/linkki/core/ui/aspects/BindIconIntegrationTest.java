@@ -14,14 +14,10 @@
 
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -38,80 +34,77 @@ import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class BindIconIntegrationTest {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+class BindIconIntegrationTest {
 
     private static final String ABACUS_ICON_NAME = "vaadin:abacus";
     private static final String AIRPLANE_ICON_NAME = "vaadin:airplane";
-    private static final String ACADEMY_CAP_NAME = "vaadin:academy-cap";
 
     private final BindingContext bindingContext = new BindingContext();
 
     @Test
-    public void testAspectBindIconAnnotation_Static_withButton() {
+    void testAspectBindIconAnnotation_Static_withButton() {
         List<Component> uiElements = createUiElements(new TestPmoWithStaticIcon());
 
         Component button = uiElements.get(1);
         assertThat(button, is(instanceOf(Button.class)));
-        Component icon = getIcon(button).get();
+        Component icon = getIcon((Button)button).get();
         assertThat(icon, is(instanceOf(Icon.class)));
         assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
     }
 
     @Test
-    public void testAspectBindIconAnnotation_Static_withLink() {
+    void testAspectBindIconAnnotation_Static_withLink() {
         List<Component> uiElements = createUiElements(new TestPmoWithStaticIcon());
 
         Component uiLink = uiElements.get(2);
         assertThat(uiLink, is(instanceOf(LinkkiAnchor.class)));
-        Component icon = getIcon(uiLink).get();
-        assertThat(icon, is(instanceOf(Icon.class)));
-        assertThat(getIconAttribute(icon), is(ACADEMY_CAP_NAME));
+        assertThat(((LinkkiAnchor)uiLink).getIcon(), is(VaadinIcon.ACADEMY_CAP));
     }
 
     @Test
-    public void testAspectBindIconAnnotation_Auto_withButton() {
+    void testAspectBindIconAnnotation_Auto_withButton() {
         TestPmoWithAutoIcon pmo = new TestPmoWithAutoIcon(VaadinIcon.ABACUS);
         Component button = createUiElements(pmo).get(1);
 
         assertThat(button, is(instanceOf(Button.class)));
-        Component icon = getIcon(button).get();
+        Component icon = getIcon((Button)button).get();
         assertThat(icon, is(instanceOf(Icon.class)));
         assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
 
         pmo.setIcon(null);
         bindingContext.modelChanged();
 
-        assertThat(getIcon(button).isPresent(), is(false));
+        assertThat(getIcon((Button)button).isPresent(), is(false));
     }
 
     @Test
-    public void testAspectBindIconAnnotation_Auto_withLink() {
+    void testAspectBindIconAnnotation_Auto_withLink() {
         TestPmoWithAutoIcon pmo = new TestPmoWithAutoIcon(VaadinIcon.ABACUS);
         Component link = createUiElements(pmo).get(2);
 
         assertThat(link, is(instanceOf(LinkkiAnchor.class)));
-        Component icon = link.getChildren().findFirst().get();
-        assertThat(icon, is(instanceOf(Icon.class)));
-        assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
+        assertThat(((LinkkiAnchor)link).getIcon(), is(VaadinIcon.ABACUS));
 
         pmo.setIcon(null);
         bindingContext.modelChanged();
 
-        assertThat(getIcon(link).isPresent(), is(false));
+        assertThat(((LinkkiAnchor)link).getIcon(), is(nullValue()));
     }
 
     @Test
-    public void testAspectBindIconAnnotation_Dynamic_withButton() {
+    void testAspectBindIconAnnotation_Dynamic_withButton() {
         TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.ABACUS);
 
         Component button = createUiElements(pmo).get(1);
         assertThat(button, is(instanceOf(Button.class)));
-        Component icon = getIcon(button).get();
+        Component icon = getIcon((Button)button).get();
         assertThat(icon, is(instanceOf(Icon.class)));
         assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
 
@@ -119,50 +112,40 @@ public class BindIconIntegrationTest {
         bindingContext.modelChanged();
 
         // Icon on button changed
-        icon = getIcon(button).get();
+        icon = getIcon((Button)button).get();
         assertThat(getIconAttribute(icon), is(AIRPLANE_ICON_NAME));
     }
 
     @Test
-    public void testAspectBindIconAnnotation_Dynamic_withLink() {
+    void testAspectBindIconAnnotation_Dynamic_withLink() {
         TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.ABACUS);
         Component link = createUiElements(pmo).get(2);
 
         assertThat(link, is(instanceOf(LinkkiAnchor.class)));
-        Component icon = getIcon(link).get();
-        assertThat(icon, is(instanceOf(Icon.class)));
-        assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
+        assertThat(((LinkkiAnchor)link).getIcon(), is(VaadinIcon.ABACUS));
 
         pmo.setIcon(VaadinIcon.AIRPLANE);
         bindingContext.modelChanged();
 
         // Icon on link changed
-        icon = getIcon(link).get();
-        assertThat(getIconAttribute(icon), is(AIRPLANE_ICON_NAME));
+        assertThat(((LinkkiAnchor)link).getIcon(), is(VaadinIcon.AIRPLANE));
     }
 
     @Test
     public void testAspectBindIconAnnotation_Dynamic_withMethodMissing() {
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
 
-        Assertions.assertThrows(LinkkiBindingException.class, () -> {
-            UiCreator
-                    .createUiElements(pmo, bindingContext,
-                                      c -> new NoLabelComponentWrapper((Component)c))
-                    .collect(Collectors.toList());
-        });
-
+        Assertions.assertThrows(LinkkiBindingException.class, () ->
+                UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
+                        .collect(Collectors.toList()));
     }
-
     private List<Component> createUiElements(Object pmo) {
-        return UiCreator
-                .createUiElements(pmo, bindingContext,
-                                  c -> new NoLabelComponentWrapper((Component)c))
-                .map(VaadinComponentWrapper::getComponent)
-                .collect(Collectors.toList());
+
+        return UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
+                .map(VaadinComponentWrapper::getComponent).collect(Collectors.toList());
     }
 
-    private Optional<Component> getIcon(Component parent) {
+    private Optional<Component> getIcon(Button parent) {
         return parent.getChildren().findFirst();
     }
 

@@ -28,8 +28,9 @@ import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 import com.vaadin.flow.component.html.Anchor;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import org.linkki.core.vaadin.component.base.LinkkiText;
 
-class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Anchor, LinkTestPmo> {
+class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiAnchor, LinkTestPmo> {
 
     UILinkIntegrationTest() {
         super(LinkTestPmo::new);
@@ -55,7 +56,7 @@ class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Anchor, L
 
     @Test
     void testLinkCaption() {
-        Anchor anchor = getDynamicComponent();
+        LinkkiAnchor anchor = getDynamicComponent();
 
         assertThat(anchor.getText(), is(LinkTestPmo.INITIAL_CAPTION));
 
@@ -67,21 +68,21 @@ class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Anchor, L
 
     @Test
     void testLinkCaption_Static() {
-        Anchor anchor = getStaticComponent();
+        LinkkiAnchor anchor = getStaticComponent();
 
         assertThat(anchor.getText(), is(LinkTestPmo.STATIC_CAPTION));
     }
 
     @Test
     void testLinkCaption_Default() {
-        Anchor anchor = getComponentById("defaultsLink");
+        LinkkiAnchor anchor = getComponentById("defaultsLink");
 
         assertThat(anchor.getText(), is(""));
     }
 
     @Test
     void testTarget_Dynamic() {
-        Anchor anchor = getDynamicComponent();
+        LinkkiAnchor anchor = getDynamicComponent();
 
         assertThat(anchor.getTarget().get(), is("_top"));
 
@@ -98,14 +99,14 @@ class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Anchor, L
 
     @Test
     void testTarget_Static() {
-        Anchor anchor = getStaticComponent();
+        LinkkiAnchor anchor = getStaticComponent();
 
         assertThat(anchor.getTarget().get(), is("_blank"));
     }
 
     @Test
     void testTarget_Default() {
-        Anchor anchor = getComponentById("defaultsLink");
+        LinkkiAnchor anchor = getComponentById("defaultsLink");
 
         assertThat(anchor.getTarget().get(), is("_self"));
     }

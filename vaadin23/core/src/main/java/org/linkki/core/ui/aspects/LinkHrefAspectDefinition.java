@@ -14,20 +14,18 @@
 
 package org.linkki.core.ui.aspects;
 
-import java.util.Optional;
-import java.util.function.Consumer;
-
+import com.vaadin.flow.component.html.Anchor;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
-import com.vaadin.flow.component.html.Anchor;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
- * 
  * This aspect sets the HREF link target of a {@link Anchor}.
- * 
  */
 public class LinkHrefAspectDefinition extends ModelToUiAspectDefinition<String> {
 
@@ -38,9 +36,10 @@ public class LinkHrefAspectDefinition extends ModelToUiAspectDefinition<String> 
 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        Anchor link = (Anchor)componentWrapper.getComponent();
-        return href -> Optional.ofNullable(href).map(StringUtils::trimToNull).ifPresentOrElse(l -> link.setHref(l),
-                                                                                              () -> link.removeHref());
+        LinkkiAnchor link = (LinkkiAnchor)componentWrapper.getComponent();
+        return href -> Optional.ofNullable(href)
+                .map(StringUtils::trimToNull)
+                .ifPresentOrElse(l -> link.setHref(l), () -> link.removeHref());
     }
 }
 

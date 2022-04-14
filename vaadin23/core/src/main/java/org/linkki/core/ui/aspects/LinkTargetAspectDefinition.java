@@ -23,6 +23,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import com.vaadin.flow.component.html.Anchor;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
 /**
  * This aspect sets the target attribute of a {@link Anchor}.
@@ -49,7 +50,7 @@ public class LinkTargetAspectDefinition extends ModelToUiAspectDefinition<String
 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        Anchor link = (Anchor)componentWrapper.getComponent();
+        LinkkiAnchor link = (LinkkiAnchor)componentWrapper.getComponent();
         return link::setTarget;
     }
 

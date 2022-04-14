@@ -25,3 +25,5 @@ For more information see chapter "<<ui-table-column, @UITableColumn>>".
 
 // https://jira.faktorzehn.de/browse/LIN-3006
 * Empty `UILabel` columns with a small width no longer display dots (...) in Mozilla Firefox
+// https://jira.faktorzehn.de/browse/LIN-2886
+* `UILink` do not show label above the link

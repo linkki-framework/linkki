@@ -137,10 +137,10 @@ abstract class TC001AbstractLayoutTest extends TS001AbstractBasicElementsLayoutT
     }
 
     @Test
-    void testLink_HasNoLabel() {
-        AnchorElement anchorElement = getTestCaseSection().$(AnchorElement.class).id("link");
+    void testLink_HasLabel() {
+        var link = getTestCaseSection().$(LinkkiTextElement.class).id("link");
 
-        assertThat(hasLabel(anchorElement)).isFalse();
+        assertThat(link.getLabel()).isEqualTo("Link");
     }
 
     @Test
