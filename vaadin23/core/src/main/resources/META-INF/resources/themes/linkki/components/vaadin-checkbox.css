@@ -8,6 +8,27 @@
     background-color: var(--linkki-input-background-hover);
 }
 
+:host([disabled][checked]) {
+  color: var(--lumo-body-text-color);
+}
+
+:host([disabled][checked]) [part='checkbox'] {
+  color: var(--lumo-primary-text-color);
+  background-color: transparent;
+}
+
+/*
+ * Checkbox checkmark color needs to be set separately
+ */
+:host([disabled][checked]) [part="checkbox"]::after {
+  color: var(--lumo-primary-text-color);
+}
+
+:host([disabled]:not([checked])) [part="checkbox"] {
+  background-color: transparent;
+  border: 1px solid var(--linkki-input-border-color-readonly);
+}
+
 /*
  * Set pointer as cursor when really clickable
  */

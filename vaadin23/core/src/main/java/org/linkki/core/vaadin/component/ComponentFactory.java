@@ -19,11 +19,11 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.LinkkiComponentUtil;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
+import org.linkki.core.vaadin.component.base.LinkkiCheckBox;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Anchor;
@@ -148,8 +148,8 @@ public class ComponentFactory {
         return new ComboBox<>();
     }
 
-    public static Checkbox newCheckbox() {
-        return new Checkbox();
+    public static LinkkiCheckBox newCheckbox() {
+        return new LinkkiCheckBox();
     }
 
     public static Button newButton() {

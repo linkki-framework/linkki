@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
@@ -24,8 +25,11 @@ import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.ui.aspects.annotation.BindReadOnly;
+import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.element.annotation.UICheckBoxIntegrationTest.TestCheckBoxPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.base.LinkkiCheckBox;
 
 import com.vaadin.flow.component.checkbox.Checkbox;
 
@@ -134,8 +138,25 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
         return (TestModelObjectWithObjectBoolean)super.getDefaultModelObject();
     }
 
+    @Test
+    void testSetReadOnly() {
+        Checkbox checkBox = getComponentById("dynamicEnabledCheckBox");
+
+        assertThat(checkBox, is(instanceOf(LinkkiCheckBox.class)));
+        assertThat(checkBox.isReadOnly(), is(false));
+        assertThat(checkBox.getElement().hasAttribute("disabled"), is(false));
+
+        getDefaultPmo().setDynamicEnabledCheckBoxReadOnly(true);
+        modelChanged();
+
+        assertThat(checkBox.isReadOnly(), is(true));
+        assertThat(checkBox.getElement().hasAttribute("disabled"), is(true));
+    }
+
     @UISection
     protected static class TestCheckBoxPmo extends AnnotationTestPmo {
+
+        private boolean readOnly = false;
 
         public TestCheckBoxPmo(Object modelObject) {
             super(modelObject);
@@ -158,6 +179,24 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
         @UICheckBox(position = 3)
         public boolean getFoo() {
             return true;
+        }
+
+        @BindReadOnly(ReadOnlyType.DYNAMIC)
+        @UICheckBox(position = 4)
+        public boolean getDynamicEnabledCheckBox() {
+            return true;
+        }
+
+        public void setDynamicEnabledCheckBox(@SuppressWarnings("unused") boolean booleanValue) {
+            // nop
+        }
+
+        public boolean isDynamicEnabledCheckBoxReadOnly() {
+            return readOnly;
+        }
+
+        public void setDynamicEnabledCheckBoxReadOnly(boolean readOnly) {
+            this.readOnly = readOnly;
         }
     }
 
