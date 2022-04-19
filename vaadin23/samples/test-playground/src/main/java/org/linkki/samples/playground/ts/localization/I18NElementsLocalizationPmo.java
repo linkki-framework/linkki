@@ -15,10 +15,12 @@
 package org.linkki.samples.playground.ts.localization;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.faktorips.values.Decimal;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIDateField;
+import org.linkki.core.ui.element.annotation.UIDateTimeField;
 import org.linkki.core.ui.element.annotation.UIDoubleField;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -47,6 +49,11 @@ public class I18NElementsLocalizationPmo {
     @UIDateField(position = 30, label = I18N_LOCALIZED_LABEL)
     public LocalDate getLocalizedDateField() {
         return LocalDate.of(2020, 6, 13);
+    }
+
+    @UIDateTimeField(position = 35, label = I18N_LOCALIZED_LABEL)
+    public LocalDateTime getLocalizedDateTimeField() {
+        return LocalDateTime.of(2020, 6, 13, 15, 34);
     }
 
     @UIButton(position = 40, caption = I18N_LOCALIZED_LABEL)

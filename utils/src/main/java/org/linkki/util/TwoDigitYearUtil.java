@@ -15,11 +15,12 @@
 package org.linkki.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
- * Converts {@link LocalDate} to {@link LocalDate} while recalculating two digit years into four digit
- * years based on the -80 / +19 rule during the convertToModel conversion. E.g. 0019-01-01 will be
- * converted to 2019-01-01 and 0090-01-01 to 1990-01-01.
+ * Recalculates two digit years into four digit years, based on the -80 / +19 rule, for
+ * {@link LocalDate} and {@link LocalDateTime} during the convertToModel conversion. For example,
+ * 0019-01-01 will be converted to 2019-01-01 and 0090-01-01 to 1990-01-01.
  */
 public class TwoDigitYearUtil {
 
@@ -38,6 +39,18 @@ public class TwoDigitYearUtil {
      */
     public static LocalDate convert(LocalDate value) {
         return INSTANCE.convertInternal(value);
+    }
+
+    /**
+     * Converts the given datetime and updates the year if it has only two digits. Otherwise it simply
+     * returns the input value. The time is not affected.
+     * 
+     * @param value The datetime that should be converted
+     * @return the datetime with date adjusted to a year of -80/+19 if the year was below year 100.
+     */
+    public static LocalDateTime convert(LocalDateTime value) {
+        return INSTANCE.convertInternal(value);
+
     }
 
     /**
@@ -61,6 +74,18 @@ public class TwoDigitYearUtil {
         } else {
             return value;
         }
+    }
+
+    /**
+     * Converts the given datetime and updates the year if it has only two digits. Otherwise it simply
+     * returns the input value. The time is not affected.
+     * 
+     * @param value The datetime that should be converted
+     * @return the datetime with date adjusted to a year of -80/+19 if the year was below year 100.
+     */
+    LocalDateTime convertInternal(LocalDateTime value) {
+        LocalDate convertedDate = convertInternal(value.toLocalDate());
+        return LocalDateTime.of(convertedDate, value.toLocalTime());
     }
 
     int getCurrentYear() {

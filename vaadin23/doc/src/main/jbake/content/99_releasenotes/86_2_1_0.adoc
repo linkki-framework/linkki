@@ -19,7 +19,15 @@ As the reimplemented table in Vaadin Flow dropped support for the feature, the s
 
 With this version, the feature of collapsible columns is supported again in linkki, however only for tables created inside of a section using `@UISection`. The new column selection menu is now always visible, greatly improving the usability of this feature. 
 
-For more information see chapter "<<ui-table-column, @UITableColumn>>".
+For more information, see "<<ui-table-column, @UITableColumn>>".
+
+===== UIDateTimeField
+////
+https://jira.faktorzehn.de/browse/LIN-2295
+////
+A new annotation, `@UIDateTimeField`, has been added for selecting both a date and a time. `@UIDateTimeField` has all the properties of `UIDateField` and the property `step` for setting the time interval in the time picker overlay.
+
+For more information, see "<<ui-datetimefield, @UIDateTimeField>>".
 
 ==== Bugfixes
 

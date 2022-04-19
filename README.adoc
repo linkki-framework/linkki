@@ -88,7 +88,7 @@ image::{readme-images}02_getting_started/report_disabled.png[]
 image::{readme-images}02_getting_started/report_enabled.png[]
 
 
-NOTE: The complete example can be found at http://doc.linkki-framework.org/latest/02_getting_started/01_linkki_example.html[Getting Started - 'Error report' tutorial].
+NOTE: The complete example can be found at https://doc.linkki-framework.org/latest/02_getting_started/01_example_project.html[Getting Started - 'Error report' tutorial].
 
 
 ==== Installation
@@ -113,7 +113,7 @@ NOTE: The complete example can be found at http://doc.linkki-framework.org/lates
 
 ==== Documentation
 
-Documentation for *linkki* can be found at http://doc.linkki-framework.org[doc.linkki-framework.org].
+Documentation for *linkki* can be found at https://doc.linkki-framework.org[doc.linkki-framework.org].
 
 
 ==== License
@@ -124,7 +124,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,

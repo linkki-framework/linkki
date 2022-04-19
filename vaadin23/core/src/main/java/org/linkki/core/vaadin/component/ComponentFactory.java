@@ -13,7 +13,10 @@
  */
 package org.linkki.core.vaadin.component;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +29,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
@@ -181,6 +185,41 @@ public class ComponentFactory {
         // DatePicker gets confused with year numbers below 1000 anyway
         field.setMin(LocalDate.ofYearDay(1000, 1));
         field.setMax(LocalDate.ofYearDay(9999, 365));
+        field.setAutoOpen(autoOpen);
+        field.getElement().setProperty("autoselect", autoselect);
+        return field;
+    }
+
+    /**
+     * Creates a new default {@link DateTimePicker} with the given step,
+     * {@link DateTimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect feature
+     * to <code>true</code>
+     * 
+     * @param step the time interval, in minutes, between the items displayed in the time picker overlay
+     */
+    public static DateTimePicker newDateTimeField(long step) {
+        return newDateTimeField(step, false, true);
+    }
+
+    /**
+     * Creates a {@link DateTimePicker} with the given options
+     * 
+     * @param step The time interval, in minutes, between the items displayed in the time picker overlay
+     * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
+     * @param autoselect If <code>true</code>, the date value will be selected when the field is
+     *            focused.
+     */
+    public static DateTimePicker newDateTimeField(long step, boolean autoOpen, boolean autoselect) {
+        if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
+            throw new IllegalStateException("Creating a datetime field requires a UI with locale");
+        }
+        DateTimePicker field = new DateTimePicker();
+        field.setDatePickerI18n(DatePickerI18nCreator.createI18n(UI.getCurrent().getLocale()));
+        // there is no year zero https://en.wikipedia.org/wiki/Year_zero
+        // DateTimePicker gets confused with year numbers below 1000 anyway
+        field.setMin(LocalDateTime.of(LocalDate.ofYearDay(1000, 1), LocalTime.of(0, 0)));
+        field.setMax(LocalDateTime.of(LocalDate.ofYearDay(9999, 365), LocalTime.of(23, 59, 59)));
+        field.setStep(Duration.ofMinutes(step));
         field.setAutoOpen(autoOpen);
         field.getElement().setProperty("autoselect", autoselect);
         return field;

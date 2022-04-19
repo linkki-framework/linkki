@@ -32,6 +32,7 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateField;
+import org.linkki.core.ui.element.annotation.UIDateTimeField;
 import org.linkki.core.ui.element.annotation.UIDoubleField;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILabel;
@@ -175,6 +176,7 @@ public class TestCompiler {
                       UICheckBox.class,
                       UIComboBox.class,
                       UIDateField.class,
+                      UIDateTimeField.class,
                       UIDoubleField.class,
                       UIIntegerField.class,
                       UILabel.class,

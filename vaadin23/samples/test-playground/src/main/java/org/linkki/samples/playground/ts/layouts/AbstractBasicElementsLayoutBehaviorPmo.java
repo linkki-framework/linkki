@@ -27,6 +27,7 @@ import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UICustomField;
 import org.linkki.core.ui.element.annotation.UIDateField;
+import org.linkki.core.ui.element.annotation.UIDateTimeField;
 import org.linkki.core.ui.element.annotation.UIDoubleField;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILabel;
@@ -251,6 +252,31 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     }
 
     public boolean isDateEnabled() {
+        return isAllElementsEnabled();
+    }
+
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIDateTimeField(position = 52, label = "DateTimeField", //
+            modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_DATE_TIME, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
+    public void dateTime() {
+        // model binding
+    }
+
+    public boolean isDateTimeRequired() {
+        return isAllElementsRequired();
+    }
+
+    public boolean isDateTimeReadOnly() {
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isDateTimeVisible() {
+        return isAllElementsVisible();
+    }
+
+    public boolean isDateTimeEnabled() {
         return isAllElementsEnabled();
     }
 
