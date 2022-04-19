@@ -13,18 +13,8 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
-import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.AnnotatedElement;
-import java.util.List;
-
+import com.vaadin.flow.component.combobox.ComboBox;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -53,9 +43,17 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.flow.component.combobox.ComboBox;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 /**
  * A combo box for boolean or Boolean values.
@@ -68,17 +66,25 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @LinkkiPositioned
 public @interface UIYesNoComboBox {
 
-    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    /**
+     * Mandatory attribute that defines the order in which UI-Elements are displayed
+     */
     @LinkkiPositioned.Position
     int position();
 
-    /** Provides a description label next to the UI element */
+    /**
+     * Provides a description label next to the UI element
+     */
     String label() default DERIVED_BY_LINKKI;
 
-    /** Defines if an UI-Component is editable, using values of {@link EnabledType} */
+    /**
+     * Defines if an UI-Component is editable, using values of {@link EnabledType}
+     */
     EnabledType enabled() default ENABLED;
 
-    /** Marks mandatory fields visually */
+    /**
+     * Marks mandatory fields visually
+     */
     RequiredType required() default NOT_REQUIRED;
 
     /**
@@ -118,14 +124,12 @@ public @interface UIYesNoComboBox {
     /**
      * Aspect definition creator for the {@link UIYesNoComboBox} annotation.
      */
-    static class YesNoComboBoxAspectCreator implements AspectDefinitionCreator<UIYesNoComboBox> {
+    class YesNoComboBoxAspectCreator implements AspectDefinitionCreator<UIYesNoComboBox> {
 
         @Override
         public LinkkiAspectDefinition create(UIYesNoComboBox annotation) {
-            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
-                    AvailableValuesType.ENUM_VALUES_INCL_NULL,
-                    ComboBox<Object>::setItems,
-                    ItemCaptionProvider.instantiate(annotation::itemCaptionProvider)) {
+            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+                    AvailableValuesType.ENUM_VALUES_INCL_NULL, ComboBox::setItems) {
 
                 @Override
                 protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
@@ -150,7 +154,7 @@ public @interface UIYesNoComboBox {
 
     }
 
-    static class YesNoComboBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UIYesNoComboBox> {
+    class YesNoComboBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UIYesNoComboBox> {
 
         @Override
         public LinkkiComponentDefinition create(UIYesNoComboBox annotation, AnnotatedElement annotatedElement) {
@@ -165,7 +169,7 @@ public @interface UIYesNoComboBox {
         }
     }
 
-    public static class BooleanCaptionProvider implements ItemCaptionProvider<Object> {
+    class BooleanCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
         @NonNull

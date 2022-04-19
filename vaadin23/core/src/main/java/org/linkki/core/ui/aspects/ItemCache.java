@@ -14,41 +14,25 @@
 
 package org.linkki.core.ui.aspects;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-
 /**
- * A cache of items and their captions. Used to detect changes in items or their captions in
+ * A cache of items. Used to detect changes in items or their captions in
  * {@link AvailableValuesAspectDefinition}.
  */
 public class ItemCache {
 
-    private final ItemCaptionProvider<?> captionProvider;
     private final List<Object> items = new ArrayList<>();
-    private final List<String> captions = new ArrayList<>();
-
-    public ItemCache(ItemCaptionProvider<?> captionProvider) {
-        this.captionProvider = requireNonNull(captionProvider, "captionProvider must not be null");
-    }
 
     /**
-     * Replaces the cache with the given content. The return value indicates whether the items or their
-     * captions changed.
+     * Replaces the cache with the given content. The return value indicates whether the items changed.
      */
     public boolean replaceContent(List<Object> newItems) {
-        List<String> newCaptions = new ArrayList<>(newItems.size());
-        newItems.forEach(i -> newCaptions.add(captionProvider.getUnsafeCaption(i)));
-
-        if (!newItems.equals(items) || !newCaptions.equals(captions)) {
+        if (!newItems.equals(items)) {
             items.clear();
             items.addAll(newItems);
-            captions.clear();
-            captions.addAll(newCaptions);
             return true;
         } else {
             return false;

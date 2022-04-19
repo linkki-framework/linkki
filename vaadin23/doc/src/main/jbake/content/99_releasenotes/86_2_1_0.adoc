@@ -49,6 +49,15 @@ A new annotation, `@UIDateTimeField`, has been added for selecting both a date a
 
 For more information, see "<<ui-datetimefield, @UIDateTimeField>>".
 
+[role="api-change"]
+===== Dynamic item captions in combo boxes
+////
+https://jira.faktorzehn.de/browse/LIN-2855
+////
+Sometimes, the caption of an item in a combo box can change even if the item itself remains the same. To support this, a combo box used to not only update on item changes, but also checks the captions and update the items if any caption has changed. This additional check makes combo box less responsive to user interaction, especially if the combo box has many available values.
+
+IMPORTANT: Considering the fact that the above mentioned feature is only required in relative rare cases, we decided to drop this feature for `@UIComboBox` by default. Combo boxes that require this feature can use the new annotation <<ui-combobox-dynamicCaption, `BindComboBoxDynamicItemCaption`>>. This annotation would update all items including their captions upon changes.
+
 ==== Bugfixes
 
 // https://jira.faktorzehn.de/browse/LIN-3006

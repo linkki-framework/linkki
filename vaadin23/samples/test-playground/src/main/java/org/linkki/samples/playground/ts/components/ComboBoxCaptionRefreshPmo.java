@@ -12,7 +12,13 @@
  * License.
  */
 
-package org.linkki.samples.playground.bugs.lin1442;
+package org.linkki.samples.playground.ts.components;
+
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.ui.aspects.annotation.BindComboBoxDynamicItemCaption;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.layout.annotation.UISection;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -20,32 +26,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-import org.linkki.core.ui.element.annotation.UIButton;
-import org.linkki.core.ui.element.annotation.UIComboBox;
-import org.linkki.core.ui.element.annotation.UILabel;
-import org.linkki.core.ui.layout.annotation.UISection;
-
-@UISection(caption = ComboBoxCaptionRefreshPmo.CAPTION)
+@UISection(caption = "@BindComboBoxDynamicItemCaption")
 public class ComboBoxCaptionRefreshPmo {
-
-    public static final String CAPTION = "LIN-1442";
-
-    private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     public static final String PROPERTY_CHOICE = "choice";
     public static final String PROPERTY_CHANGE_CHOICES_VALUES = "changeChoicesValues";
-
+    private static final AtomicInteger COUNTER = new AtomicInteger(0);
     private List<Choice> choices = IntStream.range(0, 20).mapToObj(i -> new SecureRandom().nextDouble())
             .map(Choice::new)
             .collect(Collectors.toList());
     private Choice choice = choices.get(0);
 
-    @UILabel(position = 5, htmlContent = true)
-    public String getDescription() {
-        return "Change the available values. <br/>1. bug: the value of the combo box does not update<br/>2. bug: the values in the list do not update until they are selected";
-    }
-
+    @BindComboBoxDynamicItemCaption
     @UIComboBox(position = 10, label = "choices", content = AvailableValuesType.DYNAMIC)
     public Choice getChoice() {
         return choice;
@@ -59,7 +51,7 @@ public class ComboBoxCaptionRefreshPmo {
         return choices;
     }
 
-    @UIButton(position = 20, caption = "change choices values")
+    @UIButton(position = 20, caption = "Change combo box item values")
     public void changeChoicesValues() {
         choices.forEach(c -> c.setValue(new SecureRandom().nextDouble() + COUNTER.getAndIncrement()));
         choice = choices.get(0);

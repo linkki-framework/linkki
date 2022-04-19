@@ -24,6 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -125,9 +126,7 @@ public @interface UIComboBox {
      * Default value assumes that the value class has a method "getName" and uses this method for the
      * String representation.
      */
-    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider()
-
-    default DefaultCaptionProvider.class;
+    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
     /**
      * The alignment of the text. Use {@link TextAlignment#RIGHT} for numeric value.
@@ -142,13 +141,12 @@ public @interface UIComboBox {
     /**
      * Aspect definition creator for the {@link UIComboBox} annotation.
      */
-    static class ComboBoxAspectCreator implements AspectDefinitionCreator<UIComboBox> {
+    class ComboBoxAspectCreator implements AspectDefinitionCreator<UIComboBox> {
 
         @Override
         public LinkkiAspectDefinition create(UIComboBox annotation) {
-            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new ComboBoxAvailableValuesAspectDefinition(
-                    annotation.content(), ComboBox<Object>::setItems,
-                    ItemCaptionProvider.instantiate(annotation::itemCaptionProvider), annotation);
+            var availableValuesAspectDefinition = new ComboBoxAvailableValuesAspectDefinition(
+                    annotation.content(), ComboBox::setItems, annotation);
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
@@ -165,14 +163,13 @@ public @interface UIComboBox {
                     new TextAlignAspectDefinition(annotation.textAlign()));
         }
 
-        private final class ComboBoxAvailableValuesAspectDefinition
+        private static final class ComboBoxAvailableValuesAspectDefinition
                 extends AvailableValuesAspectDefinition<ComboBox<Object>> {
             private final UIComboBox annotation;
 
             private ComboBoxAvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
-                    BiConsumer<ComboBox<Object>, List<Object>> dataProviderSetter,
-                    ItemCaptionProvider<?> itemCaptionProvider, UIComboBox annotation) {
-                super(availableValuesType, dataProviderSetter, itemCaptionProvider);
+                    BiConsumer<ComboBox<Object>, List<Object>> dataProviderSetter, UIComboBox annotation) {
+                super(availableValuesType, dataProviderSetter);
                 this.annotation = annotation;
             }
 
@@ -180,13 +177,13 @@ public @interface UIComboBox {
             @SuppressWarnings("unchecked")
             protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
                 boolean dynamicItemsEmpty = annotation.content() == AvailableValuesType.DYNAMIC && items.isEmpty();
-                boolean hasNullItem = items.removeIf(i -> i == null);
+                boolean hasNullItem = items.removeIf(Objects::isNull);
                 ((ComboBox<Object>)componentWrapper.getComponent())
                         .setClearButtonVisible(hasNullItem || dynamicItemsEmpty);
             }
         }
 
-        private final class TextAlignAspectDefinition extends StaticModelToUiAspectDefinition<TextAlignment> {
+        private static final class TextAlignAspectDefinition extends StaticModelToUiAspectDefinition<TextAlignment> {
 
             public static final String NAME = "textAlignment";
             private final TextAlignment textAlignment;
@@ -242,12 +239,10 @@ public @interface UIComboBox {
                         throw new IllegalArgumentException("Invalid text alignment: " + alignment.name());
                 }
             }
-
         }
-
     }
 
-    static class ComboBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UIComboBox> {
+    class ComboBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UIComboBox> {
 
         @Override
         public LinkkiComponentDefinition create(UIComboBox annotation, AnnotatedElement annotatedElement) {

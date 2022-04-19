@@ -23,7 +23,7 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
-import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
+import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
 import org.linkki.samples.playground.bugs.lin1608.PmoReadonlyModelNotReadonlyPmo;
 import org.linkki.samples.playground.bugs.lin1738.DoubleClickPmo;

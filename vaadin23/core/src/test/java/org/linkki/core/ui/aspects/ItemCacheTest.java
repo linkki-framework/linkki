@@ -20,16 +20,15 @@ import static org.hamcrest.Matchers.is;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
 
-public class ItemCacheTest {
+class ItemCacheTest {
 
     @Test
-    public void testUpdate_Unchanged() {
-        SampleObject o1 = new SampleObject("o1");
-        SampleObject o2 = new SampleObject("o2");
-        SampleObject o3 = new SampleObject("o3");
-        ItemCache cache = new ItemCache(new ToStringCaptionProvider());
+    void testUpdate_Unchanged() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        Object o3 = new Object();
+        ItemCache cache = new ItemCache();
         cache.replaceContent(Arrays.asList(o1, o2, o3));
 
         boolean changed = cache.replaceContent(Arrays.asList(o1, o2, o3));
@@ -38,56 +37,41 @@ public class ItemCacheTest {
     }
 
     @Test
-    public void testUpdate_InstancesChanged() {
-        SampleObject o1 = new SampleObject("o1");
-        SampleObject o2 = new SampleObject("o2");
-        SampleObject o3 = new SampleObject("o3");
-        ItemCache cache = new ItemCache(new ToStringCaptionProvider());
+    void testUpdate_InstancesChanged() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        Object o3 = new Object();
+        ItemCache cache = new ItemCache();
         cache.replaceContent(Arrays.asList(o1, o2, o3));
 
-        o1 = new SampleObject("o1");
-        o2 = new SampleObject("o2");
-        o3 = new SampleObject("o3");
+        o1 = new Object();
+        o2 = new Object();
+        o3 = new Object();
         boolean changed = cache.replaceContent(Arrays.asList(o1, o2, o3));
 
         assertThat(changed, is(true));
     }
 
     @Test
-    public void testUpdate_CaptionChanged() {
-        SampleObject o1 = new SampleObject("o1");
-        SampleObject o2 = new SampleObject("o2");
-        SampleObject o3 = new SampleObject("o3");
-        ItemCache cache = new ItemCache(new ToStringCaptionProvider());
+    void testUpdate_ItemAdded() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        Object o3 = new Object();
+        ItemCache cache = new ItemCache();
         cache.replaceContent(Arrays.asList(o1, o2, o3));
 
-        o2.setCaption("x");
-        boolean changed = cache.replaceContent(Arrays.asList(o1, o2, o3));
-
-        assertThat(changed, is(true));
-    }
-
-    @Test
-    public void testUpdate_ItemAdded() {
-        SampleObject o1 = new SampleObject("o1");
-        SampleObject o2 = new SampleObject("o2");
-        SampleObject o3 = new SampleObject("o3");
-        ItemCache cache = new ItemCache(new ToStringCaptionProvider());
-        cache.replaceContent(Arrays.asList(o1, o2, o3));
-
-        SampleObject o4 = new SampleObject("o4");
+        Object o4 = new Object();
         boolean changed = cache.replaceContent(Arrays.asList(o1, o2, o3, o4));
 
         assertThat(changed, is(true));
     }
 
-
     @Test
-    public void testUpdate_ItemRemoved() {
-        SampleObject o1 = new SampleObject("o1");
-        SampleObject o2 = new SampleObject("o2");
-        SampleObject o3 = new SampleObject("o3");
-        ItemCache cache = new ItemCache(new ToStringCaptionProvider());
+    void testUpdate_ItemRemoved() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        Object o3 = new Object();
+        ItemCache cache = new ItemCache();
         cache.replaceContent(Arrays.asList(o1, o2, o3));
 
         boolean changed = cache.replaceContent(Arrays.asList(o1, o2));
@@ -95,37 +79,16 @@ public class ItemCacheTest {
         assertThat(changed, is(true));
     }
 
-
     @Test
-    public void testUpdate_OrderChanged() {
-        SampleObject o1 = new SampleObject("o1");
-        SampleObject o2 = new SampleObject("o2");
-        SampleObject o3 = new SampleObject("o3");
-        ItemCache cache = new ItemCache(new ToStringCaptionProvider());
+    void testUpdate_OrderChanged() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        Object o3 = new Object();
+        ItemCache cache = new ItemCache();
         cache.replaceContent(Arrays.asList(o1, o2, o3));
 
         boolean changed = cache.replaceContent(Arrays.asList(o1, o3, o2));
 
         assertThat(changed, is(true));
     }
-
-    public class SampleObject {
-
-        private String caption;
-
-        public SampleObject(String caption) {
-            this.caption = caption;
-        }
-
-        public void setCaption(String caption) {
-            this.caption = caption;
-        }
-
-        @Override
-        public String toString() {
-            return caption;
-        }
-
-    }
-
 }

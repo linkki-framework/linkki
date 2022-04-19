@@ -57,6 +57,22 @@
                         "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
                         "superClass": "org.linkki.core.vaadin.component.base.LinkkiText",
                         "justification": "LIN-2886 :: Make UILink show labels above the component"
+                    },
+                    {
+                        "code": "java.method.removed",
+                        "old": "method void org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::<init>(org.linkki.core.defaults.ui.aspects.types.AvailableValuesType, java.util.function.BiConsumer<C, java.util.List<java.lang.Object>>, org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>)",
+                        "justification": "LIN-2855 :: AvailableValuesAspect does not compare captions anymore"
+                    },
+                    {
+                        "code": "java.method.removed",
+                        "old": "method void org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::refreshAll(org.linkki.core.binding.wrapper.ComponentWrapper, java.util.List<java.lang.Object>)",
+                        "justification": "LIN-2855 :: AvailableValuesAspect does not compare captions anymore"
+                    },
+                    {
+                        "code": "java.method.numberOfParametersChanged",
+                        "old": "method void org.linkki.core.ui.aspects.ItemCache::<init>(org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>)",
+                        "new": "method void org.linkki.core.ui.aspects.ItemCache::<init>()",
+                        "justification": "LIN-2855 :: AvailableValuesAspect does not compare captions anymore"
                     }
                 ]
             }

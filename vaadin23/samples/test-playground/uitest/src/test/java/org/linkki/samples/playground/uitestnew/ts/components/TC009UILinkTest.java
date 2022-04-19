@@ -21,11 +21,9 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.components.LinkPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
-import org.linkki.testbench.pageobjects.LinkkiSectionElement;
-
-import com.vaadin.flow.component.html.testbench.AnchorElement;
-import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
+
+import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class TC009UILinkTest extends PlaygroundUiTest {
 

@@ -59,6 +59,7 @@ import org.linkki.samples.playground.ts.aspects.BindSuffixPmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
 import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
 import org.linkki.samples.playground.ts.components.ButtonPmo;
+import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxPmo;
 import org.linkki.samples.playground.ts.components.CustomFieldPmo;
 import org.linkki.samples.playground.ts.components.DateFieldPmo;
@@ -223,7 +224,11 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC004, new TextAreaPmo())
                                        .testCase(TC005, new TextFieldPmo())
                                        .testCase(TC006, new DateFieldPmo())
-                                       .testCase(TC007, new ComboBoxPmo())
+                                       .testCase(TC007, () -> new VerticalLayout(
+                                               VaadinUiCreator.createComponent(new ComboBoxPmo(),
+                                                                               new BindingContext()),
+                                               VaadinUiCreator.createComponent(new ComboBoxCaptionRefreshPmo(),
+                                                                               new BindingContext())))
                                        .testCase(TC008, new RadioButtonsPmo())
                                        .testCase(TC009, new LinkPmo())
                                        .testCase(TC010, new ButtonPmo())

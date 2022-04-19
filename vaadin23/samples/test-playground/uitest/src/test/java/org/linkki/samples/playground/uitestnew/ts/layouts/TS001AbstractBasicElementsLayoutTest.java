@@ -27,7 +27,6 @@ import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
-import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;

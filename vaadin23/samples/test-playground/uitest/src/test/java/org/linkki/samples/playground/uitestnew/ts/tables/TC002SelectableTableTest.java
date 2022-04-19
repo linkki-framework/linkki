@@ -14,9 +14,12 @@
 
 package org.linkki.samples.playground.uitestnew.ts.tables;
 
-import com.vaadin.flow.component.grid.testbench.GridElement;
-import com.vaadin.flow.component.grid.testbench.GridTRElement;
-import com.vaadin.flow.component.notification.testbench.NotificationElement;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePmo;
@@ -24,16 +27,12 @@ import org.linkki.samples.playground.table.selection.SelectionComparisonSectionP
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.List;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
+import com.vaadin.flow.component.grid.testbench.GridElement;
+import com.vaadin.flow.component.grid.testbench.GridTRElement;
+import com.vaadin.flow.component.notification.testbench.NotificationElement;
 
 class TC002SelectableTableTest extends PlaygroundUiTest {
 
@@ -48,7 +47,7 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
 
         // initial selection
         assertThat(selectableTable.getRow(PlaygroundSelectableTablePmo.INITAL_SELECTED_ROW).getAttribute("selected"),
-                is("true"));
+                   is("true"));
 
         // set selection
         selectableTable.getRow(1).select();
@@ -60,9 +59,9 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
         clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
 
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
-                is("Name 2"));
+                   is("Name 2"));
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION).getText(),
-                is("Name 2"));
+                   is("Name 2"));
 
         // change selection with key
         selectableTable.getCell(2, 1).click();
@@ -75,9 +74,9 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
 
         clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
-                is("Name 2"));
+                   is("Name 2"));
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION).getText(),
-                is("Name 2"));
+                   is("Name 2"));
     }
 
     @Test
@@ -98,8 +97,8 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
         List<NotificationElement> notificationsAfterDoubleClick = $(NotificationElement.class).all();
         assertThat(notificationsAfterDoubleClick.size(), is(1));
         assertThat(notificationsAfterDoubleClick.get(0).getText(),
-                containsString(PlaygroundSelectableTablePmo.NOTIFICATION_DOUBLE_CLICK));
+                   containsString(PlaygroundSelectableTablePmo.NOTIFICATION_DOUBLE_CLICK));
         assertThat(notificationsAfterDoubleClick.get(0).getText(),
-                containsString("Name 4"));
+                   containsString("Name 4"));
     }
 }

@@ -14,9 +14,9 @@
 
 package org.linkki.samples.playground.uitestnew.ts.aspects;
 
-import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.icon.testbench.IconElement;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
@@ -25,8 +25,9 @@ import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.WebElement;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.icon.testbench.IconElement;
 
 
 class BindIconTest extends PlaygroundUiTest {

@@ -35,7 +35,6 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
-import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.PasswordFieldElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;

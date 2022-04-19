@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.bugs.uitest;
+package org.linkki.samples.playground.uitestnew.ts.components;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -21,25 +21,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.bugs.BugCollectionView;
-import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.ts.TestScenarioView;
+import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 
 
-/**
- * LIN-1442
- */
-public class ComboBoxCaptionRefreshTest extends AbstractUiTest {
+class ComboBoxCaptionRefreshTest extends PlaygroundUiTest {
+
+    @BeforeEach
+    void goToTestCase() {
+        goToTestCaseByUrl(TestScenarioView.TS005, TestScenarioView.TC007);
+    }
 
     @Test
-    public void testValueOnResettingListItemValues() {
-        goToView(BugCollectionView.ROUTE);
-        openTab(ComboBoxCaptionRefreshPmo.CAPTION);
-
+    void testValueOnResettingListItemValues() {
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxCaptionRefreshPmo.PROPERTY_CHOICE);
         assertThat(comboBox.getSelectedText(), is(not(nullValue())));
         String oldValue = comboBox.getSelectedText();

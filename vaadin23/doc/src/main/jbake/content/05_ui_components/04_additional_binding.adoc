@@ -220,6 +220,12 @@ The CSS style names can be specified directly in the annotation and then apply t
 
 Alternatively, the annotation can be specified without style names, in which case a method named `get<Property>ItemStyle()` is called with return type `Function<TYPE, String>`. The type `TYPE` must correspond to the type of the items in the combo box. The function is called for each item in the combo box. This makes it possible to define different styles for individual items.
 
+[[ui-combobox-dynamicCaption]]
+===== @BindComboBoxDynamicCaption
+By default, the caption of an item is only updated if the item itself changes. If the caption of an item can change without the item itself being changed, the combo box should be additionally be annotated with `@BindComboBoxDynamicCaption`. This annotation makes sure that all items are updated including their caption upon updates.
+
+WARNING: The update of all items can be costly, especially if the combo box contains a large number of items. 
+
 [[bind-caption]]
 ===== Caption
 

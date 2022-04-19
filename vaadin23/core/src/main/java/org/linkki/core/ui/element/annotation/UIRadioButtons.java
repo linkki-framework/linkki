@@ -130,8 +130,7 @@ public @interface UIRadioButtons {
         public LinkkiAspectDefinition create(UIRadioButtons annotation) {
 
             AvailableValuesAspectDefinition<RadioButtonGroup<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                    annotation.content(), RadioButtonGroup::setItems,
-                    ItemCaptionProvider.instantiate(annotation::itemCaptionProvider));
+                    annotation.content(), RadioButtonGroup::setItems);
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(

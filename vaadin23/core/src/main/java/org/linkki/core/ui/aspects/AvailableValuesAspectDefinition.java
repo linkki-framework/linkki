@@ -14,7 +14,15 @@
 
 package org.linkki.core.ui.aspects;
 
-import static org.linkki.util.Objects.requireNonNull;
+import com.vaadin.flow.data.provider.HasListDataView;
+import edu.umd.cs.findbugs.annotations.Nullable;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
+import org.linkki.util.handler.Handler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,24 +30,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import org.linkki.core.binding.descriptor.aspect.Aspect;
-import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
-import org.linkki.util.handler.Handler;
-
-import com.vaadin.flow.data.provider.HasListDataView;
-import com.vaadin.flow.data.provider.ListDataProvider;
-
-import edu.umd.cs.findbugs.annotations.Nullable;
+import static org.linkki.util.Objects.requireNonNull;
 
 /**
  * Defines an aspect that updates the set of available values of {@link HasListDataView}.
- * 
+ *
  * @param <C> the component type
  */
 public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinition {
@@ -50,68 +45,46 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
 
     private final BiConsumer<C, List<Object>> dataProviderSetter;
 
-    private final ItemCaptionProvider<?> itemCaptionProvider;
-
     public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
-            BiConsumer<C, List<Object>> dataProviderSetter) {
-        this(availableValuesType, dataProviderSetter, new DefaultCaptionProvider());
-    }
-
-    public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
-            BiConsumer<C, List<Object>> dataProviderSetter,
-            ItemCaptionProvider<?> itemCaptionProvider) {
+                                           BiConsumer<C, List<Object>> dataProviderSetter) {
         this.availableValuesType = requireNonNull(availableValuesType, "availableValuesType must not be null");
         this.dataProviderSetter = requireNonNull(dataProviderSetter, "dataProviderSetter must not be null");
-        this.itemCaptionProvider = requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
     }
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         Aspect<Collection<?>> aspect = createAspect(propertyDispatcher.getProperty(),
-                                                    propertyDispatcher.getValueClass());
+                propertyDispatcher.getValueClass());
 
-        // Initialize with an empty collection to be in snyc with current cache.
+        // Initialize with an empty collection to be in sync with current cache.
         setDataProvider(componentWrapper, Collections.emptyList());
 
-        ItemCache cache = new ItemCache(itemCaptionProvider);
+        ItemCache cache = new ItemCache();
         return () -> updateItems(cache, propertyDispatcher.pull(aspect), componentWrapper);
     }
 
     private void updateItems(ItemCache cache,
-            @Nullable Collection<?> newItemsParam,
-            ComponentWrapper componentWrapper) {
+                             @Nullable Collection<?> newItemsParam,
+                             ComponentWrapper componentWrapper) {
         ArrayList<Object> newItems = new ArrayList<>(
                 requireNonNull(newItemsParam, "List of available values must not be null"));
         handleNullItems(componentWrapper, newItems);
 
         boolean hasChanged = cache.replaceContent(newItems);
         if (hasChanged) {
-            refreshAll(componentWrapper, cache.getItems());
+            setDataProvider(componentWrapper, cache.getItems());
         }
-    }
-
-    /**
-     * Refreshes all items including all the captions of available and selected items.
-     *
-     * @implNote This implementation always set a new {@link ListDataProvider} to get potential updated
-     *           captions. Resetting the {@link ListDataProvider} performs better than updating the
-     *           existing list provider using {@link ListDataProvider#refreshItem(Object)} for every
-     *           item. Unlike the name suggests, the method {@link ListDataProvider#refreshAll()} does
-     *           not update the captions at all.
-     */
-    protected void refreshAll(ComponentWrapper componentWrapper, List<Object> items) {
-        setDataProvider(componentWrapper, items);
     }
 
     /**
      * Returns an {@link Aspect} with name {@link AvailableValuesAspectDefinition#NAME}. The value of
      * this {@link Aspect} is created in dependence on the current {@link AvailableValuesType}.
-     * 
+     *
      * @param propertyName is used to classify the valueClass in case of an
-     *            {@link IllegalArgumentException}
-     * @param valueClass is considered if the available values type is neither
-     *            {@link AvailableValuesType#DYNAMIC} nor {@link AvailableValuesType#NO_VALUES} to
-     *            derive the {@link Aspect}'s values from valueClasses data type
+     *                     {@link IllegalArgumentException}
+     * @param valueClass   is considered if the available values type is neither
+     *                     {@link AvailableValuesType#DYNAMIC} nor {@link AvailableValuesType#NO_VALUES} to
+     *                     derive the {@link Aspect}'s values from valueClasses data type
      * @return the {@link Aspect} with name {@link AvailableValuesAspectDefinition#NAME}
      */
     public Aspect<Collection<?>> createAspect(String propertyName, Class<?> valueClass) {
@@ -130,7 +103,7 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
             @SuppressWarnings("unchecked")
             Class<T> enumType = (Class<T>)valueClass;
             return AvailableValuesProvider.enumToValues(enumType,
-                                                        getAvailableValuesType() == AvailableValuesType.ENUM_VALUES_INCL_NULL);
+                    getAvailableValuesType() == AvailableValuesType.ENUM_VALUES_INCL_NULL);
         }
         if (valueClass == Boolean.TYPE) {
             return AvailableValuesProvider.booleanPrimitiveToValues();
@@ -145,13 +118,13 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
 
     @SuppressWarnings("unchecked")
     protected void setDataProvider(ComponentWrapper componentWrapper,
-            List<Object> data) {
+                                   List<Object> data) {
         dataProviderSetter.accept((C)componentWrapper.getComponent(), data);
     }
 
     /**
      * The {@link AvailableValuesType} that is defined in the annotation.
-     * 
+     *
      * @return value for {@link AvailableValuesType}
      */
     protected AvailableValuesType getAvailableValuesType() {
@@ -164,9 +137,9 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
      * further processing.
      * <p>
      * Note that you have to modify the given list of values directly.
-     * 
+     *
      * @param componentWrapper component of which available values should be updated
-     * @param items items to be shown in the {@link ComponentWrapper}. May contain <code>null</code>.
+     * @param items            items to be shown in the {@link ComponentWrapper}. May contain <code>null</code>.
      */
     protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
         // does nothing by default
