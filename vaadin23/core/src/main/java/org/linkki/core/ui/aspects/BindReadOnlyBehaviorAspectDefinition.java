@@ -38,26 +38,30 @@ public class BindReadOnlyBehaviorAspectDefinition implements LinkkiAspectDefinit
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        return () -> {
-            setComponentStatus((Component)componentWrapper.getComponent(),
-                               propertyDispatcher.isPushable(Aspect.of(VALUE_ASPECT_NAME)));
-        };
+        return () -> setComponentStatus(componentWrapper, propertyDispatcher.isPushable(Aspect.of(VALUE_ASPECT_NAME)));
     }
 
-    private void setComponentStatus(Component component, boolean writable) {
+    private void setComponentStatus(ComponentWrapper componentWrapper, boolean writable) {
+        Component component = (Component)componentWrapper.getComponent();
         switch (value) {
             case DISABLED:
-                HasEnabled c = (HasEnabled)component;
-                c.setEnabled(c.isEnabled() && writable);
+                HasEnabled enableComponent = (HasEnabled)component;
+                componentWrapper.setEnabled(enableComponent.isEnabled() && writable);
                 break;
             case INVISIBLE:
-                component.setVisible(component.isVisible() && writable);
+                componentWrapper.setVisible(component.isVisible() && writable);
                 break;
             case WRITABLE:
                 if (component instanceof HasValue) {
-                    HasValue<?, ?> hasValueComponent = (HasValue<?, ?>)component;
-                    hasValueComponent.setReadOnly(false);
+                    ((HasValue<?, ?>)component).setReadOnly(false);
                 }
+                break;
+            case INVISIBLE_IF_WRITABLE:
+                componentWrapper.setVisible(component.isVisible() && !writable);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown ReadOnlyBehaviorType " + value);
         }
     }
+
 }

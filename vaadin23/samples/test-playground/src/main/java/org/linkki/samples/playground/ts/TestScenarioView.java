@@ -18,6 +18,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
@@ -52,6 +53,7 @@ import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo;
 import org.linkki.samples.playground.ts.aspects.BindIconPmo;
 import org.linkki.samples.playground.ts.aspects.BindPlaceholderPmo;
+import org.linkki.samples.playground.ts.aspects.BindReadOnlyBehaviorPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ts.aspects.BindSuffixPmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
@@ -110,6 +112,7 @@ import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Anchor;
@@ -249,6 +252,18 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC009, new BindSuffixPmo())
                                        .testCase(TC010, new BindPlaceholderPmo())
                                        .testCase(TC011, new BindComboBoxItemStylePmo())
+                                       .testCase(TC012, new VerticalLayout(
+                                               VaadinUiCreator
+                                                       .createComponent(new BindReadOnlyBehaviorPmo("writable section"),
+                                                                        new BindingContext()),
+                                               VaadinUiCreator
+                                                       .createComponent(new BindReadOnlyBehaviorPmo(
+                                                               "read-only section"),
+                                                                        new BindingContext("readOnlyContext",
+                                                                                PropertyBehaviorProvider
+                                                                                        .with(PropertyBehavior
+                                                                                                .readOnly()),
+                                                                                Handler.NOP_HANDLER))))
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())

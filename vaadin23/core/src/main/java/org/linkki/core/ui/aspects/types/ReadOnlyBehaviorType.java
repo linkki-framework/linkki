@@ -14,10 +14,15 @@
 
 package org.linkki.core.ui.aspects.types;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValue;
 
+
 /**
- * Defines the behavior when setting a component to read only.
+ * Defines the behavior when setting a component to read only. {@link ReadOnlyBehaviorType#DISABLED},
+ * {@link ReadOnlyBehaviorType#INVISIBLE}, {@link ReadOnlyBehaviorType#INVISIBLE_IF_WRITABLE} are
+ * currently only supported for buttons. {@link ReadOnlyBehaviorType#WRITABLE} is only supported by
+ * {@link Component components} that implement {@link HasValue}.
  */
 public enum ReadOnlyBehaviorType {
 
@@ -41,6 +46,12 @@ public enum ReadOnlyBehaviorType {
      * @apiNote This type is only applicable for components of type {@link HasValue}. If the component
      *          is not of type {@link HasValue}, a {@link ClassCastException} is thrown.
      */
-    WRITABLE;
+    WRITABLE,
+
+    /**
+     * The component is always invisible in writable mode. In read-only mode, the visible aspect is
+     * respected.
+     */
+    INVISIBLE_IF_WRITABLE
 
 }

@@ -28,12 +28,12 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class VisibleAspectDefinitionTest {
+class VisibleAspectDefinitionTest {
 
-    private TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
+    private final TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
 
     @Test
-    public void testCreateAspect_visible() {
+    void testCreateAspect_visible() {
         VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(VisibleType.VISIBLE);
 
         Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
@@ -43,7 +43,18 @@ public class VisibleAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateAspect_dynamic() {
+    void testCreateAspect_invisible() {
+        VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(VisibleType.INVISIBLE);
+
+        Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
+
+        assertThat(createdAspect.getName(), is(VisibleAspectDefinition.NAME));
+        assertThat(createdAspect.isValuePresent(), is(true));
+        assertThat(createdAspect.getValue(), is(false));
+    }
+
+    @Test
+    void testCreateAspect_dynamic() {
         VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(VisibleType.DYNAMIC);
 
         Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
@@ -53,7 +64,7 @@ public class VisibleAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetterComponentWrapper() {
+    void testCreateComponentValueSetterComponentWrapper() {
         VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(
                 VisibleType.VISIBLE);
         Consumer<Boolean> setter = aspectDefinition.createComponentValueSetter(componentWrapper);

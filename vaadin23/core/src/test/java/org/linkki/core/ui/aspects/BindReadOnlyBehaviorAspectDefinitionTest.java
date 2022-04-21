@@ -29,20 +29,21 @@ import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class BindReadOnlyBehaviorAspectDefinitionTest {
+class BindReadOnlyBehaviorAspectDefinitionTest {
 
-    private TextField component = new TextField();
-    private ComponentWrapper componentWrapper = VaadinComponentWrapperFactory.INSTANCE
+    private final TextField component = new TextField();
+    private final ComponentWrapper componentWrapper = VaadinComponentWrapperFactory.INSTANCE
             .createComponentWrapper(component);
-    private TestBehaviorProvider behaviorProvider = new TestBehaviorProvider();
-    private PropertyDispatcher propertyDispatcher = new BehaviorDependentDispatcher(
+    private final TestBehaviorProvider behaviorProvider = new TestBehaviorProvider();
+    private final PropertyDispatcher propertyDispatcher = new BehaviorDependentDispatcher(
             new StaticValueDispatcher(
                     new TestPropertyDispatcher()),
             behaviorProvider);
 
     @Test
-    public void testCreateUiUpdater_ReadOnlyDisabled() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.DISABLED);
+    void testReadOnlyBehavior_WhenReadOnly_ThenDisabled() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.DISABLED);
+
         setDispatcherReadOnly();
         uiUpdater.apply();
 
@@ -52,8 +53,9 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateUiUpdater_WriteableDisabled() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.DISABLED);
+    void testReadOnlyBehavior_WhenWriteable_ThenNotDisabled() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.DISABLED);
+
         setDispatcherWritable();
         uiUpdater.apply();
 
@@ -63,10 +65,11 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateUiUpdater_WriteableDisabled_StateChanged() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.DISABLED);
+    void testReadOnlyBehavior_GivenReadOnlyDisabled_WhenWriteable_ThenEnabled() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.DISABLED);
         setDispatcherReadOnly();
         uiUpdater.apply();
+
         setDispatcherWritable();
         uiUpdater.apply();
 
@@ -76,8 +79,9 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateUiUpdater_ReadOnlyInvisible() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVISIBLE);
+    void testReadOnlyBehavior_WhenReadOnly_ThenInvisible() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.INVISIBLE);
+
         setDispatcherReadOnly();
         uiUpdater.apply();
 
@@ -87,8 +91,9 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateUiUpdater_WriteableInvisible() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVISIBLE);
+    void testReadOnlyBehavior_WhenWriteable_ThenVisible() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.INVISIBLE);
+
         setDispatcherWritable();
         uiUpdater.apply();
 
@@ -98,32 +103,11 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateUiUpdater_WriteableInvisible_StateChanged() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVISIBLE);
-        setDispatcherReadOnly();
-        uiUpdater.apply();
-        setDispatcherWritable();
-        uiUpdater.apply();
-
-        assertThat(component.isEnabled(), is(true));
-        assertThat(component.isVisible(), is(true));
-        assertThat(component.isReadOnly(), is(false));
-    }
-
-    @Test
-    public void testCreateUiUpdater_ReadOnlyWriteable() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.WRITABLE);
+    void testReadOnlyBehavior_GivenReadOnlyInvisible_WhenWriteable_ThenWriteableVisible() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.INVISIBLE);
         setDispatcherReadOnly();
         uiUpdater.apply();
 
-        assertThat(component.isEnabled(), is(true));
-        assertThat(component.isVisible(), is(true));
-        assertThat(component.isReadOnly(), is(false));
-    }
-
-    @Test
-    public void testCreateUiUpdater_WriteableWriteable() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.WRITABLE);
         setDispatcherWritable();
         uiUpdater.apply();
 
@@ -133,10 +117,21 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateUiUpdater_WriteableWriteable_StateChanged() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.WRITABLE);
+    void testReadOnlyBehavior_WhenReadOnly_ThenWriteable() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.WRITABLE);
+
         setDispatcherReadOnly();
         uiUpdater.apply();
+
+        assertThat(component.isEnabled(), is(true));
+        assertThat(component.isVisible(), is(true));
+        assertThat(component.isReadOnly(), is(false));
+    }
+
+    @Test
+    void testReadOnlyBehavior_WhenWriteable_ThenWritable() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.WRITABLE);
+
         setDispatcherWritable();
         uiUpdater.apply();
 
@@ -145,11 +140,61 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
         assertThat(component.isReadOnly(), is(false));
     }
 
-    private Handler createAspectUiUpdater(ReadOnlyBehaviorType type) {
+    @Test
+    void testReadOnlyBehavior_GivenReadOnly_WhenWriteable_ThenWriteable() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.WRITABLE);
+        setDispatcherReadOnly();
+        uiUpdater.apply();
+
+        setDispatcherWritable();
+        uiUpdater.apply();
+
+        assertThat(component.isEnabled(), is(true));
+        assertThat(component.isVisible(), is(true));
+        assertThat(component.isReadOnly(), is(false));
+    }
+
+    @Test
+    void testReadOnlyBehavior_WhenWriteableInvisible_ThenInvisibleAndDisabled() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.INVISIBLE, ReadOnlyBehaviorType.INVISIBLE_IF_WRITABLE);
+        setDispatcherWritable();
+        uiUpdater.apply();
+
+        assertThat(component.isVisible(), is(false));
+    }
+
+    @Test
+    void testReadOnlyBehavior_WhenWriteableVisible_ThenInvisibleAndDisabled() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.INVISIBLE_IF_WRITABLE);
+        setDispatcherWritable();
+        uiUpdater.apply();
+
+        assertThat(component.isVisible(), is(false));
+    }
+
+    @Test
+    void testReadOnlyBehavior_WhenReadOnlyInvisible_ThenVisible() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.INVISIBLE, ReadOnlyBehaviorType.INVISIBLE_IF_WRITABLE);
+        setDispatcherReadOnly();
+        uiUpdater.apply();
+
+        assertThat(component.isVisible(), is(false));
+    }
+
+    @Test
+    void testReadOnlyBehavior_WhenReadOnlyVisible_ThenVisibleAndEnabled() {
+        Handler uiUpdater = createAspectUiUpdater(VisibleType.VISIBLE, ReadOnlyBehaviorType.INVISIBLE_IF_WRITABLE);
+        setDispatcherReadOnly();
+        uiUpdater.apply();
+
+        assertThat(component.isVisible(), is(true));
+    }
+
+    private Handler createAspectUiUpdater(VisibleType visibleType, ReadOnlyBehaviorType readOnlyBehaviorTypes) {
         return new CompositeAspectDefinition(
                 new EnabledAspectDefinition(EnabledType.ENABLED),
-                new VisibleAspectDefinition(VisibleType.VISIBLE),
-                new BindReadOnlyBehaviorAspectDefinition(type))
+                new VisibleAspectDefinition(visibleType),
+                new BindReadOnlyBehaviorAspectDefinition(readOnlyBehaviorTypes))
                         .createUiUpdater(propertyDispatcher, componentWrapper);
     }
 
@@ -164,7 +209,7 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
     private static class TestPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
 
         @CheckForNull
-        private Object boundObject = new Object();
+        private final Object boundObject = new Object();
 
         public TestPropertyDispatcher() {
             super(new ExceptionPropertyDispatcher("test"));

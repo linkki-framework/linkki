@@ -9,6 +9,14 @@
 
 ==== New features and improvements
 
+===== Additional Behavior in `BindReadOnlyBehavior` displays buttons only in read-only mode
+////
+https://jira.faktorzehn.de/browse/LIN-2626
+////
+The <<bind-read-only-behavior,`@BindReadOnlyBehavior`>> annotation has been extended by the option `INVISIBLE_IF WRITABLE`. 
+With this option, it is now possible to show buttons only in read-only mode. 
+For more information see chapter <<bind-read-only-behavior,`@BindReadOnlyBehavior`>>.
+
 ===== Collapsible columns
 ////
 https://jira.faktorzehn.de/browse/LIN-2138

@@ -181,19 +181,24 @@ The aspect has a value of type `ReadOnlyBehaviorType` with the following options
 [cols="1,9"]
 .ReadOnlyBehaviorType
 |===
-|`INVISIBLE`   |Component is invisible in read-only-mode. This type is the default value.
-|`DISABLED`  |Component is visible but disabled in read-only-mode.
-|`WRITABLE` |Component remains writable in read-only-mode.
+|`INVISIBLE` |Component is invisible in read-only mode. This type is the default value.
+|`DISABLED` |Component is visible but disabled in read-only mode.
+|`WRITABLE` |Component remains writable in read-only mode.
+|`INVISIBLE_IF_WRITABLE` |Component is invisible in writable mode.
 |===
 
-TIP: `INVISIBLE` and `DISABLED` are especially useful for buttons which cannot be read-only. The type `WRITABLE` is useful for components which do not change data like an input field that is used to filter the content in the user interface.
+TIP: `INVISIBLE` and `DISABLED` are especially useful for buttons as buttons do not have a read-only mode. The type `WRITABLE` is useful for components which do not change data like an input field that is used to filter the content in the user interface.
+
+TIP: `INVISIBLE_IF_WRITABLE` can be used for buttons which should only be visible in read-only mode.
+
+IMPORTANT: `INVISIBLE`, `DISABLED`, `INVISIBLE_IF_WRITABLE` are only supported for buttons yet. `WRITABLE` can only be used on UI elements which implement `HasValue`.
 
 [[bind-visible]]
 ===== Bind Visible
 
 `@BindVisible` changes a component's visibility from the PMO by invoking a method named `is[PropertyName]Visible()`.
 
-The aspect has a value of type `VisibiltyType` with the option `DYNAMIC`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`.
+The aspect has a default value of type `VisibiltyType` with the option `DYNAMIC`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`.
 
 [[bind-style-names]]
 ===== Style Names
