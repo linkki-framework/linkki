@@ -2,6 +2,8 @@
 
 [part='radio'] {
     background-color: var(--linkki-input-background);
+    border: 1px solid var(--linkki-input-border-color);
+    box-sizing: border-box;
 }
 
 :host(:not([checked]):not([disabled]):hover) [part='radio'] {

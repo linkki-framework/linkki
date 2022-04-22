@@ -8,24 +8,22 @@
     background-color: var(--linkki-input-background-hover);
 }
 
-:host([disabled][checked]) {
+/*
+ * Readonly styles
+ */
+:host([readonly]) {
   color: var(--lumo-body-text-color);
 }
 
-:host([disabled][checked]) [part='checkbox'] {
-  color: var(--lumo-primary-text-color);
+:host([readonly]) [part='checkbox'] {
   background-color: transparent;
 }
 
-/*
- * Checkbox checkmark color needs to be set separately
- */
-:host([disabled][checked]) [part="checkbox"]::after {
+:host([readonly][checked]) [part="checkbox"]::after {
   color: var(--lumo-primary-text-color);
 }
 
-:host([disabled]:not([checked])) [part="checkbox"] {
-  background-color: transparent;
+:host([readonly]:not([checked])) [part="checkbox"] {
   border: 1px solid var(--linkki-input-border-color-readonly);
 }
 

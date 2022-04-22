@@ -27,8 +27,8 @@ public class LinkkiCheckBox extends Checkbox {
     @Override
     public void setReadOnly(boolean readOnly) {
         super.setReadOnly(readOnly);
-        getElement().setAttribute("disabled", readOnly);
-        getElement().setEnabled(!readOnly);
+        getElement().setAttribute("readonly", readOnly);
+        setEnabled(!readOnly);
     }
 
 }

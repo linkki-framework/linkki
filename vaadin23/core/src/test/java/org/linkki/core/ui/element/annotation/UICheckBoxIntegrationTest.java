@@ -140,17 +140,19 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
 
     @Test
     void testSetReadOnly() {
-        Checkbox checkBox = getComponentById("dynamicEnabledCheckBox");
+        Checkbox checkBox = getComponentById("dynamicReadonlyCheckBox");
 
         assertThat(checkBox, is(instanceOf(LinkkiCheckBox.class)));
         assertThat(checkBox.isReadOnly(), is(false));
-        assertThat(checkBox.getElement().hasAttribute("disabled"), is(false));
+        assertThat(checkBox.isEnabled(), is(true));
+        assertThat(checkBox.getElement().hasAttribute("readonly"), is(false));
 
-        getDefaultPmo().setDynamicEnabledCheckBoxReadOnly(true);
+        getDefaultPmo().setDynamicReadonlyCheckBoxReadOnly(true);
         modelChanged();
 
         assertThat(checkBox.isReadOnly(), is(true));
-        assertThat(checkBox.getElement().hasAttribute("disabled"), is(true));
+        assertThat(checkBox.isEnabled(), is(false));
+        assertThat(checkBox.getElement().hasAttribute("readonly"), is(true));
     }
 
     @UISection
@@ -183,19 +185,19 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
 
         @BindReadOnly(ReadOnlyType.DYNAMIC)
         @UICheckBox(position = 4)
-        public boolean getDynamicEnabledCheckBox() {
+        public boolean getDynamicReadonlyCheckBox() {
             return true;
         }
 
-        public void setDynamicEnabledCheckBox(@SuppressWarnings("unused") boolean booleanValue) {
+        public void setDynamicReadonlyCheckBox(@SuppressWarnings("unused") boolean booleanValue) {
             // nop
         }
 
-        public boolean isDynamicEnabledCheckBoxReadOnly() {
+        public boolean isDynamicReadonlyCheckBoxReadOnly() {
             return readOnly;
         }
 
-        public void setDynamicEnabledCheckBoxReadOnly(boolean readOnly) {
+        public void setDynamicReadonlyCheckBoxReadOnly(boolean readOnly) {
             this.readOnly = readOnly;
         }
     }

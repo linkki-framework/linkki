@@ -28,7 +28,7 @@ class LinkkiCheckBoxTest {
         checkBox.setReadOnly(false);
 
         assertThat(checkBox.isEnabled()).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("disabled")).isFalse();
+        assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
     }
 
     @Test
@@ -38,7 +38,7 @@ class LinkkiCheckBoxTest {
         checkBox.setReadOnly(true);
 
         assertThat(checkBox.isEnabled()).isFalse();
-        assertThat(checkBox.getElement().hasAttribute("disabled")).isTrue();
+        assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
     }
 
 }
