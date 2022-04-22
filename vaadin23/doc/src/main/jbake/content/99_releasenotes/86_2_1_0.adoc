@@ -2,7 +2,7 @@
 :jbake-status: referenced
 :jbake-order: 0
 
-// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT ITS TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
 === Version 2.1.0
@@ -31,6 +31,15 @@ Note that model bindings cannot be used with sortable columns, a getter method m
 image::{images}{images-folder-name}/sortable_columns.png[]
 
 
+For more information, see "<<ui-table-column, @UITableColumn>>".
+
+===== UIDateTimeField
+////
+https://jira.faktorzehn.de/browse/LIN-2295
+////
+A new annotation, `@UIDateTimeField`, has been added for selecting both a date and a time. `@UIDateTimeField` has all the properties of `UIDateField` and the property `step` for setting the time interval in the time picker overlay.
+
+For more information, see "<<ui-datetimefield, @UIDateTimeField>>".
 
 ==== Bugfixes
 

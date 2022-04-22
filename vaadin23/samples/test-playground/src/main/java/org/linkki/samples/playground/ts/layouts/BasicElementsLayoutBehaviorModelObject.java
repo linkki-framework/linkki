@@ -16,6 +16,7 @@ package org.linkki.samples.playground.ts.layouts;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.faktorips.values.Decimal;
 
@@ -26,6 +27,7 @@ public class BasicElementsLayoutBehaviorModelObject {
     public static final String PROPERTY_INTVALUE = "intValue";
     public static final String PROPERTY_DOUBLEVALUE = "doubleValue";
     public static final String PROPERTY_DATE = "date";
+    public static final String PROPERTY_DATE_TIME = "dateTime";
     public static final String PROPERTY_ENUMVALUE = "enumValue";
     public static final String PROPERTY_BOOLEANVALUE = "booleanValue";
     public static final String PROPERTY_SECRET = "secret";
@@ -44,6 +46,7 @@ public class BasicElementsLayoutBehaviorModelObject {
     private int intValue = 42;
     private double doubleValue = 47.11;
     private LocalDate date = LocalDate.now();
+    private LocalDateTime dateTime = LocalDateTime.now();
     private boolean booleanValue = true;
     private String secret = "secret";
     private BigDecimal bigDecimal = BigDecimal.valueOf(1234567890L, 5);
@@ -106,6 +109,14 @@ public class BasicElementsLayoutBehaviorModelObject {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public boolean isBooleanValue() {

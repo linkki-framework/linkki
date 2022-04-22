@@ -60,6 +60,7 @@ import org.linkki.samples.playground.ts.components.ButtonPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxPmo;
 import org.linkki.samples.playground.ts.components.CustomFieldPmo;
 import org.linkki.samples.playground.ts.components.DateFieldPmo;
+import org.linkki.samples.playground.ts.components.DateTimeFieldPmo;
 import org.linkki.samples.playground.ts.components.DoubleFieldPmo;
 import org.linkki.samples.playground.ts.components.DynamicComponentPage;
 import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
@@ -225,6 +226,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC010, new ButtonPmo())
                                        .testCase(TC011, new CustomFieldPmo())
                                        .testCase(TC012, new DynamicComponentPage())
+                                       .testCase(TC013, new DateTimeFieldPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, new LinkkiTextComponent())

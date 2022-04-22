@@ -25,7 +25,6 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.ui.creation.VaadinUiCreator;
-import org.linkki.core.vaadin.component.section.GridSection;
 
 import com.vaadin.flow.component.Component;
 
@@ -38,12 +37,10 @@ public class TableWithValidationSection {
         DefaultBindingManager bindingManager = new DefaultBindingManager(() -> validate(modelObjects));
         BindingContext bindingContext = bindingManager.getContext("table");
 
-        GridSection tableSection = (GridSection)VaadinUiCreator
+        return VaadinUiCreator
                 .createComponent(new PlaygroundTablePmo(() -> modelObjects,
                         () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
-                        o -> modelObjects.remove(o)), bindingContext);
-
-        return tableSection;
+                        modelObjects::remove), bindingContext);
     }
 
     private static MessageList validate(List<TableModelObject> modelObjects) {

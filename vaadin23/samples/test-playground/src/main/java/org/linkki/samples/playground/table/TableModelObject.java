@@ -28,6 +28,8 @@ public class TableModelObject {
 
     public static final String PROPERTY_DATE = "date";
 
+    public static final String PROPERTY_DATE_TIME = "dateTime";
+
     private int index;
 
     private boolean active = true;
