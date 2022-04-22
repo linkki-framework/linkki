@@ -8,6 +8,7 @@ import static java.util.stream.Collectors.toSet;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -167,7 +168,12 @@ public class TestCompiler {
     }
 
     private static String classPathOf(Class<?> clazz) {
-        return clazz.getProtectionDomain().getCodeSource().getLocation().getFile();
+        try {
+            File file = new File(clazz.getProtectionDomain().getCodeSource().getLocation().toURI());
+            return file.getAbsolutePath();
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Failed to find location of " + clazz.getName(), e);
+        }
     }
 
     private static Collection<Class<?>> classOfUIComponents() {
@@ -186,7 +192,8 @@ public class TestCompiler {
                       BindTooltip.class,
                       BindReadOnly.class,
                       BindVisible.class,
-                      UIYesNoComboBox.class);
+                      UIYesNoComboBox.class,
+                      UITableColumn.class);
     }
 
 }

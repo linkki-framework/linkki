@@ -55,6 +55,7 @@ import org.linkki.tooling.apt.validator.ModelBindingValidator;
 import org.linkki.tooling.apt.validator.ModelObjectValidator;
 import org.linkki.tooling.apt.validator.PositionValidator;
 import org.linkki.tooling.apt.validator.PublicModifierValidator;
+import org.linkki.tooling.apt.validator.UITableColumnValidator;
 import org.linkki.tooling.apt.validator.Validator;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -118,7 +119,8 @@ public class LinkkiAnnotationProcessor extends AbstractProcessor {
                             new ModelBindingValidator(options),
                             new DynamicFieldValidator(options, elementUtils),
                             new AvailableValuesTypeValidator(options, elementUtils),
-                            new BoundPropertyValidator(options, types));
+                            new BoundPropertyValidator(options, types),
+                            new UITableColumnValidator(processingEnvironment));
     }
 
     private ClassLoader getClassLoader(Map<String, String> options) {

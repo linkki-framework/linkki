@@ -35,7 +35,7 @@ public interface Validator {
     void validate(AptPmo pmo, Messager messager);
 
     static List<String> getMessageCodes(Class<? extends Validator> validator) {
-        Optional<MessageCodes> codes = Optional.of(validator.getAnnotation(MessageCodes.class));
+        Optional<MessageCodes> codes = Optional.ofNullable(validator.getAnnotation(MessageCodes.class));
         return codes
                 .map(it -> asList(it.value()))
                 .orElse(emptyList());
