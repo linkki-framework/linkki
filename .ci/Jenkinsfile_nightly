@@ -57,6 +57,7 @@ pipeline {
                 }
 
                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin23/samples/test-playground/uitest/target/error-screenshots/*.png'
+                junit 'vaadin23/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
             }
 
             environment {
