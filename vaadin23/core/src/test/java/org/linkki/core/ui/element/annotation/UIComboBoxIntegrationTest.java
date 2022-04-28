@@ -15,9 +15,7 @@ package org.linkki.core.ui.element.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
@@ -27,6 +25,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
@@ -63,21 +62,36 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
     }
 
     @Test
-    void testNullSelection() {
+    void testDisallowCustomValue(){
+        assertThat(getDynamicComponent().isAllowCustomValue(), is(false));
         assertThat(getStaticComponent().isAllowCustomValue(), is(false));
+    }
 
-        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+    @Test
+    void testClearButton_NullNotAllowed() {
+        assertThat(getDefaultPmo().getValueAvailableValues(), not(contains(nullValue())));
 
         ComboBox<TestEnum> comboBox = getDynamicComponent();
-        assertThat(availableValues.contains(null), is(false));
 
+        assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE,
+                TestEnum.TWO,
+                TestEnum.THREE));
+        assertThat(comboBox.isClearButtonVisible(), is(false));
+    }
+
+    @Test
+    void testClearButton_NullAllowed() {
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.add(null);
-        assertThat(availableValues.contains(null), is(true));
         getDefaultPmo().setValueAvailableValues(availableValues);
         modelChanged();
+
+        ComboBox<TestEnum> comboBox = getDynamicComponent();
+
         assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE,
                                                         TestEnum.TWO,
                                                         TestEnum.THREE));
+        assertThat(comboBox.isClearButtonVisible(), is(true));
     }
 
     @Test
@@ -161,14 +175,28 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
     void testNullInputIfRequired() {
         ComboBox<TestEnum> comboBox = getDynamicComponent();
         getDefaultPmo().setRequired(true);
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+        availableValues.add(null);
+        getDefaultPmo().setValueAvailableValues(availableValues);
         modelChanged();
         assertThat(comboBox.isRequiredIndicatorVisible(), is(true));
 
         TestUiUtil.setUserOriginatedValue(comboBox, TestEnum.ONE);
         assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
 
-        TestUiUtil.setUserOriginatedValue(comboBox, (TestEnum)null);
+        TestUiUtil.setUserOriginatedValue(comboBox, null);
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
+    @Test
+    void testNullInput_AvailableValuesDoesNotContainNull() {
+        assertThat(getDefaultPmo().getValueAvailableValues(), not(contains(nullValue())));
+        TestUiUtil.setUserOriginatedValue(getDynamicComponent(), TestEnum.ONE);
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+
+        TestUiUtil.setUserOriginatedValue(getDynamicComponent(), null);
+
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
     }
 
     @Test

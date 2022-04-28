@@ -21,16 +21,19 @@ import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.layout.annotation.UISection;
 
+import java.util.Arrays;
+import java.util.List;
+
 @UISection
 public class ComboBoxPmo {
 
-    private Direction directionWithoutNull;
+    private Direction directionWithoutNull = Direction.DOWN;
     private Direction directionWithNull;
     private Direction leftAligned;
     private Direction centerAligned;
     private Direction rightAligned;
 
-    @UIComboBox(position = 0, label = "Without null", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = CaptionProvider.class)
+    @UIComboBox(position = 0, label = "Enum without null", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = CaptionProvider.class)
     public Direction getDirectionWithoutNull() {
         return directionWithoutNull;
     }
@@ -39,7 +42,7 @@ public class ComboBoxPmo {
         this.directionWithoutNull = directionWithoutNull;
     }
 
-    @UIComboBox(position = 10, label = "With null", content = AvailableValuesType.ENUM_VALUES_INCL_NULL, itemCaptionProvider = CaptionProvider.class)
+    @UIComboBox(position = 10, label = "Enum With null", content = AvailableValuesType.ENUM_VALUES_INCL_NULL, itemCaptionProvider = CaptionProvider.class)
     public Direction getDirectionWithNull() {
         return directionWithNull;
     }

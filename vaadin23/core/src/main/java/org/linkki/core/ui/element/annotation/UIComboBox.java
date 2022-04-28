@@ -13,21 +13,11 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
-import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.AnnotatedElement;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.ComboBoxVariant;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
@@ -37,6 +27,7 @@ import org.linkki.core.binding.descriptor.aspect.base.StaticModelToUiAspectDefin
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
@@ -60,8 +51,21 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.combobox.ComboBoxVariant;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
+import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 /**
  * Creates a ComboBox with the specified parameters.
@@ -74,24 +78,32 @@ import com.vaadin.flow.component.combobox.ComboBoxVariant;
 @LinkkiPositioned
 public @interface UIComboBox {
 
-    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    /**
+     * Mandatory attribute that defines the order in which UI-Elements are displayed
+     */
     @LinkkiPositioned.Position
     int position();
 
-    /** Provides a description label next to the UI element */
+    /**
+     * Provides a description label next to the UI element
+     */
     String label() default DERIVED_BY_LINKKI;
 
     /**
      * Specifies the source of the available values, the content of the combo box.
-     * 
+     *
      * @see AvailableValuesType
      */
     AvailableValuesType content() default AvailableValuesType.ENUM_VALUES_INCL_NULL;
 
-    /** Defines if an UI-Component is editable, using values of {@link EnabledType} */
+    /**
+     * Defines if an UI-Component is editable, using values of {@link EnabledType}
+     */
     EnabledType enabled() default ENABLED;
 
-    /** Marks mandatory fields visually */
+    /**
+     * Marks mandatory fields visually
+     */
     RequiredType required() default NOT_REQUIRED;
 
     /**
@@ -158,7 +170,7 @@ public @interface UIComboBox {
                     requiredAspectDefinition,
                     availableValuesAspectDefinition,
                     new VisibleAspectDefinition(annotation.visible()),
-                    new ValueAspectDefinition(),
+                    new ComboBoxValueAspectDefinition(),
                     new DerivedReadOnlyAspectDefinition(),
                     new TextAlignAspectDefinition(annotation.textAlign()));
         }
@@ -168,7 +180,8 @@ public @interface UIComboBox {
             private final UIComboBox annotation;
 
             private ComboBoxAvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
-                    BiConsumer<ComboBox<Object>, List<Object>> dataProviderSetter, UIComboBox annotation) {
+                                                            BiConsumer<ComboBox<Object>, List<Object>> dataProviderSetter,
+                                                            UIComboBox annotation) {
                 super(availableValuesType, dataProviderSetter);
                 this.annotation = annotation;
             }
@@ -180,6 +193,49 @@ public @interface UIComboBox {
                 boolean hasNullItem = items.removeIf(Objects::isNull);
                 ((ComboBox<Object>)componentWrapper.getComponent())
                         .setClearButtonVisible(hasNullItem || dynamicItemsEmpty);
+            }
+        }
+
+        private static final class ComboBoxValueAspectDefinition extends ValueAspectDefinition {
+
+            @Override
+            protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
+                return new ComboBoxValueConverter(super.getConverter(presentationType, modelType));
+            }
+
+            /**
+             * Do not set any warning message as it should be expected that only valid values can be selected.
+             */
+            @Override
+            protected MessageList getInvalidInputMessage(Object value) {
+                return new MessageList();
+            }
+        }
+
+        private static final class ComboBoxValueConverter implements Converter<Object, Object> {
+
+            private static final long serialVersionUID = -7386708403118050830L;
+
+            private final Converter<Object, Object> wrappedConverter;
+
+            @SuppressWarnings("unchecked")
+            public ComboBoxValueConverter(Converter<?, ?> wrappedConverter) {
+                this.wrappedConverter = (Converter<Object, Object>)wrappedConverter;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public Result<Object> convertToModel(Object value, ValueContext context) {
+                if (value == null && !((ComboBox<Object>)context.getComponent().get()).isClearButtonVisible()) {
+                    return Result.error("Null is not an available value");
+                } else {
+                    return wrappedConverter.convertToModel(value, context);
+                }
+            }
+
+            @Override
+            public Object convertToPresentation(Object value, ValueContext context) {
+                return wrappedConverter.convertToPresentation(value, context);
             }
         }
 

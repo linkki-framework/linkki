@@ -180,7 +180,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         textFieldElement.sendKeys("\t");
 
         // postcondition
-        assertThat(textFieldElement.hasAttribute("invalid")).isTrue();
+        assertThat(textFieldElement.hasAttribute("invalid")).as("The presence of the attribute invalid").isTrue();
     }
 
     // TODO LIN-2343 more tests for all other elements in this section?

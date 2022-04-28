@@ -14,18 +14,18 @@
 
 package org.linkki.samples.playground.uitestnew.ts.components;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
+import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.html.testbench.InputTextElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
-import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
-import com.vaadin.flow.component.html.testbench.DivElement;
-import com.vaadin.flow.component.html.testbench.InputTextElement;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 class TC007UIComboBoxTest extends PlaygroundUiTest {
 
@@ -35,14 +35,14 @@ class TC007UIComboBoxTest extends PlaygroundUiTest {
     }
 
     @Test
-    void testComboBoxWithNullHasClearButton() {
+    void testClearButton_ComboBoxWithNull() {
         ComboBoxElement comboBoxElement = $(ComboBoxElement.class).id("directionWithNull");
 
         assertThat(hasClearButton(comboBoxElement), is(true));
     }
 
     @Test
-    void testComboBoxWithoutNullDoesNotHaveClearButton() {
+    void testClearButton_ComboBoxWithoutNull() {
         ComboBoxElement comboBoxElement = $(ComboBoxElement.class).id("directionWithoutNull");
 
         assertThat(hasClearButton(comboBoxElement), is(false));
@@ -50,6 +50,22 @@ class TC007UIComboBoxTest extends PlaygroundUiTest {
 
     private boolean hasClearButton(ComboBoxElement element) {
         return element.hasAttribute("clear-button-visible");
+    }
+
+    @Test
+    void testRemoveContent_ComboBoxWithNull() {
+        ComboBoxElement comboBoxElement = $(ComboBoxElement.class).id("directionWithNull");
+        comboBoxElement.clear();
+
+        assertThat(comboBoxElement.getInputElementValue()).isNullOrEmpty();
+    }
+
+    @Test
+    void testRemoveContent_ComboBoxWithoutNull() {
+        ComboBoxElement comboBoxElement = $(ComboBoxElement.class).id("directionWithoutNull");
+        comboBoxElement.clear();
+
+        assertThat(comboBoxElement.getInputElementValue()).isNotNull();
     }
 
     @Test

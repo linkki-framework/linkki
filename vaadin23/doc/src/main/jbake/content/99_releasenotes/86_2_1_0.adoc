@@ -64,3 +64,5 @@ IMPORTANT: Considering the fact that the above mentioned feature is only require
 * Empty `UILabel` columns with a small width no longer display dots (...) in Mozilla Firefox
 // https://jira.faktorzehn.de/browse/LIN-2886
 * `UILink` do not show label above the link
+// https://jira.faktorzehn.de/browse/LIN-3037
+* Removing values from a `UIComboBox` that does not allow null should not be possible.

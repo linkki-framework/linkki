@@ -14,11 +14,15 @@
 
 package org.linkki.core.ui.aspects;
 
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.Map;
-import java.util.Optional;
-
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.HasValue.ValueChangeEvent;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.value.HasValueChangeMode;
+import com.vaadin.flow.data.value.ValueChangeMode;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -31,15 +35,10 @@ import org.linkki.core.ui.nls.NlsText;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.HasValue;
-import com.vaadin.flow.component.HasValue.ValueChangeEvent;
-import com.vaadin.flow.data.binder.Result;
-import com.vaadin.flow.data.binder.ValueContext;
-import com.vaadin.flow.data.converter.Converter;
-import com.vaadin.flow.data.value.HasValueChangeMode;
-import com.vaadin.flow.data.value.ValueChangeMode;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Aspect definition for value change. Defines that the data source will get/set values through
@@ -68,8 +67,8 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
 
     @Override
     public void initModelUpdate(PropertyDispatcher propertyDispatcher,
-            ComponentWrapper componentWrapper,
-            Handler modelUpdated) {
+                                ComponentWrapper componentWrapper,
+                                Handler modelUpdated) {
 
         @SuppressWarnings("unchecked")
         // TODO LIN-2507
@@ -85,24 +84,29 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
 
         field.addValueChangeListener(event -> {
             if (event.isFromClient()) {
-                Result<?> result = converter.convertToModel(event.getValue(), getValueContext());
-                result.ifOk(v -> propertyDispatcher.push(Aspect.of(NAME, v)));
+                Result<?> result = converter.convertToModel(event.getValue(), getValueContext(field));
+                result.ifOk(v -> {
+                    propertyDispatcher.push(Aspect.of(NAME, v));
+                });
                 modelUpdated.apply();
                 result.ifError(s -> componentWrapper.setValidationMessages(getInvalidInputMessage(event.getValue())));
             }
         });
     }
 
-    private MessageList getInvalidInputMessage(@CheckForNull Object value) {
+    /**
+     * Warns the user that the user input is not set due to conversion error.
+     */
+    protected MessageList getInvalidInputMessage(@CheckForNull Object value) {
         return new MessageList(
                 Message.newWarning(MSG_CODE_INVALID_INPUT,
-                                   String.format(NlsText.getString("ValueAspectDefinition.invalidInput"),
-                                                 value != null ? value.toString() : "null")));
+                        String.format(NlsText.getString("ValueAspectDefinition.invalidInput"),
+                                value != null ? value.toString() : "null")));
     }
 
     private Type getTypeOf(HasValue<?, ?> field) {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(field.getClass(),
-                                                                              HasValue.class);
+                HasValue.class);
         @SuppressWarnings("rawtypes")
         TypeVariable<Class<HasValue>>[] typeVariables = HasValue.class.getTypeParameters();
         return typeArguments.get(typeVariables[1]);
@@ -111,7 +115,7 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
     @SuppressWarnings("unchecked")
     private Converter<Object, Object> getConverter(PropertyDispatcher propertyDispatcher, HasValue<?, ?> field) {
         return (Converter<Object, Object>)getConverter(getTypeOf(field),
-                                                       propertyDispatcher.getValueClass());
+                propertyDispatcher.getValueClass());
     }
 
     @Override
@@ -122,29 +126,27 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
         return () -> {
             Object value = propertyDispatcher.pull(Aspect.of(NAME));
             if (value != null) {
-                field.setValue(converter.convertToPresentation(value, getValueContext()));
+                field.setValue(converter.convertToPresentation(value, getValueContext(field)));
             } else {
                 field.setValue(field.getEmptyValue());
             }
         };
     }
 
-    protected ValueContext getValueContext() {
-        return new ValueContext(UiFramework.getLocale());
+    protected ValueContext getValueContext(HasValue<?, Object> source) {
+        return new ValueContext((Component)source, source, UiFramework.getLocale());
     }
 
     /**
      * Returns a converter that should be used to convert a value of model type to a value of
      * presentation type. Note that the presentation type should match the value type of the input
      * field.
-     * <P>
+     * <p>
      * Uses {@link Converter#identity()} by default. Override to add converters.
-     * 
+     *
      * @param presentationType value type of the input field
-     * @param modelType the model type
-     * 
+     * @param modelType        the model type
      * @return a converter from model type to presentation type
-     * 
      * @see LinkkiConverterRegistry
      */
     protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
@@ -153,7 +155,7 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
         } else {
             Converter<Object, Object> foundConverter = LinkkiConverterRegistry.getCurrent()
                     .findConverter(presentationType,
-                                   modelType);
+                            modelType);
             return Optional.ofNullable(foundConverter).orElse(Converter.identity());
         }
     }
