@@ -80,6 +80,14 @@ pipeline {
             }
 
             parallel {
+	        stage('Faktor-IPS build') {
+		    steps {
+		        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+			    sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin23 faktorips:faktorips-clean faktorips:faktorips-build'
+			}
+		    }
+		}
+
                 stage('UI Test') {
                     steps {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {

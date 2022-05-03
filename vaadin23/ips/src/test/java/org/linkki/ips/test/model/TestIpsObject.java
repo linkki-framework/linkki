@@ -6,6 +6,7 @@ import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.internal.AbstractModelObject;
 import org.faktorips.valueset.ValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
+import org.faktorips.runtime.model.annotation.IpsDefaultValue;
 import org.faktorips.valueset.OrderedValueSet;
 import java.time.MonthDay;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
@@ -41,6 +42,23 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * Max allowed values for property foo.
+     *
+     * @generated
+     */
+    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_FOO = new UnrestrictedValueSet<>(true);
+
+
+    /**
+     * The default value for foo.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("foo")
+    public static final String DEFAULT_VALUE_FOR_FOO = null;
+
+
+    /**
      * The name of the property valueSetInclNull.
      *
      * @generated
@@ -49,11 +67,46 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * Max allowed values for property valueSetInclNull.
+     *
+     * @generated
+     */
+    public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_VALUE_SET_INCL_NULL = new UnrestrictedValueSet<>(true);
+
+
+    /**
+     * The default value for valueSetInclNull.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("valueSetInclNull")
+    public static final Boolean DEFAULT_VALUE_FOR_VALUE_SET_INCL_NULL = null;
+
+
+    /**
      * The name of the property valueSetExclNull.
      *
      * @generated
      */
     public static final String PROPERTY_VALUESETEXCLNULL = "valueSetExclNull";
+
+
+    /**
+     * Max allowed values for property valueSetExclNull.
+     *
+     * @generated
+     */
+    public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_VALUE_SET_EXCL_NULL = new UnrestrictedValueSet<>(
+            false);
+
+
+    /**
+     * The default value for valueSetExclNull.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("valueSetExclNull")
+    public static final boolean DEFAULT_VALUE_FOR_VALUE_SET_EXCL_NULL = true;
 
 
     /**
@@ -74,11 +127,20 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * The default value for emptyValueSet.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("emptyValueSet")
+    public static final MonthDay DEFAULT_VALUE_FOR_EMPTY_VALUE_SET = null;
+
+
+    /**
      * Member variable for foo.
      *
      * @generated
      */
-    private String foo = null;
+    private String foo = DEFAULT_VALUE_FOR_FOO;
 
 
     /**
@@ -86,7 +148,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
-    private Boolean valueSetInclNull = null;
+    private Boolean valueSetInclNull = DEFAULT_VALUE_FOR_VALUE_SET_INCL_NULL;
 
 
     /**
@@ -94,7 +156,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
-    private boolean valueSetExclNull = true;
+    private boolean valueSetExclNull = DEFAULT_VALUE_FOR_VALUE_SET_EXCL_NULL;
 
 
     /**
@@ -102,7 +164,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
-    private MonthDay emptyValueSet = null;
+    private MonthDay emptyValueSet = DEFAULT_VALUE_FOR_EMPTY_VALUE_SET;
 
 
     /**
@@ -113,6 +175,18 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsGenerated
     public TestIpsObject() {
         super();
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property foo.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("foo")
+    @IpsGenerated
+    public ValueSet<String> getSetOfAllowedValuesForFoo(IValidationContext context) {
+        return MAX_ALLOWED_VALUES_FOR_FOO;
     }
 
 
@@ -136,6 +210,18 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsGenerated
     public void setFoo(String newValue) {
         this.foo = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property valueSetInclNull.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("valueSetInclNull")
+    @IpsGenerated
+    public ValueSet<Boolean> getSetOfAllowedValuesForValueSetInclNull(IValidationContext context) {
+        return MAX_ALLOWED_VALUES_FOR_VALUE_SET_INCL_NULL;
     }
 
 

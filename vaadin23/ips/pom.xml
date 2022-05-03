@@ -36,4 +36,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.faktorips</groupId>
+                    <artifactId>faktorips-maven-plugin</artifactId>
+                    <version>${faktorips.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>
