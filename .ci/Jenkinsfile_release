@@ -91,7 +91,7 @@ pipeline {
                     withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                         // only publish normal releases (no rcs & milestones) on maven central
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc']
+                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease,releaseDocumentation -Ddoc.user=doc']
                         } else {
                             uploadRelease commands: ['mvn javadoc:jar source:jar deploy -Ddoc.user=doc']
                         }

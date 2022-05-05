@@ -88,7 +88,7 @@
                         <vcommonslang>${commons-lang3.version}</vcommonslang>
                         <homelink>https://doc.linkki-framework.org</homelink>
                         <logo>logo.png</logo>
-                        <projectVersion>${project.version}</projectVersion>
+                        <projectVersion>${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}</projectVersion>
                     </properties>
                     <excludeLinks>
                         <excludeLink>.*localhost.*</excludeLink>
@@ -181,5 +181,13 @@
             </extension>
         </extensions>
     </build>
+    <profiles>
+        <profile>
+            <id>releaseDocumentation</id>
+            <properties>
+                <deploymentFolder>${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}</deploymentFolder>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
