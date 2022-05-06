@@ -31,7 +31,7 @@ class TC003UITableColumnTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(TestScenarioView.TS012, TestScenarioView.TC003);
+        goToTestCaseByUrl(TestScenarioView.TS012, TestScenarioView.TC003);
     }
 
     @Test

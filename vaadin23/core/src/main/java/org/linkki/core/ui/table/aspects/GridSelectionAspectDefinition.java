@@ -14,6 +14,9 @@
 
 package org.linkki.core.ui.table.aspects;
 
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.data.selection.SingleSelect;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -22,16 +25,14 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.columnbased.ColumnBasedComponentWrapper;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.Grid.SelectionMode;
-import com.vaadin.flow.data.selection.SingleSelect;
+import java.util.Objects;
 
 /**
  * Aspect definition to handle selection and double click on a table.
- * 
+ *
  * @implNote This definition contains two aspects: {@value #SELECTION_ASPECT_NAME} and
- *           {@value #DOUBLE_CLICK_ASPECT_NAME}. This is due to the fact that the selection aspect must
- *           be evaluated before the double click aspect.
+ * {@value #DOUBLE_CLICK_ASPECT_NAME}. This is due to the fact that the selection aspect must
+ * be evaluated before the double click aspect.
  */
 public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
 
@@ -40,18 +41,21 @@ public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
 
     @Override
     public void initModelUpdate(PropertyDispatcher propertyDispatcher,
-            ComponentWrapper componentWrapper,
-            Handler modelChanged) {
+                                ComponentWrapper componentWrapper,
+                                Handler modelChanged) {
         Grid<?> grid = (Grid<?>)componentWrapper.getComponent();
         grid.setSelectionMode(SelectionMode.SINGLE);
         SingleSelect<?, ?> singleSelect = grid.asSingleSelect();
         singleSelect.addValueChangeListener(e -> {
-            propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, e.getValue()));
+            Object newSelection = e.getValue();
+            if (newSelection != null) {
+                propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, newSelection));
+            }
             modelChanged.apply();
         });
         grid.addItemDoubleClickListener(e -> {
-            if (!singleSelect.getOptionalValue().isPresent()) {
-                // second click may unselect the row
+            Object clickedItem = e.getItem();
+            if (singleSelect.getOptionalValue().map(v -> !Objects.equals(v, clickedItem)).orElse(true)) {
                 propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, e.getItem()));
             }
             propertyDispatcher.push(Aspect.of(DOUBLE_CLICK_ASPECT_NAME));

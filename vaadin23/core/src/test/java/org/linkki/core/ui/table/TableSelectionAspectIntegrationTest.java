@@ -14,67 +14,153 @@
 
 package org.linkki.core.ui.table;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-
-import java.util.Arrays;
-
+import com.github.mvysny.kaributesting.v10.GridKt;
+import com.github.mvysny.kaributesting.v10.MockVaadin;
+import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.grid.GridSingleSelectionModel;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.core.vaadin.component.section.GridSection;
 
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridSingleSelectionModel;
+import java.util.Arrays;
 
-public class TableSelectionAspectIntegrationTest {
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.linkki.test.matcher.Matchers.hasValue;
+import static org.mockito.Mockito.*;
+
+class TableSelectionAspectIntegrationTest {
+
+    @BeforeEach
+    void mockVaadin() {
+        MockVaadin.setup();
+    }
+
+    @AfterEach
+    void tearDownVaadin() {
+        MockVaadin.tearDown();
+    }
 
     @Test
-    public void testTableSelectable() {
-        Grid<?> table = GridComponentCreator.createGrid(new TestSelectableTablePmo(), new BindingContext());
-        table.setPageSize(1);
+    void testTableSelectable() {
+        var table = GridComponentCreator.createGrid(new TestSelectableTablePmo(), new BindingContext());
+
         assertThat("Table is selectable", table.getSelectionModel(), is(instanceOf(GridSingleSelectionModel.class)));
     }
 
     @Test
-    public void testTableSectionSelectable() {
-        GridSection table = (GridSection)new PmoBasedSectionFactory()
-                .createSection(new TestSelectableTablePmo(), new BindingContext());
-        table.getGrid().setPageSize(1);
-        assertThat("Table in table section is selectable", table.getGrid().getSelectionModel(),
-                   is(instanceOf(GridSingleSelectionModel.class)));
+    void testTableSectionSelectable() {
+        var tableSection = (GridSection)VaadinUiCreator.createComponent(new TestSelectableTablePmo(), new BindingContext());
+
+        assertThat("Table in table section is selectable", tableSection.getGrid().getSelectionModel(),
+                is(instanceOf(GridSingleSelectionModel.class)));
     }
 
     @Test
-    public void testTableGetSelection_initial() {
-        TestSelectableTablePmo tablePmo = spy(new TestSelectableTablePmo());
-        TestSelectableTableRowPmo secondRow = tablePmo.getItems().get(1);
-        tablePmo.setSelection(secondRow);
+    void testGetSelection_Initial() {
+        var tablePmo = spy(new TestSelectableTablePmo("row1", "row2"));
+        tablePmo.setSelection(tablePmo.getItems().get(1));
 
-        Grid<?> table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
-        table.setPageSize(1);
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
 
         // getSelection is actually called twice, once from bindContainer, once in
         // ColumnBasedComponentFactory#createContainerComponent
         verify(tablePmo, atLeast(1)).getSelection();
-        assertThat(table.getSelectedItems().stream().findFirst().get(), is(secondRow));
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
     }
 
+    @Test
+    void testGetSelection_InitialNullSelection() {
+        var tablePmo = spy(new TestSelectableTablePmo("row1", "row2"));
+
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+
+        assertThat(table.getSelectedItems(), is(empty()));
+    }
+
+    @Test
+    void testSetSelection_ReselectSelectedItem() {
+        var tablePmo = spy(new TestSelectableTablePmo("row1", "row2"));
+        tablePmo.setSelection(tablePmo.getItems().get(1));
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+
+        GridKt._clickItem(table, 1);
+
+        assertThat(tablePmo.getSelection(), is(tablePmo.getItems().get(1)));
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+    }
+
+    @Test
+    void testGetSelection_ChangeSelection() {
+        var tablePmo = new TestSelectableTablePmo("row1", "row2");
+        tablePmo.setSelection(tablePmo.getItems().get(1));
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+
+        GridKt._clickItem(table, 0);
+
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(0)));
+    }
+
+    @Test
+    void testDoubleClick_OnNewItem_ChangeSelection() {
+        var tablePmo = new TestSelectableTablePmo("row1", "row2");
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems(), is(empty()));
+
+        GridKt._doubleClickItem(table, 0);
+
+        var row1 = tablePmo.getItems().get(0);
+        assertThat(tablePmo.getSelection(), is(row1));
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(row1));
+    }
+
+    @Test
+    void testDoubleClick_OnSelectedItem_NotChangeSelection() {
+        var tablePmo = new TestSelectableTablePmo("row1", "row2");
+        var row2 = tablePmo.getItems().get(1);
+        tablePmo.setSelection(row2);
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(row2));
+
+        GridKt._doubleClickItem(table, 1);
+
+        assertThat(tablePmo.getSelection(), is(row2));
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(row2));
+    }
+
+    @Test
+    void testDoubleClick_CallPmoMethod() {
+        var tablePmo = spy(new TestSelectableTablePmo("row1", "row2"));
+        tablePmo.setSelection(tablePmo.getItems().get(1));
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+
+        GridKt._doubleClickItem(table, 0);
+
+        verify(tablePmo).onDoubleClick();
+    }
+
+    @UISection
     public static class TestSelectableTablePmo extends SimpleTablePmo<String, TestSelectableTableRowPmo>
             implements SelectableTablePmo<TestSelectableTableRowPmo> {
 
         private TestSelectableTableRowPmo selectedRow;
 
-        TestSelectableTablePmo() {
-            super(Arrays.asList("row1", "row2"));
+        TestSelectableTablePmo(String... rows) {
+            super(Arrays.asList(rows));
         }
 
         @Override
@@ -110,6 +196,13 @@ public class TableSelectionAspectIntegrationTest {
         @UILabel(position = 0)
         public String getValue() {
             return value;
+        }
+
+        @Override
+        public String toString() {
+            return "TestSelectableTableRowPmo{" +
+                    "value='" + value + '\'' +
+                    '}';
         }
     }
 }

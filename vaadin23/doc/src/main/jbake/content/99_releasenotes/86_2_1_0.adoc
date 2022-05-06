@@ -60,6 +60,8 @@ IMPORTANT: Considering the fact that the above mentioned feature is only require
 
 ==== Bugfixes
 
+// https://jira.faktorzehn.de/browse/LIN-3032
+* Reselecting a table row should not unselect the row 
 // https://jira.faktorzehn.de/browse/LIN-3006
 * Empty `UILabel` columns with a small width no longer display dots (...) in Mozilla Firefox
 // https://jira.faktorzehn.de/browse/LIN-2886
