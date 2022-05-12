@@ -16,9 +16,6 @@ package org.linkki.util;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodHandles.Lookup;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.function.Function;
 
 /**
@@ -27,50 +24,20 @@ import java.util.function.Function;
 public class LookupProvider {
     private static Function<Class<?>, Lookup> lookupIn;
     static {
-        try {
-            Method privateLookupInMethod = MethodHandles.class.getMethod(new String(
-                    // privateLookupIn; Somehow Java 11 uses compact Strings that f**k up
-                    // String#equals when looking up the method from a class compiled with Java8
-                    new int[] { 112, 114, 105, 118, 97, 116, 101, 76, 111, 111, 107, 117, 112, 73, 110 }, 0, 15),
-                                                                         Class.class,
-                                                                         Lookup.class);
-            lookupIn = clazz -> {
-                try {
-                    return (Lookup)privateLookupInMethod.invoke(null, clazz, MethodHandles.lookup());
-                } catch (IllegalAccessException | IllegalArgumentException
-                        | InvocationTargetException e2) {
-                    throw new IllegalStateException("Can't create " + Lookup.class.getSimpleName() + " for "
-                            + clazz.getName(), e2);
-                }
-            };
-        } catch (NoSuchMethodException | SecurityException e) {
-            // that's OK, we're probably still running on Java 8
-            Constructor<Lookup> constructor = getPackagePrivateLookupConstructor();
-            lookupIn = clazz -> {
-                try {
-                    return constructor.newInstance(clazz);
-                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                        | InvocationTargetException e2) {
-                    throw new IllegalStateException("Can't create " + Lookup.class.getSimpleName() + " for "
-                            + clazz.getName(), e2);
-                }
-            };
-        }
+        lookupIn = clazz -> {
+            try {
+                Lookup lookup = MethodHandles.lookup();
+                lookup.lookupClass().getModule().addReads(clazz.getModule());
+                return MethodHandles.privateLookupIn(clazz, lookup);
+            } catch (IllegalAccessException | IllegalArgumentException e2) {
+                throw new IllegalStateException("Can't create " + Lookup.class.getSimpleName() + " for "
+                        + clazz.getName(), e2);
+            }
+        };
     }
 
     private LookupProvider() {
         // prevent instantiation
-    }
-
-    private static Constructor<Lookup> getPackagePrivateLookupConstructor() {
-        try {
-            Constructor<Lookup> constructor = Lookup.class.getDeclaredConstructor(Class.class);
-            constructor.setAccessible(true);
-            return constructor;
-        } catch (NoSuchMethodException | SecurityException e1) {
-            throw new IllegalStateException("Can't access constructor " + Lookup.class.getSimpleName() + '('
-                    + Class.class.getSimpleName() + ')');
-        }
     }
 
     public static Lookup lookup(Class<?> clazz) {

@@ -58,6 +58,12 @@ Sometimes, the caption of an item in a combo box can change even if the item its
 
 IMPORTANT: Considering the fact that the above mentioned feature is only required in relative rare cases, we decided to drop this feature for `@UIComboBox` by default. Combo boxes that require this feature can use the new annotation <<ui-combobox-dynamicCaption, `BindComboBoxDynamicItemCaption`>>. This annotation would update all items including their captions upon changes.
 
+===== Java version compatibility changes
+////
+https://jira.faktorzehn.de/browse/LIN-2506
+////
+*linkki* 2.1.0 is compatible with Java 17 and 11, but support for Java 8 has been dropped. Please upgrade if necessary.
+
 ==== Bugfixes
 
 // https://jira.faktorzehn.de/browse/LIN-3032
