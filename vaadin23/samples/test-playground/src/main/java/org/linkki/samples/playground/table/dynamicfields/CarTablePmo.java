@@ -67,7 +67,6 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo> {
     }
 
     private String calculateTotalRetention(String column, List<Car> cars) {
-
         switch (column) {
             case Car.PROPERTY_RETENTION:
                 return new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(UiFramework.getLocale()))

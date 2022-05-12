@@ -66,23 +66,23 @@ public class BindingContext implements UiUpdateObserver {
     private MessageList currentMessages = new MessageList();
 
     /**
-     * Creates a new binding context with an empty name that defines no property behavior and uses no
-     * after update handler.
-     * 
+     * Creates a new binding context with an empty name that defines no property behavior and uses
+     * neither an after update handler nor an after model update handler.
      */
     public BindingContext() {
         this("");
     }
 
     /**
-     * Creates a new binding context with the given name that defines no property behavior and uses no
-     * after update handler.
+     * Creates a new binding context with the given name that defines no property behavior and uses
+     * neither an after update handler nor an after model update handler.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
      */
     public BindingContext(String contextName) {
-        this(contextName, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, Handler.NOP_HANDLER);
+        this(contextName, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, new PropertyDispatcherFactory(),
+                Handler.NOP_HANDLER, Handler.NOP_HANDLER);
     }
 
     /**
@@ -280,18 +280,54 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Updates the UI with the data retrieved via bindings registered in this context. Executes
-     * afterUpdateHandler that is set in the constructor.
-     * <p>
-     * This method should be called when the UI should be updated after a model change to update all
-     * {@link Binding Bindings} of this {@link BindingContext} and notify the
-     * after-update-handler(provided in the constructor) that the model has changed. This may trigger
-     * other {@link UiUpdateObserver observers}.
-     * 
-     * @see #uiUpdated()
+     * Updates the UI to display model changes that were made outside of this binding context.
+     *
+     * @implNote This method executes the <code>afterModelChangedHandler</code> before updating the UI.
+     * If the model is not changed, call {@link #updateUi()} instead.
+     *
+     * @see #updateUi()
      */
     public void modelChanged() {
-        updateFromPmo();
+        afterModelChangedHandler.apply();
+
+        updateUi();
+    }
+
+    /**
+     * Triggers the update of all registered bindings.
+     * <p>
+     * Note that this method is derived from {@link UiUpdateObserver} and is implemented to use the
+     * {@link BindingContext} as {@link UiUpdateObserver}. It should not be necessary to call this
+     * method directly.
+     * 
+     * @see #modelChanged()
+     * @see #updateUi()
+     */
+    @Override
+    public void uiUpdated() {
+        updateBindings();
+    }
+
+    /**
+     * For better naming for internal usages.
+     */
+    void updateBindings() {
+        getBindingStream().forEach(Binding::updateFromPmo);
+    }
+
+    /**
+     * Updates the UI with the data retrieved via bindings registered in this context. Executes
+     * afterUpdateHandler that is set. In contrast to {@link #modelChanged()} this method does not
+     * trigger the afterModelChangedHandler.
+     *
+     * @implNote  This method should be called if the UI should be updated but the model has <b>not</b> been
+     * changed. This may be the case if the UI component such as a tab sheet has been invisible during model
+     * changes. Thus, this method needs to be called to reflect the changes when the tab sheet is set to visible.
+     * 
+     * @see #modelChanged()
+     */
+    public void updateUi() {
+        updateBindings();
 
         // Notify handler that the UI was updated for this context and the messages in all
         // contexts should now be updated
@@ -299,29 +335,10 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Triggers the update of all registered bindings. This method is called by {@link BindingManager}
-     * if this {@link BindingContext} is registered as {@link UiUpdateObserver}.
-     * <p>
-     * Call this method if it is necessary to update the UI after any changes that only affect bindings
-     * in this context. This will not trigger other {@link UiUpdateObserver}.
-     * 
-     * @see #modelChanged()
-     */
-    @Override
-    public void uiUpdated() {
-        updateFromPmo();
-    }
-
-    void updateFromPmo() {
-        getBindingStream().forEach(binding -> binding.updateFromPmo());
-    }
-
-    /**
      * Updates all bindings with the given message list.
      * <p>
      * This method is used by a {@link BindingManager} to push validation results to all registered
      * {@linkplain BindingContext BindingContexts}.
-     * 
      */
     public MessageList displayMessages(MessageList messages) {
         currentMessages = messages;

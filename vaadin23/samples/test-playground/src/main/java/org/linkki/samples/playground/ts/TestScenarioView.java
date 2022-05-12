@@ -110,6 +110,7 @@ import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
 import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
 import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
+import org.linkki.samples.playground.ts.tablayout.AfterTabSelectedComponent;
 import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
@@ -168,9 +169,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC012 = "TC012";
     public static final String TC013 = "TC013";
 
-    public static final String DYNAMIC_ASPECT_TAB_ID = "dynamic";
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
-    public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
 
     private final LinkkiTabLayout tabLayout;
 
@@ -279,6 +278,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC001, new HorizontalTabLayoutComponent())
                                        .testCase(TC002, new VerticalTabLayoutComponent())
                                        .testCase(TC003, new TabLayoutVisibilityComponent())
+                                       .testCase(TC004, new AfterTabSelectedComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS011)
                                        .testCase(TC001, OkCancelDialogHandlerPmo.create())

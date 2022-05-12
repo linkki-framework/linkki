@@ -30,20 +30,19 @@ import com.vaadin.flow.component.html.testbench.SpanElement;
 import com.vaadin.flow.component.icon.testbench.IconElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 
-public class TC001VerticalTabLayoutTest extends PlaygroundUiTest {
+class TC001VerticalTabLayoutTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private DivElement section;
 
     @BeforeEach
-    void setup() {
-        super.setUp();
+    void goToTestCase() {
         testCaseSection = goToTestCase(TestScenarioView.TS010, TestScenarioView.TC001);
         section = testCaseSection.getContentWrapper().$(DivElement.class).first();
     }
 
     @Test
-    public void testVerticalTabs() {
+    void testVerticalTabs() {
         TabElement tab1 = section.$(TabElement.class).id("tab1");
         TabElement tab2 = section.$(TabElement.class).id("tab2");
 
@@ -51,7 +50,7 @@ public class TC001VerticalTabLayoutTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testTabHasIcon() {
+    void testTabHasIcon() {
         TabElement tab = section.$(TabElement.class).id("tab2");
 
         IconElement icon = tab.$(IconElement.class).first();
@@ -60,7 +59,7 @@ public class TC001VerticalTabLayoutTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testContentReplacedInSamePosition() {
+    void testContentReplacedInSamePosition() {
         TabElement tab1 = section.$(TabElement.class).id("tab1");
         TabElement tab2 = section.$(TabElement.class).id("tab2");
 

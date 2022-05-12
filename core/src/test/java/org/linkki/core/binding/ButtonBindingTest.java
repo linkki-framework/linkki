@@ -13,8 +13,7 @@
  */
 package org.linkki.core.binding;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -34,13 +33,13 @@ import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
 
 
-public class ButtonBindingTest {
+class ButtonBindingTest {
 
-    private TestUiComponent button = spy(new TestUiComponent());
+    private final TestUiComponent button = spy(new TestUiComponent());
 
     private ElementBinding binding;
-    private PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
-    private BindingContext context = new BindingContext();
+    private final PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
+    private final BindingContext context = new BindingContext();
     private TestAspectDefinition aspectDefinition;
 
     private void setUpDefaultBinding() {
@@ -56,18 +55,18 @@ public class ButtonBindingTest {
     }
 
     @Test
-    public void testUpdateFromUI_updateAspect() {
+    void testUpdateFromUI_updateAspect() {
         setUpDefaultBinding();
         verify(aspectDefinition).initModelUpdate(Mockito.eq(propertyDispatcher), Mockito.any(ComponentWrapper.class),
                                                  Mockito.any(Handler.class));
     }
 
     @Test
-    public void testUpdateFromPmo_updateAspect() {
+    void testUpdateFromPmo_updateAspect() {
         setUpDefaultBinding();
         binding.updateFromPmo();
 
-        assertThat(aspectDefinition.aspectUpdated, is(true));
+        assertThat(aspectDefinition.aspectUpdated).isTrue();
     }
 
     private static class TestAspectDefinition implements LinkkiAspectDefinition {

@@ -14,12 +14,7 @@
 
 package org.linkki.core.binding;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.linkki.core.matcher.MessageMatchers.hasInfoMessage;
-import static org.linkki.core.matcher.MessageMatchers.hasWarningMessage;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,12 +29,11 @@ import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.nls.TestUiLayoutComponent;
 import org.linkki.core.defaults.section.TestSectionBuilder;
 import org.linkki.core.defaults.section.TestSectionPmo;
-import org.linkki.core.matcher.MessageMatchers;
 
-public class BindingIntegrationTest {
+class BindingIntegrationTest {
 
     @Test
-    public void testBinding() {
+    void testBinding() {
         TestSectionPmo testSectionPmo = new TestSectionPmo();
         testSectionPmo.setId("TestId");
         TestModelObject modelObject = (TestModelObject)testSectionPmo.getModelObject();
@@ -57,48 +51,50 @@ public class BindingIntegrationTest {
 
         TestUiLayoutComponent section = TestSectionBuilder.createSection(testSectionPmo, bindingContext);
 
-        assertThat(section.getChildren(), hasSize(3));
+        assertThat(section.getChildren()).hasSize(3);
 
         List<String> childIds = section.getChildren().stream().map(TestUiComponent::getId).collect(Collectors.toList());
-        assertThat(childIds, contains("editButton", TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
+        assertThat(childIds).contains("editButton", TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP);
 
         // UI->PMO
         TestUiComponent editButton = section.getChildren().get(0);
-        assertThat(editButtonPmo.getClickCount(), is(0));
+        assertThat(editButtonPmo.getClickCount()).isEqualTo(0);
         editButton.click();
-        assertThat(editButtonPmo.getClickCount(), is(1));
+        assertThat(editButtonPmo.getClickCount()).isEqualTo(1);
 
         // PMO->UI
         TestUiComponent valueComponent = section.getChildren().get(1);
-        assertThat(valueComponent.isEnabled(), is(true));
+        assertThat(valueComponent.isEnabled()).isTrue();
         testSectionPmo.setValueEnabled(false);
         bindingContext.modelChanged();
-        assertThat(valueComponent.isEnabled(), is(false));
+        assertThat(valueComponent.isEnabled()).isFalse();
 
         // PMO->UI for model property
         TestUiComponent modelPropComponent = section.getChildren().get(2);
-        assertThat(modelPropComponent.isEnabled(), is(true));
+        assertThat(modelPropComponent.isEnabled()).isTrue();
         testSectionPmo.setModelPropEnabled(false);
         bindingContext.modelChanged();
-        assertThat(modelPropComponent.isEnabled(), is(false));
+        assertThat(modelPropComponent.isEnabled()).isFalse();
 
         // MO->UI for model property
-        assertThat(modelPropComponent.isVisible(), is(true));
+        assertThat(modelPropComponent.isVisible()).isTrue();
         modelObject.setModelPropVisible(false);
         bindingContext.modelChanged();
-        assertThat(modelPropComponent.isVisible(), is(false));
+        assertThat(modelPropComponent.isVisible()).isFalse();
 
         // Aspect
-        assertThat(valueComponent.getTooltipText(), is("abc"));
+        assertThat(valueComponent.getTooltipText()).isEqualTo("abc");
         testSectionPmo.setValueTooltip("foo");
         bindingContext.modelChanged();
-        assertThat(valueComponent.getTooltipText(), is("foo"));
+        assertThat(valueComponent.getTooltipText()).isEqualTo("foo");
 
         // Messages
-        assertThat(valueComponent.getValidationMessages(), MessageMatchers.hasSize(1));
-        assertThat(valueComponent.getValidationMessages(), hasWarningMessage("bar"));
-        assertThat(modelPropComponent.getValidationMessages(), MessageMatchers.hasSize(1));
-        assertThat(modelPropComponent.getValidationMessages(), hasInfoMessage("baz"));
+        assertThat(valueComponent.getValidationMessages()).hasSize(1);
+        assertThat(valueComponent.getValidationMessages().getMessage(0))
+                .isEqualTo(pmoValueMessage);
+        assertThat(modelPropComponent.getValidationMessages()).hasSize(1);
+        assertThat(modelPropComponent.getValidationMessages().getMessage(0))
+                .isEqualTo(modelPropMessage);
     }
 
 }

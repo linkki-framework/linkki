@@ -33,7 +33,6 @@ public class DynamicFieldsSection {
     }
 
     public static Component create() {
-
         List<Car> carStorage = getCarStorage();
 
         BindingContext bindingContext = new BindingContext();
@@ -63,7 +62,6 @@ public class DynamicFieldsSection {
 
         return carStorage;
     }
-
 
     private static void addCars(List<Car> carStorage) {
         carStorage.add(createCar(CarType.STANDARD, "Audi", "A4", 200.0));

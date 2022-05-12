@@ -26,7 +26,6 @@ public class CarTypeSectionPmo implements PresentationModelObject, Serializable 
 
     private static final long serialVersionUID = 2629334795264678052L;
 
-
     private final NewCar car;
 
 
@@ -34,12 +33,10 @@ public class CarTypeSectionPmo implements PresentationModelObject, Serializable 
         this.car = car;
     }
 
-
     @ModelObject
     public NewCar getCar() {
         return car;
     }
-
 
     @UIComboBox(position = 10, label = "Car Type", modelAttribute = NewCar.PROPERTY_CAR_TYPE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
     public void carType() {

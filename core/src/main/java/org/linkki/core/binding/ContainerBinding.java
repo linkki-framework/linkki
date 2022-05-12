@@ -63,8 +63,13 @@ public class ContainerBinding extends BindingContext implements Binding {
 
     @Override
     public void updateFromPmo() {
+        updateBindings();
+    }
+
+    @Override
+    void updateBindings() {
         binding.updateFromPmo();
-        super.updateFromPmo();
+        super.updateBindings();
     }
 
     @Override

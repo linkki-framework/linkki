@@ -14,11 +14,7 @@
 
 package org.linkki.core.binding;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
-import static org.linkki.core.matcher.MessageMatchers.hasErrorMessage;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -43,11 +39,11 @@ import org.linkki.util.handler.Handler;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-public class ElementBindingTest {
+class ElementBindingTest {
 
 
-    private TestUiComponent field = spy(new TestUiComponent());
-    private TestUiComponent selectField = spy(new TestUiComponent());
+    private final TestUiComponent field = spy(new TestUiComponent());
+    private final TestUiComponent selectField = spy(new TestUiComponent());
 
 
     private ElementBinding selectBinding;
@@ -62,7 +58,7 @@ public class ElementBindingTest {
     private PropertyDispatcher propertyDispatcherEnumValue;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         propertyDispatcherValue = mock(PropertyDispatcher.class);
         when(propertyDispatcherValue.getProperty()).thenReturn("value");
         propertyDispatcherEnumValue = mock(PropertyDispatcher.class);
@@ -80,7 +76,7 @@ public class ElementBindingTest {
     }
 
     @Test
-    public void testUpdateFromPmo_updateAspect() {
+    void testUpdateBindings_updateAspect() {
         Handler componentUpdater = mock(Handler.class);
         LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
         when(aspectDefinition.supports(any())).thenReturn(true);
@@ -94,7 +90,7 @@ public class ElementBindingTest {
     }
 
     @Test
-    public void testDisplayMessages() {
+    void testDisplayMessages() {
         messageList.add(Message.newError("code", "text"));
 
         selectBinding.displayMessages(messageList);
@@ -103,22 +99,22 @@ public class ElementBindingTest {
         @NonNull
         MessageList validationMessages = selectField.getValidationMessages();
 
-        assertThat(validationMessages, hasErrorMessage("code"));
+        assertThat(validationMessages.getMessageByCode("code")).isPresent();
 
         Message firstMessage = validationMessages.getFirstMessage(Severity.ERROR).get();
-        assertEquals(firstMessage.getText(), "text");
+        assertThat(firstMessage.getText()).isEqualTo("text");
     }
 
     @Test
-    public void testDisplayMessages_noMessages() {
+    void testDisplayMessages_noMessages() {
         selectBinding.displayMessages(messageList);
 
-        assertThat(selectField.getValidationMessages(), is(emptyMessageList()));
+        assertThat(selectField.getValidationMessages()).isEmpty();
     }
 
 
     @Test
-    public void testDisplayMessages_noMessageList() {
+    void testDisplayMessages_noMessageList() {
         Assertions.assertThrows(NullPointerException.class, () -> {
             selectBinding.displayMessages(null);
         });

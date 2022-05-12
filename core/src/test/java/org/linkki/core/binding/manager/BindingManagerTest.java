@@ -13,9 +13,7 @@
  */
 package org.linkki.core.binding.manager;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -39,12 +37,10 @@ import org.linkki.util.validation.ValidationMarker;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class BindingManagerTest {
-
-    private ValidationService validationService;
+class BindingManagerTest {
 
     @Test
-    public void testAfterUpdateUi_sortsMessagesBySeverity() {
+    void testAfterUpdateUi_sortsMessagesBySeverity() {
         Message e1 = Message.newError("e1", "E1");
         Message e2 = Message.newError("e2", "E2");
         Message e3 = Message.newError("e3", "E3");
@@ -54,17 +50,17 @@ public class BindingManagerTest {
         Message i2 = Message.newInfo("i2", "I2");
         MessageList unsortedMessageList = new MessageList(i2, e1, w1, e3, i1, e2, w2);
         MessageList sortedMessageList = new MessageList(e1, e3, e2, w1, w2, i2, i1);
-        validationService = () -> unsortedMessageList;
+        ValidationService validationService = () -> unsortedMessageList;
         TestBindingManager bindingManager = new TestBindingManager(validationService);
         TestBindingContext context = bindingManager.getContext("foo");
 
         bindingManager.afterUpdateUi();
 
-        assertThat(context.messages, is(equalTo(sortedMessageList)));
+        assertThat(context.messages).isEqualTo(sortedMessageList);
     }
 
     @Test
-    public void testAfterUpdateUi_filtersMessages() {
+    void testAfterUpdateUi_filtersMessages() {
         Message e1 = Message.newError("e1", "E1");
         Message e2 = Message.builder("E2", Severity.ERROR).code("e2").markers(ValidationMarker.REQUIRED).create();
         Message e3 = Message.newError("e3", "E3");
@@ -74,7 +70,7 @@ public class BindingManagerTest {
         Message i2 = Message.newInfo("i2", "I2");
         MessageList unsortedMessageList = new MessageList(i2, e1, w1, e3, i1, e2, w2);
         MessageList filteredMessageList = new MessageList(e1, e3, w2, i2);
-        validationService = new ValidationService() {
+        ValidationService validationService = new ValidationService() {
             @Override
             public MessageList getValidationMessages() {
                 return unsortedMessageList;
@@ -90,27 +86,27 @@ public class BindingManagerTest {
 
         bindingManager.afterUpdateUi();
 
-        assertThat(context.messages, is(equalTo(filteredMessageList)));
+        assertThat(context.messages).isEqualTo(filteredMessageList);
     }
 
     @Test
-    public void testAfterUpdateUi_UpdateObserverChangesMessageRelevantField() {
+    void testAfterUpdateUi_UpdateObserverChangesMessageRelevantField() {
         Message e1 = Message.newError("e1", "E1");
         MessageList messageList = new MessageList(e1);
         TestBinding binding = new TestBinding();
-        validationService = () -> messageList;
+        ValidationService validationService = () -> messageList;
         TestBindingManager bindingManager = new TestBindingManager(validationService);
         TestBindingContext context = bindingManager.getContext("foo");
         bindingManager.addUiUpdateObserver(() -> context.add(binding, TestComponentWrapper.with(binding)));
 
         bindingManager.afterUpdateUi();
 
-        assertThat(binding.getMessages(), is(messageList));
+        assertThat(binding.getMessages()).isEqualTo(messageList);
     }
 
     @Test
-    public void testRegisterUiUpdateObserver() {
-        TestBindingManager bindingManager = new TestBindingManager(() -> new MessageList());
+    void testRegisterUiUpdateObserver() {
+        TestBindingManager bindingManager = new TestBindingManager(MessageList::new);
         UiUpdateObserver observer = mock(UiUpdateObserver.class);
 
         bindingManager.afterUpdateUi();
@@ -123,8 +119,8 @@ public class BindingManagerTest {
     }
 
     @Test
-    public void testRemoveUiUpdateObserver() {
-        TestBindingManager bindingManager = new TestBindingManager(() -> new MessageList());
+    void testRemoveUiUpdateObserver() {
+        TestBindingManager bindingManager = new TestBindingManager(MessageList::new);
         UiUpdateObserver observer = mock(UiUpdateObserver.class);
         bindingManager.addUiUpdateObserver(observer);
 
@@ -135,8 +131,8 @@ public class BindingManagerTest {
     }
 
     @Test
-    public void testUpdateAll() {
-        BindingManager bindingManager = spy(new BindingManager(() -> new MessageList()) {
+    void testUpdateAll() {
+        BindingManager bindingManager = spy(new BindingManager(MessageList::new) {
 
             @Override
             protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
@@ -233,7 +229,6 @@ public class BindingManagerTest {
         @Override
         public void updateFromPmo() {
             // do nothing
-
         }
 
         @Override

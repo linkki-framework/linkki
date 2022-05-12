@@ -71,13 +71,10 @@ public class ReportListPage extends AbstractPage implements AfterTabSelectedObse
     // tag::afterTabSelected[]
     @Override
     public void afterTabSelected(TabSheetSelectionChangeEvent event) {
-        update();
+        getBindingContext().updateUi();
     }
 
     // end::afterTabSelected[]
-    public void update() {
-        getBindingContext().modelChanged();
-    }
 
     @Override
     public BindingContext getBindingContext() {

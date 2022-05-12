@@ -8,39 +8,54 @@
 [[binding-basics]]
 === Binding, BindingContext, BindingManager
 
-For each UI component bound to a PMO, *linkki* creates a so called `binding`. The methods of this `binding` ensure that subsequent changes in the PMO lead to an update of the UI component, and vice versa.
-
-All bindings in *linkki* are part of a `BindingContext`. Typically a `BindingContext` contains all bindings of a page or a section with independent content. Changes to a bound object (PMO or UI) trigger an update of all bindings in the same context. A single `BindingContext` can contain `bindings` linked to different PMOs.
-
-.BindingContext and ~Manager
-image::{images}{images-folder-name}/binding_context_manager.png[]
-
-To manage one or more `BindingContexts`, a `BindingManager` is used. Each `BindingContext` in a `BindingManager` is identified by its name. `BindingManager` offers the methods `getBindingContext(String)` that either return the managed context with the given identifier, or creates a new one. Alternatively, a `Class` can be passed as identifier, from which the name will be derived.
-
-`BindingManager` also provides `createBindingContext(String/Class, PropertyBehaviorProvider)` methods to create a `BindingContext` with a specific set of <<property-behavior, behaviors>>.
-
-In addition to the creation of `BindingContexts`, a `BindingManager` is also linked to a <<validation-service,ValidationService>> that is invoked upon changes in a `BindingContext`. The results are then propagated to all managed `BindingContexts`.
+For each UI component bound to a PMO property, *linkki* creates a so called `Binding`. The methods of this `Binding` ensure that subsequent changes in the PMO lead to an update of the UI component, and vice versa.
 
 .Binding, Binding Context
 image::{images}{images-folder-name}/data_binding.png[]
 
-==== The Scope of UI Updates
+All `Bindings` in *linkki* are part of a `BindingContext`. Typically, a `BindingContext` contains all `Bindings` of a page or a section. Changes to a bound object (PMO or UI component) trigger an update of all `Bindings` in the same context. A single `BindingContext` can contain `Bindings` linked to different PMOs.
 
-A `BindingContext` ensures that all contained bindings are updated if one of them changes. The bindings in turn update their respective UI fields. Thus, a BindingContext defines the "scope" of UI updates for its fields.
+To manage `BindingContexts`, a `BindingManager` is used. The most important task of a `BindingManager` is to provide validation across all managed `BindingContexts`, as input changes in one `BindingContext` may lead to validation problems in others. For that, a <<validation-service, ValidationService>> is invoked upon changes in any of the managed `BindingContexts`. The result is then propagated to the other `BindingContexts` for display.
 
-It is common practice to use a BindingContext for all fields visible to the user at a time. For example a single binding context for a big form. On the other hand, if there are multiple tab sheets it's best to use a separate binding context for each of them, as only one of the tabs is visible at a time. This also avoids unnecessary updates of fields that aren't even visible.
+In addition to the validation, `BindingManager` also provides methods to create `BindingContexts` with default values that apply to all managed `BindingContexts`. A `BindingContext` can either be created using only a name that is used as an identifier, or additionally with a `PropertyBehaviorProvider` that defines a specific set of <<property-behavior, behaviors>>. A `Class` can also be passed as an alternative to be used a identifier.
+
+.BindingContext and ~Manager
+image::{images}{images-folder-name}/binding_context_manager.png[BindingManager manages multiple BindingContexts, which in turn contains multiple bindings. Each binding refers to a PMO property and an UI component.]
+
+==== The scope of UI updates
+
+A `BindingContext` ensures that all contained `Bindings` are updated if one of them changes. The `Bindings` in turn update their respective UI fields. Thus, a `BindingContext` defines the "scope" of UI updates for its fields.
+
+It is common practice to use a `BindingContext` for all fields visible to the user at a time. For example a single `BindingContext` for a big form. On the other hand, if there are multiple tab sheets it's best to use a separate `BindingContext` for each of them, as only one of the tabs is visible at a time. This avoids unnecessary updates of fields that aren't even visible.
 
 The `BindingManager` is responsible for everything that is beyond that aspect of currently visible fields. For example the input of data on one tab sheet may result in a validation violation on another tab sheet. Hence <<validation,validation>> is part of the `BindingManager`.
 
+[[uiupdateobserver]]
 ==== UiUpdateObserver
 
 If UI components depend on information inside a different `BindingContext`, a `UiUpdateObserver` can be used to ensure updates are triggered when the referenced content changes. The `UiUpdateObserver` is attached to a `BindingManager`, which calls the `uiUpdated()` method each time a UI update occurs (e.g. when a `BindingContext` belonging to the `BindingManager` updates). Since the class `BindingContext` implements `UiUpdateObserver`, it can be directly added as such. Using this mechanism, UI created by *linkki* would be updated with every change inside the same `BindingManager`.
 
-A possible use case might look like this: A `TabSheetArea` consists of several tab sheets with each using its own, separate binding context. This ensures that a change to the currently visible tab is propagated to other fields inside the same tab, while not affecting non-visible fields contained in different tabs to improve performance. These updates can freely be skipped, since a tab sheet's binding context always receives an update when the tab is selected and becomes visible.
+A possible use case might look like this: A `TabSheetArea` consists of several tab sheets with each using its own, separate `BindingContext`. This ensures that a change to the currently visible tab is propagated to other fields inside the same tab, while not affecting non-visible fields contained in different tabs to improve performance. These updates can freely be skipped, since a tab sheet's `BindingContext` always receives an update when the tab is selected and becomes visible.
 
-Adding a permanently visible summary section (referencing data from multiple tab sheets) to the page would require an update whenever a change is made to an arbitrary binding context. Otherwise, it would display outdated data since changes of referenced data are not propagated. This can be achieved by adding the new section's binding context as a `UiUpdateObserver` to the `BindingManager` of the page.
+Adding a permanently visible summary section (referencing data from multiple tab sheets) to the page would require an update whenever a change is made to an arbitrary `BindingContext`. Otherwise, it would display outdated data since changes of referenced data are not propagated. This can be achieved by adding the new section's `BindingContext` as a `UiUpdateObserver` to the `BindingManager` of the page.
 
 [source,java]
 ----
 include::{source-dir}/org/linkki/doc/UseUiUpdateObserver.java[tags=addUiUpdateObserver]
 ----
+
+[[after-model-changed-handler]]
+==== Executing additional action after model update
+
+Sometimes it is necessary to execute an action before each UI update that is triggered by a model change. This can be achieved by using the so called `afterModelChangedHandler` when creating a `BindingContext`. If this handler is set upon creation, it is called whenever a value is pushed to the model in a `BindingContext` before the UI is updated. 
+
+==== Updating the UI explicitly
+
+Sometimes, it is necessary to trigger an UI explicitly. The class `BindingContext` provides two methods to achieve that:
+
+modelChanged::
+  This method should be called by actions out of the `BindingContext` that result in a model change. The `BindingContext` will then update the `Bindings` as if a change happened inside of the `BindingContext`. +
+  Example: Assuming the value of a field would be changed by a dialog that is in a different `BindingContext`. In that case, confirming the dialog should result in calling the method `modelChanged`.
+updateUi::
+  This method should be called by actions that do not change the model, but triggers an update of the UI. + 
+  Example: When a tab sheet is switched to visible, the content needs to be updated to reflect the model. But no model changes are made by this action.

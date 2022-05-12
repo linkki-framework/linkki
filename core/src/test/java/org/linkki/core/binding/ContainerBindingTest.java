@@ -14,8 +14,7 @@
 
 package org.linkki.core.binding;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -30,10 +29,10 @@ import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.util.handler.Handler;
 
-public class ContainerBindingTest {
+class ContainerBindingTest {
 
     @Test
-    public void testModelChanged_IsForwardedToParent() {
+    void testModelChanged_IsForwardedToParent() {
         BindingContext bindingContext = spy(new BindingContext());
         ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         ContainerBinding binding = bindingContext.bindContainer(new TestPmo(new TestModelObject()),
@@ -46,7 +45,7 @@ public class ContainerBindingTest {
     }
 
     @Test
-    public void testUpdateFromPmo_InitialUpdated() {
+    void testUpdateBindings_InitialUpdated() {
         BindingContext bindingContext = new BindingContext();
         ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
@@ -55,11 +54,12 @@ public class ContainerBindingTest {
                                      BoundProperty.of("test"),
                                      Arrays.asList(testAspectDef),
                                      componentWrapper);
-        assertThat(testAspectDef.triggered, is(true));
+
+        assertThat(testAspectDef.triggered).isTrue();
     }
 
     @Test
-    public void testUpdateFromPmo_ManuallyUpdated() {
+    void testUpdateFromPmo_ManuallyUpdated() {
         BindingContext bindingContext = new BindingContext();
         ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
@@ -69,13 +69,13 @@ public class ContainerBindingTest {
                                      Arrays.asList(testAspectDef),
                                      componentWrapper);
         testAspectDef.triggered = false;
-        bindingContext.updateFromPmo();
+        bindingContext.updateBindings();
 
-        assertThat(testAspectDef.triggered, is(true));
+        assertThat(testAspectDef.triggered).isTrue();
     }
 
     @Test
-    public void testUpdateFromPmo_ContainerBindingBeforeChildren() {
+    void testUpdateFromPmo_ContainerBindingBeforeChildren() {
         BindingContext bindingContext = new BindingContext();
         ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
@@ -87,19 +87,59 @@ public class ContainerBindingTest {
                                                                 componentWrapper);
         binding.bind(new Object(), BoundProperty.of("test2"), Arrays.asList(testDependantAspectDef), componentWrapper);
 
-        assertThat(testAspectDef.triggered, is(true));
-        assertThat(testDependantAspectDef.triggered, is(true));
+        assertThat(testAspectDef.triggered).isTrue();
+        assertThat(testDependantAspectDef.triggered).isTrue();
 
         testAspectDef.triggered = false;
         testDependantAspectDef.triggered = false;
         binding.updateFromPmo();
 
-        assertThat(testAspectDef.triggered, is(true));
-        assertThat(testDependantAspectDef.triggered, is(true));
+        assertThat(testAspectDef.triggered).isTrue();
+        assertThat(testDependantAspectDef.triggered).isTrue();
     }
 
     @Test
-    public void testModelChanged() {
+    void testUpdateBindings_ManuallyUpdated() {
+        BindingContext bindingContext = new BindingContext();
+        ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
+        TestAspectDef testAspectDef = new TestAspectDef();
+
+        bindingContext.bindContainer(new TestPmo(new TestModelObject()),
+                                     BoundProperty.of("test"),
+                                     Arrays.asList(testAspectDef),
+                                     componentWrapper);
+        testAspectDef.triggered = false;
+        bindingContext.updateBindings();
+
+        assertThat(testAspectDef.triggered).isTrue();
+    }
+
+    @Test
+    void testUpdateBindings_ContainerBindingBeforeChildren() {
+        BindingContext bindingContext = new BindingContext();
+        ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
+        TestAspectDef testAspectDef = new TestAspectDef();
+        TestDependantAspectDef testDependantAspectDef = new TestDependantAspectDef(testAspectDef);
+
+        ContainerBinding binding = bindingContext.bindContainer(new Object(),
+                                                                BoundProperty.of("test"),
+                                                                Arrays.asList(testAspectDef),
+                                                                componentWrapper);
+        binding.bind(new Object(), BoundProperty.of("test2"), Arrays.asList(testDependantAspectDef), componentWrapper);
+
+        assertThat(testAspectDef.triggered).isTrue();
+        assertThat(testDependantAspectDef.triggered).isTrue();
+
+        testAspectDef.triggered = false;
+        testDependantAspectDef.triggered = false;
+        binding.updateBindings();
+
+        assertThat(testAspectDef.triggered).isTrue();
+        assertThat(testDependantAspectDef.triggered).isTrue();
+    }
+
+    @Test
+    void testModelChanged() {
         BindingContext bindingContext = new BindingContext();
         ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
@@ -111,7 +151,7 @@ public class ContainerBindingTest {
         testAspectDef.triggered = false;
         binding.modelChanged();
 
-        assertThat(testAspectDef.triggered, is(true));
+        assertThat(testAspectDef.triggered).isTrue();
     }
 
     private static class TestAspectDef implements LinkkiAspectDefinition {

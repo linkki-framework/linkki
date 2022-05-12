@@ -21,11 +21,9 @@ public class CarRowPmo extends CarPmo {
 
     private static final long serialVersionUID = 3750767083500409415L;
 
-
     public CarRowPmo(Car car) {
         super(car);
     }
-
 
     @UITableColumn(width = 200)
     @UIComboBox(position = 25, label = "Car Type", modelAttribute = Car.PROPERTY_CAR_TYPE, enabled = EnabledType.DISABLED)

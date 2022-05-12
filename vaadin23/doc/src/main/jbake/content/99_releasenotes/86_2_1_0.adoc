@@ -9,6 +9,18 @@
 
 ==== New features and improvements
 
+===== Enhanced update handling in `BindingContext`
+////
+https://jira.faktorzehn.de/browse/LIN-3043
+////
+Update handling in `BindingContext` has been improved: now it is possible to add an `afterModelChangedHandler` that is applied when changes are written to the model on `BindingContext#modelChanged()` before any UI update has been triggered.
+In addition, a new method `BindingContext#updateUi()` has been introduced to trigger update events that are not related to model changes. 
+
+IMPORTANT: If `BindingContext#modelChanged()` is called manually, check if this is still correct thus it is only needed when changes have been written to the model
+(e.g. after submitting a change in a dialog). Else if only the UI should be updated, call `BindingContext#updateUi()` instead. In this case, `afterModelChangedHandler` will not be called.
+
+For further information see <<binding-basics, `BindingContext`>> or <<binding-context-update-handler, Using `BindingContext` update handler>>.
+
 ===== Add `BindingContextBuilder`
 ////
 https://jira.faktorzehn.de/browse/LIN-3043

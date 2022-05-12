@@ -136,20 +136,34 @@ public class BindingContextTest {
     void testModelChangedBindingsAndValidate_noBindingInContext() {
         Handler afterUpdateUi = mock(Handler.class);
 
-        BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
+        BindingContext context = new BindingContextBuilder().afterModelChangedHandler(afterUpdateUi).build();
         context.modelChanged();
         verify(afterUpdateUi).apply();
     }
 
     @Test
     void testModelChangedBindingsAndValidate() {
+        Handler afterModelChangedHandler = mock(Handler.class);
+        BindingContext context = new BindingContextBuilder().afterModelChangedHandler(afterModelChangedHandler).build();
+        ElementBinding binding = spy(createBinding(context));
+        context.add(binding, TestComponentWrapper.with(binding));
+        reset(binding);
+
+        context.modelChanged();
+
+        verify(binding).updateFromPmo();
+        verify(afterModelChangedHandler).apply();
+    }
+
+    @Test
+    void testUpdateUiBindingsAndValidate() {
         Handler afterUpdateUi = mock(Handler.class);
         BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         ElementBinding binding = spy(createBinding(context));
         context.add(binding, TestComponentWrapper.with(binding));
         reset(binding);
 
-        context.modelChanged();
+        context.updateUi();
 
         verify(binding).updateFromPmo();
         verify(afterUpdateUi).apply();
@@ -379,13 +393,33 @@ public class BindingContextTest {
     }
 
     @Test
-    void testBuilder_WithAfterUpdateHandler() {
-        AtomicBoolean handlerCalled = new AtomicBoolean(false);
-        BindingContext context = new BindingContextBuilder().afterUpdateHandler(() -> handlerCalled.set(true)).build();
+    void testModelChanged_BothHandlersShouldBeCalled() {
+        AtomicBoolean afterModelChangedHandlerCalled = new AtomicBoolean(false);
+        AtomicBoolean afterUpdateHandlerCalled = new AtomicBoolean(false);
+        BindingContext context = new BindingContextBuilder()
+                .afterModelChangedHandler(() -> afterModelChangedHandlerCalled.set(true))
+                .afterUpdateHandler(() -> afterUpdateHandlerCalled.set(true))
+                .build();
 
         context.modelChanged();
 
-        assertThat(handlerCalled.get()).isTrue();
+        assertThat(afterModelChangedHandlerCalled.get()).isTrue();
+        assertThat(afterUpdateHandlerCalled.get()).isTrue();
+    }
+
+    @Test
+    void testUpdateUi_WithAfterModelChangedHandler_ShouldNotBeCalled() {
+        AtomicBoolean afterModelChangedHandlerCalled = new AtomicBoolean(false);
+        AtomicBoolean afterUpdateHandlerCalled = new AtomicBoolean(false);
+        BindingContext context = new BindingContextBuilder()
+                .afterModelChangedHandler(() -> afterModelChangedHandlerCalled.set(true))
+                .afterUpdateHandler(() -> afterUpdateHandlerCalled.set(true))
+                .build();
+
+        context.updateUi();
+
+        assertThat(afterModelChangedHandlerCalled.get()).isFalse();
+        assertThat(afterUpdateHandlerCalled.get()).isTrue();
     }
 
     @Test
