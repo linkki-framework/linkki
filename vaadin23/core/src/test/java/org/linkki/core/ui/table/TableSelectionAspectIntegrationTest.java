@@ -14,11 +14,17 @@
 
 package org.linkki.core.ui.table;
 
-import com.github.mvysny.kaributesting.v10.GridKt;
-import com.github.mvysny.kaributesting.v10.MockVaadin;
-import com.vaadin.flow.component.AbstractField;
-import com.vaadin.flow.component.ComponentUtil;
-import com.vaadin.flow.component.grid.GridSingleSelectionModel;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.linkki.test.matcher.Matchers.hasValue;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+
+import java.util.Arrays;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,14 +37,9 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.core.vaadin.component.section.GridSection;
 
-import java.util.Arrays;
-
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.linkki.test.matcher.Matchers.hasValue;
-import static org.mockito.Mockito.*;
+import com.github.mvysny.kaributesting.v10.GridKt;
+import com.github.mvysny.kaributesting.v10.MockVaadin;
+import com.vaadin.flow.component.grid.GridSingleSelectionModel;
 
 class TableSelectionAspectIntegrationTest {
 
@@ -61,10 +62,11 @@ class TableSelectionAspectIntegrationTest {
 
     @Test
     void testTableSectionSelectable() {
-        var tableSection = (GridSection)VaadinUiCreator.createComponent(new TestSelectableTablePmo(), new BindingContext());
+        var tableSection = (GridSection)VaadinUiCreator.createComponent(new TestSelectableTablePmo(),
+                                                                        new BindingContext());
 
         assertThat("Table in table section is selectable", tableSection.getGrid().getSelectionModel(),
-                is(instanceOf(GridSingleSelectionModel.class)));
+                   is(instanceOf(GridSingleSelectionModel.class)));
     }
 
     @Test

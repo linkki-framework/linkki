@@ -51,7 +51,7 @@ public class ContainerBinding extends BindingContext implements Binding {
     public ContainerBinding(Binding selfBinding, PropertyBehaviorProvider behaviorProvider,
             PropertyDispatcherFactory dispatcherFactory, Handler modelChanged) {
         super("container for " + selfBinding.getPmo().getClass().getSimpleName(),
-                behaviorProvider, dispatcherFactory, Handler.NOP_HANDLER);
+                behaviorProvider, dispatcherFactory, Handler.NOP_HANDLER, Handler.NOP_HANDLER);
         this.binding = selfBinding;
         this.modelChanged = modelChanged;
     }

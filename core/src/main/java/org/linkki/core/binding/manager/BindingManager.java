@@ -21,6 +21,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.lang3.Validate;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.BindingContext.BindingContextBuilder;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.MessageList;
@@ -124,7 +125,7 @@ public abstract class BindingManager {
      * @implNote Implementations have to ensure that the context calls {@link #afterUpdateUi()} if this
      *           manager should be notified of UI updates inside the context. This can be achieved by
      *           passing {@code this::afterUpdateUI} as a
-     *           {@link BindingContext#BindingContext(String, PropertyBehaviorProvider, org.linkki.util.handler.Handler)
+     *           {@link BindingContextBuilder#afterUpdateHandler(org.linkki.util.handler.Handler)
      *           afterUpdateHandler}.
      * 
      * @see #newBindingContext(String, PropertyBehaviorProvider)
@@ -138,7 +139,7 @@ public abstract class BindingManager {
      * @implNote Implementations have to ensure that the context calls {@link #afterUpdateUi()} if this
      *           manager should be notified of UI updates inside the context. This can be achieved by
      *           passing {@code this::afterUpdateUI} as a
-     *           {@link BindingContext#BindingContext(String, PropertyBehaviorProvider, org.linkki.util.handler.Handler)
+     *           {@link BindingContextBuilder#afterUpdateHandler(org.linkki.util.handler.Handler)
      *           afterUpdateHandler}.
      * 
      * @see #newBindingContext(String)

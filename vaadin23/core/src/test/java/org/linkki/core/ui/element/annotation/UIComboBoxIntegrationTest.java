@@ -15,7 +15,10 @@ package org.linkki.core.ui.element.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
@@ -25,7 +28,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
@@ -62,7 +64,7 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
     }
 
     @Test
-    void testDisallowCustomValue(){
+    void testDisallowCustomValue() {
         assertThat(getDynamicComponent().isAllowCustomValue(), is(false));
         assertThat(getStaticComponent().isAllowCustomValue(), is(false));
     }
@@ -74,8 +76,8 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         ComboBox<TestEnum> comboBox = getDynamicComponent();
 
         assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE,
-                TestEnum.TWO,
-                TestEnum.THREE));
+                                                        TestEnum.TWO,
+                                                        TestEnum.THREE));
         assertThat(comboBox.isClearButtonVisible(), is(false));
     }
 

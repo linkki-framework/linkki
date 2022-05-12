@@ -16,6 +16,7 @@ package org.linkki.core.binding.manager;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.BindingContext.BindingContextBuilder;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
@@ -27,7 +28,7 @@ import org.linkki.core.binding.validation.ValidationService;
 public class DefaultBindingManager extends BindingManager {
 
     private final PropertyBehaviorProvider defaultBehaviorProvider;
-    private PropertyDispatcherFactory propertyDispatcherFactory;
+    private final PropertyDispatcherFactory propertyDispatcherFactory;
 
     /**
      * Creates a {@link BindingManager} that returns {@link BindingContext BindingContexts} with
@@ -86,14 +87,16 @@ public class DefaultBindingManager extends BindingManager {
     @Override
     protected BindingContext newBindingContext(String name) {
         requireNonNull(name, "name must not be null");
-        return new BindingContext(name, getDefaultBehaviorProvider(), propertyDispatcherFactory, this::afterUpdateUi);
+        return new BindingContextBuilder().name(name).propertyBehaviorProvider(getDefaultBehaviorProvider())
+                .propertyDispatcherFactory(propertyDispatcherFactory).afterUpdateHandler(this::afterUpdateUi).build();
     }
 
     @Override
     protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
         requireNonNull(name, "name must not be null");
         requireNonNull(behaviorProvider, "behaviorProvider must not be null");
-        return new BindingContext(name, behaviorProvider, propertyDispatcherFactory, this::afterUpdateUi);
+        return new BindingContextBuilder().name(name).propertyBehaviorProvider(behaviorProvider)
+                .propertyDispatcherFactory(propertyDispatcherFactory).afterUpdateHandler(this::afterUpdateUi).build();
     }
 
     /**

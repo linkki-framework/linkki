@@ -24,6 +24,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.BindingContext.BindingContextBuilder;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
@@ -138,7 +140,7 @@ public class BindingManagerTest {
 
             @Override
             protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
-                return spy(new BindingContext(name, behaviorProvider, Handler.NOP_HANDLER));
+                return spy(new BindingContextBuilder().name(name).propertyBehaviorProvider(behaviorProvider).build());
             }
 
             @Override
@@ -165,7 +167,8 @@ public class BindingManagerTest {
 
         public TestBindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
                 Handler afterUpdateHandler) {
-            super(contextName, behaviorProvider, afterUpdateHandler);
+            super(contextName, behaviorProvider, new PropertyDispatcherFactory(), afterUpdateHandler,
+                    Handler.NOP_HANDLER);
         }
 
         @Override

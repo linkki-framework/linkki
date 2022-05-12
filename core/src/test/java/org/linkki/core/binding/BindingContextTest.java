@@ -13,12 +13,8 @@
  */
 package org.linkki.core.binding;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -31,11 +27,18 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.BindingContext.BindingContextBuilder;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatcher;
@@ -52,7 +55,6 @@ import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.nls.TestUiLayoutComponent;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
-import org.linkki.core.matcher.MessageMatchers;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.util.handler.Handler;
@@ -60,8 +62,8 @@ import org.linkki.util.handler.Handler;
 public class BindingContextTest {
 
     private static final String MSG_CODE = "TEST";
-    private TestUiComponent field1 = spy(new TestUiComponent());
-    private TestUiComponent field2 = spy(new TestUiComponent());
+    private final TestUiComponent field1 = spy(new TestUiComponent());
+    private final TestUiComponent field2 = spy(new TestUiComponent());
 
     private WeakReference<TestUiComponent> weakRefComponent;
 
@@ -77,17 +79,17 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testAdd() {
+    void testAdd() {
         BindingContext context = new BindingContext();
         ElementBinding binding = createBinding(context);
 
-        assertEquals(0, context.getBindings().size());
+        assertThat(context.getBindings()).isEmpty();
         context.add(binding, TestComponentWrapper.with(binding));
-        assertEquals(1, context.getBindings().size());
+        assertThat(context.getBindings()).hasSize(1);
     }
 
     @Test
-    public void testAdd_DisplayCurrentMessages() {
+    void testAdd_DisplayCurrentMessages() {
         BindingContext context = new BindingContext();
         ElementBinding binding = createBinding(context);
         Message message = Message.builder("test", Severity.ERROR)
@@ -98,14 +100,14 @@ public class BindingContextTest {
 
         context.add(binding, TestComponentWrapper.with(binding));
 
-        assertThat(((TestUiComponent)binding.getBoundComponent()).getValidationMessages(),
-                   MessageMatchers.hasMessage(MSG_CODE));
+        assertThat(((TestUiComponent)binding.getBoundComponent()).getValidationMessages().stream().map(Message::getCode)
+                .anyMatch(MSG_CODE::equals)).isTrue();
     }
 
     @Test
-    public void testModelChangedBindings() {
+    void testModelChangedBindings() {
         Handler afterUpdateUi = mock(Handler.class);
-        BindingContext context = new BindingContext("", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterUpdateUi);
+        BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         ElementBinding binding = spy(createBinding(context));
         context.add(binding, TestComponentWrapper.with(binding));
         reset(binding);
@@ -117,10 +119,10 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testModelChangedBindings_noBindingInContext() {
+    void testModelChangedBindings_noBindingInContext() {
         Handler afterUpdateUi = mock(Handler.class);
 
-        BindingContext context = new BindingContext("", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterUpdateUi);
+        BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         ElementBinding binding = spy(createBinding(context));
 
         context.uiUpdated();
@@ -131,18 +133,18 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testModelChangedBindingsAndValidate_noBindingInContext() {
+    void testModelChangedBindingsAndValidate_noBindingInContext() {
         Handler afterUpdateUi = mock(Handler.class);
 
-        BindingContext context = new BindingContext("", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterUpdateUi);
+        BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         context.modelChanged();
         verify(afterUpdateUi).apply();
     }
 
     @Test
-    public void testModelChangedBindingsAndValidate() {
+    void testModelChangedBindingsAndValidate() {
         Handler afterUpdateUi = mock(Handler.class);
-        BindingContext context = new BindingContext("", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterUpdateUi);
+        BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         ElementBinding binding = spy(createBinding(context));
         context.add(binding, TestComponentWrapper.with(binding));
         reset(binding);
@@ -154,7 +156,7 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testChangeBoundObject() {
+    void testChangeBoundObject() {
         BindingContext context = new BindingContext();
         ElementBinding binding = spy(createBinding(context));
         context.uiUpdated();
@@ -168,7 +170,7 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testRemoveBindingsForComponent() {
+    void testRemoveBindingsForComponent() {
         BindingContext context = new BindingContext();
         TestPmo testPmo = new TestPmo();
         ElementBinding binding1 = createBinding(context, testPmo, field1);
@@ -176,46 +178,241 @@ public class BindingContextTest {
         context.add(binding1, TestComponentWrapper.with(binding1));
         context.add(binding2, TestComponentWrapper.with(binding2));
 
-        assertThat(context.getBindings(), hasSize(2));
+        assertThat(context.getBindings()).hasSize(2);
 
         TestUiLayoutComponent layout = new TestUiLayoutComponent(field1, field2);
 
         context.removeBindingsForComponent(layout);
-        assertThat(context.getBindings(), is(empty()));
+        assertThat(context.getBindings()).isEmpty();
     }
 
     @Test
-    public void testRemoveBindingsForComponent_Container() {
+    void testRemoveBindingsForComponent_Container() {
         BindingContext context = new BindingContext();
         TestContainerPmo containerPmo = new TestContainerPmo(new TestRowPmo());
         bindAddItemButton(context, containerPmo);
         TestUiLayoutComponent table = bindTable(context, containerPmo);
 
-        assertThat(context.getBindings(), hasSize(2));
+        assertThat(context.getBindings()).hasSize(2);
         ContainerBinding binding = (ContainerBinding)context.getBindings().stream()
                 .filter(ContainerBinding.class::isInstance).findFirst().get();
-        assertThat(binding.getBindings(), hasSize(2));
+        assertThat(binding.getBindings()).hasSize(2);
 
         context.removeBindingsForComponent(table);
-        assertThat(context.getBindings(), hasSize(1));
+        assertThat(context.getBindings()).hasSize(1);
     }
 
     @Test
-    public void testRemoveBindingsForComponent_InContainerBinding() {
+    void testRemoveBindingsForComponent_InContainerBinding() {
         BindingContext context = new BindingContext();
         TestContainerPmo containerPmo = new TestContainerPmo(new TestRowPmo());
         bindAddItemButton(context, containerPmo);
         TestUiLayoutComponent table = bindTable(context, containerPmo);
         TestUiComponent childComponent = table.getChildren().get(0);
 
-        assertThat(context.getBindings(), hasSize(2));
+        assertThat(context.getBindings()).hasSize(2);
         ContainerBinding containerBinding = (ContainerBinding)context.getBindings().stream()
                 .filter(ContainerBinding.class::isInstance).findFirst().get();
-        assertThat(containerBinding.getBindings(), hasSize(2));
+        assertThat(containerBinding.getBindings()).hasSize(2);
 
         context.removeBindingsForComponent(childComponent);
-        assertThat(context.getBindings(), hasSize(2));
-        assertThat(containerBinding.getBindings(), hasSize(1));
+        assertThat(context.getBindings()).hasSize(2);
+        assertThat(containerBinding.getBindings()).hasSize(1);
+    }
+
+    @Test
+    void testRemoveBindingsForComponent_Button() {
+        BindingContext context = new BindingContext();
+        TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
+        Optional<ButtonPmo> editButtonPmo = testPmoWithButton.getEditButtonPmo();
+        editButtonPmo.ifPresent(buttonPmo -> context.bind(buttonPmo, BoundProperty.of(""),
+                                                          Arrays.asList(new TestComponentClickAspectDefinition()),
+                                                          new TestComponentWrapper(field1)));
+
+        assertThat(context.getBindings()).hasSize(1);
+
+        context.removeBindingsForComponent(new TestUiLayoutComponent(field1));
+        assertThat(context.getBindings()).isEmpty();
+    }
+
+    @Test
+    void testRemoveBindingsForPmo() {
+        BindingContext context = new BindingContext();
+
+        TestPmo pmo = new TestPmo();
+        ElementBinding binding1 = createBinding(context, pmo, field1);
+        ElementBinding binding2 = createBinding(context, pmo, field2);
+        context.add(binding1, TestComponentWrapper.with(binding1));
+        context.add(binding2, TestComponentWrapper.with(binding2));
+
+        assertThat(context.getBindings()).hasSize(2);
+
+        context.removeBindingsForPmo(pmo);
+        assertThat(context.getBindings()).isEmpty();
+    }
+
+    @Test
+    void testRemoveBindingsForPmo_Container() {
+        BindingContext context = new BindingContext();
+        TestContainerPmo containerPmo = new TestContainerPmo(new TestRowPmo());
+        bindAddItemButton(context, containerPmo);
+        bindTable(context, containerPmo);
+
+        assertThat(context.getBindings()).hasSize(2);
+        ContainerBinding binding = (ContainerBinding)context.getBindings().stream()
+                .filter(ContainerBinding.class::isInstance).findFirst().get();
+        assertThat(binding.getBindings()).hasSize(2);
+        context.removeBindingsForPmo(containerPmo);
+        assertThat(context.getBindings()).isEmpty();
+    }
+
+    @Test
+    void testRemoveBindingsForPmo_Button() {
+        BindingContext context = new BindingContext();
+        TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
+        Optional<ButtonPmo> editButtonPmo = testPmoWithButton.getEditButtonPmo();
+        editButtonPmo.ifPresent(buttonPmo -> context.bind(buttonPmo, BoundProperty.of(""),
+                                                          Arrays.asList(new TestComponentClickAspectDefinition()),
+                                                          new TestComponentWrapper(field1)));
+
+        assertThat(context.getBindings()).hasSize(1);
+        context.removeBindingsForPmo(testPmoWithButton);
+        assertThat(context.getBindings()).isEmpty();
+    }
+
+    @Test
+    void testBind_ButtonPmoBindningToCheckUpdateFromPmo() {
+        BindingContext context = new BindingContext();
+        TestButtonPmo buttonPmo = new TestButtonPmo();
+        TestUiComponent button = new TestUiComponent();
+        buttonPmo.setEnabled(false);
+
+        ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
+        context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
+                     buttonWrapper);
+
+        assertThat(button.isEnabled()).isFalse();
+    }
+
+    @Test
+    void testBind_WeakReferencedBinding() {
+        BindingContext context = new BindingContext();
+        ReferenceQueue<TestUiComponent> referenceQueue = new ReferenceQueue<>();
+        Thread refRemoveThread = new Thread(() -> {
+
+            try {
+                TestUiComponent removed = referenceQueue.remove(10_000).get();
+                assertThat(weakRefComponent.get()).isEqualTo(removed);
+            } catch (IllegalArgumentException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+        refRemoveThread.start();
+
+        weakRefComponent = setupBindingForWeakRefTest(context, referenceQueue);
+
+        System.gc();
+
+        try {
+            refRemoveThread.join(10_000);
+        } catch (InterruptedException e) {
+            fail(e);
+        }
+        assertThat(context.getBindings()).isEmpty();
+    }
+
+    @Test
+    void testBuilder_WithDefaultNameAndBehaviorProdiver() {
+        BindingContext context = new BindingContextBuilder().build();
+
+        assertThat(context.getName()).isEmpty();
+        assertThat(context.getBehaviorProvider()).isEqualTo(PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+    }
+
+    @Test
+    void testBuilder_WithName() {
+        BindingContext context = new BindingContextBuilder().name("testBindingContext").build();
+
+        assertThat(context.getName()).isEqualTo("testBindingContext");
+    }
+
+    @Test
+    void testBuilder_WithNameAndPropertyBehaviorProvider() {
+        PropertyBehaviorProvider testPropertyBehaviorProvider = new PropertyBehaviorProvider() {
+            @Override
+            public Collection<PropertyBehavior> getBehaviors() {
+                return Collections.emptyList();
+            }
+
+        };
+        BindingContext context = new BindingContextBuilder().propertyBehaviorProvider(testPropertyBehaviorProvider)
+                .build();
+
+        assertThat(context.getBehaviorProvider()).isEqualTo(testPropertyBehaviorProvider);
+    }
+
+    @Test
+    void testBuilder_WithPropertyDispatcherFactory() {
+        AtomicBoolean createDispatcherChainCalled = new AtomicBoolean(false);
+        PropertyDispatcherFactory testPropertyDispatcherFactory = new PropertyDispatcherFactory() {
+            @Override
+            public PropertyDispatcher createDispatcherChain(Object pmo,
+                    BoundProperty boundProperty,
+                    PropertyBehaviorProvider behaviorProvider) {
+                createDispatcherChainCalled.set(true);
+                return super.createDispatcherChain(pmo, boundProperty, behaviorProvider);
+            }
+        };
+
+        BindingContext context = new BindingContextBuilder().propertyDispatcherFactory(testPropertyDispatcherFactory)
+                .build();
+
+        TestButtonPmo buttonPmo = new TestButtonPmo();
+        TestUiComponent button = new TestUiComponent();
+        buttonPmo.setEnabled(false);
+        ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
+        context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
+                     buttonWrapper);
+
+        assertThat(createDispatcherChainCalled.get()).isTrue();
+    }
+
+    @Test
+    void testBuilder_WithAfterUpdateHandler() {
+        AtomicBoolean handlerCalled = new AtomicBoolean(false);
+        BindingContext context = new BindingContextBuilder().afterUpdateHandler(() -> handlerCalled.set(true)).build();
+
+        context.modelChanged();
+
+        assertThat(handlerCalled.get()).isTrue();
+    }
+
+    @Test
+    void testBuilder_RequiredNonNullValues() {
+        BindingContextBuilder builder = new BindingContextBuilder();
+
+        assertThatThrownBy(() -> builder.name(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> builder.propertyBehaviorProvider(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> builder.propertyDispatcherFactory(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> builder.afterUpdateHandler(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> builder.afterModelChangedHandler(null)).isInstanceOf(NullPointerException.class);
+    }
+
+    private WeakReference<TestUiComponent> setupBindingForWeakRefTest(BindingContext context,
+            ReferenceQueue<TestUiComponent> referenceQueue) {
+        TestButtonPmo buttonPmo = new TestButtonPmo();
+        TestUiComponent button = new TestUiComponent();
+        buttonPmo.setEnabled(false);
+
+        ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
+        context.bind(buttonPmo, BoundProperty.of(""),
+                     Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
+                     buttonWrapper);
+        WeakReference<TestUiComponent> weakReference = new WeakReference<>(button, referenceQueue);
+        assertThat(weakReference.get()).isEqualTo(button);
+        assertThat(context.getBindings()).isNotEmpty();
+        return weakReference;
     }
 
     private TestUiLayoutComponent bindTable(BindingContext context, TestContainerPmo containerPmo) {
@@ -233,124 +430,6 @@ public class BindingContextTest {
                      new TestComponentWrapper(new TestUiComponent()));
     }
 
-    @Test
-    public void testRemoveBindingsForComponent_Button() {
-        BindingContext context = new BindingContext();
-        TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
-        Optional<ButtonPmo> editButtonPmo = testPmoWithButton.getEditButtonPmo();
-        editButtonPmo.ifPresent(buttonPmo -> context.bind(buttonPmo, BoundProperty.of(""),
-                                                          Arrays.asList(new TestComponentClickAspectDefinition()),
-                                                          new TestComponentWrapper(field1)));
-
-        assertThat(context.getBindings(), hasSize(1));
-
-        context.removeBindingsForComponent(new TestUiLayoutComponent(field1));
-        assertThat(context.getBindings(), is(empty()));
-    }
-
-    @Test
-    public void testRemoveBindingsForPmo() {
-        BindingContext context = new BindingContext();
-
-        TestPmo pmo = new TestPmo();
-        ElementBinding binding1 = createBinding(context, pmo, field1);
-        ElementBinding binding2 = createBinding(context, pmo, field2);
-        context.add(binding1, TestComponentWrapper.with(binding1));
-        context.add(binding2, TestComponentWrapper.with(binding2));
-
-        assertThat(context.getBindings(), hasSize(2));
-
-        context.removeBindingsForPmo(pmo);
-        assertThat(context.getBindings(), is(empty()));
-    }
-
-    @Test
-    public void testRemoveBindingsForPmo_Container() {
-        BindingContext context = new BindingContext();
-        TestContainerPmo containerPmo = new TestContainerPmo(new TestRowPmo());
-        bindAddItemButton(context, containerPmo);
-        bindTable(context, containerPmo);
-
-        assertThat(context.getBindings(), hasSize(2));
-        ContainerBinding binding = (ContainerBinding)context.getBindings().stream()
-                .filter(ContainerBinding.class::isInstance).findFirst().get();
-        assertThat(binding.getBindings(), hasSize(2));
-        context.removeBindingsForPmo(containerPmo);
-        assertThat(context.getBindings(), is(empty()));
-    }
-
-    @Test
-    public void testRemoveBindingsForPmo_Button() {
-        BindingContext context = new BindingContext();
-        TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
-        Optional<ButtonPmo> editButtonPmo = testPmoWithButton.getEditButtonPmo();
-        editButtonPmo.ifPresent(buttonPmo -> context.bind(buttonPmo, BoundProperty.of(""),
-                                                          Arrays.asList(new TestComponentClickAspectDefinition()),
-                                                          new TestComponentWrapper(field1)));
-
-        assertThat(context.getBindings(), hasSize(1));
-        context.removeBindingsForPmo(testPmoWithButton);
-        assertThat(context.getBindings(), is(empty()));
-    }
-
-    @Test
-    public void testBind_ButtonPmoBindningToCheckUpdateFromPmo() {
-        BindingContext context = new BindingContext();
-        TestButtonPmo buttonPmo = new TestButtonPmo();
-        TestUiComponent button = new TestUiComponent();
-        buttonPmo.setEnabled(false);
-
-        ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
-        context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
-                     buttonWrapper);
-
-        assertThat(button.isEnabled(), is(false));
-    }
-
-    @Test
-    public void testBind_WeakReferencedBinding() {
-        BindingContext context = new BindingContext();
-        ReferenceQueue<TestUiComponent> referenceQueue = new ReferenceQueue<>();
-        Thread refRemoveThread = new Thread(() -> {
-
-            try {
-                TestUiComponent removed = referenceQueue.remove(10_000).get();
-                assertThat(weakRefComponent.get(), is(removed));
-            } catch (IllegalArgumentException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-        });
-        refRemoveThread.start();
-
-        weakRefComponent = setupBindingForWeakRefTest(context, referenceQueue);
-
-        System.gc();
-
-        try {
-            refRemoveThread.join(10_000);
-        } catch (InterruptedException e) {
-            fail(e);
-        }
-        assertThat(context.getBindings(), is(empty()));
-    }
-
-    private WeakReference<TestUiComponent> setupBindingForWeakRefTest(BindingContext context,
-            ReferenceQueue<TestUiComponent> referenceQueue) {
-        TestButtonPmo buttonPmo = new TestButtonPmo();
-        TestUiComponent button = new TestUiComponent();
-        buttonPmo.setEnabled(false);
-
-        ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
-        context.bind(buttonPmo, BoundProperty.of(""),
-                     Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
-                     buttonWrapper);
-        WeakReference<TestUiComponent> weakReference = new WeakReference<>(button, referenceQueue);
-        assertThat(weakReference.get(), is(button));
-        assertThat(context.getBindings(), is(not(empty())));
-        return weakReference;
-    }
-
     public static class TestPmoWithButton implements PresentationModelObject {
 
         private static final ButtonPmo NOP_BUTTON_PMO = new TestButtonPmo();
@@ -360,4 +439,5 @@ public class BindingContextTest {
             return Optional.of(NOP_BUTTON_PMO);
         }
     }
+
 }

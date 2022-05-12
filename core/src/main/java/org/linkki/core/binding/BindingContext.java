@@ -58,6 +58,7 @@ public class BindingContext implements UiUpdateObserver {
     private final String name;
     private final PropertyBehaviorProvider behaviorProvider;
     private final Handler afterUpdateHandler;
+    private final Handler afterModelChangedHandler;
     private final PropertyDispatcherFactory dispatcherFactory;
 
     private final Map<Object, WeakReference<Binding>> bindings = new WeakHashMap<>();
@@ -99,7 +100,10 @@ public class BindingContext implements UiUpdateObserver {
      *            relevant to this context
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}
+     * 
+     * @deprecated Use {@link BindingContextBuilder}
      */
+    @Deprecated(since = "2.1.0")
     public BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
             Handler afterUpdateHandler) {
         this(contextName, behaviorProvider, new PropertyDispatcherFactory(), afterUpdateHandler);
@@ -122,12 +126,43 @@ public class BindingContext implements UiUpdateObserver {
      *            property
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}
+     * 
+     * @deprecated Use {@link BindingContextBuilder}
      */
+    @Deprecated(since = "2.1.0")
     public BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
             PropertyDispatcherFactory dispatcherFactory, Handler afterUpdateHandler) {
+        this(contextName, behaviorProvider, dispatcherFactory, afterUpdateHandler, Handler.NOP_HANDLER);
+    }
+
+    /**
+     * Creates a new binding context with the given name, using the behavior provider to decorate its
+     * bindings and notifying a handler after every UI update.
+     * <p>
+     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event outside
+     * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
+     * {@link BindingManager} to trigger the validation service and to notify all
+     * {@link UiUpdateObserver UiUpdateObservers} in the manager to show the validation result.
+     * 
+     * @param contextName name of this {@link BindingContext} that is used as identifier in a
+     *            {@linkplain BindingManager}
+     * @param behaviorProvider used to retrieve all {@link PropertyBehavior PropertyBehaviors} that are
+     *            relevant to this context
+     * @param dispatcherFactory the factory used to create the {@link PropertyDispatcher} chain for any
+     *            property
+     * @param afterUpdateHandler a {@link Handler} that is applied after the UI update. Usually
+     *            {@link BindingManager#afterUpdateUi()}
+     * @param afterModelChangedHandler a {@link Handler} that is applied after the model update.
+     * 
+     * @since 2.1.0
+     */
+    protected BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
+            PropertyDispatcherFactory dispatcherFactory, Handler afterUpdateHandler, Handler afterModelChangedHandler) {
         this.name = requireNonNull(contextName, "contextName must not be null");
         this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
         this.afterUpdateHandler = requireNonNull(afterUpdateHandler, "afterUpdateHandler must not be null");
+        this.afterModelChangedHandler = requireNonNull(afterModelChangedHandler,
+                                                       "afterModelChangedHandler must not be null");
         this.dispatcherFactory = requireNonNull(dispatcherFactory, "dispatcherFactory must not be null");
     }
 
@@ -304,7 +339,9 @@ public class BindingContext implements UiUpdateObserver {
 
     @Override
     public String toString() {
-        return "BindingContext [name=" + name + ", behaviorProvider=" + behaviorProvider + "]";
+        return "BindingContext [name=" + name + ", behaviorProvider=" + behaviorProvider + ", dispatcherFactory="
+                + dispatcherFactory + ", afterUpdateHandler=" + afterUpdateHandler + ", afterModelChangedHandler="
+                + afterModelChangedHandler + "]";
     }
 
     /**
@@ -376,4 +413,100 @@ public class BindingContext implements UiUpdateObserver {
                 aspectDefinitions);
     }
 
+    /**
+     * Builder for creating {@link BindingContext}
+     * 
+     * @since 2.1.0
+     */
+    public static class BindingContextBuilder {
+
+        private String contextName;
+        private PropertyBehaviorProvider propertyBehaviorProvider;
+        private PropertyDispatcherFactory propertyDispatcherFactory;
+        private Handler afterUpdateHandler;
+        private Handler afterModelChangedHandler;
+
+        public BindingContextBuilder() {
+            this.contextName = "";
+            this.propertyBehaviorProvider = PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER;
+            this.propertyDispatcherFactory = new PropertyDispatcherFactory();
+            this.afterUpdateHandler = Handler.NOP_HANDLER;
+            this.afterModelChangedHandler = Handler.NOP_HANDLER;
+        }
+
+        /**
+         * Specifies the name of the {@link BindingContext context}
+         * 
+         * @param name name of this {@link BindingContext context} that is used as identifier in a
+         *            {@link BindingManager}
+         * @return {@code this} for method chaining
+         */
+        public BindingContextBuilder name(String name) {
+            this.contextName = requireNonNull(name, "contextName must not be null");
+            return this;
+        }
+
+        /**
+         * Specifies the {@link PropertyBehaviorProvider} of the {@link BindingContext context}
+         * 
+         * @param behaviorProvider {@link PropertyBehaviorProvider} of this {@link BindingContext
+         *            context} used to retrieve all {@link PropertyBehavior PropertyBehaviors} that are
+         *            relevant to this {@link BindingContext context}
+         * @return {@code this} for method chaining
+         */
+        public BindingContextBuilder propertyBehaviorProvider(PropertyBehaviorProvider behaviorProvider) {
+            this.propertyBehaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
+            return this;
+        }
+
+        /**
+         * Specifies the {@link PropertyDispatcherFactory} of the {@link BindingContext context}
+         * 
+         * @param dispatcherFactory the factory used to create the {@link PropertyDispatcher} chain for
+         *            any property
+         * @return {@code this} for method chaining
+         */
+        public BindingContextBuilder propertyDispatcherFactory(PropertyDispatcherFactory dispatcherFactory) {
+            this.propertyDispatcherFactory = requireNonNull(dispatcherFactory, "dispatcherFactory must not be null");
+            return this;
+        }
+
+        /**
+         * Specifies the {@link Handler afterUpdateHandler} of the {@link BindingContext context}
+         * 
+         * @param handler a {@link Handler handler} that is applied after the UI update. Usually
+         *            {@link BindingManager#afterUpdateUi()}
+         * @return {@code this} for method chaining
+         */
+        public BindingContextBuilder afterUpdateHandler(Handler handler) {
+            this.afterUpdateHandler = requireNonNull(handler, "afterUpdateHandler must not be null");
+            return this;
+        }
+
+        /**
+         * Specifies the {@link Handler afterModelChangedHandler} of the {@link BindingContext context}
+         * 
+         * @param handler a {@link Handler handler} that is applied after the model update.
+         * @return {@code this} for method chaining
+         */
+        public BindingContextBuilder afterModelChangedHandler(Handler handler) {
+            this.afterModelChangedHandler = requireNonNull(handler,
+                                                           "afterModelChangedHandler must not be null");
+            return this;
+        }
+
+        /**
+         * Builds a {@link BindingContext} instance using the values in this builder.
+         * <p>
+         * If no custom properties are set, the {@link BindingContext} is created with its default
+         * values.
+         * 
+         * @return a new {@link BindingContext}
+         */
+        public BindingContext build() {
+            return new BindingContext(contextName, propertyBehaviorProvider, propertyDispatcherFactory,
+                    afterUpdateHandler, afterModelChangedHandler);
+        }
+
+    }
 }

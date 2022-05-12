@@ -15,8 +15,7 @@ package org.linkki.samples.playground.table.dynamicfields;
 
 import java.util.List;
 
-import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.binding.BindingContext.BindingContextBuilder;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.util.handler.Handler;
 
@@ -45,9 +44,9 @@ public class NewCarDialog extends Dialog {
         NewCar car = new NewCar();
 
         layout.add(VaadinUiCreator.createComponent(new CarTypeSectionPmo(car),
-                                                   new BindingContext("car-type",
-                                                           PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
-                                                           () -> addNewCarSection(layout, car))));
+                                                   new BindingContextBuilder().name("car-type")
+                                                           .afterUpdateHandler(() -> addNewCarSection(layout, car))
+                                                           .build()));
         add(layout);
 
         open();
@@ -65,9 +64,9 @@ public class NewCarDialog extends Dialog {
         }
 
         layout.add(VaadinUiCreator.createComponent(new NewCarSectionPmo(car, this.carStorage, this::close),
-                                                   new BindingContext("new-car",
-                                                           PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
-                                                           afterSaveAction)));
+                                                   new BindingContextBuilder().name("new-car")
+                                                           .afterUpdateHandler(afterSaveAction)
+                                                           .build()));
     }
 
 

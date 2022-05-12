@@ -14,15 +14,16 @@
 
 package org.linkki.core.ui.aspects.annotation;
 
-import com.vaadin.flow.component.icon.VaadinIcon;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.aspects.IconAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindIcon.BindIconAspectDefinitionCreator;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 class BindIconTest {
 
@@ -32,6 +33,7 @@ class BindIconTest {
         var testObject = new Object() {
             @BindIcon(iconType = IconType.DYNAMIC)
             public void testMethod() {
+                // nop
             }
         };
         IconAspectDefinition aspectDefinition = aspectDefinitionCreator.create(getBindIconAnnotation(testObject));
@@ -48,9 +50,11 @@ class BindIconTest {
         var testObject = new Object() {
             @BindIcon
             public void testMethod() {
+                // nop
             }
         };
-        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator.create(getBindIconAnnotation(testObject));
+        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator
+                .create(getBindIconAnnotation(testObject));
 
         Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
@@ -64,9 +68,11 @@ class BindIconTest {
         var testObject = new Object() {
             @BindIcon(VaadinIcon.ABACUS)
             public void testMethod() {
+                // nop
             }
         };
-        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator.create(getBindIconAnnotation(testObject));
+        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator
+                .create(getBindIconAnnotation(testObject));
 
         Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
@@ -80,9 +86,11 @@ class BindIconTest {
         var testObject = new Object() {
             @BindIcon(iconType = IconType.STATIC)
             public void testMethod() {
+                // nop
             }
         };
-        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator.create(getBindIconAnnotation(testObject));
+        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator
+                .create(getBindIconAnnotation(testObject));
 
         Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
@@ -96,9 +104,11 @@ class BindIconTest {
         var testObject = new Object() {
             @BindIcon(value = VaadinIcon.ABSOLUTE_POSITION, iconType = IconType.STATIC)
             public void testMethod() {
+                // nop
             }
         };
-        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator.create(getBindIconAnnotation(testObject));
+        IconAspectDefinition aspectDefinition = bindIconAspectDefinitionCreator
+                .create(getBindIconAnnotation(testObject));
 
         Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
@@ -107,6 +117,6 @@ class BindIconTest {
     }
 
     private BindIcon getBindIconAnnotation(Object object) {
-       return object.getClass().getMethods()[0].getAnnotation(BindIcon.class);
+        return object.getClass().getMethods()[0].getAnnotation(BindIcon.class);
     }
 }

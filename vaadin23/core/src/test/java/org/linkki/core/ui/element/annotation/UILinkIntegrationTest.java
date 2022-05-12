@@ -25,10 +25,7 @@ import org.linkki.core.ui.element.annotation.UILinkIntegrationTest.LinkTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
-import com.vaadin.flow.component.html.Anchor;
-
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-import org.linkki.core.vaadin.component.base.LinkkiText;
 
 class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiAnchor, LinkTestPmo> {
 
@@ -38,7 +35,7 @@ class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiAnc
 
     @Test
     void testValue_Dynamic() {
-        LinkkiAnchor link = (LinkkiAnchor)getDynamicComponent();
+        LinkkiAnchor link = getDynamicComponent();
 
         assertThat(getDefaultPmo().getValue(), is(nullValue()));
         assertThat(link.getIcon(), is(nullValue()));

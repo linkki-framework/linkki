@@ -14,17 +14,15 @@
 
 package org.linkki.core.vaadin.component.base;
 
+import java.util.Optional;
+
 import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.AnchorTargetValue;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
-import org.linkki.core.ui.theme.LinkkiTheme;
 
-import java.util.Objects;
-import java.util.Optional;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * An anchor component that can have an additional {@link VaadinIcon}

@@ -9,6 +9,21 @@
 
 ==== New features and improvements
 
+===== Add `BindingContextBuilder`
+////
+https://jira.faktorzehn.de/browse/LIN-3043
+////
+A `BindingContextBuilder` has been added to create a `<<binding-basics, `BindingContext`>>`.
+
+Thus, the following constructors have been deprecated:
+
+* `public BindingContext(String, PropertyBehaviorProvider, Handler)`
+* `public BindingContext(String, PropertyBehaviorProvider, PropertyDispatcherFactory, Handler)`
+
+Additionally, a new constructor has been introduced for subclassing:
+
+`protected BindingContext(String, PropertyBehaviorProvider, PropertyDispatcherFactory, Handler, Handler)` 
+
 ===== Additional Behavior in `BindReadOnlyBehavior` displays buttons only in read-only mode
 ////
 https://jira.faktorzehn.de/browse/LIN-2626

@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.BindingContext.BindingContextBuilder;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.validation.ValidationService;
@@ -35,7 +36,6 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.test.TestButtonPmo;
 import org.linkki.core.vaadin.component.page.AbstractPage;
-import org.linkki.util.handler.Handler;
 
 
 public class BindingContextIntegrationTest {
@@ -113,7 +113,7 @@ public class BindingContextIntegrationTest {
 
         @Override
         protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
-            return new BindingContext("", behaviorProvider, Handler.NOP_HANDLER);
+            return new BindingContextBuilder().propertyBehaviorProvider(behaviorProvider).build();
         }
 
     }

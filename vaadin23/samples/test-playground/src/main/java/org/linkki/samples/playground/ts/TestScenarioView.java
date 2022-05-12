@@ -18,6 +18,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.BindingContext.BindingContextBuilder;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
@@ -113,7 +114,6 @@ import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
-import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Anchor;
@@ -264,11 +264,12 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                VaadinUiCreator
                                                        .createComponent(new BindReadOnlyBehaviorPmo(
                                                                "read-only section"),
-                                                                        new BindingContext("readOnlyContext",
-                                                                                PropertyBehaviorProvider
+                                                                        new BindingContextBuilder()
+                                                                                .name("readOnlyContext")
+                                                                                .propertyBehaviorProvider(PropertyBehaviorProvider
                                                                                         .with(PropertyBehavior
-                                                                                                .readOnly()),
-                                                                                Handler.NOP_HANDLER))))
+                                                                                                .readOnly()))
+                                                                                .build())))
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())
