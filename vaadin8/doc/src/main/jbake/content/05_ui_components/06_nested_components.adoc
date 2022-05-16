@@ -12,7 +12,7 @@ Nested components are an add-on to linkki-core.
 ----
 <dependency>
     <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-nestedcomponent</artifactId>
+    <artifactId>linkki-core-vaadin8-nestedcomponent</artifactId>
 </dependency>
 ----
 

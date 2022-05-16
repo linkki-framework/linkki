@@ -34,7 +34,7 @@ public class DialogTest extends AbstractUiTest {
         navigateToView("dialog");
 
         assertThat($(WindowElement.class).all().size(), is(1));
-        $(ButtonElement.class).caption("OK").first().click();
+        $(ButtonElement.class).id("okButton").click();
 
         clickButton("showDialog");
         assertThat($(WindowElement.class).all().size(), is(1));
@@ -46,7 +46,8 @@ public class DialogTest extends AbstractUiTest {
     @Test
     public void testOkCancelDialog() {
         navigateToView("dialog");
-        $(ButtonElement.class).caption("OK").first().click();
+        assertThat($(WindowElement.class).all().size(), is(1));
+        $(ButtonElement.class).id("okButton").click();
         VerticalLayoutElement section = $(VerticalLayoutElement.class).id("OkCancelDialogPmo");
 
         section.$(TextFieldElement.class).id("caption").setValue("Awesome dialog");

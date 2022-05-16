@@ -26,10 +26,6 @@ pipeline {
                     sh 'mvn -T 6 -Dsurefire.directory=surefire-reports-java11 test'
                 }
             }
-
-            environment {
-                MAVEN_OPTS = '-Xmx768m'
-            }
         }
 
         stage('Docker Deployment') {
