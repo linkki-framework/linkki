@@ -101,3 +101,5 @@ https://jira.faktorzehn.de/browse/LIN-2506
 * `UILink` do not show label above the link
 // https://jira.faktorzehn.de/browse/LIN-3037
 * Removing values from a `UIComboBox` that does not allow null should not be possible.
+// https://jira.faktorzehn.de/browse/LIN-3058
+* `UIIntegerField` now allows the thousand separator character (e.g. comma when locale is English) to be entered.

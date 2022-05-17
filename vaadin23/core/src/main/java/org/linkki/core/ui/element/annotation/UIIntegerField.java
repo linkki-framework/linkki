@@ -139,7 +139,8 @@ public @interface UIIntegerField {
 
         @Override
         public LinkkiComponentDefinition create(UIIntegerField annotation, AnnotatedElement annotatedElement) {
-            return pmo -> ComponentFactory.newNumberField(annotation.maxLength(), annotation.width(), "[-+\\d]");
+            return pmo -> ComponentFactory.newNumberFieldWithFormattingPattern(annotation.maxLength(),
+                                                                               annotation.width(), annotation.format());
         }
 
     }

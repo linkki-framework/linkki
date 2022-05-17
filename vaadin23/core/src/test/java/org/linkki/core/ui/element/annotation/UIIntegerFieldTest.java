@@ -13,15 +13,83 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+import java.util.Locale;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.VaadinUIExtension;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
+@ExtendWith(VaadinUIExtension.class)
 class UIIntegerFieldTest {
+
+    @Test
+    void testSetValue_WithPrimitiveIntegerInModelObject() {
+        TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
+        Assertions.assertDoesNotThrow(() -> {
+            TestUiUtil.setUserOriginatedValue(textField, "0");
+        });
+    }
+
+    @Test
+    void testSetValue_WithObjectIntegerInModelObject() {
+        TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
+
+        Assertions.assertDoesNotThrow(() -> {
+            TestUiUtil.setUserOriginatedValue(textField, "");
+            TestUiUtil.setUserOriginatedValue(textField, "0");
+        });
+    }
+
+    @Test
+    void testSetValue_WithThousandSeparatorOnPrimitiveInteger_DE() {
+        UI.getCurrent().setLocale(Locale.GERMAN);
+        TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
+
+        TestUiUtil.setUserOriginatedValue(textField, "98765432");
+
+        assertThat(textField.getValue(), is("98.765.432"));
+    }
+
+    @Test
+    void testSetValue_WithThousandSeparatorOnPrimitiveInteger_EN() {
+        UI.getCurrent().setLocale(Locale.ENGLISH);
+        TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
+
+        TestUiUtil.setUserOriginatedValue(textField, "98765432");
+
+        assertThat(textField.getValue(), is("98,765,432"));
+    }
+
+    @Test
+    void testSetValue_WithThousandSeparatorOnObjectInteger_DE() {
+        UI.getCurrent().setLocale(Locale.GERMAN);
+        TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
+
+        TestUiUtil.setUserOriginatedValue(textField, "123456");
+
+        assertThat(textField.getValue(), is("123.456"));
+    }
+
+    @Test
+    void testSetValue_WithThousandSeparatorOnObjectInteger_EN() {
+        UI.getCurrent().setLocale(Locale.ENGLISH);
+        TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
+
+        TestUiUtil.setUserOriginatedValue(textField, "123456");
+
+        assertThat(textField.getValue(), is("123,456"));
+    }
 
     protected static class TestModelObjectWithPrimitiveInteger {
 
@@ -83,22 +151,5 @@ class UIIntegerFieldTest {
     private TextField createIntegerTextField(Object modelObject) {
         TestPmo pmo = new TestPmo(modelObject);
         return (TextField)TestUiUtil.createFirstComponentOf(pmo);
-    }
-
-    @Test
-    void testSetValue_WithPrimitiveIntegerInModelObject() {
-        TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
-
-        // No assertions needed, we just make sure no exception is thrown
-        TestUiUtil.setUserOriginatedValue(textField, "0");
-    }
-
-    @Test
-    void testSetValue_WithObjectIntegerInModelObject() {
-        TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
-
-        // No assertions needed, we just make sure no exception is thrown
-        TestUiUtil.setUserOriginatedValue(textField, "");
-        TestUiUtil.setUserOriginatedValue(textField, "0");
     }
 }

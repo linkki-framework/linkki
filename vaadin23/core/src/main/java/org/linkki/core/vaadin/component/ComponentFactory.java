@@ -13,6 +13,9 @@
  */
 package org.linkki.core.vaadin.component;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -114,6 +117,28 @@ public class ComponentFactory {
         field.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT);
         field.getElement().setProperty("_enabledCharPattern", pattern);
         return field;
+    }
+
+    /**
+     * Creates a new {@link TextField} to display numbers with the specified formatting pattern. The
+     * pattern is converted to a regex by using it to format a test number and checking the result to
+     * see which characters are allowed.
+     * 
+     */
+    public static TextField newNumberFieldWithFormattingPattern(int maxLength, String width, String pattern) {
+        if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
+            throw new IllegalStateException(
+                    "Creating a number field with a formatting pattern requires a UI with a locale");
+        }
+
+        NumberFormat testFormatter = new DecimalFormat(pattern,
+                new DecimalFormatSymbols(UI.getCurrent().getLocale()));
+        StringBuilder regexBuilder = new StringBuilder("[");
+        testFormatter.format(-1234567890).chars()
+                .forEach(regexBuilder::appendCodePoint);
+        String enabledChars = regexBuilder.append("]").toString().replace(".", "\\.");
+
+        return newNumberField(maxLength, width, enabledChars);
     }
 
     public static TextArea newTextArea() {

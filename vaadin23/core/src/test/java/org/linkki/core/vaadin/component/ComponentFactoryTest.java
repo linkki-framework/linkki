@@ -157,7 +157,7 @@ class ComponentFactoryTest {
     }
 
     @Test
-    void testNewDateField_CustomAttributes() {
+    void testNewDateTimeField_CustomAttributes() {
         DateTimePicker dateTimeField = ComponentFactory.newDateTimeField(120, true, false);
 
         assertThat(Duration.ofMinutes(120)).isEqualTo(dateTimeField.getStep());
@@ -177,6 +177,5 @@ class ComponentFactoryTest {
 
         assertThat(dateTimeField.getDatePickerI18n().getToday()).isEqualTo("Heute");
     }
-
 
 }

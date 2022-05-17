@@ -22,6 +22,8 @@ public class IntegerFieldPmo {
 
     private int primitiveInteger;
     private Integer boxedInteger;
+    private Integer defaultFormattedInteger = 123456789;
+    private Integer userFormattedInteger = 123456789;
 
     @UIIntegerField(position = 0, label = "int")
     public int getPrimitiveInteger() {
@@ -39,6 +41,24 @@ public class IntegerFieldPmo {
 
     public void setBoxedInteger(Integer boxedInteger) {
         this.boxedInteger = boxedInteger;
+    }
+
+    @UIIntegerField(position = 2, label = "Default format")
+    public Integer getDefaultFormattedInteger() {
+        return defaultFormattedInteger;
+    }
+
+    public void setDefaultFormattedInteger(Integer defaultFormattedInteger) {
+        this.defaultFormattedInteger = defaultFormattedInteger;
+    }
+
+    @UIIntegerField(position = 3, label = "User-defined format", format = "###")
+    public Integer getUserFormattedInteger() {
+        return userFormattedInteger;
+    }
+
+    public void setUserFormattedInteger(Integer userFormattedInteger) {
+        this.userFormattedInteger = userFormattedInteger;
     }
 
 }

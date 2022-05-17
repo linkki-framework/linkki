@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
@@ -34,14 +35,15 @@ class TC002UIIntegerFieldTest extends PlaygroundUiTest {
 
     @Test
     void testIntegerField_PrimitiveInteger() {
-        TextFieldElement field = getTextField("primitiveInteger");
-        field.setValue("123");
+        TextFieldElement integerField = getTextField("primitiveInteger");
+        integerField.setValue("42");
 
-        field.setValue("");
-        field.sendKeys("\t");
+        integerField.sendKeys("1");
+        assertThat(integerField.getValue(), is("421"));
 
-        // field resets to previous value
-        assertThat(field.getValue(), is("123"));
+        // tab out to lose focus
+        integerField.sendKeys("\t");
+        assertThat(integerField.getValue(), is("421"));
     }
 
     @Test
@@ -56,36 +58,46 @@ class TC002UIIntegerFieldTest extends PlaygroundUiTest {
     }
 
     @Test
-    void testIntegerField_RestrictedInput() {
+    void testIntegerField_PrimitiveIntegerResetsOnInvalidValue() {
+        TextFieldElement field = getTextField("primitiveInteger");
+        field.setValue("123");
+
+        field.setValue("");
+        field.sendKeys("\t");
+
+        // field resets to previous value
+        assertThat(field.getValue(), is("123"));
+    }
+
+    @Test
+    void testIntegerField_PrimitiveIntegerRejectsInvalidCharacters() {
+        TextFieldElement integerField = getTextField("primitiveInteger");
+        integerField.setValue("1");
+
+        integerField.sendKeys("abc2!.,3xyz4" + Keys.TAB);
+
+        assertThat(integerField.getValue(), is("1.234"));
+    }
+
+    @Test
+    void testIntegerField_BoxedIntegerRejectsInvalidCharacters() {
         TextFieldElement field = getTextField("boxedInteger");
         field.setValue("");
 
-        field.sendKeys("a-bc123!#.xyz456?,q789\t");
+        field.sendKeys("a-bc123!#.xyz456?,q789" + Keys.TAB);
 
         assertThat(field.getValue(), is("-123.456.789"));
     }
 
     @Test
-    void testIntegerField() {
-        TextFieldElement integerField = getTextField("primitiveInteger");
-        integerField.setValue("42");
+    void testIntegerField_UserDefinedFormat() {
+        // This field has a format with no thousands separator
+        TextFieldElement field = getTextField("userFormattedInteger");
+        field.setValue("");
 
-        integerField.sendKeys("1");
-        assertThat(integerField.getValue(), is("421"));
+        field.sendKeys("a-bc987!#.xyz654?,q321" + Keys.TAB);
 
-        // tab out to lose focus
-        integerField.sendKeys("\t");
-        assertThat(integerField.getValue(), is("421"));
-    }
-
-    @Test
-    void testIntegerField_RejectsInvalidCharacters() {
-        TextFieldElement integerField = getTextField("primitiveInteger");
-        integerField.setValue("1");
-
-        integerField.sendKeys("abc2!.,3xyz4");
-
-        assertThat(integerField.getValue(), is("1234"));
+        assertThat(field.getValue(), is("-987654321"));
     }
 
     private TextFieldElement getTextField(String id) {
