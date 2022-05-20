@@ -17,7 +17,8 @@
         <basedir.parent>${project.parent.basedir}</basedir.parent>
         <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
         <jade.runExternalLinkTests>true</jade.runExternalLinkTests>
-        <deploymentFolder>${project.version}-vaadin8</deploymentFolder>
+        <documented.version>${project.version}</documented.version>
+        <deploymentFolder>${documented.version}-vaadin8</deploymentFolder>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <maven.deploy.skip>true</maven.deploy.skip>
         
@@ -102,7 +103,7 @@
                                 <vcommonslang>${commons-lang3.version}</vcommonslang>
                                 <homelink>https://doc.linkki-framework.org</homelink>
                                 <logo>logo.png</logo>
-                                <projectVersion>${project.version}</projectVersion>
+                                <projectVersion>${documented.version}</projectVersion>
                             </properties>
                         </configuration>
                     </execution>
@@ -212,6 +213,12 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>deployDocumentation</id>
+            <properties>
+                <documented-version>${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}</documented-version> 
+            </properties>
         </profile>
     </profiles>
 </project>
