@@ -1,6 +1,8 @@
 package org.linkki.tooling.apt.test.publicModifierValidator;
 
 
+import java.time.LocalDate;
+
 /*
  * Copyright Faktor Zehn GmbH.
  *
@@ -31,4 +33,10 @@ public class SortableRowPmo {
         return "Max Mustermann";
     }
 
+    @UITableColumn(sortable = true)
+    @UILabel(position = 20)
+    public LocalDate getDateOfBirth() {
+        return LocalDate.of(1970, 1, 1);
+    }
+    
 }

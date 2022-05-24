@@ -46,6 +46,6 @@ public class UITableColumnValidator extends MethodAnnotationValidator<UITableCol
 
     private boolean isComparable(TypeMirror type) {
         TypeElement comparable = elements().getTypeElement(Comparable.class.getCanonicalName());
-        return types().isAssignable(type, types().getDeclaredType(comparable, type));
+        return types().isAssignable(type, types().getDeclaredType(comparable));
     }
 }
