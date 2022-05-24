@@ -21,6 +21,7 @@
         <deploymentFolder>${documented.version}-vaadin14</deploymentFolder>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <maven.deploy.skip>true</maven.deploy.skip>
+        <jade.skip>true</jade.skip>
     </properties>
 
     <artifactId>linkki-core-documentation-vaadin14</artifactId>
@@ -70,7 +71,7 @@
             <plugin>
                 <groupId>de.faktorzehn.doc</groupId>
                 <artifactId>jade-maven-plugin</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.3</version>
                 <executions>
                     <execution>
                         <id>generate-docs</id>
