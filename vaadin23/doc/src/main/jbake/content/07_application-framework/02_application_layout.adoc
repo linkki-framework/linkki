@@ -94,7 +94,7 @@ For creation, `ApplicationMenuItemDefinition` provides following constructors:
 * `ApplicationMenuItemDefinition(String, String, Handler)`: Name and ID of the menu and a `Handler` that is executed on click. 
 * `ApplicationMenuItemDefinition(String, String, List<ApplicationMenuItemDefinition>)`: Name and ID of the menu and a list of `ApplicationMenuItemDefinitions` as sub-menu items. Sub-menus are added in order as defined in the sub-menu list.
 * `ApplicationMenuItemDefinition(String, String, String)`: Name and ID of the menu and a URL as String to navigate to on click. This method handles both external and internal links.
-* `ApplicationMenuItemDefinition(String, String, Class<? extends Component>)`: Name and ID of the menu and a `Class` to navigate to. The given class should be a <<vaadin23-migration-views, route component>>.
+* `ApplicationMenuItemDefinition(String, String, Class<? extends Component>)`: Name and ID of the menu and a `Class` to navigate to. The given class should be a https://vaadin.com/docs/latest/flow/routing/route[route component].
 
 [[anchor-appmenu-id]]
 TIP: The ID of the menu item is used as ID of the HTML element in the DOM. This makes it easier to navigate through the menu in UI tests. +

@@ -92,6 +92,7 @@
                     </properties>
                     <excludeLinks>
                         <excludeLink>.*localhost.*</excludeLink>
+                        <excludeLink>https://www.faktorzehn.com/de/impressum</excludeLink>
                     </excludeLinks>
                 </configuration>
                 <executions>
