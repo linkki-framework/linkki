@@ -30,7 +30,7 @@
         <OptionalConstraints/>                             Definition of optional constraints. Details below.
         <SupportedLanguages/>                              List of supported natural languages. Details below.
     </IpsProject>
---><IpsProject changesInTimeNamingConvention="FIPS" modelProject="true" persistentProject="false" productDefinitionProject="false" runtimeIdPrefix="linkki.">
+--><IpsProject xmlns="http://www.faktorzehn.org" changesInTimeNamingConvention="FIPS" modelProject="true" persistentProject="false" productDefinitionProject="false" runtimeIdPrefix="linkki." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/ipsProjectProperties.xsd">
 
  <!--
         Required Ips-Features
@@ -136,7 +136,7 @@
    <Property name="minimalJavadoc" value="false"/>
 
    <!--Whether the value set methods should be unified for all ValueSet implementations, or as originally reflect their type in the method name. The three options are Unified, ByValueSetType or Both. This option should be mirrored in the manifest if one is used.-->
-   <Property name="valueSetMethods" value="ByValueSetType"/>
+   <Property name="valueSetMethods" value="Unified"/>
 
    <!--Enables the generation of the getter method getEffectiveFromAsCalendar(). Only works with the setting "Base class of policy components".-->
    <Property name="generateGetEffectiveFromAsCalendar" value="true"/>

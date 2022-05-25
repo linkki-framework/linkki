@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EnumType xmlns="http://www.faktorzehn.org" abstract="false" enumContentName="Marker" extensible="false" superEnumType="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/21.12/EnumType.xsd" xml:space="preserve">
- <Description id="b925b000-2def-4bec-b3cb-a24b853e15c4" locale="en"/>
- <Description id="308a99ae-c0a3-42d9-a3cf-75f97e7c16c3" locale="de"/>
+<EnumType xmlns="http://www.faktorzehn.org" abstract="false" enumContentName="Marker" extensible="false" superEnumType="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/EnumType.xsd" xml:space="preserve">
+ <Description locale="en"/>
+ <Description locale="de"/>
  <EnumValue>
-  <Description id="2d4ab468-3f7a-4fcc-b0e1-3b6cf12b7063" locale="en"/>
-  <Description id="ff4c1f15-29e6-4abc-9b4b-ce437cf485a7" locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
   <EnumAttributeValue isNull="false">R</EnumAttributeValue>
   <EnumAttributeValue isNull="false">Required Information Missing</EnumAttributeValue>
   <EnumLiteralNameAttributeValue isNull="false">REQUIRED_INFORMATION_MISSING</EnumLiteralNameAttributeValue>
@@ -12,42 +12,42 @@
   <EnumAttributeValue isNull="false">false</EnumAttributeValue>
  </EnumValue>
  <EnumValue>
-  <Description id="ef97a8e5-829e-4451-8f8e-dc6d3537a816" locale="en"/>
-  <Description id="0f301adb-6a2b-4028-94db-4843fe3c8ac8" locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
   <EnumAttributeValue isNull="false">T</EnumAttributeValue>
   <EnumAttributeValue isNull="false">Technical Constraint Violated</EnumAttributeValue>
   <EnumLiteralNameAttributeValue isNull="false">TECHNICAL_CONSTRAINT_VIOLATED</EnumLiteralNameAttributeValue>
   <EnumAttributeValue isNull="false">false</EnumAttributeValue>
   <EnumAttributeValue isNull="false">true</EnumAttributeValue>
  </EnumValue>
- <EnumAttribute datatype="String" id="9cac6264-f07c-49fe-b330-ac03c5cde30c" identifier="true" inherited="false" multilingual="false" name="id" unique="true" usedAsNameInFaktorIpsUi="false">
-  <Label id="2aec5735-e95e-415f-b85a-adb363b0dece" locale="en" pluralValue="" value=""/>
-  <Label id="88784234-d8b9-4cad-934e-35a763d4f85d" locale="de" pluralValue="" value=""/>
-  <Description id="ee2d6296-ad85-4b97-b00b-2882778c656e" locale="en"/>
-  <Description id="7bcf4885-e674-41c2-a99f-427675db3e21" locale="de"/>
+ <EnumAttribute datatype="String" identifier="true" inherited="false" multilingual="false" name="id" unique="true" usedAsNameInFaktorIpsUi="false">
+  <Label locale="en" pluralValue="" value=""/>
+  <Label locale="de" pluralValue="" value=""/>
+  <Description locale="en"/>
+  <Description locale="de"/>
  </EnumAttribute>
- <EnumAttribute datatype="String" id="aaa45b3c-6af4-4947-a5ef-a38bff4e3433" identifier="false" inherited="false" multilingual="false" name="name" unique="true" usedAsNameInFaktorIpsUi="true">
-  <Label id="0a27a30a-0db8-4344-820d-f88dde7323c9" locale="en" pluralValue="" value=""/>
-  <Label id="e8d8ae9d-8412-4892-9846-45aee273fc81" locale="de" pluralValue="" value=""/>
-  <Description id="3d5dc5ab-810f-4623-a1b6-7a75431d11e7" locale="en"/>
-  <Description id="2045c094-c1e4-453d-9f11-c814de80a293" locale="de"/>
+ <EnumAttribute datatype="String" identifier="false" inherited="false" multilingual="false" name="name" unique="true" usedAsNameInFaktorIpsUi="true">
+  <Label locale="en" pluralValue="" value=""/>
+  <Label locale="de" pluralValue="" value=""/>
+  <Description locale="en"/>
+  <Description locale="de"/>
  </EnumAttribute>
- <EnumLiteralNameAttribute datatype="String" defaultValueProviderAttribute="name" id="8651b3bf-77f0-48e3-bfa1-0d14dad13552" identifier="false" inherited="false" multilingual="false" name="LITERAL_NAME" unique="true" usedAsNameInFaktorIpsUi="false">
-  <Label id="5eb6b638-2ead-4428-9418-a4a297cffb2f" locale="en" pluralValue="" value=""/>
-  <Label id="dfb32f93-d252-4864-8729-685b1b2fbcab" locale="de" pluralValue="" value=""/>
-  <Description id="ab866369-19ed-4a85-88b4-f6f31a781821" locale="en"/>
-  <Description id="0446d317-9b64-4435-bdc5-da75ee9c2711" locale="de"/>
+ <EnumLiteralNameAttribute datatype="String" defaultValueProviderAttribute="name" identifier="false" inherited="false" multilingual="false" name="LITERAL_NAME" unique="true" usedAsNameInFaktorIpsUi="false">
+  <Label locale="en" pluralValue="" value=""/>
+  <Label locale="de" pluralValue="" value=""/>
+  <Description locale="en"/>
+  <Description locale="de"/>
  </EnumLiteralNameAttribute>
- <EnumAttribute datatype="boolean" id="79ed25b0-8c7d-4938-ac1d-8cb368d08943" identifier="false" inherited="false" multilingual="false" name="requiredInformationMissing" unique="false" usedAsNameInFaktorIpsUi="false">
-  <Label id="20c30eb7-a1f6-4bd4-a1c2-58ae312a9e1b" locale="en" pluralValue="" value=""/>
-  <Label id="d139b563-8f30-411b-9bb1-046e3037d201" locale="de" pluralValue="" value=""/>
-  <Description id="7f2436a2-bcc2-42f1-a3e0-ee41acca7b39" locale="en"/>
-  <Description id="e20738cc-0a6e-452a-be6d-690d6673a948" locale="de"/>
+ <EnumAttribute datatype="boolean" identifier="false" inherited="false" multilingual="false" name="requiredInformationMissing" unique="false" usedAsNameInFaktorIpsUi="false">
+  <Label locale="en" pluralValue="" value=""/>
+  <Label locale="de" pluralValue="" value=""/>
+  <Description locale="en"/>
+  <Description locale="de"/>
  </EnumAttribute>
- <EnumAttribute datatype="boolean" id="584ae9e1-da32-4d26-b8cb-5972a2da44c0" identifier="false" inherited="false" multilingual="false" name="technicalConstraintViolated" unique="false" usedAsNameInFaktorIpsUi="false">
-  <Label id="dc1bed95-054d-468c-94a5-ce58562f53ab" locale="en" pluralValue="" value=""/>
-  <Label id="a3721804-5290-412b-afb2-ba3691d598fa" locale="de" pluralValue="" value=""/>
-  <Description id="1990e7b3-b101-468b-b368-fc561e541074" locale="en"/>
-  <Description id="733b8a39-1c4f-499f-b1b4-b58e771b93e9" locale="de"/>
+ <EnumAttribute datatype="boolean" identifier="false" inherited="false" multilingual="false" name="technicalConstraintViolated" unique="false" usedAsNameInFaktorIpsUi="false">
+  <Label locale="en" pluralValue="" value=""/>
+  <Label locale="de" pluralValue="" value=""/>
+  <Description locale="en"/>
+  <Description locale="de"/>
  </EnumAttribute>
 </EnumType>

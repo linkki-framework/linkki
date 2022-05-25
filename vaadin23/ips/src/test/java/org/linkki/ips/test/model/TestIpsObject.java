@@ -1,26 +1,27 @@
 package org.linkki.ips.test.model;
 
-import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
-import org.faktorips.runtime.model.annotation.IpsAttributes;
-import org.faktorips.runtime.model.annotation.IpsDocumented;
-import org.faktorips.runtime.internal.AbstractModelObject;
-import org.faktorips.valueset.ValueSet;
-import org.faktorips.valueset.UnrestrictedValueSet;
-import org.faktorips.runtime.model.annotation.IpsDefaultValue;
-import org.faktorips.valueset.OrderedValueSet;
 import java.time.MonthDay;
+import java.util.Map;
+
+import org.faktorips.runtime.IRuntimeRepository;
+import org.faktorips.runtime.IValidationContext;
+import org.faktorips.runtime.MessageList;
+import org.faktorips.runtime.annotation.IpsGenerated;
+import org.faktorips.runtime.internal.AbstractModelObject;
+import org.faktorips.runtime.internal.IpsStringUtils;
+import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
+import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
+import org.faktorips.runtime.model.annotation.IpsAttributes;
+import org.faktorips.runtime.model.annotation.IpsDefaultValue;
+import org.faktorips.runtime.model.annotation.IpsDocumented;
+import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
 import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
-import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
-import org.faktorips.runtime.model.annotation.IpsAllowedValues;
-import java.util.Map;
-import org.faktorips.runtime.IRuntimeRepository;
-import org.faktorips.runtime.internal.IpsStringUtils;
+import org.faktorips.valueset.OrderedValueSet;
+import org.faktorips.valueset.UnrestrictedValueSet;
+import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
-import org.faktorips.runtime.MessageList;
-import org.faktorips.runtime.IValidationContext;
-import org.faktorips.runtime.annotation.IpsGenerated;
 
 /**
  * Implementation for TestIpsObject.
@@ -185,7 +186,7 @@ public class TestIpsObject extends AbstractModelObject {
      */
     @IpsAllowedValues("foo")
     @IpsGenerated
-    public ValueSet<String> getSetOfAllowedValuesForFoo(IValidationContext context) {
+    public ValueSet<String> getAllowedValuesForFoo() {
         return MAX_ALLOWED_VALUES_FOR_FOO;
     }
 
@@ -220,7 +221,7 @@ public class TestIpsObject extends AbstractModelObject {
      */
     @IpsAllowedValues("valueSetInclNull")
     @IpsGenerated
-    public ValueSet<Boolean> getSetOfAllowedValuesForValueSetInclNull(IValidationContext context) {
+    public ValueSet<Boolean> getAllowedValuesForValueSetInclNull() {
         return MAX_ALLOWED_VALUES_FOR_VALUE_SET_INCL_NULL;
     }
 
@@ -256,6 +257,18 @@ public class TestIpsObject extends AbstractModelObject {
      */
     @IpsAllowedValues("valueSetExclNull")
     @IpsGenerated
+    public ValueSet<Boolean> getAllowedValuesForValueSetExclNull() {
+        // begin-user-code
+        return new UnrestrictedValueSet<>(false);
+        // end-user-code
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property valueSetExclNull.
+     *
+     * @restrainedmodifiable
+     */
     public ValueSet<Boolean> getSetOfAllowedValuesForValueSetExclNull(IValidationContext context) {
         // begin-user-code
         return new UnrestrictedValueSet<Boolean>(false);
@@ -294,7 +307,7 @@ public class TestIpsObject extends AbstractModelObject {
      */
     @IpsAllowedValues("emptyValueSet")
     @IpsGenerated
-    public OrderedValueSet<MonthDay> getAllowedValuesForEmptyValueSet(IValidationContext context) {
+    public ValueSet<MonthDay> getAllowedValuesForEmptyValueSet() {
         return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
     }
 

@@ -41,6 +41,7 @@ import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.runtime.util.MessagesHelper;
 import org.faktorips.values.Decimal;
+import org.faktorips.runtime.model.annotation.IpsDefaultValue;
 import org.faktorips.valueset.DecimalRange;
 import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
@@ -79,6 +80,14 @@ public class IpsModelObject extends AbstractModelObject {
     public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL = DecimalRange
             .valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false);
     /**
+     * The default value for decimal.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("decimal")
+    public static final Decimal DEFAULT_VALUE_FOR_DECIMAL = Decimal.valueOf("42");
+
+    /**
      * The name of the property string.
      *
      * @generated
@@ -88,11 +97,42 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
+     * Max allowed values for property string.
+     *
+     * @generated
+     */
+    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_STRING = new UnrestrictedValueSet<>(true);
+
+    /**
+     * The default value for string.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("string")
+    public static final String DEFAULT_VALUE_FOR_STRING = null;
+
+    /**
      * The name of the property unrestrictedInclNull.
      *
      * @generated
      */
     public static final String PROPERTY_UNRESTRICTEDINCLNULL = "unrestrictedInclNull";
+
+    /**
+     * Max allowed values for property unrestrictedInclNull.
+     *
+     * @generated
+     */
+    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_INCL_NULL = new UnrestrictedValueSet<>(
+            true);
+
+    /**
+     * The default value for unrestrictedInclNull.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("unrestrictedInclNull")
+    public static final String DEFAULT_VALUE_FOR_UNRESTRICTED_INCL_NULL = "not required";
 
     /**
      * The name of the property unrestrictedExclNull.
@@ -110,6 +150,14 @@ public class IpsModelObject extends AbstractModelObject {
             false);
 
     /**
+     * The default value for unrestrictedExclNull.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("unrestrictedExclNull")
+    public static final String DEFAULT_VALUE_FOR_UNRESTRICTED_EXCL_NULL = "required";
+
+    /**
      * The name of the property emptyValueSet.
      *
      * @generated
@@ -123,6 +171,14 @@ public class IpsModelObject extends AbstractModelObject {
      */
     public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<>(false,
             null);
+    /**
+     * The default value for emptyValueSet.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("emptyValueSet")
+    public static final Marker DEFAULT_VALUE_FOR_EMPTY_VALUE_SET = null;
+
     // end::PROPERTY_STRING[]
 
     /**
@@ -130,13 +186,13 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
-    private Decimal decimal = Decimal.valueOf("42");
+    private Decimal decimal = DEFAULT_VALUE_FOR_DECIMAL;
     /**
      * Member variable for string.
      *
      * @generated
      */
-    private String string = null;
+    private String string = DEFAULT_VALUE_FOR_STRING;
 
 
     /**
@@ -144,21 +200,21 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
-    private String unrestrictedInclNull = "not required";
+    private String unrestrictedInclNull = DEFAULT_VALUE_FOR_UNRESTRICTED_INCL_NULL;
 
     /**
      * Member variable for unrestrictedExclNull.
      *
      * @generated
      */
-    private String unrestrictedExclNull = "required";
+    private String unrestrictedExclNull = DEFAULT_VALUE_FOR_UNRESTRICTED_EXCL_NULL;
 
     /**
      * Member variable for emptyValueSet.
      *
      * @generated
      */
-    private Marker emptyValueSet = null;
+    private Marker emptyValueSet = DEFAULT_VALUE_FOR_EMPTY_VALUE_SET;
 
 
     /**
@@ -176,13 +232,13 @@ public class IpsModelObject extends AbstractModelObject {
      * Returns the range of allowed values for the property decimal.
      *
      * @generated
-     * @param context validation context
      */
     @IpsAllowedValues("decimal")
     @IpsGenerated
-    public DecimalRange getRangeForDecimal(IValidationContext context) {
+    public ValueSet<Decimal> getAllowedValuesForDecimal() {
         return MAX_ALLOWED_RANGE_FOR_DECIMAL;
     }
+
 
     /**
      * Returns the decimal.
@@ -207,6 +263,18 @@ public class IpsModelObject extends AbstractModelObject {
     }
 
     /**
+     * Returns the set of allowed values for the property string.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("string")
+    @IpsGenerated
+    public ValueSet<String> getAllowedValuesForString() {
+        return MAX_ALLOWED_VALUES_FOR_STRING;
+    }
+
+
+    /**
      * Returns the string.
      *
      * @generated
@@ -228,6 +296,18 @@ public class IpsModelObject extends AbstractModelObject {
     @IpsGenerated
     public void setString(String newValue) {
         this.string = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property unrestrictedInclNull.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("unrestrictedInclNull")
+    @IpsGenerated
+    public ValueSet<String> getAllowedValuesForUnrestrictedInclNull() {
+        return MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_INCL_NULL;
     }
 
 
@@ -259,11 +339,10 @@ public class IpsModelObject extends AbstractModelObject {
      * Returns the set of allowed values for the property unrestrictedExclNull.
      *
      * @generated
-     * @param context validation context
      */
     @IpsAllowedValues("unrestrictedExclNull")
     @IpsGenerated
-    public ValueSet<String> getSetOfAllowedValuesForUnrestrictedExclNull(IValidationContext context) {
+    public ValueSet<String> getAllowedValuesForUnrestrictedExclNull() {
         return MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL;
     }
 
@@ -296,11 +375,10 @@ public class IpsModelObject extends AbstractModelObject {
      * Returns the set of allowed values for the property emptyValueSet.
      *
      * @generated
-     * @param context validation context
      */
     @IpsAllowedValues("emptyValueSet")
     @IpsGenerated
-    public OrderedValueSet<Marker> getAllowedValuesForEmptyValueSet(IValidationContext context) {
+    public ValueSet<Marker> getAllowedValuesForEmptyValueSet() {
         return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
     }
 
@@ -458,8 +536,9 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
+     *
      * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
-     * 
+     *
      * @param ml list to which validation errors are added
      * @param context the validation context
      * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should
@@ -470,7 +549,7 @@ public class IpsModelObject extends AbstractModelObject {
     @IpsValidationRule(name = "checkDecimal", msgCode = MSG_CODE_CHECK_DECIMAL, severity = Severity.ERROR)
     @IpsGenerated
     protected boolean checkDecimal(MessageList ml, IValidationContext context) {
-        if (!getRangeForDecimal(context).contains(getDecimal())) {
+        if (!getAllowedValuesForDecimal().contains(getDecimal())) {
 
             // begin-user-code
             ml.add(createMessageForRuleCheckDecimal(context, null, null));
@@ -492,8 +571,7 @@ public class IpsModelObject extends AbstractModelObject {
                 new MsgReplacementParameter("range", range),
                 new MsgReplacementParameter("actual", actual)
         };
-        MessagesHelper messageHelper = new MessagesHelper(
-                "org.linkki.samples.playground.ips.model.internal.validation-messages",
+        MessagesHelper messageHelper = new MessagesHelper("org.linkki.samples.playground.ips.model.validation-messages",
                 getClass().getClassLoader(), Locale.ENGLISH);
         String msgText = messageHelper.getMessage("IpsModelObject-checkDecimal", context.getLocale(), range, actual);
 

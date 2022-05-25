@@ -30,7 +30,7 @@
         <OptionalConstraints/>                             Definition of optional constraints. Details below.
         <SupportedLanguages/>                              List of supported natural languages. Details below.
     </IpsProject>
---><IpsProject changesInTimeNamingConvention="FIPS" modelProject="true" persistentProject="false" productDefinitionProject="false" runtimeIdPrefix="sample.">
+--><IpsProject xmlns="http://www.faktorzehn.org" changesInTimeNamingConvention="FIPS" modelProject="true" persistentProject="false" productDefinitionProject="false" runtimeIdPrefix="sample." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/ipsProjectProperties.xsd">
 
  <!--
         Required Ips-Features
@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="21.12.0"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="22.6.0"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -108,7 +108,7 @@
    <!--Enables the generation of visitor code-->
    <Property name="generateVisitorSupport" value="false"/>
 
-   <!--The persistence provider, which will be used to generate special vendor specific features. Currently supported provider are 'EclipseLink 1.1', 'EclipseLink 2.5', 'Generic JPA 2.0', 'Generic JPA 2.1' and 'Jakarta Persistence 2.2'.-->
+   <!--The persistence provider, which will be used to generate special vendor specific features. Currently supported provider are 'EclipseLink 1.1', 'EclipseLink 2.5', 'EclipseLink 3.0', 'Generic JPA 2.0', 'Generic JPA 2.1', 'Jakarta Persistence 2.2' and 'Jakarta Persistence 3.0'-->
    <Property name="persistenceProvider" value="Generic JPA 2.0"/>
 
    <!--Enables the generation of a delta determining mechanism for model objects-->
@@ -134,6 +134,12 @@
 
    <!--Only generate necessary Javadoc comments like @generated, as well as documentation from model. To remove empty lines within comments, activate "remove blank lines" in the Java codestyle formatter options. Disabling the "/** and */ on separate lines" option creates even more compact comments.-->
    <Property name="minimalJavadoc" value="false"/>
+
+   <!--Whether the value set methods should be unified for all ValueSet implementations, or as originally reflect their type in the method name. The three options are Unified, ByValueSetType or Both. This option should be mirrored in the manifest if one is used.-->
+   <Property name="valueSetMethods" value="Unified"/>
+
+   <!--Enables the generation of the getter method getEffectiveFromAsCalendar(). Only works with the setting "Base class of policy components".-->
+   <Property name="generateGetEffectiveFromAsCalendar" value="true"/>
   </IpsArtefactBuilderSetConfig>
  </IpsArtefactBuilderSet>
 
@@ -194,17 +200,22 @@
             basePackageMergable="org.foo"   The package prefix for all generated but mergable java files.
             tocPath="motor/motor-reposiory-toc.xml" 
                                               The partial path of the resource containing the runtime repository table of content (toc).
-                                              The full path is derived from the basePackageMergeable by adding this partial path.
-                                              The file is not part of the published interface so it is places in the internal package.
+                                               The full path is derived from the basePackageMergeable by adding this partial path.
+                                               The file is not part of the published interface so it is placed in the internal package.
             validationMessagesBundle="motor.validation-messages" 
                                               The partial name of the resource bundle containing the validation messages.
-                                              The full resource bundle name is derived from basePackageDerived adding this parial name.
-                                              For getting the name of the resulting property file, the resource bundle algorithm adds the locale and '.properties' to the bundle name.
+                                               The full resource bundle name is derived from basePackageDerived adding this parial name.
+                                               For getting the name of the resulting property file, the resource bundle algorithm adds the locale and '.properties' to the bundle name.
             outputFolderDerived=""          Folder within the project where the generator puts java source files that will be overridden during each build cycle and delete and regenerated during a clean build cycle.
-                                              Other builders can choose to maintain user code in a separate folder which is defined here.
-                                              If you use the standard builder, leave the atribute empty.
-            basePackageDerived=""          Package prefix for all generated derived Java classes in the output folder for derived sources. See above.
-            uniqueQualifier="">            Optional argument if the basePackage names are not unique for all referencing source folders.
+                                               Other builders can choose to maintain user code in a separate folder which is defined here.
+                                               If you use the standard builder, leave the atribute empty.
+            basePackageDerived=""           Package prefix for all generated derived Java classes in the output folder for derived sources. See above.
+            uniqueQualifier="">             Optional argument if the basePackage names are not unique for all referencing source folders.
+                                               If two referencing Faktor-IPS projects have the same base package name, e.g. org.faktorips.model, and the same source folder name, e.g. model,
+                                               some equal named derived resources e.g. model-label-and-descriptions.properties, are generated in a package with the same name.
+                                               This leads to problems at runtime because the class loader only sees one of the two files.
+                                               Therefore when adding a dependency the basePackage name is validated. The resulting error can either be fixed by changing the
+                                               basePackageMergable and basePackageDerived or by adding a uniqueQualifier that will create a unique package for those resources.
          </Entry>
          
         Project Reference:
@@ -239,24 +250,27 @@
                 - - - the following attributes are only needed for value objects - - -
                 isEnumType="true|false"                            True if this is an enumeration of values.
                 valueOfMethod="getPaymentMode"                     Name of the method that takes a String and returns an
-                                                                     object instance/value.
+                                                                      object instance/value. This method has to be static.
                 isParsableMethod="isPaymentMode"                   Name of the method that evaluates if a given string
-                                                                     can be parsed to an instance.
+                                                                      can be parsed to an instance. This method has to be static and
+                                                                      is optional, if the valueOfMethod throws an Exception in case of an invalid id.
                 valueToStringMethod="toString"                     Name of the method that transforms an object instance
                                                                       to a String (that can be parsed via the valueOfMethod)
-                getAllValuesMethod="getAllPaymentModes"            For enums only: The name of the method that returns all values
-                isSupportingNames="true"                           For enums only: True indicates that a string
-                                                                     representation for the user other than the one defined by the valueToStringMethod exists.
-                getNameMethod="getName">                           For enums only: The name of the method that returns
-                                                                     the string representation for the user, if
-                                                                     isSupportingNames=true
+                getAllValuesMethod="getAllPaymentModes"            For enums only: The name of the method that returns all values. This method has to be static.
+                isSupportingNames="true"                           True indicates that a string
+                                                                      representation for the user other than the one defined by the valueToStringMethod exists.
+                getNameMethod="getName"                            The name of the method that returns
+                                                                      the string representation for the user, if
+                                                                      isSupportingNames=true
+                getValueByNameMethod="parseName">                  The name of the method that returns a value for a given string representation for the user,
+                                                                      if isSupportingNames=true. This method has to be static and be compatible to the getNameMethod.
                 <NullObjectId isNull="false">n</NullObjectId>      Marks a value as a NullObject. This has to be used,
-                                                                     if the Java class implements the null object pattern,
-                                                                     otherwise omitt this element. The element's text
-                                                                     defines the null object's id. Calling the valueOfMethod
-                                                                     with this name must return the null object instance. If
-                                                                     the null object's id is null, leave the text empty
-                                                                     and set the isNull attribute to true.
+                                                                      if the Java class implements the null object pattern,
+                                                                      otherwise omitt this element. The element's text
+                                                                      defines the null object's id. Calling the valueOfMethod
+                                                                      with this name must return the null object instance. If
+                                                                      the null object's id is null, leave the text empty
+                                                                      and set the isNull attribute to true.
             </Datatype>
         </DatatypeDefinitions>
     -->
@@ -315,7 +329,7 @@
         Examples:
         <Version version="1.2.3"/>
         or
-        <Version versionProvider="org.faktorips.devtools.core.bundleVersionProvider"/>
+        <Version versionProvider="org.faktorips.maven.mavenVersionProvider"/>
     -->
 
  <!--
@@ -335,16 +349,12 @@
             <!- - True to allow shared associations. Shared associations are detail-to-master associationis that can be used
                 by multiple master-to-detail associations- ->
             <Setting enabled="true" name="sharedDetailToMasterAssociations"/>
-            <!- - True to allow navigation via associations in formulas. - ->
-            <Setting enabled="true" name="associationsInFormulas"/>
             <!- - Set the language in which the expression language's functions are used. E.g. the 'if' function is called IF in English, but WENN in German.
                 Only English (en) and German (de) are supported at the moment. - ->
             <Setting name="formulaLanguageLocale" value="en"/>
             <!- - Represents the qualified name of the marker enums seperated by ";". For further processing only the first entered qualified name will be considered - ->
                 True to allow usage of marker enums. - ->
             <Setting enabled="true" name="markerEnums" value="markerEnumName"/>
-            <!- - True to allow business functions for validation rules. - ->
-            <Setting enabled="true" name="businessFunctionsForValidationRules"/>
             <!- - False to set the default state of changing over time flag on product component types to disabled. - ->
             <Setting enabled="false" name="changingOverTimeDefault"/>
             <!- - When inferring a template from multiple product components, Faktor-IPS checks whether a link is used in all or at least many of those product components.
@@ -376,10 +386,8 @@
   <Setting enabled="true" name="referencedProductComponentsAreValidOnThisGenerationsValidFromDate"/>
   <Setting enabled="false" name="rulesWithoutReferencesAllowed"/>
   <Setting enabled="false" name="sharedDetailToMasterAssociations"/>
-  <Setting enabled="false" name="associationsInFormulas"/>
   <Setting name="formulaLanguageLocale" value="en"/>
   <Setting enabled="true" name="markerEnums" value="Marker"/>
-  <Setting enabled="false" name="businessFunctionsForValidationRules"/>
   <Setting enabled="false" name="changingOverTimeDefault"/>
   <Setting name="inferredTemplateLinkThreshold" value="1"/>
   <Setting name="inferredTemplatePropertyValueThreshold" value="0.8"/>
@@ -408,7 +416,7 @@
         on the association side which holds a single value (to-one relationship side).
          
         <PersistenceOptions maxColumnNameLength="30" maxTableNameLength="30"
-                maxTableColumnPrecision="31"  maxTableColumnScale="31" maxTableColumnSize="4000"
+                maxTableColumnPrecision="31"  maxTableColumnScale="31" maxTableColumnSize="1000"
                 allowLazyFetchForSingleValuedAssociations="true">
             <TableNamingStrategy id="org.faktorips.devtools.model.CamelCaseToUpperUnderscoreTableNamingStrategy"/>
             <TableColumnNamingStrategy id="org.faktorips.devtools.model.CamelCaseToUpperUnderscoreColumnNamingStrategy"/>
