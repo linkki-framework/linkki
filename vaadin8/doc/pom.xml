@@ -217,7 +217,7 @@
         <profile>
             <id>deployDocumentation</id>
             <properties>
-                <documented-version>${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}</documented-version> 
+                <documented.version>${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}</documented.version> 
             </properties>
         </profile>
     </profiles>
