@@ -31,7 +31,7 @@
         <!-- this property must also be updated in samples-vaadin23, vaadin23-testbench-extension and the archetypes -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            23.0.8
+            23.0.10
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <spring-boot.version>2.6.6</spring-boot.version>
