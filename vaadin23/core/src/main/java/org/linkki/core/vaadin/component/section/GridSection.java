@@ -13,21 +13,22 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentUtil;
-import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.menubar.MenuBar;
-import com.vaadin.flow.component.menubar.MenuBarVariant;
+import static java.util.Objects.requireNonNull;
+
+import java.util.Optional;
+
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.creation.table.GridColumnWrapper;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
-import java.util.Optional;
-
-import static java.util.Objects.requireNonNull;
+import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.Column;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.menubar.MenuBarVariant;
 
 /**
  * A section containing a single table. This kind of section is created by the
@@ -36,6 +37,10 @@ import static java.util.Objects.requireNonNull;
 public class GridSection extends LinkkiSection {
 
     private static final long serialVersionUID = 1L;
+
+    private static final String COLMENU_ID_PREFIX = "colmenu";
+
+    private final MenuBar menuBar = new MenuBar();
 
     public GridSection(String caption, boolean closeable) {
         super(caption, closeable, 1);
@@ -52,13 +57,13 @@ public class GridSection extends LinkkiSection {
         requireNonNull(grid, "grid must not be null");
         getContentWrapper()
                 .replace(getContentWrapper().getComponentCount() > 0 ? getContentWrapper().getComponentAt(0) : null,
-                        grid);
+                         grid);
 
         addRightHeaderComponent(createColumnCollapseToggleMenu(grid));
     }
 
     private MenuBar createColumnCollapseToggleMenu(Grid<?> grid) {
-        var menuBar = new MenuBar();
+        menuBar.removeAll();
         menuBar.addThemeVariants(MenuBarVariant.LUMO_ICON, MenuBarVariant.LUMO_TERTIARY_INLINE);
         var toggleItem = menuBar.addItem(VaadinIcon.MENU.create());
 
@@ -82,14 +87,32 @@ public class GridSection extends LinkkiSection {
                 .ofNullable(ComponentUtil.getData(column, GridColumnWrapper.KEY_HEADER))
                 .map(String::valueOf).orElse("");
         var columnItem = toggleItem.getSubMenu().addItem(header);
+        columnItem.setId(getMenuItemKey(column));
         columnItem.setCheckable(true);
         columnItem.setChecked(column.isVisible());
-        columnItem.addClickListener(event -> toggleVisibility(column, event));
+        columnItem.addClickListener(event -> setColumnVisible(column.getKey(), !column.isVisible()));
     }
 
-    /* private */ void toggleVisibility(Grid.Column<?> c, ClickEvent<MenuItem> event) {
-        c.setVisible(!c.isVisible());
-        event.getSource().setChecked(c.isVisible());
+    /**
+     * Use this method to set {@link Column} visibility after {@link GridSection} has already been
+     * created. This method will also update the checked state of the {@link Column columns}
+     * {@link MenuItem} correctly.
+     * 
+     * @param columnKey The {@link Column#getKey() key} of the {@link Column} to set the visible state
+     * @param visible <code>true</code> sets the {@link Column} and the it's {@link MenuItem} to
+     *            checked, otherwise <code>false</code> and unchecked
+     */
+    public void setColumnVisible(String columnKey, boolean visible) {
+        Optional.ofNullable(getGrid().getColumnByKey(columnKey)).ifPresent(column -> {
+            column.setVisible(visible);
+            menuBar.getItems().get(0).getSubMenu().getItems().stream()
+                    .filter(menuItem -> getMenuItemKey(column).contentEquals(menuItem.getId().orElse(""))).findFirst()
+                    .ifPresent(i -> i.setChecked(visible));
+        });
+    }
+
+    private String getMenuItemKey(Grid.Column<?> column) {
+        return COLMENU_ID_PREFIX + "-" + column.getKey();
     }
 
     /**

@@ -1,12 +1,12 @@
 package org.linkki.samples.playground.table.collapsible;
 
+import java.util.List;
+
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
-
-import java.util.List;
 
 @UISection(caption = "Table with collapsible columns")
 public class CollapsibleColumnTablePmo implements ContainerPmo<CollapsibleColumnTablePmo.CollapsibleColumnRowPmo> {
@@ -39,6 +39,12 @@ public class CollapsibleColumnTablePmo implements ContainerPmo<CollapsibleColumn
         @UILabel(position = 30, label = "Not collapsible")
         public String getNotCollapsible() {
             return "cell";
+        }
+
+        @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE, flexGrow = 1)
+        @UILabel(position = 40, label = "Programatically collapsed")
+        public String getProgramaticallyCollapsed() {
+            return "Programatically collapsed";
         }
     }
 }

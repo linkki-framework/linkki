@@ -27,6 +27,7 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.core.vaadin.component.section.GridSection;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
@@ -306,7 +307,13 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                VaadinUiCreator.createComponent(new TableWithoutPlaceholderPmo(),
                                                                                new BindingContext())))
                                        .testCase(TC007, new VaryingAlignmentTablePmo())
-                                       .testCase(TC008, new CollapsibleColumnTablePmo())
+                                       .testCase(TC008, () -> {
+                                           GridSection section = (GridSection)VaadinUiCreator
+                                                   .createComponent(new CollapsibleColumnTablePmo(),
+                                                                    new BindingContext());
+                                           section.setColumnVisible("programaticallyCollapsed", false);
+                                           return section;
+                                       })
                                        .testCase(TC009,
                                                  VaadinUiCreator.createComponent(new TableWithEmptyLabelColumnPmo(),
                                                                                  new BindingContext()))

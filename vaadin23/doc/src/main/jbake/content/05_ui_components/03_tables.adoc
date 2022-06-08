@@ -41,6 +41,8 @@ The property `collapsible` can make a column collapsible, i.e. the user can togg
 +
 This feature only works if the table is created inside of a <<layout-section, section>>. If there are any collapsible columns in the table, a right aligned header menu is displayed in the created section with which the user can toggle the visibility of a collapsible column.
 
+NOTE: Setting the visibility of a column programmatically after the `GridSection` has already been created, should be done using `GridSection#setColumnVisible(String columnKey, boolean visible)` instead of `Grid#getColumnByKey()` to make sure, the checked state of its `MenuItem` is set correctly!
+
 [[sortable-columns]]
 Sortable columns::
 The property `sortable` allows the column to be sorted. The type of the column value must implement `Comparable`, which defines the order in which the values are sorted.

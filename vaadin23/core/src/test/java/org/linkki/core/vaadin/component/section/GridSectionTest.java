@@ -21,8 +21,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.table.GridColumnWrapper;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
+import org.linkki.core.vaadin.component.section.GridSectionTest.TestCollapsibleColumnTablePmo.TestCollapsibleColumnRowPmo;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
@@ -76,7 +83,7 @@ class GridSectionTest {
         assertThat(rightHeaderComponents).hasSize(1);
         assertThat(rightHeaderComponents.get(0)).isInstanceOf(MenuBar.class);
 
-        var menu = (MenuBar) rightHeaderComponents.get(0);
+        var menu = (MenuBar)rightHeaderComponents.get(0);
 
         assertThat(menu.isVisible()).as("Column toggle should be visible as there are collapsible columns").isTrue();
 
@@ -105,7 +112,7 @@ class GridSectionTest {
         assertThat(rightHeaderComponents).hasSize(1);
         assertThat(rightHeaderComponents.get(0)).isInstanceOf(MenuBar.class);
 
-        var menu = (MenuBar) rightHeaderComponents.get(0);
+        var menu = (MenuBar)rightHeaderComponents.get(0);
 
         assertThat(menu.isVisible()).as("Column toggle should be not be visible as there are no collapsible columns")
                 .isFalse();
@@ -113,22 +120,80 @@ class GridSectionTest {
 
     @Test
     void testToggleVisibility() {
-        var grid = new Grid<>();
-        var column = grid.addColumn(String::valueOf);
-        ComponentUtil.setData(column, CollapseMode.class, CollapseMode.COLLAPSIBLE);
-        ComponentUtil.setData(column, GridColumnWrapper.KEY_HEADER, "column");
-        var gridSection = new GridSection("caption", false);
-        gridSection.setGrid(grid);
-        var menuItem = ((MenuBar)getRightHeaderComponents(gridSection).get(0)).getItems().get(0).getSubMenu().getItems()
-                .get(0);
-        assertThat(menuItem.isChecked()).isTrue();
-        assertThat(column.isVisible()).isTrue();
+        GridSection section = (GridSection)VaadinUiCreator
+                .createComponent(new TestCollapsibleColumnTablePmo(),
+                                 new BindingContext());
 
-        gridSection.toggleVisibility(column, new ClickEvent<>(menuItem));
+        MenuItem collapsibleColumnMenuItem = getColumnMenu(section).stream()
+                .filter(e -> e.getId().get().contentEquals("colmenu-collapsible")).findFirst().get();
 
-        assertThat(menuItem.isChecked()).isFalse();
-        assertThat(column.isVisible()).isFalse();
 
+        assertThat(collapsibleColumnMenuItem.isChecked()).isTrue();
+        assertThat(section.getGrid().getColumnByKey("collapsible").isVisible()).isTrue();
+
+        ComponentUtil.fireEvent(collapsibleColumnMenuItem, new ClickEvent<>(collapsibleColumnMenuItem));
+
+        assertThat(collapsibleColumnMenuItem.isChecked()).isFalse();
+        assertThat(section.getGrid().getColumnByKey("collapsible").isVisible()).isFalse();
+    }
+
+    @Test
+    void testColumnMenuItemVisibilityChecked_Collapsible_ProgrammaticallyCollapsed() {
+        GridSection section = (GridSection)VaadinUiCreator
+                .createComponent(new TestCollapsibleColumnTablePmo(),
+                                 new BindingContext());
+        section.setColumnVisible("programaticallyCollapsed", false);
+
+        List<MenuItem> columnMenuItems = getColumnMenu(section);
+        assertThat(columnMenuItems.get(0).isChecked()).isTrue();
+        assertThat(columnMenuItems.get(1).isChecked()).isFalse();
+        assertThat(columnMenuItems.get(2).isChecked()).isFalse();
+    }
+
+    private List<MenuItem> getColumnMenu(GridSection section) {
+        return section.getChildren().filter(MenuBar.class::isInstance)
+                .map(MenuBar.class::cast).findFirst().get().getItems().get(0).getSubMenu().getItems();
+    }
+
+    @UISection(caption = "Test table with collapsible columns")
+    public static class TestCollapsibleColumnTablePmo implements ContainerPmo<TestCollapsibleColumnRowPmo> {
+
+        @Override
+        public List<TestCollapsibleColumnRowPmo> getItems() {
+            return List.of(new TestCollapsibleColumnRowPmo(), new TestCollapsibleColumnRowPmo());
+        }
+
+        @Override
+        public int getPageLength() {
+            return 0;
+        }
+
+        public static class TestCollapsibleColumnRowPmo {
+
+            @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE, flexGrow = 1)
+            @UILabel(position = 10, label = "Collapsible")
+            public String getCollapsible() {
+                return "cell";
+            }
+
+            @UITableColumn(collapsible = CollapseMode.INITIALLY_COLLAPSED, flexGrow = 1)
+            @UILabel(position = 20, label = "Initially collapsed")
+            public String getInitiallyCollapsed() {
+                return "cell";
+            }
+
+            @UITableColumn(collapsible = CollapseMode.NOT_COLLAPSIBLE, flexGrow = 1)
+            @UILabel(position = 30, label = "Not collapsible")
+            public String getNotCollapsible() {
+                return "cell";
+            }
+
+            @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE, flexGrow = 1)
+            @UILabel(position = 40, label = "Programatically collapsed")
+            public String getProgramaticallyCollapsed() {
+                return "Programatically collapsed";
+            }
+        }
     }
 
     private List<Component> getRightHeaderComponents(LinkkiSection section) {
