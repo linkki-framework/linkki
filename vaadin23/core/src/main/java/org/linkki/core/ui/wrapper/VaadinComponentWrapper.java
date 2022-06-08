@@ -17,15 +17,16 @@ package org.linkki.core.ui.wrapper;
 
 import java.util.Optional;
 
-import org.linkki.core.binding.Binding;
-import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.binding.wrapper.WrapperType;
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.HasValidation;
+import com.vaadin.flow.component.HasValue;
+
+import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -78,10 +79,20 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
     @Override
     public void setValidationMessages(MessageList messagesForProperty) {
         if (component instanceof HasValidation) {
+            HasValidation validationField = (HasValidation)component;
+
+            if (component instanceof HasValue) {
+                HasValue<?, ?> readOnlyField = (HasValue<?, ?>)component;
+                if (readOnlyField.isReadOnly()) {
+                    component.getElement().removeAttribute(SEVERITY_ATTRIBUTE_NAME);
+                    validationField.setErrorMessage(null);
+                    validationField.setInvalid(false);
+                    return;
+                }
+            }
             component.getElement().removeAttribute(SEVERITY_ATTRIBUTE_NAME);
-            HasValidation field = (HasValidation)component;
-            setHelperMessage(messagesForProperty, field);
-            field.setInvalid(!messagesForProperty.isEmpty());
+            setHelperMessage(messagesForProperty, validationField);
+            validationField.setInvalid(!messagesForProperty.isEmpty());
             messagesForProperty.getMessageWithHighestSeverity()
                     .ifPresent(m -> component.getElement().setAttribute(SEVERITY_ATTRIBUTE_NAME,
                                                                         m.getSeverity().name().toLowerCase()));
