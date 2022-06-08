@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicyCmptType xmlns="http://www.faktorzehn.org" abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" generateValidatorClass="false" productCmptType="" supertype="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/PolicyCmptType.xsd" xml:space="preserve">
- <Label locale="en" pluralValue="" value="A test object"/>
- <Label locale="de" pluralValue="" value="Ein Testobjekt"/>
+<PolicyCmptType xmlns="http://www.faktorzehn.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/PolicyCmptType.xsd" xml:space="preserve">
+ <Label locale="en" value="A test object"/>
+ <Label locale="de" value="Ein Testobjekt"/>
  <Description locale="en"/>
  <Description locale="de"/>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" modifier="published" name="foo" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="foo">
   <DefaultValue isNull="true"/>
-  <Label locale="en" pluralValue="" value="Foo in English"/>
-  <Label locale="de" pluralValue="" value="Foo auf Deutsch"/>
+  <Label locale="en" value="Foo in English"/>
+  <Label locale="de" value="Foo auf Deutsch"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">
    <AllValues containsNull="true"/>
   </ValueSet>
  </Attribute>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Boolean" modifier="published" name="valueSetInclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Boolean" modifier="published" name="valueSetInclNull">
   <DefaultValue isNull="true"/>
-  <Label locale="en" pluralValue="" value="ValueSet incl. null"/>
-  <Label locale="de" pluralValue="" value="ValueSet mit null"/>
+  <Label locale="en" value="ValueSet incl. null"/>
+  <Label locale="de" value="ValueSet mit null"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">
    <AllValues containsNull="true"/>
   </ValueSet>
  </Attribute>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="boolean" modifier="published" name="valueSetExclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="boolean" modifier="published" name="valueSetExclNull">
   <DefaultValue>true</DefaultValue>
-  <Label locale="en" pluralValue="" value="ValueSet excl. null"/>
-  <Label locale="de" pluralValue="" value="ValueSet ohne null"/>
+  <Label locale="en" value="ValueSet excl. null"/>
+  <Label locale="de" value="ValueSet ohne null"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">
    <Derived/>
   </ValueSet>
  </Attribute>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="MonthDay" modifier="published" name="emptyValueSet" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="MonthDay" modifier="published" name="emptyValueSet">
   <DefaultValue isNull="true"/>
-  <Label locale="en" pluralValue="" value="Empty ValueSet"/>
-  <Label locale="de" pluralValue="" value="Leeres ValueSet"/>
+  <Label locale="en" value="Empty ValueSet"/>
+  <Label locale="de" value="Leeres ValueSet"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">

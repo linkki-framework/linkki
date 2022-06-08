@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EnumType xmlns="http://www.faktorzehn.org" abstract="false" enumContentName="Marker" extensible="false" superEnumType="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/EnumType.xsd" xml:space="preserve">
+<EnumType xmlns="http://www.faktorzehn.org" enumContentName="Marker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/EnumType.xsd" xml:space="preserve">
  <Description locale="en"/>
  <Description locale="de"/>
  <EnumValue>
@@ -20,33 +20,33 @@
   <EnumAttributeValue isNull="false">false</EnumAttributeValue>
   <EnumAttributeValue isNull="false">true</EnumAttributeValue>
  </EnumValue>
- <EnumAttribute datatype="String" identifier="true" inherited="false" multilingual="false" name="id" unique="true" usedAsNameInFaktorIpsUi="false">
-  <Label locale="en" pluralValue="" value=""/>
-  <Label locale="de" pluralValue="" value=""/>
+ <EnumAttribute datatype="String" identifier="true" name="id" unique="true">
+  <Label locale="en"/>
+  <Label locale="de"/>
   <Description locale="en"/>
   <Description locale="de"/>
  </EnumAttribute>
- <EnumAttribute datatype="String" identifier="false" inherited="false" multilingual="false" name="name" unique="true" usedAsNameInFaktorIpsUi="true">
-  <Label locale="en" pluralValue="" value=""/>
-  <Label locale="de" pluralValue="" value=""/>
+ <EnumAttribute datatype="String" name="name" unique="true" usedAsNameInFaktorIpsUi="true">
+  <Label locale="en"/>
+  <Label locale="de"/>
   <Description locale="en"/>
   <Description locale="de"/>
  </EnumAttribute>
- <EnumLiteralNameAttribute datatype="String" defaultValueProviderAttribute="name" identifier="false" inherited="false" multilingual="false" name="LITERAL_NAME" unique="true" usedAsNameInFaktorIpsUi="false">
-  <Label locale="en" pluralValue="" value=""/>
-  <Label locale="de" pluralValue="" value=""/>
+ <EnumLiteralNameAttribute datatype="String" defaultValueProviderAttribute="name" name="LITERAL_NAME" unique="true">
+  <Label locale="en"/>
+  <Label locale="de"/>
   <Description locale="en"/>
   <Description locale="de"/>
  </EnumLiteralNameAttribute>
- <EnumAttribute datatype="boolean" identifier="false" inherited="false" multilingual="false" name="requiredInformationMissing" unique="false" usedAsNameInFaktorIpsUi="false">
-  <Label locale="en" pluralValue="" value=""/>
-  <Label locale="de" pluralValue="" value=""/>
+ <EnumAttribute datatype="boolean" name="requiredInformationMissing">
+  <Label locale="en"/>
+  <Label locale="de"/>
   <Description locale="en"/>
   <Description locale="de"/>
  </EnumAttribute>
- <EnumAttribute datatype="boolean" identifier="false" inherited="false" multilingual="false" name="technicalConstraintViolated" unique="false" usedAsNameInFaktorIpsUi="false">
-  <Label locale="en" pluralValue="" value=""/>
-  <Label locale="de" pluralValue="" value=""/>
+ <EnumAttribute datatype="boolean" name="technicalConstraintViolated">
+  <Label locale="en"/>
+  <Label locale="de"/>
   <Description locale="en"/>
   <Description locale="de"/>
  </EnumAttribute>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicyCmptType xmlns="http://www.faktorzehn.org" abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" generateValidatorClass="false" productCmptType="" supertype="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/PolicyCmptType.xsd" xml:space="preserve">
- <Label locale="en" pluralValue="" value=""/>
- <Label locale="de" pluralValue="" value=""/>
+<PolicyCmptType xmlns="http://www.faktorzehn.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/PolicyCmptType.xsd" xml:space="preserve">
+ <Label locale="en"/>
+ <Label locale="de"/>
  <Description locale="en"/>
  <Description locale="de"/>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Decimal" modifier="published" name="decimal" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Decimal" modifier="published" name="decimal">
   <DefaultValue>42</DefaultValue>
-  <Label locale="en" pluralValue="" value=""/>
-  <Label locale="de" pluralValue="" value=""/>
+  <Label locale="en"/>
+  <Label locale="de"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">
@@ -18,47 +18,47 @@
    </Range>
   </ValueSet>
  </Attribute>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" modifier="published" name="string" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="string">
   <DefaultValue isNull="true"/>
-  <Label locale="en" pluralValue="" value="A String attribute"/>
-  <Label locale="de" pluralValue="" value="Ein String-Attribut"/>
+  <Label locale="en" value="A String attribute"/>
+  <Label locale="de" value="Ein String-Attribut"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">
    <AllValues containsNull="true"/>
   </ValueSet>
  </Attribute>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" modifier="published" name="unrestrictedInclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="unrestrictedInclNull">
   <DefaultValue>not required</DefaultValue>
-  <Label locale="en" pluralValue="" value="ValueSet Incl. Null"/>
-  <Label locale="de" pluralValue="" value="ValueSet mit Null"/>
+  <Label locale="en" value="ValueSet Incl. Null"/>
+  <Label locale="de" value="ValueSet mit Null"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">
    <AllValues containsNull="true"/>
   </ValueSet>
  </Attribute>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" modifier="published" name="unrestrictedExclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="unrestrictedExclNull">
   <DefaultValue>required</DefaultValue>
-  <Label locale="en" pluralValue="" value="ValueSet Excl. Null"/>
-  <Label locale="de" pluralValue="" value="ValueSet ohne Null"/>
+  <Label locale="en" value="ValueSet Excl. Null"/>
+  <Label locale="de" value="ValueSet ohne Null"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">
    <AllValues containsNull="false"/>
   </ValueSet>
  </Attribute>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Marker" modifier="published" name="emptyValueSet" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Marker" modifier="published" name="emptyValueSet">
   <DefaultValue isNull="true"/>
-  <Label locale="en" pluralValue="" value="Empty ValueSet"/>
-  <Label locale="de" pluralValue="" value="Leeres ValueSet"/>
+  <Label locale="en" value="Empty ValueSet"/>
+  <Label locale="de" value="Leeres ValueSet"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet abstract="false">
    <Enum/>
   </ValueSet>
  </Attribute>
- <ValidationRuleDef activatedByDefault="true" category="" changingOverTime="false" checkValueAgainstValueSetRule="true" configurableByProductComponent="false" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal" validatedAttrSpecifiedInSrc="false">
+ <ValidationRuleDef activatedByDefault="true" changingOverTime="false" checkValueAgainstValueSetRule="true" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal">
   <ValidatedAttribute name="decimal"/>
   <Markers>
    <Marker name="T"/>
@@ -69,8 +69,8 @@
     <LocalizedString locale="de" text="Der Wert von decimal muss im Bereich {range} liegen, ist aber {actual}."/>
    </InternationalString>
   </MessageText>
-  <Label locale="en" pluralValue="" value=""/>
-  <Label locale="de" pluralValue="" value=""/>
+  <Label locale="en"/>
+  <Label locale="de"/>
   <Description locale="en"/>
   <Description locale="de"/>
  </ValidationRuleDef>

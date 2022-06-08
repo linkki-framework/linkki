@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicyCmptType xmlns="http://www.faktorzehn.org" abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" generateValidatorClass="false" productCmptType="" supertype="TestIpsObject" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/PolicyCmptType.xsd" xml:space="preserve">
- <Label locale="en" pluralValue="" value="A test object overwriting the label"/>
- <Label locale="de" pluralValue="" value=""/>
+<PolicyCmptType xmlns="http://www.faktorzehn.org" supertype="TestIpsObject" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.6/PolicyCmptType.xsd" xml:space="preserve">
+ <Label locale="en" value="A test object overwriting the label"/>
+ <Label locale="de"/>
  <Description locale="en"/>
  <Description locale="de"/>
 </PolicyCmptType>
