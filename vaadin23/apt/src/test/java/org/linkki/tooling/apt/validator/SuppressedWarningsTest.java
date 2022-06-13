@@ -96,11 +96,8 @@ public class SuppressedWarningsTest extends BaseAnnotationProcessorTest {
 
         private Stream<FileToCode> getTestData(String it) {
             return Stream.of(new FileToCode(SUPPRESSED_WARNINGS + it
-                    + "/AvailableValuesType_WrongContentType.java",
-                    AvailableValuesTypeValidator.WRONG_CONTENT_TYPE),
-                             new FileToCode(SUPPRESSED_WARNINGS + it
-                                     + "/Position_PositionClash.java",
-                                     PositionValidator.POSITION_CLASH),
+                    + "/Position_PositionClash.java",
+                    PositionValidator.POSITION_CLASH),
                              new FileToCode(SUPPRESSED_WARNINGS + it
                                      + "/AspectMethod_MissingMethod.java",
                                      AspectMethodValidator.MISSING_METHOD),
