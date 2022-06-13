@@ -15,9 +15,15 @@
 package org.linkki.ips.binding.dispatcher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Locale;
+
+import com.vaadin.flow.component.UI;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,13 +35,12 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.ips.test.model.TestIpsObject;
 import org.linkki.ips.test.model.TestIpsObject2;
-
-import com.vaadin.flow.component.UI;
 
 @ExtendWith(VaadinUIExtension.class)
 public class IpsPropertyDispatcherTest {
@@ -263,6 +268,39 @@ public class IpsPropertyDispatcherTest {
         assertThat(enabled, is(false));
     }
 
+    @Test
+    public void testPull_Collection_IntegerRangeValueSet_ShouldContainNull() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETRANGEOFINTINCLNULL);
+
+
+        Collection<Integer> rangeOfInteger = ipsPropertyDispatcher
+                .pull(Aspect.of(AvailableValuesAspectDefinition.NAME, Collections.emptyList()));
+
+        assertThat(rangeOfInteger, containsInAnyOrder(0, 1, 2, 3, 4, 5, null));
+        assertThat(rangeOfInteger.size(), is(7));
+    }
+
+    @Test
+    public void testPull_Collection_IntegerRangeValueSet_ShouldNotContainNull() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETRANGEOFINTEXCLNULL);
+
+
+        Collection<Integer> rangeOfInteger = ipsPropertyDispatcher
+                .pull(Aspect.of(AvailableValuesAspectDefinition.NAME, Collections.emptyList()));
+
+        assertThat(rangeOfInteger, containsInAnyOrder(0, 1, 2, 3, 4, 5));
+        assertThat(rangeOfInteger.size(), is(6));
+    }
+
+    @Test
+    public void testPull_Collection_IntegerUnrestrictedValueSet_ShouldBeEmpty() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINTUNRESTRICTED);
+
+        Collection<?> collection = ipsPropertyDispatcher
+                .pull(Aspect.of(AvailableValuesAspectDefinition.NAME, Collections.emptyList()));
+
+        assertThat(collection, is(empty()));
+    }
 
     private IpsPropertyDispatcher ipsDispatcherChain(String modelAttribute) {
         IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(

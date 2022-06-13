@@ -14,8 +14,16 @@
 
 package org.linkki.core.ui.aspects;
 
+import static org.linkki.util.Objects.requireNonNull;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import com.vaadin.flow.data.provider.HasListDataView;
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -24,13 +32,8 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
 import org.linkki.util.handler.Handler;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.BiConsumer;
-
-import static org.linkki.util.Objects.requireNonNull;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Defines an aspect that updates the set of available values of {@link HasListDataView}.
@@ -46,64 +49,77 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
     private final BiConsumer<C, List<Object>> dataProviderSetter;
 
     public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
-                                           BiConsumer<C, List<Object>> dataProviderSetter) {
+            BiConsumer<C, List<Object>> dataProviderSetter) {
         this.availableValuesType = requireNonNull(availableValuesType, "availableValuesType must not be null");
         this.dataProviderSetter = requireNonNull(dataProviderSetter, "dataProviderSetter must not be null");
     }
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        Aspect<Collection<?>> aspect = createAspect(propertyDispatcher.getProperty(),
-                propertyDispatcher.getValueClass());
 
         // Initialize with an empty collection to be in sync with current cache.
         setDataProvider(componentWrapper, Collections.emptyList());
 
+        if (getAvailableValuesType() == AvailableValuesType.NO_VALUES) {
+            return Handler.NOP_HANDLER;
+        }
+
+        Aspect<Collection<?>> aspect = createAspect(propertyDispatcher.getValueClass());
+
         ItemCache cache = new ItemCache();
-        return () -> updateItems(cache, propertyDispatcher.pull(aspect), componentWrapper);
+        return () -> updateItems(propertyDispatcher.getProperty(), cache, propertyDispatcher.pull(aspect),
+                                 componentWrapper);
     }
 
-    private void updateItems(ItemCache cache,
-                             @Nullable Collection<?> newItemsParam,
-                             ComponentWrapper componentWrapper) {
+    private void updateItems(String propertyName,
+            ItemCache cache,
+            @Nullable Collection<?> newItemsParam,
+            ComponentWrapper componentWrapper) {
+        if (newItemsParam == null) {
+            if (availableValuesType == AvailableValuesType.DYNAMIC) {
+                throw new NullPointerException("get" + propertyName + "AvailableValues() must not return null.");
+            } else {
+                throw new IllegalStateException(
+                        "Cannot retrieve list of available values for " + propertyName);
+            }
+        }
         ArrayList<Object> newItems = new ArrayList<>(
                 requireNonNull(newItemsParam, "List of available values must not be null"));
         handleNullItems(componentWrapper, newItems);
-
         boolean hasChanged = cache.replaceContent(newItems);
         if (hasChanged) {
             setDataProvider(componentWrapper, cache.getItems());
         }
     }
 
+
     /**
      * Returns an {@link Aspect} with name {@link AvailableValuesAspectDefinition#NAME}. The value of
      * this {@link Aspect} is created in dependence on the current {@link AvailableValuesType}.
      *
-     * @param propertyName is used to classify the valueClass in case of an
-     *                     {@link IllegalArgumentException}
-     * @param valueClass   is considered if the available values type is neither
-     *                     {@link AvailableValuesType#DYNAMIC} nor {@link AvailableValuesType#NO_VALUES} to
-     *                     derive the {@link Aspect}'s values from valueClasses data type
+     * @param valueClass is considered if the available values type is neither
+     *            {@link AvailableValuesType#DYNAMIC} nor {@link AvailableValuesType#NO_VALUES} to
+     *            derive the {@link Aspect}'s values from valueClasses data type
      * @return the {@link Aspect} with name {@link AvailableValuesAspectDefinition#NAME}
      */
-    public Aspect<Collection<?>> createAspect(String propertyName, Class<?> valueClass) {
+    public Aspect<Collection<?>> createAspect(Class<?> valueClass) {
         AvailableValuesType type = getAvailableValuesType();
         if (type == AvailableValuesType.DYNAMIC) {
             return Aspect.of(NAME);
         } else if (type == AvailableValuesType.NO_VALUES) {
             return Aspect.of(NAME, new ArrayList<>());
         } else {
-            return Aspect.of(NAME, getValuesDerivedFromDatatype(propertyName, valueClass));
+            return Aspect.of(NAME, getValuesDerivedFromDatatype(valueClass));
         }
     }
 
-    protected <T extends Enum<T>> List<?> getValuesDerivedFromDatatype(String propertyName, Class<?> valueClass) {
+    @CheckForNull
+    protected <T extends Enum<T>> List<?> getValuesDerivedFromDatatype(Class<?> valueClass) {
         if (valueClass.isEnum()) {
             @SuppressWarnings("unchecked")
             Class<T> enumType = (Class<T>)valueClass;
             return AvailableValuesProvider.enumToValues(enumType,
-                    getAvailableValuesType() == AvailableValuesType.ENUM_VALUES_INCL_NULL);
+                                                        getAvailableValuesType() == AvailableValuesType.ENUM_VALUES_INCL_NULL);
         }
         if (valueClass == Boolean.TYPE) {
             return AvailableValuesProvider.booleanPrimitiveToValues();
@@ -111,14 +127,13 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
         if (valueClass == Boolean.class) {
             return AvailableValuesProvider.booleanWrapperToValues();
         } else {
-            throw new IllegalStateException(
-                    "Cannot retrieve list of available values for " + valueClass.getName() + "#" + propertyName);
+            return null;
         }
     }
 
     @SuppressWarnings("unchecked")
     protected void setDataProvider(ComponentWrapper componentWrapper,
-                                   List<Object> data) {
+            List<Object> data) {
         dataProviderSetter.accept((C)componentWrapper.getComponent(), data);
     }
 
@@ -139,7 +154,7 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
      * Note that you have to modify the given list of values directly.
      *
      * @param componentWrapper component of which available values should be updated
-     * @param items            items to be shown in the {@link ComponentWrapper}. May contain <code>null</code>.
+     * @param items items to be shown in the {@link ComponentWrapper}. May contain <code>null</code>.
      */
     protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
         // does nothing by default

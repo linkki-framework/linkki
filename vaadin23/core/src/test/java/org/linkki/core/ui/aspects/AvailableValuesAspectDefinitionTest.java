@@ -14,9 +14,31 @@
 
 package org.linkki.core.ui.aspects;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.provider.HasListDataView;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
@@ -26,18 +48,6 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.util.handler.Handler;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.BiConsumer;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 class AvailableValuesAspectDefinitionTest {
 
@@ -58,9 +68,15 @@ class AvailableValuesAspectDefinitionTest {
     }
 
     @Test
-    void testGetValuesDerivedFromDatatype_NonEnumDatatype() {
-        Assertions.assertThrows(IllegalStateException.class, () -> new AvailableValuesAspectDefinition<>(AvailableValuesType.DYNAMIC, NOP)
-                .getValuesDerivedFromDatatype("foo", String.class));
+    void testGetValuesDerivedFromDatatype_NonEnumDatatype_Null() {
+
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+                AvailableValuesType.DYNAMIC,
+                NOP);
+
+        List<?> availableValues = availableValuesAspectDefinition.getValuesDerivedFromDatatype(String.class);
+
+        assertThat(availableValues, is(nullValue()));
     }
 
     @Test
@@ -68,12 +84,12 @@ class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, NOP);
 
-        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype("foo", TestEnum.class),
-                contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
-        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype("foo", Boolean.class),
-                contains(null, true, false));
-        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype("foo", boolean.class),
-                contains(true, false));
+        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(TestEnum.class),
+                   contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
+        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(Boolean.class),
+                   contains(null, true, false));
+        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(boolean.class),
+                   contains(true, false));
     }
 
     @Test
@@ -110,7 +126,7 @@ class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, NOP);
 
-        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
+        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect(TestEnum.class);
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(false));
@@ -121,7 +137,7 @@ class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.NO_VALUES, NOP);
 
-        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
+        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect(TestEnum.class);
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
@@ -133,7 +149,7 @@ class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.ENUM_VALUES_EXCL_NULL, NOP);
 
-        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
+        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect(TestEnum.class);
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
@@ -145,7 +161,7 @@ class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.ENUM_VALUES_INCL_NULL, NOP);
 
-        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
+        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect(TestEnum.class);
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
@@ -162,7 +178,7 @@ class AvailableValuesAspectDefinitionTest {
         when(propertyDispatcher.pull(any())).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.TWO));
 
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
-                new NoLabelComponentWrapper(component));
+                                                                            new NoLabelComponentWrapper(component));
 
         // items are set initially during the first update
         reset(component);
@@ -182,13 +198,42 @@ class AvailableValuesAspectDefinitionTest {
     }
 
     @Test
+    void testUiUpdater_NullOnPull_WhenDynamic_NullPointerException() {
+        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+                AvailableValuesType.DYNAMIC, DataComponent<Object>::setItems);
+        DataComponent<?> component = spy(new DataComponent<>());
+        PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
+        when(propertyDispatcher.pull(any())).thenReturn(null);
+
+        Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
+                                                                            new NoLabelComponentWrapper(component));
+
+        assertThrows(NullPointerException.class, () -> uiUpdater.apply());
+    }
+
+    @Test
+    void testUiUpdater_NullOnPull_WhenNotDynamic_IllegalStateException() {
+        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+                AvailableValuesType.ENUM_VALUES_INCL_NULL, DataComponent<Object>::setItems);
+        DataComponent<?> component = spy(new DataComponent<>());
+        PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
+        when(propertyDispatcher.pull(any())).thenReturn(null);
+        doReturn(DataComponent.class).when(propertyDispatcher).getValueClass();
+
+        Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
+                                                                            new NoLabelComponentWrapper(component));
+
+        assertThrows(IllegalStateException.class, () -> uiUpdater.apply());
+    }
+
+    @Test
     void testUiUpdater_SetComboBoxValueBeforeUiUpdate() {
         AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, ComboBox::setItems);
         ComboBox<TestEnum> component = new ComboBox<>();
 
         availableValuesAspectDefinition.createUiUpdater(mock(PropertyDispatcher.class),
-                new NoLabelComponentWrapper(component));
+                                                        new NoLabelComponentWrapper(component));
 
         // linkki sets values before the UI updater has been called for the first time
         component.setValue(TestEnum.ONE);

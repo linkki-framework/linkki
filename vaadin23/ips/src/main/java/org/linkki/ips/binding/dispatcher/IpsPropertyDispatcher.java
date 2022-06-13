@@ -14,6 +14,7 @@
 
 package org.linkki.ips.binding.dispatcher;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.WeakHashMap;
 import java.util.function.Supplier;
@@ -35,6 +36,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
+import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.uiframework.UiFramework;
 
@@ -71,6 +73,8 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
             } else if (VisibleAspectDefinition.NAME.equals(aspect.getName())
                     || EnabledAspectDefinition.NAME.equals(aspect.getName())) {
                 return getVisibleOrEnabledValue(aspect);
+            } else if (AvailableValuesAspectDefinition.NAME.equals(aspect.getName()) && aspect.isValuePresent()) {
+                return getAvailableValuesValue(aspect);
             }
         }
         return super.pull(aspect);
@@ -81,6 +85,24 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
         return (T)findModelElement()
                 .map(this::getLabel)
                 .orElseGet(() -> (String)super.pull(aspect));
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T getAvailableValuesValue(Aspect<T> aspect) {
+        Optional<ValueSet<?>> valueSet = findModelElement().map(this::getValueSet);
+
+        if (valueSet.isPresent()) {
+            boolean isNullExcluded = false;
+
+            boolean isValueSetUnrestricted = valueSet.get().isUnrestricted(isNullExcluded);
+            if (!isValueSetUnrestricted) {
+                Collection<?> values = valueSet.get().getValues(isNullExcluded);
+                if (!values.isEmpty()) {
+                    return (T)values;
+                }
+            }
+        }
+        return super.pull(aspect);
     }
 
     private String getLabel(ModelElement modelElement) {
@@ -111,6 +133,7 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
         return otherDispatcherValue ? isVisibleOrEnabledInModel() : otherDispatcherValue;
     }
 
+
     /**
      * Checks, if the Faktor-IPS attribute needs to be visible or enabled in the UI.<br>
      * <ul>
@@ -135,6 +158,7 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
     private boolean isNotRequired(ValueSet<?> valueSet) {
         return valueSet.isEmpty() || valueSet.containsNull();
     }
+
 
     private ValueSet<?> getValueSet(ModelElement modelElement) {
         if (modelElement instanceof PolicyAttribute) {

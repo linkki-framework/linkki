@@ -1,6 +1,7 @@
 package org.linkki.ips.test.model;
 
 import java.time.MonthDay;
+import org.faktorips.valueset.IntegerRange;
 import java.util.Map;
 
 import org.faktorips.runtime.IRuntimeRepository;
@@ -29,7 +30,8 @@ import org.w3c.dom.Element;
  * @generated
  */
 @IpsPolicyCmptType(name = "TestIpsObject")
-@IpsAttributes({ "foo", "valueSetInclNull", "valueSetExclNull", "emptyValueSet" })
+@IpsAttributes({ "foo", "valueSetInclNull", "valueSetExclNull", "emptyValueSet", "valueSetRangeOfIntInclNull",
+        "valueSetRangeOfIntExclNull", "valueSetIntUnrestricted" })
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
 public class TestIpsObject extends AbstractModelObject {
 
@@ -137,6 +139,84 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * The name of the property valueSetRangeOfIntInclNull.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_VALUESETRANGEOFINTINCLNULL = "valueSetRangeOfIntInclNull";
+
+
+    /**
+     * Max allowed range for the property valueSetRangeOfIntInclNull.
+     *
+     * @generated
+     */
+    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL = IntegerRange
+            .valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), true);
+
+
+    /**
+     * The default value for valueSetRangeOfIntInclNull.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("valueSetRangeOfIntInclNull")
+    public static final Integer DEFAULT_VALUE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL = null;
+
+
+    /**
+     * The name of the property valueSetRangeOfIntExclNull.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_VALUESETRANGEOFINTEXCLNULL = "valueSetRangeOfIntExclNull";
+
+
+    /**
+     * Max allowed range for the property valueSetRangeOfIntExclNull.
+     *
+     * @generated
+     */
+    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL = IntegerRange
+            .valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), false);
+
+
+    /**
+     * The default value for valueSetRangeOfIntExclNull.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("valueSetRangeOfIntExclNull")
+    public static final Integer DEFAULT_VALUE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL = null;
+
+
+    /**
+     * The name of the property valueSetIntUnrestricted.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_VALUESETINTUNRESTRICTED = "valueSetIntUnrestricted";
+
+
+    /**
+     * Max allowed values for property valueSetIntUnrestricted.
+     *
+     * @generated
+     */
+    public static final ValueSet<Integer> MAX_ALLOWED_VALUES_FOR_VALUE_SET_INT_UNRESTRICTED = new UnrestrictedValueSet<>(
+            true);
+
+
+    /**
+     * The default value for valueSetIntUnrestricted.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("valueSetIntUnrestricted")
+    public static final Integer DEFAULT_VALUE_FOR_VALUE_SET_INT_UNRESTRICTED = null;
+
+
+    /**
      * Member variable for foo.
      *
      * @generated
@@ -166,6 +246,30 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     private MonthDay emptyValueSet = DEFAULT_VALUE_FOR_EMPTY_VALUE_SET;
+
+
+    /**
+     * Member variable for valueSetRangeOfIntInclNull.
+     *
+     * @generated
+     */
+    private Integer valueSetRangeOfIntInclNull = DEFAULT_VALUE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL;
+
+
+    /**
+     * Member variable for valueSetRangeOfIntExclNull.
+     *
+     * @generated
+     */
+    private Integer valueSetRangeOfIntExclNull = DEFAULT_VALUE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL;
+
+
+    /**
+     * Member variable for valueSetIntUnrestricted.
+     *
+     * @generated
+     */
+    private Integer valueSetIntUnrestricted = DEFAULT_VALUE_FOR_VALUE_SET_INT_UNRESTRICTED;
 
 
     /**
@@ -337,6 +441,114 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * Returns the range of allowed values for the property valueSetRangeOfIntInclNull.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("valueSetRangeOfIntInclNull")
+    @IpsGenerated
+    public ValueSet<Integer> getAllowedValuesForValueSetRangeOfIntInclNull() {
+        return MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL;
+    }
+
+
+    /**
+     * Returns the valueSetRangeOfIntInclNull.
+     *
+     * @generated
+     */
+    @IpsAttribute(name = "valueSetRangeOfIntInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
+    @IpsGenerated
+    public Integer getValueSetRangeOfIntInclNull() {
+        return valueSetRangeOfIntInclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute valueSetRangeOfIntInclNull.
+     *
+     * @generated
+     */
+    @IpsAttributeSetter("valueSetRangeOfIntInclNull")
+    @IpsGenerated
+    public void setValueSetRangeOfIntInclNull(Integer newValue) {
+        this.valueSetRangeOfIntInclNull = newValue;
+    }
+
+
+    /**
+     * Returns the range of allowed values for the property valueSetRangeOfIntExclNull.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("valueSetRangeOfIntExclNull")
+    @IpsGenerated
+    public ValueSet<Integer> getAllowedValuesForValueSetRangeOfIntExclNull() {
+        return MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL;
+    }
+
+
+    /**
+     * Returns the valueSetRangeOfIntExclNull.
+     *
+     * @generated
+     */
+    @IpsAttribute(name = "valueSetRangeOfIntExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
+    @IpsGenerated
+    public Integer getValueSetRangeOfIntExclNull() {
+        return valueSetRangeOfIntExclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute valueSetRangeOfIntExclNull.
+     *
+     * @generated
+     */
+    @IpsAttributeSetter("valueSetRangeOfIntExclNull")
+    @IpsGenerated
+    public void setValueSetRangeOfIntExclNull(Integer newValue) {
+        this.valueSetRangeOfIntExclNull = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property valueSetIntUnrestricted.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("valueSetIntUnrestricted")
+    @IpsGenerated
+    public ValueSet<Integer> getAllowedValuesForValueSetIntUnrestricted() {
+        return MAX_ALLOWED_VALUES_FOR_VALUE_SET_INT_UNRESTRICTED;
+    }
+
+
+    /**
+     * Returns the valueSetIntUnrestricted.
+     *
+     * @generated
+     */
+    @IpsAttribute(name = "valueSetIntUnrestricted", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsGenerated
+    public Integer getValueSetIntUnrestricted() {
+        return valueSetIntUnrestricted;
+    }
+
+
+    /**
+     * Sets the value of attribute valueSetIntUnrestricted.
+     *
+     * @generated
+     */
+    @IpsAttributeSetter("valueSetIntUnrestricted")
+    @IpsGenerated
+    public void setValueSetIntUnrestricted(Integer newValue) {
+        this.valueSetIntUnrestricted = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -361,6 +573,9 @@ public class TestIpsObject extends AbstractModelObject {
         doInitValueSetInclNull(propMap);
         doInitValueSetExclNull(propMap);
         doInitEmptyValueSet(propMap);
+        doInitValueSetRangeOfIntInclNull(propMap);
+        doInitValueSetRangeOfIntExclNull(propMap);
+        doInitValueSetIntUnrestricted(propMap);
     }
 
     /**
@@ -404,6 +619,44 @@ public class TestIpsObject extends AbstractModelObject {
         if (propMap.containsKey(PROPERTY_EMPTYVALUESET)) {
             this.emptyValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_EMPTYVALUESET)) ? null
                     : MonthDay.parse(propMap.get(PROPERTY_EMPTYVALUESET));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitValueSetRangeOfIntInclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_VALUESETRANGEOFINTINCLNULL)) {
+            this.valueSetRangeOfIntInclNull = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETRANGEOFINTINCLNULL))
+                    ? null
+                    : Integer.valueOf(propMap.get(PROPERTY_VALUESETRANGEOFINTINCLNULL));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitValueSetRangeOfIntExclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_VALUESETRANGEOFINTEXCLNULL)) {
+            this.valueSetRangeOfIntExclNull = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETRANGEOFINTEXCLNULL))
+                    ? null
+                    : Integer.valueOf(propMap.get(PROPERTY_VALUESETRANGEOFINTEXCLNULL));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitValueSetIntUnrestricted(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_VALUESETINTUNRESTRICTED)) {
+            this.valueSetIntUnrestricted = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETINTUNRESTRICTED)) ? null
+                    : Integer.valueOf(propMap.get(PROPERTY_VALUESETINTUNRESTRICTED));
         }
     }
 

@@ -153,7 +153,7 @@ public final class DynamicMethodUtils {
         return aspectDefinitions.stream()
                 .filter(AvailableValuesAspectDefinition.class::isInstance)
                 .map(AvailableValuesAspectDefinition.class::cast)
-                .map(it -> createAspect(it, MethodNameUtils.getPropertyName(method), method, messager))
+                .map(it -> createAspect(it, method, messager))
                 .flatMap(Optionals::stream)
                 .filter(it -> !it.isValuePresent())
                 .filter(it -> !it.getName().isEmpty())
@@ -177,11 +177,10 @@ public final class DynamicMethodUtils {
     }
 
     private static Optional<Aspect<?>> createAspect(AvailableValuesAspectDefinition<?> aspectDefinition,
-            String propertyName,
             Element method,
             Messager messager) {
         try {
-            return Optional.of(aspectDefinition.createAspect(propertyName, VisibleType.class));
+            return Optional.of(aspectDefinition.createAspect(VisibleType.class));
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
             // CSON: IllegalCatch
@@ -222,8 +221,7 @@ public final class DynamicMethodUtils {
         if (aspectDefinition instanceof ModelToUiAspectDefinition<?>) {
             return asList(((ModelToUiAspectDefinition<?>)aspectDefinition).createAspect());
         } else if (aspectDefinition instanceof AvailableValuesAspectDefinition<?>) {
-            String propertyName = MethodNameUtils.getPropertyName(method);
-            return asList(((AvailableValuesAspectDefinition<?>)aspectDefinition).createAspect(propertyName,
+            return asList(((AvailableValuesAspectDefinition<?>)aspectDefinition).createAspect(
                                                                                               VisibleType.class));
         } else if (aspectDefinition instanceof CompositeAspectDefinition) {
             return AccessController.doPrivileged(new PrivilegedAction<List<Aspect<?>>>() {

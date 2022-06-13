@@ -73,6 +73,33 @@
                         "old": "method void org.linkki.core.ui.aspects.ItemCache::<init>(org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>)",
                         "new": "method void org.linkki.core.ui.aspects.ItemCache::<init>()",
                         "justification": "LIN-2855 :: AvailableValuesAspect does not compare captions anymore"
+                    },
+                    {
+                        "code": "java.method.numberOfParametersChanged",
+                        "old": "method org.linkki.core.binding.descriptor.aspect.Aspect<java.util.Collection<?>> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::createAspect(java.lang.String, java.lang.Class<?>)",
+                        "new": "method org.linkki.core.binding.descriptor.aspect.Aspect<java.util.Collection<?>> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::createAspect(java.lang.Class<?>)",
+                        "justification": "LIN-1819 :: Enhance IpsPropertyDispatcher"
+                    },
+                    {
+                        "code": "java.method.numberOfParametersChanged",
+                        "old": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.String, java.lang.Class<?>)",
+                        "new": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.Class<?>)",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
+                        "justification": "LIN-1819 :: Enhance IpsPropertyDispatcher"
+                    },
+                    {
+                        "code": "java.annotation.added",
+                        "old": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.String, java.lang.Class<?>)",
+                        "new": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.Class<?>)",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
+                        "justification": "LIN-1819 :: Enhance IpsPropertyDispatcher"
+                    },
+                    {
+                        "code": "java.annotation.added",
+                        "old": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.String, java.lang.Class<?>) @ org.linkki.core.ui.aspects.GenericAvailableValuesAspectDefinition",
+                        "new": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.Class<?>) @ org.linkki.core.ui.aspects.GenericAvailableValuesAspectDefinition",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
+                        "justification": "LIN-1819 :: Enhance IpsPropertyDispatcher"
                     }
                 ]
             }

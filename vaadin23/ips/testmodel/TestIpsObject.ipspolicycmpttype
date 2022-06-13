@@ -44,4 +44,42 @@
    <Enum/>
   </ValueSet>
  </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Integer" modifier="published" name="valueSetRangeOfIntInclNull">
+  <DefaultValue isNull="true"/>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Range containsNull="true">
+    <LowerBound>0</LowerBound>
+    <UpperBound>5</UpperBound>
+    <Step>1</Step>
+   </Range>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Integer" modifier="published" name="valueSetRangeOfIntExclNull">
+  <DefaultValue isNull="true"/>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Range containsNull="false">
+    <LowerBound>0</LowerBound>
+    <UpperBound>5</UpperBound>
+    <Step>1</Step>
+   </Range>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Integer" modifier="published" name="valueSetIntUnrestricted">
+  <DefaultValue isNull="true"/>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <AllValues containsNull="true"/>
+  </ValueSet>
+ </Attribute>
 </PolicyCmptType>

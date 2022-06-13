@@ -44,6 +44,7 @@ import org.faktorips.values.Decimal;
 import org.faktorips.runtime.model.annotation.IpsDefaultValue;
 import org.faktorips.valueset.DecimalRange;
 import org.faktorips.valueset.OrderedValueSet;
+import org.faktorips.valueset.IntegerRange;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
@@ -54,7 +55,8 @@ import org.w3c.dom.Element;
  * @generated
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
-@IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "emptyValueSet" })
+@IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "emptyValueSet",
+        "enumerationValueSet", "integerEnumerationValueSet", "integerRangeValueSet" })
 @IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
@@ -179,6 +181,76 @@ public class IpsModelObject extends AbstractModelObject {
     @IpsDefaultValue("emptyValueSet")
     public static final Marker DEFAULT_VALUE_FOR_EMPTY_VALUE_SET = null;
 
+    /**
+     * The name of the property enumerationValueSet.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_ENUMERATIONVALUESET = "enumerationValueSet";
+
+    /**
+     * Max allowed values for property enumerationValueSet.
+     *
+     * @generated
+     */
+    public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_ENUMERATION_VALUE_SET = new OrderedValueSet<>(
+            false, null, Marker.REQUIRED_INFORMATION_MISSING, Marker.TECHNICAL_CONSTRAINT_VIOLATED);
+
+    /**
+     * The default value for enumerationValueSet.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("enumerationValueSet")
+    public static final Marker DEFAULT_VALUE_FOR_ENUMERATION_VALUE_SET = null;
+
+    /**
+     * The name of the property integerEnumerationValueSet.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_INTEGERENUMERATIONVALUESET = "integerEnumerationValueSet";
+
+    /**
+     * Max allowed values for property integerEnumerationValueSet.
+     *
+     * @generated
+     */
+    public static final OrderedValueSet<Integer> MAX_ALLOWED_VALUES_FOR_INTEGER_ENUMERATION_VALUE_SET = new OrderedValueSet<>(
+            true, null, Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4),
+            Integer.valueOf(5), null);
+
+    /**
+     * The default value for integerEnumerationValueSet.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("integerEnumerationValueSet")
+    public static final Integer DEFAULT_VALUE_FOR_INTEGER_ENUMERATION_VALUE_SET = null;
+
+    /**
+     * The name of the property integerRangeValueSet.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_INTEGERRANGEVALUESET = "integerRangeValueSet";
+
+    /**
+     * Max allowed range for the property integerRangeValueSet.
+     *
+     * @generated
+     */
+    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_INTEGER_RANGE_VALUE_SET = IntegerRange
+            .valueOf(Integer.valueOf("0"), Integer.valueOf(100), Integer.valueOf(5), true);
+
+    /**
+     * The default value for integerRangeValueSet.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("integerRangeValueSet")
+    public static final Integer DEFAULT_VALUE_FOR_INTEGER_RANGE_VALUE_SET = null;
+
     // end::PROPERTY_STRING[]
 
     /**
@@ -216,6 +288,27 @@ public class IpsModelObject extends AbstractModelObject {
      */
     private Marker emptyValueSet = DEFAULT_VALUE_FOR_EMPTY_VALUE_SET;
 
+
+    /**
+     * Member variable for enumerationValueSet.
+     *
+     * @generated
+     */
+    private Marker enumerationValueSet = DEFAULT_VALUE_FOR_ENUMERATION_VALUE_SET;
+
+    /**
+     * Member variable for integerEnumerationValueSet.
+     *
+     * @generated
+     */
+    private Integer integerEnumerationValueSet = DEFAULT_VALUE_FOR_INTEGER_ENUMERATION_VALUE_SET;
+
+    /**
+     * Member variable for integerRangeValueSet.
+     *
+     * @generated
+     */
+    private Integer integerRangeValueSet = DEFAULT_VALUE_FOR_INTEGER_RANGE_VALUE_SET;
 
     /**
      * Creates a new IpsModelObject.
@@ -408,6 +501,114 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
+     * Returns the set of allowed values for the property enumerationValueSet.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("enumerationValueSet")
+    @IpsGenerated
+    public ValueSet<Marker> getAllowedValuesForEnumerationValueSet() {
+        return MAX_ALLOWED_VALUES_FOR_ENUMERATION_VALUE_SET;
+    }
+
+
+    /**
+     * Returns the enumerationValueSet.
+     *
+     * @generated
+     */
+    @IpsAttribute(name = "enumerationValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    @IpsGenerated
+    public Marker getEnumerationValueSet() {
+        return enumerationValueSet;
+    }
+
+
+    /**
+     * Sets the value of attribute enumerationValueSet.
+     *
+     * @generated
+     */
+    @IpsAttributeSetter("enumerationValueSet")
+    @IpsGenerated
+    public void setEnumerationValueSet(Marker newValue) {
+        this.enumerationValueSet = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property integerEnumerationValueSet.
+     * 
+     * @generated
+     */
+    @IpsAllowedValues("integerEnumerationValueSet")
+    @IpsGenerated
+    public ValueSet<Integer> getAllowedValuesForIntegerEnumerationValueSet() {
+        return MAX_ALLOWED_VALUES_FOR_INTEGER_ENUMERATION_VALUE_SET;
+    }
+
+
+    /**
+     * Returns the integerEnumerationValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "integerEnumerationValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    @IpsGenerated
+    public Integer getIntegerEnumerationValueSet() {
+        return integerEnumerationValueSet;
+    }
+
+
+    /**
+     * Sets the value of attribute integerEnumerationValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("integerEnumerationValueSet")
+    @IpsGenerated
+    public void setIntegerEnumerationValueSet(Integer newValue) {
+        this.integerEnumerationValueSet = newValue;
+    }
+
+
+    /**
+     * Returns the range of allowed values for the property integerRangeValueSet.
+     * 
+     * @generated
+     */
+    @IpsAllowedValues("integerRangeValueSet")
+    @IpsGenerated
+    public ValueSet<Integer> getAllowedValuesForIntegerRangeValueSet() {
+        return MAX_ALLOWED_RANGE_FOR_INTEGER_RANGE_VALUE_SET;
+    }
+
+
+    /**
+     * Returns the integerRangeValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "integerRangeValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
+    @IpsGenerated
+    public Integer getIntegerRangeValueSet() {
+        return integerRangeValueSet;
+    }
+
+
+    /**
+     * Sets the value of attribute integerRangeValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("integerRangeValueSet")
+    @IpsGenerated
+    public void setIntegerRangeValueSet(Integer newValue) {
+        this.integerRangeValueSet = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -433,6 +634,9 @@ public class IpsModelObject extends AbstractModelObject {
         doInitUnrestrictedInclNull(propMap);
         doInitUnrestrictedExclNull(propMap);
         doInitEmptyValueSet(propMap);
+        doInitEnumerationValueSet(propMap);
+        doInitIntegerEnumerationValueSet(propMap);
+        doInitIntegerRangeValueSet(propMap);
     }
 
     /**
@@ -485,6 +689,43 @@ public class IpsModelObject extends AbstractModelObject {
         if (propMap.containsKey(PROPERTY_EMPTYVALUESET)) {
             this.emptyValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_EMPTYVALUESET)) ? null
                     : Marker.getValueById(propMap.get(PROPERTY_EMPTYVALUESET));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitEnumerationValueSet(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_ENUMERATIONVALUESET)) {
+            this.enumerationValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_ENUMERATIONVALUESET)) ? null
+                    : Marker.getValueById(propMap.get(PROPERTY_ENUMERATIONVALUESET));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitIntegerEnumerationValueSet(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_INTEGERENUMERATIONVALUESET)) {
+            this.integerEnumerationValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_INTEGERENUMERATIONVALUESET))
+                    ? null
+                    : Integer.valueOf(propMap.get(PROPERTY_INTEGERENUMERATIONVALUESET));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitIntegerRangeValueSet(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_INTEGERRANGEVALUESET)) {
+            this.integerRangeValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_INTEGERRANGEVALUESET)) ? null
+                    : Integer.valueOf(propMap.get(PROPERTY_INTEGERRANGEVALUESET));
         }
     }
 

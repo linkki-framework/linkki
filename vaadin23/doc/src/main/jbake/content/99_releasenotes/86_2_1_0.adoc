@@ -9,6 +9,14 @@
 
 ==== New features and improvements
 
+[role="api-change"]
+===== Enhanced `IpsPropertyDispatcher`
+////
+https://jira.faktorzehn.de/browse/LIN-1819
+////
+
+<<ips-property-dispatcher,`IpsPropertyDispatcher`>> can now receive available values via model binding.
+
 ===== Enhanced update handling in `BindingContext`
 ////
 https://jira.faktorzehn.de/browse/LIN-3043

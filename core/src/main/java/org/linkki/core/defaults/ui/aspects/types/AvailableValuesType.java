@@ -13,6 +13,8 @@
  */
 package org.linkki.core.defaults.ui.aspects.types;
 
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+
 /**
  * The type of available values of a property.
  *
@@ -21,14 +23,24 @@ package org.linkki.core.defaults.ui.aspects.types;
 public enum AvailableValuesType {
 
     /**
-     * Retrieve the values from an enum class and add the null value. Only works if the returned type of
-     * the property is an {@link Enum}.
+     * Retrieve the values from an {@link Enum} or a {@link Boolean}. The returned value set also
+     * includes a <code>null</code> value.
+     * 
+     * @implNote It is also possible to retrieve values of any class, when using an own implementation
+     *           of {@link PropertyDispatcher}. <br>
+     *           E.g. the IpsPropertyDispatcher provides a solution to retrieve values of any class
+     *           using model binding on a Faktor-IPS model.
      */
     ENUM_VALUES_INCL_NULL,
 
     /**
-     * Retrieve the values from an enum class. Only works if the returned type of the property is an
-     * {@link Enum}.
+     * Retrieve the values from an {@link Enum} or a {@link Boolean}. The returned value set explicitly
+     * does not include a <code>null</code> value.
+     *
+     * @implNote It is also possible to retrieve values of any class, when using an own implementation
+     *           of {@link PropertyDispatcher}. <br>
+     *           E.g. the IpsPropertyDispatcher provides a solution to retrieve values of any class
+     *           using model binding on a Faktor-IPS model.
      */
     ENUM_VALUES_EXCL_NULL,
 
