@@ -20,7 +20,7 @@
         <java.version>11</java.version>
         <vaadin.version>23.0.11</vaadin.version>
         <spotbugs.version>4.6.0</spotbugs.version>
-        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-boot.version>2.6.8</spring-boot.version>
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
