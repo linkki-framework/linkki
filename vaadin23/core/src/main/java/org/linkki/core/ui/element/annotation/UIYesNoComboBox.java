@@ -13,8 +13,20 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import com.vaadin.flow.component.combobox.ComboBox;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Objects;
+
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -22,6 +34,7 @@ import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.nls.NlsText;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
@@ -37,23 +50,17 @@ import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.converters.NullHandlingConverterWrapper;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxAspectCreator;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.AnnotatedElement;
-import java.util.List;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.data.converter.Converter;
 
-import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
-import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A combo box for boolean or Boolean values.
@@ -131,9 +138,12 @@ public @interface UIYesNoComboBox {
             AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                     AvailableValuesType.ENUM_VALUES_INCL_NULL, ComboBox::setItems) {
 
+                @SuppressWarnings("unchecked")
                 @Override
                 protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
-                    // TODO LIN-2076
+                    boolean hasNullItem = items.removeIf(Objects::isNull);
+                    ((ComboBox<Object>)componentWrapper.getComponent())
+                            .setClearButtonVisible(hasNullItem);
                 }
 
             };
@@ -148,10 +158,31 @@ public @interface UIYesNoComboBox {
                     requiredAspectDefinition,
                     availableValuesAspectDefinition,
                     new VisibleAspectDefinition(annotation.visible()),
-                    new ValueAspectDefinition(),
+                    new YesNoComboBoxValueAspectDefinition(),
                     new DerivedReadOnlyAspectDefinition());
         }
 
+    }
+
+    class YesNoComboBoxValueAspectDefinition extends ValueAspectDefinition {
+
+        @Override
+        protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
+            if (modelType instanceof Class<?> && ((Class<?>)modelType).isPrimitive()) {
+                return new NullHandlingConverterWrapper<>(super.getConverter(presentationType, modelType));
+            } else {
+                return super.getConverter(presentationType, modelType);
+            }
+        }
+
+        /**
+         * Do not set any warning message as it should be expected that only valid values can be
+         * selected.
+         */
+        @Override
+        protected MessageList getInvalidInputMessage(Object value) {
+            return new MessageList();
+        }
     }
 
     class YesNoComboBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UIYesNoComboBox> {

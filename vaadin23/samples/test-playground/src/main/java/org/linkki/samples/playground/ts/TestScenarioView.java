@@ -88,6 +88,7 @@ import org.linkki.samples.playground.ts.components.LinkPmo;
 import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
 import org.linkki.samples.playground.ts.components.TextAreaPmo;
 import org.linkki.samples.playground.ts.components.TextFieldPmo;
+import org.linkki.samples.playground.ts.components.YesNoComboBoxPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogErrorHandlerPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogWithCustomSizePmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
@@ -170,6 +171,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC011 = "TC011";
     public static final String TC012 = "TC012";
     public static final String TC013 = "TC013";
+    public static final String TC014 = "TC014";
 
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
 
@@ -236,6 +238,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC011, new CustomFieldPmo())
                                        .testCase(TC012, new DynamicComponentPage())
                                        .testCase(TC013, new DateTimeFieldPmo())
+                                       .testCase(TC014, new YesNoComboBoxPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, new LinkkiTextComponent())

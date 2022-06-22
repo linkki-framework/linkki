@@ -114,3 +114,5 @@ https://jira.faktorzehn.de/browse/LIN-2506
 * Disabled validation on read-only fields: Read only fields will no longer be marked with validation messages.
 // https://jira.faktorzehn.de/browse/LIN-3098
 * Column  visibility can be set using `GridSection#setColumnVisible(String columnKey, boolean visible)` even after `GridSection` has already been created. This will also update the checked state of the corresponding `MenuItem` correctly. Note, that setting the visibility by `Grid#getColumnByKey()` still works, but this will not update the checked state of its `MenuItem`!
+// https://jira.faktorzehn.de/browse/LIN-3111
+* @UIYesNoComboBox no longer throws an exception when using Boolean, values can now be properly selected and cleared (corresponds to `null`)

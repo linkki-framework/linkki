@@ -538,7 +538,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the set of allowed values for the property integerEnumerationValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAllowedValues("integerEnumerationValueSet")
@@ -550,7 +550,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the integerEnumerationValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "integerEnumerationValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
@@ -562,7 +562,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute integerEnumerationValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("integerEnumerationValueSet")
@@ -574,7 +574,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the range of allowed values for the property integerRangeValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAllowedValues("integerRangeValueSet")
@@ -586,7 +586,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the integerRangeValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "integerRangeValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
@@ -598,7 +598,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute integerRangeValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("integerRangeValueSet")

@@ -52,10 +52,7 @@ class UIYesNoComboBoxIntegrationTest
 
     @Test
     void testNullSelection() {
-        assertThat(getAllowedValues(getStaticComponent()), contains(true, false));
-
         ComboBox<Boolean> comboBox = getDynamicComponent();
-        assertThat(getAllowedValues(comboBox), contains(null, true, false));
 
         TestUiUtil.setUserOriginatedValue(comboBox, (Boolean)null);
         assertThat(getDefaultModelObject().value, is(nullValue()));
@@ -69,16 +66,15 @@ class UIYesNoComboBoxIntegrationTest
 
     @Test
     void testStaticAvailableValues() {
-        assertThat(getAllowedValues(getDynamicComponent()), contains(null, true, false));
+        assertThat(getAllowedValues(getDynamicComponent()), contains(true, false));
+        assertThat(getDynamicComponent().isClearButtonVisible(), is(true));
         assertThat(getAllowedValues(getStaticComponent()), contains(true, false));
+        assertThat(getStaticComponent().isClearButtonVisible(), is(false));
     }
 
     @Test
     void testCaptionProvider() {
         assertThat(getDynamicComponent().getItemLabelGenerator().apply(true), is("true"));
-        assertThat(getDynamicComponent().getItemLabelGenerator().apply(null),
-                   is(NullCaptionTestCaptionProvider.NULL_CAPTION));
-        assertThat(getStaticComponent().getItemLabelGenerator().apply(null), is(""));
     }
 
     @Test
@@ -187,8 +183,6 @@ class UIYesNoComboBoxIntegrationTest
 
     protected static class NullCaptionTestCaptionProvider implements ItemCaptionProvider<Boolean> {
 
-        static final String NULL_CAPTION = "<no selection>";
-
         public NullCaptionTestCaptionProvider() {
             super();
         }
@@ -197,12 +191,6 @@ class UIYesNoComboBoxIntegrationTest
         public String getCaption(Boolean value) {
             return value != null ? value.toString() : getNullCaption();
         }
-
-        @Override
-        public String getNullCaption() {
-            return NULL_CAPTION;
-        }
-
     }
 
     protected static class NoDefaultConstructorCaptionProviderPmo {

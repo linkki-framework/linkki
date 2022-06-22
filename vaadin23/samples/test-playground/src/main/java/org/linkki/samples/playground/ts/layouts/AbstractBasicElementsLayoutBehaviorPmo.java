@@ -35,6 +35,7 @@ import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UIRadioButtons;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.element.annotation.UIYesNoComboBox;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.ips.decimalfield.UIDecimalField;
 
@@ -325,6 +326,30 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     }
 
     public boolean isEnumValueComboBoxEnabled() {
+        return isAllElementsEnabled();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIYesNoComboBox(position = 61, label = "YesNoComboBox", //
+            modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_BOOLEANVALUE, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
+    public void yesNoComboBox() {
+        // model binding
+    }
+
+    public boolean isYesNoComboBoxRequired() {
+        return isAllElementsRequired();
+    }
+
+    public boolean isYesNoComboBoxReadOnly() {
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isYesNoComboBoxVisible() {
+        return isAllElementsVisible();
+    }
+
+    public boolean isYesNoComboBoxEnabled() {
         return isAllElementsEnabled();
     }
 
