@@ -42,6 +42,6 @@ class OkCancelDialogOverflowTest extends PlaygroundUiTest {
         // height as the caption and buttons take up some space. Thus, content area having 100% height
         // is a indicator that it does not overflow correctly.
         assertThat(dialogElement.getContentArea().getSize().getHeight())
-                .isLessThan(dialogElement.getDialogLayout().getSize().getHeight());
+                .isLessThanOrEqualTo(dialogElement.getDialogLayout().getSize().getHeight());
     }
 }

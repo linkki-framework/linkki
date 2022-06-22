@@ -28,14 +28,13 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.customfield.CustomField;
 
-public class BindStyleNamesAspectDefinitionTest {
+class BindStyleNamesAspectDefinitionTest {
 
     @Test
-    public void testCreateAspect_NoStyleNames() {
+    void testCreateAspect_NoStyleNames() {
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(new String[] {});
 
         Aspect<Object> createdAspect = aspectDefinition.createAspect();
@@ -46,7 +45,7 @@ public class BindStyleNamesAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateAspect_SingleStyleName() {
+    void testCreateAspect_SingleStyleName() {
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition("foo");
 
         Aspect<Object> createdAspect = aspectDefinition.createAspect();
@@ -56,7 +55,7 @@ public class BindStyleNamesAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateAspect_MultipleStyleNames() {
+    void testCreateAspect_MultipleStyleNames() {
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition("foo", "bar");
 
         Aspect<Object> createdAspect = aspectDefinition.createAspect();
@@ -66,7 +65,7 @@ public class BindStyleNamesAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_Button_SingleStyleName() {
+    void testCreateComponentValueSetter_Button_SingleStyleName() {
         String styleName = "bar";
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleName);
         Button button = ComponentFactory.newButton();
@@ -79,7 +78,7 @@ public class BindStyleNamesAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_Button_MultipleStyleNames() {
+    void testCreateComponentValueSetter_Button_MultipleStyleNames() {
         String styleNames = "foo bar";
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
         Button button = ComponentFactory.newButton();
@@ -92,7 +91,7 @@ public class BindStyleNamesAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_Button_PredefinedAndMultipleStyleNames() {
+    void testCreateComponentValueSetter_Button_PredefinedAndMultipleStyleNames() {
         String styleNames = "foo bar";
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
         Button button = ComponentFactory.newButton();
@@ -106,7 +105,7 @@ public class BindStyleNamesAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_Button_ClassCastException() {
+    void testCreateComponentValueSetter_Button_ClassCastException() {
         String[] styleNames = new String[] { "foo", "bar" };
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(ComponentFactory.newButton());
@@ -117,17 +116,7 @@ public class BindStyleNamesAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_CustomField_ShouldThrowException() {
-        String styleNames = "foo bar";
-        BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
-        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(new CustomNoStyleField());
-
-        Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> aspectDefinition.createComponentValueSetter(componentWrapper));
-    }
-
-    @Test
-    public void testCreateComponentValueSetter_CustomField_ShouldNotThrowException() {
+    void testCreateComponentValueSetter_CustomField_ShouldNotThrowException() {
         String styleNames = "foo bar";
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
         CustomHasStyleField customHasStyleField = new CustomHasStyleField();
@@ -140,9 +129,10 @@ public class BindStyleNamesAspectDefinitionTest {
     }
 
     /*
-     * Used for testing java.lang.ClassCastException when components do not implement HasStyle interface
+     * since 23.1.1 CustomField implements HasStyle interface and should not throw any exceptions when
+     * using in tests
      */
-    private static class CustomNoStyleField extends CustomField<String> {
+    private static class CustomHasStyleField extends CustomField<String> {
         private static final long serialVersionUID = -3797442244423692802L;
 
         @Override
@@ -156,7 +146,4 @@ public class BindStyleNamesAspectDefinitionTest {
         }
     }
 
-    private static class CustomHasStyleField extends CustomNoStyleField implements HasStyle {
-        private static final long serialVersionUID = 7975236266257732777L;
-    }
 }

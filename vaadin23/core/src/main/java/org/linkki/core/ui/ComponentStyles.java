@@ -16,6 +16,7 @@ package org.linkki.core.ui;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 
 /**
@@ -53,10 +54,10 @@ public class ComponentStyles {
     }
 
     private static void setStyle(Component component, String name, String value) {
-        if (component instanceof HasStyle) {
-            ((HasStyle)component).getStyle().set(name, value);
-        } else {
+        if (!(component instanceof HasStyle) || component instanceof Dialog) {
             component.getElement().getStyle().set(name, value);
+        } else if (component instanceof HasStyle) {
+            ((HasStyle)component).getStyle().set(name, value);
         }
     }
 }

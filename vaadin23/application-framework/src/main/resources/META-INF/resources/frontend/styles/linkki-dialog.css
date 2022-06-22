@@ -1,40 +1,39 @@
 .linkki-dialog-layout {
-	padding: 0;
+    padding: 0;
 }
 .linkki-dialog-caption {
-	font-size: var(--lumo-font-size-xl);
-	font-weight: 200;
-	padding: var(--lumo-space-l);
-	padding-bottom: 0;
-	margin: 0;
+    font-size: var(--lumo-font-size-xl);
+    font-weight: 200;
+    padding: var(--lumo-space-s) 0 0 var(--lumo-space-s);
+    margin: 0 0 var(--lumo-space-s) 0;
 }
 .linkki-dialog-button-bar {
-	background-color: var(--lumo-contrast-5pct);
-	padding: var(--lumo-space-s) var(--lumo-space-l);
-	border-radius: 0 0 var(--lumo-border-radius-l) var(--lumo-border-radius-l);
+    margin-right: var(--lumo-space-m);
+    background-color: transparent;
+    margin: 0 var(--lumo-space-s) 0 0;
 }
 .linkki-dialog-content-area {
-	padding: 0 var(--lumo-space-l);
-	margin: var(--lumo-space-l) 0;
+    padding: 0 var(--lumo-space-l);
+    margin: 0 0 var(--lumo-space-l) 0;
 }
 .linkki-dialog-message-area linkki-text {
-	padding: 0 var(--lumo-space-l);
-	width: 100%;
-	max-width: fit-content;
+    padding: 0 var(--lumo-space-l);
+    width: 100%;
+    max-width: fit-content;
 }
 .linkki-dialog-message-area linkki-text vaadin-icon {
-	align-self: flex-start;
-	margin-top: var(--lumo-space-xs);
+    align-self: flex-start;
+    margin-top: var(--lumo-space-xs);
 }
 .linkki-dialog-message-area {
-	padding-bottom: var(--lumo-space-xs);
+    padding-bottom: var(--lumo-space-xs);
 }
 .linkki-dialog-message-area.INFO {
-	border-bottom: 5px solid var(--linkki-message-info-color, #99C7FF);
+    border-bottom: 5px solid var(--linkki-message-info-color, #99C7FF);
 }
 .linkki-dialog-message-area.WARNING {
-	border-bottom: 5px solid var(--linkki-message-warning-color, #F2AE55);
+    border-bottom: 5px solid var(--linkki-message-warning-color, #F2AE55);
 }
 .linkki-dialog-message-area.ERROR {
-	border-bottom: 5px solid var(--linkki-message-error-color, #D24343);
+    border-bottom: 5px solid var(--linkki-message-error-color, #D24343);
 }

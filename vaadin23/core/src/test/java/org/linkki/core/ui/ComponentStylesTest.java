@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -29,7 +30,6 @@ class ComponentStylesTest {
     @Test
     void testSetFormItemLabelWidth_NoHasStyle() {
         var dialog = new Dialog();
-        assertThat(dialog).isNotInstanceOf(HasStyle.class);
 
         ComponentStyles.setFormItemLabelWidth(dialog, "100%");
 
@@ -49,7 +49,6 @@ class ComponentStylesTest {
     @Test
     void testSetOverflowAuto_NoHasStyle() {
         var dialog = new Dialog();
-        assertThat(dialog).isNotInstanceOf(HasStyle.class);
 
         ComponentStyles.setOverflowAuto(dialog);
 
@@ -66,14 +65,15 @@ class ComponentStylesTest {
         assertThat(dialog.getContentLayout().getStyle().get("overflow")).isEqualTo("auto");
     }
 
-    private static class DialogWithStyleOnContentLayout extends Dialog implements HasStyle {
+    // Simulate OkCancelDialog for testing
+    private static class DialogWithStyleOnContentLayout extends Composite<Dialog> implements HasStyle {
 
         private static final long serialVersionUID = 1L;
         private final VerticalLayout contentLayout;
 
         public DialogWithStyleOnContentLayout() {
             contentLayout = new VerticalLayout();
-            add(contentLayout);
+            getContent().add(contentLayout);
         }
 
         public VerticalLayout getContentLayout() {

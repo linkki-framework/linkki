@@ -173,8 +173,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
 
         title = new H4(caption);
         title.addClassName(LinkkiApplicationTheme.DIALOG_CAPTION);
-        layout.setHorizontalComponentAlignment(Alignment.START, title);
-        layout.add(title);
+        getContent().getHeader().add(title);
 
         layout.add(contentArea);
         layout.setFlexGrow(1, contentArea);
@@ -192,9 +191,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSi
         buttonArea.setAlignItems(Alignment.CENTER);
         buttonArea.setJustifyContentMode(JustifyContentMode.END);
         buttonArea.getElement().getStyle().set("flexWrap", "wrap");
-        layout.add(buttonArea);
-        layout.setHorizontalComponentAlignment(Alignment.END, buttonArea);
-        layout.setFlexGrow(0, buttonArea);
+        getContent().getFooter().add(buttonArea);
 
         initContentArea(contentComponents);
         initButtons();
