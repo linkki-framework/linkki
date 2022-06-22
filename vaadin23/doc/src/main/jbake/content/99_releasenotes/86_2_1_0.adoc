@@ -73,7 +73,6 @@ Note that model bindings cannot be used with sortable columns, a getter method m
 
 image::{images}{images-folder-name}/sortable_columns.png[]
 
-
 For more information, see "<<ui-table-column, @UITableColumn>>".
 
 ===== UIDateTimeField
