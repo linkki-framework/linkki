@@ -14,7 +14,7 @@
 
 package org.linkki.samples.playground.pageobjects;
 
-import org.linkki.samples.playground.uitest.conditions.VaadinElementConditions;
+import org.linkki.testbench.conditions.VaadinElementConditions;
 
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;

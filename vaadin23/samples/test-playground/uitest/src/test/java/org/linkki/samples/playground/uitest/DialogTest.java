@@ -16,9 +16,6 @@ package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfElementLocated;
-import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfElementsToBe;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,26 +23,23 @@ import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.dialogs.DialogsView;
 import org.linkki.samples.playground.dialogs.SimpleDialogPmo;
 import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo;
+import org.linkki.testbench.conditions.VaadinElementConditions;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.linkki.testbench.pageobjects.OkCancelDialogElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.dialog.testbench.DialogElement;
-import com.vaadin.flow.component.html.testbench.H4Element;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class DialogTest extends AbstractUiTest {
 
-    private static final String OVERLAY = "overlay";
     private static final String OK_BUTTON = "okButton";
 
     @BeforeEach
@@ -57,13 +51,12 @@ class DialogTest extends AbstractUiTest {
     void testDialogOnEntry() {
         getDriver().get(DriverProperties.getTestUrl(""));
         clickMenuItemById("dialogs");
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(OVERLAY)));
+        DialogElement dialog = findDialog("Entering dialog view");
 
         assertThat($(DialogElement.class).all().size(), is(1));
 
         // close dialog
-        clickButton(OK_BUTTON);
-        waitUntil(invisibilityOfElementLocated(By.id(OVERLAY)));
+        confirmDialog(dialog);
     }
 
     @Test
@@ -71,12 +64,11 @@ class DialogTest extends AbstractUiTest {
         closeInitialDialog();
         clickButton("showDialog");
 
-        waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
+        DialogElement dialog = findDialog("Sample Dialog");
+
         assertThat($(DialogElement.class).all().size(), is(1));
 
-        $(ButtonElement.class).id(OK_BUTTON).click();
-
-        waitForDialogToBeClosed();
+        confirmDialog(dialog);
     }
 
     // TODO LIN-2226: test DialogErrorHandler
@@ -92,28 +84,27 @@ class DialogTest extends AbstractUiTest {
         section.$(TextFieldElement.class).id("cancelCaption").setValue("Not really");
         section.$(ButtonElement.class).id("showDialog").click();
 
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(OVERLAY)));
+        DialogElement dialog = findDialog("Awesome dialog");
 
-        DialogElement dialog = $(DialogElement.class).first();
-        assertThat(dialog.$(H4Element.class).first().getText(), is("Awesome dialog"));
         assertThat(dialog.$(VerticalLayoutElement.class).attribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
                 .first().getText(),
                    is("This is awesome!"));
         assertThat(dialog.$(ButtonElement.class).id(OK_BUTTON).getText(), is("Hell yeah"));
         assertThat(dialog.$(ButtonElement.class).id("cancelButton").getText(), is("Not really"));
         // close dialog
-        $(DialogElement.class).first().$(ButtonElement.class).first().click();
+        confirmDialog(dialog);
     }
 
     @Test
     void testDialogWithCloseHandler_CloseOnOk_WithDoubleClick() {
         closeInitialDialog();
         clickButton("okHandlerDialog");
-        waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
+        DialogElement dialog = findDialog("Dialog with okHandler");
+
         assertThat($(DialogElement.class).all().size(), is(1));
 
         $(ButtonElement.class).id(OK_BUTTON).doubleClick();
-        waitForDialogToBeClosed();
+        waitUntil(VaadinElementConditions.isClosed(dialog));
 
         assertThat($(NotificationElement.class).all().size(), is(1));
     }
@@ -122,11 +113,12 @@ class DialogTest extends AbstractUiTest {
     void testDialogWithCloseHandler_CloseOnEnter_WithDoubleEnter() {
         closeInitialDialog();
         clickButton("okHandlerDialog");
-        waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
+        DialogElement dialog = findDialog("Dialog with okHandler");
+
         assertThat($(DialogElement.class).all().size(), is(1));
 
         sendKeys(Keys.ENTER, Keys.ENTER);
-        waitForDialogToBeClosed();
+        waitUntil(VaadinElementConditions.isClosed(dialog));
 
         assertThat($(NotificationElement.class).all().size(), is(1));
     }
@@ -136,12 +128,13 @@ class DialogTest extends AbstractUiTest {
         closeInitialDialog();
 
         clickButton("okHandlerDialog");
-        waitUntil(visibilityOfElementLocated(By.id(OVERLAY)));
+        DialogElement dialog = findDialog("Dialog with okHandler");
+
         assertThat($(DialogElement.class).all().size(), is(1));
 
         $(ButtonElement.class).id(OK_BUTTON).focus();
         sendKeys(Keys.ENTER);
-        waitForDialogToBeClosed();
+        waitUntil(VaadinElementConditions.isClosed(dialog));
 
         assertThat($(NotificationElement.class).all().size(), is(1));
 
@@ -153,29 +146,26 @@ class DialogTest extends AbstractUiTest {
         closeInitialDialog();
         LinkkiSectionElement section = getSection(SimpleDialogPmo.class);
         section.$(ButtonElement.class).id("showDialog").click();
-        waitUntil(d -> $(DialogElement.class).exists());
+        DialogElement dialog = findDialog("Sample Dialog");
 
         driver.navigate().back();
 
         // dialog should close on its own
-        waitUntil(d -> !$(DialogElement.class).exists());
+        waitUntil(VaadinElementConditions.isClosed(dialog));
     }
 
     @Test
     void testDialog_WithVerticalLayout() {
         closeInitialDialog();
         getSection(VerticalLayoutContentDialogPmo.class).$(ButtonElement.class).id("button").click();
-        waitUntil(d -> $(DialogElement.class).exists());
+        DialogElement dialog = findDialog("Dialog containing @UIVerticalLayout");
 
-        $(ButtonElement.class).id(OK_BUTTON).click();
-
-        waitForDialogToBeClosed();
+        confirmDialog(dialog);
     }
 
     private void closeInitialDialog() {
-        $(OkCancelDialogElement.class).waitForFirst().clickOnOk();
-        waitUntil(invisibilityOfElementLocated(By.id(OVERLAY)));
-        waitUntil(numberOfElementsToBe(By.tagName("vaadin-dialog"), 0));
+        OkCancelDialogElement okCancelDialogElement = $(OkCancelDialogElement.class).waitForFirst();
+        confirmDialog(okCancelDialogElement);
         assertThat($(NotificationElement.class).all().size(), is(0));
         assertThat($(DialogElement.class).all().size(), is(0));
     }
@@ -195,9 +185,4 @@ class DialogTest extends AbstractUiTest {
         keydown.perform();
     }
 
-    private void waitForDialogToBeClosed() {
-        // needed due to dialog closing animation
-        waitUntil(invisibilityOfElementLocated(By.id(OVERLAY)));
-        assertThat($(DialogElement.class).all().size(), is(0));
-    }
 }

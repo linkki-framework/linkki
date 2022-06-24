@@ -22,7 +22,7 @@ import org.linkki.samples.playground.pageobjects.TestScenarioSelectorElement;
 import org.linkki.samples.playground.ts.TestCaseComponent;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.linkki.samples.playground.uitest.DriverProperties;
-import org.linkki.samples.playground.uitest.conditions.VaadinElementConditions;
+import org.linkki.testbench.conditions.VaadinElementConditions;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class PlaygroundUiTest extends AbstractUiTest {

@@ -3,16 +3,17 @@
  * 
  * All Rights Reserved - Alle Rechte vorbehalten.
  *******************************************************************************/
-package org.linkki.samples.playground.uitest.conditions;
+package org.linkki.testbench.conditions;
 
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import org.linkki.framework.ui.LinkkiApplicationTheme;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import com.vaadin.flow.component.dialog.testbench.DialogElement;
-import com.vaadin.flow.component.html.testbench.H3Element;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.testbench.ElementQuery;
 import com.vaadin.testbench.HasStringValueProperty;
@@ -22,6 +23,10 @@ import com.vaadin.testbench.TestBenchElement;
  * {@link ExpectedCondition ExpectedConditions} related to Vaadin Testbench elements.
  */
 public class VaadinElementConditions {
+
+    private VaadinElementConditions() {
+        // no instances
+    }
 
     /**
      * An expectation for checking that a query matches at least one
@@ -69,12 +74,9 @@ public class VaadinElementConditions {
     }
 
     public static ExpectedCondition<Boolean> noNotificationsDisplayed() {
-        return new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                ElementQuery<NotificationElement> query = new ElementQuery<>(NotificationElement.class).context(driver);
-                return !query.exists();
-            }
+        return driver -> {
+            ElementQuery<NotificationElement> query = new ElementQuery<>(NotificationElement.class).context(driver);
+            return !query.exists();
         };
     }
 
@@ -86,12 +88,13 @@ public class VaadinElementConditions {
                 return findFirst(query, this::matches);
             }
 
-            private boolean matches(DialogElement notification) {
-                return notification.$(H3Element.class).first().getText().equals(title);
+            private boolean matches(DialogElement dialog) {
+                return dialog.isOpen()
+                        && dialog.getContext().findElement(By.className(LinkkiApplicationTheme.DIALOG_CAPTION))
+                                .getText().contentEquals(title);
             }
         };
     }
-
 
     private static <T extends TestBenchElement> T findFirst(ElementQuery<T> query, Predicate<T> filter) {
         for (T element : query.all()) {
@@ -109,30 +112,17 @@ public class VaadinElementConditions {
      * @param value the value that is expected
      */
     public static ExpectedCondition<Boolean> elementHasValue(HasStringValueProperty element, String value) {
-        return new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                String elementValue = element.getValue();
-                return Objects.equals(elementValue, value);
-            }
+        return driver -> {
+            String elementValue = element.getValue();
+            return Objects.equals(elementValue, value);
         };
     }
 
     public static ExpectedCondition<Boolean> isClosed(NotificationElement notification) {
-        return new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                return !notification.isOpen();
-            }
-        };
+        return driver -> !notification.isOpen();
     }
 
     public static ExpectedCondition<Boolean> isClosed(DialogElement dialog) {
-        return new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                return !dialog.isOpen();
-            }
-        };
+        return driver -> !dialog.isOpen();
     }
 }

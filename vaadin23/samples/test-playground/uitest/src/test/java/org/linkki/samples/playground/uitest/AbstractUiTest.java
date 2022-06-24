@@ -24,6 +24,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.testbench.UITestConfiguration;
 import org.linkki.testbench.WebDriverExtension;
+import org.linkki.testbench.conditions.VaadinElementConditions;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -36,6 +37,7 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.dialog.testbench.DialogElement;
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
@@ -236,5 +238,31 @@ public abstract class AbstractUiTest extends TestBenchTestCase {
         GridElement gridElement = $(GridElement.class).id(tablePmoClass.getSimpleName() + "_table");
         gridElement.scrollIntoView();
         return gridElement;
+    }
+
+
+    /**
+     * Searches for a dialog with the given title
+     * 
+     * @param title The title of the dialog
+     * @return The {@link DialogElement}
+     */
+    public DialogElement findDialog(String title) {
+        try {
+            return waitUntil(VaadinElementConditions.dialogDisplayed(title));
+        } catch (TimeoutException e) {
+            throw new IllegalStateException("No dialog with title \"" + title + "\" present", e);
+        }
+    }
+
+    /**
+     * Confirms dialog with Ok
+     * 
+     * @param dialog The {@link DialogElement dialog} to confirm and to close
+     */
+    public void confirmDialog(DialogElement dialog) {
+        ButtonElement okButton = dialog.$(ButtonElement.class).id("okButton");
+        okButton.click();
+        waitUntil(VaadinElementConditions.isClosed(dialog));
     }
 }

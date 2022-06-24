@@ -14,13 +14,13 @@
 
 package org.linkki.testbench.pageobjects;
 
-import com.vaadin.flow.component.html.testbench.SpanElement;
+import org.openqa.selenium.By;
+
 import com.vaadin.flow.component.icon.testbench.IconElement;
 import com.vaadin.testbench.ElementQuery;
 import com.vaadin.testbench.HasLabel;
 import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.elementsbase.Element;
-import org.openqa.selenium.By;
 
 @Element("linkki-text")
 public class LinkkiTextElement extends TestBenchElement implements HasLabel {
