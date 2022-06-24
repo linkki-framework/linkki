@@ -16,13 +16,13 @@ package org.linkki.core.ui.aspects;
 
 import java.util.List;
 
-import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.data.provider.HasListDataView;
+
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 
 /**
  * An {@link AvailableValuesAspectDefinition} for {@link Component components} that implement
@@ -39,11 +39,10 @@ public class GenericAvailableValuesAspectDefinition
     @Override
     protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
         Object component = componentWrapper.getComponent();
+        boolean hasNullItem = items.removeIf(i -> i == null);
         if (component instanceof ComboBox<?>) {
-            boolean hasNullItem = items.removeIf(i -> i == null);
             ((ComboBox<Object>)component).setAllowCustomValue(hasNullItem);
         } else if (component instanceof Select<?>) {
-            boolean hasNullItem = items.removeIf(i -> i == null);
             ((Select<Object>)component).setEmptySelectionAllowed(hasNullItem);
         }
     }

@@ -24,6 +24,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
+import com.vaadin.flow.data.provider.HasListDataView;
+import com.vaadin.flow.data.renderer.TextRenderer;
+
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -43,6 +48,7 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionPro
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.GenericAvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
@@ -50,10 +56,6 @@ import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsAspectDe
 import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
-
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
-import com.vaadin.flow.data.renderer.TextRenderer;
 
 /**
  * Radio buttons for selecting a single value. Creates a
@@ -129,8 +131,8 @@ public @interface UIRadioButtons {
         @Override
         public LinkkiAspectDefinition create(UIRadioButtons annotation) {
 
-            AvailableValuesAspectDefinition<RadioButtonGroup<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                    annotation.content(), RadioButtonGroup::setItems);
+            AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new GenericAvailableValuesAspectDefinition(
+                    annotation.content());
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(

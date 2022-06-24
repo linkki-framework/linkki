@@ -89,10 +89,11 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
 
     @SuppressWarnings("unchecked")
     private <T> T getAvailableValuesValue(Aspect<T> aspect) {
+
         Optional<ValueSet<?>> valueSet = findModelElement().map(this::getValueSet);
 
         if (valueSet.isPresent()) {
-            boolean isNullExcluded = false;
+            boolean isNullExcluded = !valueSet.get().containsNull();
 
             boolean isValueSetUnrestricted = valueSet.get().isUnrestricted(isNullExcluded);
             if (!isValueSetUnrestricted) {

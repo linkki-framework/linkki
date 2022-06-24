@@ -56,7 +56,7 @@ import org.w3c.dom.Element;
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
 @IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "emptyValueSet",
-        "enumerationValueSet", "integerEnumerationValueSet", "integerRangeValueSet" })
+        "enumerationValueSet", "integerEnumerationValueSet", "integerRangeValueSet", "booleanValueSet" })
 @IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
@@ -251,6 +251,28 @@ public class IpsModelObject extends AbstractModelObject {
     @IpsDefaultValue("integerRangeValueSet")
     public static final Integer DEFAULT_VALUE_FOR_INTEGER_RANGE_VALUE_SET = null;
 
+    /**
+     * The name of the property booleanValueSet.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_BOOLEANVALUESET = "booleanValueSet";
+
+    /**
+     * Max allowed values for property booleanValueSet.
+     *
+     * @generated
+     */
+    public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_BOOLEAN_VALUE_SET = new UnrestrictedValueSet<>(false);
+
+    /**
+     * The default value for booleanValueSet.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("booleanValueSet")
+    public static final Boolean DEFAULT_VALUE_FOR_BOOLEAN_VALUE_SET = null;
+
     // end::PROPERTY_STRING[]
 
     /**
@@ -309,6 +331,13 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     private Integer integerRangeValueSet = DEFAULT_VALUE_FOR_INTEGER_RANGE_VALUE_SET;
+
+    /**
+     * Member variable for booleanValueSet.
+     *
+     * @generated
+     */
+    private Boolean booleanValueSet = DEFAULT_VALUE_FOR_BOOLEAN_VALUE_SET;
 
     /**
      * Creates a new IpsModelObject.
@@ -609,6 +638,42 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
+     * Returns the set of allowed values for the property booleanValueSet.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("booleanValueSet")
+    @IpsGenerated
+    public ValueSet<Boolean> getAllowedValuesForBooleanValueSet() {
+        return MAX_ALLOWED_VALUES_FOR_BOOLEAN_VALUE_SET;
+    }
+
+
+    /**
+     * Returns the booleanValueSet.
+     *
+     * @generated
+     */
+    @IpsAttribute(name = "booleanValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsGenerated
+    public Boolean getBooleanValueSet() {
+        return booleanValueSet;
+    }
+
+
+    /**
+     * Sets the value of attribute booleanValueSet.
+     *
+     * @generated
+     */
+    @IpsAttributeSetter("booleanValueSet")
+    @IpsGenerated
+    public void setBooleanValueSet(Boolean newValue) {
+        this.booleanValueSet = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -637,6 +702,7 @@ public class IpsModelObject extends AbstractModelObject {
         doInitEnumerationValueSet(propMap);
         doInitIntegerEnumerationValueSet(propMap);
         doInitIntegerRangeValueSet(propMap);
+        doInitBooleanValueSet(propMap);
     }
 
     /**
@@ -726,6 +792,18 @@ public class IpsModelObject extends AbstractModelObject {
         if (propMap.containsKey(PROPERTY_INTEGERRANGEVALUESET)) {
             this.integerRangeValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_INTEGERRANGEVALUESET)) ? null
                     : Integer.valueOf(propMap.get(PROPERTY_INTEGERRANGEVALUESET));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitBooleanValueSet(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_BOOLEANVALUESET)) {
+            this.booleanValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_BOOLEANVALUESET)) ? null
+                    : Boolean.valueOf(propMap.get(PROPERTY_BOOLEANVALUESET));
         }
     }
 

@@ -85,6 +85,7 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
         }
         ArrayList<Object> newItems = new ArrayList<>(
                 requireNonNull(newItemsParam, "List of available values must not be null"));
+
         handleNullItems(componentWrapper, newItems);
         boolean hasChanged = cache.replaceContent(newItems);
         if (hasChanged) {
