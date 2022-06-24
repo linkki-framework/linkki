@@ -10,12 +10,24 @@
 ==== New features and improvements
 
 [role="api-change"]
-===== Enhanced `IpsPropertyDispatcher`
+===== `IpsPropertyDispatcher` uses available values defined in Faktor-IPS model
 ////
 https://jira.faktorzehn.de/browse/LIN-1819
 ////
 
-<<ips-property-dispatcher,`IpsPropertyDispatcher`>> can now receive available values via model binding.
+It is now possible to automatically limit the available values of fields such as `@UIComboBox` or `@UIRadioButtons` to the available values defined in the Faktor-IPS model.
+
+The behaviour of the <<ips-property-dispatcher,`IpsPropertyDispatcher`>>  has been changed for `AvailableValuesType#ENUM_VALUES_INCL_NULL` and `AvailableValuesType#ENUM_VALUES_EXCL_NULL`. Note that one of these values is usually the default.
+
+[cols="h,1,1,1"]
+|=======
+| |Without IpsPropertyDispatcher | Old behavior of IpsPropertyDispatcher | New behavior of IpsPropertyDispatcher
+
+|ENUM_VALUES_INCL_NULL,  ENUM_VALUES_EXCL_NULL  |Only supported for enums and Boolean, all defined values are used |Same as without IpsPropertyDispatcher |<<ips-property-dispatcher-available-values, Uses the available values defined in the Faktor-IPS model>>
+|DYNAMIC |Uses values returned by the corresponding PMO method |Same as without IpsPropertyDispatcher |Same as without IpsPropertyDispatcher
+|NO_VALUES  |No values |Same as without IpsPropertyDispatcher |Same as without IpsPropertyDispatcher
+|=======
+
 
 ===== Enhanced update handling in `BindingContext`
 ////

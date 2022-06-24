@@ -54,9 +54,12 @@ These messages are then converted, and displayed to the user. Messages referring
 [[ips-property-dispatcher]]
 ==== Faktor-IPS Property Dispatcher
 
-A special `<<property-dispatcher, PropetyDispatcher>>` called `IpsPropertyDispatcher` could be used in a binding context to automatically retrieve information from the Faktor-IPS model when using appropriate model binding.
+A special `<<property-dispatcher, PropertyDispatcher>>` called `IpsPropertyDispatcher` can be used in a binding context to automatically retrieve information from the Faktor-IPS model when using appropriate model binding.
 
-===== Supported apsects
+NOTE: To override the behaviour of the `IpsPropertyDispatcher`, use a different attribute value in the UI annotation, such as `DYNAMIC`.
+
+
+===== Supported aspects
 
 The following aspects are supported:
 
@@ -72,10 +75,10 @@ If the `visible` attribute in the UI annotation is set to its default value `VIS
 Enabled::
 If the `enabled` attribute in the UI annotation is set to its default value `ENABLED`, the `IpsPropertyDispatcher` checks the value set of the corresponding attribute. The field is then set to `DISABLED` if the value set is `null` or empty.
 
+[[ips-property-dispatcher-available-values]]
 Available Values::
-If the `content` attribute in the UI annotation is set to `ENUM_VALUES_INCL_NULL` or `ENUM_VALUES_EXCL_NULL`, the `IpsPropertyDispatcher` will get the value set of the corresponding attribute and sets it in the UI. If the attribute value set in the model is unrestricted the `IpsPropertyDispatcher` delegates to the next `PropertyDispatcher`.
+If the `content` attribute in the UI annotation (present in annotations such as `@UIComboBox` or `@UIRadioButtons`) is set to `ENUM_VALUES_INCL_NULL` or `ENUM_VALUES_EXCL_NULL`, the `IpsPropertyDispatcher` will get the value set of the corresponding attribute and sets it in the UI. If the attribute value set in the model is unrestricted the `IpsPropertyDispatcher` delegates to the next `PropertyDispatcher`.
 
-INFO: `IpsPropertyDispatcher` only tries to derive the required, visible and enabled state from the model if the attribute in the UI annotation is set the its default value. If `DYNAMIC` is used, the dynamic aspect method will be effective instead of the `IpsPropertyDispatcher`. This mechanism can be used to override the behavior of `IpsPropertyDispatcher`.
 
 ===== How to include `IpsPropertyDispatcher`
 
@@ -86,6 +89,8 @@ To include the `IpsPropertyDispatcher` as a custom dispatcher in the `BindingCon
 ----
 include::{source-dir}org/linkki/samples/playground/ts/TestScenarioView.java[tags=createBindingManager]
 ----
+
+NOTE: When the `IpsPropertyDispatcher` is active, the available values set directly in the PMO will be ignored.
 
 ==== PROPERTY Constants as Model Attributes
 
