@@ -10,6 +10,27 @@
 ==== New features and improvements
 
 [role="api-change"]
+===== Update to Vaadin 23.1
+
+Vaadin has been updated to include the latest bugfixes and features. This requires the following change:
+
+In JEE applications, servlets that use a URL pattern different from `/&#42;` must also include `/VAADIN/&#42;`.
+
+[source,java,title="Before"]
+----
+@WebServlet(asyncSupported = true, urlPatterns = "/sample/*")
+public class SampleServlet extends VaadinServlet {
+}
+----
+
+[source,java,title="After"]
+----
+@WebServlet(asyncSupported = true, urlPatterns = { "/sample/*", "/VAADIN/*" })
+public class SampleServlet extends VaadinServlet {
+}
+----
+
+[role="api-change"]
 ===== `IpsPropertyDispatcher` uses available values defined in Faktor-IPS model
 ////
 https://jira.faktorzehn.de/browse/LIN-1819
