@@ -103,7 +103,7 @@ class DialogTest extends AbstractUiTest {
 
         assertThat($(DialogElement.class).all().size(), is(1));
 
-        $(ButtonElement.class).id(OK_BUTTON).doubleClick();
+        dialog.$(ButtonElement.class).id(OK_BUTTON).doubleClick();
         waitUntil(VaadinElementConditions.isClosed(dialog));
 
         assertThat($(NotificationElement.class).all().size(), is(1));
@@ -132,7 +132,7 @@ class DialogTest extends AbstractUiTest {
 
         assertThat($(DialogElement.class).all().size(), is(1));
 
-        $(ButtonElement.class).id(OK_BUTTON).focus();
+        dialog.$(ButtonElement.class).id(OK_BUTTON).focus();
         sendKeys(Keys.ENTER);
         waitUntil(VaadinElementConditions.isClosed(dialog));
 

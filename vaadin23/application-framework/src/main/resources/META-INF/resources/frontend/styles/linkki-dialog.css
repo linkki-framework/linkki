@@ -4,13 +4,13 @@
 .linkki-dialog-caption {
     font-size: var(--lumo-font-size-xl);
     font-weight: 200;
-    padding: var(--lumo-space-s) 0 0 var(--lumo-space-s);
-    margin: 0 0 var(--lumo-space-s) 0;
+    padding: calc(var(--lumo-space-l) - var(--lumo-space-m));
+    margin: 0;
 }
 .linkki-dialog-button-bar {
     margin-right: var(--lumo-space-m);
     background-color: transparent;
-    margin: 0 var(--lumo-space-s) 0 0;
+    margin: 0 calc(var(--lumo-space-l) - var(--lumo-space-m));
 }
 .linkki-dialog-content-area {
     padding: 0 var(--lumo-space-l);
