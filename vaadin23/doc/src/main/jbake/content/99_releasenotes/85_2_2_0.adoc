@@ -13,3 +13,5 @@
 
 // https://jira.faktorzehn.de/browse/LIN-3150
 * `IpsPropertyDispatcher` now handles empty value sets correctly 
+// https://jira.faktorzehn.de/browse/LIN-3159
+* Fix disabled state of checkboxes
