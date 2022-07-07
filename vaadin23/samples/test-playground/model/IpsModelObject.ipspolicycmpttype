@@ -128,6 +128,16 @@
    <AllValues containsNull="false"/>
   </ValueSet>
  </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="emptyStringValueSet">
+  <DefaultValue isNull="true"/>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Enum/>
+  </ValueSet>
+ </Attribute>
  <ValidationRuleDef activatedByDefault="true" changingOverTime="false" checkValueAgainstValueSetRule="true" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal">
   <ValidatedAttribute name="decimal"/>
   <Markers>

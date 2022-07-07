@@ -14,7 +14,6 @@
 
 package org.linkki.ips.binding.dispatcher;
 
-import java.util.Collection;
 import java.util.Optional;
 import java.util.WeakHashMap;
 import java.util.function.Supplier;
@@ -89,21 +88,11 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
 
     @SuppressWarnings("unchecked")
     private <T> T getAvailableValuesValue(Aspect<T> aspect) {
-
-        Optional<ValueSet<?>> valueSet = findModelElement().map(this::getValueSet);
-
-        if (valueSet.isPresent()) {
-            boolean isNullExcluded = !valueSet.get().containsNull();
-
-            boolean isValueSetUnrestricted = valueSet.get().isUnrestricted(isNullExcluded);
-            if (!isValueSetUnrestricted) {
-                Collection<?> values = valueSet.get().getValues(isNullExcluded);
-                if (!values.isEmpty()) {
-                    return (T)values;
-                }
-            }
-        }
-        return super.pull(aspect);
+        return findModelElement()
+                .map(this::getValueSet)
+                .filter(ValueSet::isDiscrete)
+                .map(vs -> (T)vs.getValues(false))
+                .orElseGet(() -> super.pull(aspect));
     }
 
     private String getLabel(ModelElement modelElement) {

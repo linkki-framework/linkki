@@ -1,0 +1,15 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_releasenotes
+
+=== Version 2.2.0
+
+==== New features and improvements
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3150
+* `IpsPropertyDispatcher` now handles empty value sets correctly 

@@ -82,4 +82,18 @@
    <AllValues containsNull="true"/>
   </ValueSet>
  </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Double" modifier="published" name="valueSetNotDiscrete">
+  <DefaultValue isNull="true"/>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Range containsNull="false">
+    <LowerBound>1</LowerBound>
+    <UpperBound>100</UpperBound>
+    <Step isNull="true"/>
+   </Range>
+  </ValueSet>
+ </Attribute>
 </PolicyCmptType>
