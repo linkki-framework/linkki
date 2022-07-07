@@ -194,7 +194,9 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
     public void removeTabSheet(LinkkiTabSheet tabSheet) {
         Tab tab = tabSheet.getTab();
         getTabsComponent().remove(tab);
-        contentWrapper.remove(tabSheets.get(tab).getContent());
+        if (tabSheet.isContentLoaded()) {
+            contentWrapper.remove(tabSheets.get(tab).getContent());
+        }
         tabSheets.remove(tab);
     }
 
@@ -204,7 +206,7 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
     public void removeAllTabSheets() {
         getTabsComponent().removeAll();
 
-        tabSheets.values().forEach(tabSheet -> contentWrapper.remove(tabSheet.getContent()));
+        tabSheets.values().forEach(tabSheet -> contentWrapper.removeAll());
         tabSheets.clear();
     }
 

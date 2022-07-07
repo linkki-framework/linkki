@@ -47,6 +47,14 @@ public class LazyReference<T> implements Supplier<T> {
         return getReference();
     }
 
+    /**
+     * Returns whether a cached value is present. A value of <code>true</code> indicates that the
+     * wrapped supplier has already been called and will not be called by {@link #get()} anymore.
+     */
+    public boolean isValuePresent() {
+        return reference != null;
+    }
+
     public static <T> LazyReference<T> lazy(Supplier<T> supplier) {
         return new LazyReference<>(supplier);
     }

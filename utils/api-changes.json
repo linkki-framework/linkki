@@ -1,2 +1,17 @@
 {
+    "2.1.1": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.method.added",
+                        "new": "method boolean org.linkki.util.LazyReference<T>::isValuePresent()",
+                        "justification": "LIN-3149 :: Don't load tab content when removing tabs"
+                    }
+                ]
+            }
+        }
+    ]
 }
