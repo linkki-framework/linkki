@@ -56,7 +56,8 @@ import org.w3c.dom.Element;
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
 @IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "emptyValueSet",
-        "enumerationValueSet", "integerEnumerationValueSet", "integerRangeValueSet", "booleanValueSet" })
+        "enumerationValueSet", "integerEnumerationValueSet", "integerRangeValueSet", "booleanValueSet",
+        "emptyStringValueSet" })
 @IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
@@ -273,6 +274,29 @@ public class IpsModelObject extends AbstractModelObject {
     @IpsDefaultValue("booleanValueSet")
     public static final Boolean DEFAULT_VALUE_FOR_BOOLEAN_VALUE_SET = null;
 
+    /**
+     * The name of the property emptyStringValueSet.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_EMPTYSTRINGVALUESET = "emptyStringValueSet";
+
+    /**
+     * Max allowed values for property emptyStringValueSet.
+     *
+     * @generated
+     */
+    public static final OrderedValueSet<String> MAX_ALLOWED_VALUES_FOR_EMPTY_STRING_VALUE_SET = new OrderedValueSet<>(
+            false, null);
+
+    /**
+     * The default value for emptyStringValueSet.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("emptyStringValueSet")
+    public static final String DEFAULT_VALUE_FOR_EMPTY_STRING_VALUE_SET = null;
+
     // end::PROPERTY_STRING[]
 
     /**
@@ -338,6 +362,13 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     private Boolean booleanValueSet = DEFAULT_VALUE_FOR_BOOLEAN_VALUE_SET;
+
+    /**
+     * Member variable for emptyStringValueSet.
+     *
+     * @generated
+     */
+    private String emptyStringValueSet = DEFAULT_VALUE_FOR_EMPTY_STRING_VALUE_SET;
 
     /**
      * Creates a new IpsModelObject.
@@ -674,6 +705,42 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
+     * Returns the set of allowed values for the property emptyStringValueSet.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("emptyStringValueSet")
+    @IpsGenerated
+    public ValueSet<String> getAllowedValuesForEmptyStringValueSet() {
+        return MAX_ALLOWED_VALUES_FOR_EMPTY_STRING_VALUE_SET;
+    }
+
+
+    /**
+     * Returns the emptyStringValueSet.
+     *
+     * @generated
+     */
+    @IpsAttribute(name = "emptyStringValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    @IpsGenerated
+    public String getEmptyStringValueSet() {
+        return emptyStringValueSet;
+    }
+
+
+    /**
+     * Sets the value of attribute emptyStringValueSet.
+     *
+     * @generated
+     */
+    @IpsAttributeSetter("emptyStringValueSet")
+    @IpsGenerated
+    public void setEmptyStringValueSet(String newValue) {
+        this.emptyStringValueSet = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -703,6 +770,7 @@ public class IpsModelObject extends AbstractModelObject {
         doInitIntegerEnumerationValueSet(propMap);
         doInitIntegerRangeValueSet(propMap);
         doInitBooleanValueSet(propMap);
+        doInitEmptyStringValueSet(propMap);
     }
 
     /**
@@ -804,6 +872,17 @@ public class IpsModelObject extends AbstractModelObject {
         if (propMap.containsKey(PROPERTY_BOOLEANVALUESET)) {
             this.booleanValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_BOOLEANVALUESET)) ? null
                     : Boolean.valueOf(propMap.get(PROPERTY_BOOLEANVALUESET));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitEmptyStringValueSet(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_EMPTYSTRINGVALUESET)) {
+            this.emptyStringValueSet = propMap.get(PROPERTY_EMPTYSTRINGVALUESET);
         }
     }
 

@@ -23,15 +23,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
 
-import com.vaadin.flow.component.UI;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.pmo.ModelObject;
@@ -42,15 +42,17 @@ import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.ips.test.model.TestIpsObject;
 import org.linkki.ips.test.model.TestIpsObject2;
 
+import com.vaadin.flow.component.UI;
+
 @ExtendWith(VaadinUIExtension.class)
-public class IpsPropertyDispatcherTest {
+class IpsPropertyDispatcherTest {
 
     private final TestPmoWithIpsModelObject pmo = new TestPmoWithIpsModelObject();
 
     private final PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
 
     @Test
-    public void testPull() {
+    void testPull() {
         UI.getCurrent().setLocale(Locale.GERMANY);
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_FOO);
 
@@ -65,7 +67,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_DefaultLocale() {
+    void testPull_DefaultLocale() {
         UI.getCurrent().setLocale(Locale.ITALY);
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_FOO);
 
@@ -84,7 +86,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Class() {
+    void testPull_Class() {
         UI.getCurrent().setLocale(Locale.GERMANY);
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain("");
 
@@ -99,7 +101,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Class_OverwritingModelObjectClass() {
+    void testPull_Class_OverwritingModelObjectClass() {
         UI.getCurrent().setLocale(Locale.ENGLISH);
         pmo.setIpsObject(new TestIpsObject2());
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain("");
@@ -116,7 +118,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_NotRequired_ValueSetExclNull_ShouldBeRequired() {
+    void testPull_NotRequired_ValueSetExclNull_ShouldBeRequired() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, false));
@@ -125,7 +127,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_NotRequired_ValueSetInclNull_ShouldNotBeRequired() {
+    void testPull_NotRequired_ValueSetInclNull_ShouldNotBeRequired() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, false));
@@ -134,7 +136,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Required_ValueSetExclNull_ShouldBeRequired() {
+    void testPull_Required_ValueSetExclNull_ShouldBeRequired() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
@@ -143,7 +145,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Required_ValueSetInclNull_ShouldBeRequired() {
+    void testPull_Required_ValueSetInclNull_ShouldBeRequired() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
@@ -152,7 +154,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Required_ValueSetEmpty_ShouldBeRequired() {
+    void testPull_Required_ValueSetEmpty_ShouldBeRequired() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
@@ -161,7 +163,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_NotRequired_ValueSetEmpty_ShouldNotBeRequired() {
+    void testPull_NotRequired_ValueSetEmpty_ShouldNotBeRequired() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, false));
@@ -170,7 +172,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_DynamicNotRequired_ValueSetExclNull_ShouldNotBeRequired() {
+    void testPull_DynamicNotRequired_ValueSetExclNull_ShouldNotBeRequired() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME));
@@ -179,7 +181,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Visible_NotEmptyValueSet_ShouldBeVisible() {
+    void testPull_Visible_NotEmptyValueSet_ShouldBeVisible() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, true));
@@ -188,7 +190,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Visible_EmptyValueSet_ShouldBeInvisible() {
+    void testPull_Visible_EmptyValueSet_ShouldBeInvisible() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
 
         Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, true));
@@ -197,7 +199,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Invisible_NotEmptyValueSet_ShouldBeInvisible() {
+    void testPull_Invisible_NotEmptyValueSet_ShouldBeInvisible() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
@@ -206,7 +208,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Invisible_EmptyValueSet_ShouldBeInvisible() {
+    void testPull_Invisible_EmptyValueSet_ShouldBeInvisible() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
 
         Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
@@ -215,7 +217,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_DynamicInvisible_NotEmptyValueSet_ShouldBeInvisible() {
+    void testPull_DynamicInvisible_NotEmptyValueSet_ShouldBeInvisible() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
@@ -224,7 +226,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Enabled_NotEmptyValueSet_ShouldBeEnabled() {
+    void testPull_Enabled_NotEmptyValueSet_ShouldBeEnabled() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, true));
@@ -233,7 +235,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Enabled_EmptyValueSet_ShouldBeDisabled() {
+    void testPull_Enabled_EmptyValueSet_ShouldBeDisabled() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
 
         Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, true));
@@ -242,7 +244,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Disabled_NotEmptyValueSet_ShouldBeDisabled() {
+    void testPull_Disabled_NotEmptyValueSet_ShouldBeDisabled() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, false));
@@ -251,7 +253,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Disabled_EmptyValueSet_ShouldBeDisabled() {
+    void testPull_Disabled_EmptyValueSet_ShouldBeDisabled() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
 
         Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, false));
@@ -260,7 +262,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_DynamicDisabled_NotEmptyValueSet_ShouldBeDisabled() {
+    void testPull_DynamicDisabled_NotEmptyValueSet_ShouldBeDisabled() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME));
@@ -269,7 +271,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Collection_IntegerRangeValueSet_ShouldContainNull() {
+    void testPull_Collection_IntegerRangeValueSet_ShouldContainNull() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETRANGEOFINTINCLNULL);
 
 
@@ -281,7 +283,7 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Collection_IntegerRangeValueSet_ShouldNotContainNull() {
+    void testPull_Collection_IntegerRangeValueSet_ShouldNotContainNull() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETRANGEOFINTEXCLNULL);
 
 
@@ -293,8 +295,36 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Collection_IntegerUnrestrictedValueSet_ShouldBeEmpty() {
+    void testPull_Collection_NotDescreteValueSet_ShouldReturnStaticValue() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETNOTDISCRETE);
+        Object testValue = new Object();
+
+        Object returnedValue = ipsPropertyDispatcher
+                .pull(Aspect.of(AvailableValuesAspectDefinition.NAME, testValue));
+
+        assertThat(returnedValue, is(testValue));
+    }
+
+    @Test
+    void testPull_Collection_IntegerUnrestrictedValueSet_ShouldBeEmpty() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINTUNRESTRICTED);
+
+        Collection<?> collection = ipsPropertyDispatcher
+                .pull(Aspect.of(AvailableValuesAspectDefinition.NAME, Collections.emptyList()));
+
+        assertThat(collection, is(empty()));
+    }
+
+    /*
+     * Tests, if empty value set is used instead of delegating to wrapped property dispatcher
+     * (NoOpPropertyDispatcher) which would return null
+     */
+    @Test
+    void testPull_EmptyValueSet_ShouldBeEmpty() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(pmo::getIpsObject,
+                TestIpsObject.PROPERTY_EMPTYVALUESET,
+                new NoOpPropertyDispatcher());
+
 
         Collection<?> collection = ipsPropertyDispatcher
                 .pull(Aspect.of(AvailableValuesAspectDefinition.NAME, Collections.emptyList()));
@@ -356,5 +386,43 @@ public class IpsPropertyDispatcherTest {
 
     }
 
+    public static class NoOpPropertyDispatcher implements PropertyDispatcher {
+
+        @Override
+        public String getProperty() {
+            return null;
+        }
+
+        @Override
+        public Object getBoundObject() {
+            return null;
+        }
+
+        @Override
+        public Class<?> getValueClass() {
+            return null;
+        }
+
+        @Override
+        public MessageList getMessages(MessageList messageList) {
+            return null;
+        }
+
+        @Override
+        public <T> T pull(Aspect<T> aspect) {
+            return null;
+        }
+
+        @Override
+        public <T> void push(Aspect<T> aspect) {
+            // nop
+        }
+
+        @Override
+        public <T> boolean isPushable(Aspect<T> aspect) {
+            return false;
+        }
+
+    }
 
 }

@@ -14,18 +14,18 @@
 
 package org.linkki.samples.playground.uitestnew.ts.components;
 
-import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
-import com.vaadin.flow.component.html.testbench.DivElement;
-import com.vaadin.flow.component.html.testbench.InputTextElement;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.html.testbench.InputTextElement;
 
 class TC007UIComboBoxTest extends PlaygroundUiTest {
 

@@ -1,6 +1,8 @@
 package org.linkki.samples.playground.ts.ips;
 
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIRadioButtons;
@@ -44,8 +46,22 @@ public class AvailableValuesSectionPmo {
         // model binding
     }
 
-    @UIRadioButtonGroup(position = 41, content = AvailableValuesType.ENUM_VALUES_INCL_NULL, modelAttribute = IpsModelObject.PROPERTY_BOOLEANVALUESET)
+    @UIRadioButtonGroup(position = 50, content = AvailableValuesType.ENUM_VALUES_INCL_NULL, modelAttribute = IpsModelObject.PROPERTY_BOOLEANVALUESET)
     public void booleanValueSetRadioButtons() {
         // model binding
     }
+
+    @UIComboBox(position = 70, content = AvailableValuesType.ENUM_VALUES_INCL_NULL, modelAttribute = IpsModelObject.PROPERTY_EMPTYSTRINGVALUESET, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC, label = "Empty String ValueSet should show an empty ComboBox")
+    public void emptyStringValueSet() {
+        // model binding
+    }
+
+    public boolean isEmptyStringValueSetVisible() {
+        return true;
+    }
+
+    public boolean isEmptyStringValueSetEnabled() {
+        return true;
+    }
+
 }

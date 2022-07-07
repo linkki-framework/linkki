@@ -1,7 +1,6 @@
 package org.linkki.ips.test.model;
 
 import java.time.MonthDay;
-import org.faktorips.valueset.IntegerRange;
 import java.util.Map;
 
 import org.faktorips.runtime.IRuntimeRepository;
@@ -19,6 +18,8 @@ import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
 import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
+import org.faktorips.valueset.DoubleRange;
+import org.faktorips.valueset.IntegerRange;
 import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
@@ -31,7 +32,7 @@ import org.w3c.dom.Element;
  */
 @IpsPolicyCmptType(name = "TestIpsObject")
 @IpsAttributes({ "foo", "valueSetInclNull", "valueSetExclNull", "emptyValueSet", "valueSetRangeOfIntInclNull",
-        "valueSetRangeOfIntExclNull", "valueSetIntUnrestricted" })
+        "valueSetRangeOfIntExclNull", "valueSetIntUnrestricted", "valueSetNotDiscrete" })
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
 public class TestIpsObject extends AbstractModelObject {
 
@@ -217,6 +218,32 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * The name of the property valueSetNotDiscrete.
+     *
+     * @generated
+     */
+    public static final String PROPERTY_VALUESETNOTDISCRETE = "valueSetNotDiscrete";
+
+
+    /**
+     * Max allowed range for the property valueSetNotDiscrete.
+     *
+     * @generated
+     */
+    public static final DoubleRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_NOT_DISCRETE = DoubleRange
+            .valueOf(Double.valueOf(1), Double.valueOf(100), (Double)null, false);
+
+
+    /**
+     * The default value for valueSetNotDiscrete.
+     *
+     * @generated
+     */
+    @IpsDefaultValue("valueSetNotDiscrete")
+    public static final Double DEFAULT_VALUE_FOR_VALUE_SET_NOT_DISCRETE = null;
+
+
+    /**
      * Member variable for foo.
      *
      * @generated
@@ -270,6 +297,14 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     private Integer valueSetIntUnrestricted = DEFAULT_VALUE_FOR_VALUE_SET_INT_UNRESTRICTED;
+
+
+    /**
+     * Member variable for valueSetNotDiscrete.
+     *
+     * @generated
+     */
+    private Double valueSetNotDiscrete = DEFAULT_VALUE_FOR_VALUE_SET_NOT_DISCRETE;
 
 
     /**
@@ -366,19 +401,6 @@ public class TestIpsObject extends AbstractModelObject {
         return new UnrestrictedValueSet<>(false);
         // end-user-code
     }
-
-
-    /**
-     * Returns the set of allowed values for the property valueSetExclNull.
-     *
-     * @restrainedmodifiable
-     */
-    public ValueSet<Boolean> getSetOfAllowedValuesForValueSetExclNull(IValidationContext context) {
-        // begin-user-code
-        return new UnrestrictedValueSet<Boolean>(false);
-        // end-user-code
-    }
-
 
     /**
      * Returns the valueSetExclNull.
@@ -549,6 +571,42 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * Returns the range of allowed values for the property valueSetNotDiscrete.
+     *
+     * @generated
+     */
+    @IpsAllowedValues("valueSetNotDiscrete")
+    @IpsGenerated
+    public ValueSet<Double> getAllowedValuesForValueSetNotDiscrete() {
+        return MAX_ALLOWED_RANGE_FOR_VALUE_SET_NOT_DISCRETE;
+    }
+
+
+    /**
+     * Returns the valueSetNotDiscrete.
+     *
+     * @generated
+     */
+    @IpsAttribute(name = "valueSetNotDiscrete", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
+    @IpsGenerated
+    public Double getValueSetNotDiscrete() {
+        return valueSetNotDiscrete;
+    }
+
+
+    /**
+     * Sets the value of attribute valueSetNotDiscrete.
+     *
+     * @generated
+     */
+    @IpsAttributeSetter("valueSetNotDiscrete")
+    @IpsGenerated
+    public void setValueSetNotDiscrete(Double newValue) {
+        this.valueSetNotDiscrete = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -576,6 +634,7 @@ public class TestIpsObject extends AbstractModelObject {
         doInitValueSetRangeOfIntInclNull(propMap);
         doInitValueSetRangeOfIntExclNull(propMap);
         doInitValueSetIntUnrestricted(propMap);
+        doInitValueSetNotDiscrete(propMap);
     }
 
     /**
@@ -657,6 +716,18 @@ public class TestIpsObject extends AbstractModelObject {
         if (propMap.containsKey(PROPERTY_VALUESETINTUNRESTRICTED)) {
             this.valueSetIntUnrestricted = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETINTUNRESTRICTED)) ? null
                     : Integer.valueOf(propMap.get(PROPERTY_VALUESETINTUNRESTRICTED));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    @IpsGenerated
+    private void doInitValueSetNotDiscrete(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_VALUESETNOTDISCRETE)) {
+            this.valueSetNotDiscrete = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETNOTDISCRETE)) ? null
+                    : Double.valueOf(propMap.get(PROPERTY_VALUESETNOTDISCRETE));
         }
     }
 
