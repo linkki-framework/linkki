@@ -38,7 +38,7 @@ public class GridLayoutDefinition implements LinkkiLayoutDefinition {
         createColumns((ContainerPmo<?>)pmo, (Grid<?>)parentComponent, bindingContext);
         // need to update binding after columns are created because the footer content
         // cannot be updated without columns
-        bindingContext.modelChanged();
+        bindingContext.uiUpdated();
     }
 
     private void createColumns(ContainerPmo<?> containerPmo,

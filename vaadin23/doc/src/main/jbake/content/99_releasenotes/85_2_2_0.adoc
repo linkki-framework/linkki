@@ -17,3 +17,5 @@
 * Fix disabled state of checkboxes
 // https://jira.faktorzehn.de/browse/LIN-3149
 * `LinkkiTabLayout` no longer intializes content of tabs when removing them
+// https://jira.faktorzehn.de/browse/LIN-3153
+* `BindingContext#modelChanged` was called when creating a table. This accidentally triggered a `modelChangeHandler` when setting up the UI.
