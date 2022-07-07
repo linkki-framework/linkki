@@ -82,7 +82,11 @@ public class LinkkiTabSheet {
      * Note that this method should not be called before the first selection to ensure lazy loading.
      */
     public Component getContent() {
-        return contentReference.getReference();
+        return contentReference.get();
+    }
+
+    boolean isContentLoaded() {
+        return contentReference.isValuePresent();
     }
 
     protected boolean isVisible() {

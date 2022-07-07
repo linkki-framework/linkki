@@ -97,7 +97,7 @@
                             <test.hostname>${test.hostname}</test.hostname>
                             <test.path>${test.path}</test.path>
                         </systemPropertyVariables>
-                        <forkCount>8</forkCount>
+                        <forkCount>4</forkCount>
                         <reuseForks>false</reuseForks>
                         <reportsDirectory>target/surefire-reports-${surefire.forkNumber}</reportsDirectory>
                     </configuration>

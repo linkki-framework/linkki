@@ -15,3 +15,5 @@
 * `IpsPropertyDispatcher` now handles empty value sets correctly 
 // https://jira.faktorzehn.de/browse/LIN-3159
 * Fix disabled state of checkboxes
+// https://jira.faktorzehn.de/browse/LIN-3149
+* `LinkkiTabLayout` no longer intializes content of tabs when removing them

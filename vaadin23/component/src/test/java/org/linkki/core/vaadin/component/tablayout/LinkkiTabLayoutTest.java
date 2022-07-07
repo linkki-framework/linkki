@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.hasValue;
 import static org.linkki.test.matcher.Matchers.present;
@@ -50,12 +51,12 @@ import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
 import com.vaadin.flow.router.AfterNavigationEvent;
 
-public class LinkkiTabLayoutTest {
+class LinkkiTabLayoutTest {
 
     private boolean tabVisibility = true;
 
     @Test
-    public void testLinkkiTabLayout_VerticalOrientation() {
+    void testLinkkiTabLayout_VerticalOrientation() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.VERTICAL);
 
         assertThat(tabLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
@@ -63,7 +64,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testLinkkiTabLayout_HorizontalOrientation() {
+    void testLinkkiTabLayout_HorizontalOrientation() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
         assertThat(tabLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
@@ -71,7 +72,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testAddTabSheet_WithoutIndex() {
+    void testAddTabSheet_WithoutIndex() {
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
 
@@ -85,7 +86,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testAddTabSheet_WithIndex() {
+    void testAddTabSheet_WithIndex() {
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
 
@@ -99,7 +100,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testAddTabSheet_FirstSheetIsSelected() {
+    void testAddTabSheet_FirstSheetIsSelected() {
         Handler onSelectionHandler1 = mock(Handler.class);
         Handler onSelectionHandler2 = mock(Handler.class);
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
@@ -120,7 +121,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testGetTabSheets() {
+    void testGetTabSheets() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -131,7 +132,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testAddTabSheetsVararg() {
+    void testAddTabSheetsVararg() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -141,7 +142,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testAddTabSheetsStream() {
+    void testAddTabSheetsStream() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -151,7 +152,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testAddTabSheetsIterable() {
+    void testAddTabSheetsIterable() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -161,7 +162,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testSetSelectedTabSheet() {
+    void testSetSelectedTabSheet() {
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
 
@@ -176,7 +177,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testCallSelectionHandler_SelectionOnTabsComponent() {
+    void testCallSelectionHandler_SelectionOnTabsComponent() {
         Handler onSelectionHandler1 = mock(Handler.class);
         Handler onSelectionHandler2 = mock(Handler.class);
 
@@ -199,7 +200,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testSetSelectedTabSheet_LazyInstantiation() {
+    void testSetSelectedTabSheet_LazyInstantiation() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         tabLayout.addTabSheet(tabSheet1);
@@ -226,7 +227,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testSetSelectedTabSheet_NotAddedTabSheet() {
+    void testSetSelectedTabSheet_NotAddedTabSheet() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheet(LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build());
 
@@ -234,7 +235,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testGetSelectedTabSheet() {
+    void testGetSelectedTabSheet() {
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
@@ -247,7 +248,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testGetSelectedTabSheet_NoneSelected() {
+    void testGetSelectedTabSheet_NoneSelected() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
 
         assertThrows(NoSuchElementException.class, () -> tabLayout.getSelectedTabSheet());
@@ -260,7 +261,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testSetSelectedIndex() {
+    void testSetSelectedIndex() {
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
@@ -274,7 +275,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testSetSelectedIndex_CallSelectionHandler() {
+    void testSetSelectedIndex_CallSelectionHandler() {
         Handler onSelectionHandler1 = mock(Handler.class);
         Handler onSelectionHandler2 = mock(Handler.class);
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
@@ -296,7 +297,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testSetSelectedIndex_InvalidIndex() {
+    void testSetSelectedIndex_InvalidIndex() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheet(LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build());
 
@@ -304,7 +305,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testSetSelectedIndex_DeselectAll() {
+    void testSetSelectedIndex_DeselectAll() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -321,7 +322,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testGetSelectedIndex() {
+    void testGetSelectedIndex() {
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
@@ -333,7 +334,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testRemoveTab() {
+    void testRemoveTab() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -348,7 +349,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testRemoveTabSheet_SelectedTab() {
+    void testRemoveTabSheet_SelectedTab() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -363,7 +364,19 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testRemoveAllTabSheets() {
+    void testRemoveTabSheet_DoesNotCreateContent() {
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> fail()).build();
+        tabLayout.addTabSheets(tabSheet1, tabSheet2);
+
+        tabLayout.removeTabSheet(tabSheet2);
+
+        assertThat(tabLayout.getTabSheets(), contains(tabSheet1));
+    }
+
+    @Test
+    void testRemoveAllTabSheets() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -381,7 +394,19 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testGetTabSheet() {
+    void testRemoveAllTabSheets_DoesNotCreateContent() {
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> fail()).build();
+        tabLayout.addTabSheets(tabSheet1, tabSheet2);
+
+        tabLayout.removeAllTabSheets();
+
+        assertThat(tabLayout.getTabSheets(), is(empty()));
+    }
+
+    @Test
+    void testGetTabSheet() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -394,7 +419,7 @@ public class LinkkiTabLayoutTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testAddSelectedTabChangeListener() {
+    void testAddSelectedTabChangeListener() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
@@ -408,7 +433,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testNewSidebarLayout() {
+    void testNewSidebarLayout() {
         LinkkiTabLayout sidebarLayout = LinkkiTabLayout.newSidebarLayout();
 
         assertThat(sidebarLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
@@ -418,7 +443,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testUpdateSheetVisibility() {
+    void testUpdateSheetVisibility() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
                 .visibleWhen(() -> false).build();
@@ -437,7 +462,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testUpdateSheetVisibility_NoTabVisible() {
+    void testUpdateSheetVisibility_NoTabVisible() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
                 .visibleWhen(() -> false).build();
@@ -456,7 +481,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testInitialVisibility() {
+    void testInitialVisibility() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
                 .visibleWhen(() -> false).build();
@@ -469,7 +494,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testVisibilityWithText() {
+    void testVisibilityWithText() {
         // LIN-2567 Text does not support isVisible
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet sheet = LinkkiTabSheet.builder("id1")
@@ -483,7 +508,7 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testAfterNavigation_CallsUpdateSheetVisibility() {
+    void testAfterNavigation_CallsUpdateSheetVisibility() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
                 .visibleWhen(() -> tabVisibility).build();

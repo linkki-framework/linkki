@@ -44,4 +44,20 @@ public class LazyReferenceTest {
         assertThat(i.get(), is(1));
     }
 
+    @Test
+    public void testIsValuePresent() {
+        AtomicInteger i = new AtomicInteger(0);
+        LazyReference<Integer> lazyReference = LazyReference.lazy(i::incrementAndGet);
+        lazyReference.get();
+
+        assertThat(lazyReference.isValuePresent(), is(true));
+    }
+
+    @Test
+    public void testIsValuePresent_DoesNotCallSupplier() {
+        LazyReference<?> lazyReference = LazyReference.lazy(() -> fail());
+
+        assertThat(lazyReference.isValuePresent(), is(false));
+    }
+
 }

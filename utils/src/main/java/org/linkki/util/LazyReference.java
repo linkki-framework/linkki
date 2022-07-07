@@ -35,6 +35,10 @@ public class LazyReference<T> implements Supplier<T> {
         this.supplier = supplier;
     }
 
+    /**
+     * @deprecated Use {@link #get()} instead.
+     */
+    @Deprecated(since = "2.2.0")
     public T getReference() {
         if (reference == null) {
             reference = supplier.get();
@@ -45,6 +49,14 @@ public class LazyReference<T> implements Supplier<T> {
     @Override
     public T get() {
         return getReference();
+    }
+
+    /**
+     * Returns whether a cached value is present. A value of <code>true</code> indicates that the
+     * wrapped supplier has already been called and will not be called by {@link #get()} anymore.
+     */
+    public boolean isValuePresent() {
+        return reference != null;
     }
 
     public static <T> LazyReference<T> lazy(Supplier<T> supplier) {
