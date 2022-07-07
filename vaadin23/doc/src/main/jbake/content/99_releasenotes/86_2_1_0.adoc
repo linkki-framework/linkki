@@ -5,6 +5,15 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.1.1
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3150
+* `IpsPropertyDispatcher` now handles empty value sets correctly 
+// https://jira.faktorzehn.de/browse/LIN-3159
+* Fix disabled state of checkboxes
+
 === Version 2.1.0
 
 ==== New features and improvements
@@ -149,5 +158,3 @@ https://jira.faktorzehn.de/browse/LIN-2506
 * Column  visibility can be set using `GridSection#setColumnVisible(String columnKey, boolean visible)` even after `GridSection` has already been created. This will also update the checked state of the corresponding `MenuItem` correctly. Note, that setting the visibility by `Grid#getColumnByKey()` still works, but this will not update the checked state of its `MenuItem`!
 // https://jira.faktorzehn.de/browse/LIN-3111
 * @UIYesNoComboBox no longer throws an exception when using Boolean, values can now be properly selected and cleared (corresponds to `null`)
-// https://jira.faktorzehn.de/browse/LIN-3150
-* `IpsPropertyDispatcher` now handles empty value sets correctly 

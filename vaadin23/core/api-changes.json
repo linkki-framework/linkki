@@ -104,5 +104,20 @@
                 ]
             }
         }
+    ],
+    "2.1.1": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.method.added",
+                        "new": "method void org.linkki.core.vaadin.component.base.LinkkiCheckBox::onEnabledStateChanged(boolean)",
+                        "justification": "LIN-3159/LIN-3163 :: Fix checkbox enabled state"
+                    }
+                ]
+            }
+        }
     ]
 }

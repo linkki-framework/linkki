@@ -28,7 +28,20 @@ public class LinkkiCheckBox extends Checkbox {
     public void setReadOnly(boolean readOnly) {
         super.setReadOnly(readOnly);
         getElement().setAttribute("readonly", readOnly);
-        setEnabled(!readOnly);
+        getElement().setAttribute("disabled", isDisabled());
+    }
+
+    @Override
+    public void onEnabledStateChanged(boolean enabled) {
+        /*
+         * Is called when #setEnabled(boolean) is called. Set disabled state according to enabled AND
+         * read only state.
+         */
+        super.onEnabledStateChanged(!isDisabled());
+    }
+
+    private boolean isDisabled() {
+        return !isEnabled() || isReadOnly();
     }
 
 }

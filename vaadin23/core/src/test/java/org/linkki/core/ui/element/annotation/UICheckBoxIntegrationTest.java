@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
@@ -143,16 +144,18 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
         Checkbox checkBox = getComponentById("dynamicReadonlyCheckBox");
 
         assertThat(checkBox, is(instanceOf(LinkkiCheckBox.class)));
-        assertThat(checkBox.isReadOnly(), is(false));
-        assertThat(checkBox.isEnabled(), is(true));
-        assertThat(checkBox.getElement().hasAttribute("readonly"), is(false));
+        assertThat(checkBox.isReadOnly()).isFalse();
+        assertThat(checkBox.isEnabled()).isTrue();
+        assertThat(checkBox.getElement().hasAttribute("disabled")).isFalse();
+        assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
 
         getDefaultPmo().setDynamicReadonlyCheckBoxReadOnly(true);
         modelChanged();
 
-        assertThat(checkBox.isReadOnly(), is(true));
-        assertThat(checkBox.isEnabled(), is(false));
-        assertThat(checkBox.getElement().hasAttribute("readonly"), is(true));
+        assertThat(checkBox.isReadOnly()).isTrue();
+        assertThat(checkBox.isEnabled()).isTrue();
+        assertThat(checkBox.getElement().hasAttribute("disabled")).isTrue();
+        assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
     }
 
     @UISection
