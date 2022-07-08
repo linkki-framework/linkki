@@ -14,12 +14,14 @@
 
 package org.linkki.core.ui.creation.table;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -31,24 +33,24 @@ import com.vaadin.flow.component.grid.GridNoneSelectionModel;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.treegrid.TreeGrid;
 
-public class GridComponentCreatorTest {
+class GridComponentCreatorTest {
 
     @Test
-    public void testCreateComponent_PmoClassIsUsedAsId() {
+    void testCreateComponent_PmoClassIsUsedAsId() {
         BindingContext bindingContext = new BindingContext();
         Grid<?> table = GridComponentCreator.createGrid(new TestTablePmo(), bindingContext);
         assertThat(table.getId().get(), is("TestTablePmo_table"));
     }
 
     @Test
-    public void testInitColumn_FieldLabelsAreUsedAsColumnHeaders() {
+    void testInitColumn_FieldLabelsAreUsedAsColumnHeaders() {
         Grid<?> table = createTableWithColumns();
 
         assertThat(TestUiUtil.getColumnHeaders(table), contains("1", "2", "3", "", ""));
     }
 
     @Test
-    public void testInitColumn_NoTableColumnAnnotation() {
+    void testInitColumn_NoTableColumnAnnotation() {
         Grid<?> table = createTableWithColumns();
 
         assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).isAutoWidth(), is(false));
@@ -57,7 +59,7 @@ public class GridComponentCreatorTest {
     }
 
     @Test
-    public void testInitColumn_OnlyWidth() {
+    void testInitColumn_OnlyWidth() {
         Grid<?> table = createTableWithColumns();
 
         assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_1).isAutoWidth(), is(false));
@@ -66,7 +68,7 @@ public class GridComponentCreatorTest {
     }
 
     @Test
-    public void testInitColumn_OnlyFlexGrow() {
+    void testInitColumn_OnlyFlexGrow() {
         Grid<?> table = createTableWithColumns();
 
         assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).isAutoWidth(), is(false));
@@ -75,7 +77,7 @@ public class GridComponentCreatorTest {
     }
 
     @Test
-    public void testInitColumn_WidthAndFlexGrow() {
+    void testInitColumn_WidthAndFlexGrow() {
         Grid<?> table = createTableWithColumns();
 
         assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_WITH_WIDTH_AND_FLEX_GROW).isAutoWidth(), is(false));
@@ -84,21 +86,21 @@ public class GridComponentCreatorTest {
     }
 
     @Test
-    public void testInitColumn_DefaultNotSelectable() {
+    void testInitColumn_DefaultNotSelectable() {
         Grid<?> table = createTableWithColumns();
 
         assertThat(table.getSelectionModel(), is(instanceOf(GridNoneSelectionModel.class)));
     }
 
     @Test
-    public void testInitColumn_DefaultAutoWidth() {
+    void testInitColumn_DefaultAutoWidth() {
         Grid<?> table = createTableWithColumns();
 
         table.getColumns().forEach(c -> assertThat(c.isAutoWidth(), is(false)));
     }
 
     @Test
-    public void testInitGrid_ThemeVariants() {
+    void testInitGrid_ThemeVariants() {
         Grid<?> table = createTableWithColumns();
 
         assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
@@ -107,14 +109,14 @@ public class GridComponentCreatorTest {
     }
 
     @Test
-    public void testInitGrid_SelectionDisabled() {
+    void testInitGrid_SelectionDisabled() {
         Grid<?> table = createTableWithColumns();
 
         assertThat(table.getSelectionModel(), is(instanceOf(GridNoneSelectionModel.class)));
     }
 
     @Test
-    public void testInitTreeGrid_ThemeVariants() {
+    void testInitTreeGrid_ThemeVariants() {
         TreeGrid<?> table = createTreeTableWithColumns();
 
         assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
@@ -123,30 +125,30 @@ public class GridComponentCreatorTest {
     }
 
     @Test
-    public void testInitTreeGrid_SelectionDisabled() {
+    void testInitTreeGrid_SelectionDisabled() {
         TreeGrid<?> table = createTreeTableWithColumns();
 
         assertThat(table.getSelectionModel(), is(instanceOf(GridNoneSelectionModel.class)));
     }
 
-    // TODO LIN-2138
-    // @Test
-    // public void testInitColumn_CollapsibleAndCollapsedIsReadFromAnnotation() {
-    // Grid<?> table = createTableWithColumns();
-    //
-    // assertThat(table.isColumnCollapsible("value1"), is(true));
-    // assertThat(table.isColumnCollapsed("value1"), is(false));
-    //
-    // assertThat(table.isColumnCollapsible("value2"), is(true));
-    // assertThat(table.isColumnCollapsed("value2"), is(true));
-    //
-    // assertThat(table.isColumnCollapsible("value3"), is(false));
-    // assertThat(table.isColumnCollapsed("value3"), is(false));
-    // }
+    @Test
+    void testInitTreeGrid_ShouldNotCallModelChanged_AndFooterMustExists() {
+        BindingContext bindingContext = new BindingContext.BindingContextBuilder()
+                .afterModelChangedHandler(() -> fail("modelChanged should not be called during table creation"))
+                .build();
+
+        Grid<?> grid = createTableWithColumns(bindingContext);
+
+        assertThat(grid.getFooterRows()).hasSize(1);
+    }
 
     private Grid<?> createTableWithColumns() {
-        TestTablePmo containerPmo = new TestTablePmo();
         BindingContext bindingContext = new BindingContext();
+        return createTableWithColumns(bindingContext);
+    }
+
+    private Grid<?> createTableWithColumns(BindingContext bindingContext) {
+        TestTablePmo containerPmo = new TestTablePmo(s -> "footer");
         Grid<?> componentWrapper = GridComponentCreator.createGrid(containerPmo, bindingContext);
         return componentWrapper;
     }
