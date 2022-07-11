@@ -44,7 +44,12 @@ public class LinkkiTheme {
     /** Style for tables created by linkki */
     public static final String TABLE = "linkki-table";
 
-    /** A component that contains an icon **/
+    /**
+     * A component that contains an icon
+     * 
+     * @deprecated the style class is not used by linkki anymore and will be removed.
+     **/
+    @Deprecated(since = "2.1.1")
     public static final String HAS_ICON = "linkki-has-icon";
 
     /** Style class for labels that should look like placeholders in table sections. **/

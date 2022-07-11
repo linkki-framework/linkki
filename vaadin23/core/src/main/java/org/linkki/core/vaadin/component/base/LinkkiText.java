@@ -16,7 +16,6 @@ package org.linkki.core.vaadin.component.base;
 
 import java.util.Objects;
 
-import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.vaadin.component.HasIcon;
 
 import com.vaadin.flow.component.Component;
@@ -132,11 +131,6 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
         if (!Objects.equals(this.icon, icon)) {
             this.icon = icon;
             setIconOnComponent(icon);
-            if (icon != null) {
-                setClassName(LinkkiTheme.HAS_ICON);
-            } else {
-                removeClassName(LinkkiTheme.HAS_ICON);
-            }
         }
     }
 

@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.ui.theme.LinkkiTheme;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 
@@ -39,7 +38,6 @@ class LinkkiTextTest {
 
         assertThat(linkkiText.getText()).isEqualTo("New test text");
         assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.ABACUS);
-        assertThat(linkkiText.getClassName()).contains(LinkkiTheme.HAS_ICON);
     }
 
     @Test
@@ -54,7 +52,6 @@ class LinkkiTextTest {
         linkkiText.setIcon(VaadinIcon.ADJUST);
 
         assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.ADJUST);
-        assertThat(linkkiText.getClassName()).contains(LinkkiTheme.HAS_ICON);
     }
 
     @Test
@@ -62,7 +59,7 @@ class LinkkiTextTest {
         linkkiText.setIcon(null);
 
         assertThat(linkkiText.getIcon()).isNull();
-        assertThat(linkkiText.getClassName()).isNull();
+        assertThat(linkkiText.getClassName()).isEqualTo(LinkkiText.CLASS_NAME);
     }
 
 }

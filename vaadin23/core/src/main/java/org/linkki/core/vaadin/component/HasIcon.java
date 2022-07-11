@@ -14,8 +14,6 @@
 
 package org.linkki.core.vaadin.component;
 
-import org.linkki.core.ui.theme.LinkkiTheme;
-
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -37,9 +35,6 @@ public interface HasIcon extends HasStyle {
 
     /**
      * Sets the icon of this component. A value of {@code null} can be used to remove the icon.
-     *
-     * @implSpec {@link LinkkiTheme#HAS_ICON} has to be added to the component when an icon is set, and
-     *           and removed when the icon is removed.
      */
     public void setIcon(@Nullable VaadinIcon icon);
 

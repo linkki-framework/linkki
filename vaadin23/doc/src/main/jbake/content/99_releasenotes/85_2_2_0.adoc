@@ -19,3 +19,5 @@
 * `LinkkiTabLayout` no longer intializes content of tabs when removing them
 // https://jira.faktorzehn.de/browse/LIN-3153
 * `BindingContext#modelChanged` was called when creating a table. This accidentally triggered a `modelChangeHandler` when setting up the UI.
+// https://jira.faktorzehn.de/browse/LIN-3171
+* Fix `@UILink` and `@UILabel` with icons in combination with custom style names added by `@BindStyleNames`. Style class `linkki-has-icon` is not used anymore and will be removed in later version.

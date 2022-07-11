@@ -24,7 +24,6 @@ import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -55,7 +54,7 @@ public class MessageRowPmo {
     }
 
     public List<String> getTextStyleNames() {
-        return Arrays.asList(LinkkiTheme.HAS_ICON, LinkkiApplicationTheme.MESSAGE_ROW,
+        return Arrays.asList(LinkkiApplicationTheme.MESSAGE_ROW,
                              MessageUiComponents.getStyle(message.getSeverity()));
     }
 
