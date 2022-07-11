@@ -6,9 +6,9 @@
 
 For general information, see the https://vaadin.com/docs/latest/ds/customization/custom-theme[Vaadin documentation on custom themes].
 
-In general, a certain folder structure is needed for a custom theme. This structure depends on whether the theme will be directedly used in the application in which it is defined, or will it be packaged to be used in a different project.
+In general, a certain folder structure is needed for a custom theme. This structure depends on whether the theme will be directly used in the application in which it is defined, or will it be packaged to be used in a different project.
 
-For direct usage, the minimum requirement includes a folder with the theme name in `frontend/themes`, with a `styles.css`` file and a `theme.json` file.
+For direct usage, the minimum requirement includes a folder with the theme name in `frontend/themes`, with a `styles.css` file and a `theme.json` file.
 
 .Folder structure for a custom theme for the own project
 ----

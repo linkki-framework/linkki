@@ -1,0 +1,33 @@
+:jbake-title: Importing Styles
+:jbake-type: section
+:jbake-status: published
+
+
+=== Importing Styles
+Styles can be imported and applied by adding the annotation `@CssImport` to a class, specifying the path to the imported CSS file that is located in the `src/main/resources/META-INF/resources/frontend` folder.
+
+The following example shows the usage of `@CssImport` for a file import containing style definitions that are only applied to `MyCustomDialog`, whereas the `my-custom-dialog.css` is located in a `/my-styles/` subfolder of the above mentioned path.
+
+.Import CSS file into the global scope
+[source, java]
+----
+@CssImport("./my-styles/my-custom-dialog.css")
+public class MyCustomDialog extends Dialog {
+  ...
+}
+----
+
+Furthermore, it is possible to use the `@CssImport` annotation to import component-specific style sheets, that is only applied for the given component.
+
+.Import CSS file into the local scope of the `TextField` component
+[source, java]
+----
+@CssImport(value = "./my-styles/my-custom-text-field.css", themeFor = "vaadin-text-field")
+public class MyCustomComponent extends Component {
+  ...
+}
+----
+
+TIP: In order to avoid large CSS files, it is recommended to split up style definitions into smaller, separate style files and then applied only on the corresponding classes in which they are used.
+
+For more information refer to https://vaadin.com/docs/latest/application/styling[Vaadin styling documentation]
