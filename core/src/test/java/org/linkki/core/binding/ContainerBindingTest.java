@@ -18,9 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -36,7 +35,7 @@ class ContainerBindingTest {
         BindingContext bindingContext = spy(new BindingContext());
         ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         ContainerBinding binding = bindingContext.bindContainer(new TestPmo(new TestModelObject()),
-                                                                BoundProperty.of("test"), Arrays.asList(),
+                                                                new BindingDescriptor(BoundProperty.of("test")),
                                                                 componentWrapper);
 
         binding.modelChanged();
@@ -51,8 +50,7 @@ class ContainerBindingTest {
         TestAspectDef testAspectDef = new TestAspectDef();
 
         bindingContext.bindContainer(new TestPmo(new TestModelObject()),
-                                     BoundProperty.of("test"),
-                                     Arrays.asList(testAspectDef),
+                                     new BindingDescriptor(BoundProperty.of("test"), testAspectDef),
                                      componentWrapper);
 
         assertThat(testAspectDef.triggered).isTrue();
@@ -65,8 +63,7 @@ class ContainerBindingTest {
         TestAspectDef testAspectDef = new TestAspectDef();
 
         bindingContext.bindContainer(new TestPmo(new TestModelObject()),
-                                     BoundProperty.of("test"),
-                                     Arrays.asList(testAspectDef),
+                                     new BindingDescriptor(BoundProperty.of("test"), testAspectDef),
                                      componentWrapper);
         testAspectDef.triggered = false;
         bindingContext.updateBindings();
@@ -81,11 +78,11 @@ class ContainerBindingTest {
         TestAspectDef testAspectDef = new TestAspectDef();
         TestDependantAspectDef testDependantAspectDef = new TestDependantAspectDef(testAspectDef);
 
-        ContainerBinding binding = bindingContext.bindContainer(new Object(),
-                                                                BoundProperty.of("test"),
-                                                                Arrays.asList(testAspectDef),
+        ContainerBinding binding = bindingContext.bindContainer(new Object(), new BindingDescriptor(
+                BoundProperty.of("test"), testAspectDef),
                                                                 componentWrapper);
-        binding.bind(new Object(), BoundProperty.of("test2"), Arrays.asList(testDependantAspectDef), componentWrapper);
+        binding.bind(new Object(), new BindingDescriptor(BoundProperty.of("test2"), testDependantAspectDef),
+                     componentWrapper);
 
         assertThat(testAspectDef.triggered).isTrue();
         assertThat(testDependantAspectDef.triggered).isTrue();
@@ -105,8 +102,7 @@ class ContainerBindingTest {
         TestAspectDef testAspectDef = new TestAspectDef();
 
         bindingContext.bindContainer(new TestPmo(new TestModelObject()),
-                                     BoundProperty.of("test"),
-                                     Arrays.asList(testAspectDef),
+                                     new BindingDescriptor(BoundProperty.of("test"), testAspectDef),
                                      componentWrapper);
         testAspectDef.triggered = false;
         bindingContext.updateBindings();
@@ -122,10 +118,11 @@ class ContainerBindingTest {
         TestDependantAspectDef testDependantAspectDef = new TestDependantAspectDef(testAspectDef);
 
         ContainerBinding binding = bindingContext.bindContainer(new Object(),
-                                                                BoundProperty.of("test"),
-                                                                Arrays.asList(testAspectDef),
+                                                                new BindingDescriptor(BoundProperty.of("test"),
+                                                                        testAspectDef),
                                                                 componentWrapper);
-        binding.bind(new Object(), BoundProperty.of("test2"), Arrays.asList(testDependantAspectDef), componentWrapper);
+        binding.bind(new Object(), new BindingDescriptor(BoundProperty.of("test2"), testDependantAspectDef),
+                     componentWrapper);
 
         assertThat(testAspectDef.triggered).isTrue();
         assertThat(testDependantAspectDef.triggered).isTrue();
@@ -144,10 +141,9 @@ class ContainerBindingTest {
         ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
 
-        ContainerBinding binding = bindingContext.bindContainer(new Object(),
-                                                                BoundProperty.of("test"),
-                                                                Arrays.asList(testAspectDef),
-                                                                componentWrapper);
+        ContainerBinding binding = bindingContext
+                .bindContainer(new Object(), new BindingDescriptor(BoundProperty.of("test"), testAspectDef),
+                               componentWrapper);
         testAspectDef.triggered = false;
         binding.modelChanged();
 

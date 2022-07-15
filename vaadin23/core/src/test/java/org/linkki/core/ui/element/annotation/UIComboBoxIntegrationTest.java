@@ -28,7 +28,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.hamcrest.collection.IsEmptyCollection;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
@@ -201,7 +200,6 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
     }
 
-    @Disabled("TODO reenable in next subtask")
     @Test
     void testInitReadOnlyField() {
         ComboBox<TestEnum> comboBox = getStaticComponent();

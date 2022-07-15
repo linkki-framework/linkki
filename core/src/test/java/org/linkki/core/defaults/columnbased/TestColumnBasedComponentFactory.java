@@ -17,14 +17,10 @@ package org.linkki.core.defaults.columnbased;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
-import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
-import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
@@ -39,9 +35,8 @@ public class TestColumnBasedComponentFactory {
     public Object createContainerComponent(ContainerPmo<?> containerPmo, BindingContext bindingContext) {
         ComponentWrapper tableWrapper = createComponent();
         requireNonNull(bindingContext, "bindingContext must not be null");
-        List<LinkkiAspectDefinition> tableAspects = AspectAnnotationReader
-                .createAspectDefinitionsFor(containerPmo.getClass());
-        ContainerBinding binding = bindingContext.bindContainer(containerPmo, BoundProperty.empty(), tableAspects,
+        ContainerBinding binding = bindingContext.bindContainer(containerPmo,
+                                                                BindingDescriptor.forPmoClass(containerPmo.getClass()),
                                                                 tableWrapper);
         createColumns(containerPmo, tableWrapper, binding);
         // need to update binding after columns are created because the footer content cannot be updated
@@ -63,10 +58,7 @@ public class TestColumnBasedComponentFactory {
         TestColumnBasedComponent<?> table = (TestColumnBasedComponent<?>)parentWrapper.getComponent();
         TestUiLayoutComponent column = new TestUiLayoutComponent();
         table.addChild(column);
-        bindingContext.bind(containerPmo,
-                            BoundPropertyAnnotationReader.getBoundProperty(m),
-                            AspectAnnotationReader.createAspectDefinitionsFor(m),
-                            new TestComponentWrapper(column));
+        bindingContext.bind(containerPmo, BindingDescriptor.forMethod(m), new TestComponentWrapper(column));
     }
 
     private ComponentWrapper createComponent() {

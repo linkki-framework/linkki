@@ -26,7 +26,6 @@ import static org.mockito.Mockito.verify;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -34,6 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext.BindingContextBuilder;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -65,6 +65,10 @@ public class BindingContextTest {
     private final TestUiComponent field2 = spy(new TestUiComponent());
 
     private WeakReference<TestUiComponent> weakRefComponent;
+    private final BindingDescriptor clickBindingDescriptor = new BindingDescriptor(BoundProperty.empty(),
+            new TestComponentClickAspectDefinition());
+    private final BindingDescriptor enabledBindingDescriptor = new BindingDescriptor(BoundProperty.empty(),
+            new EnabledAspectDefinition(EnabledType.DYNAMIC));
 
     private ElementBinding createBinding(BindingContext context) {
         return createBinding(context, new TestPmo(), new TestUiComponent());
@@ -238,8 +242,7 @@ public class BindingContextTest {
         BindingContext context = new BindingContext();
         TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
         Optional<ButtonPmo> editButtonPmo = testPmoWithButton.getEditButtonPmo();
-        editButtonPmo.ifPresent(buttonPmo -> context.bind(buttonPmo, BoundProperty.of(""),
-                                                          Arrays.asList(new TestComponentClickAspectDefinition()),
+        editButtonPmo.ifPresent(buttonPmo -> context.bind(buttonPmo, clickBindingDescriptor,
                                                           new TestComponentWrapper(field1)));
 
         assertThat(context.getBindings()).hasSize(1);
@@ -284,8 +287,7 @@ public class BindingContextTest {
         BindingContext context = new BindingContext();
         TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
         Optional<ButtonPmo> editButtonPmo = testPmoWithButton.getEditButtonPmo();
-        editButtonPmo.ifPresent(buttonPmo -> context.bind(buttonPmo, BoundProperty.of(""),
-                                                          Arrays.asList(new TestComponentClickAspectDefinition()),
+        editButtonPmo.ifPresent(buttonPmo -> context.bind(buttonPmo, clickBindingDescriptor,
                                                           new TestComponentWrapper(field1)));
 
         assertThat(context.getBindings()).hasSize(1);
@@ -301,7 +303,8 @@ public class BindingContextTest {
         buttonPmo.setEnabled(false);
 
         ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
-        context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
+        context.bind(buttonPmo,
+                     enabledBindingDescriptor,
                      buttonWrapper);
 
         assertThat(button.isEnabled()).isFalse();
@@ -385,7 +388,7 @@ public class BindingContextTest {
         TestUiComponent button = new TestUiComponent();
         buttonPmo.setEnabled(false);
         ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
-        context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
+        context.bind(buttonPmo, enabledBindingDescriptor,
                      buttonWrapper);
 
         assertThat(createDispatcherChainCalled.get()).isTrue();
@@ -439,8 +442,8 @@ public class BindingContextTest {
         buttonPmo.setEnabled(false);
 
         ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
-        context.bind(buttonPmo, BoundProperty.of(""),
-                     Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
+        context.bind(buttonPmo, new BindingDescriptor(BoundProperty.empty(),
+                new EnabledAspectDefinition(EnabledType.DYNAMIC)),
                      buttonWrapper);
         WeakReference<TestUiComponent> weakReference = new WeakReference<>(button, referenceQueue);
         assertThat(weakReference.get()).isEqualTo(button);
@@ -458,7 +461,7 @@ public class BindingContextTest {
     private void bindAddItemButton(BindingContext context, TestContainerPmo containerPmo) {
         TestButtonPmo addItemButtonPmo = new TestButtonPmo();
         containerPmo.setAddItemButtonPmo(addItemButtonPmo);
-        context.bind(addItemButtonPmo, BoundProperty.of(""), Arrays.asList(new TestComponentClickAspectDefinition()),
+        context.bind(addItemButtonPmo, clickBindingDescriptor,
                      new TestComponentWrapper(new TestUiComponent()));
     }
 

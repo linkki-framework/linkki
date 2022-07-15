@@ -14,9 +14,8 @@
 
 package org.linkki.core.defaults.section;
 
-import java.util.Arrays;
-
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
@@ -46,8 +45,8 @@ public class TestSectionBuilder {
         TestUiComponent button = new TestUiComponent();
         section.addChild(button);
         button.setId("editButton");
-        bindingContext.bind(buttonPmo, BoundProperty.of(""),
-                            Arrays.asList(new TestComponentClickAspectDefinition()),
+        bindingContext.bind(buttonPmo, new BindingDescriptor(BoundProperty.empty(),
+                new TestComponentClickAspectDefinition()),
                             new TestComponentWrapper(button));
     }
 }

@@ -24,7 +24,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.compress.utils.Sets;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
@@ -166,7 +165,6 @@ class UIMultiSelectIntegrationTest
         assertThat(getDefaultModelObject().getValue()).isEmpty();
     }
 
-    @Disabled("TODO reenable in next subtask")
     @Test
     void testInitReadOnlyField() {
         var multiselect = getStaticComponent();

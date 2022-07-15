@@ -28,7 +28,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.ui.test.VaadinUIExtension;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.core.uicreation.ComponentAnnotationReader;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -79,13 +82,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     }
 
     protected void bind(Object pmo, String propertyName, Component component) {
-        /*  TODO will be fixed in next subtask (LIN-3248)
-            UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(pmo.getClass());
-            ElementDescriptor elementDescriptor = uiAnnotationReader.getUiElements()
-                    .filter(d -> d.getPmoPropertyName().equals(propertyName))
-                    .findFirst().get().getDescriptor(pmo);
-            bindingContext.bind(pmo, elementDescriptor, new NoLabelComponentWrapper(component));
-        */
+        BindingDescriptor bindingDescriptor = ComponentAnnotationReader.getComponentDefinitionMethods(pmo.getClass())
+                .map(BindingDescriptor::forMethod)
+                .filter(d -> d.getBoundProperty().getPmoProperty().equals(propertyName))
+                .findFirst().orElseThrow();
+        bindingContext.bind(pmo, bindingDescriptor, new NoLabelComponentWrapper(component));
     }
 
     protected void modelChanged() {
@@ -119,7 +120,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     /**
      * Tests a dynamic boolean binding. Assumes that the {@link #getStaticComponent() static component}
      * is annotated with the non default boolean value.
-     * 
+     *
      * @param predicate value of the boolean property
      * @param setter setter for the property in pmo
      * @param defaultValue default value of the property
@@ -127,7 +128,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     protected void testBinding(Predicate<C> predicate,
             BiConsumer<AnnotationTestPmo, Boolean> setter,
             boolean defaultValue) {
-        testBinding(v -> predicate.test(v), setter, defaultValue, !defaultValue);
+        testBinding(predicate::test, setter, defaultValue, !defaultValue);
     }
 
     /**
@@ -137,7 +138,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
      * <li>the {@link #getDynamicComponent()} has the <code>testValue</code> initially and changes its
      * value to <code>defaultValue</code> after using the <code>setter</code>
      * </ul>
-     * 
+     *
      * @param componentValueGetter getter of the property in component
      * @param setter setter of the property in PMO
      * @param defaultValue default value of the aspect
@@ -177,7 +178,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     }
 
     protected Div createSection() {
-        return createSection(newPmo(newDefaultModelObject()));
+        return createSection(newDefaultPmo());
     }
 
     protected C getComponentById(String id) {

@@ -14,15 +14,14 @@
 package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.linkki.core.binding.descriptor.BindingDescriptor;
@@ -50,7 +49,7 @@ import org.linkki.util.handler.Handler;
  * <p>
  * {@link BindingContext BindingContexts} are usually managed by a {@link BindingManager} that handles
  * events across multiple contexts.
- * 
+ *
  * @see BindingManager#getContext(String)
  */
 public class BindingContext implements UiUpdateObserver {
@@ -76,7 +75,7 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Creates a new binding context with the given name that defines no property behavior and uses
      * neither an after update handler nor an after model update handler.
-     * 
+     *
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
      */
@@ -93,7 +92,7 @@ public class BindingContext implements UiUpdateObserver {
      * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
      * {@link BindingManager} to trigger the validation service and to notify all
      * {@link UiUpdateObserver UiUpdateObserver} in the manager to show the validation result.
-     * 
+     *
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
      * @param behaviorProvider used to retrieve all {@link PropertyBehavior PropertyBehaviors} that are
@@ -117,7 +116,7 @@ public class BindingContext implements UiUpdateObserver {
      * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
      * {@link BindingManager} to trigger the validation service and to notify all
      * {@link UiUpdateObserver UiUpdateObservers} in the manager to show the validation result.
-     * 
+     *
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
      * @param behaviorProvider used to retrieve all {@link PropertyBehavior PropertyBehaviors} that are
@@ -143,7 +142,7 @@ public class BindingContext implements UiUpdateObserver {
      * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
      * {@link BindingManager} to trigger the validation service and to notify all
      * {@link UiUpdateObserver UiUpdateObservers} in the manager to show the validation result.
-     * 
+     *
      * @param contextName name of this {@link BindingContext} that is used as identifier in a
      *            {@linkplain BindingManager}
      * @param behaviorProvider used to retrieve all {@link PropertyBehavior PropertyBehaviors} that are
@@ -153,7 +152,6 @@ public class BindingContext implements UiUpdateObserver {
      * @param afterUpdateHandler a {@link Handler} that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}
      * @param afterModelChangedHandler a {@link Handler} that is applied after the model update.
-     * 
      * @since 2.1.0
      */
     protected BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
@@ -175,7 +173,7 @@ public class BindingContext implements UiUpdateObserver {
 
     /**
      * Adds a binding to the context.
-     * 
+     *
      * @param binding the Binding that should be added
      * @param componentWrapper the component wrapper used to register the binding calling
      *            {@link ComponentWrapper#registerBinding(Binding)}
@@ -195,8 +193,7 @@ public class BindingContext implements UiUpdateObserver {
      * Returns all bindings in the context.
      */
     public Collection<Binding> getBindings() {
-        return Collections.unmodifiableCollection(getBindingStream()
-                .collect(toList()));
+        return getBindingStream().collect(Collectors.toUnmodifiableList());
     }
 
     private Stream<Binding> getBindingStream() {
@@ -224,7 +221,7 @@ public class BindingContext implements UiUpdateObserver {
      * <p>
      * If this {@link BindingContext} contains bindings that are themselves a {@link BindingContext},
      * the component is removed recursively from all child binding contexts.
-     * 
+     *
      * @param uiComponent that is given to find and remove the bindings that refer to it
      */
     public void removeBindingsForComponent(Object uiComponent) {
@@ -283,7 +280,7 @@ public class BindingContext implements UiUpdateObserver {
      * Updates the UI to display model changes that were made outside of this binding context.
      *
      * @implNote This method executes the <code>afterModelChangedHandler</code> before updating the UI.
-     * If the model is not changed, call {@link #updateUi()} instead.
+     *           If the model is not changed, call {@link #updateUi()} instead.
      *
      * @see #updateUi()
      */
@@ -299,7 +296,7 @@ public class BindingContext implements UiUpdateObserver {
      * Note that this method is derived from {@link UiUpdateObserver} and is implemented to use the
      * {@link BindingContext} as {@link UiUpdateObserver}. It should not be necessary to call this
      * method directly.
-     * 
+     *
      * @see #modelChanged()
      * @see #updateUi()
      */
@@ -320,9 +317,10 @@ public class BindingContext implements UiUpdateObserver {
      * afterUpdateHandler that is set. In contrast to {@link #modelChanged()} this method does not
      * trigger the afterModelChangedHandler.
      *
-     * @implNote  This method should be called if the UI should be updated but the model has <b>not</b> been
-     * changed. This may be the case if the UI component such as a tab sheet has been invisible during model
-     * changes. Thus, this method needs to be called to reflect the changes when the tab sheet is set to visible.
+     * @implNote This method should be called if the UI should be updated but the model has <b>not</b>
+     *           been changed. This may be the case if the UI component such as a tab sheet has been
+     *           invisible during model changes. Thus, this method needs to be called to reflect the
+     *           changes when the tab sheet is set to visible.
      * 
      * @see #modelChanged()
      */
@@ -366,7 +364,7 @@ public class BindingContext implements UiUpdateObserver {
      * (e.g. text field) as described by the given descriptor.
      * <p>
      * If the label is {@code null} it is ignored for the binding
-     * 
+     *
      * @param pmo a presentation model object
      * @param bindingDescriptor the descriptor describing the binding
      * @param componentWrapper the {@link ComponentWrapper} that wraps the UI component that should be
@@ -375,9 +373,12 @@ public class BindingContext implements UiUpdateObserver {
     public Binding bind(Object pmo,
             BindingDescriptor bindingDescriptor,
             ComponentWrapper componentWrapper) {
+        requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
-        return bind(pmo, bindingDescriptor.getBoundProperty(), bindingDescriptor.getAspectDefinitions(),
-                    componentWrapper);
+        requireNonNull(componentWrapper, "componentWrapper must not be null");
+        Binding binding = createBinding(pmo, bindingDescriptor, componentWrapper);
+        add(binding, componentWrapper);
+        return binding;
     }
 
     /**
@@ -386,13 +387,16 @@ public class BindingContext implements UiUpdateObserver {
      * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
      * <p>
      * If the label is {@code null} it is ignored for the binding
-     * 
+     *
      * @param pmo a presentation model object
      * @param boundProperty the (presentation) model property to be bound
      * @param aspectDefs the definitions for the aspects to be bound
      * @param componentWrapper the {@link ComponentWrapper} that wraps the UI component that should be
      *            bound
+     * @deprecated Use {@link #bind(Object, BindingDescriptor, ComponentWrapper)} and consider using the
+     *             factory methods of {@link BindingDescriptor}.
      */
+    @Deprecated(since = "2.3")
     public Binding bind(Object pmo,
             BoundProperty boundProperty,
             List<LinkkiAspectDefinition> aspectDefs,
@@ -401,16 +405,28 @@ public class BindingContext implements UiUpdateObserver {
         requireNonNull(boundProperty, "boundProperty must not be null");
         requireNonNull(aspectDefs, "aspectDefs must not be null");
         requireNonNull(componentWrapper, "componentWrapper must not be null");
-        Binding binding = createBinding(pmo, boundProperty, aspectDefs, componentWrapper);
-        add(binding, componentWrapper);
-        return binding;
+        return bind(pmo, new BindingDescriptor(boundProperty, aspectDefs), componentWrapper);
     }
 
+    /**
+     * Create a binding similar to {@link #bind(Object, BindingDescriptor, ComponentWrapper)} but the
+     * returned {@link ContainerBinding} could be used as a new {@link BindingContext} for child
+     * elements. Use this to create a binding for a layout component and bind all children of this
+     * layout using the returned {@link ContainerBinding} instead of this binding context.
+     * <p>
+     * The model changed event is always propagated all the way up to the root binding context.
+     *
+     * @param pmo a presentation model object
+     * @param bindingDescriptor the descriptor describing the binding
+     * @param componentWrapper the {@link ComponentWrapper} that wraps the UI component that should be
+     *            bound
+     * @return The created {@link ContainerBinding} that could be used for subsequent bindings of child
+     *         components
+     */
     public ContainerBinding bindContainer(Object pmo,
-            BoundProperty boundProperty,
-            List<LinkkiAspectDefinition> aspectDefs,
+            BindingDescriptor bindingDescriptor,
             ComponentWrapper componentWrapper) {
-        Binding elementBinding = createBinding(pmo, boundProperty, aspectDefs, componentWrapper);
+        Binding elementBinding = createBinding(pmo, bindingDescriptor, componentWrapper);
         ContainerBinding containerBinding = new ContainerBinding(elementBinding, getBehaviorProvider(),
                 dispatcherFactory, this::modelChanged);
         add(containerBinding, componentWrapper);
@@ -418,21 +434,48 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
+     * Create a binding similar to {@link #bind(Object, BindingDescriptor, ComponentWrapper)} but the
+     * returned {@link ContainerBinding} could be used as a new {@link BindingContext} for child
+     * elements. Use this to create a binding for a layout component and bind all children of this
+     * layout using the returned {@link ContainerBinding} instead of this binding context.
+     * <p>
+     * The model changed event is always propagated all the way up to the root binding context.
+     * 
+     * @param pmo a presentation model object
+     * @param boundProperty the (presentation) model property to be bound
+     * @param aspectDefs the definitions for the aspects to be bound
+     * @param componentWrapper the {@link ComponentWrapper} that wraps the UI component that should be
+     *            bound
+     * @return The created {@link ContainerBinding} that could be used for subsequent bindings of child
+     *         components
+     * @deprecated Use {@link #bind(Object, BindingDescriptor, ComponentWrapper)} and consider using the
+     *             factory methods of {@link BindingDescriptor}.
+     */
+    @Deprecated(since = "2.3")
+    public ContainerBinding bindContainer(Object pmo,
+            BoundProperty boundProperty,
+            List<LinkkiAspectDefinition> aspectDefs,
+            ComponentWrapper componentWrapper) {
+        return bindContainer(pmo, new BindingDescriptor(boundProperty, aspectDefs), componentWrapper);
+    }
+
+    /**
      * Creates a binding with the given dispatcher, the given handler for updating the UI and the given
      * UI components using the binding information from this descriptor.
      */
     private ElementBinding createBinding(Object pmo,
-            BoundProperty boundProperty,
-            List<LinkkiAspectDefinition> aspectDefinitions,
+            BindingDescriptor bindingDescriptor,
             ComponentWrapper componentWrapper) {
         return new ElementBinding(componentWrapper,
-                dispatcherFactory.createDispatcherChain(pmo, boundProperty, getBehaviorProvider()), this::modelChanged,
-                aspectDefinitions);
+                dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor.getBoundProperty(),
+                                                        getBehaviorProvider()),
+                this::modelChanged,
+                bindingDescriptor.getAspectDefinitions());
     }
 
     /**
      * Builder for creating {@link BindingContext}
-     * 
+     *
      * @since 2.1.0
      */
     public static class BindingContextBuilder {
@@ -453,7 +496,7 @@ public class BindingContext implements UiUpdateObserver {
 
         /**
          * Specifies the name of the {@link BindingContext context}
-         * 
+         *
          * @param name name of this {@link BindingContext context} that is used as identifier in a
          *            {@link BindingManager}
          * @return {@code this} for method chaining
@@ -465,7 +508,7 @@ public class BindingContext implements UiUpdateObserver {
 
         /**
          * Specifies the {@link PropertyBehaviorProvider} of the {@link BindingContext context}
-         * 
+         *
          * @param behaviorProvider {@link PropertyBehaviorProvider} of this {@link BindingContext
          *            context} used to retrieve all {@link PropertyBehavior PropertyBehaviors} that are
          *            relevant to this {@link BindingContext context}
@@ -478,7 +521,7 @@ public class BindingContext implements UiUpdateObserver {
 
         /**
          * Specifies the {@link PropertyDispatcherFactory} of the {@link BindingContext context}
-         * 
+         *
          * @param dispatcherFactory the factory used to create the {@link PropertyDispatcher} chain for
          *            any property
          * @return {@code this} for method chaining
@@ -490,7 +533,7 @@ public class BindingContext implements UiUpdateObserver {
 
         /**
          * Specifies the {@link Handler afterUpdateHandler} of the {@link BindingContext context}
-         * 
+         *
          * @param handler a {@link Handler handler} that is applied after the UI update. Usually
          *            {@link BindingManager#afterUpdateUi()}
          * @return {@code this} for method chaining
@@ -502,7 +545,7 @@ public class BindingContext implements UiUpdateObserver {
 
         /**
          * Specifies the {@link Handler afterModelChangedHandler} of the {@link BindingContext context}
-         * 
+         *
          * @param handler a {@link Handler handler} that is applied after the model update.
          * @return {@code this} for method chaining
          */
@@ -517,7 +560,7 @@ public class BindingContext implements UiUpdateObserver {
          * <p>
          * If no custom properties are set, the {@link BindingContext} is created with its default
          * values.
-         * 
+         *
          * @return a new {@link BindingContext}
          */
         public BindingContext build() {
