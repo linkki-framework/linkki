@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
-import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
@@ -77,7 +76,8 @@ public class UiCreator {
      * If the given {@link AnnotatedElement} provides a {@link LinkkiLayout @LinkkiLayout} annotation,
      * its layout definition will be called. This might create further child elements.
      * 
-     * @param <C> the UI component class created by {@link ElementDescriptor#newComponent(Object)} and
+     * @param <C> the UI component class created by
+     *            {@link LinkkiLayoutDefinition#createChildren(Object, Object, BindingContext)} and
      *            handed to the {@code componentWrapperCreator}
      * @param <W> the {@link ComponentWrapper} class created by the {@code componentWrapperCreator}
      * @param pmo the PMO that contains the UI element annotations
@@ -106,7 +106,8 @@ public class UiCreator {
      * If the given {@link AnnotatedElement} provides a {@link LinkkiLayout @LinkkiLayout} annotation,
      * its layout definition will be called. This might create further child elements.
      * 
-     * @param <C> the UI component class created by {@link ElementDescriptor#newComponent(Object)} and
+     * @param <C> the UI component class created by
+     *            {@link LinkkiLayoutDefinition#createChildren(Object, Object, BindingContext)} and
      *            handed to the {@code componentWrapperCreator}
      * @param <W> the {@link ComponentWrapper} class created by the {@code componentWrapperCreator}
      * @param annotatedElement the element for which to create a component

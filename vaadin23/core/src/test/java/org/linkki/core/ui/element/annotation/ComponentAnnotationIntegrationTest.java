@@ -28,10 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.descriptor.ElementDescriptor;
-import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.ui.test.VaadinUIExtension;
-import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -82,11 +79,13 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     }
 
     protected void bind(Object pmo, String propertyName, Component component) {
-        UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(pmo.getClass());
-        ElementDescriptor elementDescriptor = uiAnnotationReader.getUiElements()
-                .filter(d -> d.getPmoPropertyName().equals(propertyName))
-                .findFirst().get().getDescriptor(pmo);
-        bindingContext.bind(pmo, elementDescriptor, new NoLabelComponentWrapper(component));
+        /*  TODO will be fixed in next subtask (LIN-3248)
+            UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(pmo.getClass());
+            ElementDescriptor elementDescriptor = uiAnnotationReader.getUiElements()
+                    .filter(d -> d.getPmoPropertyName().equals(propertyName))
+                    .findFirst().get().getDescriptor(pmo);
+            bindingContext.bind(pmo, elementDescriptor, new NoLabelComponentWrapper(component));
+        */
     }
 
     protected void modelChanged() {

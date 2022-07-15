@@ -26,13 +26,14 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -46,34 +47,31 @@ public class StaticValueDispatcherTest {
     private static final String XYZ = "xyz";
 
     @Mock
-    private PropertyDispatcher uiAnnotationFallbackDispatcher;
-    private Map<String, StaticValueDispatcher> uiAnnotationDispatchers;
-    private TestObjectWithUIAnnotations objectWithUIAnnotations;
+    private PropertyDispatcher fallbackDispatcher;
 
-    @Mock
-    private PropertyDispatcher bindAnnotationFallbackDispatcher;
+    private Map<String, StaticValueDispatcher> staticValueDispatchers;
+    private TestObjectWithUIAnnotations objectWithUIAnnotations;
 
     @BeforeEach
     public void setUp() {
         objectWithUIAnnotations = new TestObjectWithUIAnnotations();
-        UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(
-                objectWithUIAnnotations.getClass());
-        uiAnnotationDispatchers = uiAnnotationReader.getUiElements()
-                .collect(Collectors.toMap(e -> e.getPmoPropertyName(),
-                                          e -> new StaticValueDispatcher(uiAnnotationFallbackDispatcher)));
+        staticValueDispatchers = ComponentAnnotationReader
+                .getComponentDefinitionMethods(objectWithUIAnnotations.getClass())
+                .collect(Collectors.toMap(m -> BoundPropertyAnnotationReader.getBoundProperty(m).getPmoProperty(),
+                                          e -> new StaticValueDispatcher(fallbackDispatcher)));
     }
 
     @Test
     public void testGetValue() {
         Aspect<Object> newDynamic = Aspect.of("");
         pull(XYZ, newDynamic);
-        verify(uiAnnotationFallbackDispatcher).pull(newDynamic);
+        verify(fallbackDispatcher).pull(newDynamic);
     }
 
     @Test
     public void testGetDerivedValue() {
         Aspect<String> derived = Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI);
-        when(uiAnnotationFallbackDispatcher.getProperty()).thenReturn("foo");
+        when(fallbackDispatcher.getProperty()).thenReturn("foo");
         assertThat(pull("foo", derived), is("Foo"));
     }
 
@@ -82,7 +80,7 @@ public class StaticValueDispatcherTest {
         Aspect<ArrayList<Object>> staticAspect = Aspect.of(EnabledAspectDefinition.NAME,
                                                            new ArrayList<>());
         pull(STATIC_ENUM_ATTR, staticAspect);
-        verify(uiAnnotationFallbackDispatcher, never()).pull(staticAspect);
+        verify(fallbackDispatcher, never()).pull(staticAspect);
     }
 
 
@@ -90,12 +88,12 @@ public class StaticValueDispatcherTest {
     public void testPull_dynamic() {
         Aspect<ArrayList<Object>> dynamicAspect = Aspect.of(EnabledAspectDefinition.NAME);
         pull(DYNAMIC_ENUM_ATTR, dynamicAspect);
-        verify(uiAnnotationFallbackDispatcher).pull(dynamicAspect);
+        verify(fallbackDispatcher).pull(dynamicAspect);
     }
 
     private <T> T pull(String property, Aspect<T> aspect) {
         @NonNull
-        StaticValueDispatcher staticValueDispatcher = uiAnnotationDispatchers.get(property);
+        StaticValueDispatcher staticValueDispatcher = staticValueDispatchers.get(property);
         return staticValueDispatcher.pull(aspect);
     }
 

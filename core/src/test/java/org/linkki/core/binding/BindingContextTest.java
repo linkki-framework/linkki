@@ -46,8 +46,7 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.defaults.columnbased.ColumnBasedComponentFactory;
-import org.linkki.core.defaults.columnbased.TestColumnBasedComponentCreator;
+import org.linkki.core.defaults.columnbased.TestColumnBasedComponentFactory;
 import org.linkki.core.defaults.columnbased.pmo.TestContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TestRowPmo;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
@@ -450,8 +449,7 @@ public class BindingContextTest {
     }
 
     private TestUiLayoutComponent bindTable(BindingContext context, TestContainerPmo containerPmo) {
-        ColumnBasedComponentFactory columnBasedComponentFactory = new ColumnBasedComponentFactory(
-                new TestColumnBasedComponentCreator());
+        TestColumnBasedComponentFactory columnBasedComponentFactory = new TestColumnBasedComponentFactory();
         TestUiLayoutComponent table = (TestUiLayoutComponent)columnBasedComponentFactory
                 .createContainerComponent(containerPmo, context);
         return table;

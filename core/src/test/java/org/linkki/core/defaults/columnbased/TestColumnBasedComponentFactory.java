@@ -16,38 +16,28 @@ package org.linkki.core.defaults.columnbased;
 
 import static java.util.Objects.requireNonNull;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
-import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.defaults.nls.TestComponentWrapper;
+import org.linkki.core.defaults.nls.TestUiLayoutComponent;
+import org.linkki.core.uicreation.ComponentAnnotationReader;
 
-/**
- * Factory to create a column based component like table or grid from a {@link ContainerPmo}.
- * <p>
- * This implementation is independent of any specific UI framework but uses a
- * {@link ColumnBasedComponentCreator} to create the UI framework specific components.
- */
-public class ColumnBasedComponentFactory {
-
-    private final ColumnBasedComponentCreator containerComponentCreator;
-
-    public ColumnBasedComponentFactory(ColumnBasedComponentCreator containerComponentCreator) {
-        this.containerComponentCreator = requireNonNull(containerComponentCreator,
-                                                        "containerComponentCreator must not be null");
-    }
+public class TestColumnBasedComponentFactory {
 
     /**
      * Create a new table based on the container PMO.
      */
     public Object createContainerComponent(ContainerPmo<?> containerPmo, BindingContext bindingContext) {
-        ComponentWrapper tableWrapper = containerComponentCreator
-                .createComponent(requireNonNull(containerPmo, "containerPmo must not be null"));
+        ComponentWrapper tableWrapper = createComponent();
         requireNonNull(bindingContext, "bindingContext must not be null");
         List<LinkkiAspectDefinition> tableAspects = AspectAnnotationReader
                 .createAspectDefinitionsFor(containerPmo.getClass());
@@ -62,9 +52,24 @@ public class ColumnBasedComponentFactory {
 
     private void createColumns(ContainerPmo<?> containerPmo, ComponentWrapper tableWrapper, ContainerBinding binding) {
         Class<?> rowPmoClass = containerPmo.getItemPmoClass();
-        UIElementAnnotationReader annotationReader = new UIElementAnnotationReader(rowPmoClass);
-        annotationReader.getUiElements()
-                .forEach(e -> containerComponentCreator.initColumn(containerPmo, tableWrapper, binding, e));
+        ComponentAnnotationReader.getComponentDefinitionMethods(rowPmoClass)
+                .forEach(m -> initColumn(containerPmo, tableWrapper, binding, m));
     }
 
+    private void initColumn(ContainerPmo<?> containerPmo,
+            ComponentWrapper parentWrapper,
+            BindingContext bindingContext,
+            Method m) {
+        TestColumnBasedComponent<?> table = (TestColumnBasedComponent<?>)parentWrapper.getComponent();
+        TestUiLayoutComponent column = new TestUiLayoutComponent();
+        table.addChild(column);
+        bindingContext.bind(containerPmo,
+                            BoundPropertyAnnotationReader.getBoundProperty(m),
+                            AspectAnnotationReader.createAspectDefinitionsFor(m),
+                            new TestComponentWrapper(column));
+    }
+
+    private ComponentWrapper createComponent() {
+        return new TestComponentWrapper(new TestColumnBasedComponent<>());
+    }
 }
