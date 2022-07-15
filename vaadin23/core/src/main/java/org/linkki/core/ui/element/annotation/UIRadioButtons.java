@@ -24,11 +24,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
-import com.vaadin.flow.data.provider.HasListDataView;
-import com.vaadin.flow.data.renderer.TextRenderer;
-
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -56,6 +51,11 @@ import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsAspectDe
 import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
+import com.vaadin.flow.data.provider.HasListDataView;
+import com.vaadin.flow.data.renderer.TextRenderer;
 
 /**
  * Radio buttons for selecting a single value. Creates a
@@ -107,7 +107,7 @@ public @interface UIRadioButtons {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
-    @LinkkiBoundProperty.ModelObject
+    @LinkkiBoundProperty.ModelObjectProperty
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**

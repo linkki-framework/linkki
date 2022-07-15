@@ -87,6 +87,22 @@
                         "old": "class org.linkki.core.binding.descriptor.BindingDescriptor",
                         "new": "class org.linkki.core.binding.descriptor.BindingDescriptor",
                         "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.annotation.removed",
+                        "old": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
+                        "new": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
+                        "annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+                        "justification": "LIN-1090/LIN-3253"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.annotation.added",
+                        "old": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
+                        "new": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
+                        "annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObjectProperty",
+                        "justification": "LIN-1090/LIN-3253"
                     }
                 ]
             }

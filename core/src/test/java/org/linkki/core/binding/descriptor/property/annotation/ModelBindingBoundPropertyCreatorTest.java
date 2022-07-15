@@ -148,7 +148,7 @@ public class ModelBindingBoundPropertyCreatorTest {
         public static final String MODEL_ATTRIBUTE = "MA";
 
         @AnnotatedAnnotation(modelAttribute = MODEL_ATTRIBUTE, modelObject = MODEL_OBJECT)
-        private String field = "";
+        private final String field = "";
 
         @AnnotatedAnnotation(modelAttribute = MODEL_ATTRIBUTE, modelObject = MODEL_OBJECT)
         public ClassWithBoundPropertyAnnotations() {
@@ -191,7 +191,7 @@ public class ModelBindingBoundPropertyCreatorTest {
     @LinkkiBoundProperty
     public @interface AnnotatedAnnotation {
 
-        @LinkkiBoundProperty.ModelObject
+        @LinkkiBoundProperty.ModelObjectProperty
         String modelObject();
 
         @LinkkiBoundProperty.ModelAttribute
@@ -203,7 +203,7 @@ public class ModelBindingBoundPropertyCreatorTest {
     @LinkkiBoundProperty
     public @interface MissingModelAttributeAnnotation {
 
-        @LinkkiBoundProperty.ModelObject
+        @LinkkiBoundProperty.ModelObjectProperty
         String modelObject() default "";
 
     }
@@ -223,10 +223,10 @@ public class ModelBindingBoundPropertyCreatorTest {
     @LinkkiBoundProperty
     public @interface DuplicateModelObjectAnnotation {
 
-        @LinkkiBoundProperty.ModelObject
+        @LinkkiBoundProperty.ModelObjectProperty
         String modelObject() default "";
 
-        @LinkkiBoundProperty.ModelObject
+        @LinkkiBoundProperty.ModelObjectProperty
         String modelObject2() default "";
 
     }

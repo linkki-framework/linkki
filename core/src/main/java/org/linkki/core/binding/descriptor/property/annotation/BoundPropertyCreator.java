@@ -104,15 +104,18 @@ public interface BoundPropertyCreator<T extends Annotation> {
     }
 
     static class ModelBindingBoundPropertyCreator implements BoundPropertyCreator<Annotation> {
+        @SuppressWarnings("deprecation")
         @Override
         public BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement) {
 
             Optional<Method> modelObjectAttribute = BeanUtils
                     .getMethods(annotation.annotationType(),
-                                m -> m.isAnnotationPresent(LinkkiBoundProperty.ModelObject.class))
+                                m -> m.isAnnotationPresent(LinkkiBoundProperty.ModelObject.class)
+                                        || m.isAnnotationPresent(LinkkiBoundProperty.ModelObjectProperty.class))
                     .reduce((m1, m2) -> {
                         throw new IllegalStateException(
-                                "Duplicate definition of @" + LinkkiBoundProperty.ModelObject.class.getSimpleName()
+                                "Duplicate definition of @"
+                                        + LinkkiBoundProperty.ModelObjectProperty.class.getSimpleName()
                                         + " in " + annotation.annotationType().getName());
                     });
             Optional<Method> modelAttributeAttribute = BeanUtils
@@ -132,7 +135,7 @@ public interface BoundPropertyCreator<T extends Annotation> {
             } else {
                 throw new IllegalStateException(
                         String.format("Either %s or %s annotation is missing on the respective attribute in %s",
-                                      LinkkiBoundProperty.ModelObject.class.getName(),
+                                      LinkkiBoundProperty.ModelObjectProperty.class.getName(),
                                       LinkkiBoundProperty.ModelAttribute.class.getName(),
                                       annotation.annotationType().getName()));
             }
