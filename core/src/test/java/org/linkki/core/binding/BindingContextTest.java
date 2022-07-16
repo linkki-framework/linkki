@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext.BindingContextBuilder;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
+import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
@@ -78,7 +79,7 @@ public class BindingContextTest {
         return new ElementBinding(new TestComponentWrapper(component),
                 new ReflectionPropertyDispatcher(() -> pmo, "value",
                         new ExceptionPropertyDispatcher("value", pmo)),
-                context::modelChanged, new ArrayList<>());
+                context::modelChanged, new ArrayList<>(), new DefaultMessageHandler());
     }
 
     @Test

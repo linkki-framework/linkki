@@ -21,9 +21,6 @@ import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import java.util.Arrays;
-import java.util.List;
-
 @UISection
 public class ComboBoxPmo {
 

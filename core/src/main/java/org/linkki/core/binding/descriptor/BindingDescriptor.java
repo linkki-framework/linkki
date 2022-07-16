@@ -26,6 +26,9 @@ import java.util.List;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
+import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
+import org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler;
+import org.linkki.core.binding.descriptor.messagehandler.annotation.MessageHandlerAnnotationReader;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.pmo.ModelObject;
@@ -38,6 +41,7 @@ public final class BindingDescriptor {
 
     private final BoundProperty boundProperty;
     private final List<LinkkiAspectDefinition> aspectDefinitions;
+    private final LinkkiMessageHandler messageHandler;
 
     /**
      * Constructs a {@link BindingDescriptor} consisting of the given {@link BoundProperty} and
@@ -47,6 +51,7 @@ public final class BindingDescriptor {
         this.boundProperty = requireNonNull(boundProperty, "boundProperty must not be null");
         // avoid additional array copy by not using this(...)
         this.aspectDefinitions = Arrays.asList(requireNonNull(aspectDefinitions, "aspectDefinitions must not be null"));
+        this.messageHandler = new DefaultMessageHandler();
     }
 
     /**
@@ -54,9 +59,15 @@ public final class BindingDescriptor {
      * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
      */
     public BindingDescriptor(BoundProperty boundProperty, List<LinkkiAspectDefinition> aspectDefinitions) {
+        this(boundProperty, aspectDefinitions, new DefaultMessageHandler());
+    }
+
+    private BindingDescriptor(BoundProperty boundProperty, List<LinkkiAspectDefinition> aspectDefinitions,
+            LinkkiMessageHandler messageHandler) {
         this.boundProperty = requireNonNull(boundProperty, "boundProperty must not be null");
         this.aspectDefinitions = new ArrayList<>(
                 requireNonNull(aspectDefinitions, "aspectDefinitions must not be null"));
+        this.messageHandler = requireNonNull(messageHandler, "messageHandler must not be null");
     }
 
     /**
@@ -113,6 +124,14 @@ public final class BindingDescriptor {
     }
 
     /**
+     * Returns the configured {@link LinkkiMessageHandler} that is responsible for processing the
+     * validation messages of a specific bound component.
+     */
+    public LinkkiMessageHandler getMessageHandler() {
+        return messageHandler;
+    }
+
+    /**
      * Creates a {@link BindingDescriptor} for the given PMO class. The class must be annotated with
      * exactly one layout annotation that describes the bound property.
      */
@@ -140,7 +159,8 @@ public final class BindingDescriptor {
         return new BindingDescriptor(BoundPropertyAnnotationReader
                 .getBoundProperty(annotation, method),
                 AspectAnnotationReader
-                        .createAspectDefinitionsFor(annotation, method));
+                        .createAspectDefinitionsFor(annotation, method),
+                MessageHandlerAnnotationReader.getMessageHandler(method));
     }
 
     /**
@@ -157,7 +177,8 @@ public final class BindingDescriptor {
                 .orElseGet(BoundProperty::empty);
 
         return new BindingDescriptor(boundProperty,
-                AspectAnnotationReader.createAspectDefinitionsFor(annotatedElement));
+                AspectAnnotationReader.createAspectDefinitionsFor(annotatedElement),
+                MessageHandlerAnnotationReader.getMessageHandler(annotatedElement));
     }
 
 }

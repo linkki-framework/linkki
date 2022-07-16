@@ -470,7 +470,8 @@ public class BindingContext implements UiUpdateObserver {
                 dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor.getBoundProperty(),
                                                         getBehaviorProvider()),
                 this::modelChanged,
-                bindingDescriptor.getAspectDefinitions());
+                bindingDescriptor.getAspectDefinitions(),
+                bindingDescriptor.getMessageHandler());
     }
 
     /**

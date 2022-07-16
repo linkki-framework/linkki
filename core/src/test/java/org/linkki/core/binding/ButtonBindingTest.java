@@ -24,6 +24,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
@@ -50,7 +51,7 @@ class ButtonBindingTest {
 
         binding = new ElementBinding(new TestComponentWrapper(button), propertyDispatcher,
                 context::modelChanged,
-                Arrays.asList(aspectDefinition));
+                Arrays.asList(aspectDefinition), new DefaultMessageHandler());
         context.add(binding, TestComponentWrapper.with(binding));
     }
 

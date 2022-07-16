@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ElementBinding;
+import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
@@ -72,7 +73,7 @@ public class DialogBindingManagerTest {
                 new LabelComponentFormItem(new Button(), new Label()));
         ElementBinding binding = spy(new ElementBinding(
                 componentWrapper,
-                propertyDispatcher, Handler.NOP_HANDLER, new ArrayList<>()));
+                propertyDispatcher, Handler.NOP_HANDLER, new ArrayList<>(), new DefaultMessageHandler()));
         ctx.add(binding, componentWrapper);
 
         ctx.modelChanged();
