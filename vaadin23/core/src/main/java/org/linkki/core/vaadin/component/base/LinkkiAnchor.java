@@ -42,7 +42,7 @@ public class LinkkiAnchor extends LinkkiText implements Focusable<LinkkiAnchor> 
 
     @Override
     protected void setIconOnComponent(@CheckForNull VaadinIcon icon) {
-        setSuffixComponent(icon == null ? null : icon.create());
+        setIconOnComponent(icon, this::setSuffixComponent);
     }
 
     /**

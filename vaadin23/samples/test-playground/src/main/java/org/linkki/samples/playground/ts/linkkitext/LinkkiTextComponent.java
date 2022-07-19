@@ -40,7 +40,13 @@ public class LinkkiTextComponent extends VerticalLayout {
         actions.add(new Button("Remove Icon", e -> textWithIcon.setIcon(null)));
         actions.add(new Button("Set Icon", e -> textWithIcon.setIcon(VaadinIcon.ABACUS)));
 
-        add(formLayout, actions);
+        FormLayout prefixSuffix = new FormLayout();
+        LinkkiText textWithPrefixAndSuffix = new LinkkiText("Label with prefix and suffix", null);
+        textWithPrefixAndSuffix.setPrefixComponent(new Button("Prefix Button", VaadinIcon.AIRPLANE.create()));
+        textWithPrefixAndSuffix.setSuffixComponent(new Button("Suffix Button", VaadinIcon.ARCHIVE.create()));
+        prefixSuffix.add(textWithPrefixAndSuffix);
+
+        add(formLayout, actions, prefixSuffix);
     }
 
     private void updateIconWithText(LinkkiText text) {

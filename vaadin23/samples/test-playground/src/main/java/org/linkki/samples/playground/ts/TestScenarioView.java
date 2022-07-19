@@ -15,20 +15,6 @@ package org.linkki.samples.playground.ts;
 
 import java.util.Optional;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.Location;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
-import com.vaadin.flow.router.WildcardParameter;
-
 import org.apache.commons.lang3.StringUtils;
 import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.BindingContext;
@@ -115,6 +101,7 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorHoriz
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionComponent;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
 import org.linkki.samples.playground.ts.linkkipage.CardSectionPageComponent;
+import org.linkki.samples.playground.ts.linkkitext.LinkkiAnchorComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
@@ -132,6 +119,20 @@ import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.Location;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.router.WildcardParameter;
 
 @RouteAlias(value = "", layout = PlaygroundAppLayout.class)
 @Route(value = TestScenarioView.ROUTE, layout = PlaygroundAppLayout.class)
@@ -242,6 +243,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, new LinkkiTextComponent())
+                                       .testCase(TC002, new LinkkiAnchorComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS007)
                                        .testCase(TC001, new VerticalAlignmentTestComponent())

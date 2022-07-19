@@ -14,7 +14,7 @@ a.linkki-has-icon {
     gap: 0.5em;
 }
 
-linkki-text vaadin-icon {
+linkki-text .linkki-text-icon {
     height: var(--lumo-font-size-m);
     width: var(--lumo-font-size-m);
 }
