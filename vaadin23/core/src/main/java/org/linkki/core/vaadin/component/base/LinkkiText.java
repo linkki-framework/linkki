@@ -15,6 +15,8 @@
 package org.linkki.core.vaadin.component.base;
 
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.linkki.core.vaadin.component.HasIcon;
 
@@ -23,6 +25,7 @@ import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
 
@@ -38,6 +41,8 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix, HasText {
 
     public static final String CLASS_NAME = "linkki-text";
+
+    protected static final String ICON_CLASS_NAME = "linkki-text-icon";
 
     private static final long serialVersionUID = -1027646873177686722L;
 
@@ -135,7 +140,16 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
     }
 
     protected void setIconOnComponent(@CheckForNull VaadinIcon icon) {
-        setPrefixComponent(icon == null ? null : icon.create());
+        setIconOnComponent(icon, this::setPrefixComponent);
+    }
+
+    protected void setIconOnComponent(@CheckForNull VaadinIcon icon, Consumer<Icon> iconConsumer) {
+        Optional.ofNullable(icon)
+                .ifPresentOrElse(vIcon -> {
+                    Icon theIcon = vIcon.create();
+                    theIcon.setClassName(ICON_CLASS_NAME);
+                    iconConsumer.accept(theIcon);
+                }, () -> iconConsumer.accept(null));
     }
 
 }

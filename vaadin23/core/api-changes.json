@@ -38,68 +38,21 @@
             }
         }
     ],
-    "2.1.0": [
+    "2.2.0": [
         {
             "extension": "revapi.differences",
             "configuration": {
                 "ignore": true,
                 "differences": [
                     {
-                        "code": "java.class.noLongerInheritsFromClass",
-                        "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
-                        "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
-                        "justification": "LIN-2886 :: Inherits from LinkkiText instead",
-                        "superClass": "com.vaadin.flow.component.HtmlComponent"
+                        "code": "java.method.added",
+                        "new": "method void org.linkki.core.vaadin.component.base.LinkkiText::setIconOnComponent(com.vaadin.flow.component.icon.VaadinIcon, java.util.function.Consumer<com.vaadin.flow.component.icon.Icon>)",
+                        "justification": "LIN-3176/LIN-3177 :: Fix icon size in LinkkiText prefix and suffix components"
                     },
                     {
-                        "code": "java.class.nonFinalClassInheritsFromNewClass",
-                        "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
-                        "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
-                        "superClass": "org.linkki.core.vaadin.component.base.LinkkiText",
-                        "justification": "LIN-2886 :: Make UILink show labels above the component"
-                    },
-                    {
-                        "code": "java.method.removed",
-                        "old": "method void org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::<init>(org.linkki.core.defaults.ui.aspects.types.AvailableValuesType, java.util.function.BiConsumer<C, java.util.List<java.lang.Object>>, org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>)",
-                        "justification": "LIN-2855 :: AvailableValuesAspect does not compare captions anymore"
-                    },
-                    {
-                        "code": "java.method.removed",
-                        "old": "method void org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::refreshAll(org.linkki.core.binding.wrapper.ComponentWrapper, java.util.List<java.lang.Object>)",
-                        "justification": "LIN-2855 :: AvailableValuesAspect does not compare captions anymore"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.ui.aspects.ItemCache::<init>(org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>)",
-                        "new": "method void org.linkki.core.ui.aspects.ItemCache::<init>()",
-                        "justification": "LIN-2855 :: AvailableValuesAspect does not compare captions anymore"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method org.linkki.core.binding.descriptor.aspect.Aspect<java.util.Collection<?>> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::createAspect(java.lang.String, java.lang.Class<?>)",
-                        "new": "method org.linkki.core.binding.descriptor.aspect.Aspect<java.util.Collection<?>> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::createAspect(java.lang.Class<?>)",
-                        "justification": "LIN-1819 :: Enhance IpsPropertyDispatcher"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.String, java.lang.Class<?>)",
-                        "new": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.Class<?>)",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
-                        "justification": "LIN-1819 :: Enhance IpsPropertyDispatcher"
-                    },
-                    {
-                        "code": "java.annotation.added",
-                        "old": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.String, java.lang.Class<?>)",
-                        "new": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.Class<?>)",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
-                        "justification": "LIN-1819 :: Enhance IpsPropertyDispatcher"
-                    },
-                    {
-                        "code": "java.annotation.added",
-                        "old": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.String, java.lang.Class<?>) @ org.linkki.core.ui.aspects.GenericAvailableValuesAspectDefinition",
-                        "new": "method <T extends java.lang.Enum<T>> java.util.List<?> org.linkki.core.ui.aspects.AvailableValuesAspectDefinition<C>::getValuesDerivedFromDatatype(java.lang.Class<?>) @ org.linkki.core.ui.aspects.GenericAvailableValuesAspectDefinition",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
-                        "justification": "LIN-1819 :: Enhance IpsPropertyDispatcher"
+                        "code": "java.field.addedStaticField",
+                        "new": "field org.linkki.core.vaadin.component.base.LinkkiText.ICON_CLASS_NAME",
+                        "justification": "LIN-3176/LIN-3177 :: Fix icon size in LinkkiText prefix and suffix components"
                     }
                 ]
             }
