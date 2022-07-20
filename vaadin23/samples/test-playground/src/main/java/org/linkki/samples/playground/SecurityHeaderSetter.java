@@ -3,6 +3,7 @@ package org.linkki.samples.playground;
 import com.vaadin.flow.server.communication.IndexHtmlRequestListener;
 import com.vaadin.flow.server.communication.IndexHtmlResponse;
 
+// tag::index-html-request-listener[]
 public class SecurityHeaderSetter implements IndexHtmlRequestListener {
 
     private static final long serialVersionUID = 1L;
@@ -15,3 +16,4 @@ public class SecurityHeaderSetter implements IndexHtmlRequestListener {
         indexHtmlResponse.getVaadinResponse().setHeader("Permissions-Policy", "microphone=(),camera=()");
     }
 }
+// end::index-html-request-listener[]
