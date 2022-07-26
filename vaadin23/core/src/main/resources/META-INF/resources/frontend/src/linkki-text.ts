@@ -12,6 +12,11 @@ class LinkkiText extends LitElement {
       outline: none;
     }
 
+    ::slotted([slot="prefix"]),
+    ::slotted([slot="suffix"]) {
+        flex: none;
+    }
+
     :host:before {
       /* set the default height to normal line height */
       content: '\\200b';

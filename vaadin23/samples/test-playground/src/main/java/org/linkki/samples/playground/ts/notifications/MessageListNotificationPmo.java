@@ -32,9 +32,13 @@ public class MessageListNotificationPmo {
 
     private String text1 = "The first message in a MessageList";
     private Severity severity1 = Severity.INFO;
-    private String text2 = "Another message";
+    private String text2 = "<b>Another message that is bold</b>";
     private Severity severity2 = Severity.INFO;
-    private String text3 = "This is the last message";
+    private String text3 = "This is the last message that is very long and therefore forces a "
+            + "multiline LinkkiText: <i>Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+            + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+            + "minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip "
+            + "ex ea commodo consequat.</i>";
     private Severity severity3 = Severity.INFO;
 
     @UITextField(position = 0, label = "Title")
