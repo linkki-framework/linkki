@@ -7,11 +7,10 @@
 
 This list contains documentation and release notes for all available versions.
 
-=== https://doc.linkki-framework.org/2.2.0/99_releasenotes/[2.2 (vaadin23)]
-=== https://doc.linkki-framework.org/2.1.0/99_releasenotes/[2.1 (vaadin23)]
-=== https://doc.linkki-framework.org/2.0.0/99_releasenotes/[2.0 (vaadin23)]
+=== https://doc.linkki-framework.org/2.1/99_releasenotes/[2.1 (vaadin23)]
+=== https://doc.linkki-framework.org/2.0/99_releasenotes/[2.0 (vaadin23)]
 === https://doc.linkki-framework.org/1.5.0-vaadin14/99_releasenotes/[1.5 (vaadin14)]
-=== https://doc.linkki-framework.org/1.4.4-vaadin8/99_releasenotes/[1.4]
+=== https://doc.linkki-framework.org/1.4.5-vaadin8/99_releasenotes/[1.4]
 === https://doc.linkki-framework.org/1.3.0/99_newnoteworthy/[1.3]
 === https://doc.linkki-framework.org/1.2.2/99_newnoteworthy/[1.2]
 === https://doc.linkki-framework.org/1.1.2/99_newnoteworthy/[1.1]
