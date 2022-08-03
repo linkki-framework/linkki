@@ -5,6 +5,13 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.1.2
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3176
+* Fix icon size for `LinkkiText` and `LinkkiAnchor`
+
 === Version 2.1.1
 
 ==== Bugfixes
@@ -19,8 +26,6 @@
 * `BindingContext#modelChanged` was called when creating a table. This accidentally triggered a `modelChangeHandler` when setting up the UI.
 // https://jira.faktorzehn.de/browse/LIN-3171
 * Fix `@UILink` and `@UILabel` with icons in combination with custom style names added by `@BindStyleNames`. Style class `linkki-has-icon` is not used anymore and will be removed in a later version.
-// https://jira.faktorzehn.de/browse/LIN-3176
-* Fix icon size for `LinkkiText` and `LinkkiAnchor` 
 
 === Version 2.1.0
 
