@@ -19,13 +19,13 @@ import java.util.List;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
-import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
@@ -47,6 +47,10 @@ public class CardSectionPageComponent {
     private static final String VERTICAL = SectionLayout.VERTICAL.name();
 
     private static final String DESCRIPTION = "@UISection with SectionLayout.";
+
+    private CardSectionPageComponent() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static Component create() {
         Component tabLayoutWithCardLikeSections = createTabLayoutWithCardLikeSections();

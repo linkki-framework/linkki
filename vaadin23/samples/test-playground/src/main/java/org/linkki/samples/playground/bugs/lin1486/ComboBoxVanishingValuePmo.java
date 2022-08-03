@@ -31,13 +31,15 @@ import org.linkki.util.handler.Handler;
 public class ComboBoxVanishingValuePmo {
 
     public static final String CAPTION = "LIN-1486";
-
     public static final String PROPERTY_CHOICE = "choice";
     public static final String PROPERTY_CHANGE_CHOICES = "changeChoices";
     public static final String PROPERTY_UPDATE_BINDING_CONTEXT = "updateBindingContext";
 
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
     private final Handler updateBindingContext;
-    private List<Double> choices = IntStream.range(0, 20).mapToObj(i -> new SecureRandom().nextDouble())
+    private List<Double> choices = IntStream.range(0, 20)
+            .mapToObj(i -> SECURE_RANDOM.nextDouble())
             .collect(Collectors.toList());
     private Double choice = choices.get(0);
 
@@ -47,10 +49,12 @@ public class ComboBoxVanishingValuePmo {
 
     @UILabel(position = 5)
     public String getDescription() {
-        return "Set new objects as choices then update the new binding context. The value in the combo box would disappear if the bug still exists.";
+        return "Set new objects as choices then update the new binding context. "
+                + "The value in the combo box would disappear if the bug still exists.";
     }
 
-    @UIComboBox(position = 10, label = "choices", content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
+    @UIComboBox(position = 10, label = "choices", content = AvailableValuesType.DYNAMIC,
+            itemCaptionProvider = ToStringCaptionProvider.class)
     public Double getChoice() {
         return choice;
     }
@@ -66,7 +70,9 @@ public class ComboBoxVanishingValuePmo {
     @UIButton(position = 20, caption = "set new objects as choices")
     public void changeChoices() {
         // must be new objects, else the bug will not appear
-        choices = IntStream.range(0, 20).mapToObj(i -> new SecureRandom().nextDouble()).collect(Collectors.toList());
+        choices = IntStream.range(0, 20)
+                .mapToObj(i -> SECURE_RANDOM.nextDouble())
+                .collect(Collectors.toList());
         choice = choices.get(0);
     }
 

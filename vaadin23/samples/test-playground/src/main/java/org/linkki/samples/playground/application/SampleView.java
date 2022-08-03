@@ -35,10 +35,10 @@ public class SampleView extends Div {
 
     private static final long serialVersionUID = 1L;
 
-    private static final List<Report> reports = new ArrayList<>();
+    private static final List<Report> REPORTS = new ArrayList<>();
 
     public SampleView() {
-        LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
+        var tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.addTabSheets(LinkkiTabSheet.builder("CreateReport")
                 .caption(VaadinIcon.STAR_HALF_LEFT_O.create())
                 .content(this::createReportPage)
@@ -52,17 +52,17 @@ public class SampleView extends Div {
     }
 
     private VerticalLayout createReportPage() {
-        VerticalLayout layout = new VerticalLayout();
+        var layout = new VerticalLayout();
         layout.setPadding(true);
         layout.add(new Headline("Create Report"));
-        ReportPage page = new ReportPage(reports::add);
+        var page = new ReportPage(REPORTS::add);
         page.init();
         layout.add(page);
         return layout;
     }
 
     private VerticalLayout createReportListPage() {
-        ReportListPage listPage = new ReportListPage(reports);
+        var listPage = new ReportListPage(REPORTS);
         listPage.setSizeFull();
         listPage.init();
         return listPage;

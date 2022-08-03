@@ -16,6 +16,12 @@ package org.linkki.core.ui.wrapper;
 
 
 import java.util.Optional;
+import java.util.regex.Pattern;
+
+import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
@@ -23,17 +29,15 @@ import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.HasValidation;
 import com.vaadin.flow.component.HasValue;
 
-import org.linkki.core.binding.Binding;
-import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.binding.wrapper.WrapperType;
-
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Base class to wrap vaadin components.
  */
 public abstract class VaadinComponentWrapper implements ComponentWrapper {
+
+    private static final Pattern REGEX_HTML_TAGS = Pattern.compile("<[^>]*>");
+    private static final Pattern REGEX_BREAK_TAG = Pattern.compile("(?i)<br */?>");
 
     private static final String SEVERITY_ATTRIBUTE_NAME = "severity";
 
@@ -128,9 +132,9 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
      * @return The formatted String or an empty String if the argument is null
      */
     private String clearHtmlAndFormat(@CheckForNull String text) {
-        return Optional.ofNullable(text) //
-                .map(html -> html.replaceAll("(?i)<br */?>", "\n")) //
-                .map(html -> html.replaceAll("<[^>]*>", "")) //
+        return Optional.ofNullable(text)
+                .map(html -> html.replaceAll(REGEX_BREAK_TAG.pattern(), "\n"))
+                .map(html -> html.replaceAll(REGEX_HTML_TAGS.pattern(), ""))
                 .orElse("");
     }
 

@@ -33,6 +33,10 @@ public final class CarModels {
         MAKE_MODEL_MAP.put("Porsche", Arrays.asList("911", "919", "718"));
     }
 
+    private CarModels() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Optional<List<String>> getModels(String make) {
         return Optional.ofNullable(MAKE_MODEL_MAP.get(make));
     }

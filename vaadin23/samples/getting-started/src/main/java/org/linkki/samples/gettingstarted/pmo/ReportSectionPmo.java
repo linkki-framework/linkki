@@ -50,14 +50,16 @@ public class ReportSectionPmo {
     // end::model-binding[]
 
     // tag::textfield[]
-    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, height = "8em", width = "50em")
+    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED,
+            height = "8em", width = "50em")
     public void description() {
         // Use description from report (model object) directly
     }
     // end::textfield[]
 
     // tag::combobox[]
-    @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
+    @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED,
+            content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
     public void type() {
         // - bind value to the property "type" from report
         // - use enum constants from ReportType as available values
@@ -65,11 +67,12 @@ public class ReportSectionPmo {
     // end::combobox[]
 
     // tag::button[]
-    @UIButton(position = 30, caption = "Send", icon = VaadinIcon.PAPERPLANE, showIcon = true, enabled = EnabledType.DYNAMIC)
+    @UIButton(position = 30, caption = "Send", icon = VaadinIcon.PAPERPLANE, showIcon = true,
+            enabled = EnabledType.DYNAMIC)
     public void send() {
         report.save();
 
-        Notification notification = new Notification(
+        var notification = new Notification(
                 new Span(String.format("Report with id %d filed!", report.getId())),
                 new Span("Thank you for reporting!"));
         notification.setPosition(Position.TOP_CENTER);

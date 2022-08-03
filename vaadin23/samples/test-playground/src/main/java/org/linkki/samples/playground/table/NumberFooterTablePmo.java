@@ -43,7 +43,10 @@ public class NumberFooterTablePmo implements ContainerPmo<NumberFooterRowPmo> {
 
     @Override
     public List<NumberFooterRowPmo> getItems() {
-        return IntStream.range(0, 11).boxed().map(i -> new NumberFooterRowPmo()).collect(Collectors.toList());
+        return IntStream.range(0, 11)
+                .boxed()
+                .map(i -> new NumberFooterRowPmo())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -73,6 +76,8 @@ public class NumberFooterTablePmo implements ContainerPmo<NumberFooterRowPmo> {
 
     public static class NumberFooterRowPmo {
 
+        private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
         @UITableColumn(width = 100)
         @UILabel(position = 10)
         public String getDescription() {
@@ -82,7 +87,7 @@ public class NumberFooterTablePmo implements ContainerPmo<NumberFooterRowPmo> {
         @UITableColumn(width = 300, textAlign = TextAlignment.RIGHT)
         @UILabel(position = 20)
         public Decimal getDecimal() {
-            return Decimal.valueOf(new SecureRandom().nextDouble() * 10);
+            return Decimal.valueOf(SECURE_RANDOM.nextDouble() * 10);
         }
     }
 }

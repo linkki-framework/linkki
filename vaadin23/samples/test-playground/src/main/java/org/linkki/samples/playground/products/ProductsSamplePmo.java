@@ -74,7 +74,8 @@ public abstract class ProductsSamplePmo {
             /* model binding only */
         }
 
-        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED, modelAttribute = "property2", width = "")
+        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED,
+                modelAttribute = "property2", width = "")
         public void property2() {
             /* model binding only */
         }
@@ -97,7 +98,8 @@ public abstract class ProductsSamplePmo {
             /* model binding only */
         }
 
-        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED, modelAttribute = "property2")
+        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED,
+                modelAttribute = "property2")
         public void property2() {
             /* model binding only */
         }
@@ -106,6 +108,8 @@ public abstract class ProductsSamplePmo {
 
     public static class RowSamplePmo extends ProductsSamplePmo {
 
+        private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
         private final List<Decimal> decimalOptions = List.of(Decimal.valueOf(0), Decimal.valueOf(100),
                                                              Decimal.valueOf(200));
         private Decimal decimal;
@@ -113,7 +117,7 @@ public abstract class ProductsSamplePmo {
 
         public RowSamplePmo(ProductsSampleModelObject sampleModelObject) {
             super("", sampleModelObject);
-            decimal = Decimal.valueOf(new SecureRandom().nextDouble() * 1000).round(2, RoundingMode.HALF_UP);
+            decimal = Decimal.valueOf(SECURE_RANDOM.nextDouble() * 1000).round(2, RoundingMode.HALF_UP);
             decimalSelection = decimalOptions.get(0);
         }
 
@@ -123,7 +127,8 @@ public abstract class ProductsSamplePmo {
             /* model binding only */
         }
 
-        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED, modelAttribute = "property2")
+        @UITextField(position = 20, label = "Property 2", required = RequiredType.REQUIRED,
+                modelAttribute = "property2")
         public void property2() {
             /* model binding only */
         }

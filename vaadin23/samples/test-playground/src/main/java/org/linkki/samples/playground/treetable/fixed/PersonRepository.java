@@ -20,19 +20,22 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.linkki.samples.playground.treetable.fixed.Person.PersonBuilder;
 
 public class PersonRepository {
 
     // from https://www.briandunning.com/sample-data/
     private static final String PERSON_SAMPLE_DATA = "ca-500.csv";
-    private static final String COMMA_AND_QUOTES = "\",\"";
+    private static final Pattern COMMA_AND_QUOTES = Pattern.compile("\",\"");
     private final List<Person> persons;
 
     public PersonRepository() {
         try (InputStream s = getClass().getClassLoader().getResourceAsStream(PERSON_SAMPLE_DATA);
                 Reader r = new InputStreamReader(s, StandardCharsets.UTF_8);
-                BufferedReader br = new BufferedReader(r)) {
+                var br = new BufferedReader(r)) {
             persons = br.lines()
                     .skip(1)
                     .map(PersonRepository::csvToPerson)
@@ -43,10 +46,19 @@ public class PersonRepository {
     }
 
     private static Person csvToPerson(String csvLine) {
-        String[] values = csvLine.split(COMMA_AND_QUOTES);
-        return new Person(values[0].substring(1), values[1], values[2], values[3], values[4], values[5], values[6],
-                values[7],
-                values[8], values[9], values[10].substring(0, values[10].length() - 1));
+        String[] values = csvLine.split(COMMA_AND_QUOTES.pattern());
+        return new PersonBuilder()
+                .firstName(values[0].substring(1))
+                .lastName(values[1])
+                .company(values[2])
+                .address(values[3])
+                .city(values[4])
+                .province(values[5])
+                .zipCode(values[6])
+                .phone1(values[7])
+                .phone2(values[8])
+                .email(values[9])
+                .web(values[10].substring(0, values[10].length() - 1)).build();
     }
 
     public List<Person> getPersons() {

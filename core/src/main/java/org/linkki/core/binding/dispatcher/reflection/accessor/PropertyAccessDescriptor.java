@@ -43,7 +43,7 @@ public class PropertyAccessDescriptor<T, V> {
     private final Supplier<Optional<Method>> setter = lazy(this::findSetter);
     private final Supplier<Optional<Method>> invoker = lazy(this::findInvoker);
 
-    private String capitalizedPropertyName;
+    private final String capitalizedPropertyName;
 
     public PropertyAccessDescriptor(Class<? extends T> boundClass, String propertyName) {
         this.boundClass = requireNonNull(boundClass, "clazz must not be null");
@@ -65,7 +65,7 @@ public class PropertyAccessDescriptor<T, V> {
 
 
     private final Optional<Method> findSetter() {
-        return getter.get()//
+        return getter.get()
                 .map(Method::getReturnType)
                 .map(returnTyp -> new Class<?>[] { returnTyp })
                 .map(params -> MethodUtils.getMatchingAccessibleMethod(boundClass, SET_PREFIX + capitalizedPropertyName,

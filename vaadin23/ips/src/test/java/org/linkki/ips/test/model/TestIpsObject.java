@@ -479,7 +479,8 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
-    @IpsAttribute(name = "valueSetRangeOfIntInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
+    @IpsAttribute(name = "valueSetRangeOfIntInclNull", kind = AttributeKind.CHANGEABLE,
+            valueSetKind = ValueSetKind.Range)
     @IpsGenerated
     public Integer getValueSetRangeOfIntInclNull() {
         return valueSetRangeOfIntInclNull;
@@ -515,7 +516,8 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
-    @IpsAttribute(name = "valueSetRangeOfIntExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
+    @IpsAttribute(name = "valueSetRangeOfIntExclNull", kind = AttributeKind.CHANGEABLE,
+            valueSetKind = ValueSetKind.Range)
     @IpsGenerated
     public Integer getValueSetRangeOfIntExclNull() {
         return valueSetRangeOfIntExclNull;
@@ -551,7 +553,8 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
-    @IpsAttribute(name = "valueSetIntUnrestricted", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsAttribute(name = "valueSetIntUnrestricted", kind = AttributeKind.CHANGEABLE,
+            valueSetKind = ValueSetKind.AllValues)
     @IpsGenerated
     public Integer getValueSetIntUnrestricted() {
         return valueSetIntUnrestricted;

@@ -43,7 +43,8 @@ public class ReportSectionPmo extends ReportPmo {
         this.addReport = addReport;
     }
 
-    @UIButton(position = 40, caption = "Send", icon = VaadinIcon.PAPERPLANE, showIcon = true, enabled = EnabledType.DYNAMIC)
+    @UIButton(position = 40, caption = "Send", icon = VaadinIcon.PAPERPLANE, showIcon = true,
+            enabled = EnabledType.DYNAMIC)
     public void send() {
         MessageList messages = validate();
         if (messages.containsErrorMsg()) {
@@ -51,7 +52,7 @@ public class ReportSectionPmo extends ReportPmo {
                     .open("Report was not saved",
                           MessageUiComponents.createMessageTable("Invalid date", () -> (messages),
                                                                  new BindingContext()))
-                    .setSize("20em", null);
+                    .setWidth("20em");
         } else {
             getReport().save();
             doSendReport();

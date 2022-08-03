@@ -30,6 +30,7 @@ import org.linkki.samples.playground.binding.model.Contact;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 // tag::sectionCaption[]
 @UISection(caption = "Children", closeable = true)
@@ -48,7 +49,8 @@ public class ChildrenSectionPmo {
         selectChild();
     }
 
-    @UIIntegerField(position = 10, label = "Number of children", modelObject = "Contact", modelAttribute = Contact.PROPERTY_NO_OF_CHILDREN)
+    @UIIntegerField(position = 10, label = "Number of children", modelObject = "Contact",
+            modelAttribute = Contact.PROPERTY_NO_OF_CHILDREN)
     public int getNoOfChildren() {
         return contact.getNoOfChildren();
     }
@@ -58,6 +60,7 @@ public class ChildrenSectionPmo {
         selectChild();
     }
 
+    @Nullable
     @UIComboBox(position = 20, label = "", visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC)
     public ChildInfo getChild() {
         return child;
@@ -75,26 +78,32 @@ public class ChildrenSectionPmo {
         return contact.getChildren().size() > 1;
     }
 
-    @UITextField(position = 30, label = "Firstname", modelAttribute = ChildInfo.PROPERTY_FIRSTNAME, visible = VisibleType.DYNAMIC)
+    @UITextField(position = 30, label = "Firstname", modelAttribute = ChildInfo.PROPERTY_FIRSTNAME,
+            visible = VisibleType.DYNAMIC)
     public String getFirstname() {
         return child != null ? child.getFirstname() : "";
     }
 
     public void setFirstname(String firstname) {
-        child.setFirstname(firstname);
+        if (child != null) {
+            child.setFirstname(firstname);
+        }
     }
 
     public boolean isFirstnameVisible() {
         return child != null;
     }
 
-    @UITextField(position = 40, label = "Lastname", modelAttribute = ChildInfo.PROPERTY_LASTNAME, visible = VisibleType.DYNAMIC)
+    @UITextField(position = 40, label = "Lastname", modelAttribute = ChildInfo.PROPERTY_LASTNAME,
+            visible = VisibleType.DYNAMIC)
     public String getLastname() {
         return child != null ? child.getLastname() : "";
     }
 
     public void setLastname(String lastname) {
-        child.setLastname(lastname);
+        if (child != null) {
+            child.setLastname(lastname);
+        }
     }
 
     public boolean isLastnameVisible() {
@@ -107,7 +116,9 @@ public class ChildrenSectionPmo {
     }
 
     public void setNote(String note) {
-        child.setNote(note);
+        if (child != null) {
+            child.setNote(note);
+        }
     }
 
     public boolean isNoteVisible() {
@@ -117,7 +128,7 @@ public class ChildrenSectionPmo {
     @UIButton(position = 60, showIcon = true, icon = VaadinIcon.TRASH, visible = VisibleType.DYNAMIC)
     public void remove() {
         contact.getChildren().remove(child);
-        this.child = contact.getChildren().size() > 0 ? contact.getChildren().get(0) : null;
+        this.child = contact.getChildren().isEmpty() ? null : contact.getChildren().get(0);
     }
 
     public boolean isRemoveVisible() {

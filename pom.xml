@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -49,7 +47,7 @@
         <commons-io.version>2.11.0</commons-io.version>
         <doc.user>${user.name}</doc.user>
         <spotbugs.version>4.6.0</spotbugs.version>
-        <checkstyle.version>8.45.1</checkstyle.version>
+        <checkstyle.version>10.3.2</checkstyle.version>
         <java.version>11</java.version>
         <apt.tests.skip>false</apt.tests.skip>
 
@@ -158,6 +156,7 @@
                     <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                     <propertyExpansion>config_loc=checkstyle</propertyExpansion>
                     <linkXRef>false</linkXRef>
+                    <headerLocation>config/checkstyle/LICENSE.txt</headerLocation>
                 </configuration>
                 <executions>
                     <execution>

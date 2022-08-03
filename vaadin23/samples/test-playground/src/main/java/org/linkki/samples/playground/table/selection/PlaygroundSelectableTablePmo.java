@@ -36,13 +36,14 @@ public class PlaygroundSelectableTablePmo extends SimpleTablePmo<TableModelObjec
         implements SelectableTablePmo<PlaygroundRowPmo> {
 
     public static final String NOTIFICATION_DOUBLE_CLICK = "Double clicked on ";
-
+    // end::selectable-table[]
+    public static final int INITAL_SELECTED_ROW = 0;
+    // tag::selectable-table[]
     private PlaygroundRowPmo selected;
 
     // ...
 
     // end::selectable-table[]
-    public static final int INITAL_SELECTED_ROW = 0;
 
     private Handler addHandler;
 

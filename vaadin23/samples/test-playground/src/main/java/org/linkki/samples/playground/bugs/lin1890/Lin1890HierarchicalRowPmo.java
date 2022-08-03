@@ -26,15 +26,15 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
 public class Lin1890HierarchicalRowPmo implements HierarchicalRowPmo<Lin1890HierarchicalRowPmo> {
 
+    private static long classCallCount;
+
     private StringTreeNode node;
     private SimpleItemSupplier<Lin1890HierarchicalRowPmo, StringTreeNode> rowSupplier;
     private long objectCallCount;
-    private static long classCallCount;
 
     public Lin1890HierarchicalRowPmo(StringTreeNode node) {
         this.node = node;
-        rowSupplier = new SimpleItemSupplier<Lin1890HierarchicalRowPmo, StringTreeNode>(
-                () -> node.getChildren(), Lin1890HierarchicalRowPmo::new);
+        rowSupplier = new SimpleItemSupplier<>(node::getChildren, Lin1890HierarchicalRowPmo::new);
     }
 
     @UITableColumn(flexGrow = 1)

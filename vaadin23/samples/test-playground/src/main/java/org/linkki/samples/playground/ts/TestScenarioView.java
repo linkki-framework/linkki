@@ -139,10 +139,6 @@ import com.vaadin.flow.router.WildcardParameter;
 @PageTitle("linkki Sample :: Playground")
 public class TestScenarioView extends Div implements HasUrlParameter<String> {
 
-    static final String ROUTE = "playground";
-
-    private static final long serialVersionUID = 1L;
-
     public static final String TS001 = "TS001";
     public static final String TS002 = "TS002";
     public static final String TS003 = "TS003";
@@ -176,8 +172,14 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
 
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
 
+    static final String ROUTE = "playground";
+
+    private static final long serialVersionUID = 1L;
+
+
     private final LinkkiTabLayout tabLayout;
 
+    @SuppressWarnings("MethodLength")
     public TestScenarioView() {
         setSizeFull();
         tabLayout = LinkkiTabLayout.newSidebarLayout();

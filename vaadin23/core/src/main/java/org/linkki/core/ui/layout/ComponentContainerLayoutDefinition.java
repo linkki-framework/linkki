@@ -45,10 +45,10 @@ public class ComponentContainerLayoutDefinition implements LinkkiLayoutDefinitio
     @Override
     public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext) {
         UiCreator.<Component, ComponentWrapper> createUiElements(pmo, bindingContext,
-                                                                 c -> componentWrapperCreator.apply(c))//
+                                                                 componentWrapperCreator::apply)
                 .map(ComponentWrapper::getComponent)
                 .map(Component.class::cast)
-                .forEach(c -> ((HasComponents)parentComponent).add(c));
+                .forEach(((HasComponents)parentComponent)::add);
     }
 
     public static class ComponentContainerLayoutDefinitionCreateor implements LayoutDefinitionCreator<Annotation> {

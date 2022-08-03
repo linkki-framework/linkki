@@ -70,7 +70,7 @@ public class LeagueTablePmo extends SimpleTablePmo<String, PlayerTableRowPmo>
                     return String.format("Ø %.2f", league
                             .getPlayers().stream()
                             .map(Player::getDateOfBirth)
-                            .collect(Collectors.averagingInt(d -> PlayerTableRowPmo.getAge(d))));
+                            .collect(Collectors.averagingInt(PlayerTableRowPmo::getAge)));
 
                 default:
                     return "";
@@ -86,8 +86,9 @@ public class LeagueTablePmo extends SimpleTablePmo<String, PlayerTableRowPmo>
     @Override
     public void setSelection(PlayerTableRowPmo selectedRow) {
         this.selected = selectedRow;
-        if (selectedRow != null)
+        if (selectedRow != null) {
             Notification.show("Selected: " + getDisplayLine(selectedRow));
+        }
     }
 
     @Override

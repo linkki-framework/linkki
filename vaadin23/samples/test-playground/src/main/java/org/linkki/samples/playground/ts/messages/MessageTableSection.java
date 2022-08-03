@@ -30,6 +30,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class MessageTableSection {
 
+    private MessageTableSection() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Component create() {
         MessageTablePmo messageTablePmo = new MessageTablePmo();
         ValidationService validationService = messageTablePmo::validate;

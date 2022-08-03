@@ -99,49 +99,47 @@ public class FieldValidationPmo {
 
     @NonNull
     public MessageList validate() {
-        MessageList messages = new MessageList();
+        var messages = new MessageList();
         if (severity == null) {
             return messages;
-        }
-        if (severity.compareTo(Severity.INFO) >= 0) {
+        } else if (severity == Severity.INFO) {
             // for documentation
             Object invalidObject = this;
             // tag::message-builder[]
-            Message message = Message.builder(getValidationMessage("Info validation message"), Severity.INFO)
+            var message = Message.builder(getValidationMessage("Info validation message"), Severity.INFO)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_COMBO_BOX_VALUE)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_TEXT_FIELD)
                     .create();
             // end::message-builder[]
             messages.add(message);
-        }
-
-        if (severity.compareTo(Severity.WARNING) >= 0) {
+        } else if (severity == Severity.WARNING) {
             messages.add(Message.builder(getValidationMessage("Warning validation message"), Severity.WARNING)
                     .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
                     .create());
-        }
-
-        if (severity.compareTo(Severity.ERROR) >= 0) {
+        } else if (severity == Severity.ERROR) {
             messages.add(Message.builder(getValidationMessage("Error validation message"), Severity.ERROR)
                     .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
                     .create());
+        } else {
+            throw new IllegalStateException();
         }
         return messages;
     }
 
     private String getValidationMessage(String baseMessage) {
-        return isShowLongValidationMessage() ? baseMessage + " in a very long form with loooooooong words."
-                + " This message should test the line break behavior. Also, the message should be wrapped on top of the buttons."
-                + " Of course, the message only wraps if the size of the screen is small enough."
+        return isShowLongValidationMessage() ? (baseMessage + " in a very long form with loooooooong words."
+                + " This message should test the line break behavior. Also, the message should be wrapped "
+                + "on top of the buttons. Of course, the message only wraps if the size of the screen "
+                + "is small enough.")
                 : baseMessage;
     }
 
     public static Component createComponent() {
-        FieldValidationPmo pmo = new FieldValidationPmo();
+        var pmo = new FieldValidationPmo();
         ValidationService validationService = pmo::validate;
-        DefaultBindingManager bindingManager = new DefaultBindingManager(validationService);
+        var bindingManager = new DefaultBindingManager(validationService);
         return VaadinUiCreator.createComponent(pmo, bindingManager.getContext(pmo.getClass()));
     }
 }

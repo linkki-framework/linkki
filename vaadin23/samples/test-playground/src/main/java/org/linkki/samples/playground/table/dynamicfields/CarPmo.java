@@ -78,7 +78,7 @@ public abstract class CarPmo implements PresentationModelObject, Serializable {
     // end::ui-dynamic-field[]
 
     // must be public, otherwise linkki can not access it
-    public final static class RetentionCaptionProvider implements ItemCaptionProvider<Double> {
+    public static final class RetentionCaptionProvider implements ItemCaptionProvider<Double> {
 
         @Override
         public String getCaption(Double value) {

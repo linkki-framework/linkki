@@ -30,6 +30,10 @@ import com.vaadin.flow.component.Component;
 
 public class TableWithValidationSection {
 
+    private TableWithValidationSection() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Component create() {
         List<TableModelObject> modelObjects = IntStream.range(1, 10)
                 .mapToObj(TableModelObject::new)

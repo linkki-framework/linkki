@@ -23,6 +23,7 @@ import org.linkki.samples.playground.binding.model.Country;
 public final class CountryService {
 
     private static final List<Country> COUNTRIES;
+
     static {
         List<Country> countries = new ArrayList<>(3);
         countries.add(new Country("DEU", "Germany"));
@@ -34,7 +35,12 @@ public final class CountryService {
         COUNTRIES = Collections.unmodifiableList(countries);
     }
 
+    private CountryService() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static List<Country> getCountries() {
         return COUNTRIES;
     }
+
 }

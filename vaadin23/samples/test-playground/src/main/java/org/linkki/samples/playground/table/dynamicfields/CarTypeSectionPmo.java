@@ -28,7 +28,6 @@ public class CarTypeSectionPmo implements PresentationModelObject, Serializable 
 
     private final NewCar car;
 
-
     public CarTypeSectionPmo(NewCar car) {
         this.car = car;
     }
@@ -38,8 +37,10 @@ public class CarTypeSectionPmo implements PresentationModelObject, Serializable 
         return car;
     }
 
-    @UIComboBox(position = 10, label = "Car Type", modelAttribute = NewCar.PROPERTY_CAR_TYPE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
+    @UIComboBox(position = 10, label = "Car Type", modelAttribute = Car.PROPERTY_CAR_TYPE,
+            content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
     public void carType() {
         /* model binding */
     }
+
 }

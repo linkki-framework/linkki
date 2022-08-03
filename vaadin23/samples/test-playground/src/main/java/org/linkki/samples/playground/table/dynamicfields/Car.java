@@ -24,14 +24,12 @@ public class Car implements Serializable {
 
     private static final long serialVersionUID = -4013282509907331553L;
 
-
-    CarType carType;
+    private CarType carType;
 
     private String make;
     private String model;
 
     private Double retention;
-
 
     Car() {
         // default constructor for inheritance
@@ -41,6 +39,9 @@ public class Car implements Serializable {
         this.carType = carType;
     }
 
+    protected void setCarType(CarType carType) {
+        this.carType = carType;
+    }
 
     public CarType getCarType() {
         return carType;

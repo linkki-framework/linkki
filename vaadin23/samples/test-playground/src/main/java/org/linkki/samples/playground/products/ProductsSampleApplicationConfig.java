@@ -33,27 +33,7 @@ public class ProductsSampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public ApplicationInfo getApplicationInfo() {
-        return new ApplicationInfo() {
-            @Override
-            public String getApplicationName() {
-                return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Name");
-            }
-
-            @Override
-            public String getApplicationVersion() {
-                return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Version");
-            }
-
-            @Override
-            public String getApplicationDescription() {
-                return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Description");
-            }
-
-            @Override
-            public String getCopyright() {
-                return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; // $NON-NLS-1$
-            }
-        };
+        return new ProductsSampleApplicationInfo();
     }
 
     @Override
@@ -65,5 +45,27 @@ public class ProductsSampleApplicationConfig implements ApplicationConfig {
     @Override
     public ApplicationHeaderDefinition getHeaderDefinition() {
         return PlaygroundApplicationHeader::new;
+    }
+
+    private static final class ProductsSampleApplicationInfo implements ApplicationInfo {
+        @Override
+        public String getApplicationName() {
+            return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Name");
+        }
+
+        @Override
+        public String getApplicationVersion() {
+            return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Version");
+        }
+
+        @Override
+        public String getApplicationDescription() {
+            return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Description");
+        }
+
+        @Override
+        public String getCopyright() {
+            return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; // $NON-NLS-1$
+        }
     }
 }

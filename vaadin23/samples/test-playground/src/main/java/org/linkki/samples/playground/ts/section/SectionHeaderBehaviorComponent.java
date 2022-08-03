@@ -24,6 +24,10 @@ import com.vaadin.flow.component.combobox.ComboBox;
 
 public class SectionHeaderBehaviorComponent {
 
+    private SectionHeaderBehaviorComponent() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static LinkkiSection createClosableSection() {
         LinkkiSection section = (LinkkiSection)VaadinUiCreator.createComponent(new ClosableSectionPmo(),
                                                                                new BindingContext());

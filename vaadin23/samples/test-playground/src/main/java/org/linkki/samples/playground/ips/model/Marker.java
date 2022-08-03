@@ -27,9 +27,10 @@ import org.faktorips.runtime.annotation.IpsGenerated;
  *
  * @generated
  */
-@IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
-@IpsEnumType(name = "Marker", attributeNames = { "id", "name", "requiredInformationMissing",
-        "technicalConstraintViolated" })
+@IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions",
+        defaultLocale = "en")
+@IpsEnumType(name = "Marker",
+        attributeNames = { "id", "name", "requiredInformationMissing", "technicalConstraintViolated" })
 public enum Marker implements IMarker {
 
     /**

@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.framework.ui.application.ApplicationHeader;
@@ -40,6 +41,9 @@ import com.vaadin.flow.router.RouteConfiguration;
 public class ApplicationMenuItemDefinition {
 
     private static final String APPMENU_ID_PREFIX = "appmenu";
+
+    private static final Pattern REGEX_UNKNOWN_CHARS = Pattern.compile("[^a-z0-9]");
+    private static final Pattern REGEX_WHITESPACES = Pattern.compile("\\s+");
 
     private final String name;
     private final String id;
@@ -215,9 +219,9 @@ public class ApplicationMenuItemDefinition {
      * characters and replace all whitespaces with an '-'.
      */
     private static String nameToId(String name) {
-        String id = name.toLowerCase()//
-                .replaceAll("[^a-z0-9]", " ") //
-                .replaceAll("\\s+", "-");
+        String id = name.toLowerCase()
+                .replaceAll(REGEX_UNKNOWN_CHARS.pattern(), " ")
+                .replaceAll(REGEX_WHITESPACES.pattern(), "-");
 
         id = StringUtils.removeEnd(id, "-");
 

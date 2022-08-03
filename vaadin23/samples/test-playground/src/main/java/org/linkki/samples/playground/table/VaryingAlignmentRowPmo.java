@@ -23,7 +23,7 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
 public class VaryingAlignmentRowPmo {
 
-    boolean checked = true;
+    private boolean checked = true;
 
     @UITableColumn(flexGrow = 1, textAlign = TextAlignment.DEFAULT)
     @UILabel(position = 0, label = "@UILabel - DEFAULT alignment")

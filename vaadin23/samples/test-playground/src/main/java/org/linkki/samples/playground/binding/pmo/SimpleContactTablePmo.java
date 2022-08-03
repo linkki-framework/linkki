@@ -27,15 +27,15 @@ public class SimpleContactTablePmo extends SimpleTablePmo<Contact, ContactRowPmo
     private final Consumer<Contact> editAction;
     private final Consumer<Contact> deleteAction;
 
-    public SimpleContactTablePmo(List<Contact> Contacts, Consumer<Contact> editAction, Consumer<Contact> deleteAction) {
-        super(Contacts);
+    public SimpleContactTablePmo(List<Contact> contacts, Consumer<Contact> editAction, Consumer<Contact> deleteAction) {
+        super(contacts);
         this.editAction = editAction;
         this.deleteAction = deleteAction;
     }
 
     @Override
-    protected ContactRowPmo createRow(Contact Contact) {
-        return new ContactRowPmo(Contact, editAction, deleteAction);
+    protected ContactRowPmo createRow(Contact contact) {
+        return new ContactRowPmo(contact, editAction, deleteAction);
     }
 }
 // end::simpleContactTablePmo[]

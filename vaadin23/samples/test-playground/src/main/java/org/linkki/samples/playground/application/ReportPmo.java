@@ -37,7 +37,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @UIFormSection(caption = "Report")
 public class ReportPmo {
 
-    protected Report report;
+    private Report report;
 
     public ReportPmo(Report report) {
         this.report = report;

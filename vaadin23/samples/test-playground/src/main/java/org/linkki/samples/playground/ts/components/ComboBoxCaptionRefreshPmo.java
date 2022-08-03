@@ -14,25 +14,29 @@
 
 package org.linkki.samples.playground.ts.components;
 
-import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-import org.linkki.core.ui.aspects.annotation.BindComboBoxDynamicItemCaption;
-import org.linkki.core.ui.element.annotation.UIButton;
-import org.linkki.core.ui.element.annotation.UIComboBox;
-import org.linkki.core.ui.layout.annotation.UISection;
-
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.ui.aspects.annotation.BindComboBoxDynamicItemCaption;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.layout.annotation.UISection;
+
 @UISection(caption = "@BindComboBoxDynamicItemCaption")
 public class ComboBoxCaptionRefreshPmo {
 
     public static final String PROPERTY_CHOICE = "choice";
     public static final String PROPERTY_CHANGE_CHOICES_VALUES = "changeChoicesValues";
+
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
-    private List<Choice> choices = IntStream.range(0, 20).mapToObj(i -> new SecureRandom().nextDouble())
+
+    private List<Choice> choices = IntStream.range(0, 20)
+            .mapToObj(i -> SECURE_RANDOM.nextDouble())
             .map(Choice::new)
             .collect(Collectors.toList());
     private Choice choice = choices.get(0);
@@ -53,7 +57,7 @@ public class ComboBoxCaptionRefreshPmo {
 
     @UIButton(position = 20, caption = "Change combo box item values")
     public void changeChoicesValues() {
-        choices.forEach(c -> c.setValue(new SecureRandom().nextDouble() + COUNTER.getAndIncrement()));
+        choices.forEach(c -> c.setValue(SECURE_RANDOM.nextDouble() + COUNTER.getAndIncrement()));
         choice = choices.get(0);
     }
 

@@ -31,9 +31,9 @@ import com.vaadin.flow.router.Route;
 @PageTitle("linkki Sample :: Dialogs")
 public class DialogsView extends VerticalLayout {
 
-    private static final long serialVersionUID = 1L;
-
     public static final String NAME = "dialogs";
+
+    private static final long serialVersionUID = 1L;
 
     public DialogsView() {
         setPadding(true);

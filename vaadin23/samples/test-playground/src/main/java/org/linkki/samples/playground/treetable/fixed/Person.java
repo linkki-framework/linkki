@@ -27,19 +27,18 @@ public class Person {
     private String email;
     private String web;
 
-    public Person(String firstName, String lastName, String company, String address, String city, String province,
-            String zipCode, String phone1, String phone2, String email, String web) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.company = company;
-        this.address = address;
-        this.city = city;
-        this.province = province;
-        this.zipCode = zipCode;
-        this.phone1 = phone1;
-        this.phone2 = phone2;
-        this.email = email;
-        this.web = web;
+    private Person(final PersonBuilder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.company = builder.company;
+        this.address = builder.address;
+        this.city = builder.city;
+        this.province = builder.province;
+        this.zipCode = builder.zipCode;
+        this.phone1 = builder.phone1;
+        this.phone2 = builder.phone2;
+        this.email = builder.email;
+        this.web = builder.web;
     }
 
     public String getFirstName() {
@@ -128,6 +127,80 @@ public class Person {
 
     public void setWeb(String web) {
         this.web = web;
+    }
+
+    @SuppressWarnings("hiding")
+    public static class PersonBuilder {
+        private String firstName;
+        private String lastName;
+        private String company;
+        private String address;
+        private String city;
+        private String province;
+        private String zipCode;
+        private String phone1;
+        private String phone2;
+        private String email;
+        private String web;
+
+        public Person build() {
+            return new Person(this);
+        }
+
+        public PersonBuilder firstName(final String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public PersonBuilder lastName(final String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public PersonBuilder company(final String company) {
+            this.company = company;
+            return this;
+        }
+
+        public PersonBuilder address(final String address) {
+            this.address = address;
+            return this;
+        }
+
+        public PersonBuilder city(final String city) {
+            this.city = city;
+            return this;
+        }
+
+        public PersonBuilder province(final String province) {
+            this.province = province;
+            return this;
+        }
+
+        public PersonBuilder zipCode(final String zipCode) {
+            this.zipCode = zipCode;
+            return this;
+        }
+
+        public PersonBuilder phone1(final String phone1) {
+            this.phone1 = phone1;
+            return this;
+        }
+
+        public PersonBuilder phone2(final String phone2) {
+            this.phone2 = phone2;
+            return this;
+        }
+
+        public PersonBuilder email(final String email) {
+            this.email = email;
+            return this;
+        }
+
+        public PersonBuilder web(final String web) {
+            this.web = web;
+            return this;
+        }
     }
 
 }

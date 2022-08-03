@@ -39,11 +39,11 @@ public class ReportListPmo extends ReportPmo {
     }
 
     public String getTypeStyleNames() {
-        if (report.getType() == ReportType.BUG) {
+        if (getReport().getType() == ReportType.BUG) {
             return "error-error";
-        } else if (report.getType() == ReportType.IMPROVEMENT) {
+        } else if (getReport().getType() == ReportType.IMPROVEMENT) {
             return "error-warning";
-        } else if (report.getType() == ReportType.QUESTION) {
+        } else if (getReport().getType() == ReportType.QUESTION) {
             return "error-info";
         } else {
             return "";

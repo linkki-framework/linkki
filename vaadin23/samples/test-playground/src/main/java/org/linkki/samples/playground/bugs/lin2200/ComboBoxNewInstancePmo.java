@@ -31,17 +31,20 @@ public class ComboBoxNewInstancePmo {
 
     public static final String CAPTION = "LIN-2200";
 
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
-    private List<Choice> choices = IntStream.range(0, 20).mapToObj(i -> new SecureRandom().nextDouble())
+    private List<Choice> choices = IntStream.range(0, 20)
+            .mapToObj(i -> SECURE_RANDOM.nextDouble())
             .map(Choice::new)
             .collect(Collectors.toList());
     private Choice choice = choices.get(0);
 
     @UILabel(position = 5, htmlContent = true)
     public String getDescription() {
-        return "The getters for this combo box return new instances that do not implement equals() every time.\n" +
-                "Interacting with this combo box should not cause a repeated reset of the field. This can be observed in the network monitor.";
+        return "The getters for this combo box return new instances that do not implement "
+                + "equals() every time.\nInteracting with this combo box should not cause a "
+                + "repeated reset of the field. This can be observed in the network monitor.";
     }
 
     @UIComboBox(position = 10, label = "Values", content = AvailableValuesType.DYNAMIC)
@@ -59,7 +62,7 @@ public class ComboBoxNewInstancePmo {
 
     @UIButton(position = 20, caption = "Change values")
     public void changeChoicesValues() {
-        choices.forEach(c -> c.setValue(new SecureRandom().nextDouble() + COUNTER.getAndIncrement()));
+        choices.forEach(c -> c.setValue(SECURE_RANDOM.nextDouble() + COUNTER.getAndIncrement()));
         choice = choices.get(0);
     }
 
@@ -85,7 +88,7 @@ public class ComboBoxNewInstancePmo {
 
         @Override
         public boolean equals(Object obj) {
-            return false;
+            return this == obj;
         }
 
         @Override
