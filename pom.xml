@@ -5,7 +5,7 @@
 
     <groupId>org.linkki-framework</groupId>
     <artifactId>linkki</artifactId>
-    <version>2.1.2-SNAPSHOT</version>
+    <version>2.1.2</version>
     <packaging>pom</packaging>
 
     <name>linkki</name>
