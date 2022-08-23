@@ -48,6 +48,7 @@ import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
 import org.linkki.samples.playground.treetable.TreeTableSection;
+import org.linkki.samples.playground.ts.aspects.BindAutoFocusPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
@@ -278,6 +279,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                                                         .with(PropertyBehavior
                                                                                                 .readOnly()))
                                                                                 .build())))
+                                       .testCase(TC013, new BindAutoFocusPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())

@@ -20,6 +20,8 @@ import static org.hamcrest.Matchers.is;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.vaadin.flow.component.Component;
+
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.aspects.annotation.BindSuffix;
@@ -27,8 +29,6 @@ import org.linkki.core.ui.aspects.types.SuffixType;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
-
-import com.vaadin.flow.component.Component;
 
 class BindSuffixIntegrationTest {
 
@@ -101,8 +101,6 @@ class BindSuffixIntegrationTest {
 
 
     public static class TestWithBindSuffixFieldsPmo {
-
-        public static final String BUTTON_BINDING = "testFieldBindingButton";
 
         private String suffix = "!";
 

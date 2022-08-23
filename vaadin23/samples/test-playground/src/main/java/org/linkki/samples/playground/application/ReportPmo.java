@@ -63,11 +63,11 @@ public class ReportPmo {
 
     @UIDateField(position = 20, label = "Occurrence date", modelAttribute = "occurrenceDate")
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    public void occurenceDate() {
+    public void occurrenceDate() {
         /* bind value to pmo property */
     }
 
-    public boolean isOccurenceDateReadOnly() {
+    public boolean isOccurrenceDateReadOnly() {
         return report.getType() != ReportType.BUG;
     }
 

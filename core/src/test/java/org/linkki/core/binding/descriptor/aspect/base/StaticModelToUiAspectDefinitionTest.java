@@ -17,6 +17,8 @@ package org.linkki.core.binding.descriptor.aspect.base;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,7 +46,7 @@ public class StaticModelToUiAspectDefinitionTest {
     @Mock
     private PropertyDispatcher propertyDispatcher;
 
-    private TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
+    private final TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
 
     private ModelToUiAspectDefinition<Boolean> aspectDefinition = new TestStaticModelToUiAspectDefinition();
 
@@ -68,9 +70,8 @@ public class StaticModelToUiAspectDefinitionTest {
     public void testCreateUiUpdater_WrapsExceptionInPull() {
         when(propertyDispatcher.pull(Mockito.any())).thenThrow(RuntimeException.class);
 
-        Assertions.assertThrows(LinkkiBindingException.class, () -> {
-            aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
-        });
+        Assertions.assertThrows(LinkkiBindingException.class,
+                                () -> aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper));
     }
 
     @Test
@@ -89,6 +90,25 @@ public class StaticModelToUiAspectDefinitionTest {
         assertThat(componentWrapper.getComponent().isEnabled(), is(true));
     }
 
+    @Test
+    public void testComponentValueSetterOnlyCalledOnce() {
+        aspectDefinition = spy(new TestStaticModelToUiAspectDefinition());
+        var componentValueSetter = spy(new ComponentValueSetterConsumer());
+        doReturn(componentValueSetter).when(aspectDefinition).createComponentValueSetter(any());
+
+        var uiUpdater = aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
+        uiUpdater.apply();
+        verify(componentValueSetter).accept(any());
+
+    }
+
+    static class ComponentValueSetterConsumer implements Consumer<Integer> {
+        @Override
+        public void accept(Integer integer) {
+            // nothing
+        }
+    }
+
     private static class TestStaticModelToUiAspectDefinition extends StaticModelToUiAspectDefinition<Boolean> {
 
         public static final String NAME = "test";
@@ -103,4 +123,5 @@ public class StaticModelToUiAspectDefinitionTest {
             return componentWrapper::setEnabled;
         }
     }
+
 }
