@@ -9,6 +9,16 @@
 
 ==== New features and improvements
 
+===== BindAutoFocus
+////
+https://jira.faktorzehn.de/browse/LIN-1845
+////
+A new annotation, `@BindAutoFocus`, has been added for setting the https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus[autofocus] attribute on a UI element.
+
+Please note that this annotation should not be used on more than one UI element per page/dialog, and that the target element has to be visible and editable.
+
+For more information, see "<<autofocus, @BindAutoFocus>>".
+
 ==== Bugfixes
 
 // https://jira.faktorzehn.de/browse/LIN-3150
@@ -16,7 +26,7 @@
 // https://jira.faktorzehn.de/browse/LIN-3159
 * Fix disabled state of checkboxes
 // https://jira.faktorzehn.de/browse/LIN-3149
-* `LinkkiTabLayout` no longer intializes content of tabs when removing them
+* `LinkkiTabLayout` no longer initializes content of tabs when removing them
 // https://jira.faktorzehn.de/browse/LIN-3153
 * `BindingContext#modelChanged` was called when creating a table. This accidentally triggered a `modelChangeHandler` when setting up the UI.
 // https://jira.faktorzehn.de/browse/LIN-3171

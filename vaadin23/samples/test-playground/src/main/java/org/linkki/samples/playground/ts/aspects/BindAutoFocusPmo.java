@@ -32,11 +32,13 @@ public class BindAutoFocusPmo {
         this.text = text;
     }
 
+    // tag::bindAutoFocus[]
     @BindAutoFocus
     @UITextField(position = 20, label = "autofocus")
     public String getAutoFocusedTextField() {
         return text;
     }
+    // end::bindAutoFocus[]
 
     public void setAutoFocusedTextField(String text) {
         this.text = text;

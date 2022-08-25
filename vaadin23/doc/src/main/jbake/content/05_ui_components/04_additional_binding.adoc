@@ -22,7 +22,7 @@ The following example shows two aspects for the property "name".
 include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspects]
 ----
 
-The most important aspect is the value aspect. It is also mandatory for the data binding to function. The value aspect is dynamically determined by the getter and setter methods of the property. As the value aspect is critical for the <<ui-element, UI element>> to function, it is always embeded in the UI element annotation.
+The most important aspect is the value aspect. It is also mandatory for the data binding to function. The value aspect is dynamically determined by the getter and setter methods of the property. As the value aspect is critical for the <<ui-element, UI element>> to function, it is always embedded in the UI element annotation.
 
 The second aspect that can be seen is the enabled aspect. This state is defined by the method `isNameEnabled`.
 
@@ -78,7 +78,7 @@ The property `visible` controls whether the component is visible. There are the 
 |===
 |`VISIBLE`   |The UI element is visible (*default*)
 |`INVISIBLE` |The UI element is invisible
-|`DYNAMIC`   |Whether the UI element is visible is controlled by the return value of thte method `boolean is<PropertyName>Visible()`
+|`DYNAMIC`   |Whether the UI element is visible is controlled by the return value of the method `boolean is<PropertyName>Visible()`
 |=== 
 
 [[required]]
@@ -99,7 +99,7 @@ NOTE: <<ui-label, UILabels>>, <<ui-link, UILinks>> and <<ui-button, UIButtons>> 
 WARNING: Fields marked as `required` are only visually highlighted. *No* validation is performed.
 
 [[standalone-aspects]]
-==== Standalone Apsect Annotations
+==== Standalone Aspect Annotations
 
 Aspects can also be represented by a separate annotation. In this case, those annotations follow the naming convention `@Bind[AspectName]`. A standalone aspect annotation can be added to an annotated PMO property. Some standalone aspect annotation can also be added to an annotated PMO class itself. In the case of binding using the `@Bind` annotation, `@Bind[AspectName]` must be written directly in the field annotated with `@Bind`. Several frequently used aspects are packaged with *linkki* as listed below. It is also very easy to create additional <<creating-aspects, custom aspect annotations>>. 
 
@@ -115,6 +115,7 @@ Aspects can also be represented by a separate annotation. In this case, those an
 | `<<bind-icon, @BindIcon>>` | `Icon handling, using default IconType.AUTO`
 | `<<suffix, @BindSuffix>>` | `Suffix handling, using default SuffixType.AUTO`
 | `<<placeholder, @BindPlaceholder>>`| `Placeholder handling, using default PlaceholderType.AUTO`
+| `<<autofocus, @BindAutoFocus>>`| `Bind the autofocus property of a UI element.`
 |===
 
 [[tooltips]]
@@ -297,7 +298,7 @@ The `@BindSuffix` annotation has two properties:
 
 [[suffix-text]]
 Value::
-This is the content of the suffix that is set at the end of an UI element.
+This is the content of the suffix that is set at the end of a UI element.
 [[suffix-type]]
 SuffixType::
 The following configuration options are available for `SuffixType`:
@@ -324,7 +325,7 @@ The `@BindPlaceholder` annotation has two properties:
 
 [[placeholder-text]]
 Value::
-This is the content that is displayed in an UI element when it is empty.
+This is the content that is displayed in a UI element when it is empty.
 
 [[placeholder-type]]
 PlaceholderType::
@@ -350,3 +351,20 @@ include::{source-dir-playground}/org/linkki/samples/playground/table/SimplePlayg
 ----
 
 TIP: `@BindPlaceholder(value = "", placeholderType = PlaceholderType.STATIC)` will hide empty tables without showing any replacement text. When using `@BindPlaceholder` as annotation only, providing mandatory `getPlaceholder()`-Method and returning empty `String` will do the same.
+
+[[autofocus]]
+===== AutoFocus
+
+The annotation `@BindAutoFocus` can be used to set the https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus[autofocus] attribute on a UI element.
+
+IMPORTANT: This annotation should only be used on one UI element per page/dialog. The target element must be visible and editable. This annotation does not work with `@UIRadioButtons`.
+
+NOTE: When used on a `@UIDateTimeField`, the date input field will be autofocused.
+
+.`@BindAutoFocus` on a text field
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindAutoFocusPmo.java[tags=bindAutoFocus]
+----
+
+TIP: BindAutoFocus can set the `autofocus` property on UI elements which implement the `HasValue` and `HasElement` interfaces. Common UI elements which support `@BindAutoFocus` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`, `@UIDateField`, `@UIDateTimeField`, `@UICheckBox` and `@UIComboBox`.
