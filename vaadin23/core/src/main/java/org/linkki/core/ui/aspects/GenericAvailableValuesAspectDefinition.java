@@ -15,6 +15,7 @@
 package org.linkki.core.ui.aspects;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -39,10 +40,13 @@ public class GenericAvailableValuesAspectDefinition
     @Override
     protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
         Object component = componentWrapper.getComponent();
-        boolean hasNullItem = items.removeIf(i -> i == null);
         if (component instanceof ComboBox<?>) {
+            // cannot be put before if because null gets removed from method callers
+            boolean hasNullItem = items.removeIf(Objects::isNull);
             ((ComboBox<Object>)component).setAllowCustomValue(hasNullItem);
         } else if (component instanceof Select<?>) {
+            // cannot be put before if because null gets removed from method callers
+            boolean hasNullItem = items.removeIf(Objects::isNull);
             ((Select<Object>)component).setEmptySelectionAllowed(hasNullItem);
         }
     }

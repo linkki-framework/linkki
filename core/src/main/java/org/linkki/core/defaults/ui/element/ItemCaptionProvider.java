@@ -84,7 +84,10 @@ public interface ItemCaptionProvider<T> {
      * Returns the caption for the <code>null</code> value. Default is the empty String.
      * 
      * @return A caption for the <code>null</code> value
+     * 
+     * @deprecated use and handle <code>null</code> in {@link getCaption}.
      */
+    @Deprecated(since = "2.2.0")
     default String getNullCaption() {
         return StringUtils.EMPTY;
     }
@@ -128,8 +131,12 @@ public interface ItemCaptionProvider<T> {
 
         @Override
         public String getCaption(Object o) {
-            String name = CACHE.computeIfAbsent(o.getClass(), c -> getNameFunction(c)).apply(o);
-            return StringUtils.defaultString(name);
+            if (o != null) {
+                String name = CACHE.computeIfAbsent(o.getClass(), c -> getNameFunction(c)).apply(o);
+                return StringUtils.defaultString(name);
+            } else {
+                return StringUtils.EMPTY;
+            }
         }
 
         @CheckForNull
