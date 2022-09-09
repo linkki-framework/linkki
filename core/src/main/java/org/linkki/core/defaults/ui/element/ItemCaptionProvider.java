@@ -57,14 +57,13 @@ public interface ItemCaptionProvider<T> {
      * 
      * @throws LinkkiBindingException if the class could not be instantiated
      */
-    public static ItemCaptionProvider<?> instantiate(Supplier<Class<? extends ItemCaptionProvider<?>>> cls) {
+    static ItemCaptionProvider<?> instantiate(Supplier<Class<? extends ItemCaptionProvider<?>>> cls) {
         try {
             return Classes.instantiate(cls, DefaultCaptionProvider.class);
         } catch (IllegalArgumentException e) {
             throw new LinkkiBindingException(
                     "Cannot instantiate item caption provider " + Classes.getTypeName(cls)
-                            + " using default constructor.",
-                    e);
+                            + " using default constructor.", e);
         }
     }
 
@@ -72,20 +71,20 @@ public interface ItemCaptionProvider<T> {
      * Returns the text that should be displayed for the specified value. Depending on the
      * implementation, this value may be localized.
      * 
-     * @implNote {@link UiFramework#getLocale()} can be used to determine the current locale, if this
+     * @implNote {@link UiFramework#getLocale()} can be used to determine the current locale if this
      *           caption provider supports localization.
      * 
-     * @param value The value for which we need a caption
+     * @param value The value for which we need a caption. May be null.
      * @return The caption for the specified value
      */
-    String getCaption(T value);
+    String getCaption(@CheckForNull T value);
 
     /**
      * Returns the caption for the <code>null</code> value. Default is the empty String.
      * 
      * @return A caption for the <code>null</code> value
      * 
-     * @deprecated use and handle <code>null</code> in {@link getCaption}.
+     * @deprecated use {@link #getCaption(Object)} and handle <code>null</code> there.
      */
     @Deprecated(since = "2.2.0")
     default String getNullCaption() {
@@ -110,10 +109,10 @@ public interface ItemCaptionProvider<T> {
     /**
      * A simple caption provider that uses an item's toString() method as its caption.
      * <p>
-     * It is in general no good idea to use this, except your list consists of Strings.
+     * It is generally not a good idea to use this unless your list consists of Strings.
      * 
      */
-    public class ToStringCaptionProvider implements ItemCaptionProvider<Object> {
+    class ToStringCaptionProvider implements ItemCaptionProvider<Object> {
         @Override
         public String getCaption(Object t) {
             return Optional.ofNullable(t).map(Object::toString).orElse("");
@@ -125,14 +124,14 @@ public interface ItemCaptionProvider<T> {
      * {@code getName()} and {@code toString()} to obtain the caption. The locale is determined by
      * {@link UiFramework#getLocale()}.
      */
-    public class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
+    class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
 
         private static final Map<Class<?>, Function<Object, String>> CACHE = new ConcurrentHashMap<>();
 
         @Override
         public String getCaption(Object o) {
             if (o != null) {
-                String name = CACHE.computeIfAbsent(o.getClass(), c -> getNameFunction(c)).apply(o);
+                String name = CACHE.computeIfAbsent(o.getClass(), DefaultCaptionProvider::getNameFunction).apply(o);
                 return StringUtils.defaultString(name);
             } else {
                 return StringUtils.EMPTY;
@@ -172,8 +171,7 @@ public interface ItemCaptionProvider<T> {
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new IllegalStateException(
                         String.format("Can't get value from method %s#%s of %s: %s", value.getClass(), method.getName(),
-                                      value, e.getMessage()),
-                        e);
+                                      value, e.getMessage()), e);
             }
         }
     }

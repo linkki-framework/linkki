@@ -1,0 +1,19 @@
+{
+    "2.2.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.annotation.added",
+                        "old": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getCaption(===T===)",
+                        "new": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getCaption(===T===)",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
+                        "justification": "LIN-3213/LIN-3218"
+                    }
+                ]
+            }
+        }
+    ]
+}
