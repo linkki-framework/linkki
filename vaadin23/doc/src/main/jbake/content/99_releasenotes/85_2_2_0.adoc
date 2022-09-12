@@ -9,7 +9,7 @@
 
 ==== New features and improvements
 
-===== BindAutoFocus
+===== `@BindAutoFocus`
 ////
 https://jira.faktorzehn.de/browse/LIN-1845
 ////
@@ -18,6 +18,13 @@ A new annotation, `@BindAutoFocus`, has been added for setting the https://devel
 Please note that this annotation should not be used on more than one UI element per page/dialog, and that the target element has to be visible and editable.
 
 For more information, see "<<autofocus, @BindAutoFocus>>".
+
+===== `@BindVariantNames`
+////
+https://jira.faktorzehn.de/browse/LIN-2709
+////
+
+A new annotation, <<variant-names,`@BindVariantNames`>>, has been added for adding Vaadin variants to UI elements or PMO classes.
 
 ==== Bugfixes
 

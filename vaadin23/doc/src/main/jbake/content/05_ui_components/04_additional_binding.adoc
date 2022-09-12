@@ -116,6 +116,7 @@ Aspects can also be represented by a separate annotation. In this case, those an
 | `<<suffix, @BindSuffix>>` | `Suffix handling, using default SuffixType.AUTO`
 | `<<placeholder, @BindPlaceholder>>`| `Placeholder handling, using default PlaceholderType.AUTO`
 | `<<autofocus, @BindAutoFocus>>`| `Bind the autofocus property of a UI element.`
+|`<<variant-names, @BindVariantNames>>`| `Bind variant theme to a UI element or PMO class.`
 |===
 
 [[tooltips]]
@@ -368,3 +369,16 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindAu
 ----
 
 TIP: BindAutoFocus can set the `autofocus` property on UI elements which implement the `HasValue` and `HasElement` interfaces. Common UI elements which support `@BindAutoFocus` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`, `@UIDateField`, `@UIDateTimeField`, `@UICheckBox` and `@UIComboBox`.
+
+[[variant-names]]
+===== Variant names
+
+Vaadin components get rendered as HTML and styled via CSS. The `@BindVariantNames` annotation can be used to add specific Vaadin variants to components implementing the `HasTheme` interface.
+It is possible to provide a single variant name (`@BindVariantNames("no-border")`) or an array of variant names (`@BindVariantNames({"no-row-borders", "compact"})`) as the annotation's value.
+
+.`@BindVariantNames` on TablePmo
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindVariantNamesTables.java[tags=bindVariantNames]
+----
+
