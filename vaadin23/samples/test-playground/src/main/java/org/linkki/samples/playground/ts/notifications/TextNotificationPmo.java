@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.ts.notifications;
 
 import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.framework.ui.notifications.NotificationUtil;
@@ -24,6 +25,8 @@ public class TextNotificationPmo {
 
     private String title = "Something happened!";
     private String text = "You should probably take a look at it.";
+
+    private int duration = 3000;
 
     @UITextField(position = 0, label = "Title")
     public String getTitle() {
@@ -43,6 +46,21 @@ public class TextNotificationPmo {
         this.text = text;
     }
 
+    @UIIntegerField(position = 11, label = "Duration")
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    @UIButton(position = 12, caption = "Change duration")
+    public void changeDurations() {
+        NotificationUtil.setWarningDuration(duration);
+        NotificationUtil.setInfoDuration(duration);
+    }
+
     @UIButton(position = 20, caption = "Show info")
     public void showInfo() {
         NotificationUtil.showInfo(title, text);
@@ -57,5 +75,4 @@ public class TextNotificationPmo {
     public void showError() {
         NotificationUtil.showError(title, text);
     }
-
 }

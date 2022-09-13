@@ -47,6 +47,8 @@ public class NotificationUtil {
     /**
      * Sets the duration in milliseconds for info notifications created using this class. The default is
      * 3 seconds.
+     * If the duration is less than/equal to 0, info notifications will not close automatically.
+     * Instead, each one will have a close button and will not close until this button is clicked.
      * 
      * @see Notification#setDuration(int)
      */
@@ -57,6 +59,8 @@ public class NotificationUtil {
     /**
      * Sets the duration in milliseconds for warning notifications created using this class. The default
      * is 3 seconds.
+     * If the duration is less than/equal to 0, warning notifications will not close automatically.
+     * Instead, each one will have a close button and will not close until this button is clicked.
      * 
      * @see Notification#setDuration(int)
      */
@@ -86,8 +90,9 @@ public class NotificationUtil {
 
     /**
      * Creates and opens an info notification. Info notifications close automatically after the
-     * {@link #setInfoDuration(int) specified duration}. The description supports HTML content, which
-     * will be {@link HtmlSanitizer#sanitize(String) sanitized}.
+     * {@link #setInfoDuration(int) specified duration} unless this duration is less than/equal to 0.
+     * In that case, each one has a close button and does not close until this button is clicked.
+     * The description supports HTML content, which will be {@link HtmlSanitizer#sanitize(String) sanitized}.
      * 
      * @return the shown notification
      */
@@ -98,9 +103,10 @@ public class NotificationUtil {
     }
 
     /**
-     * Creates and opens an warning notification. Warning notifications close automatically after the
-     * {@link #setWarningDuration(int) specified duration}. The description supports HTML content, which
-     * will be {@link HtmlSanitizer#sanitize(String) sanitized}.
+     * Creates and opens a warning notification. Warning notifications close automatically after the
+     * {@link #setWarningDuration(int) specified duration} unless this duration is less than/equal to 0.
+     * In that case, each one has a close button and does not close until this button is clicked.
+     * The description supports HTML content, which will be {@link HtmlSanitizer#sanitize(String) sanitized}.
      * 
      * @return the shown notification
      */
@@ -112,7 +118,7 @@ public class NotificationUtil {
 
     /**
      * Creates and opens an error notification. Error notifications do not close automatically, the
-     * close button has to be pressed. The description supports HTML content, which will be
+     * close button has to be clicked. The description supports HTML content, which will be
      * {@link HtmlSanitizer#sanitize(String) sanitized}.
      * 
      * @return the shown notification
@@ -136,22 +142,26 @@ public class NotificationUtil {
 
         Notification notification = new Notification(content);
         if (severity == Severity.INFO) {
-            notification.setDuration(infoDuration);
-            notification.addThemeName(LINKKI_NOTIFICATION_INFO);
+            prepareNotification(notification, infoDuration, LINKKI_NOTIFICATION_INFO);
         } else if (severity == Severity.WARNING) {
-            notification.setDuration(warningDuration);
-            notification.addThemeName(LINKKI_NOTIFICATION_WARNING);
+            prepareNotification(notification, warningDuration, LINKKI_NOTIFICATION_WARNING);
         } else if (severity == Severity.ERROR) {
-            notification.setDuration(0);
-            notification.addThemeName(LINKKI_NOTIFICATION_ERROR);
+            prepareNotification(notification, 0, LINKKI_NOTIFICATION_ERROR);
+        }
 
+        return notification;
+    }
+
+    private static void prepareNotification(Notification notification, int duration, String themeName) {
+        notification.setDuration(duration);
+        notification.addThemeName(themeName);
+        notification.setPosition(Position.TOP_CENTER);
+
+        if (duration <= 0) {
             Button closeButton = new Button(NlsText.getString("NotificationUtil.CloseButtonCaption"),
                     e -> notification.close());
             notification.add(closeButton);
         }
-
-        notification.setPosition(Position.TOP_CENTER);
-        return notification;
     }
 
     private static Div createContent(String description) {
@@ -180,6 +190,4 @@ public class NotificationUtil {
 
         return component;
     }
-
-
 }

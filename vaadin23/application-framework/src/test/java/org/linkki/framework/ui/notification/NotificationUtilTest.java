@@ -21,8 +21,13 @@ import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTI
 import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_WARNING;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.validation.message.Message;
@@ -32,6 +37,7 @@ import org.linkki.core.ui.test.VaadinUIExtension;
 import org.linkki.framework.ui.notifications.NotificationUtil;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.dom.Element;
@@ -39,12 +45,26 @@ import com.vaadin.flow.dom.Element;
 @ExtendWith(VaadinUIExtension.class)
 class NotificationUtilTest {
 
+    // For tests to do with close button, as it has I18n caption
+    @BeforeEach
+    void setup() {
+        UI.getCurrent().setLocale(Locale.US);
+    }
+
+    // Reset durations to avoid conflicts
+    @AfterEach
+    void cleanup() {
+        NotificationUtil.setInfoDuration(3000);
+        NotificationUtil.setWarningDuration(3000);
+    }
+
     @Test
     void testSetInfoDuration() {
         NotificationUtil.setInfoDuration(3600);
 
         Notification notification = NotificationUtil.createNotification(Severity.INFO, "title", new Div());
         assertThat(notification.getDuration(), is(3600));
+        assertThat(hasCloseButton(notification), is(false));
     }
 
     @Test
@@ -53,6 +73,7 @@ class NotificationUtilTest {
 
         Notification notification = NotificationUtil.createNotification(Severity.WARNING, "title", new Div());
         assertThat(notification.getDuration(), is(1800));
+        assertThat(hasCloseButton(notification), is(false));
     }
 
     @Test
@@ -74,6 +95,7 @@ class NotificationUtilTest {
         Notification notification = NotificationUtil.createNotification(Severity.ERROR, "title", new Div());
 
         assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_ERROR), is(true));
+        assertThat(hasCloseButton(notification), is(true));
     }
 
     @Test
@@ -115,6 +137,26 @@ class NotificationUtilTest {
         assertThat(warningMessageDescription, is("<b>bold</b><i>italic</i>"));
     }
 
+    @Test
+    void testSetInfoDuration_BelowZero_CloseButton() {
+        NotificationUtil.setInfoDuration(-1);
+
+        Notification notification = NotificationUtil.createNotification(Severity.INFO, "title", new Div());
+
+        assertThat(notification.getDuration(), is(-1));
+        assertThat(hasCloseButton(notification), is(true));
+    }
+
+    @Test
+    void testSetWarningDuration_BelowZero_CloseButton() {
+        NotificationUtil.setWarningDuration(-1);
+
+        Notification notification = NotificationUtil.createNotification(Severity.WARNING, "title", new Div());
+
+        assertThat(notification.getDuration(), is(-1));
+        assertThat(hasCloseButton(notification), is(true));
+    }
+
     private List<Component> getContent(Notification notification) {
         Component content = notification.getChildren()
                 .filter(c -> c.getElement().getClassList().contains("linkki-notification-content"))
@@ -124,4 +166,9 @@ class NotificationUtilTest {
         return content.getChildren().collect(Collectors.toList());
     }
 
+    private boolean hasCloseButton(Notification notification) {
+        String expected = "<vaadin-button>\n Close\n</vaadin-button>";
+        return notification.getChildren()
+                .anyMatch(c -> expected.equals(c.getElement().getOuterHTML()));
+    }
 }

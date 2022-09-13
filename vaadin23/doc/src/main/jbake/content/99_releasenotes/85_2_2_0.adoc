@@ -42,3 +42,5 @@ A new annotation, <<variant-names,`@BindVariantNames`>>, has been added for addi
 * Fix icon size for `LinkkiText` and `LinkkiAnchor`
 // https://jira.faktorzehn.de/browse/LIN-3213
 * Fix `@UIRadioButtons` not showing null when using `AvailableValuesType.ENUM_VALUES_INCL_NULL`.
+// https://jira.faktorzehn.de/browse/LIN-3220
+* Fix warning and info notifications not being closeable when the respective duration is set to 0 or below. The notifications will now have a close button, like error notifications.
