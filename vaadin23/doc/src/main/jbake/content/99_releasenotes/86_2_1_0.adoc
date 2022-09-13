@@ -5,6 +5,13 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.1.3
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3220
+* Fix warning and info notifications not being closeable when the respective duration is set to 0 or below. The notifications will now have a close button, like error notifications.
+
 === Version 2.1.2
 
 ==== Bugfixes
