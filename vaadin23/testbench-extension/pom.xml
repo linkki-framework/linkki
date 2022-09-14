@@ -13,7 +13,7 @@
     <description>Extension for the Vaadin Testbench</description>
 
     <properties>
-        <vaadin.testbench.version>23.1.4</vaadin.testbench.version>
+        <vaadin.testbench.version>${vaadin.version}</vaadin.testbench.version>
     </properties>
 
     <dependencies>
@@ -34,4 +34,23 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.revapi</groupId>
+                <artifactId>revapi-maven-plugin</artifactId>
+                <configuration>
+                    <checkDependencies>false</checkDependencies>
+                    <analysisConfiguration>
+                        <revapi.java>
+                            <missing-classes>
+                                <behavior>ignore</behavior>
+                            </missing-classes>
+                        </revapi.java>
+                    </analysisConfiguration>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -115,7 +115,7 @@ public class ComponentFactory {
     public static TextField newNumberField(int maxLength, String width, String pattern) {
         TextField field = newTextField(maxLength, width);
         field.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT);
-        field.getElement().setProperty("_enabledCharPattern", pattern);
+        field.setAllowedCharPattern(pattern);
         return field;
     }
 

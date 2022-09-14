@@ -28,10 +28,10 @@
     </modules>
 
     <properties>
-        <!-- this property must also be updated in samples-vaadin23, vaadin23-testbench-extension and the archetypes -->
+        <!-- this property must also be updated in samples-vaadin23 and the archetypes -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            23.1.4
+            23.2.1
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <spring-boot.version>2.6.8</spring-boot.version>
