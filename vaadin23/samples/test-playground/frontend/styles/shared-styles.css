@@ -16,3 +16,15 @@
 #LabelPmo .style1 > span {
     width: 500px;
 }
+#ButtonValidationPmo .button-validation  {
+    border: 1px solid transparent;
+}
+#ButtonValidationPmo .button-validation[severity="info"]  {
+    border: 1px solid var(--linkki-info-color);
+}
+#ButtonValidationPmo .button-validation[severity="warning"]  {
+    border: 1px solid var(--linkki-warning-color);
+}
+#ButtonValidationPmo .button-validation[severity="error"]  {
+    border: 1px solid var(--lumo-error-color);
+}

@@ -44,3 +44,5 @@ A new annotation, <<variant-names,`@BindVariantNames`>>, has been added for addi
 * Fix `@UIRadioButtons` not showing null when using `AvailableValuesType.ENUM_VALUES_INCL_NULL`.
 // https://jira.faktorzehn.de/browse/LIN-3220
 * Fix warning and info notifications not being closeable when the respective duration is set to 0 or below. The notifications will now have a close button, like error notifications.
+// https://jira.faktorzehn.de/browse/LIN-3221
+* Fields for which Vaadin does not support validation (components not implementing `HasValidation`, e.g. buttons) now have the HTML attributes `invalid` and `severity` set by linkki to allow custom styling via CSS. The message text is not displayed.
