@@ -17,16 +17,17 @@ package org.linkki.core.ui.wrapper;
 
 import java.util.Optional;
 
+import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.HasValidation;
 import com.vaadin.flow.component.HasValue;
-
-import org.linkki.core.binding.Binding;
-import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.binding.wrapper.WrapperType;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -36,6 +37,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     private static final String SEVERITY_ATTRIBUTE_NAME = "severity";
+    private static final String INVALID_ATTRIBUTE_NAME = "invalid";
 
     private static final long serialVersionUID = 1L;
 
@@ -78,32 +80,45 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setValidationMessages(MessageList messagesForProperty) {
-        if (component instanceof HasValidation) {
-            HasValidation validationField = (HasValidation)component;
-
-            if (component instanceof HasValue) {
-                HasValue<?, ?> readOnlyField = (HasValue<?, ?>)component;
-                if (readOnlyField.isReadOnly()) {
-                    component.getElement().removeAttribute(SEVERITY_ATTRIBUTE_NAME);
-                    validationField.setErrorMessage(null);
-                    validationField.setInvalid(false);
-                    return;
-                }
-            }
-            component.getElement().removeAttribute(SEVERITY_ATTRIBUTE_NAME);
-            setHelperMessage(messagesForProperty, validationField);
-            validationField.setInvalid(!messagesForProperty.isEmpty());
-            messagesForProperty.getMessageWithHighestSeverity()
-                    .ifPresent(m -> component.getElement().setAttribute(SEVERITY_ATTRIBUTE_NAME,
-                                                                        m.getSeverity().name().toLowerCase()));
+        if (isComponentReadOnly() || messagesForProperty.isEmpty()) {
+            clearValidation();
+        } else {
+            showValidation(messagesForProperty.getMessageWithHighestSeverity().get());
         }
     }
 
-    private void setHelperMessage(MessageList messagesForProperty, HasValidation field) {
-        messagesForProperty.getMessageWithHighestSeverity()
-                .ifPresentOrElse(
-                                 m -> field.setErrorMessage(m.getText()),
-                                 () -> field.setErrorMessage(null));
+    private boolean isComponentReadOnly() {
+        if (component instanceof HasValue) {
+            HasValue<?, ?> readOnlyField = (HasValue<?, ?>)component;
+            return readOnlyField.isReadOnly();
+        } else {
+            return false;
+        }
+    }
+
+    private void showValidation(Message message) {
+        String severity = message.getSeverity().name().toLowerCase();
+        component.getElement().setAttribute(SEVERITY_ATTRIBUTE_NAME, severity);
+
+        if (component instanceof HasValidation) {
+            HasValidation validationField = (HasValidation)component;
+            validationField.setErrorMessage(message.getText());
+            validationField.setInvalid(true);
+        } else {
+            component.getElement().setAttribute(INVALID_ATTRIBUTE_NAME, "");
+        }
+    }
+
+    private void clearValidation() {
+        component.getElement().removeAttribute(SEVERITY_ATTRIBUTE_NAME);
+
+        if (component instanceof HasValidation) {
+            HasValidation validationField = (HasValidation)component;
+            validationField.setErrorMessage(null);
+            validationField.setInvalid(false);
+        } else {
+            component.getElement().removeAttribute(INVALID_ATTRIBUTE_NAME);
+        }
     }
 
     @Override
@@ -121,11 +136,10 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
     }
 
     /**
-     * Removes all HTML tags from the argument String and replaces all &#60;br&#62; with a \n. The title
+     * Removes all HTML tags from the given text and replaces all &#60;br&#62; with a \n. The title
      * attribute cannot handle HTML tags but with \n a line break is possible.
-     * 
-     * @param text
-     * @return The formatted String or an empty String if the argument is null
+     *
+     * @return The formatted String or an empty String if the given text is null
      */
     private String clearHtmlAndFormat(@CheckForNull String text) {
         return Optional.ofNullable(text) //

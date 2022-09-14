@@ -16,16 +16,12 @@ package org.linkki.core.ui.wrapper;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
+
+import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.wrapper.WrapperType;
 
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.textfield.TextField;
-
-import org.junit.jupiter.api.Test;
-import org.linkki.core.binding.validation.message.Message;
-import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.binding.wrapper.WrapperType;
 
 public class LabelComponentWrapperTest extends BaseComponentWrapperTest {
 
@@ -74,17 +70,4 @@ public class LabelComponentWrapperTest extends BaseComponentWrapperTest {
         assertThat(getTitleAttribute(wrapper), is(" some text \n with page break "));
     }
 
-    @Test
-    public void testSetValidationMessages_WhenReadOnly_Invalid() {
-        TextField component = new TextField();
-        component.setReadOnly(true);
-        LabelComponentWrapper wrapper = new LabelComponentWrapper(component, WrapperType.FIELD);
-        Message message = Message.builder("High severity message", Severity.ERROR).create();
-        MessageList messageList = new MessageList(message);
-
-        wrapper.setValidationMessages(messageList);
-
-        assertThat(component.isInvalid(), is(false));
-        assertThat(component.getErrorMessage(), is(emptyOrNullString()));
-    }
 }

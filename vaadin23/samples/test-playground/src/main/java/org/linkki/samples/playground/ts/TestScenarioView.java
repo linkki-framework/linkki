@@ -105,6 +105,7 @@ import org.linkki.samples.playground.ts.linkkitext.LinkkiAnchorComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
+import org.linkki.samples.playground.ts.messages.ButtonValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
@@ -330,6 +331,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS013)
                                        .testCase(TC001, MessageTableSection.create())
                                        .testCase(TC002, FieldValidationPmo.createComponent())
+                                       .testCase(TC003, ButtonValidationPmo.createComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS014)
                                        .testCase(TC001, TreeTableSection.createPersonTreeTableSection())
