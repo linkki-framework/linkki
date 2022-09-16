@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'linkki'
-        BUILD_NAME = "${env.GERRIT_BRANCH}"
+        BUILD_NAME = "${GERRIT_BRANCH}"
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'keep'
