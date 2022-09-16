@@ -84,9 +84,6 @@ pipeline {
                                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
                                             -Dsonar.projectKey=${PROJECT_NAME} \
-                                            -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \
-                                            -Dsonar.pullrequest.branch=${GERRIT_REFSPEC} \
-                                            -Dsonar.pullrequest.base=${GERRIT_BRANCH} \
                                             -Dsonar.login=$SONAR_LOGIN \
                                             sonar:sonar'
                                 }
@@ -94,7 +91,7 @@ pipeline {
 
                             rtp parserName: 'HTML', nullAction: '1', stableText: """
                                 <h3>SonarQube</h3>
-                                <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}' target='_blank'>SonarQube Analysis</a>
+                                <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}' target='_blank'>SonarQube Analysis</a>
                             """
                         }
                     }
