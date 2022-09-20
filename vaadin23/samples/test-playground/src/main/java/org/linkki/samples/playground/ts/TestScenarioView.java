@@ -74,6 +74,7 @@ import org.linkki.samples.playground.ts.components.DynamicComponentPage;
 import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
 import org.linkki.samples.playground.ts.components.LabelPmo;
 import org.linkki.samples.playground.ts.components.LinkPmo;
+import org.linkki.samples.playground.ts.components.MultiSelectPmo;
 import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
 import org.linkki.samples.playground.ts.components.TextAreaPmo;
 import org.linkki.samples.playground.ts.components.TextFieldPmo;
@@ -107,8 +108,8 @@ import org.linkki.samples.playground.ts.linkkipage.CardSectionPageComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiAnchorComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
-import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.ButtonValidationPmo;
+import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
@@ -124,10 +125,8 @@ import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
@@ -173,6 +172,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC012 = "TC012";
     public static final String TC013 = "TC013";
     public static final String TC014 = "TC014";
+    public static final String TC015 = "TC015";
 
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
 
@@ -193,7 +193,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS001)
                                        .testCase(TC001, new BasicElementsLayoutBehaviorUiSectionComponent())
                                        .testCase(TC002, () -> {
-                                           Component component = VaadinUiCreator
+                                           var component = VaadinUiCreator
                                                    .createComponent(new BasicElementsLayoutBehaviorFormSectionPmo(),
                                                                     new BindingContext(TC002));
                                            ComponentStyles.setFormItemLabelWidth(component, "200px");
@@ -207,7 +207,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS002)
                                        .testCase(TC001, new SectionHeaderAnnotationPmo())
                                        .testCase(TC002, () -> {
-                                           Component component = VaadinUiCreator
+                                           var component = VaadinUiCreator
                                                    .createComponent(new GridSectionLayoutPmo(), new BindingContext(
                                                            GridSectionLayoutPmo.class.getSimpleName()));
                                            component.getElement().getStyle().set("height", "200px");
@@ -246,6 +246,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC012, new DynamicComponentPage())
                                        .testCase(TC013, new DateTimeFieldPmo())
                                        .testCase(TC014, new YesNoComboBoxPmo())
+                                       .testCase(TC015, new MultiSelectPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, new LinkkiTextComponent())
@@ -364,7 +365,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     }
 
     private Anchor createCaptionComponent(String id, VaadinIcon icon) {
-        Icon iconComp = icon.create();
+        var iconComp = icon.create();
         iconComp.addClassName("p-xs");
         return new Anchor(getLocation(id, null),
                 iconComp);
@@ -373,7 +374,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     @Override
     public void setParameter(BeforeEvent event, @WildcardParameter String parameter) {
         if (!parameter.isEmpty()) {
-            Location location = new Location(parameter);
+            var location = new Location(parameter);
             tabLayout.setSelectedTabSheet(location.getFirstSegment());
             location.getSubLocation().ifPresent(l -> selectTc(l.getFirstSegment()));
         }
@@ -384,7 +385,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     }
 
     private LinkkiTabSheet addIpsTabSheet() {
-        IpsModelObject ipsModelObject = new IpsModelObject();
+        var ipsModelObject = new IpsModelObject();
         // tag::createValidationService[]
         ValidationService validationService = () -> MessageConverter
                 .convert(ipsModelObject.validate(new ValidationContext(UiFramework.getLocale())));

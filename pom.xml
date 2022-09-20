@@ -69,7 +69,7 @@
         </sonar.coverage.exclusions>
         <sonar.cpd.exclusions>
             **/org/linkki/samples/**/*.java,
-            **/org/linkki/core/ui/element/annotation/UIDateTimeField.java
+            **/org/linkki/core/ui/element/annotation/*.java
         </sonar.cpd.exclusions>
 
     </properties>

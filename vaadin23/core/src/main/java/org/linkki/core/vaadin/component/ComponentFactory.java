@@ -31,6 +31,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.html.Anchor;
@@ -159,7 +160,7 @@ public class ComponentFactory {
      * empty}.
      */
     public static TextArea newTextArea(int maxLength, String width, String height) {
-        TextArea textArea = newTextArea();
+        var textArea = newTextArea();
 
         if (maxLength > 0) {
             textArea.setMaxLength(maxLength);
@@ -175,6 +176,10 @@ public class ComponentFactory {
 
     public static <T> ComboBox<T> newComboBox() {
         return new ComboBox<>();
+    }
+
+    public static <T> MultiSelectComboBox<T> newMultiSelect() {
+        return new MultiSelectComboBox<>();
     }
 
     public static LinkkiCheckBox newCheckbox() {

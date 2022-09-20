@@ -22,6 +22,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-datefield,`UIDateField`>> |Field for date entry with date picker
 |<<ui-datetimefield,`UIDateTimeField`>> |Field for date and time entry with date time picker
 |<<ui-combobox,`UIComboBox`>> |Dropdown field with predefined options
+|<<ui-multiselect,`UIMultiSelect`>> |Dropdown field with predefined options for selecting multiple options
 |<<ui-yesnocombobox,`UIYesNoCombobox`>> |Dropdown field for boolean choices
 |<<ui-radiobutton,`UIRadioButtons`>> |Radio buttons for selecting a single choice
 |===
@@ -204,6 +205,17 @@ Via the property `itemCaptionProvider` an alternative implementation class can b
 [[ui-combobox-textAlign]]
 TextAlign::
 The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop down menu. `RIGHT` is recommended for numeric values. If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop down list. Instead, an https://vaadin.com/docs/latest/ds/foundation/utility-classes/#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
+
+[[ui-multiselect]]
+==== UIMultiSelect
+A `@UIMultiSelect` allows selection of multiple values from a list. It has two properties known from the <<ui-combobox, `UIComboBox`>>:
+
+* <<ui-combobox-width,`width: String`>>
+* <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> 
+
+The getter and setter for the selected values have to be of type `Set<T>`. This implies that there is no guaranteed order of the selected values.
+
+In contrast to a combobox, the values of the multi select box are *always* defined dynamically through the method `Collection<T> get<PropertyName>AvailableValues()`. Be aware that some sub-types of `Collection` have no guaranteed order of elements and should not be used. Otherwise the list of available values of this component may have a different order in the UI which is not very user friendly.
 
 [[ui-yesnocombobox]]
 ==== UIYesNoComboBox
