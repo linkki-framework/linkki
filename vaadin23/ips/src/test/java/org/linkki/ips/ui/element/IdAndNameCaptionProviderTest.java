@@ -22,22 +22,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 
-public class IdAndNameCaptionProviderTest {
+class IdAndNameCaptionProviderTest {
 
     @Test
-    public void testIdAndNameCaptionProvider_AnonymousClass() {
+    void testIdAndNameCaptionProvider_AnonymousClass() {
         ItemCaptionProvider<Object> provider = new IdAndNameCaptionProvider();
         assertThat(provider.getCaption(TestEnum.VALUE1), is("name1 [id1]"));
     }
 
     @Test
-    public void testIdAndNameCaptionProvider_AllMethods() {
+    void testIdAndNameCaptionProvider_AllMethods() {
         ItemCaptionProvider<Object> provider = new IdAndNameCaptionProvider();
         assertThat(provider.getCaption(AllMethodsEnum.VALUE), is("getName(Locale) [id]"));
     }
 
     @Test
-    public void testIdAndNameCaptionProvider_MissingGetIdMethod() {
+    void testIdAndNameCaptionProvider_MissingGetIdMethod() {
         ItemCaptionProvider<Object> provider = new IdAndNameCaptionProvider();
         Assertions.assertThrows(IllegalStateException.class, () -> {
             provider.getCaption(UnnamedEnum.VALUE);
@@ -55,8 +55,8 @@ public class IdAndNameCaptionProviderTest {
 
         };
 
-        private String id;
-        private String name;
+        private final String id;
+        private final String name;
 
         private TestEnum(String id, String name) {
             this.id = id;

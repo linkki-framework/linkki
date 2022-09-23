@@ -13,9 +13,7 @@
  */
 package org.linkki.core.defaults.ui.element;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.core.defaults.ui.element.ItemCaptionProvider.instantiate;
 
 import java.util.Locale;
@@ -24,50 +22,64 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.core.uiframework.UiFramework;
 
-public class ItemCaptionProviderTest {
+class ItemCaptionProviderTest {
 
     @Test
-    public void testDefaultCaptionProvider_AnonymousClass() {
+    void testDefaultCaptionProvider_AnonymousClass() {
         ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
 
-        assertThat(provider.getCaption(NamedEnum.VALUE1), is("name1"));
-        assertThat(provider.getCaption(NamedEnum.VALUE2), is("anonymous"));
+        assertThat(provider.getCaption(NamedEnum.VALUE1)).isEqualTo("name1");
+        assertThat(provider.getCaption(NamedEnum.VALUE2)).isEqualTo("anonymous");
     }
 
     @Test
-    public void testDefaultCaptionProvider_Localization() {
+    void testDefaultCaptionProvider_Localization() {
         ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
         Locale locale = UiFramework.getLocale();
 
-        assertThat(provider.getCaption(LocalizedEnum.VALUE), is(locale.toString()));
+        assertThat(provider.getCaption(LocalizedEnum.VALUE)).isEqualTo(locale.toString());
     }
 
     @Test
-    public void testDefaultCaptionProvider_Unnamed() {
+    void testDefaultCaptionProvider_Unnamed() {
         ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
 
-        assertThat(provider.getCaption(UnnamedEnum.VALUE), is(UnnamedEnum.VALUE.toString()));
+        assertThat(provider.getCaption(UnnamedEnum.VALUE)).isEqualTo(UnnamedEnum.VALUE.toString());
     }
 
     @Test
-    public void testDefaultCaptionProvider_AllMethods() {
+    void testDefaultCaptionProvider_AllMethods() {
         ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
 
-        assertThat(provider.getCaption(AllMethodsEnum.VALUE), is("getName(Locale)"));
+        assertThat(provider.getCaption(AllMethodsEnum.VALUE)).isEqualTo("getName(Locale)");
     }
 
     @Test
-    public void testInstantiate_DefaultCaptionProvider() {
+    void testDefaultCaptionProvider_getUnsafeCaption_null() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
+
+        assertThat(provider.getUnsafeCaption(null)).isEmpty();
+    }
+
+    @Test
+    void testDefaultCaptionProvider_getUnsafeCaption_AllMethods() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
+
+        assertThat(provider.getUnsafeCaption(AllMethodsEnum.VALUE)).isEqualTo("getName(Locale)");
+    }
+
+    @Test
+    void testInstantiate_DefaultCaptionProvider() {
         ItemCaptionProvider<?> itemCaptionProvider = instantiate(() -> DefaultCaptionProvider.class);
 
-        assertThat(itemCaptionProvider, instanceOf(ItemCaptionProvider.DefaultCaptionProvider.class));
+        assertThat(itemCaptionProvider).isInstanceOf(ItemCaptionProvider.DefaultCaptionProvider.class);
     }
 
     @Test
-    public void testInstantiate_ToStringCaptionProvider() {
+    void testInstantiate_ToStringCaptionProvider() {
         ItemCaptionProvider<?> itemCaptionProvider = instantiate(() -> ItemCaptionProvider.ToStringCaptionProvider.class);
 
-        assertThat(itemCaptionProvider, instanceOf(ItemCaptionProvider.ToStringCaptionProvider.class));
+        assertThat(itemCaptionProvider).isInstanceOf(ItemCaptionProvider.ToStringCaptionProvider.class);
     }
 
     enum LocalizedEnum {
@@ -101,9 +113,9 @@ public class ItemCaptionProviderTest {
             }
         };
 
-        private String name;
+        private final String name;
 
-        private NamedEnum(String name) {
+        NamedEnum(String name) {
             this.name = name;
         }
 

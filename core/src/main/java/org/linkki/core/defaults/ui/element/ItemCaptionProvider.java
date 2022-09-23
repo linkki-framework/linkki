@@ -63,7 +63,8 @@ public interface ItemCaptionProvider<T> {
         } catch (IllegalArgumentException e) {
             throw new LinkkiBindingException(
                     "Cannot instantiate item caption provider " + Classes.getTypeName(cls)
-                            + " using default constructor.", e);
+                            + " using default constructor.",
+                    e);
         }
     }
 
@@ -83,10 +84,7 @@ public interface ItemCaptionProvider<T> {
      * Returns the caption for the <code>null</code> value. Default is the empty String.
      * 
      * @return A caption for the <code>null</code> value
-     * 
-     * @deprecated use {@link #getCaption(Object)} and handle <code>null</code> there.
      */
-    @Deprecated(since = "2.2.0")
     default String getNullCaption() {
         return StringUtils.EMPTY;
     }
@@ -95,15 +93,20 @@ public interface ItemCaptionProvider<T> {
      * This is the unsafe version of {@link #getCaption(Object)}. The framework will only call this
      * method because the type is not necessarily known in the UI selection component. When implementing
      * this interface you could ignore this method because it simply delegates to
-     * {@link #getCaption(Object)} which is the type-safe variant for you. However, if anybody does
-     * something nasty we would get a ClassCastException right here.
+     * {@link #getCaption(Object)} which is the type-safe variant for you, or to
+     * {@link #getNullCaption()} if the value is <code>null</code>. However, if anybody does something
+     * nasty we would get a ClassCastException right here.
      * 
      * @param value The value for which we need a caption
      * @return The caption for the specified value
      */
     @SuppressWarnings("unchecked")
     default String getUnsafeCaption(Object value) {
-        return getCaption((T)value);
+        if (value == null) {
+            return getNullCaption();
+        } else {
+            return getCaption((T)value);
+        }
     }
 
     /**
@@ -130,12 +133,8 @@ public interface ItemCaptionProvider<T> {
 
         @Override
         public String getCaption(Object o) {
-            if (o != null) {
-                String name = CACHE.computeIfAbsent(o.getClass(), DefaultCaptionProvider::getNameFunction).apply(o);
-                return StringUtils.defaultString(name);
-            } else {
-                return StringUtils.EMPTY;
-            }
+            String name = CACHE.computeIfAbsent(o.getClass(), DefaultCaptionProvider::getNameFunction).apply(o);
+            return StringUtils.defaultString(name);
         }
 
         @CheckForNull
@@ -171,7 +170,8 @@ public interface ItemCaptionProvider<T> {
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new IllegalStateException(
                         String.format("Can't get value from method %s#%s of %s: %s", value.getClass(), method.getName(),
-                                      value, e.getMessage()), e);
+                                      value, e.getMessage()),
+                        e);
             }
         }
     }

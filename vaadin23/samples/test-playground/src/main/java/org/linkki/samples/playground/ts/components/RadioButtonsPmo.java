@@ -26,7 +26,8 @@ public class RadioButtonsPmo {
     private Direction directionWithoutNull;
     private Direction directionWithNull;
 
-    @UIRadioButtons(position = 0, label = "Without null", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = CaptionProvider.class)
+    @UIRadioButtons(position = 0, label = "Without null", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL,
+            itemCaptionProvider = CaptionProvider.class)
     public Direction getDirectionWithoutNull() {
         return directionWithoutNull;
     }
@@ -35,7 +36,8 @@ public class RadioButtonsPmo {
         this.directionWithoutNull = directionWithoutNull;
     }
 
-    @UIRadioButtons(position = 10, label = "With null", content = AvailableValuesType.ENUM_VALUES_INCL_NULL, itemCaptionProvider = CaptionProvider.class)
+    @UIRadioButtons(position = 10, label = "With null", content = AvailableValuesType.ENUM_VALUES_INCL_NULL,
+            itemCaptionProvider = CaptionProvider.class)
     public Direction getDirectionWithNull() {
         return directionWithNull;
     }
@@ -55,11 +57,12 @@ public class RadioButtonsPmo {
 
         @Override
         public String getCaption(Direction value) {
-            if (value != null) {
-                return StringUtils.capitalize(value.name().toLowerCase());
-            } else {
-                return "None";
-            }
+            return StringUtils.capitalize(value.name().toLowerCase());
+        }
+
+        @Override
+        public String getNullCaption() {
+            return "None";
         }
 
     }
