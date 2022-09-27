@@ -95,7 +95,7 @@ To style labels the property `styleNames` can be used to specify a list (actuall
 [[ui-link]]
 ==== UILink
 
-`@UILink` creates a hyperlink. In comparison to a <<ui-button, button>> styled as a link, a link in Vaadin has the advantage that the user can use the context menu to follow the link in a separate browser tab or to copy the link. The caption can also be easily copied.
+The annotation `@UILink` creates a hyperlink. In comparison to a <<ui-button, button>> styled as a link, a link in Vaadin has the advantage that the user can use the context menu to follow the link in a separate browser tab or to copy the link. The caption can also be easily copied.
 
 The annotated method should return the link URL as a string.
 
@@ -111,7 +111,7 @@ When used in a table, the `label` is used as the column name while the `caption`
 [[ui-checkbox]]
 ==== UICheckbox
 
-`@UICheckbox` creates a `com.vaadin.flow.component.checkbox.Checkbox` that is bound to a `boolean` property.
+The annotation https://vaadin.com/docs/latest/components/checkbox[`@UICheckbox`] creates a `com.vaadin.flow.component.checkbox.Checkbox` that is bound to a `boolean` property.
 
 Instead of a label on the left side of the UI element, checkboxes usually have a caption on the right. This caption must be set with the property `caption`. If no caption is desired, an empty String must be set. 
 
@@ -120,7 +120,7 @@ When used in a table, the `label` is used as the column name while the `caption`
 
 [[ui-textfield]]
 ==== UITextField
-A `com.vaadin.flow.component.textfield.TextField` for text entry. The annotation `UITextfield` has two additional properties:
+The annotation https://vaadin.com/docs/latest/components/text-field[`UITextfield`] corresponds to a `com.vaadin.flow.component.textfield.TextField` for text entry. It has two additional properties:
 
 * `maxLength: int`
 * `width: String`
@@ -129,7 +129,7 @@ A `com.vaadin.flow.component.textfield.TextField` for text entry. The annotation
 
 [[ui-textarea]]
 ==== UITextArea
-The annotation `UITextArea` corresponds to a `com.vaadin.flow.component.textfield.TextArea`. It is used for entering or displaying text that has more than one line.`UITextArea` has all the properties of the annotation `UITextfield`. In addition, it also has: 
+The annotation https://vaadin.com/docs/latest/components/text-area[`UITextArea`] corresponds to a `com.vaadin.flow.component.textfield.TextArea`. It is used for entering or displaying text that has more than one line. `UITextArea` has all the properties of the annotation `UITextfield`. In addition, it also has:
 
 * `height: String`
 
@@ -138,32 +138,32 @@ The property `height` defines the height of the `UITextArea`, not how many rows 
 
 [[ui-numberfield]]
 ==== UIIntegerField and UIDoubleField
-`@UIIntegerfield` and `@UIDoubleField` are text fields for displaying formatted numbers. Like <<ui-textfield,`@UITextField`>> these annotations have the property `maxLength`.
+The annotations `@UIIntegerfield` and `@UIDoubleField` are https://vaadin.com/docs/latest/components/text-field[text fields] for displaying formatted numbers. Like <<ui-textfield,`@UITextField`>> these annotations have the property `maxLength`.
 
 The format can be defined with the property `format: String`, using the notation from `java.text.NumberFormat`.
 
-If no format is specified for a `UIIntegerField`, *linkki* uses the default Java Integer NumberFormat (`java.text.NumberFormat#getIntegerInstance(java.util.Locale)`). In the case of `UIDoubleField` the format `\#,\##0.00##` is used by default. This format means that at least one digit is displayed before the decimal separator and two after, plus thousands separator. The documentation for the format definition can be looked up in the class `java.text.DecimalFormat`.
+If no format is specified for a `UIIntegerField`, *linkki* uses the default Java Integer NumberFormat (`java.text.NumberFormat#getIntegerInstance(java.util.Locale)`). In the case of `UIDoubleField` the format `\#,\##0.00##` is used by default. This format means that at least one digit is displayed before the decimal separator and two after, and the thousands separator is displayed as well. The documentation for the format definition can be looked up in the class `java.text.DecimalFormat`.
 
 [[ui-datefield]]
 ==== UIDateField
-The annotation `@UIDateField` generates a date input field and corresponds to `com.vaadin.flow.component.datepicker.DatePicker`. It allows specifying a date format using the property `dateFormat: String`. If no date format is defined, the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
+The annotation https://vaadin.com/docs/latest/components/date-picker[`@UIDateField`] generates a date input field and corresponds to `com.vaadin.flow.component.datepicker.DatePicker`. It allows specifying a date format using the property `dateFormat: String`. If no date format is defined, the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
 The UIDateField allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
 
 [[ui-datetimefield]]
 ==== UIDateTimeField
-The annotation `@UIDateTimeField` generates a date and time input field and corresponds to `com.vaadin.flow.component.datetimepicker.DateTimePicker`. It is used for selecting both a date and a time of day.`UIDateTimeField` has all the properties of the annotation <<ui-datefield, UIDateField>>. In addition, it also has: 
+The annotation https://vaadin.com/docs/latest/components/date-time-picker[`@UIDateTimeField`] generates a date and time input field and corresponds to `com.vaadin.flow.component.datetimepicker.DateTimePicker`. It is used for selecting both a date and a time of day. `UIDateTimeField` has all the properties of the annotation <<ui-datefield, UIDateField>>. In addition, it also has:
 
 * `step: long`
 
 The property `step` defines the time interval, in minutes, between the items displayed in the time picker overlay. It also specifies the amount by which the time increases/decreases using the Up/Down arrow keys (when the overlays are disabled). Its default value is `60`.
 
-WARNING: The `step` must divide an hour or day evenly. For example, `15`, `30` and `120` are valid steps, while `42` and `300` are not. If you use an invalid value, Vaadin will thrown an exception!
+WARNING: The `step` must divide an hour or day evenly. For example, `15`, `30` and `120` are valid steps, while `42` and `300` are not. If you use an invalid value, Vaadin will throw an exception!
 
 Values typed into the time field will automatically be converted to the format matching the `Locale` setting. E.g. `15:00` becomes `3:00 PM` when the `Locale` is English.
 
 [[ui-combobox]]
 ==== UIComboBox
-A `@UIComboBox` allows selection of a value from a list. It has three additional properties:
+The annotation https://vaadin.com/docs/latest/components/combo-box[`@UIComboBox`] allows selection of a value from a list and corresponds to `com.vaadin.flow.component.combobox.ComboBox`. It has three additional properties:
 
 * <<ui-combobox-content,`content: AvailableValuesType`>>
 * <<ui-combobox-width,`width: String`>>
@@ -195,38 +195,38 @@ The property `width` can be used to define the width of the combobox using CSS s
 
 [[itemCaptionProvider]]
 ItemCaptionProvider::
-For displaying the individual values in the combobox a `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used. By default it is a `DefaultCaptionProvider` which determines the caption by trying to call the methods `getName(Locale)`, `getName`, `toString` in that order.
+A `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used to display the individual values in the combobox. By default, it is a `DefaultCaptionProvider` which determines the caption by trying to call the methods `getName(Locale)`, `getName`, `toString` in that order.
 +
-Via the property `itemCaptionProvider` an alternative implementation class can be specified. *linkki* offers two additional ones: 
+An alternative implementation class can be specified via the property `itemCaptionProvider`. *linkki* offers two additional ones:
 +
 * `ToStringCaptionProvider`: uses the `toString()`method of the elements
 * `IdAndNameCaptionProvider` in <<fips-extension, linkki-ips>>: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
 
 [[ui-combobox-textAlign]]
 TextAlign::
-The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop down menu. `RIGHT` is recommended for numeric values. If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop down list. Instead, an https://vaadin.com/docs/latest/ds/foundation/utility-classes/#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
+The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop-down menu. `RIGHT` is recommended for numeric values. If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop-down list. Instead, an https://vaadin.com/docs/latest/styling/lumo/utility-classes#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
 
 [[ui-multiselect]]
 ==== UIMultiSelect
-A `@UIMultiSelect` allows selection of multiple values from a list. It has two properties known from the <<ui-combobox, `UIComboBox`>>:
+The annotation https://vaadin.com/docs/latest/components/multi-select-combo-box[`@UIMultiSelect`] allows selection of multiple values from a list and corresponds to `com.vaadin.flow.component.combobox.MultiSelectComboBox`. It has two properties known from the <<ui-combobox, `UIComboBox`>>:
 
 * <<ui-combobox-width,`width: String`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> 
 
 The getter and setter for the selected values have to be of type `Set<T>`. This implies that there is no guaranteed order of the selected values.
 
-In contrast to a combobox, the values of the multi select box are *always* defined dynamically through the method `Collection<T> get<PropertyName>AvailableValues()`. Be aware that some sub-types of `Collection` have no guaranteed order of elements and should not be used. Otherwise the list of available values of this component may have a different order in the UI which is not very user friendly.
+In contrast to a combobox, the values of the multi select box are *always* defined dynamically through the method `Collection<T> get<PropertyName>AvailableValues()`. Be aware that some subtypes of `Collection` have no guaranteed order of elements and should not be used. Otherwise, the list of available values of this component may have a different order in the UI which is not very user-friendly.
 
 [[ui-yesnocombobox]]
 ==== UIYesNoComboBox
-A `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list like a <<ui-combobox, `UIComboBox`>>. The difference is that the values are not a generic enumeration or list but the well known boolean values `true` and `false` (and for `Boolean`, the option `null`). It has two properties known from the <<ui-combobox, `UIComboBox`>>:
+The annotation `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list like a <<ui-combobox, `UIComboBox`>>. The difference is that the values are not a generic enumeration or list but the well known boolean values `true` and `false` (and for `Boolean`, the option `null`). It has two properties known from the <<ui-combobox, `UIComboBox`>>:
 
 * <<ui-combobox-width,`width: String`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `BooleanCaptionProvider` that uses common names in the current locale like "Yes"/"No" or "Ja"/"Nein".
 
 [[ui-radiobutton]]
 ==== UIRadioButtons
-`@UIRadioButtons` allow selection of a single value using a group of buttons. Multiple values cannot be selected at the same time.
+The annotation https://vaadin.com/docs/latest/components/radio-button[`@UIRadioButtons`] allows selection of a single value using a group of buttons and corresponds to `com.vaadin.flow.component.radiobutton.RadioButtonGroup`. Multiple values cannot be selected at the same time.
 
 * <<ui-combobox-content,`content: AvailableValuesType`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `DefaultCaptionProvider` that delegates to `getName` or `toString`
@@ -249,7 +249,7 @@ include::{source-dir}/org/linkki/samples/playground/ts/components/CustomFieldPmo
 [[dynamicfield]]
 ==== Dynamic Field
 
-*linkki* allows for dynamic typing of an input field. In the following example `Retention` should only be freely writable if `CarType` is set to `STANDARD`. Otherwise the user can only select values from a list:
+*linkki* allows for dynamic typing of an input field. In the following example `Retention` should only be freely writable if `CarType` is set to `STANDARD`. Otherwise, the user can only select values from a list:
 
 [source,java]
 ----
@@ -268,9 +268,9 @@ Which UI element is displayed for each PMO instance is determined by the method 
 [[ui-button]]
 ==== UIButton
 
-The annotation `@UIButton` is used to mark the method that should be executed with the click on the button. 
+The annotation https://vaadin.com/docs/latest/components/button[`@UIButton`] is used to mark the method that should be executed when the button is clicked. It corresponds to `com.vaadin.flow.component.button.Button`.
 
-Buttons are not bound to values. Since buttons therefore have no corresponding PMO property, the name of the annotated method is used to determine the associated methods. The behavior is similar to the  <<domain-model-binding, domain model binding>>, although buttons have no property `modelAttribute`.
+Since buttons are not bound to values and therefore have no corresponding PMO property, the name of the annotated method is used to determine the associated methods. The behavior is similar to the  <<domain-model-binding, domain model binding>>, although buttons have no property `modelAttribute`.
 
 [source,java]
 ----
