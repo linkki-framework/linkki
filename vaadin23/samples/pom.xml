@@ -7,7 +7,7 @@
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-samples-vaadin23</artifactId>
-    <version>2.3.0-m03</version>
+    <version>2.3.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -60,26 +60,26 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core-vaadin23</artifactId>
-                <version>2.3.0-m03</version>
+                <version>2.3.0-SNAPSHOT</version>
             </dependency>
             <!-- end::linkki-core[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-ips-vaadin23</artifactId>
-                <version>2.3.0-m03</version>
+                <version>2.3.0-SNAPSHOT</version>
             </dependency>
             <!-- tag::linkki-vaadin23-component[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-vaadin23-component</artifactId>
-                <version>2.3.0-m03</version>
+                <version>2.3.0-SNAPSHOT</version>
             </dependency>
             <!-- end::linkki-vaadin23-component[] -->
             <!-- tag::linkki-application-framework[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework-vaadin23</artifactId>
-                <version>2.3.0-m03</version>
+                <version>2.3.0-SNAPSHOT</version>
             </dependency>
             <!-- end::linkki-application-framework[] -->
 
