@@ -25,6 +25,7 @@ import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindSuffix;
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
@@ -84,7 +85,19 @@ public class LabelPmo {
         return "I am a custom styled GREEN and RIGHT ALIGNED label";
     }
 
-    @UINestedComponent(position = 100, label = "UILabel in table")
+    @UILabel(position = 100, label = "Label with an icon on the left")
+    @BindIcon(value = VaadinIcon.ABACUS)
+    public String getIconLeftLabel() {
+        return "Icon on the left";
+    }
+
+    @UILabel(position = 105, label = "Label with an icon on the right", iconPosition = IconPosition.RIGHT)
+    @BindIcon(value = VaadinIcon.ABACUS)
+    public String getIconRightLabel() {
+        return "Icon on the right";
+    }
+
+    @UINestedComponent(position = 150, label = "UILabel in table")
     public LabelTablePmo getLabelTable() {
         return new LabelTablePmo();
     }

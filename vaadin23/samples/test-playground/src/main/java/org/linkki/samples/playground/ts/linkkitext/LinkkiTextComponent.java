@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.ts.linkkitext;
 
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.component.button.Button;
@@ -46,11 +47,18 @@ public class LinkkiTextComponent extends VerticalLayout {
         textWithPrefixAndSuffix.setSuffixComponent(new Button("Suffix Button", VaadinIcon.ARCHIVE.create()));
         prefixSuffix.add(textWithPrefixAndSuffix);
 
-        add(formLayout, actions, prefixSuffix);
+        FormLayout iconRightLayout = new FormLayout();
+        LinkkiText textWithIconRight = new LinkkiText();
+        textWithIconRight.setIconPosition(IconPosition.RIGHT);
+        textWithIconRight.setText("Label with an icon on the right");
+        textWithIconRight.setIcon(VaadinIcon.ABACUS);
+        iconRightLayout.add(textWithIconRight);
+
+        add(formLayout, actions, prefixSuffix, iconRightLayout);
     }
 
     private void updateIconWithText(LinkkiText text) {
-        text.setText("Label with Icon");
+        text.setText("Label with an icon on the left");
         text.setIcon(VaadinIcon.ABACUS);
     }
 
@@ -58,5 +66,4 @@ public class LinkkiTextComponent extends VerticalLayout {
         text.setText("" + System.currentTimeMillis());
         text.setIcon(VaadinIcon.TIMER);
     }
-
 }

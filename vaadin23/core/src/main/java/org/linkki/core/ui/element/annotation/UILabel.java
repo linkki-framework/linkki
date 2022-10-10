@@ -35,9 +35,11 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.IconPositionAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.element.annotation.UILabel.LabelAspectDefinitionCreator;
 import org.linkki.core.ui.element.annotation.UILabel.LabelComponentDefinitionCreator;
@@ -50,8 +52,7 @@ import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 
 /**
- * Provides a single UI-element to display text content. Creates a
- * {@link com.vaadin.flow.component.html.Div}.
+ * Provides a single UI-element to display text content. Creates a {@link com.vaadin.flow.component.html.Div}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -61,11 +62,15 @@ import com.vaadin.flow.data.converter.Converter;
 @LinkkiPositioned
 public @interface UILabel {
 
-    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    /**
+     * Mandatory attribute that defines the order in which UI-Elements are displayed
+     */
     @LinkkiPositioned.Position
     int position();
 
-    /** Provides a description label next to the UI element */
+    /**
+     * Provides a description label next to the UI element
+     */
     String label() default "";
 
     /**
@@ -74,8 +79,13 @@ public @interface UILabel {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Name of the model object that is to be bound if multiple model objects are included for model
-     * binding
+     * Specifies the {@link IconPosition position} of the icon, whether it is displayed on the left or on the right side
+     * of the label.
+     */
+    IconPosition iconPosition() default IconPosition.LEFT;
+
+    /**
+     * Name of the model object that is to be bound if multiple model objects are included for model binding
      */
     @LinkkiBoundProperty.ModelObject
     String modelObject() default ModelObject.DEFAULT_NAME;
@@ -94,8 +104,8 @@ public @interface UILabel {
     /**
      * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain text.
      * <p>
-     * HTML content is not compatible with some annotations that manipulate the resulting component,
-     * like {@link BindIcon}.
+     * HTML content is not compatible with some annotations that manipulate the resulting component, like
+     * {@link BindIcon}.
      */
     boolean htmlContent() default false;
 
@@ -103,7 +113,7 @@ public @interface UILabel {
      * Specifies which {@link ItemCaptionProvider} should be used to convert the value into a String.
      * <p>
      * For enum values, getName method is used if the enum class provides such a method.
-     * 
+     *
      * @see DefaultCaptionProvider
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultLabelCaptionProvider.class;
@@ -139,7 +149,8 @@ public @interface UILabel {
                     new LabelAspectDefinition(annotation.label()),
                     new VisibleAspectDefinition(annotation.visible()),
                     new LabelValueAspectDefinition(annotation.htmlContent(),
-                            instantiate(annotation::itemCaptionProvider)));
+                                                   instantiate(annotation::itemCaptionProvider)),
+                    new IconPositionAspectDefinition(annotation.iconPosition()));
         }
     }
 

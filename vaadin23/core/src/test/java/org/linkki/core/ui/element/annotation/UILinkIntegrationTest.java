@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.nullValue;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.element.annotation.UILink.LinkTarget;
 import org.linkki.core.ui.element.annotation.UILinkIntegrationTest.LinkTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -114,6 +115,12 @@ class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiAnc
         assertThat(getDynamicComponent().isEnabled(), is(true));
     }
 
+    @Test
+    void testIconPosition() {
+        assertThat(getDynamicComponent().getIconPosition(), is(IconPosition.RIGHT));
+        assertThat(getStaticComponent().getIconPosition(), is(IconPosition.LEFT));
+    }
+
     @UISection
     protected static class LinkTestPmo extends AnnotationTestPmo {
 
@@ -158,7 +165,8 @@ class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiAnc
             this.valueTarget = valueTarget;
         }
 
-        @UILink(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = STATIC_CAPTION, target = "_blank")
+        @UILink(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = STATIC_CAPTION,
+                target = "_blank", iconPosition = IconPosition.LEFT)
         public String getStaticValue() {
             return READONLY_LINK;
         }

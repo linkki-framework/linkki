@@ -15,9 +15,11 @@
 package org.linkki.samples.playground.uitestnew.ts.components;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.samples.playground.uitestnew.ts.components.util.IconTestUtil.verifyIconPosition;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
@@ -65,5 +67,19 @@ class TC001UILabelTest extends PlaygroundUiTest {
         LinkkiTextElement label = $(LinkkiTextElement.class).id("styledLabel");
 
         assertThat(label.getCssValue("color")).isEqualTo("rgba(0, 128, 0, 1)");
+    }
+
+    @Test
+    void testLabel_WithIconLeft() {
+        LinkkiTextElement label = $(LinkkiTextElement.class).id("iconLeftLabel");
+
+        verifyIconPosition(label, IconPosition.LEFT);
+    }
+
+    @Test
+    void testLabel_WithIconRight() {
+        LinkkiTextElement label = $(LinkkiTextElement.class).id("iconRightLabel");
+
+        verifyIconPosition(label, IconPosition.RIGHT);
     }
 }

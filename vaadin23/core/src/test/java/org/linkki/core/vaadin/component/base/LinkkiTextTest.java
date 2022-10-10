@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.core.ui.aspects.types.IconPosition;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 
@@ -62,4 +63,10 @@ class LinkkiTextTest {
         assertThat(linkkiText.getClassName()).isEqualTo(LinkkiText.CLASS_NAME);
     }
 
+    @Test
+    void testSetIconPosition() {
+        linkkiText.setIconPosition(IconPosition.RIGHT);
+
+        assertThat(linkkiText.getIconPosition()).isEqualTo(IconPosition.RIGHT);
+    }
 }

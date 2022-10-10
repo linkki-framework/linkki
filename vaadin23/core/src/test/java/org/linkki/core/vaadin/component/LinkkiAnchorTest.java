@@ -14,11 +14,12 @@
 
 package org.linkki.core.vaadin.component;
 
-import com.vaadin.flow.component.icon.VaadinIcon;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 class LinkkiAnchorTest {
 
@@ -57,7 +58,7 @@ class LinkkiAnchorTest {
         anchor.setIcon(VaadinIcon.ABACUS);
 
         assertThat(anchor.getIcon()).isEqualTo(VaadinIcon.ABACUS);
-        assertThat(anchor.getSuffixComponent().getElement().getProperty("icon"))
+        assertThat(anchor.getPrefixComponent().getElement().getProperty("icon"))
                 .isEqualTo(VaadinIcon.ABACUS.create().getElement().getProperty("icon"));
     }
 

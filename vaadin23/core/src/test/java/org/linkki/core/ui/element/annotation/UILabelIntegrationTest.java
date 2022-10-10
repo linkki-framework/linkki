@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.base.LinkkiText;
@@ -102,6 +103,12 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
         assertThat(getComponentById("namedEnumWithToStringCaptionProvider").getText(), is("VALUE"));
     }
 
+    @Test
+    void testIconPosition() {
+        assertThat(getDynamicComponent().getIconPosition(), is(IconPosition.LEFT));
+        assertThat(getStaticComponent().getIconPosition(), is(IconPosition.RIGHT));
+    }
+
     @UISection
     protected static class LabelTestPmo extends AnnotationTestPmo {
 
@@ -116,7 +123,7 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
         }
 
         @Override
-        @UILabel(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE)
+        @UILabel(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, iconPosition = IconPosition.RIGHT)
         public void staticValue() {
             // model binding
         }

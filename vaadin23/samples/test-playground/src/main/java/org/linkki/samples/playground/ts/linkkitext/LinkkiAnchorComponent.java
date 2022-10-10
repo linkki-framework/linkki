@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.ts.linkkitext;
 
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
 import com.vaadin.flow.component.button.Button;
@@ -24,26 +25,35 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class LinkkiAnchorComponent extends VerticalLayout {
 
+    private static final String HREF = "https://www.faktorzehn.com/de/";
+
     private static final long serialVersionUID = 4770624919925533048L;
 
     public LinkkiAnchorComponent() {
 
         FormLayout formLayout = new FormLayout();
-        LinkkiAnchor anchorWithIcon = new LinkkiAnchor();
-        anchorWithIcon.setText("Anchor with icon");
-        anchorWithIcon.setHref("https://www.faktorzehn.com/de/");
-        anchorWithIcon.setIcon(VaadinIcon.ABACUS);
-        formLayout.add(anchorWithIcon);
+        LinkkiAnchor anchorWithIconLeft = new LinkkiAnchor();
+        anchorWithIconLeft.setText("Anchor with icon on the left");
+        anchorWithIconLeft.setHref(HREF);
+        anchorWithIconLeft.setIcon(VaadinIcon.ABACUS);
+        formLayout.add(anchorWithIconLeft);
+
+        LinkkiAnchor anchorWithIconRight = new LinkkiAnchor();
+        anchorWithIconRight.setText("Anchor with icon on the right");
+        anchorWithIconRight.setHref(HREF);
+        anchorWithIconRight.setIconPosition(IconPosition.RIGHT);
+        anchorWithIconRight.setIcon(VaadinIcon.ABACUS);
+        formLayout.add(anchorWithIconRight);
 
         LinkkiAnchor anchorWithTargetBlank = new LinkkiAnchor();
         anchorWithTargetBlank.setText("Page in new tab");
-        anchorWithTargetBlank.setHref("https://www.faktorzehn.com/de/");
+        anchorWithTargetBlank.setHref(HREF);
         anchorWithTargetBlank.setTarget(AnchorTarget.BLANK);
         formLayout.add(anchorWithTargetBlank);
 
         LinkkiAnchor anchorWithPrefixAndSuffix = new LinkkiAnchor();
         anchorWithPrefixAndSuffix.setText("Anchor with prefix and suffix");
-        anchorWithPrefixAndSuffix.setHref("https://www.faktorzehn.com/de/");
+        anchorWithPrefixAndSuffix.setHref(HREF);
         anchorWithPrefixAndSuffix.setPrefixComponent(new Button("Prefix Button", VaadinIcon.AIRPLANE.create()));
         anchorWithPrefixAndSuffix.setSuffixComponent(new Button("Suffix Button", VaadinIcon.ARCHIVE.create()));
         formLayout.add(anchorWithPrefixAndSuffix);

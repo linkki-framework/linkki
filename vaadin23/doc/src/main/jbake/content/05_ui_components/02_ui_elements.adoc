@@ -91,6 +91,9 @@ include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.ja
 Styles::
 To style labels the property `styleNames` can be used to specify a list (actually a `String[]`) of CSS class names.
 
+Icon position::
+The icon position can be set with the property `iconPosition`.
+An icon can be placed to the left (default) or to the right of the label.
 
 [[ui-link]]
 ==== UILink
@@ -107,6 +110,10 @@ The annotation has the following attributes:
 
 TIP: A `@UILink` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside the link. +
 When used in a table, the `label` is used as the column name while the `caption` is displayed as the link text in the table cell.
+
+Icon position::
+The icon position can be set with the property `iconPosition`.
+An icon can be placed to the left or to the right (default) of the link.
 
 [[ui-checkbox]]
 ==== UICheckbox

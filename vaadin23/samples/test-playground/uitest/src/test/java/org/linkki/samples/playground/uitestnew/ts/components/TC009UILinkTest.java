@@ -15,9 +15,11 @@
 package org.linkki.samples.playground.uitestnew.ts.components;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.samples.playground.uitestnew.ts.components.util.IconTestUtil.verifyIconPosition;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.components.LinkPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
@@ -85,4 +87,17 @@ class TC009UILinkTest extends PlaygroundUiTest {
         assertThat(link.getCssValue("text-decoration")).startsWith("none");
     }
 
+    @Test
+    void testLink_WithIconLeft() {
+        LinkkiTextElement link = $(LinkkiTextElement.class).id("linkIconLeft");
+
+        verifyIconPosition(link, IconPosition.LEFT);
+    }
+
+    @Test
+    void testLink_WithIconRight() {
+        LinkkiTextElement link = $(LinkkiTextElement.class).id("linkIconRight");
+
+        verifyIconPosition(link, IconPosition.RIGHT);
+    }
 }

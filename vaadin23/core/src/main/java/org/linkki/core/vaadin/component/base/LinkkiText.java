@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.vaadin.component.HasIcon;
 
 import com.vaadin.flow.component.Component;
@@ -33,8 +34,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
- * A text component that can have an additional {@link VaadinIcon} and a label. It also supports a HTML
- * mode.
+ * A text component that can have an additional {@link VaadinIcon} and a label. It also supports a HTML mode.
  */
 @Tag("linkki-text")
 @JsModule("./src/linkki-text.ts")
@@ -50,6 +50,9 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
 
     @CheckForNull
     private VaadinIcon icon;
+
+    @CheckForNull
+    private IconPosition iconPosition = IconPosition.LEFT;
 
     /**
      * Creates an empty LinkkiText with no text and no icons.
@@ -83,7 +86,7 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @implNote in case of HTML mode it returns the content as string including all HTML tags
      */
     @Override
@@ -100,7 +103,7 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
      * Sets the given text as content of this component.
      * <p>
      * To set HTML content use {@link #setText(String, boolean)} instead.
-     * 
+     *
      * @param text the text to set
      */
     @Override
@@ -110,10 +113,9 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
 
     /**
      * Sets the given text as content of this component.
-     * 
+     *
      * @param text the text or HTML content to set
-     * @param html use the text as HTML content when <code>true</code>, use the text as plain text
-     *            otherwise
+     * @param html use the text as HTML content when <code>true</code>, use the text as plain text otherwise
      */
     public void setText(String text, boolean html) {
         if (html) {
@@ -123,6 +125,25 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
             getContent().getElement().removeProperty("innerHTML");
             getContent().setText(text);
         }
+    }
+
+    /**
+     * Getter for the currently set {@link IconPosition position} of the icon. The default is
+     * {@link IconPosition#LEFT}.
+     */
+    @CheckForNull
+    public IconPosition getIconPosition() {
+        return iconPosition;
+    }
+
+    /**
+     * Sets the {@link IconPosition icon position} to be used.
+     *
+     * @param position The position which defines whether the icon should be displayed on the left or on the
+     *         right side of the text
+     */
+    public void setIconPosition(@CheckForNull IconPosition position) {
+        iconPosition = position;
     }
 
     @CheckForNull
@@ -140,7 +161,9 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
     }
 
     protected void setIconOnComponent(@CheckForNull VaadinIcon icon) {
-        setIconOnComponent(icon, this::setPrefixComponent);
+        Consumer<Icon> iconConsumer =
+                IconPosition.RIGHT == iconPosition ? this::setSuffixComponent : this::setPrefixComponent;
+        setIconOnComponent(icon, iconConsumer);
     }
 
     protected void setIconOnComponent(@CheckForNull VaadinIcon icon, Consumer<Icon> iconConsumer) {
@@ -151,5 +174,4 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
                     iconConsumer.accept(theIcon);
                 }, () -> iconConsumer.accept(null));
     }
-
 }

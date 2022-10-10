@@ -40,11 +40,6 @@ public class LinkkiAnchor extends LinkkiText implements Focusable<LinkkiAnchor> 
         return (Anchor)super.getContent();
     }
 
-    @Override
-    protected void setIconOnComponent(@CheckForNull VaadinIcon icon) {
-        setIconOnComponent(icon, this::setSuffixComponent);
-    }
-
     /**
      * @see Anchor#removeHref()
      */

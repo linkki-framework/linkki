@@ -16,7 +16,9 @@ package org.linkki.samples.playground.ts.components;
 
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -26,11 +28,12 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 @UISection
 public class LinkPmo {
 
+    private static final String LINKKI_URL = "https://linkki-framework.org/";
+
     private String caption = "linkki-framework.org";
-    private String href = "https://linkki-framework.org/";
+    private String href = LINKKI_URL;
     private VaadinIcon icon = VaadinIcon.EXTERNAL_LINK;
 
-    @BindIcon(iconType = IconType.DYNAMIC)
     @UILink(position = 0, target = "_blank", label = "Link")
     public String getLink() {
         return href;
@@ -71,4 +74,22 @@ public class LinkPmo {
         this.icon = icon;
     }
 
+    @UILabel(position = 15)
+    public String getLabel() {
+        return "Links with icons:";
+    }
+
+    @UILink(position = 20, target = "_blank", label = "Link with an icon on the left",
+            iconPosition = IconPosition.LEFT, caption = "Link with an icon on the left")
+    @BindIcon(value = VaadinIcon.EXTERNAL_LINK, iconType = IconType.STATIC)
+    public String getLinkIconLeft() {
+        return LINKKI_URL;
+    }
+
+    @UILink(position = 21, target = "_blank", label = "Link with an icon on the right",
+            iconPosition = IconPosition.RIGHT, caption = "Link with an icon on the right")
+    @BindIcon(value = VaadinIcon.EXTERNAL_LINK, iconType = IconType.STATIC)
+    public String getLinkIconRight() {
+        return LINKKI_URL;
+    }
 }

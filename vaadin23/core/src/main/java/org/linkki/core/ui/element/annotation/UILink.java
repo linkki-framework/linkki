@@ -33,9 +33,11 @@ import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
+import org.linkki.core.ui.aspects.IconPositionAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.LinkHrefAspectDefinition;
 import org.linkki.core.ui.aspects.LinkTargetAspectDefinition;
+import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.element.annotation.UILink.LinkAspectDefinitionCreator;
 import org.linkki.core.ui.element.annotation.UILink.LinkComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -55,14 +57,16 @@ import com.vaadin.flow.component.html.Anchor;
 @LinkkiPositioned
 public @interface UILink {
 
-    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    /**
+     * Mandatory attribute that defines the order in which UI-Elements are displayed
+     */
     @LinkkiPositioned.Position
     int position();
 
     /**
-     * Provides a label for the link. Normally a link does not need a label. The label stands next to
-     * the component and depends on the current layout (may not be visible in every layout). In tables
-     * the label is used for the column header.
+     * Provides a label for the link. Normally a link does not need a label. The label stands next to the component and
+     * depends on the current layout (may not be visible in every layout). In tables the label is used for the column
+     * header.
      */
     String label() default "";
 
@@ -72,17 +76,17 @@ public @interface UILink {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Static text displayed on the link. If the value should be determined dynamically either let
-     * caption be empty or set {@link #captionType()} to {@link CaptionType#DYNAMIC} explicitly. In this
-     * case a method named {@code get<PropertyName>Caption} is called.
+     * Static text displayed on the link. If the value should be determined dynamically either let caption be empty or
+     * set {@link #captionType()} to {@link CaptionType#DYNAMIC} explicitly. In this case a method named
+     * {@code get<PropertyName>Caption} is called.
      */
     String caption() default "";
 
     /**
      * Defines how the value of caption should be retrieved, using values of {@link CaptionType}.
      * <p>
-     * In case of {@link CaptionType#DYNAMIC} or {@link CaptionType#AUTO} with empty {@link #caption()}
-     * a method named {@code get<PropertyName>Caption} is called.
+     * In case of {@link CaptionType#DYNAMIC} or {@link CaptionType#AUTO} with empty {@link #caption()} a method named
+     * {@code get<PropertyName>Caption} is called.
      */
     CaptionType captionType() default CaptionType.AUTO;
 
@@ -93,6 +97,12 @@ public @interface UILink {
      * {@code get<PropertyName>Target}
      */
     String target() default LinkTarget.SELF;
+
+    /**
+     * Specifies the {@link IconPosition position} of the icon, whether it is displayed on the left or on the right side
+     * of the link.
+     */
+    IconPosition iconPosition() default IconPosition.RIGHT;
 
     static class LinkComponentDefinitionCreator implements ComponentDefinitionCreator<UILink> {
 
@@ -116,7 +126,8 @@ public @interface UILink {
                     new LinkHrefAspectDefinition(),
                     new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),
                     new LinkTargetAspectDefinition(annotation.target(),
-                            LinkTarget.DYNAMIC.equals(annotation.target())));
+                                                   LinkTarget.DYNAMIC.equals(annotation.target())),
+                    new IconPositionAspectDefinition(annotation.iconPosition()));
         }
     }
 

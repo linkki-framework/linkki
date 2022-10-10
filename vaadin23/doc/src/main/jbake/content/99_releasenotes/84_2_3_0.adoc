@@ -47,6 +47,11 @@ Fixed `@UIRadioButtons` not showing null when using `AvailableValuesType.ENUM_VA
 
 IMPORTANT: Please check the method `String getNullCaption()` of all `ItemCaptionProviders` that are used with `@UIRadioButtons` and make sure that this method returns the string for the `null` value. `getCaption()` will not be called for a `null` value!
 
+===== `iconPosition` for `@UILabel` and `@UILink`
+
+A new property `iconPosition` has been added to both `<<ui-label, @UILabel>>` and `<<ui-link, @UILink>>` for positioning the icon to the left or right of the label/link.
+The default position is left for `@UILabel` and right for `@UILink`.
+
 ==== Bugfixes
 
 // https://jira.faktorzehn.de/browse/LIN-3220
