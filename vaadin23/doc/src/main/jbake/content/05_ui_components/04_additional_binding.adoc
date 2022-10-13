@@ -9,12 +9,12 @@
 
 *linkki* can bind more than just the value. In fact, almost every part of the UI state can be taken into account for data binding with *linkki*. The most common parts of the UI state are for example the enabled state or the visibility. But there are also additional features that may be bound to a component such as the tooltip, available values for selection or CSS class names. For a property, every such UI state part is a so called __aspect__ of the property.
 
-Some aspects are crucial for the functionality of the <<ui-element, UI element>> and are thus directly <<embedded-aspects, embedded in the annotation>>. Besides those, *linkki* also provides some <<standalone-aspects, standalone aspect annotations>> that can be optionally applied to the <<ui-element, UI elements>>. 
+Some aspects are crucial for the functionality of the <<ui-element, UI element>> and are thus directly <<embedded-aspects, embedded in the annotation>>. Besides those, *linkki* also provides some <<standalone-aspects, standalone aspect annotations>> that can be optionally applied to the <<ui-element, UI elements>>.
 
 [[aspects-usage]]
 ==== Aspects in a PMO
 
-The following example shows two aspects for the property "name". 
+The following example shows two aspects for the property "name".
 
 .Value and enabled aspect
 [source,java]
@@ -39,7 +39,7 @@ include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspectO
 [[embedded-aspects]]
 ==== Commonly Embedded Aspects
 
-Some aspects are so important or commonly used that they are directly packaged with the <<ui-element, UI annotation>>. Many of those aspects offer configurations that can be set by attributes in the annotation. Most frequently, the attributes share the name of the aspect itself, e.g. `@UITextField(enabled = ...)` in case of the enabled aspect. 
+Some aspects are so important or commonly used that they are directly packaged with the <<ui-element, UI annotation>>. Many of those aspects offer configurations that can be set by attributes in the annotation. Most frequently, the attributes share the name of the aspect itself, e.g. `@UITextField(enabled = ...)` in case of the enabled aspect.
 
 Below are the commonly embedded aspects.
 
@@ -101,7 +101,7 @@ WARNING: Fields marked as `required` are only visually highlighted. *No* validat
 [[standalone-aspects]]
 ==== Standalone Aspect Annotations
 
-Aspects can also be represented by a separate annotation. In this case, those annotations follow the naming convention `@Bind[AspectName]`. A standalone aspect annotation can be added to an annotated PMO property. Some standalone aspect annotation can also be added to an annotated PMO class itself. In the case of binding using the `@Bind` annotation, `@Bind[AspectName]` must be written directly in the field annotated with `@Bind`. Several frequently used aspects are packaged with *linkki* as listed below. It is also very easy to create additional <<creating-aspects, custom aspect annotations>>. 
+Aspects can also be represented by a separate annotation. In this case, those annotations follow the naming convention `@Bind[AspectName]`. A standalone aspect annotation can be added to an annotated PMO property. Some standalone aspect annotation can also be added to an annotated PMO class itself. In the case of binding using the `@Bind` annotation, `@Bind[AspectName]` must be written directly in the field annotated with `@Bind`. Several frequently used aspects are packaged with *linkki* as listed below. It is also very easy to create additional <<creating-aspects, custom aspect annotations>>.
 
 [options="header"]
 |===
@@ -116,13 +116,14 @@ Aspects can also be represented by a separate annotation. In this case, those an
 | `<<suffix, @BindSuffix>>` | `Suffix handling, using default SuffixType.AUTO`
 | `<<placeholder, @BindPlaceholder>>`| `Placeholder handling, using default PlaceholderType.AUTO`
 | `<<autofocus, @BindAutoFocus>>`| `Bind the autofocus property of a UI element.`
-|`<<variant-names, @BindVariantNames>>`| `Bind variant theme to a UI element or PMO class.`
+| `<<variant-names, @BindVariantNames>>`| `Bind variant theme to a UI element or PMO class.`
+| `<<bind-messages-aspect, @BindMessages>>`| `Manually filter and set validation messages on a field.`
 |===
 
 [[tooltips]]
 ===== Tooltips
 
-For displaying tooltips on UI elements *linkki* provides the annotation `@BindTooltip`. 
+For displaying tooltips on UI elements *linkki* provides the annotation `@BindTooltip`.
 
 The `@BindTooltip` annotation has two properties:
 
@@ -176,9 +177,9 @@ TIP: If a component is supposed to be writable even though the rest of the UI is
 [[bind-read-only-behavior]]
 ===== Bind Read-Only Behavior
 
-`@BindReadOnlyBehavior` changes a component's behaviour if it is set to read-only. The read-only status is determined by the <<property-dispatcher, property-dispatcher-chain>>. There is no need to define additional methods as is usually the case with dynamic aspect definitions. 
+`@BindReadOnlyBehavior` changes a component's behaviour if it is set to read-only. The read-only status is determined by the <<property-dispatcher, property-dispatcher-chain>>. There is no need to define additional methods as is usually the case with dynamic aspect definitions.
 
-The aspect has a value of type `ReadOnlyBehaviorType` with the following options available: 
+The aspect has a value of type `ReadOnlyBehaviorType` with the following options available:
 
 [cols="1,9"]
 .ReadOnlyBehaviorType
@@ -226,12 +227,12 @@ Alternatively, the annotation can be specified without style names, in which cas
 ===== @BindComboBoxDynamicCaption
 By default, the caption of an item is only updated if the item itself changes. If the caption of an item can change without the item itself being changed, the combo box should be additionally be annotated with `@BindComboBoxDynamicCaption`. This annotation makes sure that all items are updated including their caption upon updates.
 
-WARNING: The update of all items can be costly, especially if the combo box contains a large number of items. 
+WARNING: The update of all items can be costly, especially if the combo box contains a large number of items.
 
 [[bind-caption]]
 ===== Caption
 
-For sections and applicable fields(e.g. <<ui-checkbox,`UICheckbox`>>, <<ui-button,`UIButton`>>), the caption can be set with the separate `@BindCaption` annotation. 
+For sections and applicable fields(e.g. <<ui-checkbox,`UICheckbox`>>, <<ui-button,`UIButton`>>), the caption can be set with the separate `@BindCaption` annotation.
 
 The `@BindCaption` annotation has two properties:
 
@@ -262,7 +263,7 @@ UI elements such as <<ui-button, `@UIButton`>> or <<ui-link, `@UILink`>> can hav
 
 The `@BindIcon` annotation has two properties:
 
-* <<icon-value, `value: String`>>  
+* <<icon-value, `value: String`>>
 * <<icon-type, `iconType: IconTypeType`>>
 
 [[icon-value]]
@@ -278,7 +279,7 @@ The following configuration options are available for `IconType`:
 |===
 |`AUTO`     |Reacts as `STATIC` if icon is specified or `DYNAMIC` if not (*default*)
 |`STATIC`   |The icon is read from the attribute `value`
-|`DYNAMIC`  |The icon is determined by the return value of the method `Resource get<PropertyName>Icon()`. The `value` is ignored. 
+|`DYNAMIC`  |The icon is determined by the return value of the method `Resource get<PropertyName>Icon()`. The `value` is ignored.
 |=== 
 
 TIP: The class `VaadinIcon` contains many Icons for easy use. The Vaadin documentation includes a https://vaadin.com/components/vaadin-icons/java-examples#all-icons[reference page listing all available icons] as well as documentation how to https://vaadin.com/docs/latest/flow/application/resources#icons[Icons].
@@ -382,3 +383,9 @@ It is possible to provide a single variant name (`@BindVariantNames("no-border")
 include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindVariantNamesTables.java[tags=bindVariantNames]
 ----
 
+[[bind-messages-aspect]]
+===== Binding validation messages
+
+In some cases, it is not practical to use model binding in all fields of a PMO (e.g. because conversion/navigation needs to be done in getters/setters), but it should still be possible to set validation messages on a field.
+
+This can be done with the annotation <<bind-messages, `@BindMessages`>>.

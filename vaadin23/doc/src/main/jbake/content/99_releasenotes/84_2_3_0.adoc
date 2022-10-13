@@ -9,6 +9,34 @@
 
 ==== New features and improvements
 
+===== `@BindMessages`
+////
+https://jira.faktorzehn.de/browse/LIN-1090
+////
+A new annotation, `@BindMessages`, has been added for manually filtering and setting validation messages on a field.
+
+For more information see "<<bind-messages, @BindMessages>>".
+
+[role="api-change"]
+===== `Refactoring BindingDescriptor`
+////
+https://jira.faktorzehn.de/browse/LIN-1090
+////
+The class `BindingDescriptor` has been completely refactored and should now be used directly instead of creating a child class.
+
+As part of this process, the following classes and methods were deleted:
+
+* `ElementDescriptor` - use `BindingDescriptor` instead
+* `PropertyElementDescriptors ` - use `BindingDescriptor` instead
+* `public BindingDescriptor(List<LinkkiAspectDefinition>)` - use `public BindingDescriptor(BoundProperty, List<LinkkiAspectDefinition>)` instead
+
+And the following elements were deprecated:
+
+* `BindingDescriptor.getModelAttributeName()` - call `BindingDescriptor.getBoundProperty().getModelAttribute()` instead
+* `BindingDescriptor.getModelObjectName()` - call `BindingDescriptor.getBoundProperty().getModelObjectName()` instead
+* `BindingDescriptor.getPmoPropertyName()` - call `BindingDescriptor.getBoundProperty().getPmoPropertyName()` instead
+* `LinkkiBoundProperty.ModelObject` - use `LinkkiBoundProperty.ModelObjectProperty` instead
+
 ===== `@BindAutoFocus`
 ////
 https://jira.faktorzehn.de/browse/LIN-1845

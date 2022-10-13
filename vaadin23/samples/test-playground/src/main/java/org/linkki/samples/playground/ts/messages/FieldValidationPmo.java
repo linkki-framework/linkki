@@ -96,6 +96,7 @@ public class FieldValidationPmo {
         this.isReadOnly = readOnlyField;
     }
 
+    // tag::bind-messages[]
     @BindMessages
     @UITextField(position = 30, label = "Only interested in errors")
     public String getAllErrorTextField() {
@@ -111,6 +112,7 @@ public class FieldValidationPmo {
                 .filter(m -> Severity.ERROR == m.getSeverity())
                 .collect(MessageList.collector());
     }
+    // end::bind-messages[]
 
     @NonNull
     public MessageList validate() {
