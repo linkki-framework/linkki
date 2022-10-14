@@ -38,21 +38,23 @@ public interface LinkkiMessageHandler {
      * <p>
      * The messages are processed after all other binding aspects have been processed. That means the
      * component is already in the state as it will be after the update round trip. When changing the
-     * component's state make sure to not unwillingly overwrite another state. For example a button
+     * component's state, make sure to not unwillingly overwrite another state. For example, a button
      * might get disabled by a binding or when there are error messages. Hence, the message handler
      * should not set the button to enabled if it is already disabled.
+     * <p>
+     * It is not recommended to process messages which are not part of the input messages. Newly created
+     * messages may not be processed by other message handlers!
      *
-     * @apiNote The returned message list must only contain the messages that are really handled by the
-     *          component in a way that the user could fix the problem using this component. In
-     *          contrast, a component that shows a list of all existing messages should simply return an
-     *          empty message list because the component is not responsible for the messages. It may be
-     *          used to link a message to a component.
-     * 
      * @param messages All messages from last model validation as they are derived from
      *            {@link ValidationService}.
      * @param componentWrapper The {@link ComponentWrapper} that holds the bound component
      * @param propertyDispatcher The dispatcher that handles the binding of the PMO and model object.
      * @return A list of messages the component is responsible for. Read API note for clarification.
+     * @apiNote The returned message list must only contain the messages that are really handled by the
+     *          component in a way that the user could fix the problem using this component. In
+     *          contrast, a component that shows a list of all existing messages should simply return an
+     *          empty message list because the component is not responsible for the messages. It may be
+     *          used to link a message to a component.
      */
     MessageList process(MessageList messages, ComponentWrapper componentWrapper, PropertyDispatcher propertyDispatcher);
 
