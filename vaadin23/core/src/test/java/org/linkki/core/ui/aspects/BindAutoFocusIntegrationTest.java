@@ -6,9 +6,6 @@ import static org.hamcrest.Matchers.is;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.textfield.TextField;
-
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.aspects.annotation.BindAutoFocus;
@@ -16,6 +13,9 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.textfield.TextField;
 
 class BindAutoFocusIntegrationTest {
 

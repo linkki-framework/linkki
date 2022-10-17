@@ -29,6 +29,16 @@ A new annotation `@BindVariantNames` has been added for adding Vaadin variants t
 
 For more information see "<<variant-names, @BindVariantNames>>".
 
+===== `@BindLabel`
+////
+https://jira.faktorzehn.de/browse/LIN-2529
+////
+
+
+A new annotation `@BindLabel` has been implemented for adding dynamic labels to UI elements.
+
+For more information see "<<bind-label, @BindLabel>>".
+
 ===== `@UIMultiSelect`
 ////
 https://jira.faktorzehn.de/browse/LIN-3201

@@ -60,6 +60,7 @@ import org.linkki.samples.playground.ts.aspects.BindReadOnlyBehaviorPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ts.aspects.BindSuffixPmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
+import org.linkki.samples.playground.ts.aspects.BindLabelPmo;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoNoBorder;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoWithoutVariant;
 import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
@@ -290,6 +291,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                VaadinUiCreator
                                                        .createComponent(new BindVariantNamesTablePmoWithoutVariant(),
                                                                         new BindingContext())))
+                                       .testCase(TC015, new BindLabelPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())

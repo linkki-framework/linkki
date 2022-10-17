@@ -65,7 +65,8 @@
             **/org/linkki/tooling/apt/util/ElementUtils.java,
             **/org/linkki/tooling/apt/util/DynamicMethodUtils.java,
             <!-- testbench-extension module -->
-            **/org/linkki/testbench/**/*.java
+            **/org/linkki/testbench/**/*.java,
+            **/org/linkki/core/defaults/ui/aspects/types/*.java
         </sonar.coverage.exclusions>
         <sonar.cpd.exclusions>
             **/org/linkki/samples/**/*.java,

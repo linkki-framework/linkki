@@ -64,5 +64,20 @@
                 ]
             }
         }
+    ],
+    "2.3.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.class.noLongerInheritsFromClass",
+                        "class": "org.linkki.core.ui.aspects.LabelAspectDefinition",
+                        "justification": "LIN-2529/LIN-3257"
+                    }
+                ]
+            }
+        }
     ]
 }

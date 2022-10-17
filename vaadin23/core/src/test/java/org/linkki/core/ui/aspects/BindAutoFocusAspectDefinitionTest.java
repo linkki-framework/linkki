@@ -18,6 +18,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
+import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.ui.aspects.annotation.BindAutoFocus.BindAutoFocusAspectDefinition;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -27,14 +35,6 @@ import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-
-import org.junit.jupiter.api.Test;
-import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
-import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
-import org.linkki.core.ui.aspects.annotation.BindAutoFocus.BindAutoFocusAspectDefinition;
-import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
 class BindAutoFocusAspectDefinitionTest {
 

@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.aspects.annotation.BindAutoFocus;
 import org.linkki.core.ui.aspects.annotation.BindVariantNames;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;

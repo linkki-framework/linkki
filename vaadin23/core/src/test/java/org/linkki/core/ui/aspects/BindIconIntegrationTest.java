@@ -14,10 +14,15 @@
 
 package org.linkki.core.ui.aspects;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -34,12 +39,10 @@ import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 class BindIconIntegrationTest {
 

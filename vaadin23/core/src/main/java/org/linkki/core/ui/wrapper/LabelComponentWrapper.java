@@ -22,7 +22,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.dom.Element;
 
 /**
- * Implementation of the {@link ComponentWrapper} with a vaadin {@link Component} without label support.
+ * Implementation of the {@link ComponentWrapper} with a vaadin {@link Component} with label support.
  */
 public class LabelComponentWrapper extends VaadinComponentWrapper {
 

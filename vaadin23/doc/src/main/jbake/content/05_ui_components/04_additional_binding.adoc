@@ -117,6 +117,7 @@ Aspects can also be represented by a separate annotation. In this case, those an
 | `<<placeholder, @BindPlaceholder>>`| `Placeholder handling, using default PlaceholderType.AUTO`
 | `<<autofocus, @BindAutoFocus>>`| `Bind the autofocus property of a UI element.`
 |`<<variant-names, @BindVariantNames>>`| `Bind variant theme to a UI element or PMO class.`
+|`<<bind-label, @BindLabel>>` | `Set label texts dynamically.`
 |===
 
 [[tooltips]]
@@ -381,4 +382,51 @@ It is possible to provide a single variant name (`@BindVariantNames("no-border")
 ----
 include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindVariantNamesTables.java[tags=bindVariantNames]
 ----
+
+[[bind-label]]
+===== Binding labels
+
+In some cases, the labels of UI elements as text fields for example require to be set dynamically.
+This can be done by using the `@BindLabel` annotation.
+One use case is to avoid unnecessary additional UI elements with static labels which have to be made visible as needed in order to provide the same functionality as dynamic labels.
+
+IMPORTANT: This binding do not work with table headers.
+
+The annotation has two properties:
+
+* <<bind-label-value, `value: String`>>
+* <<bind-label-type, `labelType: LabelType`>>
+
+
+[[bind-label-value]]
+Value::
+This is the label text which is displayed in case of static labels.
+
+[[bind-label-type]]
+LabelType::
+The following configuration options are available for `LabelType`:
+
+[cols="1,9"]
+.LabelType
+|===
+|`DYNAMIC`  |The text of the label is determined by the return value of the method `String get<PropertyName>Label()`. The `value` is ignored.
+|`STATIC`   |The text of the label is read from the attribute `value`.
+|`AUTO`     |The text of the label is read from the attribute `value` if it is not empty, otherwise it reacts like `DYNAMIC` (*default*).
+|`NONE`     |No label text is displayed.
+|===
+
+NOTE: Some UI elements already provide a property for defining static labels. This value is overwritten by the `@BindLabel` annotation.
+
+.`@BindLabel` with a dynamic label
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindLabelPmo.java[tags=bindLabel-dynamic]
+----
+
+.`@BindLabel` with a static label
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindLabelPmo.java[tags=bindLabel-static]
+----
+
 

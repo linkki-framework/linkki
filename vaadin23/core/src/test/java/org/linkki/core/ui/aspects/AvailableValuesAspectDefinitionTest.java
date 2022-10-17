@@ -35,10 +35,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.data.provider.HasListDataView;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
@@ -48,6 +44,10 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.util.handler.Handler;
+
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.data.provider.HasListDataView;
 
 class AvailableValuesAspectDefinitionTest {
 
