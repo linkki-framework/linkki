@@ -19,13 +19,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.List;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestPmo;
-import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
@@ -45,8 +45,6 @@ public class DefaultBindingManagerTest {
     PropertyBehaviorProvider behaviorProvider2;
     @Spy
     PropertyDispatcherFactory dispatcherFactory;
-    @Mock
-    List<LinkkiAspectDefinition> aspectDefs;
 
     @Test
     public void testStartNewContext_BindingContextUsesManagersPropertyBehaviorProvider() {
@@ -71,7 +69,7 @@ public class DefaultBindingManagerTest {
         DefaultBindingManager defaultBindingManager = new DefaultBindingManager(() -> new MessageList(),
                 behaviorProvider1, dispatcherFactory);
         BindingContext bindingContext = defaultBindingManager.getContext("foo");
-        bindingContext.bind(new TestPmo(), BoundProperty.of(""), aspectDefs,
+        bindingContext.bind(new TestPmo(), new BindingDescriptor(BoundProperty.empty(), Collections.emptyList()),
                             new TestComponentWrapper(new TestUiComponent()));
 
         verify(dispatcherFactory, times(1)).createDispatcherChain(any(), any(), any());

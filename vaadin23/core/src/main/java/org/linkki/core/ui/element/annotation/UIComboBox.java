@@ -13,11 +13,22 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.combobox.ComboBoxVariant;
-import com.vaadin.flow.data.binder.Result;
-import com.vaadin.flow.data.binder.ValueContext;
-import com.vaadin.flow.data.converter.Converter;
+import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
@@ -51,21 +62,11 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
-import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
-import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.ComboBoxVariant;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
 
 /**
  * Creates a ComboBox with the specified parameters.
@@ -122,7 +123,7 @@ public @interface UIComboBox {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
-    @LinkkiBoundProperty.ModelObject
+    @LinkkiBoundProperty.ModelObjectProperty
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
@@ -180,8 +181,8 @@ public @interface UIComboBox {
             private final UIComboBox annotation;
 
             private ComboBoxAvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
-                                                            BiConsumer<ComboBox<Object>, List<Object>> dataProviderSetter,
-                                                            UIComboBox annotation) {
+                    BiConsumer<ComboBox<Object>, List<Object>> dataProviderSetter,
+                    UIComboBox annotation) {
                 super(availableValuesType, dataProviderSetter);
                 this.annotation = annotation;
             }
@@ -204,7 +205,8 @@ public @interface UIComboBox {
             }
 
             /**
-             * Do not set any warning message as it should be expected that only valid values can be selected.
+             * Do not set any warning message as it should be expected that only valid values can be
+             * selected.
              */
             @Override
             protected MessageList getInvalidInputMessage(Object value) {

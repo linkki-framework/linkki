@@ -40,7 +40,6 @@ import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestModelObject;
 import org.linkki.core.binding.TestPmo;
-import org.linkki.core.binding.descriptor.TestLinkkiComponentDefinition;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;

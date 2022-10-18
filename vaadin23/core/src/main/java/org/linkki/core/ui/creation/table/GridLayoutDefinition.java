@@ -15,14 +15,10 @@
 package org.linkki.core.ui.creation.table;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
-import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
@@ -54,21 +50,16 @@ public class GridLayoutDefinition implements LinkkiLayoutDefinition {
      * Creates a new column for a field of a PMO and applies all
      * {@link LinkkiAspectDefinition#supports(org.linkki.core.binding.wrapper.WrapperType) supported}
      * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
-     * 
-     * @param elementDesc the descriptor for the PMO's field
-     * @param tableWrapper the {@link ComponentWrapper} that wraps the table
      */
     private void initColumn(ContainerPmo<?> containerPmo,
             Grid<?> grid,
             BindingContext bindingContext,
             Method m) {
-        BoundProperty boundProperty = BoundPropertyAnnotationReader.getBoundProperty(m);
+        var bindingDescriptor = BindingDescriptor.forMethod(m);
         Column<?> column = createComponentColumn(m, grid, bindingContext);
-        column.setKey(boundProperty.getPmoProperty());
+        column.setKey(bindingDescriptor.getBoundProperty().getPmoProperty());
         column.setResizable(true);
-        List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFor(m);
-        bindingContext.bind(containerPmo.getItemPmoClass(), boundProperty,
-                            aspectDefs,
+        bindingContext.bind(containerPmo.getItemPmoClass(), bindingDescriptor,
                             new GridColumnWrapper(column));
     }
 

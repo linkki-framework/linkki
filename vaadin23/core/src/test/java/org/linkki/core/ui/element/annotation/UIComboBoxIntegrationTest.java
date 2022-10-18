@@ -22,7 +22,6 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -155,7 +154,7 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         getDefaultModelObject().setValue(TestEnum.THREE);
         assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
 
-        getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.THREE));
+        getDefaultPmo().setValueAvailableValues(List.of(TestEnum.THREE));
         modelChanged();
         assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
     }
@@ -168,7 +167,7 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         modelChanged();
         assertThat(getAllowedValues(comboBox), is(IsEmptyCollection.empty()));
 
-        getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.ONE));
+        getDefaultPmo().setValueAvailableValues(List.of(TestEnum.ONE));
         modelChanged();
         assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE));
     }

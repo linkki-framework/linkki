@@ -86,7 +86,7 @@ public @interface UIDateTimeField {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
-    @LinkkiBoundProperty.ModelObject
+    @LinkkiBoundProperty.ModelObjectProperty
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**

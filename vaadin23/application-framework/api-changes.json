@@ -30,5 +30,32 @@
                 ]
             }
         }
+    ],
+    "2.3.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.method.numberOfParametersChanged",
+                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(java.util.List<? extends org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
+                        "new": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(org.linkki.core.binding.descriptor.property.BoundProperty, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
+                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
+                    },
+                    {
+                        "code": "java.method.removed",
+                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::addAspectDefinitions(java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
+                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
+                    },
+                    {
+                        "code": "java.class.nowFinal",
+                        "old": "class org.linkki.core.binding.descriptor.BindingDescriptor",
+                        "new": "class org.linkki.core.binding.descriptor.BindingDescriptor",
+                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
+                    }
+                ]
+            }
+        }
     ]
 }

@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -131,7 +130,7 @@ class UIMultiSelectIntegrationTest
         getDefaultModelObject().setValue(Collections.singleton(TestEnum.THREE));
         assertThat(getDynamicComponent().getValue()).containsExactly(TestEnum.THREE);
 
-        getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.THREE));
+        getDefaultPmo().setValueAvailableValues(List.of(TestEnum.THREE));
         modelChanged();
         assertThat(getDynamicComponent().getValue()).containsExactly(TestEnum.THREE);
     }
@@ -144,7 +143,7 @@ class UIMultiSelectIntegrationTest
         modelChanged();
         assertThat(getAllowedValues(multiselect)).isEmpty();
 
-        getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.ONE));
+        getDefaultPmo().setValueAvailableValues(List.of(TestEnum.ONE));
         modelChanged();
         assertThat(getAllowedValues(multiselect)).contains(TestEnum.ONE);
     }

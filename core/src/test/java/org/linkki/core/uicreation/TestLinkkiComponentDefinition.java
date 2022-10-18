@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.core.binding.descriptor;
+package org.linkki.core.uicreation;
 
 import java.util.function.Supplier;
 

@@ -35,11 +35,11 @@ import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreat
  * <p>
  * The default {@link BoundPropertyCreator} is {@link ModelBindingBoundPropertyCreator} which uses the
  * property name of the annotated element (normally the method in a PMO) and defines a model binding
- * using the annotation properties which are annotated with {@link ModelObject} and
+ * using the annotation properties which are annotated with {@link ModelObjectProperty} and
  * {@link ModelAttribute}. For example a {@code @UIField} annotation has a property
- * {@code modelObject()} which is annotated with {@link ModelObject} and a property
+ * {@code modelObject()} which is annotated with {@link ModelObjectProperty} and a property
  * {@code modelAttribute} which is annotated with {@code ModelAttribute}.
- * 
+ *
  * @see BoundPropertyCreator
  */
 @Documented
@@ -52,10 +52,24 @@ public @interface LinkkiBoundProperty {
     /**
      * Annotation that marks the {@code modelObject} property within an annotation that is marked with
      * {@link LinkkiBoundProperty}.
+     *
+     * @deprecated This annotation has a naming conflict with {@link org.linkki.core.pmo.ModelObject},
+     *         use {@link ModelObjectProperty} instead.
      */
+    @Deprecated(since = "2.3")
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     @interface ModelObject {
+        // no value
+    }
+
+    /**
+     * Annotation that marks the {@code modelObject} property within an annotation that is marked with
+     * {@link LinkkiBoundProperty}.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @interface ModelObjectProperty {
         // no value
     }
 

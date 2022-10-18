@@ -15,11 +15,11 @@ package org.linkki.core.ui.creation.section;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Consumer;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
@@ -56,8 +56,9 @@ public class ButtonPmoBinder {
         Button button = ComponentFactory.newButton();
         ComponentWrapper buttonWrapper = new NoLabelComponentWrapper(button, WrapperType.FIELD);
         buttonWrapper.setId("buttonPmo");
-        bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
-                            buttonWrapper);
+        bindingContext
+                .bind(pmo, new BindingDescriptor(BoundProperty.empty(), new ButtonPmoAspectDefinition()),
+                      buttonWrapper);
         return button;
     }
 

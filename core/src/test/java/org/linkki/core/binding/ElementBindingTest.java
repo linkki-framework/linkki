@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
@@ -72,7 +73,7 @@ class ElementBindingTest {
         selectBinding = new ElementBinding(new TestComponentWrapper(selectField),
                 propertyDispatcherEnumValue,
                 Handler.NOP_HANDLER,
-                new ArrayList<>());
+                new ArrayList<>(), new DefaultMessageHandler());
     }
 
     @Test
@@ -83,7 +84,7 @@ class ElementBindingTest {
         when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
         ElementBinding fieldBinding = new ElementBinding(new TestComponentWrapper(field),
                 propertyDispatcherValue,
-                Handler.NOP_HANDLER, Arrays.asList(aspectDefinition));
+                Handler.NOP_HANDLER, Arrays.asList(aspectDefinition), new DefaultMessageHandler());
         fieldBinding.updateFromPmo();
 
         verify(componentUpdater).apply();

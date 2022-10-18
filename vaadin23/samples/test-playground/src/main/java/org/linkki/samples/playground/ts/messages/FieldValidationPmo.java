@@ -23,7 +23,6 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-import org.linkki.core.ui.aspects.annotation.BindPlaceholder;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.creation.VaadinUiCreator;
@@ -31,6 +30,7 @@ import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.validation.message.BindMessages;
 
 import com.vaadin.flow.component.Component;
 
@@ -43,7 +43,7 @@ public class FieldValidationPmo {
     private static final String PROPERTY_COMBO_BOX_VALUE = "comboBoxValue";
     private static final String PROPERTY_READ_ONLY_TEXT_FIELD = "readOnlyTextField";
     private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
-                                                                        Severity.ERROR);
+            Severity.ERROR);
 
     @CheckForNull
     private Severity severity = null;
@@ -73,9 +73,8 @@ public class FieldValidationPmo {
         this.showLongValidationMessage = showLongValidationMessage;
     }
 
-    @BindPlaceholder("Will not be validated in read only")
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextField(position = 20, label = "Read-only field with no validation")
+    @UITextField(position = 20, label = "No validation when read-only")
     public String getReadOnlyTextField() {
         return readOnlyText;
     }
@@ -96,6 +95,24 @@ public class FieldValidationPmo {
     public void setReadOnlyCheckBox(boolean readOnlyField) {
         this.isReadOnly = readOnlyField;
     }
+
+    // tag::bind-messages[]
+    @BindMessages
+    @UITextField(position = 30, label = "Only interested in errors")
+    public String getAllErrorTextField() {
+        return readOnlyText;
+    }
+
+    public void setAllErrorTextField(String t) {
+        readOnlyText = t;
+    }
+
+    public MessageList getAllErrorTextFieldMessages(MessageList messages) {
+        return messages.stream()
+                .filter(m -> Severity.ERROR == m.getSeverity())
+                .collect(MessageList.collector());
+    }
+    // end::bind-messages[]
 
     @NonNull
     public MessageList validate() {
