@@ -17,8 +17,8 @@ package org.linkki.core.binding.descriptor.messagehandler.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
-import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
 import org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler;
+import org.linkki.core.binding.validation.handler.DefaultMessageHandler;
 import org.linkki.util.Classes;
 import org.linkki.util.MetaAnnotation;
 

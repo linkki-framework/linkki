@@ -7,11 +7,12 @@
 
 *linkki* offers several options to extend its abilities:
 
- * Binding custom UI controls via <<ui-customfield, UICustomField>>
- * Binding aspects of UI controls by <<creating-aspects, creating a new aspect>>
- * Creating custom UI elements by <<custom-ui-element-annotation, creating custom UI element annotations>>
- * Creating custom layouts by <<custom-ui-layout-annotation, creating custom UI layout annotations>>
- * Creating a <<custom-binding-annotation, custom binding annotation>>
- * Creating a new <<property-dispatcher,PropertyDispatcher>>
+* Binding custom UI controls via <<ui-customfield, UICustomField>>
+* Binding aspects of UI controls by <<creating-aspects, creating a new aspect>>
+* Creating custom UI elements by <<custom-ui-element-annotation, creating custom UI element annotations>>
+* Creating custom layouts by <<custom-ui-layout-annotation, creating custom UI layout annotations>>
+* Creating a <<custom-message-handling, custom message handler>>
+* Creating a <<custom-binding-annotation, custom binding annotation>>
+* Creating a new <<property-dispatcher,PropertyDispatcher>>
 
-*linkki* uses these extension mechanism also for components included in the standard. Additionally there is an <<fips-extension,extension module>> to use *linkki* in combination with the Faktor Zehn Open Source Framework https://www.faktorzehn.org/[Faktor-IPS].
+*linkki* also uses these extension mechanisms for standard components. Additionally, there is an <<fips-extension,extension module>> to use *linkki* in combination with the Faktor Zehn Open Source Framework https://www.faktorzehn.org/[Faktor-IPS].

@@ -26,11 +26,11 @@ import java.util.List;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
-import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
 import org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler;
 import org.linkki.core.binding.descriptor.messagehandler.annotation.MessageHandlerAnnotationReader;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
+import org.linkki.core.binding.validation.handler.DefaultMessageHandler;
 import org.linkki.core.pmo.ModelObject;
 
 /**

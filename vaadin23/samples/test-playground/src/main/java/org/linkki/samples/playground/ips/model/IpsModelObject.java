@@ -59,7 +59,8 @@ import org.w3c.dom.Element;
         "enumerationValueSet", "integerEnumerationValueSet", "integerRangeValueSet", "booleanValueSet",
         "emptyStringValueSet" })
 @IpsValidationRules({ "checkDecimal" })
-@IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
+@IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions",
+        defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
 
     /**
@@ -613,7 +614,8 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
-    @IpsAttribute(name = "integerEnumerationValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    @IpsAttribute(name = "integerEnumerationValueSet", kind = AttributeKind.CHANGEABLE,
+            valueSetKind = ValueSetKind.Enum)
     @IpsGenerated
     public Integer getIntegerEnumerationValueSet() {
         return integerEnumerationValueSet;

@@ -12,8 +12,9 @@
  * License.
  */
 
-package org.linkki.core.binding.descriptor.messagehandler;
+package org.linkki.core.binding.validation.handler;
 
+import org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.MessageList;

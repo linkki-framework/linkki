@@ -29,7 +29,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 public interface LinkkiMessageHandler {
 
     /**
-     * Process the validation messages and update the component. The given {@link PropertyDispatcher}
+     * Processes the validation messages and updates the component. The given {@link PropertyDispatcher}
      * may be used to filter the relevant messages using
      * {@link PropertyDispatcher#getMessages(MessageList)} if only those messages should be processed.
      * <p>

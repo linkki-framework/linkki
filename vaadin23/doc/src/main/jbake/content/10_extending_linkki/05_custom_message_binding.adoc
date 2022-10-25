@@ -1,0 +1,29 @@
+:jbake-title: Custom message handling
+:jbake-type: section
+:jbake-status: published
+:source-dir-doc: ../../../../../../core/src/main/java
+
+[[custom-message-handling]]
+=== Custom message handling
+
+It is possible to create your own annotation for message binding instead of using the provided <<bind-messages, `@BindMessages`>>, for instance to disable a button if there are error messages.
+
+The custom annotation has to be annotated with the meta-annotation `@LinkkiMessages`.
+
+Next, an implementation of `LinkkiMessageHandler` is required.
+
+In the case of `@BindMessages` the implementation `BindValidationMessagesHandler` extends `DefaultMessageHandler`.
+When a PMO property, for instance `getDateOfBirth()`, is annotated with `@BindMessages`, the PMO class and annotated elements are passed to the constructor of `BindValidationMessagesHandler` and are used in `BindValidationMessagesHandler.getRelevantMessages()` to retrieve and call the PMO's method `getDateOfBirthMessages()`:
+
+[source,java]
+----
+include::{source-dir-doc}/org/linkki/core/binding/validation/handler/BindValidationMessagesHandler.java[tags=message-handler]
+----
+
+Finally, the custom annotation requires an implementation of `MessageHandlerCreator`, to create and return the implementation of `LinkkiMessageHandler`.
+E.g. with `@BindMessages`, the creator class looks like:
+
+[source,java]
+----
+include::{source-dir-doc}/org/linkki/core/binding/validation/annotation/BindMessages.java[tags=message-handler-creator]
+----

@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.binding.validation.annotation.BindMessages;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
@@ -30,7 +31,6 @@ import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.validation.message.BindMessages;
 
 import com.vaadin.flow.component.Component;
 

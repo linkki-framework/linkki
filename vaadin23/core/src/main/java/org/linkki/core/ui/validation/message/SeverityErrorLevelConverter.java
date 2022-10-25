@@ -14,13 +14,15 @@
 
 package org.linkki.core.ui.validation.message;
 
-import static java.util.Objects.requireNonNull;
-
+import com.vaadin.flow.data.binder.ErrorLevel;
 import org.linkki.core.binding.validation.message.Severity;
 
-import com.vaadin.flow.data.binder.ErrorLevel;
+import static java.util.Objects.requireNonNull;
 
-
+/**
+ * @deprecated This class is not used anymore with vaadin 23.
+ */
+@Deprecated(since = "2.3")
 public class SeverityErrorLevelConverter {
 
     private SeverityErrorLevelConverter() {

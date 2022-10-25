@@ -30,9 +30,9 @@ import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
 import org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.validation.handler.DefaultMessageHandler;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;

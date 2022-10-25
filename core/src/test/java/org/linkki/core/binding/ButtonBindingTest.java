@@ -24,8 +24,8 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.messagehandler.DefaultMessageHandler;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.validation.handler.DefaultMessageHandler;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.nls.TestComponentWrapper;

@@ -13,7 +13,7 @@
  *
  */
 
-package org.linkki.core.ui.validation.message;
+package org.linkki.core.binding.validation.handler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -28,18 +28,19 @@ import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler;
 import org.linkki.core.binding.descriptor.messagehandler.annotation.MessageHandlerAnnotationReader;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.validation.annotation.BindMessages;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.ui.aspects.annotation.BindReadOnly;
-import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.defaults.section.annotations.TestUIField;
+import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
+import org.linkki.core.uicreation.UiCreatorTest.UITestSection;
 
 /**
  * Test class for {@link BindMessages @BindMessages}.
  */
-class BindMessagesIntegrationTest {
+class BindValidationMessagesHandlerTest {
 
     private static final Message ERROR_MESSAGE = new Message("Error", "Error text", Severity.ERROR);
     private static final Message WARNING_MESSAGE = new Message("Warning", "Warning text", Severity.WARNING);
@@ -94,7 +95,7 @@ class BindMessagesIntegrationTest {
         assertThatThrownBy(() -> MessageHandlerAnnotationReader.getMessageHandler(method))
                 .isInstanceOf(LinkkiBindingException.class)
                 .hasMessage("Cannot find method getNoMessagesGetterTextFieldMessages(MessagesList) " +
-                        "in org.linkki.core.ui.validation.message.BindMessagesIntegrationTest$TestPmo");
+                        "in " + TestPmo.class.getName());
     }
 
     @Test
@@ -104,9 +105,9 @@ class BindMessagesIntegrationTest {
         when(dispatcher.getBoundObject()).thenReturn(this.getClass());
         LinkkiMessageHandler messageHandler = getMessageHandlerForMethod(pmo, ERRORS_ONLY_TEXT_FIELD);
 
-        assertThat(messageHandler).isInstanceOf(BindMessages.BindValidationMessagesHandler.class);
+        assertThat(messageHandler).isInstanceOf(BindValidationMessagesHandler.class);
 
-        BindMessages.BindValidationMessagesHandler validationHandler = (BindMessages.BindValidationMessagesHandler)messageHandler;
+        BindValidationMessagesHandler validationHandler = (BindValidationMessagesHandler)messageHandler;
 
         assertThatThrownBy(() -> validationHandler.getRelevantMessages(MESSAGES, dispatcher))
                 .isInstanceOf(LinkkiBindingException.class)
@@ -144,11 +145,11 @@ class BindMessagesIntegrationTest {
     /**
      * Test PMO class with methods which use the {@link BindMessages @BindMessages} annotation.
      */
-    @UISection
-    private static class TestPmo {
+    @UITestSection
+    public static class TestPmo {
 
         @BindMessages
-        @UITextField(position = 10)
+        @TestUIField(position = 10)
         public String getOnlyErrorsTextField() {
             return "OnlyErrors";
         }
@@ -160,8 +161,8 @@ class BindMessagesIntegrationTest {
         }
 
         @BindMessages
-        @BindReadOnly
-        @UITextField(position = 20)
+        @BindTooltip("Tooltip")
+        @TestUIField(position = 20)
         public String getMultipleAnnotationsTextField() {
             return "MultipleAnnotations";
         }
@@ -173,7 +174,7 @@ class BindMessagesIntegrationTest {
         }
 
         @BindMessages
-        @UITextField(position = 30)
+        @TestUIField(position = 30)
         public String getNoMessagesGetterTextField() {
             return "NoMessagesGetter";
         }

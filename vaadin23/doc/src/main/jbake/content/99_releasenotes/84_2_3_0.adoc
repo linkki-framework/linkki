@@ -15,7 +15,7 @@ https://jira.faktorzehn.de/browse/LIN-1090
 ////
 A new annotation, `@BindMessages`, has been added for manually filtering and setting validation messages on a field.
 
-For more information see "<<bind-messages, @BindMessages>>".
+For more information see "<<bind-messages, @BindMessages>>" and "<<custom-message-handling, Custom message handling>>".
 
 [role="api-change"]
 ===== `Refactoring BindingDescriptor`
@@ -27,7 +27,7 @@ The class `BindingDescriptor` has been completely refactored and should now be u
 As part of this process, the following classes and methods were deleted:
 
 * `ElementDescriptor` - use `BindingDescriptor` instead
-* `PropertyElementDescriptors ` - use `BindingDescriptor` instead
+* `PropertyElementDescriptors` - use `BindingDescriptor` instead
 * `public BindingDescriptor(List<LinkkiAspectDefinition>)` - use `public BindingDescriptor(BoundProperty, List<LinkkiAspectDefinition>)` instead
 
 And the following elements were deprecated:

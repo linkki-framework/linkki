@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.core.binding.descriptor.messagehandler;
+package org.linkki.core.binding.validation.handler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
