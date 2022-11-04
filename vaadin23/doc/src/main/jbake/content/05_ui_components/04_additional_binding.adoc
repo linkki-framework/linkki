@@ -400,7 +400,7 @@ In some cases, the labels of UI elements as text fields for example require to b
 This can be done by using the `@BindLabel` annotation.
 One use case is to avoid unnecessary additional UI elements with static labels which have to be made visible as needed in order to provide the same functionality as dynamic labels.
 
-IMPORTANT: This binding do not work with table headers.
+IMPORTANT: This binding does not work with table headers.
 
 The annotation has two properties:
 

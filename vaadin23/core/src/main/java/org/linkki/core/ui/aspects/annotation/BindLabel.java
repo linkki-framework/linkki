@@ -11,7 +11,6 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-
 package org.linkki.core.ui.aspects.annotation;
 
 import java.lang.annotation.ElementType;
@@ -29,6 +28,8 @@ import org.linkki.core.ui.aspects.annotation.BindLabel.BindLabelAspectDefinition
 
 /**
  * This aspect sets a user defined label text.
+ * 
+ * @apiNote This binding does not work with table headers.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
