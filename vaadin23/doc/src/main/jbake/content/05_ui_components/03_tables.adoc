@@ -159,7 +159,8 @@ The parameter `column` is the ID of the column for which the text should be disp
 include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarTablePmo.java[tags=table-footer]
 ----
 
-TIP: The `ContainerPMO` can be annotated with `@BindStyleNames` and `LinkkiApplicationTheme#GRID_FOOTER_SUM` to make the table footer text bold and right aligned. This is particularly useful for right aligned number columns which have a footer to display the sum.
+TIP: The `ContainerPMO` can be annotated with `@BindStyleNames` and `LinkkiApplicationTheme#GRID_FOOTER_BOLD` to make the table footer text bold. This is particularly useful for columns which have a footer to show the sum of numbers.
+To make the column right aligned use the `textAlign` property of `@UITableColumn`.
 
 [[button-pmo]]
 ==== ButtonPmo

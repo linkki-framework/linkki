@@ -505,8 +505,13 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-annotations</artifactId>
                 <version>${spotbugs.version}</version>
-                <!-- <scope>provided</scope> <exclusions> <exclusion> <groupId>com.google.code.findbugs</groupId> 
-                    <artifactId>jsr305</artifactId> </exclusion> </exclusions> -->
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.findbugs</groupId>
+                        <artifactId>jsr305</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
