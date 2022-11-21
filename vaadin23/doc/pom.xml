@@ -88,7 +88,7 @@
                         <vcommonslang>${commons-lang3.version}</vcommonslang>
                         <homelink>https://doc.linkki-framework.org</homelink>
                         <logo>logo.png</logo>
-                        <projectVersion>${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}</projectVersion>
+                        <projectVersion>${project.version}</projectVersion>
                     </properties>
                     <excludeLinks>
                         <excludeLink>.*localhost.*</excludeLink>
