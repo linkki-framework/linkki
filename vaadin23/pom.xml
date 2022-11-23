@@ -45,6 +45,13 @@
                 <version>${vaadin.version}</version>
             </dependency>
             <dependency>
+                <!-- prevents transitive version conflict between vaadin__vaadin-mobile-drag-drop and vaadin-dnd.
+                Can lead to non-deterministic build failure when linkki-apt is used in a concurrent maven build -->
+                <groupId>org.webjars.npm</groupId>
+                <artifactId>mobile-drag-drop</artifactId>
+                <version>2.3.0-rc.2</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
