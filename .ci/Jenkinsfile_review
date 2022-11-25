@@ -61,14 +61,13 @@ pipeline {
                     }
                 }
 
-                // TODO: https://jira.faktorzehn.de/browse/LIN-3261
-                /*stage('Faktor-IPS build') {
+                stage('Faktor-IPS build') {
                     steps {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin23 -Dmaven.repo.local="${MAVEN_REPOSITORY}" faktorips:faktorips-clean faktorips:faktorips-build'
                         }
                     }
-                }*/
+                }
 
                 stage('UI Test') {
                     stages {
