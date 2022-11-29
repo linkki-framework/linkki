@@ -9,6 +9,7 @@ pipeline {
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         MAVEN_OPTS = '-Xmx768m'
+        MAVEN_DEFAULT_REPO = "${env.HOME}/.m2/repository"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin23"
         DEPLOYMENT_HOST = "linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de"
@@ -24,6 +25,12 @@ pipeline {
 
                 preBuildSteps()
                 verifyChangelog file: 'vaadin23/doc/src/main/jbake/content/99_releasenotes/87_2_1_0.adoc'
+
+                // Setup local repository
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_DEFAULT_REPO}', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -U -T 4 -P production org.apache.maven.plugins:maven-dependency-plugin:3.3.0:go-offline -DincludeScope=compile'
+                    sh 'cp -r ${MAVEN_DEFAULT_REPO} ${MAVEN_REPOSITORY}'
+                }
 
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                     dependsOn(credentials: 'gerrit_rest') {}
@@ -89,25 +96,25 @@ pipeline {
                                 waitForServer "${DEPLOYMENT_URL}"
                             }
                         }
-    
+
                         stage('UI Test') {
                             steps {
                                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
                                         -Dmaven.test.failure.ignore=true'
                                 }
-    
+
                                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin23/samples/test-playground/uitest/target/error-screenshots/*.png'
                                 junit 'vaadin23/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
                             }
-    
+
                             environment {
                                 MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME}'
                             }
                         }
                     }
                 }
-    
+
                 stage('SonarQube Analysis') {
                     stages {
                         stage('Analysis') {     
@@ -127,7 +134,7 @@ pipeline {
                                                     sonar:sonar'
                                         }
                                     }
-    
+
                                     rtp parserName: 'HTML', nullAction: '1', stableText: """
                                         <h3>SonarQube</h3>
                                         <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}' target='_blank'>SonarQube Analysis</a>
@@ -149,13 +156,13 @@ pipeline {
                 }
             }
         }
-    
+
         stage('Check Git Diffs') {
             steps {
                 verifyNoChangedFiles()
             }
         }
-    
+
         stage('Collect Results') {
             steps {
                 junit '**/target/surefire-reports/*.xml'

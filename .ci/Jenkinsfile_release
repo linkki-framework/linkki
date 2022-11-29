@@ -36,11 +36,12 @@ pipeline {
             }
         }
 
-        stage('Check Git Diffs') {
-            steps {
-                verifyNoChangedFiles()
-            }
-        }
+// TODO FCOM-1095
+//        stage('Check Git Diffs') {
+//            steps {
+//                verifyNoChangedFiles()
+//            }
+//        }
 
         stage('Docker Deployment') {
             steps {

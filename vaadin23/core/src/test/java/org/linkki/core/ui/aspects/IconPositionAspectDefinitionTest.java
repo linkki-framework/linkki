@@ -15,6 +15,7 @@
 package org.linkki.core.ui.aspects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.function.Consumer;
 
@@ -22,6 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.base.LinkkiText;
+
+import com.vaadin.flow.component.html.Div;
 
 class IconPositionAspectDefinitionTest {
 
@@ -33,6 +36,16 @@ class IconPositionAspectDefinitionTest {
     @Test
     void testCreateComponentValueSetter_SetIconPositionLeft() {
         doIconPositionTest(IconPosition.LEFT);
+    }
+
+    @Test
+    void testCreateComponentValueSetter_IgnoreFalseComponent() {
+        var div = new Div();
+        Consumer<IconPosition> iconPositionSetter = new IconPositionAspectDefinition(IconPosition.LEFT)
+                .createComponentValueSetter(new NoLabelComponentWrapper(div));
+
+        // Div has no icon position but should not throw any exception
+        assertDoesNotThrow(() -> iconPositionSetter.accept(IconPosition.RIGHT));
     }
 
     /**

@@ -149,9 +149,9 @@ public interface ItemCaptionProvider<T> {
             if (getNameMethod.isPresent()) {
                 Method m = getNameMethod.get();
                 return o -> invokeStringMethod(m, o);
+            } else {
+                return Object::toString;
             }
-
-            return Object::toString;
         }
 
         private static Optional<Method> getMethod(Class<?> type, String name, Class<?>... parameters) {
