@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin14</artifactId>
-        <version>1.4.6-SNAPSHOT</version>
+        <version>1.4.6</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.linkki-framework.tooling</groupId>
             <artifactId>linkki-apt</artifactId>
-            <version>1.4.6-SNAPSHOT</version>
+            <version>1.4.6</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
