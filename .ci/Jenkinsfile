@@ -107,7 +107,11 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     withSonarQubeEnv('SonarQube') {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -Dsonar.projectName=${PROJECT_NAME} -Dsonar.projectKey=${PROJECT_NAME} -Dsonar.login=$SONAR_LOGIN sonar:sonar'
+                            sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
+                                    -Dsonar.projectKey=${PROJECT_NAME} \
+                                    -Dsonar.branch.name=${BUILD_NAME} \
+                                    -Dsonar.login=$SONAR_LOGIN \
+                                    sonar:sonar'
                         }
                     }
 
