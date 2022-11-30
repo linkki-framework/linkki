@@ -117,7 +117,7 @@ pipeline {
 
                     rtp parserName: 'HTML', nullAction: '1', stableText: """
                         <h3>SonarQube</h3>
-                        <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}' target='_blank'>https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}</a>
+                        <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&branch=${env.BUILD_NAME}' target='_blank'>https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}</a>
                     """
                 }
             }
