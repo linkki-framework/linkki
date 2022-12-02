@@ -14,6 +14,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    // replace '_' with '-' to avoid errors in docker deployment
+                    env.BUILD_NAME = env.BUILD_NAME.replaceAll('_', '-')
+                    
                     currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BRANCH_NAME}"
                 }
 
