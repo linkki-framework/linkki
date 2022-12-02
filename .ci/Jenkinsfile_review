@@ -36,6 +36,7 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
+                // BUILD_NAME must not contain '_'
                 sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
