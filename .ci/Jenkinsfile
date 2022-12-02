@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        PROJECT_NAME = "${env.GERRIT_PROJECT}"
-        BRANCH_NAME = "${env.GERRIT_BRANCH}"
+        PROJECT_NAME = 'linkki'
+        BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
         BUILD_NAME = "${BRANCH_NAME}"
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.GERRIT_BRANCH}"
+                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BRANCH_NAME}"
                 }
 
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {

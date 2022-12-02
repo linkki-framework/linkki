@@ -8,8 +8,8 @@ pipeline {
     }
 
     environment {
-        PROJECT_NAME = "${env.GERRIT_PROJECT}"
-        BRANCH_NAME = "${env.GERRIT_BRANCH}"
+        PROJECT_NAME = 'linkki'
+        BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
         BUILD_NAME = "${params.RELEASE_VERSION}"
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"

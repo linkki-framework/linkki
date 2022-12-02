@@ -4,7 +4,7 @@ pipeline {
     agent any
 
     environment {
-        PROJECT_NAME = "${env.GERRIT_PROJECT}"
+        PROJECT_NAME = 'linkki'
         BRANCH_NAME = "${env.GERRIT_BRANCH}"
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
