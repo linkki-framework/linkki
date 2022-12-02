@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BRANCH_NAME}"
+                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.GERRIT_BRANCH}"
                 }
 
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
