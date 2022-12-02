@@ -1,5 +1,7 @@
 #!/bin/bash
-BUILD_NAME=$1
+
+# replace all '_' with '-' to avoid errors in docker setup
+BUILD_NAME=${1//_/-}
 
 # Create user-defined bridge
 NETWORK_NAME="network-linkki-$BUILD_NAME"
