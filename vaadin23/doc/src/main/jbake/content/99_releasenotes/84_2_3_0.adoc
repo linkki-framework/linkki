@@ -67,6 +67,15 @@ A new annotation `@BindLabel` has been implemented for adding dynamic labels to 
 
 For more information see "<<bind-label, @BindLabel>>".
 
+===== `@BindSlot`
+////
+https://jira.faktorzehn.de/browse/LIN-3151
+////
+
+A new annotation `@BindSlot` has been implemented for setting UI elements into slots of predefined, reusable page layouts.
+
+For more information see "<<bind-slot, @BindSlot>>".
+
 ===== `@UIMultiSelect`
 ////
 https://jira.faktorzehn.de/browse/LIN-3201

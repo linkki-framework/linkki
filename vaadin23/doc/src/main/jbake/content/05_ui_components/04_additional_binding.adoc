@@ -119,6 +119,7 @@ Aspects can also be represented by a separate annotation. In this case, those an
 | `<<variant-names, @BindVariantNames>>`| `Bind variant theme to a UI element or PMO class.`
 | `<<bind-messages-aspect, @BindMessages>>`| `Manually filter and set validation messages on a field.`
 | `<<bind-label, @BindLabel>>` | `Set label texts dynamically.`
+| `<<bind-slot, @BindSlot>>` | `Sets a UI element into a slot of a predefined, reusable layout.`
 |===
 
 [[tooltips]]
@@ -437,4 +438,31 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindLa
 [source,java]
 ----
 include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindLabelPmo.java[tags=bindLabel-static]
+----
+
+
+
+[[bind-slot]]
+===== Binding slots
+Web components are based on a layout with a fixed CSS style. 
+The web component often defines slots where child elements could be placed. 
+For example a layout component may define a header and a body section.
+The `@BindSlot` annotation can be used to set UI elements into these slots.
+
+The annotation has one property:
+
+* <<bind-slot-value, `value: String`>>
+
+[[bind-slot-value]]
+Value::
+This is the name of the slot the annotated component should be set into.
+
+The annotation can be used in combination with a <<custom-ui-layout-lit, newly created layout>> or with an existing one which already defines slots.
+By using `@BindSlot`, UI components can be set into the available slots of the used layout.
+For a Lit template which defines a left and a right sided slot, this looks as follows:
+
+.Example usage of `@BindSlot` with a slot on the left and on the right side
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindSlotPmo.java[tags=bindSlot-pmo]
 ----

@@ -2,6 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 :source-dir: ../../../../../../vaadin23/samples/test-playground/src/main
+:source-dir-playground-frontend: ../../../../../../vaadin23/samples/test-playground/frontend
 :image-dir: {images}09_extending_linkki
 
 
@@ -87,3 +88,31 @@ The next listing shows how a PMO that is annotated with the `UIHorizontalLayout`
 include::{source-dir}/java/org/linkki/samples/playground/application/custom/CustomView.java[tags=CustomLayoutAnnotation]
 ----
 `VaadinUiCreator#createComponent` creates Vaadin components from PMO objects and binds them to the passed `BindingContext`.
+
+[[custom-ui-layout-lit]]
+=== Using slots
+
+Layouts can also define slots which can be filled with UI elements using the <<bind-slot, @BindSlot>> annotation.
+One way to do this is by using Lit templates.
+Creating a Lit template works similarly to the previously described <<custom-ui-layout-annotation, definition of a custom UI layout>> with the difference that the <<layout-component-definition, `ComponentDefinitionCreator`>> returns a Lit template Java class.
+
+A Lit template is basically described within a TypeScript file which specifies the layout including CSS styles and available slots.
+
+.TypeScript Lit template which defines two available slots
+[source,java]
+----
+include::{source-dir-playground-frontend}/layouts/sample-slot-layout.ts[tags=bindSlot-layout-typescript]
+----
+
+This template can be applied to a Java class which extends `LitTemplate` by using the `@Tag` and `@JsModule` annotations.
+Afterwards, this layout class can be provided by a `ComponentDefinitionCreator`.
+
+TIP: If the Lit template defines slot elements, the names of these slots can be added to the class as static attributes in order to set the slots by using the <<bind-slot, @BindSlot>> annotation.
+
+.Lit template Java class with two slots
+[source,java]
+----
+include::{source-dir}/java/org/linkki/samples/playground/customlayout/BindSlotLayout.java[tags=bindSlot-layout-java]
+----
+
+

@@ -55,12 +55,13 @@ import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButt
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo;
 import org.linkki.samples.playground.ts.aspects.BindIconPmo;
+import org.linkki.samples.playground.ts.aspects.BindLabelPmo;
 import org.linkki.samples.playground.ts.aspects.BindPlaceholderPmo;
 import org.linkki.samples.playground.ts.aspects.BindReadOnlyBehaviorPmo;
+import org.linkki.samples.playground.ts.aspects.BindSlotPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ts.aspects.BindSuffixPmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
-import org.linkki.samples.playground.ts.aspects.BindLabelPmo;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoNoBorder;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoWithoutVariant;
 import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
@@ -174,6 +175,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC013 = "TC013";
     public static final String TC014 = "TC014";
     public static final String TC015 = "TC015";
+    public static final String TC016 = "TC016";
 
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
 
@@ -292,6 +294,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                        .createComponent(new BindVariantNamesTablePmoWithoutVariant(),
                                                                         new BindingContext())))
                                        .testCase(TC015, new BindLabelPmo())
+                                       .testCase(TC016, new BindSlotPmo(new BindSlotPmo.RightSlotPmo()))
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())
