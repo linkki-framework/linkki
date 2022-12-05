@@ -4,7 +4,7 @@ import {property} from 'lit/decorators.js';
 class LinkkiText extends LitElement {
 
   @property({reflect: true})
-  label: string;
+  label:string = "";
 
   static styles = css`
     :host {

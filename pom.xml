@@ -27,6 +27,18 @@
             <organizationUrl>https://www.faktorzehn.de</organizationUrl>
         </developer>
     </developers>
+  <repositories>
+    <repository>
+      <id>vaadin-pre</id>
+      <url>https://maven.vaadin.com/vaadin-prereleases</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>vaadin-pre-plugin</id>
+      <url>https://maven.vaadin.com/vaadin-prereleases</url>
+    </pluginRepository>
+  </pluginRepositories>
 
     <modules>
         <module>linkki-codeanalysis</module>

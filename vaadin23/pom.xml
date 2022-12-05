@@ -31,10 +31,15 @@
         <!-- this property must also be updated in samples-vaadin23 and the archetypes -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            23.2.9
+            23.3.0.beta2
             <!-- end::vaadin-version[] -->
         </vaadin.version>
-        <spring-boot.version>2.6.14</spring-boot.version>
+        <!-- this property must also be updated in samples-vaadin23 and the spring archetype -->
+        <spring-boot.version>
+            <!-- tag::spring-boot-version[] -->
+            2.7.6
+            <!-- end::spring-boot-version[] -->
+        </spring-boot.version>
     </properties>
 
     <dependencyManagement>

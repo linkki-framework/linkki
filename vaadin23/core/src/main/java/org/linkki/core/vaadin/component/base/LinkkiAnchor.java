@@ -22,8 +22,6 @@ import com.vaadin.flow.component.html.AnchorTargetValue;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 /**
  * An anchor component that can have an additional {@link VaadinIcon}
  */
