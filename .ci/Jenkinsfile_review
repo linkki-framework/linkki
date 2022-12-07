@@ -5,8 +5,8 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'linkki'
+        BRANCH_NAME = "${env.GERRIT_BRANCH}"
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
-        PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         MAVEN_OPTS = '-Xmx768m'
         MAVEN_DEFAULT_REPO = "${env.HOME}/.m2/repository"
@@ -20,7 +20,7 @@ pipeline {
         stage('Pre-Build') {
             steps {
                 script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BUILD_NAME}"
+                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BRANCH_NAME}.${env.BUILD_NAME}"
                 }
 
                 preBuildSteps()
@@ -129,7 +129,7 @@ pipeline {
                                                     -Dsonar.projectKey=${PROJECT_NAME} \
                                                     -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \
                                                     -Dsonar.pullrequest.branch=${GERRIT_REFSPEC} \
-                                                    -Dsonar.pullrequest.base=origin/${GERRIT_BRANCH} \
+                                                    -Dsonar.pullrequest.base=origin/${BRANCH_NAME} \
                                                     -Dsonar.login=$SONAR_LOGIN \
                                                     sonar:sonar'
                                         }
@@ -145,9 +145,11 @@ pipeline {
                         stage('Quality Gate') {
                             steps {
                                 timeout(time: 1, unit: 'HOURS') {
-                                    // set build to unstable if quality gate fails
-                                    catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                                        waitForQualityGate abortPipeline: true
+                                    script {
+                                        def qg = waitForQualityGate()
+                                        if (qg.status != 'OK') {
+                                            unstable("SonarQube failed with status: ${qg.status}")
+                                        }
                                     }
                                 }
                             }

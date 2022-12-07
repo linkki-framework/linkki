@@ -9,8 +9,9 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'linkki'
-        BUILD_NAME = "${params.RELEASE_VERSION}"
-        PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
+        BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
+        // make sure that the build name does not contain '_' because this will lead to unexpected Docker failures
+        DOCKER_BUILD_NAME = "${params.RELEASE_VERSION.replaceAll('_', '-')}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'keep'
     }
@@ -44,12 +45,12 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
+                sh 'bash -x .ci/docker_setup.sh ${DOCKER_BUILD_NAME}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Test Playground</h3>
                     <ul>
-                        <li><a href='http://linkki-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23'>Vaadin 23</a></li>
+                        <li><a href='http://linkki-${env:DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23'>Vaadin 23</a></li>
                     </ul>
                 """
             }
@@ -58,7 +59,7 @@ pipeline {
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
-                waitForServer "http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23"
+                waitForServer "http://linkki-${DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23"
             }
         }
 
@@ -81,7 +82,7 @@ pipeline {
             }
 
             environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin23'
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin23'
             }
         }
 

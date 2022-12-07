@@ -6,7 +6,6 @@ pipeline {
     environment {
         PROJECT_NAME = 'linkki'
         BUILD_NAME = 'nightly'
-        PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'keep'
         MAVEN_OPTS = '-Xmx768m'
