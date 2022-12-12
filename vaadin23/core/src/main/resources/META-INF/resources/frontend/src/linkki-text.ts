@@ -3,8 +3,9 @@ import {property} from 'lit/decorators.js';
 
 class LinkkiText extends LitElement {
 
+  // An empty value would wrongly affect component size, so the default must be undefined
   @property({reflect: true})
-  label:string = "";
+  label?: string;
 
   static styles = css`
     :host {
