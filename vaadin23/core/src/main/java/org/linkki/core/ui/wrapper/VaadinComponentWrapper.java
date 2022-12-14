@@ -84,7 +84,7 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setValidationMessages(MessageList messagesForProperty) {
-        if (isComponentReadOnly() || messagesForProperty.isEmpty()) {
+        if (messagesForProperty.isEmpty()) {
             clearValidation();
         } else {
             showValidation(messagesForProperty.getMessageWithHighestSeverity().get());

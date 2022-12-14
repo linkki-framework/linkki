@@ -1,0 +1,5 @@
+:host([invalid][readonly]) [part='input-field'], 
+:host([invalid][readonly]) [part='input-field']::after {
+    border-color: var(--linkki-input-border-color-readonly-invalid, var(--lumo-error-color-50pct));
+    background-color: transparent;
+}

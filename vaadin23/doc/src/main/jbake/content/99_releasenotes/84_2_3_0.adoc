@@ -99,6 +99,12 @@ IMPORTANT: Please check the method `String getNullCaption()` of all `ItemCaption
 A new property `iconPosition` has been added to both `<<ui-label, @UILabel>>` and `<<ui-link, @UILink>>` for positioning the icon to the left or right of the label/link.
 The default position is left for `@UILabel` and right for `@UILink`.
 
+===== Validation for read-only fields
+////
+https://jira.faktorzehn.de/browse/LIN-3256
+////
+Read-only fields now display validation messages along with a colored border. Previously, validation was not displayed on read-only fields.
+
 ==== Bugfixes
 
 // https://jira.faktorzehn.de/browse/LIN-3220

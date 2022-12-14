@@ -14,9 +14,10 @@
 
 package org.linkki.samples.playground.ts.messages;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.vaadin.flow.component.Component;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.annotation.BindMessages;
@@ -30,26 +31,27 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-import com.vaadin.flow.component.Component;
+import java.util.Arrays;
+import java.util.List;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
-
-@UISection
+@UIVerticalLayout
 public class FieldValidationPmo {
 
     private static final String PROPERTY_COMBO_BOX_VALUE = "comboBoxValue";
+    private static final String PROPERTY_COMBO_BOX_EXAMPLE = "readOnlyComboBox";
     private static final String PROPERTY_READ_ONLY_TEXT_FIELD = "readOnlyTextField";
     private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
             Severity.ERROR);
+    private static final List<String> COMBOBOX_EXAMPLE = Arrays.asList(null, "Sample", "Test");
 
     @CheckForNull
     private Severity severity = null;
-    private boolean showLongValidationMessage;
-    private boolean isReadOnly;
-    private String readOnlyText;
+    private boolean showLongValidationMessage = false;
+    private boolean isReadOnly = false;
+    private String readOnlyText = StringUtils.EMPTY;
+    private String comboBoxText = StringUtils.EMPTY;
 
     @UIComboBox(position = 10, label = "Message severity", content = AvailableValuesType.DYNAMIC)
     public Severity getComboBoxValue() {
@@ -73,8 +75,17 @@ public class FieldValidationPmo {
         this.showLongValidationMessage = showLongValidationMessage;
     }
 
+    @UICheckBox(position = 16, caption = "read-only")
+    public boolean isReadOnlyCheckBox() {
+        return isReadOnly;
+    }
+
+    public void setReadOnlyCheckBox(boolean readOnlyField) {
+        this.isReadOnly = readOnlyField;
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextField(position = 20, label = "No validation when read-only")
+    @UITextField(position = 20, label = "Red border when invalid and read-only")
     public String getReadOnlyTextField() {
         return readOnlyText;
     }
@@ -87,13 +98,23 @@ public class FieldValidationPmo {
         return isReadOnly;
     }
 
-    @UICheckBox(position = 25, caption = "read-only")
-    public boolean isReadOnlyCheckBox() {
-        return isReadOnly;
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIComboBox(position = 21, label = "Red border when invalid and read-only", content = AvailableValuesType.DYNAMIC, 
+            width = "18em")
+    public String getReadOnlyComboBox() {
+        return comboBoxText;
     }
 
-    public void setReadOnlyCheckBox(boolean readOnlyField) {
-        this.isReadOnly = readOnlyField;
+    public void setReadOnlyComboBox(String comboBoxText) {
+        this.comboBoxText = comboBoxText;
+    }
+
+    public List<String> getReadOnlyComboBoxAvailableValues() {
+        return COMBOBOX_EXAMPLE;
+    }
+
+    public boolean isReadOnlyComboBoxReadOnly() {
+        return isReadOnly;
     }
 
     // tag::bind-messages[]
@@ -125,6 +146,7 @@ public class FieldValidationPmo {
             // tag::message-builder[]
             var message = Message.builder(getValidationMessage("Info validation message"), Severity.INFO)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_COMBO_BOX_VALUE)
+                    .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_EXAMPLE)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_TEXT_FIELD)
                     .create();
             // end::message-builder[]
@@ -132,11 +154,13 @@ public class FieldValidationPmo {
         } else if (severity == Severity.WARNING) {
             messages.add(Message.builder(getValidationMessage("Warning validation message"), Severity.WARNING)
                     .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
+                    .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_EXAMPLE)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
                     .create());
         } else if (severity == Severity.ERROR) {
             messages.add(Message.builder(getValidationMessage("Error validation message"), Severity.ERROR)
                     .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
+                    .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_EXAMPLE)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
                     .create());
         } else {

@@ -14,11 +14,9 @@
 
 package org.linkki.core.ui.wrapper;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
-import java.util.stream.Stream;
-
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.textfield.TextField;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,9 +25,10 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.WrapperType;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.textfield.TextField;
+import java.util.stream.Stream;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 public class VaadinComponentWrapperTest {
 
@@ -46,17 +45,18 @@ public class VaadinComponentWrapperTest {
         assertThat(component.getErrorMessage(), is(message.getText()));
     }
 
-    @Test
-    void testSetValidationMessages_ComponentWithValidation_ReadOnly() {
+    @ParameterizedTest
+    @MethodSource("messages")
+    void testSetValidationMessages_ComponentWithValidation_ReadOnly(Message message, String expectedSeverity) {
         TextField component = new TextField();
         component.setReadOnly(true);
         VaadinComponentWrapper componentWrapper = new TestComponentWrapper(component);
 
-        componentWrapper.setValidationMessages(new MessageList(Message.newError("e", "error text")));
+        componentWrapper.setValidationMessages(new MessageList(message));
 
-        assertThat(component.isInvalid(), is(false));
-        assertThat(component.getElement().hasAttribute("severity"), is(false));
-        assertThat(component.getErrorMessage(), is(""));
+        assertThat(component.isInvalid(), is(true));
+        assertThat(component.getElement().getAttribute("severity"), is(expectedSeverity));
+        assertThat(component.getErrorMessage(), is(message.getText()));
     }
 
     @Test
