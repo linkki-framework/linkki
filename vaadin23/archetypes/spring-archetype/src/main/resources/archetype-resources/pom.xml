@@ -11,13 +11,13 @@
 
     <properties>
         <java.version>11</java.version>
-        <vaadin.version>23.3.0</vaadin.version>
+        <vaadin.version>@vaadin.version@</vaadin.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version>
+        <version>@spring-boot.version@</version>
     </parent>
 
     <dependencyManagement>

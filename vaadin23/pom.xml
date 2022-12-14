@@ -28,13 +28,13 @@
     </modules>
 
     <properties>
-        <!-- this property must also be updated in samples-vaadin23 and the archetypes -->
+        <!-- this property must also be updated in samples-vaadin23 -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
             23.3.0
             <!-- end::vaadin-version[] -->
         </vaadin.version>
-        <!-- this property must also be updated in samples-vaadin23 and the spring archetype -->
+        <!-- this property must also be updated in samples-vaadin23 -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
             2.7.6
