@@ -27,18 +27,6 @@
             <organizationUrl>https://www.faktorzehn.de</organizationUrl>
         </developer>
     </developers>
-  <repositories>
-    <repository>
-      <id>vaadin-pre</id>
-      <url>https://maven.vaadin.com/vaadin-prereleases</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>vaadin-pre-plugin</id>
-      <url>https://maven.vaadin.com/vaadin-prereleases</url>
-    </pluginRepository>
-  </pluginRepositories>
 
     <modules>
         <module>linkki-codeanalysis</module>
@@ -50,10 +38,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
+
         <git.user>${user.name}</git.user>
         <doc.user>${user.name}</doc.user>
-        
+
         <junit.version>5.8.2</junit.version>
         <mockito.version>4.4.0</mockito.version>
         <assertj.version>3.22.0</assertj.version>
@@ -62,9 +50,9 @@
         <commons-io.version>2.11.0</commons-io.version>
         <spotbugs.version>4.6.0</spotbugs.version>
         <checkstyle.version>10.3.2</checkstyle.version>
-        
+
         <java.version>11</java.version>
-        
+
         <apt.tests.skip>false</apt.tests.skip>
         <surefire.directory>surefire-reports</surefire.directory>
 

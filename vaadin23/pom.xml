@@ -31,7 +31,7 @@
         <!-- this property must also be updated in samples-vaadin23 and the archetypes -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            23.3.0.beta2
+            23.3.0
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <!-- this property must also be updated in samples-vaadin23 and the spring archetype -->
