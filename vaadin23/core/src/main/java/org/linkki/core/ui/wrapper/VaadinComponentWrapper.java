@@ -28,7 +28,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.HasValidation;
-import com.vaadin.flow.component.HasValue;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -88,15 +87,6 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
             clearValidation();
         } else {
             showValidation(messagesForProperty.getMessageWithHighestSeverity().get());
-        }
-    }
-
-    private boolean isComponentReadOnly() {
-        if (component instanceof HasValue) {
-            HasValue<?, ?> readOnlyField = (HasValue<?, ?>)component;
-            return readOnlyField.isReadOnly();
-        } else {
-            return false;
         }
     }
 

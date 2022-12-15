@@ -30,18 +30,25 @@ import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.element.annotation.UIDateTimeField;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 @UIVerticalLayout
 public class FieldValidationPmo {
 
-    private static final String PROPERTY_COMBO_BOX_VALUE = "comboBoxValue";
-    private static final String PROPERTY_COMBO_BOX_EXAMPLE = "readOnlyComboBox";
-    private static final String PROPERTY_READ_ONLY_TEXT_FIELD = "readOnlyTextField";
+    public static final String PROPERTY_COMBO_BOX_VALUE = "comboBoxValue";
+    public static final String PROPERTY_READ_ONLY_COMBO_BOX = "readOnlyComboBox";
+    public static final String PROPERTY_READ_ONLY_TEXT_FIELD = "readOnlyTextField";
+    public static final String PROPERTY_READ_ONLY_DATE_TIME_FIELD = "readOnlyDateTimeField";
+    public static final String PROPERTY_ONLY_ERROR_TEXT_FIELD = "onlyErrorTextField";
+    
+    public static final String PROPERTY_READ_ONLY_CHECKBOX = "readOnlyCheckBox";
+
     private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
             Severity.ERROR);
     private static final List<String> COMBOBOX_EXAMPLE = Arrays.asList(null, "Sample", "Test");
@@ -117,18 +124,32 @@ public class FieldValidationPmo {
         return isReadOnly;
     }
 
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIDateTimeField(position = 22, label = "Red border when invalid and read-only")
+    public LocalDateTime getReadOnlyDateTimeField() {
+        return LocalDateTime.now();
+    }
+
+    public void setReadOnlyDateTimeField(LocalDateTime localDateTime) {
+        // ignore
+    }
+
+    public boolean isReadOnlyDateTimeFieldReadOnly() {
+        return isReadOnly;
+    }
+
     // tag::bind-messages[]
     @BindMessages
     @UITextField(position = 30, label = "Only interested in errors")
-    public String getAllErrorTextField() {
+    public String getOnlyErrorTextField() {
         return readOnlyText;
     }
 
-    public void setAllErrorTextField(String t) {
+    public void setOnlyErrorTextField(String t) {
         readOnlyText = t;
     }
 
-    public MessageList getAllErrorTextFieldMessages(MessageList messages) {
+    public MessageList getOnlyErrorTextFieldMessages(MessageList messages) {
         return messages.stream()
                 .filter(m -> Severity.ERROR == m.getSeverity())
                 .collect(MessageList.collector());
@@ -146,22 +167,25 @@ public class FieldValidationPmo {
             // tag::message-builder[]
             var message = Message.builder(getValidationMessage("Info validation message"), Severity.INFO)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_COMBO_BOX_VALUE)
-                    .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_EXAMPLE)
+                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_TEXT_FIELD)
+                    .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
                     .create();
             // end::message-builder[]
             messages.add(message);
         } else if (severity == Severity.WARNING) {
             messages.add(Message.builder(getValidationMessage("Warning validation message"), Severity.WARNING)
                     .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
-                    .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_EXAMPLE)
+                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
+                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
                     .create());
         } else if (severity == Severity.ERROR) {
             messages.add(Message.builder(getValidationMessage("Error validation message"), Severity.ERROR)
                     .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
-                    .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_EXAMPLE)
+                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
+                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
                     .create());
         } else {
             throw new IllegalStateException();
