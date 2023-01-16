@@ -30,6 +30,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.server.ErrorEvent;
+import com.vaadin.flow.server.VaadinServlet;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -52,7 +53,12 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         VerticalLayout content = new VerticalLayout();
         content.add(createLabelWithTimestamp(timestamp));
         content.add(createRootCauseTextField(errorEvent.getThrowable()));
-        content.add(createStackTraceTextArea(errorEvent.getThrowable()));
+
+        // Exception stacktrace must not be shown in production mode for security reasons
+        if (!VaadinServlet.getCurrent().getService().getDeploymentConfiguration().isProductionMode()) {
+            content.add(createStackTraceTextArea(errorEvent.getThrowable()));
+        }
+
         content.setSizeFull();
 
         return content;

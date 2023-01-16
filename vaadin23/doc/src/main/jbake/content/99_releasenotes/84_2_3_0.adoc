@@ -5,6 +5,20 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.3.1
+
+==== New features and improvements
+
+===== Hide exception stacktrace in production mode
+////
+https://jira.faktorzehn.de/browse/LIN-2729
+////
+For security reasons, the exception stacktrace will not be shown in the `org.linkki.framework.ui.dialogs.DefaultErrorDialog` anymore when the application runs in the production mode.
+Instead, only the exception message will be shown together with a timestamp.
+
+The stacktrace will be still available if the application does not run in the production mode.
+
+
 === Version 2.3.0
 
 ==== New features and improvements
