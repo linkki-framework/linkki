@@ -47,7 +47,7 @@ public class BindSlotPmo {
     }
 
     // end::bindSlot-pmo[]
-    
+
     @UIHorizontalLayout
     public static class RightSlotPmo {
 
@@ -61,6 +61,7 @@ public class BindSlotPmo {
             // click
         }
     }
+    
 // tag::bindSlot-pmo[]
 }
 // end::bindSlot-pmo[]

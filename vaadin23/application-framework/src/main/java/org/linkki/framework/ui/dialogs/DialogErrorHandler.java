@@ -14,28 +14,25 @@
 package org.linkki.framework.ui.dialogs;
 
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
-import org.linkki.framework.ui.application.ApplicationLayout;
+import org.apache.commons.lang3.StringUtils;
+import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.router.Location;
 import com.vaadin.flow.router.QueryParameters;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.ErrorEvent;
 import com.vaadin.flow.server.ErrorHandler;
 
 /**
- * An {@link ErrorHandler} that shows a {@link ConfirmationDialog} with some exception details when an
- * exception occurs, and shows another {@link Route} when the user closes that error dialog.
+ * An {@link ErrorHandler} that shows a {@link OkCancelDialog} with some exception details when an
+ * exception occurs.
  * <p>
- * By default, {@link DefaultErrorDialog} is used to display the exception and the {@link Route} named
- * "" (empty String) is shown upon confirmation. To use another dialog or a different {@link Route} to
- * navigate to, use the constructor {@link #DialogErrorHandler(BiFunction, String)}.
- * 
- * @implNote The {@link ApplicationLayout} already registers this {@link DialogErrorHandler}.
- * 
+ * The displayed error dialog is created as configured in the given {@link ErrorDialogConfiguration}.
+ * Use different options in the configuration to customize the error dialog.
  */
 public class DialogErrorHandler implements ErrorHandler {
 
@@ -46,34 +43,53 @@ public class DialogErrorHandler implements ErrorHandler {
     public static final String ERROR_PARAM = "errorOccurred";
 
     private static final long serialVersionUID = -6253400229098333633L;
-    private static final java.util.logging.Logger LOGGER = Logger.getLogger(DialogErrorHandler.class.getName());
-    private static final String DEFAULT_START_VIEW = "";
 
-    private final String startView;
-    private final BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator;
+    private static final Logger LOGGER = Logger.getLogger(DialogErrorHandler.class.getName());
 
+    private final transient Function<ErrorEvent, ? extends OkCancelDialog> dialogCreator;
+
+    /**
+     * @deprecated use {@link DialogErrorHandler#DialogErrorHandler(ErrorDialogConfiguration)} instead.
+     *             To use a custom dialog, create an own implementation of {@link ErrorHandler} instead
+     *             of using {@link DialogErrorHandler} in {@link ApplicationConfig#getErrorHandler()}.
+     */
+    @Deprecated(since = "2.4.0")
     public DialogErrorHandler(BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator) {
-        this(dialogCreator, DEFAULT_START_VIEW);
+        this(dialogCreator, StringUtils.EMPTY);
     }
 
+    /**
+     * @deprecated use {@link DialogErrorHandler#DialogErrorHandler(ErrorDialogConfiguration)} instead.
+     *             The view to be shown on confirmation can be defined by
+     *             {@link ErrorDialogConfiguration#createWithHandlerNavigatingTo(String)}. To use a
+     *             custom dialog, create an own implementation of {@link ErrorHandler} instead of using
+     *             {@link DialogErrorHandler} in {@link ApplicationConfig#getErrorHandler()}.
+     */
+    @Deprecated(since = "2.4.0")
     public DialogErrorHandler(BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator,
             String startView) {
-        this.dialogCreator = dialogCreator;
-        this.startView = startView;
+        this.dialogCreator = event -> dialogCreator.apply(event, ErrorDialogConfiguration
+                .createWithHandlerNavigatingTo(startView)
+                .getConfirmationHandler());
+    }
+
+    /**
+     * Creates a {@link DialogErrorHandler} which uses an {@link ErrorDialogConfiguration} that can be
+     * used to create an error dialog.
+     * 
+     * @param errorDialogConfiguration configuration for the error dialog
+     */
+    public DialogErrorHandler(ErrorDialogConfiguration errorDialogConfiguration) {
+        this.dialogCreator = event -> OkCancelDialog.builder(errorDialogConfiguration.getCaption())
+                .buttonOption(OkCancelDialog.ButtonOption.OK_ONLY)
+                .okHandler(errorDialogConfiguration.getConfirmationHandler())
+                .content(errorDialogConfiguration.getDialogContent(event).toArray(Component[]::new))
+                .build();
     }
 
     @Override
     public void error(ErrorEvent event) {
         LOGGER.log(java.util.logging.Level.SEVERE, "Unhandled exception", event.getThrowable());
-        showErrorDialog(event);
-    }
-
-    private void showErrorDialog(ErrorEvent errorEvent) {
-        ConfirmationDialog dialog = dialogCreator.apply(errorEvent, this::navigateToStartView);
-        dialog.open();
-    }
-
-    private void navigateToStartView() {
-        UI.getCurrent().navigate(startView, QueryParameters.fromString(ERROR_PARAM));
+        dialogCreator.apply(event).open();
     }
 }

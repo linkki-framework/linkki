@@ -29,7 +29,7 @@ public class ValidationConfirmationDialog {
     @UISection(caption = "Validation confirmation dialog")
     public static class ButtonSectionPmo {
 
-        @UIButton(position = 0, label = "Opens a dialog with validation messages", caption = "open dialog")
+        @UIButton(position = 0, label = "Opens a dialog with validation messages", caption = "Open dialog")
         public void button() {
             ConfirmationDialog.open("Validation Messages",
                                     MessageUiComponents.createMessageTable(this::messages,

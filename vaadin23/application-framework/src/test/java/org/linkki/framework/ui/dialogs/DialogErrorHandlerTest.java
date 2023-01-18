@@ -13,15 +13,20 @@
  */
 package org.linkki.framework.ui.dialogs;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
+import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.AbstractMap;
 import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.linkki.util.handler.Handler;
 
 import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.github.mvysny.kaributesting.v10.Routes;
@@ -32,41 +37,48 @@ import com.vaadin.flow.server.ErrorEvent;
 
 class DialogErrorHandlerTest {
 
+    private static final String TEST_VIEW_ROUTE = "route";
+
+    @BeforeAll
+    static void setupLanguage() {
+        Locale.setDefault(Locale.ENGLISH);
+    }
+
+    @AfterEach
+    void vaadinTearDown() {
+        MockVaadin.tearDown();
+    }
+
     @Test
-    void testErrorOccurredParameter() {
+    void testErrorHandling() {
         MockVaadin.setup(new Routes(Stream.of(TestView.class)
                 .collect(Collectors.toSet()),
                 Collections.emptySet(), true));
 
-        DialogErrorHandler handler = new DialogErrorHandler(TestConfirmationDialog::new);
+        var errorDialog = openDefaultErrorDialog();
 
-        handler.error(new ErrorEvent(new RuntimeException("some test exception")));
-
-        assertThat(UI.getCurrent().getInternals().getActiveViewLocation().getQueryParameters().getQueryString(),
-                   containsString(DialogErrorHandler.ERROR_PARAM));
-
-        MockVaadin.tearDown();
+        assertThat(errorDialog.getCaption()).isEqualTo("Error in the Application");
+        errorDialog.ok();
+        var location = UI.getCurrent().getInternals().getActiveViewLocation();
+        assertThat(location.getSegments()).last().isEqualTo(TEST_VIEW_ROUTE);
+        var queryParameters = location.getQueryParameters().getParameters();
+        assertThat(queryParameters).containsExactly(new AbstractMap.SimpleEntry<>(
+                DialogErrorHandler.ERROR_PARAM, List.of(StringUtils.EMPTY)));
     }
 
-    @Route(value = "")
+    /**
+     * Opens a new error dialog which uses the default configuration from
+     * {@link ErrorDialogConfiguration}. The used OK handler navigates to {@link TestView}.
+     */
+    private OkCancelDialog openDefaultErrorDialog() {
+        var dialogConfig = ErrorDialogConfiguration.createWithHandlerNavigatingTo(TEST_VIEW_ROUTE);
+        var handler = new DialogErrorHandler(dialogConfig);
+        handler.error(new ErrorEvent(new RuntimeException()));
+        return _get(OkCancelDialog.class);
+    }
+
+    @Route(value = TEST_VIEW_ROUTE)
     public static class TestView extends Div {
         private static final long serialVersionUID = 1L;
-    }
-
-    static class TestConfirmationDialog extends DefaultErrorDialog {
-
-        private static final long serialVersionUID = 1L;
-
-        public TestConfirmationDialog(ErrorEvent errorEvent, Handler navigateToStartView) {
-            super(errorEvent, navigateToStartView);
-        }
-
-        @Override
-        public OkCancelDialog open() {
-            OkCancelDialog d = super.open();
-            // close dialog to trigger navigation to TestView
-            d.close();
-            return d;
-        }
     }
 }

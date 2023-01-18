@@ -25,7 +25,7 @@ public class VerticalLayoutContentDialog {
     @UISection(caption = "Dialog with an UIVerticalLayout")
     public static class VerticalLayoutContentDialogPmo {
 
-        @UIButton(position = 0, label = "Opens a dialog with an UIVerticalLayout", caption = "open dialog")
+        @UIButton(position = 0, label = "Opens a dialog with an UIVerticalLayout", caption = "Open dialog")
         public void button() {
             // tag::openDialog[]
             new PmoBasedDialogFactory().openOkDialog("Dialog containing @UIVerticalLayout",

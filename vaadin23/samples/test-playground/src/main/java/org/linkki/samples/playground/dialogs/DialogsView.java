@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.dialogs;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
 import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.VerticalLayoutContentDialogPmo;
@@ -40,7 +41,7 @@ public class DialogsView extends VerticalLayout {
 
         add(new Span(
                 "The dialogs are created in a different view to test the behavior of dialogs upon view change."));
-
+        
         add(VaadinUiCreator.createComponent(new SimpleDialogPmo(), new BindingContext(getClass().getName())));
         add(VaadinUiCreator.createComponent(new ValidationConfirmationDialog.ButtonSectionPmo(),
                                             new BindingContext(OkCancelDialogMessagePmo.class.getName())));

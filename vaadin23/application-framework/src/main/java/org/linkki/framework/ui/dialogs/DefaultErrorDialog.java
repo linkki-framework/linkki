@@ -30,12 +30,25 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.server.ErrorEvent;
+import com.vaadin.flow.server.ErrorHandler;
+import com.vaadin.flow.server.VaadinService;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Default dialog used by {@link DialogErrorHandler} to show error information.
+ * <p>
+ * By default, the error dialog only shows an exception stacktrace if the Vaadin application does not
+ * run in the production mode and hides it otherwise.
+ * 
+ * @deprecated use {@link ErrorDialogConfiguration} to customize an error dialog. This class is not used
+ *             by default anymore. If a subclass has been used to customize the dialog that is shown by
+ *             DialogErrorHandler, the customization must be implemented by using an
+ *             ErrorDialogConfiguration instead. If the grade of customization exceeds the possibilities
+ *             offered by {@link ErrorDialogConfiguration}, a new {@link ErrorHandler} can be created to
+ *             use a fully customized dialog.
  */
+@Deprecated(since = "2.4.0")
 public class DefaultErrorDialog extends ConfirmationDialog {
 
     private static final long serialVersionUID = 1L;
@@ -52,10 +65,26 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         VerticalLayout content = new VerticalLayout();
         content.add(createLabelWithTimestamp(timestamp));
         content.add(createRootCauseTextField(errorEvent.getThrowable()));
-        content.add(createStackTraceTextArea(errorEvent.getThrowable()));
+
+        if (showExceptionStacktrace()) {
+            content.add(createStackTraceTextArea(errorEvent.getThrowable()));
+        }
+
         content.setSizeFull();
 
         return content;
+    }
+
+    /**
+     * Checks whether the exception stacktrace should be shown.
+     * 
+     * @return {@code true} if the property {@code vaadin.showExceptionStacktrace} is added or if the
+     *         application does not run in the production mode
+     */
+    private static boolean showExceptionStacktrace() {
+        boolean isProductionMode = VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode();
+        return VaadinService.getCurrent().getDeploymentConfiguration()
+                .getBooleanProperty("showExceptionStacktrace", !isProductionMode);
     }
 
     private static Label createLabelWithTimestamp(LocalDateTime timestamp) {

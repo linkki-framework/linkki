@@ -7,6 +7,29 @@
 
 === Version 2.4.0
 
+==== New features and improvements
+
+[role="api-change"]
+===== Hide exception stacktraces in production mode and customize the error dialog
+////
+https://jira.faktorzehn.de/browse/LIN-2729
+////
+For security reasons, exception stacktraces are not shown in the default error dialog anymore when the application runs in production mode.
+
+To make this behavior and error handling in whole more configurable, following API changes has been made:
+
+.API changes
+[cols="a,a"]
+|=== 
+| Changes | Description
+| `AplicationLayout#getErrorHandler()` a| This method has been deleted as the application layout is not always easily customizable. The method is moved to `AplicationConfig#getErrorHandler()`.
+| `DefaultErrorDialog` a| Deprecated.  This class is not used by default anymore.
+| `DialogErrorHandler(BiFunction)` a| Deprecated. Use `DialogErrorHandler(ErrorDialogConfiguration)` instead or implement an own `ErrorHandler` to use a custom error dialog.
+| `DialogErrorHandler(BiFunction, String)` a| Deprecated. Use `DialogErrorHandler(ErrorDialogConfiguration)` instead or implement an own `ErrorHandler` to use a custom error dialog.
+|===
+
+About how to customize error handling, see <<error-handler, documentation>>.
+
 ==== Bugfixes
 
 // https://jira.faktorzehn.de/browse/LIN-3319

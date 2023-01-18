@@ -16,12 +16,17 @@ package org.linkki.framework.ui.application;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.framework.ui.dialogs.DialogErrorHandler;
+import org.linkki.framework.ui.dialogs.ErrorDialogConfiguration;
+import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.util.Sequence;
 
+import com.vaadin.flow.server.ErrorHandler;
 import com.vaadin.flow.server.VaadinSession;
 
 /**
@@ -68,6 +73,18 @@ public interface ApplicationConfig {
      */
     default List<String> getDefaultVariants() {
         return List.of(LinkkiTheme.VARIANT_COMPACT);
+    }
+
+    /**
+     * Configures the behavior in case an exception occurs.
+     * 
+     * @implNote By default, the exception is shown in a {@link OkCancelDialog} that is configured by an
+     *           {@link ErrorDialogConfiguration}. Override this method to use a custom
+     *           {@link ErrorHandler} which shows e.g. an own implementation of an error dialog.
+     */
+    default ErrorHandler getErrorHandler() {
+        var errorDialogConfiguration = ErrorDialogConfiguration.createWithHandlerNavigatingTo(StringUtils.EMPTY);
+        return new DialogErrorHandler(errorDialogConfiguration);
     }
 
     @FunctionalInterface

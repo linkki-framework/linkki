@@ -14,8 +14,6 @@
 package org.linkki.framework.ui.application;
 
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
-import org.linkki.framework.ui.dialogs.DefaultErrorDialog;
-import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
@@ -33,7 +31,7 @@ import com.vaadin.flow.server.VaadinSession;
  *           {@link ApplicationConfig} via constructor.
  *           <p>
  *           The {@link ErrorHandler} can be customized by overriding the method
- *           {@link #getErrorHandler()}.
+ *           {@link ApplicationConfig#getErrorHandler()}.
  */
 @CssImport(value = "./styles/linkki-application-layout.css")
 @CssImport(value = "./styles/linkki-vaadin-field.css", themeFor = "vaadin-*")
@@ -81,7 +79,7 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
         VaadinSession vaadinSession = VaadinSession.getCurrent();
         if (vaadinSession != null) {
             vaadinSession.setAttribute(LinkkiConverterRegistry.class, config.getConverterRegistry());
-            vaadinSession.setErrorHandler(getErrorHandler());
+            vaadinSession.setErrorHandler(config.getErrorHandler());
         }
     }
 
@@ -97,16 +95,6 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
     @Override
     public void removeRouterLayoutContent(HasElement oldContent) {
         mainArea.getElement().removeAllChildren();
-    }
-
-    /**
-     * Configures the error handling. Override to use a different {@link ErrorHandler}.
-     * 
-     * @implNote linkki uses a {@link DialogErrorHandler} creating a new {@link DefaultErrorDialog} by
-     *           default.
-     */
-    protected ErrorHandler getErrorHandler() {
-        return new DialogErrorHandler(DefaultErrorDialog::new);
     }
 
 }

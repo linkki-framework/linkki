@@ -16,6 +16,8 @@ package org.linkki.samples.playground.application.custom;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.vaadin.component.base.LinkkiText;
+import org.linkki.samples.playground.customlayout.pmo.ErrorDialogPmo;
 import org.linkki.samples.playground.customlayout.pmo.HotelSearchPmo;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -28,7 +30,8 @@ public class CustomView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    public CustomView() {
+    public CustomView() {        
+        add(VaadinUiCreator.createComponent(new ErrorDialogPmo(), new BindingContext()));
         // tag::CustomLayoutAnnotation[]
         add(VaadinUiCreator.createComponent(new HotelSearchPmo(), new BindingContext()));
         // end::CustomLayoutAnnotation[]

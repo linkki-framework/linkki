@@ -11,7 +11,6 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-
 package org.linkki.samples.playground.customlayout.pmo;
 
 import java.security.SecureRandom;
@@ -30,7 +29,6 @@ import com.vaadin.flow.component.notification.Notification;
 public class HotelSearchPmo {
 
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
-
     private int noOfGuests;
     private LocalDate arrival;
     private LocalDate depature;
@@ -45,7 +43,6 @@ public class HotelSearchPmo {
     }
 
     // end::hotelsearch[]
-
     @UIDateField(position = 20, label = "Date of Arrival")
     public LocalDate getArrival() {
         return arrival;

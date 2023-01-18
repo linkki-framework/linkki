@@ -1,0 +1,50 @@
+:jbake-title: Error Handling
+:jbake-type: section
+:jbake-status: published
+
+[[error-handler]]
+=== Error Handling
+
+
+Unhandled runtime exceptions in the application are handled by a so-called `ErrorHandler`. 
+By default, *linkki* shows information about the occurred error within a dialog.
+
+==== Default error dialog
+
+The default error dialog displays following information about the exception:
+
+* the cause message
+* the stacktrace if the application doesn't run in the production mode
+
+On confirmation, the user is redirected to the main application URL and an additional `errorOccurred` query parameter is added.
+This parameter enables the target view to react to the error.
+It can be useful to enable or disable certain features in `BeforeLeaveHandler#beforeLeave(BeforeLeaveEvent)` in case of an error.
+For more information refer to https://vaadin.com/docs/latest/flow/routing/lifecycle/#beforeleaveevent[Vaadin's BeforeLeaveEvent].
+
+==== Customizing the error handling behavior
+
+The `ErrorHandler` is defined by `ApplicationConfig#getErrorHandler()`.
+The default dialog can be customized by creating a different `ErrorDialogConfiguration` within this method. 
+Following values can be configured:
+
+* the URL to navigate to on confirmation
+* the caption of the dialog
+* the displayed error message
+* whether the exception cause message should be shown (default: `true`)
+* whether the exception stacktrace should be shown (default: `false` in production mode, otherwise `true`)
+
+.Overriding the used error handler within a concrete implementation of `ApplicationConfig`
+[source,java]
+----
+@Override
+public ErrorHandler getErrorHandler() {
+    var config = ErrorDialogConfiguration.createWithHandlerNavigatingTo(route)
+        .withCaption(customCaption)
+        .withErrorMessage(customErrorMessage)
+        .hideExceptionMessage()
+        .hideExceptionStacktrace();
+    return new DialogErrorHandler(config);
+}
+----
+
+For a higher degree of customization, use a new implementation of `ErrorHandler` in `ApplicationConfig#getErrorHandler()`.
