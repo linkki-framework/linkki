@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.jupiter.api.Test;
 
+@Deprecated(since = "2.4.0")
 public class HtmlSanitizerTest {
 
     @Test

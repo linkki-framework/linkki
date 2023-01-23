@@ -14,7 +14,7 @@
 package org.linkki.framework.ui.dialogs;
 
 
-import org.linkki.util.HtmlSanitizer;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
@@ -58,7 +58,7 @@ public class ConfirmationDialog extends OkCancelDialog {
     public static ConfirmationDialog open(String caption,
             String infoText,
             Handler okHandler) {
-        Html content = new Html("<span>" + HtmlSanitizer.sanitize(infoText) + "</span>");
+        Html content = new Html("<span>" + HtmlSanitizer.sanitizeText(infoText) + "</span>");
         return open(caption, content, okHandler);
     }
 

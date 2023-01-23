@@ -47,6 +47,11 @@ public class LabelPmo {
         return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
     }
 
+    @UILabel(position = 15, label = "Label with sanitized HTML tag <iframe>", htmlContent = true)
+    public String getSanitizedHtmlContentLabel() {
+        return "Content with sanitized tag (iframe tag should be not visible): <b>Text</b>";
+    }
+    
     @UILabel(position = 20, label = "Label without HTML Content")
     public String getNotHtmlContentLabel() {
         return "<b>NOT</b> HTML Content";

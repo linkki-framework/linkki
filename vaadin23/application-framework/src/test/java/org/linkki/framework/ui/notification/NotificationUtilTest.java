@@ -24,9 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -103,7 +101,7 @@ class NotificationUtilTest {
         Notification notification = NotificationUtil.showInfo("title", "<b>bold</b><a>anchor</a>");
 
         Element description = getContent(notification).get(1).getElement();
-        assertThat(description.getProperty("innerHTML"), is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+        assertThat(description.getProperty("innerHTML"), is("<b>bold</b><a rel=\"nofollow\">anchor</a>"));
     }
 
     @Test
@@ -111,7 +109,7 @@ class NotificationUtilTest {
         Notification notification = NotificationUtil.showWarning("title", "<b>bold</b><a>anchor</a>");
 
         Element description = getContent(notification).get(1).getElement();
-        assertThat(description.getProperty("innerHTML"), is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+        assertThat(description.getProperty("innerHTML"), is("<b>bold</b><a rel=\"nofollow\">anchor</a>"));
     }
 
     @Test
@@ -119,7 +117,7 @@ class NotificationUtilTest {
         Notification notification = NotificationUtil.showError("title", "<b>bold</b><a>anchor</a>");
 
         Element description = getContent(notification).get(1).getElement();
-        assertThat(description.getProperty("innerHTML"), is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+        assertThat(description.getProperty("innerHTML"), is("<b>bold</b><a rel=\"nofollow\">anchor</a>"));
     }
 
     @Test
@@ -133,7 +131,7 @@ class NotificationUtilTest {
         String warningMessageDescription = getContent(notification).get(1).getElement().getChild(1).getChild(0)
                 .getProperty("innerHTML");
 
-        assertThat(infoMessageDescription, is("<b>bold</b>&lt;a&gt;anchor&lt;/a&gt;"));
+        assertThat(infoMessageDescription, is("<b>bold</b><a rel=\"nofollow\">anchor</a>"));
         assertThat(warningMessageDescription, is("<b>bold</b><i>italic</i>"));
     }
 

@@ -20,7 +20,10 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Utility class for sanitizing HTML text.
+ *
+ * @deprecated use the HTML sanitizer provided by the UI framework package
  */
+@Deprecated(since = "2.4.0")
 public class HtmlSanitizer {
 
     private static final String ALLOWED_TAGS = "(p|div|span|br|b|strong|i|em|u)";
@@ -35,7 +38,10 @@ public class HtmlSanitizer {
      * 
      * @param text the input text, may be {@code null}
      * @return the sanitized text, or {@code null} if the input is {@code null}
+     * 
+     * @deprecated use the HTML sanitizer provided by the UI framework package
      */
+    @Deprecated(since = "2.4.0")
     public static @CheckForNull String sanitize(@CheckForNull String text) {
         if (StringUtils.isEmpty(text)) {
             return text;
