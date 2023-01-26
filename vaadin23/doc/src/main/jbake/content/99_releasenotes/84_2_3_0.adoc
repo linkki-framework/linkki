@@ -19,6 +19,13 @@ Instead, only the exception message will be shown together with a timestamp.
 The stacktrace will be still available if the application does not run in the production mode.
 
 
+===== Other
+
+////
+https://jira.faktorzehn.de/browse/LIN-3319
+////
+* Vaadin has been updated to version 23.3.4 and Spring Boot to version 2.7.8 
+
 === Version 2.3.0
 
 ==== New features and improvements
