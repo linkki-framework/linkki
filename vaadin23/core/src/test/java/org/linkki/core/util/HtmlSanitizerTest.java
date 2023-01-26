@@ -89,4 +89,14 @@ class HtmlSanitizerTest {
         assertThat(HtmlSanitizer.sanitizeText("<div")).isEmpty();
         assertThat(HtmlSanitizer.sanitizeText("div>")).isEqualTo("div&gt;");
     }
+
+    @Test
+    void testEscapeHtml() {
+        assertThat(HtmlSanitizer.escapeText("<div>")).isEqualTo("&lt;div&gt;");
+        assertThat(HtmlSanitizer.escapeText("<div style:\"\">")).isEqualTo("&lt;div style:&quot;&quot;&gt;");
+        assertThat(HtmlSanitizer.escapeText("<div style:\"\"/>")).isEqualTo("&lt;div style:&quot;&quot;/&gt;");
+        assertThat(HtmlSanitizer.escapeText("</div>")).isEqualTo("&lt;/div&gt;");
+        assertThat(HtmlSanitizer.escapeText("Test&")).isEqualTo("Test&amp;");
+        assertThat(HtmlSanitizer.escapeText("Test'")).isEqualTo("Test&#39;");
+    }
 }

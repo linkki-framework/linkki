@@ -21,7 +21,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 /**
  * Utility class for sanitizing HTML text.
  *
- * @deprecated use the HTML sanitizer provided by the UI framework package
+ * @deprecated Use {@code org.linkki.core.util.HtmlSanitizer} instead
  */
 @Deprecated(since = "2.4.0")
 public class HtmlSanitizer {
@@ -39,7 +39,7 @@ public class HtmlSanitizer {
      * @param text the input text, may be {@code null}
      * @return the sanitized text, or {@code null} if the input is {@code null}
      * 
-     * @deprecated use the HTML sanitizer provided by the UI framework package
+     * @deprecated Use {@code org.linkki.core.util.HtmlSanitizer} instead
      */
     @Deprecated(since = "2.4.0")
     public static @CheckForNull String sanitize(@CheckForNull String text) {

@@ -30,11 +30,12 @@ public class HtmlSanitizer {
     }
 
     /**
-     * Escapes all {@literal <} and {@literal >} symbols that do not belong to an allowed HTML tag.
+     * Sanitizes the given HTML text and removes potentially dangerous tags and attributes.
      * <p>
      * Allowed tags and attributes are defined by {@link Safelist#basicWithImages()}, which includes
-     * basic styling tags as well as {@code img} Tags. Additionally, common attributes of styling tags
-     * as 'style' or 'class' are whitelisted.
+     * basic styling tags as well as 'img'. Additionally, the 'style' attribute is whitelisted for the
+     * tags 'b', 'i', 'strong', 'em', 'u'. 'style', 'class' and 'id' are whitelisted for 'div'. 'img'
+     * can also be used with a relative image source.
      * 
      * @param htmlText the HTML text to be sanitized, may be {@code null}
      * @return the sanitized content, or {@code null} if the input is {@code null}
@@ -48,12 +49,32 @@ public class HtmlSanitizer {
     }
 
     /**
+     * Escapes HTML characters ({@literal & < > " '}) in the given text, in order to make the text safe
+     * for inclusion in HTML content.
+     *
+     * @param text the text to be escaped, may be {@code null}
+     * @return the escaped content, or {@code null} if the input is {@code null}
+     */
+    public static @CheckForNull String escapeText(@CheckForNull String text) {
+        if (StringUtils.isEmpty(text)) {
+            return text;
+        } else {
+            // '&' has to be escaped first to avoid escaping the replacements which starts with '&'
+            return text.replace("&", "&amp;")
+                    .replace("<", "&lt;")
+                    .replace(">", "&gt;")
+                    .replace("\"", "&quot;")
+                    .replace("'", "&#39;");
+        }
+    }
+
+    /**
      * Creates a {@link Safelist whitelist} which defines allowed HTML tags and attributes.
      */
     private static Safelist createHtmlWhitelist() {
         var whitelist = Safelist.basicWithImages();
 
-        // whitelisting additional attributes in order to style tags
+        // whitelist additional attributes in order to style tags
         var styleAttribute = "style";
         whitelist.addAttributes("div", styleAttribute, "class", "id");
         whitelist.addAttributes("b", styleAttribute);
@@ -62,7 +83,8 @@ public class HtmlSanitizer {
         whitelist.addAttributes("strong", styleAttribute);
         whitelist.addAttributes("u", styleAttribute);
 
-        // required for using relative URLs on images
+        // remove all whitelisted protocols, so no protocol restrictions apply
+        // required to allow relative URLs on images
         whitelist.removeProtocols("img", "src", "http", "https");
 
         return whitelist;
