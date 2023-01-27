@@ -5,6 +5,7 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+
 === Version 2.3.1
 
 ==== New features and improvements
@@ -18,13 +19,28 @@ Instead, only the exception message will be shown together with a timestamp.
 
 The stacktrace will be still available if the application does not run in the production mode.
 
-
 ===== Other
 
 ////
 https://jira.faktorzehn.de/browse/LIN-3319
 ////
-* Vaadin has been updated to version 23.3.4 and Spring Boot to version 2.7.8 
+* Vaadin has been updated to version 23.3.4 and Spring Boot to version 2.7.8
+
+==== Bugfixes
+
+===== Sanitization of HTML content
+////
+https://jira.faktorzehn.de/browse/LIN-3319
+////
+
+Using `@UILabel` with `htmlContent = true` previously did not sanitize the content. To make the behaviour of `htmlContent = true` more secure by default, the HTML is now automatically sanitized, removing potentially dangerous tags and attributes. Note that the `img` tag is whitelisted.
+
+The same applies to `org.linkki.core.vaadin.component.base.LinkkiText` when using HTML content mode (`setText(..., true)`).
+
+[WARNING]
+==== 
+When user-supplied strings are included in HTML content, they have to be escaped to prevent them from being interpreted as HTML. This can be achieved by using `HtmlSanitizer#escapeText`.
+====
 
 === Version 2.3.0
 

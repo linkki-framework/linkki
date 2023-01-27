@@ -46,6 +46,18 @@ class TC001UILabelTest extends PlaygroundUiTest {
     }
 
     @Test
+    void testLabel_SanitizeHtmlContent() {
+        LinkkiTextElement label = $(LinkkiTextElement.class).id("sanitizedHtmlContentLabel");
+
+        assertThat(label.getLabel()).isEqualTo("Label with sanitized HTML tag <iframe>");
+        assertThat(label.findElements(By.tagName("iframe"))).isEmpty();
+        assertThat(label.findElements(By.tagName("b"))).hasSize(1);
+        assertThat(label.getText()).isEqualTo("Content with sanitized tag (iframe tag should be not visible): Text");
+        assertThat(label.getHTMLContent())
+                .isEqualTo("Content with sanitized tag (iframe tag should be not visible): <b>Text</b>");
+    }
+
+    @Test
     void testLabel_NotHtmlContent() {
         LinkkiTextElement label = $(LinkkiTextElement.class).id("notHtmlContentLabel");
 

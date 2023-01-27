@@ -46,13 +46,15 @@ import org.linkki.core.ui.element.annotation.UILabel.LabelComponentDefinitionCre
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 
 /**
- * Provides a single UI-element to display text content. Creates a {@link com.vaadin.flow.component.html.Div}.
+ * Provides a single UI-element to display text content. Creates a
+ * {@link com.vaadin.flow.component.html.Div}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -79,13 +81,14 @@ public @interface UILabel {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Specifies the {@link IconPosition position} of the icon, whether it is displayed on the left or on the right side
-     * of the label.
+     * Specifies the {@link IconPosition position} of the icon, whether it is displayed on the left or
+     * on the right side of the label.
      */
     IconPosition iconPosition() default IconPosition.LEFT;
 
     /**
-     * Name of the model object that is to be bound if multiple model objects are included for model binding
+     * Name of the model object that is to be bound if multiple model objects are included for model
+     * binding
      */
     @LinkkiBoundProperty.ModelObjectProperty
     String modelObject() default ModelObject.DEFAULT_NAME;
@@ -103,9 +106,13 @@ public @interface UILabel {
 
     /**
      * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain text.
+     * The HTML content is automatically {@link HtmlSanitizer#sanitizeText(String) sanitized}. <br>
+     * Note that <b>user-supplied strings have to be {@link HtmlSanitizer#escapeText(String)
+     * escaped}</b> when including them in the HTML content. Otherwise, they will also be interpreted as
+     * HTML.
      * <p>
-     * HTML content is not compatible with some annotations that manipulate the resulting component, like
-     * {@link BindIcon}.
+     * HTML content is not compatible with some annotations that manipulate the resulting component,
+     * like {@link BindIcon}.
      */
     boolean htmlContent() default false;
 

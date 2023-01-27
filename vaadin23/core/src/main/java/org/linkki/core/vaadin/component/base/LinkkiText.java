@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.linkki.core.ui.aspects.types.IconPosition;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.core.vaadin.component.HasIcon;
 
 import com.vaadin.flow.component.Component;
@@ -34,7 +35,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
- * A text component that can have an additional {@link VaadinIcon} and a label. It also supports a HTML mode.
+ * A text component that can have an additional {@link VaadinIcon} and a label. It also supports a HTML
+ * mode.
  */
 @Tag("linkki-text")
 @JsModule("./src/linkki-text.ts")
@@ -45,6 +47,8 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
     protected static final String ICON_CLASS_NAME = "linkki-text-icon";
 
     private static final long serialVersionUID = -1027646873177686722L;
+
+    private static final String INNER_HTML_PROPERTY = "innerHTML";
 
     private final HasText content;
 
@@ -91,7 +95,7 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
      */
     @Override
     public String getText() {
-        String innerHTML = getContent().getElement().getProperty("innerHTML");
+        String innerHTML = getContent().getElement().getProperty(INNER_HTML_PROPERTY);
         if (innerHTML != null) {
             return innerHTML;
         } else {
@@ -113,16 +117,24 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
 
     /**
      * Sets the given text as content of this component.
+     * <p>
+     * HTML text will be sanitized by using {@link HtmlSanitizer#sanitizeText(String)} for security
+     * reasons.<br>
+     * Note that <b>user-supplied strings have to be {@link HtmlSanitizer#escapeText(String)
+     * escaped}</b> when including them in the HTML content. Otherwise, they will also be interpreted as
+     * HTML.
      *
      * @param text the text or HTML content to set
-     * @param html use the text as HTML content when <code>true</code>, use the text as plain text otherwise
+     * @param html use the text as HTML content when <code>true</code>, use the text as plain text
+     *            otherwise
      */
     public void setText(String text, boolean html) {
         if (html) {
+            var sanitizedText = HtmlSanitizer.sanitizeText(text);
             getContent().setText(null);
-            getContent().getElement().setProperty("innerHTML", text);
+            getContent().getElement().setProperty(INNER_HTML_PROPERTY, sanitizedText);
         } else {
-            getContent().getElement().removeProperty("innerHTML");
+            getContent().getElement().removeProperty(INNER_HTML_PROPERTY);
             getContent().setText(text);
         }
     }
@@ -139,8 +151,8 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
     /**
      * Sets the {@link IconPosition icon position} to be used.
      *
-     * @param position The position which defines whether the icon should be displayed on the left or on the
-     *         right side of the text
+     * @param position The position which defines whether the icon should be displayed on the left or on
+     *            the right side of the text
      */
     public void setIconPosition(@CheckForNull IconPosition position) {
         iconPosition = position;
@@ -161,8 +173,8 @@ public class LinkkiText extends Component implements HasIcon, HasPrefixAndSuffix
     }
 
     protected void setIconOnComponent(@CheckForNull VaadinIcon icon) {
-        Consumer<Icon> iconConsumer =
-                IconPosition.RIGHT == iconPosition ? this::setSuffixComponent : this::setPrefixComponent;
+        Consumer<Icon> iconConsumer = IconPosition.RIGHT == iconPosition ? this::setSuffixComponent
+                : this::setPrefixComponent;
         setIconOnComponent(icon, iconConsumer);
     }
 

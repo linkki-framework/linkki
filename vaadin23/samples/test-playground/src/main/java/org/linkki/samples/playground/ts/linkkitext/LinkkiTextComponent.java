@@ -19,6 +19,7 @@ import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -28,33 +29,56 @@ public class LinkkiTextComponent extends VerticalLayout {
     private static final long serialVersionUID = 2720424951808627806L;
 
     public LinkkiTextComponent() {
+        var htmlText = createHtmlText();
+        var textWithPrefixAndSuffix = createTextWithPrefixAndSuffix();
+        var textWithIconRight = createTextWithIconRight();
+        var textWithIconLeft = createTextWithIconLeft();
+        var actions = createActionsOnText(textWithIconLeft);
+        
+        add(new FormLayout(htmlText),
+            new FormLayout(textWithPrefixAndSuffix),
+            new FormLayout(textWithIconRight),
+            new FormLayout(textWithIconLeft),
+            actions);
+    }
 
-        FormLayout formLayout = new FormLayout();
-        LinkkiText textWithIcon = new LinkkiText();
+    private LinkkiText createHtmlText() {
+        var htmlText = new LinkkiText();
+        htmlText.setText("Bold label with sanitized HTML tag iframe (iframe should not be visible or executed): " +
+                "<b><iframe onload=\"alert('Should not be visible!');\"/>Test</b>", true);
+        return htmlText;
+    }
+
+    private LinkkiText createTextWithIconLeft() {
+        var textWithIcon = new LinkkiText();
         updateIconWithText(textWithIcon);
-        formLayout.add(textWithIcon);
+        return textWithIcon;
+    }
 
-        HorizontalLayout actions = new HorizontalLayout();
-        actions.setPadding(false);
-        actions.add(new Button("Set static text", e -> updateIconWithText(textWithIcon)));
-        actions.add(new Button("Set random text", e -> updateIconWithTextRandom(textWithIcon)));
-        actions.add(new Button("Remove Icon", e -> textWithIcon.setIcon(null)));
-        actions.add(new Button("Set Icon", e -> textWithIcon.setIcon(VaadinIcon.ABACUS)));
-
-        FormLayout prefixSuffix = new FormLayout();
-        LinkkiText textWithPrefixAndSuffix = new LinkkiText("Label with prefix and suffix", null);
-        textWithPrefixAndSuffix.setPrefixComponent(new Button("Prefix Button", VaadinIcon.AIRPLANE.create()));
-        textWithPrefixAndSuffix.setSuffixComponent(new Button("Suffix Button", VaadinIcon.ARCHIVE.create()));
-        prefixSuffix.add(textWithPrefixAndSuffix);
-
-        FormLayout iconRightLayout = new FormLayout();
-        LinkkiText textWithIconRight = new LinkkiText();
+    private LinkkiText createTextWithIconRight() {
+        var textWithIconRight = new LinkkiText();
         textWithIconRight.setIconPosition(IconPosition.RIGHT);
         textWithIconRight.setText("Label with an icon on the right");
         textWithIconRight.setIcon(VaadinIcon.ABACUS);
-        iconRightLayout.add(textWithIconRight);
+        return textWithIconRight;
+    }
 
-        add(formLayout, actions, prefixSuffix, iconRightLayout);
+    private LinkkiText createTextWithPrefixAndSuffix() {
+        var textWithPrefixAndSuffix = new LinkkiText("Label with prefix and suffix", null);
+        textWithPrefixAndSuffix.setPrefixComponent(new Button("Prefix Button", VaadinIcon.AIRPLANE.create()));
+        textWithPrefixAndSuffix.setSuffixComponent(new Button("Suffix Button", VaadinIcon.ARCHIVE.create()));
+        return textWithPrefixAndSuffix;
+    }
+
+    private HorizontalLayout createActionsOnText(LinkkiText text) {
+        var actions = new HorizontalLayout();
+        actions.setPadding(false);
+        actions.add(new Label("Choose an action on the text above:"));
+        actions.add(new Button("Set static text", e -> updateIconWithText(text)));
+        actions.add(new Button("Set random text", e -> updateIconWithTextRandom(text)));
+        actions.add(new Button("Remove Icon", e -> text.setIcon(null)));
+        actions.add(new Button("Set Icon", e -> text.setIcon(VaadinIcon.ABACUS)));
+        return actions;
     }
 
     private void updateIconWithText(LinkkiText text) {

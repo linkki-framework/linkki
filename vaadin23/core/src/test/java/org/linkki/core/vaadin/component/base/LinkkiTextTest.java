@@ -43,9 +43,30 @@ class LinkkiTextTest {
 
     @Test
     void testSetText_HtmlContent() {
-        linkkiText.setText("<html>New test html text</html>", true);
+        linkkiText.setText("<b>New test html text</b>", true);
 
-        assertThat(linkkiText.getText()).isEqualTo("<html>New test html text</html>");
+        assertThat(linkkiText.getText()).isEqualTo("<b>New test html text</b>");
+    }
+
+    @Test
+    void testSetText_HtmlContent_WithStylingAttribute() {
+        linkkiText.setText("<b style=\"color: red;\">New test html text</b>", true);
+
+        assertThat(linkkiText.getText()).isEqualTo("<b style=\"color: red;\">New test html text</b>");
+    }
+
+    @Test
+    void testSetText_SanitizeForbiddenHtmlTag() {
+        linkkiText.setText("<b><iframe>Test</iframe></b>", true);
+
+        assertThat(linkkiText.getText()).isEqualTo("<b>Test</b>");
+    }
+
+    @Test
+    void testSetText_SanitizeHtmlAttribute() {
+        linkkiText.setText("<b><i onload=\"alert('text');\"/>Test</b>", true);
+
+        assertThat(linkkiText.getText()).isEqualTo("<b><i></i>Test</b>");
     }
 
     @Test

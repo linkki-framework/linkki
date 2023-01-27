@@ -16,9 +16,9 @@ package org.linkki.framework.ui.notifications;
 
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.nls.NlsText;
-import org.linkki.util.HtmlSanitizer;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -73,7 +73,7 @@ public class NotificationUtil {
      * contained in the message list. The notification contains a list of all messages with an icon
      * corresponding to their individual severity. If the given message list is empty, an info
      * notification containing only the title will be displayed. The messages support HTML content,
-     * which will be {@link HtmlSanitizer#sanitize(String) sanitized}.
+     * which will be {@link HtmlSanitizer#sanitizeText(String) sanitized}.
      */
     public static Notification show(String title, MessageList messages) {
         if (!messages.isEmpty()) {
@@ -92,7 +92,7 @@ public class NotificationUtil {
      * Creates and opens an info notification. Info notifications close automatically after the
      * {@link #setInfoDuration(int) specified duration} unless this duration is less than/equal to 0.
      * In that case, each one has a close button and does not close until this button is clicked.
-     * The description supports HTML content, which will be {@link HtmlSanitizer#sanitize(String) sanitized}.
+     * The description supports HTML content, which will be {@link HtmlSanitizer#sanitizeText(String) sanitized}.
      * 
      * @return the shown notification
      */
@@ -106,7 +106,7 @@ public class NotificationUtil {
      * Creates and opens a warning notification. Warning notifications close automatically after the
      * {@link #setWarningDuration(int) specified duration} unless this duration is less than/equal to 0.
      * In that case, each one has a close button and does not close until this button is clicked.
-     * The description supports HTML content, which will be {@link HtmlSanitizer#sanitize(String) sanitized}.
+     * The description supports HTML content, which will be {@link HtmlSanitizer#sanitizeText(String) sanitized}.
      * 
      * @return the shown notification
      */
@@ -119,7 +119,7 @@ public class NotificationUtil {
     /**
      * Creates and opens an error notification. Error notifications do not close automatically, the
      * close button has to be clicked. The description supports HTML content, which will be
-     * {@link HtmlSanitizer#sanitize(String) sanitized}.
+     * {@link HtmlSanitizer#sanitizeText(String) sanitized}.
      * 
      * @return the shown notification
      */
@@ -166,7 +166,7 @@ public class NotificationUtil {
 
     private static Div createContent(String description) {
         Div content = new Div();
-        content.getElement().setProperty("innerHTML", HtmlSanitizer.sanitize(description));
+        content.getElement().setProperty("innerHTML", HtmlSanitizer.sanitizeText(description));
         return content;
     }
 
@@ -176,7 +176,7 @@ public class NotificationUtil {
         component.setPadding(false);
         messages.forEach(m -> {
             LinkkiText m2 = new LinkkiText();
-            m2.setText(HtmlSanitizer.sanitize(m.getText()), true);
+            m2.setText(HtmlSanitizer.sanitizeText(m.getText()), true);
             if (m.getSeverity() == Severity.INFO) {
                 m2.setIcon(VaadinIcon.INFO_CIRCLE);
             } else if (m.getSeverity() == Severity.WARNING) {

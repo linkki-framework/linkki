@@ -13,7 +13,7 @@
  */
 package org.linkki.framework.ui.dialogs;
 
-import org.linkki.util.HtmlSanitizer;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
@@ -46,7 +46,7 @@ public class QuestionDialog extends OkCancelDialog {
      * @param okHandler a function that is executed when the OK button was pressed
      */
     public static QuestionDialog open(String caption, String question, Handler okHandler) {
-        Html content = new Html("<span>" + HtmlSanitizer.sanitize(question) + "</span>");
+        Html content = new Html("<span>" + HtmlSanitizer.sanitizeText(question) + "</span>");
         return open(caption, content, okHandler);
     }
 
