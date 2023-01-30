@@ -44,8 +44,8 @@ public class LinkkiTextComponent extends VerticalLayout {
 
     private LinkkiText createHtmlText() {
         var htmlText = new LinkkiText();
-        htmlText.setText("Bold label with sanitized HTML tag iframe (iframe should not be visible or executed): " +
-                "<b><iframe onload=\"alert('Should not be visible!');\"/>Test</b>", true);
+        htmlText.setText("HTML sanitization: <b><iframe onload=\"alert('LIN-3319 :: Should not be visible!');\"/>" +
+                "This should be bold text without showing the stripped tag 'iframe'</b>", true);
         return htmlText;
     }
 
