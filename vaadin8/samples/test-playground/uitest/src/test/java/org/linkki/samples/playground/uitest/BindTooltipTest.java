@@ -16,6 +16,7 @@ package org.linkki.samples.playground.uitest;
 
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 
 import java.util.List;
@@ -80,7 +81,8 @@ public class BindTooltipTest extends AbstractUiTest {
         field.showTooltip();
 
         WebElement tooltip = findElement(By.className("v-tooltip"));
-        assertThat(tooltip.getText(), is("<script>alert(\"hello\")</script>"));
+        // <script> will be removed by the HTML content sanitization 
+        assertThat(tooltip.getText(), is(emptyString()));
     }
 
     @Test
@@ -125,7 +127,8 @@ public class BindTooltipTest extends AbstractUiTest {
         getLabel(DynamicTooltipPmo.PROPERTY_TOOLTIP_TEXT).showTooltip();
 
         WebElement labelTooltip = findElement(By.className("v-tooltip"));
-        assertThat(labelTooltip.getText(), is("<script>alert(\"hello\")</script>"));
+        // <script> will be removed by the HTML content sanitization
+        assertThat(labelTooltip.getText(), is(emptyString()));
     }
 
     private LabelElement getLabel(String id) {

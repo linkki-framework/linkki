@@ -37,6 +37,7 @@ import org.linkki.core.ui.element.annotation.UILabel.LabelAspectDefinitionCreato
 import org.linkki.core.ui.element.annotation.UILabel.LabelComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.util.HtmlSanitizer;
 
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
@@ -84,6 +85,11 @@ public @interface UILabel {
 
     /**
      * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain text.
+     * <p>
+     * The HTML content is automatically {@link HtmlSanitizer#sanitizeText(String) sanitized}. <br>
+     * Note that <b>user-supplied strings have to be {@link HtmlSanitizer#escapeText(String)
+     * escaped}</b> when including them in the HTML content. Otherwise, they will also be interpreted as
+     * HTML.
      */
     boolean htmlContent() default false;
 

@@ -28,6 +28,7 @@ import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
 import org.linkki.samples.playground.bugs.lin1890.Lin1890HierarchicalTablePmo;
 import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
 import org.linkki.samples.playground.bugs.lin2622.MassValuesComboBoxPmo;
+import org.linkki.samples.playground.bugs.lin3319.HtmlLabelPmo;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
@@ -56,6 +57,7 @@ public class BugCollectionLayout extends VerticalLayout implements SidebarSheetD
         addComponentWithSeparateBindingContext(bc -> new OnlyTablePmo());
         addComponentWithSeparateBindingContext(bc -> new SectionTablePmo());
         addComponentWithSeparateBindingContext(bc -> new TriangleTablePmo());
+        addComponentWithSeparateBindingContext(bc -> new HtmlLabelPmo());
     }
 
     private void addComponentWithSeparateBindingContext(Function<BindingContext, Object> pmoCreation) {

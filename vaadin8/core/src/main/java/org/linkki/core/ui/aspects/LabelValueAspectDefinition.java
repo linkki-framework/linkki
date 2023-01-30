@@ -22,14 +22,21 @@ import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.core.util.HtmlSanitizer;
 
 import com.vaadin.data.Converter;
 import com.vaadin.data.ValueContext;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 
 /**
  * The value aspect for label components. The label is a read-only component, hence this aspect only
  * reads the value from model and updates the UI.
+ * <p>
+ * If the label is configured for showing HTML text, the content will be sanitized by using
+ * {@link HtmlSanitizer#sanitizeText(String)} for security reasons.<br>
+ * Note that <b>user-supplied strings have to be {@link HtmlSanitizer#escapeText(String) escaped}</b>
+ * when including them in the HTML content. Otherwise, they will also be interpreted as HTML.
  */
 public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object> {
 
@@ -42,16 +49,20 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
 
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        return v -> ((Label)componentWrapper.getComponent())
-                .setValue(LabelValueAspectDefinition.toString(v));
+        Label label = (Label)componentWrapper.getComponent();
+        return v -> label.setValue(toString(v, label.getContentMode()));
     }
 
-    private static String toString(Object o) {
+    private String toString(Object o, ContentMode contentMode) {
         if (o != null) {
             try {
                 Converter<String, Object> converter = LinkkiConverterRegistry.getCurrent().findConverter(String.class,
                                                                                                          o.getClass());
-                return converter.convertToPresentation(o, new ValueContext(UiFramework.getLocale()));
+                String convertedValue = converter.convertToPresentation(o, new ValueContext(UiFramework.getLocale()));
+                if (contentMode == ContentMode.HTML) {
+                    return Objects.toString(HtmlSanitizer.sanitizeText(convertedValue), "");
+                }
+                return convertedValue;
             } catch (IllegalArgumentException e) {
                 // no converter
             }

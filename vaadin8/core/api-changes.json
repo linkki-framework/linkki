@@ -865,5 +865,20 @@
                 ]
             }
         }
+    ],
+    "1.4.7": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.class.added",
+                        "new": "class org.linkki.core.util.HtmlSanitizer",
+                        "justification": "LIN-3319/LIN-3324 :: Add new HTML sanitizer"
+                    }
+                ]
+            }
+        }
     ]
 }

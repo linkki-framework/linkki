@@ -15,8 +15,8 @@ package org.linkki.framework.ui.component;
 
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
-import org.linkki.util.HtmlSanitizer;
 
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
@@ -40,7 +40,7 @@ public class MessageListPanel extends VerticalLayout {
 
         Label infoLabel = new Label();
         infoLabel.setWidth("100%");
-        infoLabel.setValue(HtmlSanitizer.sanitize(text));
+        infoLabel.setValue(HtmlSanitizer.sanitizeText(text));
         infoLabel.setStyleName(ValoTheme.LABEL_H3);
         infoLabel.setContentMode(ContentMode.HTML);
         addComponent(infoLabel);

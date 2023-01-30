@@ -13,7 +13,7 @@
  */
 package org.linkki.framework.ui.dialogs;
 
-import org.linkki.util.HtmlSanitizer;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.shared.ui.ContentMode;
@@ -49,7 +49,7 @@ public class QuestionDialog extends OkCancelDialog {
      */
     public static QuestionDialog open(String caption, String question, Handler okHandler) {
         Label questionLabel = new Label();
-        questionLabel.setValue(HtmlSanitizer.sanitize(question));
+        questionLabel.setValue(HtmlSanitizer.sanitizeText(question));
         questionLabel.setStyleName(ValoTheme.LABEL_H3);
         questionLabel.setContentMode(ContentMode.HTML);
         return open(caption, questionLabel, okHandler);

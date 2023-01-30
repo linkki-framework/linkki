@@ -24,7 +24,7 @@ import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.validation.message.SeverityErrorLevelConverter;
-import org.linkki.util.HtmlSanitizer;
+import org.linkki.core.util.HtmlSanitizer;
 
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
@@ -67,7 +67,7 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
     @Override
     public void setTooltip(String text) {
         if (component instanceof AbstractComponent) {
-            String tooltip = HtmlSanitizer.sanitize(text);
+            String tooltip = HtmlSanitizer.sanitizeText(text);
             ((AbstractComponent)component).setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML);
         }
     }

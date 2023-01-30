@@ -14,8 +14,8 @@
 package org.linkki.framework.ui.component;
 
 import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
-import org.linkki.util.HtmlSanitizer;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
@@ -39,7 +39,7 @@ public class MessageRow extends FormLayout {
         label.setWidth("100%");
         label.setIcon(getIcon());
         label.setContentMode(ContentMode.HTML);
-        label.setValue(HtmlSanitizer.sanitize(getText()));
+        label.setValue(HtmlSanitizer.sanitizeText(getText()));
         label.addStyleName(messagePmo.getStyle());
         label.setDescription(this.messagePmo.getTooltip());
         addComponent(label);

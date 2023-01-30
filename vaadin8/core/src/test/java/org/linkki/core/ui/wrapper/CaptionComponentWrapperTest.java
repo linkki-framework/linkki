@@ -124,10 +124,11 @@ public class CaptionComponentWrapperTest {
 
         wrapper.setTooltip("testTip");
         verify(component).setDescription("testTip", ContentMode.HTML);
+        wrapper.setTooltip("<div></div>");
+        verify(component).setDescription("<div></div>", ContentMode.HTML);
         wrapper.setTooltip("<script>");
-        verify(component).setDescription("&lt;script&gt;", ContentMode.HTML);
-        wrapper.setTooltip("<div>");
-        verify(component).setDescription("<div>", ContentMode.HTML);
+        // <script> will be removed by the HTML sanitization
+        verify(component).setDescription("", ContentMode.HTML);
     }
 
     @Test

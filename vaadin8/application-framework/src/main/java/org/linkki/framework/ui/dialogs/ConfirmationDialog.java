@@ -14,7 +14,7 @@
 package org.linkki.framework.ui.dialogs;
 
 
-import org.linkki.util.HtmlSanitizer;
+import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.shared.ui.ContentMode;
@@ -85,7 +85,7 @@ public class ConfirmationDialog extends OkCancelDialog {
             String infoText,
             Handler okHandler) {
         Label infoLabel = new Label();
-        infoLabel.setValue(HtmlSanitizer.sanitize(infoText));
+        infoLabel.setValue(HtmlSanitizer.sanitizeText(infoText));
         infoLabel.setStyleName(ValoTheme.LABEL_H3);
         infoLabel.setContentMode(ContentMode.HTML);
         return open(caption, infoLabel, okHandler);

@@ -5,6 +5,30 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 1.4.7 
+
+==== Bugfixes
+
+===== Sanitization of HTML content
+////
+https://jira.faktorzehn.de/browse/LIN-3319
+////
+Using `@UILabel` with `htmlContent = true` previously did not sanitize the content. To make the behaviour of `htmlContent = true` more secure by default, the HTML is now automatically sanitized, removing potentially dangerous tags and attributes. Note that the `img` tag is whitelisted.
+
+[WARNING]
+==== 
+When user-supplied strings are included in HTML content, they have to be escaped to prevent them from being interpreted as HTML. This can be achieved by using `HtmlSanitizer#escapeText`.
+====
+
+=== Version 1.4.6
+
+==== Bugfixes
+
+////
+https://jira.faktorzehn.de/browse/LIN-3284
+////
+* Sanitization of HTML content in notifications and dialogs
+
 === Version 1.4.5 
 
 ==== Bugfixes
