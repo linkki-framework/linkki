@@ -16,9 +16,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
-        <vaadin.version>23.3.0</vaadin.version>
+        <vaadin.version>23.3.5</vaadin.version>
         <spotbugs.version>4.6.0</spotbugs.version>
-        <spring-boot.version>2.7.6</spring-boot.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
         <checkstyle.version>10.3.2</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
@@ -105,6 +105,13 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
+        </dependency>
+
+        <!-- Version included in spring-boot-dependencies has a known vulnerability, can be removed when the included version is updated -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.33</version>
         </dependency>
 
     </dependencies>
