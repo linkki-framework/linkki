@@ -26,6 +26,10 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.linkki-framework</groupId>
@@ -44,7 +48,6 @@
             <artifactId>linkki-core-nestedcomponent-vaadin23</artifactId>
             <version>2.3.1-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
 
     <build>

@@ -19,12 +19,25 @@ Instead, only the exception message will be shown together with a timestamp.
 
 The stacktrace will be still available if the application does not run in the production mode.
 
-===== Other
 
+===== Vaadin & Spring update
 ////
 https://jira.faktorzehn.de/browse/LIN-3319
 ////
-* Vaadin has been updated to version 23.3.4 and Spring Boot to version 2.7.8
+Vaadin has been updated to version 23.3.5 and Spring Boot to version 2.7.8.
+
+[WARNING]
+==== 
+The `snakeyaml` dependency, which is required for using YAML configuration files with Spring, has been excluded by Vaadin. To continue using YAML files, the dependency must manually be added:
+[source,xml]
+----
+<dependency>
+    <groupId>org.yaml</groupId>
+    <artifactId>snakeyaml</artifactId>
+</dependency>
+----
+====
+
 
 ==== Bugfixes
 
