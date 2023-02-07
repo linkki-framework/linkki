@@ -23,7 +23,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *
  * @deprecated Use {@code org.linkki.core.util.HtmlSanitizer} instead
  */
-@Deprecated(since = "2.4.0")
+@Deprecated(since = "2.3.1")
 public class HtmlSanitizer {
 
     private static final String ALLOWED_TAGS = "(p|div|span|br|b|strong|i|em|u)";
@@ -41,7 +41,7 @@ public class HtmlSanitizer {
      * 
      * @deprecated Use {@code org.linkki.core.util.HtmlSanitizer} instead
      */
-    @Deprecated(since = "2.4.0")
+    @Deprecated(since = "2.3.1")
     public static @CheckForNull String sanitize(@CheckForNull String text) {
         if (StringUtils.isEmpty(text)) {
             return text;
