@@ -70,6 +70,22 @@ class HtmlSanitizerTest {
     }
 
     @Test
+    void testSanitize_VaadinIconTag() {
+        assertThat(HtmlSanitizer.sanitizeText("<vaadin-icon icon=\"Test\"></vaadin-icon>"))
+                .isEqualTo("<vaadin-icon icon=\"Test\"></vaadin-icon>");
+        assertThat(HtmlSanitizer.sanitizeText("<vaadin-icon style=\"Test\"></vaadin-icon>"))
+                .isEqualTo("<vaadin-icon style=\"Test\"></vaadin-icon>");
+        assertThat(HtmlSanitizer.sanitizeText("<vaadin-icon id=\"Test\"></vaadin-icon>"))
+                .isEqualTo("<vaadin-icon id=\"Test\"></vaadin-icon>");
+        assertThat(HtmlSanitizer.sanitizeText("<vaadin-icon class=\"Test\"></vaadin-icon>"))
+                .isEqualTo("<vaadin-icon class=\"Test\"></vaadin-icon>");
+        assertThat(HtmlSanitizer.sanitizeText("<vaadin-icon width=\"Test\"></vaadin-icon>"))
+                .isEqualTo("<vaadin-icon width=\"Test\"></vaadin-icon>");
+        assertThat(HtmlSanitizer.sanitizeText("<vaadin-icon height=\"Test\"></vaadin-icon>"))
+                .isEqualTo("<vaadin-icon height=\"Test\"></vaadin-icon>");
+    }
+
+    @Test
     void testSanitize_ForbiddenTags() {
         assertThat(HtmlSanitizer.sanitizeText("<script>")).isEmpty();
         assertThat(HtmlSanitizer.sanitizeText("</script>")).isEmpty();

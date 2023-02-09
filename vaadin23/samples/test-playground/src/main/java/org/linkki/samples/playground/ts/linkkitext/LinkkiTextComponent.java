@@ -30,12 +30,14 @@ public class LinkkiTextComponent extends VerticalLayout {
 
     public LinkkiTextComponent() {
         var htmlText = createHtmlText();
+        var htmlTextWithIcon = createHtmlTextWithVaadinIcon();
         var textWithPrefixAndSuffix = createTextWithPrefixAndSuffix();
         var textWithIconRight = createTextWithIconRight();
         var textWithIconLeft = createTextWithIconLeft();
         var actions = createActionsOnText(textWithIconLeft);
-        
+
         add(new FormLayout(htmlText),
+            new FormLayout(htmlTextWithIcon),
             new FormLayout(textWithPrefixAndSuffix),
             new FormLayout(textWithIconRight),
             new FormLayout(textWithIconLeft),
@@ -46,6 +48,15 @@ public class LinkkiTextComponent extends VerticalLayout {
         var htmlText = new LinkkiText();
         htmlText.setText("HTML sanitization: <b><iframe onload=\"alert('LIN-3319 :: Should not be visible!');\"/>" +
                 "This should be bold text without showing the stripped tag 'iframe'</b>", true);
+        return htmlText;
+    }
+
+    private LinkkiText createHtmlTextWithVaadinIcon() {
+        var htmlText = new LinkkiText();
+        var icon = VaadinIcon.PLUS.create();
+        icon.setColor("red");
+        var iconHtml = icon.getElement().getOuterHTML();
+        htmlText.setText("This sanitized HTML content should end with a red plus icon " + iconHtml, true);
         return htmlText;
     }
 

@@ -53,6 +53,14 @@ public class LabelPmo {
                 "This should be bold text without showing the stripped tag 'iframe'</b>";
     }
 
+    @UILabel(position = 16, label = "Sanitized HTML content containing a Vaadin icon", htmlContent = true)
+    public String getSanitizedHtmlContentWithIconLabel() {
+        var icon = VaadinIcon.PLUS.create();
+        icon.setColor("red");
+        var iconHtml = icon.getElement().getOuterHTML();
+        return "This text should end with a red plus icon " + iconHtml;
+    }
+
     @UILabel(position = 20, label = "Label without HTML Content")
     public String getNotHtmlContentLabel() {
         return "<b>NOT</b> HTML Content";
