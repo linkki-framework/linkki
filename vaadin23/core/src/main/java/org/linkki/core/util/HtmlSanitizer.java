@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
+import com.vaadin.flow.component.icon.Icon;
+
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
@@ -33,9 +35,14 @@ public class HtmlSanitizer {
      * Sanitizes the given HTML text and removes potentially dangerous tags and attributes.
      * <p>
      * Allowed tags and attributes are defined by {@link Safelist#basicWithImages()}, which includes
-     * basic styling tags as well as 'img'. Additionally, the 'style' attribute is whitelisted for the
-     * tags 'b', 'i', 'strong', 'em', 'u'. 'style', 'class' and 'id' are whitelisted for 'div'. 'img'
-     * can also be used with a relative image source.
+     * basic styling tags as well as 'img'.
+     * <p>
+     * Additionally, the 'style' attribute is whitelisted for the tags 'b', 'i', 'strong', 'em', 'u'.
+     * The attributes 'style', 'class' and 'id' are whitelisted for 'div'. 'img' can be used with a
+     * relative or absolute image source.
+     * <p>
+     * The 'vaadin-icon' tag is also whitelisted together with the attributes 'id', 'class', 'width',
+     * 'height', 'style' and 'icon'.
      * 
      * @param htmlText the HTML text to be sanitized, may be {@code null}
      * @return the sanitized content, or {@code null} if the input is {@code null}
@@ -76,12 +83,20 @@ public class HtmlSanitizer {
 
         // whitelist additional attributes in order to style tags
         var styleAttribute = "style";
-        whitelist.addAttributes("div", styleAttribute, "class", "id");
+        var classAttribute = "class";
+        var idAttribute = "id";
+        whitelist.addAttributes("div", styleAttribute, classAttribute, idAttribute);
         whitelist.addAttributes("b", styleAttribute);
         whitelist.addAttributes("em", styleAttribute);
         whitelist.addAttributes("i", styleAttribute);
         whitelist.addAttributes("strong", styleAttribute);
         whitelist.addAttributes("u", styleAttribute);
+
+        // whitelist Vaadin icons with common attributes
+        var vaadinIconTag = new Icon().getElement().getTag();
+        whitelist.addTags(vaadinIconTag);
+        whitelist.addAttributes(vaadinIconTag,
+                                styleAttribute, classAttribute, idAttribute, "width", "height", "icon");
 
         // remove all whitelisted protocols, so no protocol restrictions apply
         // required to allow relative URLs on images

@@ -56,6 +56,15 @@ class TC001UILabelTest extends PlaygroundUiTest {
         assertThat(label.getHTMLContent())
                 .isEqualTo("<b>This should be bold text without showing the stripped tag 'iframe'</b>");
     }
+    
+    @Test
+    void testLabel_SanitizedHtmlContentWithIcon() {
+        LinkkiTextElement label = $(LinkkiTextElement.class).id("sanitizedHtmlContentWithIconLabel");
+        assertThat(label.getLabel()).isEqualTo("Sanitized HTML content containing a Vaadin icon");
+        assertThat(label.findElements(By.tagName("vaadin-icon"))).hasSize(1);
+        assertThat(label.getHTMLContent()).startsWith("This text should end with a red plus icon " +
+                "<vaadin-icon icon=\"vaadin:plus\" style=\"fill:red\">");
+    }
 
     @Test
     void testLabel_NotHtmlContent() {
