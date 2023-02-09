@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 
@@ -30,7 +30,7 @@ import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 /**
  * LIN-1486
  */
-public class ComboBoxVanishingValueTest extends AbstractUiTest {
+public class ComboBoxVanishingValueTest extends AbstractLinkkiUiTest {
 
     @Test
     public void testValueOnRefreshWithSameAvailbleValues() {

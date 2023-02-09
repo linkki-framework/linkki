@@ -11,7 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.playground.uitest;
+package org.linkki.testbench.util;
 
 import java.util.List;
 

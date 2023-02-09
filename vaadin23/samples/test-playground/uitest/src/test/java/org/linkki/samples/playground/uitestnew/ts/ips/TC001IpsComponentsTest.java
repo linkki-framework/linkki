@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
-import org.linkki.samples.playground.uitest.Locator;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.UITestConfiguration;
+import org.linkki.testbench.util.Locator;
 
 import com.vaadin.testbench.TestBenchElement;
 

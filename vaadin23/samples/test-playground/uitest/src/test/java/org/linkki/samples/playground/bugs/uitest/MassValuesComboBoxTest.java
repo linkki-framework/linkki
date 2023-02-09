@@ -20,14 +20,14 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin2622.MassValuesComboBoxPmo;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 
 /**
  * LIN-2622
  */
-public class MassValuesComboBoxTest extends AbstractUiTest {
+public class MassValuesComboBoxTest extends AbstractLinkkiUiTest {
 
     @Test
     public void testValueOnRefreshWithSameAvailbleValues() {

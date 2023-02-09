@@ -20,12 +20,12 @@ import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.pageobjects.TestCaseSelectorElement;
 import org.linkki.samples.playground.pageobjects.TestScenarioSelectorElement;
 import org.linkki.samples.playground.ts.TestCaseComponent;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
-import org.linkki.samples.playground.uitest.DriverProperties;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 import org.linkki.testbench.conditions.VaadinElementConditions;
+import org.linkki.testbench.util.DriverProperties;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public abstract class PlaygroundUiTest extends AbstractUiTest {
+public abstract class PlaygroundUiTest extends AbstractLinkkiUiTest {
 
     protected TestCaseComponentElement goToTestCase(String testScenarioId, String testCaseId) {
         TestScenarioSelectorElement testScenarioSelector = $(TestScenarioSelectorElement.class).waitForFirst();
@@ -34,7 +34,7 @@ public abstract class PlaygroundUiTest extends AbstractUiTest {
     }
 
     protected TestCaseComponentElement goToTestCaseByUrl(String testScenarioId, String testCaseId) {
-        getDriver().navigate().to(DriverProperties.getTestUrl(testScenarioId + "/" + testCaseId));
+        getDriver().navigate().to(DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, testScenarioId + "/" + testCaseId));
 
         return waitUntil(VaadinElementConditions
                 .elementDisplayed($(TestCaseComponentElement.class)

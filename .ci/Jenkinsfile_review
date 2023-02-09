@@ -8,7 +8,7 @@ pipeline {
         BRANCH_NAME = "${env.GERRIT_BRANCH}"
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
-        MAVEN_OPTS = '-Xmx768m'
+        MAVEN_OPTS = '-Xmx2g'
         MAVEN_DEFAULT_REPO = "${env.HOME}/.m2/repository"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin23"

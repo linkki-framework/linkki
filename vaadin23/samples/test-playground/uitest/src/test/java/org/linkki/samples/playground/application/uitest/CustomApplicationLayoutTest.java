@@ -21,13 +21,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.samples.playground.application.custom.CustomView;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
 import com.vaadin.testbench.ElementQuery;
 
-class CustomApplicationLayoutTest extends AbstractUiTest {
+class CustomApplicationLayoutTest extends AbstractLinkkiUiTest {
 
     @BeforeEach
     void setup() {

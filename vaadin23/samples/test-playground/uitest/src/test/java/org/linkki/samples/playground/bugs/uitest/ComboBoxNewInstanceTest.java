@@ -24,7 +24,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -34,7 +34,7 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 /**
  * Test for {@link ComboBoxNewInstancePmo}.
  */
-public class ComboBoxNewInstanceTest extends AbstractUiTest {
+public class ComboBoxNewInstanceTest extends AbstractLinkkiUiTest {
 
     @Test
     public void testValueOnResettingListItemValues() throws InterruptedException {

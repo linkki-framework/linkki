@@ -11,7 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.playground.uitest;
+package org.linkki.testbench.util;
 
 /**
  * Used to read the test configuration from {@link SystemProperties}.
@@ -23,19 +23,12 @@ public final class DriverProperties {
     }
 
     /**
-     * Create the URL by appending {@link #getTestHostname() host name}, {@link #getTestPort() port},
-     * {@link #getTestPath() path} and the given path.
-     */
-    public static String getTestUrl(String path) {
-        return String.format("http://%s:%s/%s/%s", getTestHostname(), getTestPort(), getTestPath(), path);
-    }
-
-    /**
      * Create the URL by appending {@link #getTestHostname() host name}, {@link #getTestPort() port} and
      * the two given paths.
      */
-    public static String getTestUrl(String basePath, String path) {
-        return String.format("http://%s:%s/%s/%s", getTestHostname(), getTestPort(), basePath, path);
+    public static String getTestUrl(String defaultBasePath, String path) {
+        return String.format("http://%s:%s/%s/%s", getTestHostname(), getTestPort(), getTestPath(defaultBasePath),
+                             path);
     }
 
     /**
@@ -46,10 +39,10 @@ public final class DriverProperties {
     }
 
     /**
-     * Gets the {@code test.path} property.
+     * Gets the {@code test.path} property or a defaultPath if no property is set.
      */
-    public static String getTestPath() {
-        return SystemProperties.get("test.path").orElse("linkki-sample-test-playground-vaadin23");
+    public static String getTestPath(String defaultPath) {
+        return SystemProperties.get("test.path").orElse(defaultPath);
     }
 
     /**

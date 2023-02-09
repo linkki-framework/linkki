@@ -18,11 +18,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.application.custom.CustomView;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 
-public class ApplicationMenuItemDefinitionTest extends AbstractUiTest {
+public class ApplicationMenuItemDefinitionTest extends AbstractLinkkiUiTest {
 
     @BeforeEach
     void setup() {

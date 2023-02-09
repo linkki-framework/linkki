@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.application.ReportListPage;
 import org.linkki.samples.playground.application.ReportSectionPmo;
 import org.linkki.samples.playground.application.SampleView;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.openqa.selenium.By;
 
@@ -32,7 +32,7 @@ import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 
-class HeadlineTest extends AbstractUiTest {
+class HeadlineTest extends AbstractLinkkiUiTest {
 
     @BeforeEach
     void goToTestView() {

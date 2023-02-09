@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin2555.TextfieldWithEnterButtonPmo;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
@@ -30,7 +30,7 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 /**
  * LIN-2555
  */
-public class SetValueBeforeEnterButtonTest extends AbstractUiTest {
+public class SetValueBeforeEnterButtonTest extends AbstractLinkkiUiTest {
 
     @Test
     public void testSetValueBeforeEnterButton() {

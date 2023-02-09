@@ -26,6 +26,7 @@ import org.linkki.samples.playground.dialogs.VerticalLayoutContentDialog.Vertica
 import org.linkki.testbench.conditions.VaadinElementConditions;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.linkki.testbench.pageobjects.OkCancelDialogElement;
+import org.linkki.testbench.util.DriverProperties;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Action;
@@ -38,7 +39,7 @@ import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-class DialogTest extends AbstractUiTest {
+class DialogTest extends AbstractLinkkiUiTest {
 
     private static final String OK_BUTTON = "okButton";
 
@@ -49,7 +50,7 @@ class DialogTest extends AbstractUiTest {
 
     @Test
     void testDialogOnEntry() {
-        getDriver().get(DriverProperties.getTestUrl(""));
+        getDriver().get(DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, ""));
         clickMenuItemById("dialogs");
         DialogElement dialog = findDialog("Entering dialog view");
 

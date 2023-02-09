@@ -26,6 +26,7 @@ import org.linkki.testbench.UITestConfiguration;
 import org.linkki.testbench.WebDriverExtension;
 import org.linkki.testbench.conditions.VaadinElementConditions;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.util.DriverProperties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -59,11 +60,13 @@ import com.vaadin.testbench.TestBenchTestCase;
  * Various browser configuration options are available using the {@link UITestConfiguration} annotation.
  */
 @TestMethodOrder(OrderAnnotation.class)
-public abstract class AbstractUiTest extends TestBenchTestCase {
+public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
+
+    public static final String DEFAULT_CONTEXT_PATH = "linkki-sample-test-playground-vaadin23";
 
     @RegisterExtension
     protected static WebDriverExtension driverExtension = new WebDriverExtension(DriverProperties.isHeadless(),
-            DriverProperties.getTestUrl(""));
+            DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, ""));
 
     @BeforeEach
     public void setUp() {
@@ -71,7 +74,7 @@ public abstract class AbstractUiTest extends TestBenchTestCase {
     }
 
     public void goToView(String viewName) {
-        getDriver().navigate().to(DriverProperties.getTestUrl(viewName));
+        getDriver().navigate().to(DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, viewName));
         $(TestBenchElement.class).attributeContains("class", "linkki-main-area").waitForFirst();
     }
 

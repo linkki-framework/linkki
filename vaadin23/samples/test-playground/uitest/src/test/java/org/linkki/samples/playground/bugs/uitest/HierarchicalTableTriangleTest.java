@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.grid.testbench.TreeGridElement;
@@ -28,7 +28,7 @@ import com.vaadin.flow.component.grid.testbench.TreeGridElement;
 /**
  * LIN-1890
  */
-public class HierarchicalTableTriangleTest extends AbstractUiTest {
+public class HierarchicalTableTriangleTest extends AbstractLinkkiUiTest {
 
     @Test
     public void testTriangleIsShownAfterChildIsAdded() {

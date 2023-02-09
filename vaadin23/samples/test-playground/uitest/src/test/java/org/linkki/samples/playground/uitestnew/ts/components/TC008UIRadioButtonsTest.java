@@ -2,14 +2,14 @@ package org.linkki.samples.playground.uitestnew.ts.components;
 
 import java.util.List;
 
-import com.vaadin.flow.component.radiobutton.testbench.RadioButtonElement;
-import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+
+import com.vaadin.flow.component.radiobutton.testbench.RadioButtonElement;
+import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 
 public class TC008UIRadioButtonsTest extends PlaygroundUiTest {
 
