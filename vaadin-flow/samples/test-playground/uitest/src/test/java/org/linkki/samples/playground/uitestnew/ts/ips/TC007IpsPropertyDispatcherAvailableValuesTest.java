@@ -15,6 +15,8 @@
 package org.linkki.samples.playground.uitestnew.ts.ips;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,9 @@ import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 
+import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 
 class TC007IpsPropertyDispatcherAvailableValuesTest extends PlaygroundUiTest {
@@ -41,5 +45,19 @@ class TC007IpsPropertyDispatcherAvailableValuesTest extends PlaygroundUiTest {
         ComboBoxElement comboBox = section.$(ComboBoxElement.class).id("emptyStringValueSet");
 
         assertThat(comboBox.getOptions()).isEmpty();
+    }
+
+    @Test
+    void testDialog_Visibility_with_IpsDispatcher() {
+        $(ButtonElement.class).id("showDialogWithBindingManager").click();
+        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).waitForFirst();
+
+        assertTrue(dialog.isOpen());
+
+        ComboBoxElement comboBox = section.$(ComboBoxElement.class).id("emptyStringValueSet");
+        assertThat(comboBox.getOptions()).isEmpty();
+
+        dialog.clickOnCancel();
+        assertFalse(dialog.isOpen());
     }
 }

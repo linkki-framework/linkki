@@ -14,12 +14,18 @@
 
 package org.linkki.samples.playground.ts.ips;
 
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
+import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
+import org.linkki.util.handler.Handler;
 
 @UISection
 public class VisibleSectionPmo {
@@ -41,6 +47,14 @@ public class VisibleSectionPmo {
             visible = VisibleType.DYNAMIC, label = "Empty ValueSet Dynamically Configured to be Visible")
     public void dynamicVisibleEmptyValueSet() {
         // model binding
+    }
+
+    @UIButton(position = 60, caption = "Open dialog with DialogBindingManager")
+    public void showDialogWithBindingManager() {
+        new PmoBasedDialogFactory(ValidationService.NOP_VALIDATION_SERVICE,
+                PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, new IpsPropertyDispatcherFactory())
+                .newOkCancelDialog("Dialog with Property Dispatcher Factory", Handler.NOP_HANDLER, Handler.NOP_HANDLER, new VisibleSectionPmo())
+                .open();
     }
 
     public boolean isDynamicVisibleEmptyValueSetVisible() {

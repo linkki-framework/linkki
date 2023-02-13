@@ -87,6 +87,12 @@ This behavior is only supported for labels.
 Therefore, the constructor `IpsPropertyDispatcher(Supplier, Supplier, String, PropertyDispatcher)` has been added. The second supplier can be used to provide the model object class used for the fallback.
 The constructor `IpsPropertyDispatcher(Supplier, String, PropertyDispatcher)` has been deprecated.
 
+//https://jira.convista.com/browse/LIN-1921
+===== Overloaded Constructors for DialogBindingManager and PmoBaseDialogFactory`
+The DialogBindingManager class has been enhanced to offer an overloaded constructor, which now accommodates an extra parameter of type PropertyDispatcherFactory. This enhancement provides flexibility by allowing the use of a custom PropertyDispatcherFactory, or falling back to the default Java constructor for PropertyDispatcherFactory.
+
+Similarly, the PmoBasedDialogFactory class has also been equipped with an overloaded constructor that embraces the PropertyDispatcherFactory parameter, or reverting to the default Java constructor if needed. Additionally, the PmoBasedDialogFactory class has been seamlessly integrated with the recently introduced overloaded constructor of the DialogBindingManager class.
+
 // ===== Other
 
 ==== Bugfixes

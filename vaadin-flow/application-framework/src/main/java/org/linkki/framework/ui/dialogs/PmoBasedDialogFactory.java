@@ -16,6 +16,7 @@ package org.linkki.framework.ui.dialogs;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
@@ -34,6 +35,7 @@ public class PmoBasedDialogFactory {
 
     private final ValidationService validationService;
     private final PropertyBehaviorProvider propertyBehaviorProvider;
+    private final PropertyDispatcherFactory propertyDispatcherFactory;
 
     /**
      * Creates a new dialog factory with no validations and special property behavior.
@@ -67,17 +69,33 @@ public class PmoBasedDialogFactory {
     }
 
     /**
+     * Creates a new dialog factory with the default PropertyDispatcherFactory.
+     *
+     * @param validationService a service validating the data in the dialog
+     * @param propertyBehaviorProvider a provider providing special property behavior like read-only
+     *            modus if an object can't be edited
+     */
+    public PmoBasedDialogFactory(ValidationService validationService,
+            PropertyBehaviorProvider propertyBehaviorProvider) {
+        this(validationService, propertyBehaviorProvider, new PropertyDispatcherFactory());
+    }
+
+    /**
      * Creates a new dialog factory.
      * 
      * @param validationService a service validating the data in the dialog
      * @param propertyBehaviorProvider a provider providing special property behavior like read-only
      *            modus if an objects can't be edited
+     * @param propertyDispatcherFactory a factory that handles the communication between properties
+     *            and their behaviour
      */
     public PmoBasedDialogFactory(ValidationService validationService,
-            PropertyBehaviorProvider propertyBehaviorProvider) {
+            PropertyBehaviorProvider propertyBehaviorProvider, PropertyDispatcherFactory propertyDispatcherFactory) {
         this.validationService = requireNonNull(validationService, "validationService must not be null");
         this.propertyBehaviorProvider = requireNonNull(propertyBehaviorProvider,
                                                        "propertyBehaviorProvider must not be null");
+        this.propertyDispatcherFactory = requireNonNull(propertyDispatcherFactory,
+                "propertyDispatcherFactory must not be null");
     }
 
     /**
@@ -129,7 +147,7 @@ public class PmoBasedDialogFactory {
                 .build();
 
         DialogBindingManager bindingManager = new DialogBindingManager(dialog, validationService,
-                propertyBehaviorProvider);
+                propertyBehaviorProvider, propertyDispatcherFactory);
 
         BindingContext bindingContext = bindingManager.getContext(dialog.getClass());
 

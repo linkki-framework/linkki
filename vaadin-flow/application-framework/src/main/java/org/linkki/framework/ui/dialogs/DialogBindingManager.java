@@ -15,6 +15,7 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
@@ -31,9 +32,17 @@ public class DialogBindingManager extends DefaultBindingManager {
         this(dialog, validationService, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 
-    public DialogBindingManager(OkCancelDialog dialog, ValidationService validationService,
-            PropertyBehaviorProvider defaultBehaviorProvider) {
-        super(() -> dialog.validate(), defaultBehaviorProvider);
+    public DialogBindingManager(OkCancelDialog dialog,
+                                ValidationService validationService,
+                                PropertyBehaviorProvider propertyBehaviorProvider) {
+        this(dialog, validationService, propertyBehaviorProvider, new PropertyDispatcherFactory());
+    }
+
+    public DialogBindingManager(OkCancelDialog dialog,
+                                ValidationService validationService,
+                                PropertyBehaviorProvider defaultBehaviorProvider,
+                                PropertyDispatcherFactory propertyDispatcherFactory) {
+        super(dialog::validate, defaultBehaviorProvider, propertyDispatcherFactory);
 
         requireNonNull(dialog, "dialog must not be null");
         dialog.setValidationService(validationService);

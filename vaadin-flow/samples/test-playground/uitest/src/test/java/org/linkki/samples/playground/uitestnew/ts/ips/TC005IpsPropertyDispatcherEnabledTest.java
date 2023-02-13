@@ -16,6 +16,8 @@ package org.linkki.samples.playground.uitestnew.ts.ips;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,9 @@ import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 
+import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
@@ -58,5 +62,21 @@ public class TC005IpsPropertyDispatcherEnabledTest extends PlaygroundUiTest {
         ComboBoxElement combobox = section.$(ComboBoxElement.class).id("dynamicEnabledEmptyValueSet");
 
         assertThat(combobox.isEnabled(), is(true));
+    }
+
+    @Test
+    void testDialog_IpsDispatcher() {
+        $(ButtonElement.class).id("showDialogWithBindingManager").click();
+        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).waitForFirst();
+
+        assertTrue(dialog.isOpen());
+
+        assertThat(section.$(TextFieldElement.class).id("notEmptyValueSet").isEnabled(), is(true));
+        assertThat(section.$(ComboBoxElement.class).id("emptyValueSet").isEnabled(), is(false));
+        assertThat(section.$(ComboBoxElement.class).id("dynamicEnabledEmptyValueSet").isEnabled(), is(true));
+
+
+        dialog.clickOnCancel();
+        assertFalse(dialog.isOpen());
     }
 }

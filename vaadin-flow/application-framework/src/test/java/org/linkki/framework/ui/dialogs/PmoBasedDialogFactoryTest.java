@@ -13,8 +13,13 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.linkki.core.binding.validation.ValidationService.NOP_VALIDATION_SERVICE;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,6 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
@@ -99,7 +105,7 @@ class PmoBasedDialogFactoryTest {
     @Test
     void testNewOkCancelDialog_PropertyBehaviorProvider() {
         PmoBasedDialogFactory dialogFactoryWithoutBehavior = new PmoBasedDialogFactory(
-                ValidationService.NOP_VALIDATION_SERVICE,
+                NOP_VALIDATION_SERVICE,
                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
         OkCancelDialog dialog = dialogFactoryWithoutBehavior.newOkCancelDialog("test", Handler.NOP_HANDLER,
@@ -112,7 +118,7 @@ class PmoBasedDialogFactoryTest {
         });
 
         PmoBasedDialogFactory dialogFactoryWithBehavior = new PmoBasedDialogFactory(
-                ValidationService.NOP_VALIDATION_SERVICE,
+                NOP_VALIDATION_SERVICE,
                 PropertyBehaviorProvider.with(PropertyBehavior.readOnly()));
 
         OkCancelDialog readOnlyDialog = dialogFactoryWithBehavior.newOkCancelDialog("test", Handler.NOP_HANDLER,
@@ -123,6 +129,23 @@ class PmoBasedDialogFactoryTest {
         getAllFields(readOnlyDialog).forEach(c -> {
             assertTrue(c.isReadOnly());
         });
+    }
+
+    @Test
+    void testNewOkCancelDialog_PropertyDispatcherFactory() {
+        var dispatcherFactory = spy(PropertyDispatcherFactory.class);
+
+        var pmoBasedDialogFactory = new PmoBasedDialogFactory(NOP_VALIDATION_SERVICE,
+                mock(PropertyBehaviorProvider.class),
+                dispatcherFactory);
+
+        pmoBasedDialogFactory.newOkCancelDialog("Test Title",
+                                                Handler.NOP_HANDLER,
+                                                Handler.NOP_HANDLER,
+                                                ButtonOption.OK_CANCEL,
+                                                new TestPmoSection());
+
+        verify(dispatcherFactory, atLeast(1)).createDispatcherChain(any(), any(), any());
     }
 
     @Test

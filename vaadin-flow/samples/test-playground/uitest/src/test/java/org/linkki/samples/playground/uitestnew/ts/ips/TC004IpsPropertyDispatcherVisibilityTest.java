@@ -16,7 +16,9 @@ package org.linkki.samples.playground.uitestnew.ts.ips;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +26,10 @@ import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 import org.openqa.selenium.NoSuchElementException;
 
+import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
@@ -62,4 +66,24 @@ public class TC004IpsPropertyDispatcherVisibilityTest extends PlaygroundUiTest {
         assertThat(textField.isDisplayed(), is(true));
     }
 
+    @Test
+    void testDialog_Visibility_with_IpsDispatcher() {
+        $(ButtonElement.class).id("showDialogWithBindingManager").click();
+        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).waitForFirst();
+
+        assertTrue(dialog.isOpen());
+
+        TextFieldElement textField = section.$(TextFieldElement.class).id("notEmptyValueSet");
+        textField.scrollIntoView();
+        assertThat(textField.isDisplayed(), is(true));
+
+        assertThrows(NoSuchElementException.class, () -> section.$(ComboBoxElement.class).id("emptyValueSet"));
+
+        ComboBoxElement comboBox = section.$(ComboBoxElement.class).id("dynamicVisibleEmptyValueSet");
+        comboBox.scrollIntoView();
+        assertThat(comboBox.isDisplayed(), is(true));
+
+        dialog.clickOnCancel();
+        assertFalse(dialog.isOpen());
+    }
 }
