@@ -5,6 +5,13 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 1.4.8
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3351
+* Enable the usage of Vaadin icons within the HTML content mode of `@UILabel` by whitelisting the attributes `class` and `style` for the HTML tag `<span>`.
+
 === Version 1.4.7 
 
 ==== Bugfixes

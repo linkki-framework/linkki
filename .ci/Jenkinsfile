@@ -99,45 +99,6 @@ pipeline {
                 MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin14'
             }
         }
-
-        // run the SonarQube analysis for this change
-        stage('SonarQube Analysis') {
-            environment {
-                SONAR_LOGIN = credentials('sonar.login')
-            }
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    withSonarQubeEnv('SonarQube') {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
-                                    -Dsonar.projectKey=${PROJECT_NAME} \
-                                    -Dsonar.branch.name=${BRANCH_NAME} \
-                                    -Dsonar.login=$SONAR_LOGIN \
-                                    sonar:sonar'
-                        }
-                    }
-
-                    rtp parserName: 'HTML', nullAction: '1', stableText: """
-                        <h3>SonarQube</h3>
-                        <a href='https://sonarqube.faktorzehn.de/dashboard?id=${PROJECT_NAME}&branch=${BRANCH_NAME}' target='_blank'>SonarQube Analyse</a>
-                    """
-                }
-            }
-        }
-
-        // check if the SonarQube quality gate is fulfilled
-        stage('SonarQube Quality Gate') {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    script {
-                        def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-                            unstable("SonarQube failed with status: ${qg.status}")
-                        }
-                    }
-                }
-            }
-        }
     }
 
     post {

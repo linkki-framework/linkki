@@ -175,6 +175,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return isReadOnly();
     }
 
+    @BindIcon(value = VaadinIcons.PLUS)
     @UILabel(position = 80, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET)
     public void textLabel() {
         // model binding

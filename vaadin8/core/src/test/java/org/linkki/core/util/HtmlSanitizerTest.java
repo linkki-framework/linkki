@@ -70,6 +70,15 @@ class HtmlSanitizerTest {
         assertThat(HtmlSanitizer.sanitizeText("<img src=\"example-test.png\">"), is("<img src=\"example-test.png\">"));
     }
 
+    /**
+     * In Vaadin 8, icons are defined by the code {@code <span class="..." style="...">Icon-ID</span>}.
+     */
+    @Test
+    void testSanitize_VaadinIconWithSpanTag() {
+        String iconHtml = "<span class=\"Test\" style=\"Test\">Icon</span>";
+        assertThat(HtmlSanitizer.sanitizeText(iconHtml), is(iconHtml));
+    }
+
     @Test
     void testSanitize_ForbiddenTags() {
         assertThat(HtmlSanitizer.sanitizeText("<script>"), is(emptyString()));

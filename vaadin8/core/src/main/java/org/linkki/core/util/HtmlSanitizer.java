@@ -33,9 +33,14 @@ public class HtmlSanitizer {
      * Sanitizes the given HTML text and removes potentially dangerous tags and attributes.
      * <p>
      * Allowed tags and attributes are defined by {@link Safelist#basicWithImages()}, which includes
-     * basic styling tags as well as 'img'. Additionally, the 'style' attribute is whitelisted for the
-     * tags 'b', 'i', 'strong', 'em', 'u'. 'style', 'class' and 'id' are whitelisted for 'div'. 'img'
-     * can also be used with a relative image source.
+     * basic styling tags as well as 'img'.
+     * <p>
+     * Additionally, the 'style' attribute is whitelisted for the tags 'b', 'i', 'strong', 'em', 'u'.
+     * The attributes 'style', 'class' and 'id' are whitelisted for 'div'. 'img' can be used with a
+     * relative or absolute image source.
+     * <p>
+     * Vaadin icons can also be used since the therefore required tag 'span' is whitelisted together
+     * with the attributes 'class' and 'style'.
      *
      * @param htmlText the HTML text to be sanitized, may be {@code null}
      * @return the sanitized content, or {@code null} if the input is {@code null}
@@ -73,16 +78,21 @@ public class HtmlSanitizer {
      */
     private static Safelist createHtmlWhitelist() {
         Safelist whitelist = Safelist.basicWithImages();
-        
+
         // whitelist additional attributes in order to style tags
         String styleAttribute = "style";
-        whitelist.addAttributes("div", styleAttribute, "class", "id");
+        String classAttribute = "class";
+        String idAttribute = "id";
+        whitelist.addAttributes("div", styleAttribute, classAttribute, idAttribute);
         whitelist.addAttributes("b", styleAttribute);
         whitelist.addAttributes("em", styleAttribute);
         whitelist.addAttributes("i", styleAttribute);
         whitelist.addAttributes("strong", styleAttribute);
         whitelist.addAttributes("u", styleAttribute);
-        
+
+        // whitelist <span> attributes 'class' and 'style' to enable the usage of Vaadin icons
+        whitelist.addAttributes("span", classAttribute, styleAttribute);
+
         // remove all whitelisted protocols, so no protocol restrictions apply
         // required to allow relative URLs on images
         whitelist.removeProtocols("img", "src", "http", "https");
