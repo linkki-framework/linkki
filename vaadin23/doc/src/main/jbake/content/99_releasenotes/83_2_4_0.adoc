@@ -48,6 +48,11 @@ The `snakeyaml` dependency, which is required for using YAML configuration files
 ====
 
 
+===== Testbench Extension Utils
+`DriverProperties`, `Locator` and `SystemProperties` have been added to the testbench extension to simplify ui testing.
+
+
+
 ==== Bugfixes
 
 // https://jira.faktorzehn.de/browse/LIN-3319
