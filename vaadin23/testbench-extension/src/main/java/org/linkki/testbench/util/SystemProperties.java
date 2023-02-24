@@ -22,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
  * {@link Optional}{@link String &lt;String&gt;}. Ignores values that contain unresolved Maven
  * properties like <code>${my.property}</code>.
  */
-public final class SystemProperties {
+class SystemProperties {
 
     private SystemProperties() {
         // util
@@ -32,7 +32,7 @@ public final class SystemProperties {
      * Returns whether the given property is set as a system property and its value is not an unresolved
      * Maven property.
      */
-    public static boolean isSet(String property) {
+    static boolean isSet(String property) {
         String value = System.getProperty(property);
         return StringUtils.isNotBlank(value) && !isUnresolvedMavenProperty(value);
     }
@@ -42,10 +42,10 @@ public final class SystemProperties {
     }
 
     /**
-     * Returns an {@link Optional} containing the property's value if it {@linkplain #isSet(String) is
-     * set}, {@link Optional#empty()} otherwise.
+     * Returns an {@link Optional} containing the property's value if it is set,
+     * {@link Optional#empty()} otherwise.
      */
-    public static Optional<String> get(String property) {
+    static Optional<String> get(String property) {
         return isSet(property) ? Optional.of(System.getProperty(property)) : Optional.empty();
     }
 
@@ -57,7 +57,7 @@ public final class SystemProperties {
      *            message({@code "<msgPrefix>the property <property> must be set."}
      * @throws IllegalStateException if the property is not set
      */
-    public static String getOrThrow(String property, String msgPrefix) {
+    static String getOrThrow(String property, String msgPrefix) {
         return get(property)
                 .orElseThrow(() -> new IllegalStateException(msgPrefix + "the property " + property + " must be set."));
     }

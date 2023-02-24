@@ -13,43 +13,86 @@
  */
 package org.linkki.testbench.util;
 
+import org.apache.http.client.utils.URIBuilder;
+
 /**
- * Used to read the test configuration from {@link SystemProperties}.
+ * Used to read the test configuration for the UI test driver.
  */
 public final class DriverProperties {
+
+    private static final String PROTOCOL_HTTP = "http";
+    private static final String PROTOCOL_HTTPS = "https";
+
+    private static final String HOST_DEFAULT = "localhost";
+
+    private static final String PORT_HTTP = "80";
+    private static final String PORT_HTTPS = "433";
+    private static final String PORT_DEFAULT = "8080";
 
     private DriverProperties() {
         // prevent instantiation
     }
 
     /**
-     * Create the URL by appending {@link #getTestHostname() host name}, {@link #getTestPort() port} and
-     * the two given paths.
+     * Creates the URL by appending the defined {@link #getTestHostname() host name},
+     * {@link #getTestPortValue() port} and the two given paths.
      */
     public static String getTestUrl(String defaultBasePath, String path) {
-        return String.format("http://%s:%s/%s/%s", getTestHostname(), getTestPort(), getTestPath(defaultBasePath),
-                             path);
+        return new URIBuilder()
+                .setScheme(getTestProtocol())
+                .setHost(getTestHostname())
+                .setPort(getTestPortValue())
+                .setPath(getTestPath(defaultBasePath) + "/" + path)
+                .toString();
     }
 
     /**
-     * Gets the {@code test.port} property, defaults to {@code 8080}.
+     * Gets the {@code test.protocol} property, defaults to "https" in case of port 443 otherwise to
+     * "http".
      */
-    public static String getTestPort() {
-        return SystemProperties.get("test.port").orElse("8080");
+    public static String getTestProtocol() {
+        return SystemProperties.get("test.protocol").orElse(getDefaultProtocol());
+    }
+
+    private static String getDefaultProtocol() {
+        return getTestPort().equals(PORT_HTTPS) ? PROTOCOL_HTTPS : PROTOCOL_HTTP;
     }
 
     /**
-     * Gets the {@code test.path} property or a defaultPath if no property is set.
+     * Gets the {@code test.hostname} property, defaults to {@code localhost}.
+     */
+    public static String getTestHostname() {
+        return SystemProperties.get("test.hostname").orElse(HOST_DEFAULT);
+    }
+
+    /**
+     * Gets the {@code test.path} property or the given defaultPath if no property is set.
      */
     public static String getTestPath(String defaultPath) {
         return SystemProperties.get("test.path").orElse(defaultPath);
     }
 
     /**
-     * Gets the {@code test.hostname} property, defaults to {@code localhost}
+     * Gets the defined {@link #getTestPort() test port} or -1 if the http respectively https port is
+     * used together with the corresponding protocol.
+     * 
+     * @return the defined test port or -1 in case the http or https port is used
      */
-    public static String getTestHostname() {
-        return SystemProperties.get("test.hostname").orElse("localhost");
+    private static int getTestPortValue() {
+        var testPort = getTestPort();
+        if ((getTestProtocol().equals(PROTOCOL_HTTP) && testPort.equals(PORT_HTTP)) ||
+                (getTestProtocol().equals(PROTOCOL_HTTPS) && testPort.equals(PORT_HTTPS))) {
+            return -1;
+        } else {
+            return Integer.parseInt(testPort);
+        }
+    }
+
+    /**
+     * Gets the {@code test.port} property, defaults to {@code 8080}.
+     */
+    public static String getTestPort() {
+        return SystemProperties.get("test.port").orElse(PORT_DEFAULT);
     }
 
     /**

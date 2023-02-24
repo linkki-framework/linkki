@@ -65,8 +65,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     public static final String DEFAULT_CONTEXT_PATH = "linkki-sample-test-playground-vaadin23";
 
     @RegisterExtension
-    protected static WebDriverExtension driverExtension = new WebDriverExtension(DriverProperties.isHeadless(),
-            DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, ""));
+    protected static WebDriverExtension driverExtension = new WebDriverExtension(DEFAULT_CONTEXT_PATH);
 
     @BeforeEach
     public void setUp() {

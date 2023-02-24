@@ -9,6 +9,10 @@
 
 ==== New features and improvements
 
+===== Enhance Testbench-Extension
+The `WebDriverExtension` has been extended with an additional constructor that can be used by just passing the context path. In that case, the fully qualified URL is built based on the given path together with the defined test driver properties. This prevents that the fully qualified URL always has to be handed over as a whole.
+The defined test driver system properties can be accessed by `DriverProperties`.
+
 [role="api-change"]
 ===== Hide exception stacktraces in production mode and customize the error dialog
 ////
@@ -46,11 +50,6 @@ The `snakeyaml` dependency, which is required for using YAML configuration files
 </dependency>
 ----
 ====
-
-
-===== Testbench Extension Utils
-`DriverProperties`, `Locator` and `SystemProperties` have been added to the testbench extension to simplify ui testing.
-
 
 
 ==== Bugfixes

@@ -24,11 +24,13 @@ import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.UITestConfiguration;
-import org.linkki.testbench.util.Locator;
+import org.openqa.selenium.By;
 
+import com.vaadin.flow.component.html.testbench.LabelElement;
+import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.testbench.TestBenchElement;
 
-public class TC001IpsComponentsTest extends PlaygroundUiTest {
+public class TC001IpsComponentsTest {
 
     @Nested
     @UITestConfiguration(locale = "en")
@@ -62,7 +64,10 @@ public class TC001IpsComponentsTest extends PlaygroundUiTest {
 
         @Test
         void testModelAttribute_Label() {
-            TestBenchElement label = testCaseSection.findElement(Locator.byText(expectedlabelValue));
+            TextFieldElement textField = testCaseSection.$(TextFieldElement.class).id("getString");
+            LabelElement label = textField
+                    .findElement(By.xpath("./.."))
+                    .$(LabelElement.class).last();
 
             assertThat(label.getText(), is(expectedlabelValue));
             assertThat(label.getTagName(), is("label"));

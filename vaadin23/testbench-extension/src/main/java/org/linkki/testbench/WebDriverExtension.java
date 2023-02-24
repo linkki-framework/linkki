@@ -21,6 +21,8 @@ import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.linkki.testbench.util.DriverProperties;
 import org.linkki.testbench.util.ScreenshotUtil;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -29,6 +31,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.vaadin.testbench.TestBench;
 
+/**
+ * JUnit test extension for Vaadin Testbench UI tests.
+ * <p>
+ * Create a static field annotated with {@link RegisterExtension} in your test in order to use this
+ * extension, e.g.:
+ * 
+ * <pre>
+ * {@code @RegisterExtension}
+ * {@code private static WebDriverExtension driverExtension = new WebDriverExtension(CONTEXT_PATH);}
+ * </pre>
+ */
 public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
 
     private final boolean headless;
@@ -36,6 +49,22 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
     private WebDriver driver;
 
+    /**
+     * Creates a {@link WebDriverExtension} with the given context path. The fully qualified URL is
+     * built by using the context path together with the {@link DriverProperties}.
+     * 
+     * @param contextPath the context path that is used to build the fully qualified URL
+     */
+    public WebDriverExtension(String contextPath) {
+        this(DriverProperties.isHeadless(), DriverProperties.getTestUrl(contextPath, ""));
+    }
+
+    /**
+     * Constructor to explicitly specify the headless mode and the fully qualified URL.
+     * 
+     * @param headless <code>true</code> for headless mode activated
+     * @param initialUrl the fully qualified URL
+     */
     public WebDriverExtension(boolean headless, String initialUrl) {
         this.headless = headless;
         this.initialUrl = initialUrl;
