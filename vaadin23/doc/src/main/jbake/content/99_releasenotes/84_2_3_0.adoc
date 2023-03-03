@@ -5,6 +5,13 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.3.3
+
+==== New features and improvements
+
+// https://jira.faktorzehn.de/browse/FCOM-1269
+* Vaadin has been updated to version 23.3.6 and Spring Boot to version 2.7.9
+
 === Version 2.3.2
 
 ==== Bugfixes
