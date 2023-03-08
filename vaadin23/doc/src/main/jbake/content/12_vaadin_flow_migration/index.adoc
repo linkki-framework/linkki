@@ -428,7 +428,7 @@ In general, the the Sass precompiler is no longer used by default, which means t
 
 In addition, all applications need to either apply the `"linkki"` theme or a theme that extends from it to make sure that the *linkki* components work properly. Detailed instructions are provided in the chapter <<styling, "Styling">>. 
 
-As the generated HTML has changed drastically, existing styling customizations have to be checked for necessity and, if still necessary, adjusted for the new DOM structure. As Vaadin components are now mostly web components, existing styles that apply to Vaadin components most likely do not work any more. Consult the https://vaadin.com/docs/latest/ds/customization/styling-components[Vaadin documentation on component styling] to adjust the selectors and https://vaadin.com/docs/latest/ds/customization/custom-theme/#vaadin-component-styles[the documentation on theming] for how to include them in the custom theme.
+As the generated HTML has changed drastically, existing styling customizations have to be checked for necessity and, if still necessary, adjusted for the new DOM structure. As Vaadin components are now mostly web components, existing styles that apply to Vaadin components most likely do not work any more. Consult the https://vaadin.com/docs/latest/styling/styling-components[Vaadin documentation on component styling] to adjust the selectors and https://vaadin.com/docs/latest/ds/customization/custom-theme/#vaadin-component-styles[the documentation on theming] for how to include them in the custom theme.
 
 ==== ComponentStyles
 
