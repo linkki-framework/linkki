@@ -21,8 +21,8 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -U -T 6 -Pproduction -pl "!vaadin23/doc" clean source:jar javadoc:jar deploy'
                 }
             }
         }
@@ -49,7 +49,7 @@ pipeline {
 
         stage('UI Test') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true'
                 }
@@ -62,16 +62,6 @@ pipeline {
                 MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin23'
             }
         }
-        
-        stage('Java 17 Test') {
-            steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -T 6 -P Java17Test test'
-                }
-
-                junit '**/target/surefire-reports-java17/*.xml'
-            }
-        }
 
         stage('External Link Tests') {
             steps {
@@ -79,6 +69,15 @@ pipeline {
                     withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                         sh 'mvn -U -pl "vaadin23/doc" jade:test-external-links'
                     }
+                }
+            }
+        }
+
+        stage('Deploy documentation') {
+            steps {
+                // documentation has to be built with Java 11
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -pl "vaadin23/doc" -Ddoc.user=doc deploy'
                 }
             }
         }

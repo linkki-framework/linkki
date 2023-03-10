@@ -30,7 +30,7 @@
         <OptionalConstraints/>                             Definition of optional constraints. Details below.
         <SupportedLanguages/>                              List of supported natural languages. Details below.
     </IpsProject>
---><IpsProject xmlns="http://www.faktorzehn.org" changesInTimeNamingConvention="FIPS" modelProject="true" persistentProject="false" productDefinitionProject="false" runtimeIdPrefix="linkki." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/22.12/ipsProjectProperties.xsd">
+--><IpsProject xmlns="http://www.faktorzehn.org" changesInTimeNamingConvention="FIPS" modelProject="true" persistentProject="false" productDefinitionProject="false" runtimeIdPrefix="linkki." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/23.6/ipsProjectProperties.xsd">
 
  <!--
         Required Ips-Features
@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="22.12.0"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="23.6.0"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -69,8 +69,8 @@
  <IpsArtefactBuilderSet id="org.faktorips.devtools.stdbuilder.ipsstdbuilderset">
   <IpsArtefactBuilderSetConfig>
 
-   <!--Enables the generation of JAXB support-->
-   <Property name="generateJaxbSupport" value="false"/>
+   <!--Enables the generation of JAXB support. May be either 'None' or one of 'ClassicJAXB' or 'JakartaXmlBinding'.-->
+   <Property name="generateJaxbSupport" value="None"/>
 
    <!--Generate the published interfaces (true) or only implementation classes (false)-->
    <Property name="generatePublishedInterfaces" value="false"/>

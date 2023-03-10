@@ -14,17 +14,18 @@ if [ -n "$(docker container ls --filter="name=^$CONTAINER_NAME$" -a -q)" ]; then
 fi
 
 docker create \
-        --cpus=2 --memory=4g \
+        --cpus=2 --memory=1g \
         --name $CONTAINER_NAME \
         --network $NETWORK_NAME \
         --label "url=$CONTAINER_NAME" \
         --label "entry-path=linkki-sample-test-playground-vaadin23" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
-        f10/spring:11
+        -e "JAVA_TOOL_OPTIONS=-Xms250m -Xmx750m" \
+        harbor.faktorzehn.de/suite-base/spring:23.6
 
 # Copy war to container
 WAR_FILE="vaadin23/samples/test-playground/target/linkki-sample-test-playground-vaadin23.war"
-docker cp $WAR_FILE $CONTAINER_NAME:/opt/spring/application.war
+docker cp $WAR_FILE $CONTAINER_NAME:/opt/spring/application.jar
 
 # Start the container
 docker start $CONTAINER_NAME

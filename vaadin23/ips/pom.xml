@@ -11,7 +11,7 @@
     <name>linkki Extension for Faktor-IPS with Vaadin 23</name>
 
     <properties>
-        <faktorips.version>22.12.7.release</faktorips.version>
+        <faktorips.version>23.6.0.a20230301-01</faktorips.version>
     </properties>
 
     <dependencies>
@@ -44,6 +44,11 @@
                     <groupId>org.faktorips</groupId>
                     <artifactId>faktorips-maven-plugin</artifactId>
                     <version>${faktorips.version}</version>
+                    <configuration>
+                        <executionEnvironment>JavaSE-17</executionEnvironment>
+                        <!-- Eclipse 2022-12 -->
+                        <eclipseRepository>https://download.eclipse.org/eclipse/updates/4.26/</eclipseRepository>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

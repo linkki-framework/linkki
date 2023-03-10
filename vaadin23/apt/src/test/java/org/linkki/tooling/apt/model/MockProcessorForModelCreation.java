@@ -32,7 +32,7 @@ import org.linkki.tooling.apt.util.ModelBuilder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-@SupportedSourceVersion(SourceVersion.RELEASE_11)
+@SupportedSourceVersion(SourceVersion.RELEASE_17)
 @SupportedAnnotationTypes("*")
 @SuppressFBWarnings(value = "NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", justification = "Processor needs a zero args constructor, fields are set in init")
 public class MockProcessorForModelCreation extends AbstractProcessor {

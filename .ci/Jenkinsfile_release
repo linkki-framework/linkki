@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('Prepare Release') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     prepareRelease additionalModules: ['vaadin23/samples/test-playground/uitest']
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -P production clean javadoc:jar source:jar install'
                 }
 
@@ -71,7 +71,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true'
                 }
@@ -85,15 +85,29 @@ pipeline {
             }
         }
 
+        // this should normally be done using uploadRelease, but it requires a different JDK
+        stage('Deploy documentation') {
+            steps {
+                // documentation has to be built with Java 11
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                    if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
+                        sh 'mvn -pl "vaadin23/doc" -Ddoc.user=doc -PreleaseDocumentation deploy'
+                    } else {
+                        sh 'mvn -pl "vaadin23/doc" -Ddoc.user=doc deploy'
+                    }
+                }
+            }
+        }
+
         stage('Maven Deployment') {
             steps {
                 script {
-                    withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                    withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                         // only publish normal releases (no rcs & milestones) on maven central
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease,releaseDocumentation -Ddoc.user=doc']
+                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease -pl "!vaadin23/doc"']
                         } else {
-                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -Ddoc.user=doc']
+                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -pl "!vaadin23/doc"']
                         }
                     }
                 }

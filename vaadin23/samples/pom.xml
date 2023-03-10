@@ -15,7 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <vaadin.version>23.3.5</vaadin.version>
         <spotbugs.version>4.6.0</spotbugs.version>
         <spring-boot.version>2.7.8</spring-boot.version>
@@ -123,8 +123,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                     <compilerArgs>
