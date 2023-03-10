@@ -22,7 +22,6 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
  * Implementations of this interface describe how a {@link LinkkiAspectDefinition} is created from the
  * context of an {@link Annotation}. The implementation class is defined in
  * {@link LinkkiAspect#value()}.
- * <p>
  * 
  * @implSpec The implementation must have a default constructor which will be called while reading the
  *           annotations of a PMO class.

@@ -24,14 +24,14 @@ class ComboBoxDynamicItemCaptionTest {
      * As {@link DataProvider#refreshAll()} only fires a change event, the caption provider is not
      * really triggered. Thus, this test only verifies the method call.
      */
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings("unchecked")
     @Test
     void testCaptionUpdate() {
         var bindingContext = new BindingContext();
         var comboBox = (ComboBox<Object>)VaadinUiCreator.createComponent(new TestPmo(), bindingContext)
                 .getChildren().findFirst().get();
         var dataProvider = (ListDataProvider<Object>)spy(comboBox.getDataProvider());
-        comboBox.setDataProvider(dataProvider);
+        comboBox.setItems(dataProvider);
 
         bindingContext.modelChanged();
 

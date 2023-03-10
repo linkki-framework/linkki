@@ -16,6 +16,10 @@
 
     <name>linkki Vaadin 23 Samples :: Test Playground</name>
 
+    <properties>
+        <revapi.skip>true</revapi.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>

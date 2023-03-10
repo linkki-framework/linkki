@@ -116,7 +116,6 @@ public final class ComponentAnnotationReader {
      * Returns the component which is instantiated using the {@link LinkkiComponentDefinition} that is
      * defined in the {@link LinkkiComponent @LinkkiComponent} annotation if one is found on an
      * annotation of the given element.
-     * <p>
      * 
      * @implSpec This method can only be used if there is maximum one component definition annotation.
      *           If the {@link AnnotatedElement} supports dynamic fields (multiple component

@@ -37,7 +37,6 @@ public class VaadinComponentWrapperFactory implements ComponentWrapperFactory {
 
     /**
      * {@inheritDoc}
-     * <p>
      * 
      * @implNote Considers every implementation of {@link Component} a component.
      */

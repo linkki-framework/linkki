@@ -109,7 +109,6 @@ public interface ComponentWrapper extends Serializable {
     /**
      * Register a binding at the component. The {@link BindingContext} and other objects will only hold
      * weak references. Thus the component will be holding the only strong reference to the binding.
-     * <p>
      * 
      * @implSpec Note that it is not useful to create a {@link WeakHashMap} using the component as key
      *           and the {@link Binding} as reference because a binding will always have strong

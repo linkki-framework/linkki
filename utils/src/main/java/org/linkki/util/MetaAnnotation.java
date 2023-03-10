@@ -140,7 +140,6 @@ public class MetaAnnotation<META extends Annotation> {
     /**
      * Finds all {@link Annotation Annotations} on the given {@link AnnotatedElement} that are annotated
      * with the meta-annotation.
-     * <p>
      * 
      * @see #onlyOneOn(AnnotatedElement) use {@code reduce(onlyOneOn(annotatedElement))} if you expect
      *      there to be no more than one such annotation.

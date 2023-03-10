@@ -12,7 +12,6 @@ pipeline {
         BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
         // make sure that the build name does not contain '_' because this will lead to unexpected Docker failures
         DOCKER_BUILD_NAME = "${params.RELEASE_VERSION.replaceAll('_', '-')}"
-        DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'keep'
     }
 
