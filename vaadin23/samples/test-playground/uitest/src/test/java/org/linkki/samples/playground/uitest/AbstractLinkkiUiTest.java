@@ -208,7 +208,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     }
 
     private WebElement findContextMenuItem(String text) {
-        String contextMenuItemTag = "vaadin-context-menu-item";
+        String contextMenuItemTag = "vaadin-menu-bar-item";
 
         try {
             return waitUntil($ -> {

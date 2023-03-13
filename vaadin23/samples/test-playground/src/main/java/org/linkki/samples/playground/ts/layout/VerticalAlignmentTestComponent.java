@@ -17,7 +17,6 @@ package org.linkki.samples.playground.ts.layout;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class VerticalAlignmentTestComponent extends HorizontalLayout {
@@ -37,8 +36,6 @@ public class VerticalAlignmentTestComponent extends HorizontalLayout {
                                             new BindingContext("HorizontalLayoutBottomPmo")));
 
         getChildren()
-                .filter(c -> c instanceof HasStyle)
-                .map(c -> (HasStyle)c)
                 .forEach(c -> c.getStyle().set("background-color", "#fafafa").set("margin", "10px"));
     }
 

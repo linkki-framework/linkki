@@ -18,13 +18,6 @@
                     {
                         "regex": true,
                         "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*elemental\\.json\\..*",
-                        "newArchive": "com.vaadin.external.gwt:gwt-elemental:jar:2.8.2.vaadin2",
-                        "justification": "LIN-2651/LIN-2652 :: elemental.json is used by vaadin in component API"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
                         "new": ".*org\\.linkki\\.core\\..*",
                         "justification": "LIN-2651/LIN-2652"
                     },
@@ -108,6 +101,43 @@
                         "new": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
                         "annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObjectProperty",
                         "justification": "LIN-1090/LIN-3253"
+                    }
+                ]
+            }
+        }
+    ],
+    "2.4.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.class.noLongerInheritsFromClass",
+                        "old": "class org.linkki.core.vaadin.component.base.LabelComponentFormItem",
+                        "new": "class org.linkki.core.vaadin.component.base.LabelComponentFormItem",
+                        "justification": "LIN-3350 :: Update to Vaadin 24"
+                    },
+                    {
+                        "code": "java.class.noLongerInheritsFromClass",
+                        "old": "class org.linkki.core.vaadin.component.base.LinkkiCheckBox",
+                        "new": "class org.linkki.core.vaadin.component.base.LinkkiCheckBox",
+                        "justification": "LIN-3350 :: Update to Vaadin 24"
+
+                    },
+                    {
+                        "code": "java.annotation.added",
+                        "old": "method void org.linkki.core.vaadin.component.page.AbstractPage::init()",
+                        "new": "method void org.linkki.core.vaadin.component.page.AbstractPage::init()",
+                        "annotation": "@jakarta.annotation.PostConstruct",
+                        "justification": "LIN-3350 :: Update to Vaadin 24"
+                    },
+                    {
+                        "code": "java.annotation.removed",
+                        "old": "method void org.linkki.core.vaadin.component.page.AbstractPage::init()",
+                        "new": "method void org.linkki.core.vaadin.component.page.AbstractPage::init()",
+                        "annotation": "@javax.annotation.PostConstruct",
+                        "justification": "LIN-3350 :: Update to Vaadin 24"
                     }
                 ]
             }

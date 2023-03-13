@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.is;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
 import org.linkki.samples.playground.ts.TestScenarioView;
@@ -45,6 +46,7 @@ class TC001TableValidationMarkerTest extends PlaygroundUiTest {
         assertThat(header.getText(), is("Editable"));
     }
 
+    @Disabled("https://github.com/vaadin/flow-components/issues/4390")
     @Test
     void testMarkersInTable() {
         waitUntil(visibilityOfElementLocated(By.id(PlaygroundTablePmo.class.getSimpleName())));

@@ -25,11 +25,10 @@ import org.linkki.util.Consumers;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
+import com.vaadin.flow.component.shared.HasSuffix;
 
 /**
- * Aspect definition to add a String as a suffix to a Component which implements
- * {@link HasPrefixAndSuffix}
+ * Aspect definition to add a String as a suffix to a Component which implements {@link HasSuffix}
  */
 public class SuffixAspectDefinition extends ModelToUiAspectDefinition<String> {
     public static final String NAME = "suffix";
@@ -63,14 +62,13 @@ public class SuffixAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     /**
      * @implNote This implementation sets {@link Text} nested in a {@link Div} as a suffix to a
-     *           Component which implements from {@link HasPrefixAndSuffix} interface
+     *           Component which implements from {@link HasSuffix} interface
      */
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Object component = componentWrapper.getComponent();
 
-        if (component instanceof HasPrefixAndSuffix) {
-            HasPrefixAndSuffix field = (HasPrefixAndSuffix)component;
+        if (component instanceof HasSuffix field) {
             return text -> field.setSuffixComponent(new Div(new Text(text)));
         } else {
             return Consumers.nopConsumer();

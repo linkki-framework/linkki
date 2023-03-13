@@ -41,7 +41,7 @@ class TC013UIDateTimeFieldTest extends PlaygroundUiTest {
 
         // active element is the input field of the date field!
         WebElement dateInputField = getActiveElement();
-        assertThat(getElementId(dateInputField)).contains("vaadin-date-time-picker-date-picker");
+        assertThat(getElementId(dateInputField)).contains("input-vaadin-date-picker");
         assertThat(getGrandparentId(dateInputField)).isEqualTo("dateTime");
 
         // change date
@@ -51,18 +51,18 @@ class TC013UIDateTimeFieldTest extends PlaygroundUiTest {
         assertThrows(NoSuchElementException.class, () -> dateInputField.findElement(tagNameDateOverlay));
 
         dateInputField.sendKeys(Keys.TAB);
-        
+
         // check time field
         WebElement timeInputField = getActiveElement();
         assertThat(getElementId(timeInputField)).contains("vaadin-date-time-picker-time-picker");
         assertThat(getGrandparentId(timeInputField)).isEqualTo("dateTime");
-        
+
         // change time
         timeInputField.sendKeys("15:00");
         // no popup
         final By tagNameTimeOverlay = By.tagName("vaadin-time-picker-overlay");
         assertThrows(NoSuchElementException.class, () -> timeInputField.findElement(tagNameTimeOverlay));
-        
+
         timeInputField.sendKeys(Keys.TAB);
 
         WebElement textFieldTwo = getActiveElement();
@@ -81,7 +81,7 @@ class TC013UIDateTimeFieldTest extends PlaygroundUiTest {
     private String getParentId(WebElement child) {
         return getElementId(child.findElement(By.xpath("./..")));
     }
-    
+
     private String getGrandparentId(WebElement child) {
         return getElementId(child.findElement(By.xpath("./../..")));
     }

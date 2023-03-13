@@ -17,8 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
 
-import javax.annotation.PostConstruct;
-
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
@@ -32,6 +30,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
+import jakarta.annotation.PostConstruct;
 
 /**
  * A page allows displaying and editing data in a vertical layout. It usually consists of so called

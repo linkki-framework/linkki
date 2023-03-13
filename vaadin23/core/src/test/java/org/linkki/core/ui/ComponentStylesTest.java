@@ -15,6 +15,7 @@
 package org.linkki.core.ui;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,14 @@ import com.vaadin.flow.dom.Style;
 class ComponentStylesTest {
 
     @Test
-    void testSetFormItemLabelWidth_NoHasStyle() {
+    void testSetFormItemLabelWidth_Null() {
+        assertDoesNotThrow(() -> {
+            ComponentStyles.setFormItemLabelWidth(null, "100%");
+        });
+    }
+
+    @Test
+    void testSetFormItemLabelWidth_Dialog() {
         var dialog = new Dialog();
 
         ComponentStyles.setFormItemLabelWidth(dialog, "100%");
@@ -47,7 +55,14 @@ class ComponentStylesTest {
     }
 
     @Test
-    void testSetOverflowAuto_NoHasStyle() {
+    void testSetOverflowAuto_Null() {
+        assertDoesNotThrow(() -> {
+            ComponentStyles.setOverflowAuto(null);
+        });
+    }
+
+    @Test
+    void testSetOverflowAuto_Dialog() {
         var dialog = new Dialog();
 
         ComponentStyles.setOverflowAuto(dialog);
