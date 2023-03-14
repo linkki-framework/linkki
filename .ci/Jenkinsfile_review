@@ -10,7 +10,7 @@ pipeline {
         MAVEN_OPTS = '-Xmx2g'
         MAVEN_DEFAULT_REPO = "${env.HOME}/.m2/repository"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
-        DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin23"
+        DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
     }
@@ -41,7 +41,7 @@ pipeline {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
                         clean install javadoc:javadoc \
-                        -pl "!vaadin23/doc" \
+                        -pl "!vaadin-flow/doc" \
                         -Pproduction \
                         -Dmaven.test.failure.ignore=true \
                         -Drevapi.skip'
@@ -61,7 +61,7 @@ pipeline {
                     steps {
                         // documentation has to be built with Java 11
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -pl "vaadin23/doc" install'
+                            sh 'mvn -pl "vaadin-flow/doc" install'
                         }
                     }
                 }
@@ -79,7 +79,7 @@ pipeline {
                 stage('Faktor-IPS build') {
                     steps {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin23 -Dmaven.repo.local="${MAVEN_REPOSITORY}" faktorips:faktorips-clean faktorips:faktorips-build'
+                            sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin-flow -Dmaven.repo.local="${MAVEN_REPOSITORY}" faktorips:faktorips-clean faktorips:faktorips-build'
                         }
                     }
                 }
@@ -93,7 +93,7 @@ pipeline {
                                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                                     <h3>Test Playground</h3>
                                     <ul>
-                                        <li><a href='${DEPLOYMENT_URL}'>Vaadin 23</a></li>
+                                        <li><a href='${DEPLOYMENT_URL}'>Vaadin Flow</a></li>
                                     </ul>
                                 """
                             }
@@ -108,12 +108,12 @@ pipeline {
                         stage('UI Test') {
                             steps {
                                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                                    sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
+                                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                                         -Dmaven.test.failure.ignore=true'
                                 }
 
-                                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin23/samples/test-playground/uitest/target/error-screenshots/*.png'
-                                junit 'vaadin23/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
+                                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
+                                junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
                             }
 
                             environment {

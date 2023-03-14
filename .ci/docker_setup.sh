@@ -18,13 +18,13 @@ docker create \
         --name $CONTAINER_NAME \
         --network $NETWORK_NAME \
         --label "url=$CONTAINER_NAME" \
-        --label "entry-path=linkki-sample-test-playground-vaadin23" \
+        --label "entry-path=linkki-sample-test-playground-vaadin-flow" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
         -e "JAVA_TOOL_OPTIONS=-Xms250m -Xmx750m" \
         harbor.faktorzehn.de/suite-base/spring:23.6
 
 # Copy war to container
-WAR_FILE="vaadin23/samples/test-playground/target/linkki-sample-test-playground-vaadin23.war"
+WAR_FILE="vaadin-flow/samples/test-playground/target/linkki-sample-test-playground-vaadin-flow.war"
 docker cp $WAR_FILE $CONTAINER_NAME:/opt/spring/application.jar
 
 # Start the container

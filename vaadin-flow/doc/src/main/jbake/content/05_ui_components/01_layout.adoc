@@ -1,0 +1,143 @@
+:jbake-title: Layouts
+:jbake-type: section
+:jbake-status: published
+:source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+:source-dir-doc: ../../../../src/main/java
+:images-folder-name: 05_ui_components
+
+[[layout]]
+=== Layouts
+
+*linkki* provides some standard layout annotations which are described here. If you need another layout it is quite easy to <<custom-ui-layout-annotation,create custom layout annotations>>.
+
+[[layout-section]]
+==== Section
+
+A group of input fields is called _section_. 
+
+[[section-header]]
+Section Header:: A section usually has a _section header_ that contains a descriptive **title** which summarizes the content of the input group. This titled is visually separated from the content by a **separating line** in the header. Without a section header, a section is not directly recognizable as such, but looks like a simple layout. +
+A section may be **closable** with a button in the section header. When closed, its content is collapsed to give a better overview about the whole page.
+
+Content:: The input fields of a section is typically ordered as a form, field description being on the left of the input elements. Instead of input fields, the content of a section can also be a table. If a section contains a table instead of multiple input fields it is called _GridSection_.
+
+*linkki* offers two annotations to create a section:
+
+* `@UISection`
+* `@UIFormSection`
+
+Both annotations share the attribute to control the content of the <<section-header, section header>>:
+
+* `caption`: short description of the section
+* `closable`: whether the section can be collapsed
+
+===== Differences between `@UISection` and `@UIFormSection`
+
+* `@UISection` can be used to create a `GridSection` if the PMO class is derived from class <<ui-container-pmo, `ContainerPmo`>>. `@UIFormSection` does not have this functionality.
+* `@UISection` has <<layout-uisection, multiple layout options>>. `@UIFormSection` only offers the <<form-section-layout, form layout>>, with extended functionalities such as the multi column option.
+
+[[section-label-width]]
+===== Label width in sections
+
+The width of labels in a section have a fixed default width. Labels that exceed the defined width are broken into multiple lines. 
+The line breaks at white spaces whenever possible. This may cause unexpected line breaks which may impair readability.
+
+To mitigate this issue, the utility class `ComponentStyles` offers the method `setFormItemLabelWidth(Component, String)` that can be used to apply a custom label width.
+This method applies the given width to all labels inside the given component.
+
+[source,java]
+----
+public class MyPage extends AbstractPage {
+
+    @Override
+    public final void createContent() {
+        Component myFormSection = VaadinUiCreator
+                .createComponent(new MyFormSectionPmo(), new BindingContext());
+        add(myFormSection);
+        
+        ComponentStyles.setFormItemLabelWidth(this, "15em");
+    }
+    
+    ...
+}
+----
+
+Typically, the custom fixed width should be applied to a layout containing all visible sections instead of a single section.
+A consistent label width improves readability by makes the layout appear more structured and clean. 
+For setting label alignment see <<section-label-alignment,Label alignment in sections>>.
+
+[[layout-uisection]]
+===== Layout Options in @UISection
+
+[source, java]
+----
+include::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
+----
+
+The layout for all the components within a `UISection` can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, VERTICAL or FORM.
+
+[[horizontal-section-layout]]
+Horizontal Section Layout:: With the horizontal layout all input fields are displayed on a line, side by side in the order of their position. Labels are displayed on top of the component.  `UITextField` and `UITextArea` take up all available space by default. This can be changed by setting `width=""`. `UITextField` and `UITextArea` then will take up the same space as all other components. In addition, components are wrapped and moved into a new line if screen width is decreased. 
+
+[[vertical-section-layout]]
+Vertical Section Layout:: With the vertical layout all input fields are displayed in a column. Labels are displayed on top of the component.
+
+[[form-section-layout]]
+Form Section Layout:: With the form layout fields are displayed one below the other. Labels are displayed on the left of the component. This Layout is used as default if no option is set.
+
+[[uiformsection]]
+===== @UIFormSection
+
+`@UIFormSection` offers multi column layout with the attribute `columns`. Note that if elements have a fixed width, the fixed width will still be respected. This may result in unexpected layout behaviors.
+
+[[section-label-alignment]]
+===== Label alignment in sections
+
+By default, the labels are right aligned in a section. A right alignment has the advantage that the label and the corresponding input control are always visually close. In case the length of the labels vary strongly in a section, left alignment can make a label appear far away from the input control itself. This can make the form look less ordered as the affiliation between the label and the input control is broken visually.
+
+To change this behavior, set `--linkki-form-item-label-alignment` to `left` on the corresponding component.
+
+.Example
+[source, java]
+----
+Component component = VaadinUiCreator.createComponent(new ExampleSectionPmo(), new BindingContext());
+component.getElement().getStyle().set("--linkki-form-item-label-alignment", "left");
+----
+
+[[section-header-annotation]]
+===== Adding UI Elements to the Section Header
+
+To add more elements, for example an edit button, to the section's header than just the caption, you can annotate regular <<ui-element, UI elements>> in the section's PMO with the `@SectionHeader` annotation. They will then be placed in the header instead of in the section's content area.
+
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/aspects/BindCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
+----
+
+TIP: The position is validated by *linkki* to be unique in the PMO independent of where the element will be placed in a section, so it is recommended to use negative numbers for the elements marked with `@SectionHeader` to avoid conflicts with the regular elements.
+
+TIP: The same effect could previously be achieved by implementing the interface `PresentationModelObject` with the method `getEditButtonPmo()` where the returned `ButtonPmo` defines the button and its behavior. As this allows only limited control over the button and no other elements, using a `@SectionHeader` annotated `@UiButton` like shown above is to be preferred.
+
+==== Simple Vaadin Layouts
+
+Beside the section there are some simple Vaadin layouts that can be created with the corresponding annotations:
+
+ * `@UIHorizontalLayout`
+ * `@UIVerticalLayout`
+ * `@UIFormLayout`
+ * `@UICssLayout`
+
+`@UIVerticalLayout` and `@UIHorizontalLayout` have options to configure the alignment/spacing/padding. The alignment and spacing affects the inner elements of the layout, while padding effects the layout itself.
+
+TIP: To create the UI from a PMO with these layouts you should use `VaadinUiCreator`. The `PmoBasedSectionFactory` is only usable for `@UISection` whereas the `VaadinUiCreator` could be used for all kinds of layouts.
+
+[[section-id]]
+==== SectionID
+
+Each HTML element of a layout may define an ID. This can be used, for instance, to identify a section for UI testing. By default the simple name of the class is used as the ID. Alternatively the annotation '@SectionID' can be used to specify a method that returns the ID for the section.
+
+A method annotated with '@SectionID' is called by *linkki* when the section is created. The ID remains the same for the duration of the session and is not updated dynamically.
+
+To access the section ID, the helper method `Sections.getSectionId(Object)` may be used.
+
+NOTE: Although the concept is named _SectionID_ it is also applied to all kinds of layouts.

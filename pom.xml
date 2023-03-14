@@ -33,7 +33,7 @@
         <module>test</module>
         <module>utils</module>
         <module>core</module>
-        <module>vaadin23</module>
+        <module>vaadin-flow</module>
     </modules>
 
     <properties>

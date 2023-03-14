@@ -19,7 +19,7 @@ pipeline {
         stage('Prepare Release') {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    prepareRelease additionalModules: ['vaadin23/samples/test-playground/uitest']
+                    prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
                 }
             }
         }
@@ -49,7 +49,7 @@ pipeline {
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Test Playground</h3>
                     <ul>
-                        <li><a href='http://linkki-${env:DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23'>Vaadin 23</a></li>
+                        <li><a href='http://linkki-${env:DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow'>Vaadin Flow</a></li>
                     </ul>
                 """
             }
@@ -58,7 +58,7 @@ pipeline {
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
-                waitForServer "http://linkki-${DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin23"
+                waitForServer "http://linkki-${DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow"
             }
         }
 
@@ -72,16 +72,16 @@ pipeline {
 
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
+                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true'
                 }
 
-                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin23/samples/test-playground/uitest/target/error-screenshots/*.png'
-                junit 'vaadin23/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
+                junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
             }
 
             environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin23'
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin-flow'
             }
         }
 
@@ -91,9 +91,9 @@ pipeline {
                 // documentation has to be built with Java 11
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                        sh 'mvn -pl "vaadin23/doc" -Ddoc.user=doc -PreleaseDocumentation deploy'
+                        sh 'mvn -pl "vaadin-flow/doc" -Ddoc.user=doc -PreleaseDocumentation deploy'
                     } else {
-                        sh 'mvn -pl "vaadin23/doc" -Ddoc.user=doc deploy'
+                        sh 'mvn -pl "vaadin-flow/doc" -Ddoc.user=doc deploy'
                     }
                 }
             }
@@ -105,9 +105,9 @@ pipeline {
                     withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                         // only publish normal releases (no rcs & milestones) on maven central
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease -pl "!vaadin23/doc"']
+                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease -pl "!vaadin-flow/doc"']
                         } else {
-                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -pl "!vaadin23/doc"']
+                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -pl "!vaadin-flow/doc"']
                         }
                     }
                 }

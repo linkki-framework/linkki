@@ -1,0 +1,66 @@
+:jbake-title: Tab Layout
+:jbake-type: section
+:jbake-status: published
+
+:image-dir: {images}05_ui_components
+:source-dir: ../../../../src/main/java
+:sample-source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+
+
+=== LinkkiTabLayout
+
+The `LinkkiTabLayout` is a UI component that gives access to several different views and that allows switching between different contents, using either a horizontal or vertical layout. Only a single tab can be active at a time.
+
+This is a replacement for the *linkki* Vaadin 8 `SidebarSheet` and `TabSheetArea`.
+
+image::{image-dir}/tablayout_combined.png[]
+
+==== Sidebar Layout
+
+To create a `LinkkiTabSheet` as sidebar layout, use `newSidebarLayout()`, and icons as captions. A description can also be provided which is displayed by hovering the mouse over the icon.
+
+
+image::{image-dir}/sidebar-layout.png[]
+
+.Creating Sidebar Layout
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/tab/TabSheetExample.java[tags=createSidebar]
+----
+
+This will result in a vertical bar on the left side containing icons (buttons) for every sheet. The tooltip of the button displays the name of the corresponding sheet. The content of the selected sheet is displayed to the right of the bar.
+
+==== Creating Tabs
+
+Tabs are added to the layout using a `LinkkiTabSheet`. The tab sheet is created using a builder. Every sheet requires an icon, a name and a content supplier (`Supplier<Component>`). The supplier is called when the sheet is selected for the first time (lazy initialization). This approach only creates the content if it is requested by the user. It also spreads out the component creation, avoiding long loading times at the start.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/tab/TabSheetExample.java[tags=createTabSheet]
+----
+
+==== Toggle Visibility of Tabs
+
+A tab can be dynamically set to visible or invisible by providing a `BooleanSupplier` in the builder of `LinkkiTabSheet` using the method `visibleWhen(BooleanSupplier)`. The suppliers must return `true` to set the tab visible and `false` to set it invisible.
+
+The method `LinkkiTabLayout#updateSheetVisibility()` must be triggered to update the visibility state. The method is automatically called by https://vaadin.com/docs/latest/flow/routing/lifecycle/#afternavigationevent[Vaadin's AfterNavigationEvent], that means the visibility state is at least updated when there is a navigation to the view containing the tabs.
+
+[[linkkitablayout-selection]]
+==== Selection Change Events
+
+There are several possibilities to receive a selection change event in case a new tab is selected. All events are also triggered for the auto-selection when the first tab is added to the tab layout.
+
+[[aftertabselectedobserver]]
+Implement AfterTabSelectedObserver:: Components implementing this interface will receive a `TabSheetSelectionChangeEvent` when the `LinkkiTabSheet` they are attached to is selected. Its method `afterTabSelected(TabSheetSelectionChangeEvent)` is called every time the sheet is selected, that means it gets visible. Use this observer to update your binding context in case of changes to the underlying model while the sheet was not selected. Additional details and limitations can be found in the javadoc of `AfterTabSelectedObserver`.
+
+.Example using `AfterTabSelectedObserver`
+[source,java]
+----
+include::{sample-source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=implementAfterTabSelectedObserver]
+
+include::{sample-source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=afterTabSelected]
+----
+
+Adding a listener to LinkkiTabLayout:: Use the method `addSelectedChangeListener(ComponentEventListener<SelectedChangeEvent>)` to get a `SelectedChangeEvent` containing the selected tab.
+
+Adding a listener to LinkkiTabSheet:: It is also possible to add any listener directly to the `LinkkiTabSheet` using `addTabSelectionChangeListener(ComponentEventListener<TabSheetSelectionChangeEvent>)` even afterwards when adding a PMO as tab component with `VaadinUiCreator#createComponent(Object, BindingContext)` to `LinkkiTabSheet`. The returned `Registration` could be used to unregister the listener.

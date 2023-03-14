@@ -1,0 +1,22 @@
+:jbake-title: Favicon
+:jbake-type: section
+:jbake-status: published
+
+:source-dir-playground: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+
+[[favicon]]
+=== Favicon
+
+The favicon can be set in the https://vaadin.com/docs/latest/flow/advanced/modifying-the-bootstrap-page/#the-appshellconfigurator-configurepage-method[AppShellConfigurator] by adding the favicon in the method `configurePage`. 
+
+.Setting favicon in AppShellConfigurator
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/PlaygroundApplication.java[tags=favicon]
+----
+
+If you are deploying your application under a context root, you may need to use `"../favicon.ico"` instead.
+
+For Spring Boot applications, the icon files should be in `src/main/resources/static`.
+
+If you are deploying to an application server, they need to be in `src/main/webapp`.

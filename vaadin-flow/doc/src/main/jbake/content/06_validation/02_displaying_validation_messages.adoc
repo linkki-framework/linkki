@@ -1,0 +1,16 @@
+:jbake-title: Displaying Validation Messages
+:jbake-type: section
+:jbake-status: published
+:source-dir-messages: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+
+[[displaying-validation-messages]]
+=== Displaying Validation Messages
+
+By default *linkki* marks UI elements bound to invalid <<object-properties, ObjectProperties>>. The input field bound to the referenced `ObjectProperty` shows a colored border and background. The message itself is displayed underneath the component. 
+
+`MessageUiComponents` provides utility methods to display validation messages. The `#createMessageTable` method can be used to display all messages from a `BindingManager`. This method requires two arguments: a messages supplier and a `BindingContext`. The `getFilteredMessages` method of the `ValidationService` should be used as messages supplier. The `BindingContext` must be registered as a `UiUpdateObserver` for the component to correctly update. 
+
+[source, java]
+----
+include::{source-dir-messages}/org/linkki/samples/playground/ts/messages/MessageTableSection.java[tags=messages-component]
+----

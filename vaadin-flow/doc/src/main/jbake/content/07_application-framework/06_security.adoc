@@ -1,0 +1,31 @@
+:jbake-title: Security
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+
+[[security]]
+=== Security
+
+The *linkki* application framework uses Vaadin, which is a server-side framework. This means that the internal state and logic reside on the server and are not exposed to the browser. The https://vaadin.com/docs/latest/security/advanced-topics/architecture[Vaadin Security Architecture documentation] explains the security benefits of this design.
+
+
+==== HTTP response headers
+
+OWASP offers an https://owasp.org/www-project-secure-headers/#div-headers[overview of security-related HTTP-Headers], as well as a https://owasp.org/www-project-secure-headers/#div-bestpractices[recommendation]. These headers generally increase security by adding additional restrictions, so make sure you understand the impact before setting them.
+
+NOTE: Vaadin already sets a few of these headers. The value of `Content-Security-Policy` may be reported as unsafe by some tools, this is https://vaadin.com/docs/latest/security/advanced-topics/frequent-issues/#content-security-policy-csp-set-to-unsafe-values[required for the client-side engine to start].
+
+Additional headers can be added to the initial page request by https://vaadin.com/docs/latest/advanced/service-init-listener[registering a `VaadinServiceInitListener`], which adds an `IndexHtmlRequestListener`.
+
+.Example implementation of VaadinServiceInitListener
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ApplicationServiceInitListener.java[tags=vaadin-service-init-listener]
+----
+
+.Example implementation of IndexHtmlRequestListener
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/SecurityHeaderSetter.java[tags=index-html-request-listener]
+----
