@@ -7,9 +7,52 @@
 
 === Version 2.4.0
 
+This release brings a new technology baseline that includes Java 17, Spring Boot 3, Jakarta EE 10, Vaadin 24 and Faktor-IPS 23.6. These upgrades not only make it possible for linkki developers to make use of the new features of these platforms, it also ensures that the linkki application relies on the latest technologies that are well supported in the near future.
+
+Java 17:: Java 17 is required instead of Java 11. This primarily impacts the build environment, as well as the Java version definition in the `pom.xml`.
+
+Artifact Names:: Due to the upgrade to Vaadin 24, all artifacts have been renamed to use `vaadin-flow` instead of `vaadin23`. This includes following dependencies: +
+* `linkki-core-vaadin23`, now `linkki-core-vaadin-flow`
+* `linkki-core-nestedcomponent-vaadin23`, now `linkki-core-nestedcomponent-vaadin`
+* `linkki-application-framework-vaadin23`, now `linkki-application-framework-vaadlin-flow`
+* `linkki-ips-vaadin23`, now `linkki-ips-vaadin-flow`
+
+Vaadin 24:: Vaadin 24 brings several breaking changes that are documented in the https://vaadin.com/docs/latest/upgrading#breaking-changes-in-vaadin-components[Vaadin migration guide]. 
++
+* The breaking API changes only have an effect on code that uses Vaadin API directly. There are no resulting linkki API changes.
+* There are some changes in the resulting DOM structure that may impact UI tests and styling. 
+* Visually, the application looks mostly the same as with Vaadin 23. Following visual changes may need styling adjustments if the previous behavior need to be restored:
+** The `Accordion` component now display the closable toggle button directly after the caption instead of on the right end of the caption.
+* The `snakeyaml` dependency, which is required for using YAML configuration files with Spring Boot, has been excluded by Vaadin in this version. To continue using YAML files, following dependency must manually be added:
++
+[source,xml]
+----
+<dependency>
+    <groupId>org.yaml</groupId>
+    <artifactId>snakeyaml</artifactId>
+</dependency>
+---- 
+* When using Karibu for unit testing, the version has to be updated to 2.0.0 or greater:
++
+[source,xml]
+----
+<dependency>
+    <groupId>com.github.mvysny.kaributesting</groupId>
+    <artifactId>karibu-testing-v10</artifactId>
+    <version>2.0.2</version>
+    <scope>test</scope>
+</dependency>
+----
+
+Faktor-IPS 23.6:: The <<fips-extension, linkki Faktor-IPS extension>> uses the latest Faktor-IPS version 23.6. There are no resulting API changes in the Faktor-IPS extension.
+
+Spring Boot 3 and Jakarta EE 10:: Spring-based applications need to upgrade to Spring Boot 3 or Spring framework 6. Spring Boot 2 is no longer supported by Vaadin. The <<maven-archetypes, Spring Boot archetype>> has been upgraded to Spring Boot 3 accordingly. +
+Non-Spring application needs to be upgraded to be compatible with Jakarta EE 10.
+
 ==== New features and improvements
 
-===== Enhance Testbench-Extension
+===== Improvements in Testbench-Extension
+
 The `WebDriverExtension` has been extended with an additional constructor that can be used by just passing the context path. In that case, the fully qualified URL is built based on the given path together with the defined test driver properties. This prevents that the fully qualified URL always has to be handed over as a whole.
 The defined test driver system properties can be accessed by `DriverProperties`.
 

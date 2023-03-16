@@ -7,7 +7,13 @@
 [[dependencies]]
 === Dependencies
 
-*linkki-core* depends on the following external libraries:
+==== Java Version
+
+linkki requires Java 17 or later.
+
+==== Libraries
+
+`linkki-core` depends on the following external libraries:
   
 |=======
 |groupId | artifactId | version
@@ -16,7 +22,7 @@
 |org.apache.commons |commons-lang3 | {vcommonslang}
 |=======
 
-*linkki-core-vaadin-flow* depends on the following Vaadin Flow modules:
+`linkki-core-vaadin-flow` depends on the following Vaadin Flow modules:
  
 |=======
 |groupId | artifactId | version
@@ -26,6 +32,8 @@ include::{vaadin-dir}/pom.xml[tags=vaadin-version]
 
 |=======
 
-*linkki* could be used optional with https://spring.io/projects/spring-boot[Spring Boot], this version is tested with Spring Boot version
+==== Optional Libraries
+
+linkki can be used with https://spring.io/projects/spring-boot[Spring Boot], this version is tested with Spring Boot version
 include::{vaadin-dir}/pom.xml[tags=spring-boot-version]
 .

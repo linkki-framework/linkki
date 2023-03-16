@@ -54,7 +54,7 @@ class TC013UIDateTimeFieldTest extends PlaygroundUiTest {
 
         // check time field
         WebElement timeInputField = getActiveElement();
-        assertThat(getElementId(timeInputField)).contains("vaadin-date-time-picker-time-picker");
+        assertThat(getElementId(timeInputField)).contains("input-vaadin-time-picker");
         assertThat(getGrandparentId(timeInputField)).isEqualTo("dateTime");
 
         // change time
