@@ -65,3 +65,7 @@ The same applies to `org.linkki.core.vaadin.component.base.LinkkiText` when usin
 ==== 
 When user-supplied strings are included in HTML content, they have to be escaped to prevent them from being interpreted as HTML. This can be achieved by using `HtmlSanitizer#escapeText`.
 ====
+
+===== Other
+// https://jira.faktorzehn.de/browse/LIN-3384
+* Fixed an incompatibility with ChromeDriver versions 111 and above in `linkki-vaadin23-testbench-extension`
