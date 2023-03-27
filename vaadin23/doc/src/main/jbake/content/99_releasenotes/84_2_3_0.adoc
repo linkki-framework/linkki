@@ -5,6 +5,13 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.3.4
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3384
+* Fix an incompatibility with ChromeDriver versions 111 and above in `linkki-vaadin23-testbench-extension`
+
 === Version 2.3.3
 
 ==== New features and improvements

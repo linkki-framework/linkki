@@ -14,6 +14,8 @@
 
     <properties>
         <vaadin.testbench.version>${vaadin.version}</vaadin.testbench.version>
+        <!-- Selenium version must match the one defined in Vaadin TestBench -->
+        <selenium.version>4.5.3</selenium.version>
     </properties>
 
     <dependencies>
@@ -33,6 +35,11 @@
             <version>${vaadin.testbench.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-http-jdk-client</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -50,6 +57,27 @@
                         </revapi.java>
                     </analysisConfiguration>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-selenium</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <dependencyConvergence>
+                                    <includes>
+                                      <include>org.seleniumhq.selenium</include>
+                                    </includes>
+                                </dependencyConvergence>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
