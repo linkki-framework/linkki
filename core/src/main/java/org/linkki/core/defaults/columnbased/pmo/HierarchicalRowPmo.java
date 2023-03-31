@@ -27,28 +27,21 @@ public interface HierarchicalRowPmo<R> {
     /**
      * Returns the list of this row's child row PMOs. May be empty if this is a leaf node.
      * 
-     * @implSpec <em>As for {@link ContainerPmo#getItems()}, the child items and row PMOs should not be
-     *           recreated on each call!</em>
-     *           <p>
-     *           You can use a {@link SimpleItemSupplier} to create the rows on demand.
-     *           <p>
-     *           If {@link #getChildRows()} is an expensive calculation, overwrite
-     *           {@link #hasChildRows()} to return the number of child rows without actually creating
-     *           them.
-     * 
-     * @return a list of child row PMOs
+     * @apiNote <em>As for {@link ContainerPmo#getItems()}, the child items and row PMOs should not be
+     *          recreated on each call!</em>
+     *          <p>
+     *          You can use a {@link SimpleItemSupplier} to create the rows on demand.
      */
     List<? extends R> getChildRows();
 
     /**
      * Returns whether this row PMO has child rows.
      * 
-     * @implNote the default implementation checks whether {@link #getChildRows()} is empty.
-     * @implSpec if {@link #getChildRows()} is an expensive calculation, overwrite
-     *           {@link #hasChildRows()} to return the number of child rows without actually creating
-     *           them.
-     * @return whether this row PMO has child rows
+     * @implSpec The default implementation checks whether {@link #getChildRows()} is empty.
+     * 
+     * @deprecated This method is unused and will be removed.
      */
+    @Deprecated(since = "2.4.0")
     default boolean hasChildRows() {
         return !getChildRows().isEmpty();
     }

@@ -69,3 +69,5 @@ When user-supplied strings are included in HTML content, they have to be escaped
 ===== Other
 // https://jira.faktorzehn.de/browse/LIN-3384
 * Fixed an incompatibility with ChromeDriver versions 111 and above in `linkki-vaadin23-testbench-extension`
+// https://jira.convista.com/browse/LIN-3362
+* Deprecated unused method `HierarchicalRowPmo#hasChildRows`

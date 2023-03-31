@@ -74,9 +74,4 @@ public abstract class CategoryRowPmo<CMO, CPMO extends PlayerTableRowPmo> extend
         return childRowSupplier.get();
     }
 
-    @Override
-    public boolean hasChildRows() {
-        return true;
-    }
-
 }

@@ -21,9 +21,9 @@ import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 
 public class LowerCaseRowPmo extends AbstractCodeRow implements HierarchicalRowPmo<NumberRowPmo> {
 
-    private String upperCaseLetter;
-    private String lowerCaseLetter;
-    private SimpleItemSupplier<NumberRowPmo, Code> numberRowSupplier;
+    private final String upperCaseLetter;
+    private final String lowerCaseLetter;
+    private final SimpleItemSupplier<NumberRowPmo, Code> numberRowSupplier;
 
     public LowerCaseRowPmo(String upperCaseLetter, String lowerCaseLetter,
             SimpleItemSupplier<NumberRowPmo, Code> numberRowSupplier) {
@@ -50,11 +50,6 @@ public class LowerCaseRowPmo extends AbstractCodeRow implements HierarchicalRowP
     @Override
     public List<? extends NumberRowPmo> getChildRows() {
         return numberRowSupplier.get();
-    }
-
-    @Override
-    public boolean hasChildRows() {
-        return true;
     }
 
     @Override
