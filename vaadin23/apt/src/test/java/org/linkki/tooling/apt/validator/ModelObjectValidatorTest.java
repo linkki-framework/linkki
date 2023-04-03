@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.util.Optionals;
 
 public class ModelObjectValidatorTest extends BaseAnnotationProcessorTest {
 
@@ -49,23 +48,25 @@ public class ModelObjectValidatorTest extends BaseAnnotationProcessorTest {
 
             assertThat(logs.size(), equalTo(2));
 
-            Optionals.ifPresentOrElse(getLogContaining(logs, "getPerson1()"),
-                                      log -> {
-                                          assertThat(log,
-                                                     containsString(ModelObjectValidator.MODEL_OBJECT_CLASH));
-                                          assertThat(log,
-                                                     containsString("\"person\" is already used at \"getPerson2\""));
-                                      },
-                                      () -> fail("expected to find log about method \"getPerson1()\""));
+            getLogContaining(logs, "getPerson1()")
+                    .ifPresentOrElse(
+                                     log -> {
+                                         assertThat(log,
+                                                    containsString(ModelObjectValidator.MODEL_OBJECT_CLASH));
+                                         assertThat(log,
+                                                    containsString("\"person\" is already used at \"getPerson2\""));
+                                     },
+                                     () -> fail("expected to find log about method \"getPerson1()\""));
 
-            Optionals.ifPresentOrElse(getLogContaining(logs, "getPerson2()"),
-                                      log -> {
-                                          assertThat(log,
-                                                     containsString(ModelObjectValidator.MODEL_OBJECT_CLASH));
-                                          assertThat(log,
-                                                     containsString("\"person\" is already used at \"getPerson1\""));
-                                      },
-                                      () -> fail("expected to find log about method \"getPerson2()\""));
+            getLogContaining(logs, "getPerson2()")
+                    .ifPresentOrElse(
+                                     log -> {
+                                         assertThat(log,
+                                                    containsString(ModelObjectValidator.MODEL_OBJECT_CLASH));
+                                         assertThat(log,
+                                                    containsString("\"person\" is already used at \"getPerson1\""));
+                                     },
+                                     () -> fail("expected to find log about method \"getPerson2()\""));
 
         }
 

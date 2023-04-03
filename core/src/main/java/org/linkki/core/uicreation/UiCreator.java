@@ -37,7 +37,6 @@ import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.uiframework.UiFramework;
-import org.linkki.util.Optionals;
 
 /**
  * A utility class that creates UI components from presentation model objects (PMOs). These PMOs must be
@@ -296,14 +295,15 @@ public class UiCreator {
         W componentWrapper = componentWrapperCreator.apply(component);
         componentWrapper.setId(getComponentId(bindingDescriptor.getBoundProperty(), pmo));
 
-        Optionals.ifPresentOrElse(optionalLayoutDefinitionFinder,
-                                  layoutDefinition -> {
-                                      ContainerBinding containerBinding = bindingContext
-                                              .bindContainer(pmo, bindingDescriptor,
-                                                             componentWrapper);
-                                      layoutDefinition.createChildren(component, pmo, containerBinding);
-                                  },
-                                  () -> bindingContext.bind(pmo, bindingDescriptor, componentWrapper));
+        optionalLayoutDefinitionFinder
+                .ifPresentOrElse(
+                                 layoutDefinition -> {
+                                     ContainerBinding containerBinding = bindingContext
+                                             .bindContainer(pmo, bindingDescriptor,
+                                                            componentWrapper);
+                                     layoutDefinition.createChildren(component, pmo, containerBinding);
+                                 },
+                                 () -> bindingContext.bind(pmo, bindingDescriptor, componentWrapper));
 
         return componentWrapper;
     }

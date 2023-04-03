@@ -44,7 +44,6 @@ import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.tooling.apt.validator.Messages;
-import org.linkki.util.Optionals;
 
 /**
  * Utilities for dealing with dynamic fields.
@@ -136,7 +135,7 @@ public final class DynamicMethodUtils {
                 .map(ModelToUiAspectDefinition.class::cast)
                 .map(it -> createAspect(it, method, messager)
                         .map(aspect -> new AspectInfo(aspect, isBooleanModelToUiAspectDefinition(it))))
-                .flatMap(Optionals::stream)
+                .flatMap(Optional::stream)
                 .filter(it -> !it.getAspect().isValuePresent())
                 .filter(it -> !it.getAspect().getName().isEmpty())
                 .map(it -> new DynamicAspectMethodName(
@@ -154,7 +153,7 @@ public final class DynamicMethodUtils {
                 .filter(AvailableValuesAspectDefinition.class::isInstance)
                 .map(AvailableValuesAspectDefinition.class::cast)
                 .map(it -> createAspect(it, method, messager))
-                .flatMap(Optionals::stream)
+                .flatMap(Optional::stream)
                 .filter(it -> !it.isValuePresent())
                 .filter(it -> !it.getName().isEmpty())
                 .map(it -> new DynamicAspectMethodName(method, it.getName(), false))

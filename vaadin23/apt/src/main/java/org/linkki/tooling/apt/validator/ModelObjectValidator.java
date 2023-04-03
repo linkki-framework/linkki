@@ -31,7 +31,6 @@ import org.linkki.tooling.apt.model.AptModelObject;
 import org.linkki.tooling.apt.model.AptPmo;
 import org.linkki.tooling.apt.util.Either;
 import org.linkki.tooling.apt.util.SuppressedWarningsUtils;
-import org.linkki.util.Optionals;
 
 /**
  * A {@link Validator} to ensure that there are no two model objects with the same name.
@@ -91,16 +90,16 @@ public class ModelObjectValidator implements Validator {
                                                                  currentAnnotationMirror,
                                                                  modelObjetNameValuePair,
                                                                  otherMember);
-                                Optionals.ifPresentOrElse(annotationValue,
-                                                          it -> messager.printMessage(modelObjectClashSeverity,
-                                                                                      message,
-                                                                                      member,
-                                                                                      currentAnnotationMirror,
-                                                                                      it),
-                                                          () -> messager.printMessage(modelObjectClashSeverity,
-                                                                                      message,
-                                                                                      member,
-                                                                                      currentAnnotationMirror));
+                                annotationValue.ifPresentOrElse(
+                                                                it -> messager.printMessage(modelObjectClashSeverity,
+                                                                                            message,
+                                                                                            member,
+                                                                                            currentAnnotationMirror,
+                                                                                            it),
+                                                                () -> messager.printMessage(modelObjectClashSeverity,
+                                                                                            message,
+                                                                                            member,
+                                                                                            currentAnnotationMirror));
                             });
                 });
     }

@@ -19,6 +19,7 @@ import static org.linkki.tooling.apt.util.SuppressedWarningsUtils.isSuppressed;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,7 +40,6 @@ import org.linkki.tooling.apt.util.DynamicAspectMethodName;
 import org.linkki.tooling.apt.util.DynamicMethodUtils;
 import org.linkki.tooling.apt.util.Either;
 import org.linkki.tooling.apt.util.ElementUtils;
-import org.linkki.util.Optionals;
 
 /**
  * A {@link Validator} that ensures that methods annotated with linkki annotations are public so that
@@ -115,7 +115,7 @@ public class PublicModifierValidator implements Validator {
                 .map(AptModelObject::getElement)
                 .filter(Either::isRight)
                 .map(Either::getRight)
-                .flatMap(Optionals::stream);
+                .flatMap(Optional::stream);
     }
 
     private Stream<ExecutableElement> getAspectMethods(

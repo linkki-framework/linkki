@@ -30,7 +30,6 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.util.BeanUtils;
 import org.linkki.util.MemberAccessors;
-import org.linkki.util.Optionals;
 
 /**
  * Utility class to access the model object of a PMO.
@@ -59,7 +58,7 @@ public class ModelObjects {
                                                                           annotatedMethod.get(),
                                                                           annotatedField.get());
         }
-        return Optionals.either(annotatedMethod).or(() -> annotatedField);
+        return annotatedMethod.or(() -> annotatedField);
     }
 
     private Optional<Member> getModelObjectMethod() {

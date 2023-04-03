@@ -24,7 +24,11 @@ import java.util.stream.Stream;
 
 /**
  * Utility class for {@link Optional}.
+ * 
+ * @deprecated The methods in this class are now implemented by the JDK, rendering this class useless.
+ *             Use the corresponding methods offered by {@link Optional} instead.
  */
+@Deprecated(since = "2.4.0")
 public final class Optionals {
 
     private Optionals() {
@@ -32,8 +36,6 @@ public final class Optionals {
     }
 
     /**
-     * In anticipation of Java 9 Optional#ifPresentOrElse.
-     * <p>
      * If a value is present in the given optional, performs the given action with the value, otherwise
      * performs the given empty-based action.
      * 
@@ -42,7 +44,9 @@ public final class Optionals {
      * @param emptyAction the empty-based action to be performed, if no value is present
      * @throws NullPointerException if a value is present and the given action is null, or no value is
      *             present and the given empty-based action is null.
+     * @deprecated Use {@link Optional#ifPresentOrElse(Consumer, Runnable)} instead.
      */
+    @Deprecated(since = "2.4.0")
     public static <T> void ifPresentOrElse(Optional<T> optional,
             Consumer<? super T> action,
             Runnable emptyAction) {
@@ -54,8 +58,6 @@ public final class Optionals {
     }
 
     /**
-     * In anticipation of Java 9 Optional#stream.
-     * <p>
      * If a value is present, returns a sequential Stream containing only that value, otherwise returns
      * an empty Stream.
      * <p>
@@ -63,32 +65,37 @@ public final class Optionals {
      * of present value elements:
      * 
      * <pre>
-     *  
      * Stream&lt;Optional&lt;T&gt;&gt; os = .. 
      * Stream&lt;T&gt; s = os.flatMap(Optional::stream)
      * </pre>
      * 
-     * 
      * @return the optional value as a Stream
+     * 
+     * @deprecated Call {@link Optional#stream()} on the object instead.
      */
+    @Deprecated(since = "2.4.0")
     public static <T> Stream<T> stream(Optional<T> o) {
         return o.map(Stream::of).orElseGet(Stream::empty);
     }
 
 
     /**
-     * In anticipation of Java 9 Optional#or.
-     * 
      * Creates an {@link Either} wrapper around the given {@link Optional} on which
      * {@link Either#or(Supplier)} can be called.
+     * 
+     * @deprecated Call {@link Optional#or(Supplier)} on the object instead.
      */
+    @Deprecated(since = "2.4.0")
     public static <T> Either<T> either(Optional<T> o) {
         return new Either<>(o);
     }
 
     /**
      * Wrapper around an {@link Optional} that offers Java 9's Optional#or method.
+     * 
+     * @deprecated Call {@link Optional#or(Supplier)} on the {@link Optional} object instead.
      */
+    @Deprecated(since = "2.4.0")
     public static class Either<T> {
         private final Optional<T> thiz;
 
