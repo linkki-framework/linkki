@@ -14,8 +14,8 @@
 
 package org.linkki.samples.playground.bugs.uitest;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.linkki.testbench.conditions.VaadinElementConditions.notificationDisplayed;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
@@ -23,27 +23,27 @@ import org.linkki.samples.playground.bugs.lin2555.TextfieldWithEnterButtonPmo;
 import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 import org.openqa.selenium.Keys;
 
-import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 
 /**
  * LIN-2555
  */
-public class SetValueBeforeEnterButtonTest extends AbstractLinkkiUiTest {
+class SetValueBeforeEnterButtonTest extends AbstractLinkkiUiTest {
 
     @Test
-    public void testSetValueBeforeEnterButton() {
+    void testSetValueBeforeEnterButton() {
         goToView(BugCollectionView.ROUTE);
         openTab(TextfieldWithEnterButtonPmo.CAPTION);
-
         TextFieldElement textFieldElement = $(TextFieldElement.class).id("text");
         textFieldElement.setValue("");
 
         textFieldElement.focus();
         textFieldElement.sendKeys("newValue" + Keys.ENTER);
 
-        assertThat($(NotificationElement.class).waitForFirst().getText(), is("newValue"));
+        assertDoesNotThrow(() -> {
+            waitUntil(notificationDisplayed("newValue"));
+        });
     }
 
 }
