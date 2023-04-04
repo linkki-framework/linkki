@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PolicyCmptType xmlns="http://www.faktorzehn.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/23.6/PolicyCmptType.xsd" xml:space="preserve">
+ <Label locale="en"/>
+ <Label locale="de"/>
+ <Description locale="en"/>
+ <Description locale="de"/>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Decimal" modifier="published" name="decimal">
+  <DefaultValue>42</DefaultValue>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Range containsNull="false">
+    <LowerBound>0</LowerBound>
+    <UpperBound>100</UpperBound>
+    <Step>0.5</Step>
+   </Range>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="string">
+  <DefaultValue isNull="true"/>
+  <Label locale="en" value="A String attribute"/>
+  <Label locale="de" value="Ein String-Attribut"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <AllValues containsNull="true"/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="unrestrictedInclNull">
+  <DefaultValue>not required</DefaultValue>
+  <Label locale="en" value="ValueSet Incl. Null"/>
+  <Label locale="de" value="ValueSet mit Null"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <AllValues containsNull="true"/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="unrestrictedExclNull">
+  <DefaultValue>required</DefaultValue>
+  <Label locale="en" value="ValueSet Excl. Null"/>
+  <Label locale="de" value="ValueSet ohne Null"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <AllValues containsNull="false"/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Marker" modifier="published" name="emptyValueSet">
+  <DefaultValue isNull="true"/>
+  <Label locale="en" value="Empty ValueSet"/>
+  <Label locale="de" value="Leeres ValueSet"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Enum/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Marker" modifier="published" name="enumerationValueSet">
+  <DefaultValue isNull="true"/>
+  <Label locale="en" value="ValueSet with Enumeration"/>
+  <Label locale="de" value="ValueSet mit Enumeration"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Enum>
+    <Value>
+     <Data>R</Data>
+    </Value>
+    <Value>
+     <Data>T</Data>
+    </Value>
+   </Enum>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Integer" modifier="published" name="integerEnumerationValueSet">
+  <DefaultValue isNull="true"/>
+  <Label locale="en" value="ValueSet with Integer Enumeration "/>
+  <Label locale="de" value="ValueSet mit Integer Enumeration"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Enum>
+    <Value>
+     <Data>1</Data>
+    </Value>
+    <Value>
+     <Data>2</Data>
+    </Value>
+    <Value>
+     <Data>3</Data>
+    </Value>
+    <Value>
+     <Data>4</Data>
+    </Value>
+    <Value>
+     <Data>5</Data>
+    </Value>
+    <Value>
+     <Data isNull="true"/>
+    </Value>
+   </Enum>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Integer" modifier="published" name="integerRangeValueSet">
+  <DefaultValue isNull="true"/>
+  <Label locale="en" value="ValueSet with Range"/>
+  <Label locale="de" value="ValueSet mit definiertem Bereich"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Range containsNull="true">
+    <LowerBound>0</LowerBound>
+    <UpperBound>100</UpperBound>
+    <Step>5</Step>
+   </Range>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Boolean" modifier="published" name="booleanValueSet">
+  <DefaultValue isNull="true"/>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <AllValues containsNull="false"/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="String" modifier="published" name="emptyStringValueSet">
+  <DefaultValue isNull="true"/>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <ValueSet abstract="false">
+   <Enum/>
+  </ValueSet>
+ </Attribute>
+ <ValidationRuleDef activatedByDefault="true" changingOverTime="false" checkValueAgainstValueSetRule="true" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal">
+  <ValidatedAttribute name="decimal"/>
+  <Markers>
+   <Marker name="T"/>
+  </Markers>
+  <MessageText>
+   <InternationalString>
+    <LocalizedString locale="en" text="The decimal value must be in the range {range} but is {actual}."/>
+    <LocalizedString locale="de" text="Der Wert von decimal muss im Bereich {range} liegen, ist aber {actual}."/>
+   </InternationalString>
+  </MessageText>
+  <Label locale="en"/>
+  <Label locale="de"/>
+  <Description locale="en"/>
+  <Description locale="de"/>
+ </ValidationRuleDef>
+</PolicyCmptType>

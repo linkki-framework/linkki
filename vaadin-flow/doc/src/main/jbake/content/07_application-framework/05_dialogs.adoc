@@ -1,0 +1,25 @@
+:jbake-title: Dialogs
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+
+[[dialogs]]
+=== Dialogs
+
+==== Creating dialogs with PMOs using layout annotation
+Dialogs can be created with PMOs annotated with any <<layout, layout annotation>> when using `PmoBasedDialogFactory`.
+
+NOTE: PMO classes without any layout annotation are not supported when using `PmoBasedDialogFactory`
+
+.Creating a dialog using `PmoBasedDialogFactory`
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutContentDialog.java[tags=openDialog]
+----
+
+.PMO using `@UIVerticalLayout`
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutContentDialog.java[tags=verticalLayout]
+----

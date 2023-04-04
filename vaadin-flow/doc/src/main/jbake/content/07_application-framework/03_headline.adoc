@@ -1,0 +1,28 @@
+:jbake-title: Headline
+:jbake-type: section
+:jbake-status: published
+
+:image-dir: {images}07_application-framework
+:source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+
+=== Headline
+
+For every sheet it is useful to have a headline that describes the current content. It natively has a headline caption and could be extended by subclasses.
+
+image::{image-dir}/create-report-simple.png[]
+
+To use a `Headline` simply instantiate and add the component to your content.
+
+If you want the Headline's title to be updated dynamically, you can also bind it to a PMO. To do so, create a PMO containing a corresponding getter method for `Headline#HEADER_TITLE`:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/application/HeadlinePmo.java[tags=HeadlinePmo]
+----
+
+Then bind it with the headline:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=bind-headline]
+----

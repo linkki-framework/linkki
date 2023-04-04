@@ -1,0 +1,88 @@
+:jbake-title: Getting Started
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 1
+
+:sample-parent-dir: ../../../../../../vaadin-flow/samples
+:source-dir: ../../../../src/main/java
+:images-folder-name: 02_getting_started
+
+[[getting-started]]
+== Getting Started
+
+You can either add the required dependencies to an existing project or use one of the <<maven-archetypes,Maven archetypes>> to get started.
+
+=== Maven dependencies
+
+To create a *linkki* project, you need one of the following dependencies depending on the feature set you need:
+
+.linkki-core
+[source,xml]
+----
+include::{sample-parent-dir}/pom.xml[tags=linkki-core]
+----
+
+.linkki-vaadin-flow-component
+[source,xml]
+----
+include::{sample-parent-dir}/pom.xml[tags=linkki-vaadin-flow-component]
+----
+
+`linkki-vaadin-flow-component` contains the following additional features:
+
+* Sidebar layout
+
+.linkki-application-framework
+[source,xml]
+----
+include::{sample-parent-dir}/pom.xml[tags=linkki-application-framework]
+----
+
+`linkki-application-framework` contains the following additional features:
+
+* Dialogs
+* `LinkkiUi` with `ApplicationLayout` and `ApplicationConfig` as well as an adjusted theme
+* UI Components to display validation messages
+
+
+In addition to the *linkki* dependency, a *linkki* application with Vaadin may require a Vaadin Spring Boot starter.
+
+
+[[maven-archetypes]]
+=== Maven Archetypes
+
+*linkki* can be used for a plain Vaadin web application or with Spring Boot. For each of those options, there is a matching Maven archetype that creates a new project with all necessary dependencies and some sample code to get started. They can be created from a command line:
+
+[source,subs="verbatim,attributes"]
+.Plain *linkki*
+----
+mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-plain-application-vaadin-flow -DarchetypeVersion={projectVersion}
+----
+
+The resulting application can be deployed to your application server of choice or simply started with `mvn clean package org.eclipse.jetty:jetty-maven-plugin:run`, where it can be viewed at `http://localhost:8080/`.
+
+[source,subs="verbatim,attributes"]
+.*linkki* with Spring Boot
+----
+mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-spring-application-vaadin-flow -DarchetypeVersion={projectVersion}
+----
+
+The resulting application can be started with `java -jar target/*.jar` and be viewed at `http://localhost:8080/`.
+
+=== Initial project structure
+
+image::{images}{images-folder-name}/app_structure.png[]
+
+`BusinessPartner`:: A spring specific class which allows our project to be run as a Java application. This class will not be found in the plain archetype.
+
+`BusinessPartnerInfo`:: Defines basic information about our *linkki* application.
+
+`BusinessPartnerConfig`:: Provides an instance of our `BusinessPartnerInfo` class and provides `ApplicationMenuItemDefinition` items to create an `ApplicationMenu` for the `ApplicationHeader`.
+
+`BusinessPartnerLayout`:: Uses the `BusinessPartnerConfig` class to provide information for our application.
+
+`HelloPmo`:: Defines a section on the webpage which is used in the UI of the application. You can apply annotations like `@UITextfield` to your methods to create specific UI elements. For more information about creating a UI see <<ui-element, UI elements>>.
+
+`BusinessPartnerPage`:: Allows displaying and editing data in a certain layout and can consist of so called sections defined with multiple PMOs.
+
+`BusinessPartnerView`:: Defines the entrypoint of a our main page.

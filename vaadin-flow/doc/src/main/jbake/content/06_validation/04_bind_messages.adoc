@@ -1,0 +1,26 @@
+:jbake-title: Binding validation messages
+:jbake-type: section
+:jbake-status: published
+:source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java/
+
+[[bind-messages]]
+=== Binding validation messages
+
+In some cases, it is not practical to use model binding in all fields of a PMO (e.g. because conversion/navigation needs to be done in getters/setters), but it should still be possible to set validation messages on a field.
+
+This can be done with the annotation `@BindMessages`. Apply it to a field, then create a method with the signature `MessageList get<FIELD_NAME>Messages(MessageList)`. Additional filtering can be applied within this method, e.g. to only display error messages:
+
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/messages/FieldValidationPmo.java[tags=bind-messages]
+----
+
+IMPORTANT: The PMO must be registered with a <<validation-service, `ValidationService`>>.
+
+When working with `@BindMessages`, please be aware of the following:
+
+- The messages are processed after all other binding aspects have been processed. That means the
+ component is already in the state it will be in after the update round trip, and any further state changes (e.g. enabling/disabling a field) made in `get<FIELD_NAME>Messages` will only be applied on the next update. For this reason, we do not recommend changing the component's state at all in `get<FIELD_NAME>Messages`.
+- The returned message list should only contain the messages that are really handled by the component in a way that the user could fix the problem using this component.
+
+NOTE: It is also possible to <<custom-message-handling, create a custom message handler>>.

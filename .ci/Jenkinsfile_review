@@ -10,7 +10,7 @@ pipeline {
         MAVEN_OPTS = '-Xmx2g'
         MAVEN_DEFAULT_REPO = "${env.HOME}/.m2/repository"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
-        DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin23"
+        DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
     }
@@ -23,15 +23,14 @@ pipeline {
                 }
 
                 preBuildSteps()
-                verifyChangelog file: 'vaadin23/doc/src/main/jbake/content/99_releasenotes/87_2_1_0.adoc'
 
                 // Setup local repository
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_DEFAULT_REPO}', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_DEFAULT_REPO}', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 4 -P production org.apache.maven.plugins:maven-dependency-plugin:3.3.0:go-offline -DincludeScope=compile'
                     sh 'cp -r ${MAVEN_DEFAULT_REPO} ${MAVEN_REPOSITORY}'
                 }
 
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                     dependsOn(credentials: 'gerrit_rest') {}
                 }
             }
@@ -39,9 +38,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
                         clean install javadoc:javadoc \
+                        -pl "!vaadin-flow/doc" \
                         -Pproduction \
                         -Dmaven.test.failure.ignore=true \
                         -Drevapi.skip'
@@ -49,18 +49,27 @@ pipeline {
             }
         }
 
-        stage('UI Test and Checks') {
+        stage('UI Test, Checks and Documentation') {
             when {
                 expression {
                     return currentBuild.currentResult != "FAILURE"
                 }
             }
 
-            parallel {   
+            parallel {
+                stage('Build documentation') {
+                    steps {
+                        // documentation has to be built with Java 11
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                            sh 'mvn -pl "vaadin-flow/doc" install'
+                        }
+                    }
+                }
+
                 stage('Check API') {
                     steps {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                            withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                            withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                 sh 'mvn -T 6 -pl "!linkki-codeanalysis" validate org.revapi:revapi-maven-plugin:check'
                             }
                         }
@@ -70,7 +79,7 @@ pipeline {
                 stage('Faktor-IPS build') {
                     steps {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin23 -Dmaven.repo.local="${MAVEN_REPOSITORY}" faktorips:faktorips-clean faktorips:faktorips-build'
+                            sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin-flow -Dmaven.repo.local="${MAVEN_REPOSITORY}" faktorips:faktorips-clean faktorips:faktorips-build'
                         }
                     }
                 }
@@ -84,7 +93,7 @@ pipeline {
                                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                                     <h3>Test Playground</h3>
                                     <ul>
-                                        <li><a href='${DEPLOYMENT_URL}'>Vaadin 23</a></li>
+                                        <li><a href='${DEPLOYMENT_URL}'>Vaadin Flow</a></li>
                                     </ul>
                                 """
                             }
@@ -98,13 +107,13 @@ pipeline {
 
                         stage('UI Test') {
                             steps {
-                                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                                    sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
+                                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                                         -Dmaven.test.failure.ignore=true'
                                 }
 
-                                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin23/samples/test-playground/uitest/target/error-screenshots/*.png'
-                                junit 'vaadin23/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
+                                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
+                                junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
                             }
 
                             environment {
@@ -116,14 +125,14 @@ pipeline {
 
                 stage('SonarQube Analysis') {
                     stages {
-                        stage('Analysis') {     
+                        stage('Analysis') {
                             environment {
                                 SONAR_LOGIN = credentials('sonar.login')
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     withSonarQubeEnv('SonarQube') {
-                                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                             sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
                                                     -Dsonar.projectKey=${PROJECT_NAME} \
                                                     -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \

@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.linkki-framework</groupId>
+        <artifactId>linkki</artifactId>
+        <version>2.4.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>linkki-vaadin-flow</artifactId>
+    <packaging>pom</packaging>
+    <name>linkki Vaadin Flow</name>
+    <description>Vaadin Flow Modules for linkki</description>
+
+    <modules>
+        <module>core</module>
+        <module>application-framework</module>
+        <module>ips</module>
+        <module>component</module>
+        <module>samples</module>
+        <module>doc</module>
+        <module>nestedcomponent</module>
+        <module>apt</module>
+        <module>archetypes</module>
+        <module>test</module>
+        <module>testbench-extension</module>
+    </modules>
+
+    <properties>
+        <!-- this property must also be updated in samples-vaadin-flow -->
+        <vaadin.version>
+            <!-- tag::vaadin-version[] -->
+            24.0.0
+            <!-- end::vaadin-version[] -->
+        </vaadin.version>
+        <!-- this property must also be updated in samples-vaadin-flow -->
+        <spring-boot.version>
+            <!-- tag::spring-boot-version[] -->
+            3.0.4
+            <!-- end::spring-boot-version[] -->
+        </spring-boot.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-core</artifactId>
+                <version>${vaadin.version}</version>
+            </dependency>
+            <dependency>
+                <!-- prevents transitive version conflict between vaadin__vaadin-mobile-drag-drop and vaadin-dnd.
+                Can lead to non-deterministic build failure when linkki-apt is used in a concurrent maven build -->
+                <groupId>org.webjars.npm</groupId>
+                <artifactId>mobile-drag-drop</artifactId>
+                <version>2.3.0-rc.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.mvysny.kaributesting</groupId>
+                <artifactId>karibu-testing-v10</artifactId>
+                <version>2.0.2</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

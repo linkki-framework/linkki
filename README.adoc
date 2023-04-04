@@ -3,7 +3,7 @@
 === *linkki*
 
 image:https://img.shields.io/badge/License-Apache2.0-blue.svg[License, link=https://opensource.org/licenses/Apache-2.0, role="left"]
-image:https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core-vaadin23/badge.svg[Maven Central, link=https://mvnrepository.com/artifact/org.linkki-framework/linkki-core-vaadin23, role="left"]
+image:https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core-vaadin-flow/badge.svg[Maven Central, link=https://mvnrepository.com/artifact/org.linkki-framework/linkki-core-vaadin-flow, role="left"]
 
 *linkki* is a data binding framework that makes building UI in https://vaadin.com/home[vaadin] applications easier and faster.
 
@@ -100,7 +100,7 @@ NOTE: The complete example can be found at https://doc.linkki-framework.org/late
 ----
 <dependency>
   <groupId>org.linkki-framework</groupId>
-  <artifactId>linkki-core-vaadin23</artifactId>
+  <artifactId>linkki-core-vaadin-flow</artifactId>
   <version>${linkki.version}</version>
 </dependency>
 ----
