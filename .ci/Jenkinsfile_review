@@ -41,7 +41,6 @@ pipeline {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
                         clean install javadoc:javadoc \
-                        -pl "!vaadin-flow/doc" \
                         -Pproduction \
                         -Dmaven.test.failure.ignore=true \
                         -Drevapi.skip'
@@ -49,7 +48,7 @@ pipeline {
             }
         }
 
-        stage('UI Test, Checks and Documentation') {
+        stage('UI Test and Checks') {
             when {
                 expression {
                     return currentBuild.currentResult != "FAILURE"
@@ -57,15 +56,6 @@ pipeline {
             }
 
             parallel {
-                stage('Build documentation') {
-                    steps {
-                        // documentation has to be built with Java 11
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -pl "vaadin-flow/doc" install'
-                        }
-                    }
-                }
-
                 stage('Check API') {
                     steps {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {

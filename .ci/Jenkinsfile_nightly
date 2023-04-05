@@ -22,7 +22,7 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 -Pproduction -pl "!vaadin-flow/doc" clean source:jar javadoc:jar deploy'
+                    sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
                 }
             }
         }
@@ -69,15 +69,6 @@ pipeline {
                     withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                         sh 'mvn -U -pl "vaadin-flow/doc" jade:test-external-links'
                     }
-                }
-            }
-        }
-
-        stage('Deploy documentation') {
-            steps {
-                // documentation has to be built with Java 11
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -pl "vaadin-flow/doc" -Ddoc.user=doc deploy'
                 }
             }
         }
