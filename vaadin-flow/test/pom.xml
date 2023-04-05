@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin-flow</artifactId>
-        <version>2.4.0-a20230405-01</version>
+        <version>2.4.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-vaadin-flow-test</artifactId>
@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-test</artifactId>
-            <version>2.4.0-a20230405-01</version>
+            <version>2.4.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
