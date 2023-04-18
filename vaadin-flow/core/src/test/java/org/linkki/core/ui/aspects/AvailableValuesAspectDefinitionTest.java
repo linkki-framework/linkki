@@ -118,6 +118,9 @@ class AvailableValuesAspectDefinitionTest {
         availableValuesAspectDefinition
                 .handleNullItems(new NoLabelComponentWrapper(component, WrapperType.FIELD), items);
 
+        // is called by VaadinComponentWrapper#workaroundVaadinClientValidation, must be removed when
+        // workaround is fixed
+        verify(component).addClientValidatedEventListener(any());
         verifyNoMoreInteractions(component, items);
     }
 

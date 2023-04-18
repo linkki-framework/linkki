@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import org.junit.jupiter.api.Test;
 
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ClassList;
@@ -81,7 +80,7 @@ class ComponentStylesTest {
     }
 
     // Simulate OkCancelDialog for testing
-    private static class DialogWithStyleOnContentLayout extends Composite<Dialog> implements HasStyle {
+    private static class DialogWithStyleOnContentLayout extends Composite<Dialog> {
 
         private static final long serialVersionUID = 1L;
         private final VerticalLayout contentLayout;

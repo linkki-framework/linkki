@@ -89,6 +89,9 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
                 Result<?> result = converter.convertToModel(event.getValue(), getValueContext(field));
                 result.ifOk(v -> {
                     propertyDispatcher.push(Aspect.of(NAME, v));
+                    // clear validation - only necessary if there is no BindingManager which always
+                    // updates validation messages
+                    componentWrapper.setValidationMessages(new MessageList());
                 });
                 modelUpdated.apply();
                 result.ifError(s -> componentWrapper.setValidationMessages(getInvalidInputMessage(event.getValue())));

@@ -14,9 +14,12 @@
 
 package org.linkki.core.ui.wrapper;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.textfield.TextField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+import java.io.Serial;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -25,10 +28,9 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.WrapperType;
 
-import java.util.stream.Stream;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.textfield.TextField;
 
 public class VaadinComponentWrapperTest {
 
@@ -80,7 +82,7 @@ public class VaadinComponentWrapperTest {
 
         componentWrapper.setValidationMessages(new MessageList(message));
 
-        assertThat(component.getElement().hasAttribute("invalid"), is(true));
+        assertThat(component.getElement().getPropertyRaw("invalid"), is(true));
         assertThat(component.getElement().getAttribute("severity"), is(expectedSeverity));
     }
 
@@ -92,8 +94,21 @@ public class VaadinComponentWrapperTest {
 
         componentWrapper.setValidationMessages(new MessageList());
 
-        assertThat(component.getElement().hasAttribute("invalid"), is(false));
+        assertThat(component.getElement().getPropertyRaw("invalid"), is(false));
         assertThat(component.getElement().hasAttribute("severity"), is(false));
+    }
+
+    @Test
+    void testWorkaroundForFieldValidation() {
+        TestComponent component = new TestComponent();
+        VaadinComponentWrapper componentWrapper = new TestComponentWrapper(component);
+        componentWrapper.setValidationMessages(new MessageList(Message.newError("e", "error text")));
+
+        component.fireClientValidationEvent();
+
+        assertThat(component.getElement().getPropertyRaw("invalid"), is(true));
+        assertThat(component.getElement().getAttribute("severity"), is("error"));
+        assertThat(component.getErrorMessage(), is("error text"));
     }
 
     private static Stream<Arguments> messages() {
@@ -114,6 +129,17 @@ public class VaadinComponentWrapperTest {
         @Override
         public void setLabel(String labelText) {
             throw new UnsupportedOperationException();
+        }
+
+    }
+
+    static class TestComponent extends TextField {
+
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        private void fireClientValidationEvent() {
+            fireEvent(new ClientValidatedEvent(this, true));
         }
 
     }

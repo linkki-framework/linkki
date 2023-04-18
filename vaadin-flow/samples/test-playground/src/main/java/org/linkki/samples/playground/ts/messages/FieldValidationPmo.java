@@ -14,9 +14,10 @@
 
 package org.linkki.samples.playground.ts.messages;
 
-import com.vaadin.flow.component.Component;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
@@ -25,6 +26,7 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.creation.VaadinUiCreator;
@@ -34,9 +36,10 @@ import org.linkki.core.ui.element.annotation.UIDateTimeField;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import com.vaadin.flow.component.Component;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 @UIVerticalLayout
 public class FieldValidationPmo {
@@ -45,12 +48,12 @@ public class FieldValidationPmo {
     public static final String PROPERTY_READ_ONLY_COMBO_BOX = "readOnlyComboBox";
     public static final String PROPERTY_READ_ONLY_TEXT_FIELD = "readOnlyTextField";
     public static final String PROPERTY_READ_ONLY_DATE_TIME_FIELD = "readOnlyDateTimeField";
-    public static final String PROPERTY_ONLY_ERROR_TEXT_FIELD = "onlyErrorTextField";
-    
+    public static final String PROPERTY_ALL_ERRORS_TEXT_FIELD = "allErrorsTextField";
     public static final String PROPERTY_READ_ONLY_CHECKBOX = "readOnlyCheckBox";
+    public static final String PROPERTY_REQUIRED_COMBOBOX = "requiredComboBox";
 
     private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
-            Severity.ERROR);
+                                                                        Severity.ERROR);
     private static final List<String> COMBOBOX_EXAMPLE = Arrays.asList(null, "Sample", "Test");
 
     @CheckForNull
@@ -58,7 +61,7 @@ public class FieldValidationPmo {
     private boolean showLongValidationMessage = false;
     private boolean isReadOnly = false;
     private String readOnlyText = StringUtils.EMPTY;
-    private String comboBoxText = StringUtils.EMPTY;
+    private String comboBoxText = "Sample";
 
     @UIComboBox(position = 10, label = "Message severity", content = AvailableValuesType.DYNAMIC)
     public Severity getComboBoxValue() {
@@ -106,7 +109,7 @@ public class FieldValidationPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIComboBox(position = 21, label = "Red border when invalid and read-only", content = AvailableValuesType.DYNAMIC, 
+    @UIComboBox(position = 21, label = "Red border when invalid and read-only", content = AvailableValuesType.DYNAMIC,
             width = "18em")
     public String getReadOnlyComboBox() {
         return comboBoxText;
@@ -130,6 +133,9 @@ public class FieldValidationPmo {
         return LocalDateTime.now();
     }
 
+    /**
+     * @param localDateTime ignored
+     */
     public void setReadOnlyDateTimeField(LocalDateTime localDateTime) {
         // ignore
     }
@@ -140,16 +146,16 @@ public class FieldValidationPmo {
 
     // tag::bind-messages[]
     @BindMessages
-    @UITextField(position = 30, label = "Only interested in errors")
-    public String getOnlyErrorTextField() {
+    @UITextField(position = 30, label = "Interested in all errors")
+    public String getAllErrorsTextField() {
         return readOnlyText;
     }
 
-    public void setOnlyErrorTextField(String t) {
+    public void setAllErrorsTextField(String t) {
         readOnlyText = t;
     }
 
-    public MessageList getOnlyErrorTextFieldMessages(MessageList messages) {
+    public MessageList getAllErrorsTextFieldMessages(MessageList messages) {
         return messages.stream()
                 .filter(m -> Severity.ERROR == m.getSeverity())
                 .collect(MessageList.collector());
@@ -159,15 +165,13 @@ public class FieldValidationPmo {
     @NonNull
     public MessageList validate() {
         var messages = new MessageList();
-        if (severity == null) {
-            return messages;
-        } else if (severity == Severity.INFO) {
+        if (severity == Severity.INFO) {
             // for documentation
             Object invalidObject = this;
             // tag::message-builder[]
             var message = Message.builder(getValidationMessage("Info validation message"), Severity.INFO)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_COMBO_BOX_VALUE)
-                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
+                    .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_COMBO_BOX)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_TEXT_FIELD)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
                     .create();
@@ -187,8 +191,11 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
                     .create());
-        } else {
-            throw new IllegalStateException();
+        }
+        if (comboBoxText == null) {
+            messages.add(Message.builder("Must not be empty", Severity.ERROR)
+                    .invalidObjectWithProperties(this, "requiredComboBox")
+                    .create());
         }
         return messages;
     }

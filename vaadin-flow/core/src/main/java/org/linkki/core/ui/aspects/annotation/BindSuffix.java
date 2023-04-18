@@ -32,11 +32,11 @@ import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 
-import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
+import com.vaadin.flow.component.shared.HasSuffix;
 
 /**
- * BindSuffix can add a suffix to UI elements which support the {@link HasPrefixAndSuffix} interface.
- * Common UI elements which supports BindSuffix are {@link UIIntegerField}, {@link UIDoubleField},
+ * BindSuffix can add a suffix to UI elements which support the {@link HasSuffix} interface. Common UI
+ * elements which supports BindSuffix are {@link UIIntegerField}, {@link UIDoubleField},
  * {@link UITextField}, {@link UITextArea} or {@link UICustomField}.
  */
 @Retention(RetentionPolicy.RUNTIME)

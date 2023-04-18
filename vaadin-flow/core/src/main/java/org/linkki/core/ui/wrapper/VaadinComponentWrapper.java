@@ -15,12 +15,15 @@
 package org.linkki.core.ui.wrapper;
 
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 
@@ -28,6 +31,8 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.HasValidation;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.shared.HasClientValidation;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -36,12 +41,23 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
+    private static final String ATTRIBUTE_SEVERITY = "severity";
+    /**
+     * DOM property for invalid state. Should be the same property as in
+     * {@link com.vaadin.flow.component.shared.HasValidationProperties#setInvalid(boolean)}.
+     */
+    private static final String PROPERTY_INVALID = "invalid";
+
+    /**
+     * DOM property for the error message. Should be the same property as in
+     * {@link com.vaadin.flow.component.shared.HasValidationProperties#setErrorMessage(String)}.
+     */
+    private static final String PROPERTY_ERROR_MESSAGE = "errorMessage";
+
     private static final Pattern REGEX_HTML_TAGS = Pattern.compile("<[^>]*>");
     private static final Pattern REGEX_BREAK_TAG = Pattern.compile("(?i)<br */?>");
 
-    private static final String SEVERITY_ATTRIBUTE_NAME = "severity";
-    private static final String INVALID_ATTRIBUTE_NAME = "invalid";
-
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final Component component;
@@ -51,6 +67,24 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
     public VaadinComponentWrapper(Component component, WrapperType type) {
         this.component = component;
         this.type = type;
+        workaroundVaadinClientValidation();
+    }
+
+    /**
+     * Vaadin adds a client validator for every field which set the invalid property according to the
+     * internal field validation. Hence we need to restore the correct invalid property afterwards.
+     */
+    private void workaroundVaadinClientValidation() {
+        if (component instanceof HasClientValidation fieldWithClientValidation) {
+            fieldWithClientValidation.addClientValidatedEventListener(e -> {
+                var fieldElement = component.getElement();
+                var invalid = fieldElement.getAttribute(VaadinComponentWrapper.ATTRIBUTE_SEVERITY) != null;
+                if (component instanceof HasValue<?, ?> hasValueComponent) {
+                    invalid |= hasValueComponent.isEmpty() && hasValueComponent.isRequiredIndicatorVisible();
+                }
+                fieldElement.setProperty(PROPERTY_INVALID, invalid);
+            });
+        }
     }
 
     @Override
@@ -60,8 +94,7 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setEnabled(boolean enabled) {
-        if (component instanceof HasEnabled) {
-            HasEnabled field = (HasEnabled)component;
+        if (component instanceof HasEnabled field) {
             field.setEnabled(enabled);
         }
     }
@@ -83,35 +116,33 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setValidationMessages(MessageList messagesForProperty) {
-        if (messagesForProperty.isEmpty()) {
-            clearValidation();
+        var message = messagesForProperty.getMessageWithHighestSeverity();
+        setErrorMessage(message.map(Message::getText).orElse(StringUtils.EMPTY));
+        setInvalid(message.isPresent());
+        setSeverity(message.map(Message::getSeverity).orElse(null));
+    }
+
+    private void setErrorMessage(String text) {
+        if (component instanceof HasValidation validationField) {
+            validationField.setErrorMessage(text);
         } else {
-            showValidation(messagesForProperty.getMessageWithHighestSeverity().get());
+            component.getElement().setProperty(PROPERTY_ERROR_MESSAGE, text);
         }
     }
 
-    private void showValidation(Message message) {
-        String severity = message.getSeverity().name().toLowerCase();
-        component.getElement().setAttribute(SEVERITY_ATTRIBUTE_NAME, severity);
-
-        if (component instanceof HasValidation) {
-            HasValidation validationField = (HasValidation)component;
-            validationField.setErrorMessage(message.getText());
-            validationField.setInvalid(true);
+    private void setInvalid(boolean invalid) {
+        if (component instanceof HasValidation validationField) {
+            validationField.setInvalid(invalid);
         } else {
-            component.getElement().setAttribute(INVALID_ATTRIBUTE_NAME, "");
+            component.getElement().setProperty(PROPERTY_INVALID, invalid);
         }
     }
 
-    private void clearValidation() {
-        component.getElement().removeAttribute(SEVERITY_ATTRIBUTE_NAME);
-
-        if (component instanceof HasValidation) {
-            HasValidation validationField = (HasValidation)component;
-            validationField.setErrorMessage(null);
-            validationField.setInvalid(false);
+    private void setSeverity(@CheckForNull Severity severity) {
+        if (severity != null) {
+            component.getElement().setAttribute(ATTRIBUTE_SEVERITY, severity.name().toLowerCase());
         } else {
-            component.getElement().removeAttribute(INVALID_ATTRIBUTE_NAME);
+            component.getElement().removeAttribute(ATTRIBUTE_SEVERITY);
         }
     }
 

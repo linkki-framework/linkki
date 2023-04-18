@@ -16,12 +16,13 @@
 package org.linkki.samples.playground.uitestnew.ts.messages;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_ALL_ERRORS_TEXT_FIELD;
 import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_COMBO_BOX_VALUE;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_ONLY_ERROR_TEXT_FIELD;
 import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_READ_ONLY_CHECKBOX;
 import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_READ_ONLY_COMBO_BOX;
 import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_READ_ONLY_DATE_TIME_FIELD;
 import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_READ_ONLY_TEXT_FIELD;
+import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_REQUIRED_COMBOBOX;
 
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.datetimepicker.testbench.DateTimePickerElement;
@@ -44,57 +46,64 @@ import com.vaadin.testbench.TestBenchElement;
  */
 class TC002FieldValidationTest extends PlaygroundUiTest {
 
-    private static final Severity ERROR = Severity.ERROR;
-
     @BeforeEach
     void setup() {
         super.setUp();
         goToTestCase(TestScenarioView.TS013, TestScenarioView.TC002);
-        selectMessageSeverity(ERROR);
+        selectMessageSeverity(null);
+        setReadOnly(false);
     }
 
     @Test
-    void testMessageBinding_ErrorSelected() {
-        TextFieldElement textField = $(TextFieldElement.class).id(PROPERTY_ONLY_ERROR_TEXT_FIELD);
+    void testMessageBinding_ErrorMustBeVisibleAfterBlur() {
+        selectMessageSeverity(Severity.ERROR);
+        TextFieldElement textField = $(TextFieldElement.class).id(PROPERTY_ALL_ERRORS_TEXT_FIELD);
 
-        verifyValidationErrorAttributes(textField, false);
+        verifyReadOnly(textField, false);
+        verifyValidationErrorMessage(textField);
+
+        textField.sendKeys(Key.TAB.getKeys().get(0));
+
+        verifyReadOnly(textField, false);
         verifyValidationErrorMessage(textField);
     }
 
     @Test
     void testMessageBinding_NoErrorSelected() {
         selectMessageSeverity(Severity.INFO);
-        TextFieldElement textField = $(TextFieldElement.class).id(PROPERTY_ONLY_ERROR_TEXT_FIELD);
-        DivElement validationMessage = textField.$(DivElement.class)
-                .attribute("slot", "error-message").first();
 
-        assertThat(validationMessage.isDisplayed()).isFalse();
+        TextFieldElement textField = $(TextFieldElement.class).id(PROPERTY_ALL_ERRORS_TEXT_FIELD);
+
+        verifyNoErrorMessage(textField);
     }
 
     @Test
     void testReadOnlyValidation_TextField() {
-        setReadOnly();
+        selectMessageSeverity(Severity.ERROR);
+        setReadOnly(true);
         TextFieldElement textField = $(TextFieldElement.class).id(PROPERTY_READ_ONLY_TEXT_FIELD);
 
-        verifyValidationErrorAttributes(textField, true);
+        verifyReadOnly(textField, true);
         verifyValidationErrorMessage(textField);
     }
 
     @Test
     void testReadOnlyValidation_ComboBox() {
-        setReadOnly();
+        selectMessageSeverity(Severity.ERROR);
+        setReadOnly(true);
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(PROPERTY_READ_ONLY_COMBO_BOX);
 
-        verifyValidationErrorAttributes(comboBox, true);
+        verifyReadOnly(comboBox, true);
         verifyValidationErrorMessage(comboBox);
     }
 
     @Test
     void testReadOnlyValidation_DateTimePicker() {
-        setReadOnly();
+        selectMessageSeverity(Severity.ERROR);
+        setReadOnly(true);
         DateTimePickerElement dateTimePicker = $(DateTimePickerElement.class).id(PROPERTY_READ_ONLY_DATE_TIME_FIELD);
 
-        verifyValidationErrorAttributes(dateTimePicker, true);
+        verifyReadOnly(dateTimePicker, true);
         verifyValidationErrorMessage(dateTimePicker);
     }
 
@@ -105,13 +114,16 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
      */
     private void selectMessageSeverity(Severity severity) {
         ComboBoxElement messageSeverity = $(ComboBoxElement.class).id(PROPERTY_COMBO_BOX_VALUE);
-        messageSeverity.openPopup();
-        messageSeverity.selectByText(severity.name());
+        if (severity == null) {
+            messageSeverity.clear();
+        } else {
+            messageSeverity.selectByText(severity.name());
+        }
     }
 
-    private void setReadOnly() {
+    private void setReadOnly(boolean readOnlyState) {
         CheckboxElement readOnly = $(CheckboxElement.class).id(PROPERTY_READ_ONLY_CHECKBOX);
-        readOnly.setChecked(true);
+        readOnly.setChecked(readOnlyState);
     }
 
     /**
@@ -121,18 +133,31 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
      * @param element The investigated UI element
      * @param isReadOnly {@code true} whether the element should be read-only
      */
-    private void verifyValidationErrorAttributes(TestBenchElement element, boolean isReadOnly) {
-        assertThat(element.hasAttribute("invalid")).isTrue();
+    private void verifyReadOnly(TestBenchElement element, boolean isReadOnly) {
         assertThat(isReadOnly == element.hasAttribute("readonly")).isTrue();
+    }
+
+    private void verifyNoErrorMessage(TestBenchElement element) {
+        assertThat(element.hasAttribute("invalid")).isFalse();
+        DivElement validationMessage = element.$(DivElement.class)
+                .attribute("slot", "error-message").first();
+
+        assertThat(validationMessage.isDisplayed()).isFalse();
     }
 
     /**
      * Verifies that the passed invalid element displays an error message.
      * 
      * @param element The investigated UI element
+     * @param messageText
      */
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     private void verifyValidationErrorMessage(TestBenchElement element) {
+        verifyValidationErrorMessage(element, "Error validation message");
+    }
+
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    private void verifyValidationErrorMessage(TestBenchElement element, String messageText) {
+        assertThat(element.hasAttribute("invalid")).isTrue();
         // investigate all error-message slots since in case of combined input fields like date time
         // picker, there might be multiple hidden error-message slots
         Optional<DivElement> validationMessage = element.$(DivElement.class).attribute("slot", "error-message").all()
@@ -140,6 +165,7 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
                 .findFirst();
 
         assertThat(validationMessage).isPresent()
-                .satisfies(message -> assertThat(message.get().getText()).isEqualTo("Error validation message"));
+                .satisfies(message -> assertThat(message.get().getText()).isEqualTo(messageText));
     }
 }
+
