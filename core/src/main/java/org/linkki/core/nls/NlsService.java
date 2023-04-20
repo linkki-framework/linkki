@@ -23,9 +23,6 @@ import org.linkki.core.uiframework.UiFramework;
 
 /**
  * Native Language Support Service for the translation of texts identified by a bundle name and key.
- * <p>
- * If you want to implement your own service, {@link NlsService#get()} uses CDI to load the
- * implementation, so you might want to replace the {@link DefaultNlsService}.
  */
 @FunctionalInterface
 public interface NlsService {

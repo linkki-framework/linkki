@@ -20,11 +20,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.EmptyPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.dispatcher.staticvalue.StaticValueNlsService;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
-import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.creation.section.SectionLayoutDefinition;
 import org.linkki.core.ui.layout.annotation.UIFormSection.SectionComponentDefinitonCreator;
 import org.linkki.core.ui.layout.annotation.UIFormSection.SectionLayoutDefinitionCreator;
@@ -60,9 +61,10 @@ public @interface UIFormSection {
         @Override
         public LinkkiComponentDefinition create(UIFormSection uiFormSection, AnnotatedElement annotatedElement) {
             return pmo -> {
-                BaseSection baseSection = new BaseSection(
-                        PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
-                        uiFormSection.closeable(), uiFormSection.columns());
+                String label = StaticValueNlsService.getInstance().getString(pmo.getClass(), StringUtils.EMPTY,
+                                                                     StaticValueNlsService.CAPTION_KEY,
+                                                                     uiFormSection.caption());
+                BaseSection baseSection = new BaseSection(label, uiFormSection.closeable(), uiFormSection.columns());
                 baseSection.getElement().getThemeList().add(LinkkiSection.THEME_VARIANT_FORM);
                 return baseSection;
             };

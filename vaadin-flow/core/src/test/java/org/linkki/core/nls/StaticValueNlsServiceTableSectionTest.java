@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.dispatcher.staticvalue.StaticValueNlsService;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.nls.sample.NlsTablePmo;
 import org.linkki.core.nls.sample.NlsTableRowPmo;
@@ -33,7 +34,7 @@ import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.grid.Grid;
 
-public class PmoNlsServiceTableSectionTest {
+public class StaticValueNlsServiceTableSectionTest {
 
     private final BindingContext bindingContext = new BindingContext();
 
@@ -45,7 +46,7 @@ public class PmoNlsServiceTableSectionTest {
     @BeforeEach
     public void setUp() {
         // test nls setup
-        translatedCaption = PmoNlsService.get().getSectionCaption(NlsTablePmo.class, NlsTablePmo.TABLE_CAPTION);
+        translatedCaption = StaticValueNlsService.getInstance().getString(NlsTablePmo.class,"","caption", NlsTablePmo.TABLE_CAPTION);
         assertThat(translatedCaption, is(not(NlsTablePmo.TABLE_CAPTION)));
         translatedLabel = getTranslatedLabel(NlsTableRowPmo.PROPERTY_VALUE1);
         assertThat(translatedLabel, is(not(NlsTableRowPmo.PMO_LABEL)));
@@ -55,7 +56,7 @@ public class PmoNlsServiceTableSectionTest {
     }
 
     private String getTranslatedLabel(String property) {
-        return PmoNlsService.get().getLabel(NlsTableRowPmo.class, property, "label", NlsTableRowPmo.PMO_LABEL);
+        return StaticValueNlsService.getInstance().getString(NlsTableRowPmo.class, property, "label", NlsTableRowPmo.PMO_LABEL);
     }
 
     @Test

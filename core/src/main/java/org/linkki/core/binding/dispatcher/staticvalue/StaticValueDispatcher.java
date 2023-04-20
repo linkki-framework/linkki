@@ -18,7 +18,6 @@ import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.nls.PmoNlsService;
 
 /**
  * This dispatcher returns the static value of an {@link Aspect} if it has a value. If no value exists
@@ -47,8 +46,8 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
             Object boundObject = getBoundObject();
             if (staticValue instanceof String && boundObject != null) {
                 Class<?> pmoClass = getTypeForKey(boundObject);
-                staticValue = (T)PmoNlsService.get()
-                        .getLabel(pmoClass, getProperty(), aspect.getName(), (String)staticValue);
+                staticValue = (T)StaticValueNlsService.getInstance()
+                        .getString(pmoClass, getProperty(), aspect.getName(), (String)staticValue);
             }
             if (LinkkiAspectDefinition.DERIVED_BY_LINKKI.equals(staticValue)) {
                 return (T)StringUtils.capitalize(getProperty());

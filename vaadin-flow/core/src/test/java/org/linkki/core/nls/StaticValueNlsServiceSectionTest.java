@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.not;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.dispatcher.staticvalue.StaticValueNlsService;
 import org.linkki.core.nls.sample.SamplePmo;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
@@ -29,7 +30,7 @@ import org.linkki.core.vaadin.component.section.LinkkiSection;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 
-public class PmoNlsServiceSectionTest {
+public class StaticValueNlsServiceSectionTest {
 
     private String sectionCaption;
 
@@ -61,7 +62,6 @@ public class PmoNlsServiceSectionTest {
         buttonWithoutTranslatedCaption = (Button)TestUiUtil.getComponentAtIndex(3, sectionContent);
 
         // test setup
-        PmoNlsService.get();
         textfieldLabelTranslation = getLabelTranslation(SamplePmo.PROPERTY_TEXTFIELD);
         assertThat(textfieldLabelTranslation, is(not(SamplePmo.PMO_LABEL)));
         buttonLabelTranslation = getLabelTranslation(SamplePmo.PROPERTY_MYBUTTON);
@@ -74,11 +74,11 @@ public class PmoNlsServiceSectionTest {
     }
 
     private String getLabelTranslation(String property) {
-        return PmoNlsService.get().getLabel(SamplePmo.class, property, "label", SamplePmo.PMO_LABEL);
+        return StaticValueNlsService.getInstance().getString(SamplePmo.class, property, "label", SamplePmo.PMO_LABEL);
     }
 
     private String getCaptionTranslation(String property) {
-        return PmoNlsService.get().getLabel(SamplePmo.class, property, CaptionAspectDefinition.NAME,
+        return StaticValueNlsService.getInstance().getString(SamplePmo.class, property, CaptionAspectDefinition.NAME,
                                             SamplePmo.PMO_CAPTION);
     }
 

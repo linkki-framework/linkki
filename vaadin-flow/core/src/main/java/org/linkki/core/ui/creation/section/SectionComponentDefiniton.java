@@ -14,9 +14,10 @@
 
 package org.linkki.core.ui.creation.section;
 
+import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.dispatcher.staticvalue.StaticValueNlsService;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.GridSection;
@@ -49,7 +50,8 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
     }
 
     private Object createComponent(Class<?> pmoClass) {
-        String nlsCaption = PmoNlsService.get().getSectionCaption(pmoClass, this.caption);
+        var nlsCaption = StaticValueNlsService.getInstance().getString(pmoClass, StringUtils.EMPTY,
+                                                               StaticValueNlsService.CAPTION_KEY, this.caption);
 
         if (ContainerPmo.class.isAssignableFrom(pmoClass)) {
             return createTableSection(nlsCaption);

@@ -13,20 +13,21 @@
  */
 package org.linkki.core.nls;
 
+import org.linkki.core.binding.dispatcher.staticvalue.StaticValueNlsService;
 import org.linkki.core.defaults.nls.DefaultPmoNlsService;
 
 /**
  * Service for Native Language Support for presentation model objects.
- * <p>
- * If you want to implement your own service, {@link PmoNlsService#get()} uses CDI to load the
- * implementation, so you might want to replace the {@link DefaultPmoNlsService}.
+ * 
+ * @deprecated Use {@link StaticValueNlsService} instead
  */
+@Deprecated(since = "2.4.0")
 public interface PmoNlsService {
     static final String CAPTION_KEY = "caption";
 
     /**
-     * @param pmoClass required, PMO class
-     * @param fallbackValue required, value that returned if there is no corresponding resources
+     * @param pmoClass PMO class
+     * @param fallbackValue value that returned if there is no corresponding resources
      * @return internationalized label for corresponding <code>property</code> of <code>pmo</code>
      *         class. As a locale use <code>UiUtil.getUiLocale()</code>
      * @throws NullPointerException if {@code pmoClass} is {@code null} or if no label was found and the

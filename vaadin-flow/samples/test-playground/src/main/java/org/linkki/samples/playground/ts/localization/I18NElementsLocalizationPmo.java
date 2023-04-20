@@ -27,7 +27,8 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.ips.decimalfield.UIDecimalField;
 
 @UISection(caption = I18NElementsLocalizationPmo.I18N_LOCALIZED_LABEL)
-public class I18NElementsLocalizationPmo {
+public class I18NElementsLocalizationPmo extends I18NElementsLocalizationSuperPmo implements
+        I18NElementsLocalizationInterfacePmo {
 
     public static final String I18N_LOCALIZED_LABEL = "i18n localized label";
 
@@ -60,5 +61,6 @@ public class I18NElementsLocalizationPmo {
     public void localizedButtonCaption() {
         // no action required
     }
-
 }
+
+

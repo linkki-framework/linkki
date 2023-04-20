@@ -15,6 +15,7 @@ package org.linkki.core.defaults.nls;
 
 import static java.util.Objects.requireNonNull;
 
+import org.linkki.core.binding.dispatcher.staticvalue.StaticValueNlsService;
 import org.linkki.core.nls.NlsService;
 import org.linkki.core.nls.PmoBundleNameGenerator;
 import org.linkki.core.nls.PmoNlsService;
@@ -23,7 +24,10 @@ import org.linkki.core.uiframework.UiFramework;
 /**
  * PMO NLS service using a {@link PmoBundleNameGenerator} to derive bundle names with which a
  * {@link NlsService} is queried for localized texts.
+ * 
+ * @deprecated Use {@link StaticValueNlsService} instead
  */
+@Deprecated(since = "2.4.0")
 public class DefaultPmoNlsService implements PmoNlsService {
 
     /**

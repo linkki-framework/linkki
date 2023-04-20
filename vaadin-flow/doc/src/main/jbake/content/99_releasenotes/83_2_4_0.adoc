@@ -112,6 +112,36 @@ The `snakeyaml` dependency, which is required for using YAML configuration files
 ----
 ====
 
+
+[role="api-change"]
+===== Improved detection for internationalized Strings
+
+////
+https://jira.faktorzehn.de/browse/LIN-967
+////
+Internationalized Strings from super classes and interfaces::
+In previous versions, internationalized Strings from super classes and interfaces had to be copied to the properties file of the subclass, with the key adjusted to the subclass. This made the internationalization process complicated. With this change, the internationalized Strings from super classes and interfaces are now automatically taken into account by linkki. As a result, only the String aspects that are new in the subclass need to be defined in the properties file. The new mechanism for the detection of internationalized Strings are described in the <<nls-properties,documentation>>.
+
+Simplified key pattern for keys without property name::
+In case of class level aspect such as placeholder or caption, the key used to be `PmoClassName\__aspectName` as the property name is empty. An exception was made for section captions to make it possible to define `PmoClassName_caption`. This disparity is now resolved in this version. All keys without property name can now be defined with the pattern `PmoClassName_aspectName`, which omits the second underscore for convenience. The regular pattern `PmoClassName__aspectName` remains functional and has a higher precedence over the key with only one underscore.
+
+.In this example, the section caption would be `myNewCaption`
+[source,properties]
+----
+MyClass__caption=myNewCaption
+MyClass_caption=myOldCaption
+----
+
+.API changes
+To accommodate these changes, some internal API changes have been made:
+[cols="a,a"]
+|===
+| Changes | Description
+| `PmoNlsService` a| Deprecated. Use `StaticValueNlsService` instead.
+| `PmoBundleNameGenerator` a| Deprecated. The class is being deprecated because it is no longer in use.
+
+|===
+
 ===== Other
 // https://jira.convista.com/browse/LIN-3360
 * The class `org.linkki.util.Optionals` has been deprecated, the `Optional` class from the JDK now offers corresponding functionality. The replacement methods are linked in the JavaDoc.

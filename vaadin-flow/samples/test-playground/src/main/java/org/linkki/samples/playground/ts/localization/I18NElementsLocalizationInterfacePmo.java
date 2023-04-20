@@ -11,19 +11,13 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.core.nls;
+package org.linkki.samples.playground.ts.localization;
 
-/**
- * Derives a bundle name for use with a {@link PmoNlsService} from a presentation model object class.
- * 
- * @deprecated With the deprecation of {@link PmoNlsService} this class is not used anymore
- */
-@FunctionalInterface
-@Deprecated(since = "2.4.0")
-public interface PmoBundleNameGenerator {
+import org.linkki.core.ui.element.annotation.UILabel;
 
-    /**
-     * @return the bundle name to be used for lookup of texts used in the given class
-     */
-    public String getBundleName(Class<?> pmoClass);
+interface I18NElementsLocalizationInterfacePmo {
+    @UILabel(position = 60, label = I18NElementsLocalizationPmo.I18N_LOCALIZED_LABEL)
+    default String getLocalizedInterfaceLabel() {
+        return "i18n-label defined in interface";
+    }
 }

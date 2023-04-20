@@ -16,6 +16,25 @@ In this example, NLS Strings in `org.linkki.samples.binding.pmo.ButtonsSectionPm
 
 These `.properties` files contain messages in text form, each file represents one supported language for the PMOs in the same folder. It's important that these files share the base name `linkki-messages`. A file with the base name has to be present in the resource folder and acts as fall back option if no specific `.properties` file is found for a locale. You can support as many languages as you want by simple adding another `.properties` file to the resource folder, its name consisting of the base name and the language code separated by `_`. As shown in the example above, the German translations are represented by the file `linkki-messages_de.properties`. Note that each of these files has to contain the same items, but translated for the language they represent.
 
+[[nls-properties]]
+=== Translatable PMO Properties
+
+All aspects containing String values can be translated. Frequently used examples are label, caption and tooltip. Section captions can also be translated.
+For example:
+
+[source,java]
+----
+include::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ChildrenSectionPmo.java[tags=sectionCaption]
+----
+
+With its German translation entry in `linkki-messages_de.properties`:
+
+[source,java]
+----
+include::{source-dir}/resources/org/linkki/samples/playground/binding/pmo/linkki-messages_de.properties[tags=sectionCaption]
+----
+String valued aspects such as placeholder or caption do not have a property name. In this case, the pattern for the key would be PmoClassName__aspectName. For convenience, the second underscore can be omitted, i.e. the pattern PmoClassName_aspectName can also be used. If both keys happen to be present, the pattern with two underscores has a higher precedence.
+
 === Predefined Key Structure for *linkki* PMO
 
 An entry for a translation in the `linkki-messages.properties` files consists of two parts: The "key" that identifies a localizable aspect of a PMO property and the text, seperated by `=`.
@@ -35,19 +54,8 @@ include::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ContactRowP
 
 NOTE: *linkki* always tries to retrieve a value from the `linkki-messages.properties`, if the file exists. That means that the label "Name" that is defined directly in the annotation `@UILabel` above will not be used in this constellation. The entry `ContactRowPmo_name_label=name` overrides it as default value if there is no specific `.properties` file for the user's locale. It is useful to include the default label in the annotation to avoid having to look it up in the properties file when viewing the source code.
 
-[[nls-properties]]
-=== Translatable PMO Properties
+*linkki* will also look up NLS Strings of the superclasses of a class as well as implemented interfaces.
+This lookup prioritizes the current class, followed by all of its superclasses, followed by
+implemented interfaces and their superinterfaces.
 
-All aspects containing String values can be translated. Frequently used examples are label, caption and toolip. Section captions can also be translated. Their key does not contain a property name but only the PMO's class name and "_caption". For example:
 
-[source,java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ChildrenSectionPmo.java[tags=sectionCaption]
-----
-
-With its German translation entry in `linkki-messages_de.properties`:
-
-[source,java]
-----
-include::{source-dir}/resources/org/linkki/samples/playground/binding/pmo/linkki-messages_de.properties[tags=sectionCaption]
-----

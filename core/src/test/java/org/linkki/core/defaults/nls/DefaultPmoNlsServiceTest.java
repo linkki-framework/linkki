@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.uiframework.TestUiFramework;
 import org.linkki.core.uiframework.UiFramework;
 
+@Deprecated(since = "2.4.0")
 public class DefaultPmoNlsServiceTest {
 
     public static final String PROPERTY_TEST = "test";
