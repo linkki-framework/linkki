@@ -118,3 +118,5 @@ When user-supplied strings are included in HTML content, they have to be escaped
 * Fixed an incompatibility with ChromeDriver versions 111 and above in `linkki-vaadin-flow-testbench-extension`
 // https://jira.convista.com/browse/LIN-3362
 * Deprecated unused method `HierarchicalRowPmo#hasChildRows`
+// https://jira.faktorzehn.de/browse/LIN-3313
+* Fixed unnecessary horizontal scroll bar in ComboBox overlay
