@@ -5,6 +5,18 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.3.5
+
+==== New features and improvements
+
+// https://jira.faktorzehn.de/browse/LIN-3313
+* Vaadin has been updated to version 23.3.10
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3313
+* Fixed unnecessary horizontal scroll bar in ComboBox overlay
+
 === Version 2.3.4
 
 ==== New features and improvements
