@@ -16,6 +16,8 @@
 
 // https://jira.faktorzehn.de/browse/LIN-3313
 * Fixed unnecessary horizontal scroll bar in ComboBox overlay
+// https://jira.faktorzehn.de/browse/LIN-3403
+* Fixed wrong timestamp format in error dialogs
 
 === Version 2.3.4
 
