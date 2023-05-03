@@ -120,3 +120,5 @@ When user-supplied strings are included in HTML content, they have to be escaped
 * Deprecated unused method `HierarchicalRowPmo#hasChildRows`
 // https://jira.faktorzehn.de/browse/LIN-3313
 * Fixed unnecessary horizontal scroll bar in ComboBox overlay
+// https://jira.faktorzehn.de/browse/LIN-3403
+* Fixed wrong timestamp format in error dialogs
