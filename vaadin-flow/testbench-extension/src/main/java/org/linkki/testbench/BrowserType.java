@@ -60,10 +60,9 @@ public enum BrowserType {
         public WebDriver getWebdriver(Locale locale) {
             setChromeDriverSystemProperty();
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
+            options.addArguments("--headless=new");
             // supposed to solve "Time out receiving message from renderer: 600.000"
             options.addArguments("--disable-gpu");
-            options.addArguments("--lang=" + locale.getLanguage() + "-" + locale.getCountry());
 
             LoggingPreferences logs = new LoggingPreferences();
             logs.enable(LogType.PERFORMANCE, Level.ALL);
