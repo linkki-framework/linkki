@@ -35,11 +35,12 @@ public class ScreenshotUtil {
 
     public static void takeScreenshot(WebDriver driver, String description) {
         try {
+            LOGGER.info("Taking screenshot of " + driver.getCurrentUrl());
             BufferedImage screenshotImage = ImageIO
                     .read(new ByteArrayInputStream(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES)));
             final File errorScreenshotFile = getErrorScreenshotFile(description);
+            LOGGER.info("Writing screenshot to " + errorScreenshotFile.getAbsolutePath());
             ImageIO.write(screenshotImage, "png", errorScreenshotFile);
-            LOGGER.info("Error screenshot written to: " + errorScreenshotFile.getAbsolutePath());
         } catch (IOException e) {
             throw new RuntimeException("Failed to take a screenshot of the test failure", e);
         }
