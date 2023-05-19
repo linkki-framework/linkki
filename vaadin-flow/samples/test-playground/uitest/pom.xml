@@ -13,7 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <surefire.version>2.22.2</surefire.version>
+        <surefire.version>3.1.0</surefire.version>
         <junit.version>5.8.2</junit.version>
         <commons.version>3.12.0</commons.version>
         <assertj.version>3.22.0</assertj.version>
@@ -26,7 +26,15 @@
             <groupId>org.linkki-framework.samples</groupId>
             <artifactId>linkki-sample-test-playground-vaadin-flow</artifactId>
             <version>${project.version}</version>
+            <!-- only use classes of playground directly to reference identifiers, 
+                no transitive dependencies to avoid conflicts -->
             <classifier>classes</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -59,7 +67,6 @@
             <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -67,7 +74,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <release>${java.version}</release>
                     <showWarnings>true</showWarnings>
@@ -76,7 +83,7 @@
                         <arg>-Xmaxwarns</arg>
                         <arg>500</arg>
                         <arg>-Xlint</arg>
-                        <!-- Because the eclipse compiler and javac differ: 
+                        <!-- Because the eclipse compiler and javac differ:
                             https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
                         <arg>-Xlint:-varargs</arg>
                     </compilerArgs>

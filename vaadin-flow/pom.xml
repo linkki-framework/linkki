@@ -37,7 +37,7 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
-            3.0.5
+            3.0.6
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
     </properties>

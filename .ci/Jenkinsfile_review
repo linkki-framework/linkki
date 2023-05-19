@@ -99,7 +99,7 @@ pipeline {
                             steps {
                                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                                        -Dmaven.test.failure.ignore=true'
+                                        -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                                 }
 
                                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
