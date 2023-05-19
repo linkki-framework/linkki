@@ -19,10 +19,28 @@ Artifact Names:: Due to the upgrade to Vaadin 24, all artifacts have been rename
 
 Vaadin 24:: Vaadin 24 brings several breaking changes that are documented in the https://vaadin.com/docs/latest/upgrading#breaking-changes-in-vaadin-components[Vaadin migration guide]. 
 +
-* The breaking API changes only have an effect on code that uses Vaadin API directly. There are no resulting linkki API changes.
-* There are some changes in the resulting DOM structure that may impact UI tests and styling. 
+* The breaking API changes only have an effect on code that uses Vaadin API directly. There are no resulting linkki API changes. To see all breaking API changes, see https://github.com/vaadin/flow-components/releases/tag/24.0.0[Vaadin release notes for Flow Components].
+* There are some changes in the resulting DOM structure that may impact UI tests and CSS selectors.
++
+--
+** Some components are now in the light DOM instead of being in the shadow DOM, e.g.:
+*** Buttons in `MenuBar`
+*** Elements in `DatePicker`
+*** Elements in `Upload`
+*** Elements in `MultiSelectComboBox`
++
+** Some CSS properties have changed, e.g.:
+*** `--lumo-border-radius` is removed. Use `--lumo-border-radius-m` instead.
+*** CSS properties to set the border radius of input fields have changed. `--vaadin-input-container-top-end-radius` is now `--vaadin-input-field-top-end-radius`, `--vaadin-input-container-bottom-end-raiuds` is now `--vaadin-input-field-bottom-end-radius`
+--
+For all frontend changes, see https://github.com/vaadin/web-components/releases/tag/v24.0.0[Vaadin release notes for Vaadin Web Components].
 * Visually, the application looks mostly the same as with Vaadin 23. Following visual changes may need styling adjustments if the previous behavior need to be restored:
++
+--
 ** The `Accordion` component now display the closable toggle button directly after the caption instead of on the right end of the caption.
+** All Headings (`h1` - `h6`) do not have a default margin anymore. Components in linkki do not have to be adjusted. If headings are used in any other components, check visually if the margin still behave as expected.
+--
+Styling changes can also be found in https://github.com/vaadin/web-components/releases/tag/v24.0.0[Vaadin release notes for Vaadin Web Components].
 * The `snakeyaml` dependency, which is required for using YAML configuration files with Spring Boot, has been excluded by Vaadin in this version. To continue using YAML files, following dependency must manually be added:
 +
 [source,xml]
