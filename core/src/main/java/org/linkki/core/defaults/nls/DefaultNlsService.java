@@ -40,7 +40,7 @@ public class DefaultNlsService implements NlsService {
 
     /**
      * @return the {@link ResourceBundle} for the given {@link Locale} or that for the
-     *         {@link Locale.ROOT} if none is found for the given locale, it's language or the
+     *         {@link Locale#ROOT} if none is found for the given locale, it's language or the
      *         {@link Locale#getDefault() default Locale}
      */
     private ResourceBundle getResourceBundle(String resource, Locale locale) {

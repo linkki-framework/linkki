@@ -27,8 +27,8 @@ import org.linkki.samples.playground.treetable.dynamic.Player.Position;
 public abstract class CategoryRowPmo<CMO, CPMO extends PlayerTableRowPmo> extends PlayerTableRowPmo
         implements HierarchicalRowPmo<CPMO> {
 
-    private Supplier<Stream<Player>> playerStreamSupplier;
-    private SimpleItemSupplier<CPMO, CMO> childRowSupplier;
+    private final Supplier<Stream<Player>> playerStreamSupplier;
+    private final SimpleItemSupplier<CPMO, CMO> childRowSupplier;
 
     // tag::hierarchical-row-pmo-with-simple-item-supplier[]
     public CategoryRowPmo(Supplier<Stream<Player>> playerStreamSupplier,
@@ -63,10 +63,10 @@ public abstract class CategoryRowPmo<CMO, CPMO extends PlayerTableRowPmo> extend
 
     @Override
     public String getAge() {
-        Double average = playerStreamSupplier.get()
+        var average = playerStreamSupplier.get()
                 .map(Player::getDateOfBirth)
-                .collect(Collectors.averagingInt(d -> getAge(d)));
-        return 0.0d == average ? "" : String.format("Ø %.2f", average);
+                .collect(Collectors.averagingInt(PlayerTableRowPmo::getAge));
+        return average <= 0 ? "" : String.format("Ø %.2f", average);
     }
 
     @Override

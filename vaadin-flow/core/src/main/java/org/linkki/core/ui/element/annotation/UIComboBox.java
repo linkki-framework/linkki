@@ -225,10 +225,12 @@ public @interface UIComboBox {
                 this.wrappedConverter = (Converter<Object, Object>)wrappedConverter;
             }
 
-            @SuppressWarnings("unchecked")
             @Override
             public Result<Object> convertToModel(Object value, ValueContext context) {
-                if (value == null && !((ComboBox<Object>)context.getComponent().get()).isClearButtonVisible()) {
+                if (value == null && context.getComponent()
+                        .map(ComboBox.class::cast)
+                        .map(cb -> !cb.isClearButtonVisible())
+                        .orElse(false)) {
                     return Result.error("Null is not an available value");
                 } else {
                     return wrappedConverter.convertToModel(value, context);

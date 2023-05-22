@@ -50,7 +50,7 @@ public class DefaultNlsServiceTest {
 
     @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     @Nested
-    public static class BasicTests {
+    class BasicTests {
 
         public static Object[][] data() {
             return new Object[][] {
@@ -85,7 +85,7 @@ public class DefaultNlsServiceTest {
 
     @SuppressFBWarnings(value = "NP_NONNULL_PARAM_VIOLATION", justification = "because we test this here")
     @Nested
-    public static class NullTests {
+    class NullTests {
         @Test
         public void nullBundleTest() {
             Assertions.assertThrows(NullPointerException.class, () -> {
@@ -128,7 +128,7 @@ public class DefaultNlsServiceTest {
 
     @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     @Nested
-    public static class DefaultValuesTests {
+    class DefaultValuesTests {
 
         public static Object[][] data() {
             return new Object[][] {
