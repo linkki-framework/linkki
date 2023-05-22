@@ -50,7 +50,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.mvysny.kaributesting</groupId>
-            <artifactId>karibu-testing-v10</artifactId>
+            <artifactId>karibu-testing-v24</artifactId>
         </dependency>
 
     </dependencies>
