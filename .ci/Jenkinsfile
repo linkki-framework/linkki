@@ -23,7 +23,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
                 }
             }
@@ -59,7 +59,7 @@ pipeline {
             parallel {
                 stage('UI Test') {
                     steps {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                                 -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                         }
@@ -81,7 +81,7 @@ pipeline {
                     steps {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             withSonarQubeEnv('SonarQube') {
-                                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
                                             -Dsonar.projectKey=${PROJECT_NAME} \
                                             -Dsonar.login=$SONAR_LOGIN \

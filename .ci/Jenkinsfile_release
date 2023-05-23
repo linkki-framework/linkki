@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('Prepare Release') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -P production clean javadoc:jar source:jar install'
                 }
 
@@ -71,7 +71,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                 }
@@ -88,7 +88,7 @@ pipeline {
         stage('Maven Deployment') {
             steps {
                 script {
-                    withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                         // only publish normal releases (no rcs & milestones) on maven central
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
                             uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease,releaseDocumentation -Ddoc.user=doc']
