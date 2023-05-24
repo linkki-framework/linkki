@@ -99,7 +99,7 @@ About how to customize error handling, see <<error-handler, documentation>>.
 ////
 https://jira.faktorzehn.de/browse/LIN-3319
 ////
-Vaadin has been updated to version 23.3.5 and Spring Boot to version 2.7.8.
+Vaadin has been updated to version 24.0.5 and Spring Boot to version 3.1.0.
 [WARNING]
 ==== 
 The `snakeyaml` dependency, which is required for using YAML configuration files with Spring Boot, has been excluded by Vaadin. To continue using YAML files, following dependency must manually be added:
