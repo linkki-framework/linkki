@@ -19,13 +19,14 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.dom.Style;
 
 public class FocusringBug extends VerticalLayout {
 
@@ -35,9 +36,9 @@ public class FocusringBug extends VerticalLayout {
         setPadding(false);
         setSpacing(false);
 
-        getStyle().set("overflow", "hidden");
+        getStyle().setOverflow(Style.Overflow.HIDDEN);
 
-        add(new Label("Stepping through controls via TAB. Focusrings must be completely visible."));
+        add(new NativeLabel("Stepping through controls via TAB. Focusrings must be completely visible."));
 
         add(new TextField());
         add(new TextArea());

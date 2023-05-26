@@ -28,7 +28,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.QueryParameters;
@@ -152,14 +152,14 @@ public class ErrorDialogConfiguration {
         return content;
     }
 
-    private Label createLabelWithTimestamp() {
+    private NativeLabel createLabelWithTimestamp() {
         var formattedTimestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern(NlsText.getString("DefaultErrorHandler.timestampFormat")));
-        return new Label(NlsText.format("DefaultErrorHandler.errorDialogTimestamp", formattedTimestamp));
+        return new NativeLabel(NlsText.format("DefaultErrorHandler.errorDialogTimestamp", formattedTimestamp));
     }
 
-    private Label createLabelWithMessage() {
-        return new Label(errorMessage);
+    private NativeLabel createLabelWithMessage() {
+        return new NativeLabel(errorMessage);
     }
 
     private TextField createTextFieldWithExceptionMessage(Throwable exception) {

@@ -19,7 +19,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.wrapper.WrapperType;
@@ -35,7 +34,7 @@ import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.internal.AbstractFieldSupport;
 import com.vaadin.flow.data.provider.HasListDataView;
 import com.vaadin.flow.data.provider.ListDataView;
@@ -94,9 +93,9 @@ public final class TestUiUtil {
     }
 
     public static String getLabelOfComponentAt(Div layout, int row) {
-        List<Component> children = layout.getChildren().collect(Collectors.toList());
+        List<Component> children = layout.getChildren().toList();
         FormItem formItem = (FormItem)children.get(row);
-        return ((Label)formItem.getChildren().collect(Collectors.toList()).get(1)).getText();
+        return ((NativeLabel)formItem.getChildren().toList().get(1)).getText();
     }
 
     public static <T> void setUserOriginatedValue(AbstractSinglePropertyField<?, T> field, T value) {
@@ -117,15 +116,14 @@ public final class TestUiUtil {
     }
 
     public static <T> List<T> getData(HasListDataView<T, ? extends ListDataView<T, ?>> hasDataProvider) {
-        return hasDataProvider.getListDataView().getItems().collect(Collectors.toList());
+        return hasDataProvider.getListDataView().getItems().toList();
     }
 
     public static Component getComponentAtIndex(int index, Component component) {
-        List<Component> children = component.getChildren().collect(Collectors.toList());
+        List<Component> children = component.getChildren().toList();
         Component componentAtIndex = children.get(index);
-        if (componentAtIndex instanceof FormItem) {
-            FormItem formItem = (FormItem)componentAtIndex;
-            return formItem.getChildren().collect(Collectors.toList()).get(0);
+        if (componentAtIndex instanceof FormItem formItem) {
+            return formItem.getChildren().toList().get(0);
         } else {
             return componentAtIndex;
         }
@@ -133,7 +131,7 @@ public final class TestUiUtil {
 
     public static List<String> getColumnHeaders(Grid<?> grid) {
         HeaderRow header = grid.getHeaderRows().get(0);
-        return header.getCells().stream().map(c -> c.getText()).collect(Collectors.toList());
+        return header.getCells().stream().map(HeaderRow.HeaderCell::getText).toList();
     }
 
 }

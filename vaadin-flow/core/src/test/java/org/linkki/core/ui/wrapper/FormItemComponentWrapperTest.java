@@ -42,7 +42,7 @@ import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -53,7 +53,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  **/
 class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
 
-    private final Label label = spy(new Label());
+    private final NativeLabel label = spy(new NativeLabel());
 
     private final TextField field = spy(new TextField());
     private final ComboBox<String> selectField = spy(new ComboBox<>());
@@ -139,7 +139,7 @@ class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
     @Test
     void testSetTooltip() {
         TextField formTextField = new TextField();
-        LabelComponentFormItem formItem = new LabelComponentFormItem(formTextField, new Label("SomeText"));
+        LabelComponentFormItem formItem = new LabelComponentFormItem(formTextField, "SomeText");
         FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
 
         wrapper.setTooltip("testTip");

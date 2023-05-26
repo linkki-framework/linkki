@@ -25,7 +25,7 @@ import org.linkki.samples.playground.ts.aspects.BindLabelPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 
-import com.vaadin.flow.component.html.testbench.LabelElement;
+import com.vaadin.flow.component.html.testbench.NativeLabelElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 /**
@@ -82,10 +82,10 @@ class BindLabelTest extends PlaygroundUiTest {
      * @return the label text
      */
     private String getWrapperLabelTextOfElementWithId(String id) {
-        LabelElement label = getSection(BindLabelPmo.class)
+        NativeLabelElement label = getSection(BindLabelPmo.class)
                 .findElement(By.id(id))
                 .findElement(By.xpath(".."))
-                .$(LabelElement.class)
+                .$(NativeLabelElement.class)
                 .attributeContains("class", "linkki-label-caption")
                 .first();
         assertThat(label).isNotNull();

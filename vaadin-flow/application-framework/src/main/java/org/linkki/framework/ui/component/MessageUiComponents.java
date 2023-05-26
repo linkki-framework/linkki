@@ -28,7 +28,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -98,7 +98,7 @@ public final class MessageUiComponents {
             Supplier<MessageList> messages,
             BindingContext bindingContext) {
         Component messageTable = createMessageTable(messages, bindingContext);
-        VerticalLayout content = new VerticalLayout(new Label(title), messageTable);
+        VerticalLayout content = new VerticalLayout(new NativeLabel(title), messageTable);
         content.setPadding(false);
         return content;
     }

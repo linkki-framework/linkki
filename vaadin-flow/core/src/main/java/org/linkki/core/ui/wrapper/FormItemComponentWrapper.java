@@ -22,10 +22,10 @@ import org.linkki.core.vaadin.component.section.BaseSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 
 /**
- * Implementation of the {@link ComponentWrapper} with a Vaadin {@link Component} and a {@link Label}
+ * Implementation of the {@link ComponentWrapper} with a Vaadin {@link Component} and a {@link NativeLabel}
  * component. These are merged to a {@link FormItem} in a {@link BaseSection}.
  */
 public class FormItemComponentWrapper extends VaadinComponentWrapper {
@@ -45,7 +45,7 @@ public class FormItemComponentWrapper extends VaadinComponentWrapper {
         formItem.setLabel(labelText);
     }
 
-    public Label getLabelComponent() {
+    public NativeLabel getLabelComponent() {
         return formItem.getLabel();
     }
 

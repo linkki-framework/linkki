@@ -36,7 +36,7 @@ import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 
 public class DialogBindingManagerTest {
 
@@ -70,7 +70,7 @@ public class DialogBindingManagerTest {
         when(propertyDispatcher.getMessages(any())).thenReturn(new MessageList());
 
         FormItemComponentWrapper componentWrapper = new FormItemComponentWrapper(
-                new LabelComponentFormItem(new Button(), new Label()));
+                new LabelComponentFormItem(new Button(), new NativeLabel()));
         ElementBinding binding = spy(new ElementBinding(
                 componentWrapper,
                 propertyDispatcher, Handler.NOP_HANDLER, new ArrayList<>(), new DefaultMessageHandler()));

@@ -38,7 +38,7 @@ import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 
 /**
  * Defines how UI components are added to an {@link LinkkiSection}.
@@ -53,9 +53,9 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
      */
     DEFAULT {
         @Override
-        protected VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
-                Label label,
-                Component component) {
+        protected VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section, 
+                                                                                        NativeLabel label,
+                                                                                        Component component) {
             LabelComponentFormItem formItem = new LabelComponentFormItem(component, label);
             FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
             section.addContent(formItem);
@@ -69,8 +69,8 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     LABEL_ON_TOP {
         @Override
         protected VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
-                Label label,
-                Component component) {
+                                                                                        NativeLabel label, 
+                                                                                        Component component) {
             VaadinComponentWrapper componentWrapper = new LabelComponentWrapper(component, WrapperType.FIELD);
             section.addContent(componentWrapper.getComponent());
             return componentWrapper;
@@ -131,12 +131,12 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
     void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
         UiCreator.createUiElement(method, pmo, bindingContext,
-                                  c -> createComponentWrapperAndAddComponentToSection(section, new Label(),
+                                  c -> createComponentWrapperAndAddComponentToSection(section, new NativeLabel(),
                                                                                       (Component)c));
     }
 
     /**
-     * Creates the component wrapper for the given {@link Label} and {@link Component} and adds it to
+     * Creates the component wrapper for the given {@link NativeLabel} and {@link Component} and adds it to
      * the given {@link BaseSection}.
      * <p>
      * Note that it is necessary to add the component directly to the section in this method. In case of
@@ -146,8 +146,8 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
      * Thus, the {@link LabelComponentFormItem} has to be added to the section before it is returned.
      */
     protected abstract VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
-            Label label,
-            Component component);
+                                                                                             NativeLabel label, 
+                                                                                             Component component);
 
     private void createTable(Object parentComponent, Object pmo, BindingContext bindingContext) {
         GridSection section = (GridSection)parentComponent;

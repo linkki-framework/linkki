@@ -40,7 +40,7 @@ import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -108,7 +108,7 @@ class OkCancelDialogTest {
         OkCancelDialog dialog = OkCancelDialog.builder("").build();
         assertThat(DialogTestUtil.getContents(dialog).size(), is(0));
 
-        dialog.addContent(new Label());
+        dialog.addContent(new NativeLabel());
 
         assertThat(DialogTestUtil.getContents(dialog), hasSize(1));
         assertThat(dialog, is(showingEnabledOkButton()));
@@ -202,8 +202,8 @@ class OkCancelDialogTest {
 
     @Test
     void testContent() {
-        Label content1 = new Label("1");
-        Label content2 = new Label("2");
+        NativeLabel content1 = new NativeLabel("1");
+        NativeLabel content2 = new NativeLabel("2");
 
         OkCancelDialog dialog = OkCancelDialog.builder("caption")
                 .content(content1, content2)
@@ -349,7 +349,7 @@ class OkCancelDialogTest {
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 @NonNull
                 Div layout = dialog.getMessageArea();
-                return layout.getChildren().anyMatch(Label.class::isInstance);
+                return layout.getChildren().anyMatch(NativeLabel.class::isInstance);
             }
         };
     }

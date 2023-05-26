@@ -215,7 +215,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                            var component = VaadinUiCreator
                                                    .createComponent(new GridSectionLayoutPmo(), new BindingContext(
                                                            GridSectionLayoutPmo.class.getSimpleName()));
-                                           component.getElement().getStyle().set("height", "200px");
+                                           component.getElement().getStyle().setHeight("200px");
                                            return component;
                                        })
                                        .testCase(TC003, new SectionLayoutComponent())

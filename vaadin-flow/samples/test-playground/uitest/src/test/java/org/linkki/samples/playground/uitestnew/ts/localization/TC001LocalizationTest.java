@@ -29,7 +29,7 @@ import org.linkki.testbench.UITestConfiguration;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.html.testbench.LabelElement;
+import com.vaadin.flow.component.html.testbench.NativeLabelElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.testbench.TestBenchElement;
 
@@ -77,7 +77,7 @@ class TC001LocalizationTest {
         @Test
         void testLocalizedLabelsOfAllElements() {
             assertThat(allFormItems.stream()//
-                    .map(e -> e.$(LabelElement.class).first().getText()))
+                    .map(e -> e.$(NativeLabelElement.class).first().getText()))
                             .allSatisfy(e -> StringUtils.contains(e, localizedPrefix));
         }
 

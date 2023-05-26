@@ -19,7 +19,7 @@ import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -84,7 +84,7 @@ public class LinkkiTextComponent extends VerticalLayout {
     private HorizontalLayout createActionsOnText(LinkkiText text) {
         var actions = new HorizontalLayout();
         actions.setPadding(false);
-        actions.add(new Label("Choose an action on the text above:"));
+        actions.add(new NativeLabel("Choose an action on the text above:"));
         actions.add(new Button("Set static text", e -> updateIconWithText(text)));
         actions.add(new Button("Set random text", e -> updateIconWithTextRandom(text)));
         actions.add(new Button("Remove Icon", e -> text.setIcon(null)));

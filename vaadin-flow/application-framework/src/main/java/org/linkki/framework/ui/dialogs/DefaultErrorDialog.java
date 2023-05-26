@@ -25,7 +25,7 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasValueAndElement;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -87,10 +87,10 @@ public class DefaultErrorDialog extends ConfirmationDialog {
                 .getBooleanProperty("showExceptionStacktrace", !isProductionMode);
     }
 
-    private static Label createLabelWithTimestamp(LocalDateTime timestamp) {
+    private static NativeLabel createLabelWithTimestamp(LocalDateTime timestamp) {
         String formattedTimestamp = timestamp
                 .format(DateTimeFormatter.ofPattern(NlsText.getString("DefaultErrorHandler.timestampFormat")));
-        return new Label(NlsText.format("DefaultErrorHandler.errorDialogText", formattedTimestamp));
+        return new NativeLabel(NlsText.format("DefaultErrorHandler.errorDialogText", formattedTimestamp));
     }
 
     private static TextField createRootCauseTextField(@CheckForNull Throwable t) {
