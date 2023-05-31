@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.wrapper.WrapperType;
 
-import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class LabelComponentWrapperTest extends BaseComponentWrapperTest {
@@ -57,7 +57,7 @@ public class LabelComponentWrapperTest extends BaseComponentWrapperTest {
 
     @Test
     public void testSetTooltip() {
-        NativeLabel component = new NativeLabel();
+        Div component = new Div();
         LabelComponentWrapper wrapper = new LabelComponentWrapper(component, WrapperType.COMPONENT);
 
         wrapper.setTooltip("testTip");

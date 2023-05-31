@@ -20,7 +20,7 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -39,7 +39,7 @@ public class OverflowIssues extends VerticalLayout {
 
     // Vaadin Bug https://github.com/vaadin/flow-components/issues/2872
     private void vaadinBugTertiaryInlineButton() {
-        add(new NativeLabel("Icon Outlines should be rectangular:"));
+        add(new Span("Icon Outlines should be rectangular:"));
 
         Div flexbox = new Div();
         flexbox.getStyle().setDisplay(Style.Display.FLEX);
@@ -64,7 +64,7 @@ public class OverflowIssues extends VerticalLayout {
 
     // Vaadin Bug https://github.com/vaadin/flow-components/issues/2873
     private void vaadinBugCheckbox() {
-        add(new NativeLabel("Checkbox Outline should be rectangular:"));
+        add(new Span("Checkbox Outline should be rectangular:"));
 
         HorizontalLayout wrapper = new HorizontalLayout();
 
@@ -77,11 +77,11 @@ public class OverflowIssues extends VerticalLayout {
     }
 
     private void requiredIndicatorWithEmptyLabel() {
-        add(new NativeLabel("This layout must not have a scrollbar:"));
+        add(new Span("This layout must not have a scrollbar:"));
 
         FormLayout formLayout = new FormLayout();
 
-        FormItem formItem = formLayout.addFormItem(new NativeLabel("Ich bin ein Label ohne Label"), "");
+        FormItem formItem = formLayout.addFormItem(new Span("Ich bin ein Text ohne Label"), "");
         formItem.getStyle().setOverflow(Style.Overflow.AUTO);
 
         add(formLayout);

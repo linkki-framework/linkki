@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.html.Div;
 
 /**
  * A dialog to present an information to the user, who has to confirm it with OK.
@@ -29,8 +29,10 @@ public class ConfirmationDialogTest {
     @Test
     public void testCancelCallsOk() {
         Handler handler = mock(Handler.class);
-        ConfirmationDialog dialog = new ConfirmationDialog("", handler, new NativeLabel());
+        ConfirmationDialog dialog = new ConfirmationDialog("", handler, new Div());
+
         dialog.cancel();
+
         verify(handler).apply();
     }
 
@@ -38,7 +40,9 @@ public class ConfirmationDialogTest {
     public void testCancelCallsOk_withoutContent() {
         Handler handler = mock(Handler.class);
         ConfirmationDialog dialog = new ConfirmationDialog("", handler);
+
         dialog.cancel();
+
         verify(handler).apply();
     }
 }

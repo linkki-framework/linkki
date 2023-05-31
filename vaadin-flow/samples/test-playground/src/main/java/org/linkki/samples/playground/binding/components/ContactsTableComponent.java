@@ -26,7 +26,7 @@ import org.linkki.samples.playground.binding.pmo.ContactTablePmo;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class ContactsTableComponent extends Div implements UiUpdateObserver {
@@ -56,7 +56,7 @@ public class ContactsTableComponent extends Div implements UiUpdateObserver {
         table.asSingleSelect();
         table.addItemClickListener(e -> ((ContactRowPmo)e.getItem()).edit());
 
-        noContentLabel = new VerticalLayout(new NativeLabel("No contacts available"));
+        noContentLabel = new VerticalLayout(new Span("No contacts available"));
         noContentLabel.setWidth(null);
         noContentLabel.setMargin(true);
         add(noContentLabel, table);
