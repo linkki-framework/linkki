@@ -20,6 +20,7 @@ Artifact Names:: Due to the upgrade to Vaadin 24, all artifacts have been rename
 Vaadin 24:: Vaadin 24 brings several breaking changes that are documented in the https://vaadin.com/docs/latest/upgrading#breaking-changes-in-vaadin-components[Vaadin migration guide]. 
 +
 * The breaking API changes only have an effect on code that uses Vaadin API directly. There are no resulting linkki API changes. To see all breaking API changes, see https://github.com/vaadin/flow-components/releases/tag/24.0.0[Vaadin release notes for Flow Components].
+** `Label` component was deprecated as it is often misused to display text content. This may lead to unexpected behavior in the UI. Check all usages if they should be replaced by a `Span` instead. `Label` is replaced by `NativeLabel` which still can be used if a `<label>` element is necessary.
 * Fields from `LumoUtility` are no longer constant expressions, meaning they can no longer be used in annotations, e.g. `@BindStyleNames({ LumoUtility.Flex.AUTO })`. linkki now provides the class `LumoConstants`, that defines the same fields as constant expressions, to mitigate this problem. All existing usages of constants from `LumoUtility` in annotations should be replaced by `LumoConstans`.
 * There are some changes in the resulting DOM structure that may impact UI tests and CSS selectors.
 +

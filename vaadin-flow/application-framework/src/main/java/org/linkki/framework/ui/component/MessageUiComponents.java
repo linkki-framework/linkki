@@ -25,10 +25,9 @@ import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
-import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -36,7 +35,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  * Utility class for the creation of different components to display {@link Message Messages} and
  * {@link MessageList MessageLists}.
  */
-@CssImport("./styles/linkki-messages.css")
 public final class MessageUiComponents {
 
     private MessageUiComponents() {
@@ -84,21 +82,22 @@ public final class MessageUiComponents {
     public static Component createMessageTable(Supplier<MessageList> messages, BindingContext bindingContext) {
         Grid<MessageRowPmo> messagesGrid = GridComponentCreator
                 .createGrid(new MessageTablePmo(messages), bindingContext);
-        messagesGrid.addClassName(LinkkiApplicationTheme.MESSAGE_TABLE);
         messagesGrid.setWidthFull();
         messagesGrid.setSelectionMode(SelectionMode.NONE);
         return messagesGrid;
     }
 
     /**
-     * Creates a table displaying all messages under the given tile with the given
+     * Creates a table displaying all messages under the given title with the given
      * {@link BindingContext}.
      */
     public static Component createMessageTable(String title,
             Supplier<MessageList> messages,
             BindingContext bindingContext) {
         Component messageTable = createMessageTable(messages, bindingContext);
-        VerticalLayout content = new VerticalLayout(new NativeLabel(title), messageTable);
+        Span span = new Span(title);
+        messageTable.getId().ifPresent(s -> span.setId(s + "_title"));
+        VerticalLayout content = new VerticalLayout(span, messageTable);
         content.setPadding(false);
         return content;
     }

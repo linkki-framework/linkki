@@ -16,12 +16,12 @@ package org.linkki.framework.ui.component;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.vaadin.flow.component.grid.Grid;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.validation.message.MessageList;
 
-import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Span;
 
 class MessageUiComponentsTest {
 
@@ -31,8 +31,8 @@ class MessageUiComponentsTest {
 
         var children = component.getChildren().toList();
         assertThat(children).hasSize(2);
-        assertThat(children.get(0)).isInstanceOf(NativeLabel.class)
-                .satisfies(c -> assertThat(((NativeLabel)c).getText()).isEqualTo("Title"));
+        assertThat(children.get(0)).isInstanceOf(Span.class)
+                .satisfies(c -> assertThat(((Span)c).getText()).isEqualTo("Title"));
         assertThat(children.get(1)).isInstanceOf(Grid.class);
     }
 }

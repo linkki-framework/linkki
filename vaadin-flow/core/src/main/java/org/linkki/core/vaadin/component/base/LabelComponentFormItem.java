@@ -52,7 +52,7 @@ public class LabelComponentFormItem extends FormItem {
 
         add(component);
         addToLabel(label);
-
+      
         if (component instanceof HasValue) {
             synchronizePropertyFromField(component, "readonly", HasValue::isReadOnly);
 

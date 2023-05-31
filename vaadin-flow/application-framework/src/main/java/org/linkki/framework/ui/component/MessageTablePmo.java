@@ -21,6 +21,8 @@ import java.util.function.Supplier;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.dependency.CssImport;
 
@@ -28,6 +30,7 @@ import com.vaadin.flow.component.dependency.CssImport;
  * PMO for a {@link MessageList} to be displayed in a table.
  */
 @CssImport("./styles/linkki-messages.css")
+@BindStyleNames(LinkkiApplicationTheme.MESSAGE_TABLE)
 public class MessageTablePmo extends SimpleTablePmo<Message, MessageRowPmo> {
 
     protected MessageTablePmo(Supplier<MessageList> messageList) {

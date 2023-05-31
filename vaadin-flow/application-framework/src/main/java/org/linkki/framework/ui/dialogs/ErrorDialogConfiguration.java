@@ -28,7 +28,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.QueryParameters;
@@ -64,8 +64,8 @@ public class ErrorDialogConfiguration {
     }
 
     /**
-     * Creates a new dialog configuration with an OK handler that navigates to the given view.
-     * In addition, an {@link DialogErrorHandler#ERROR_PARAM error parameter} is appended to the URL.
+     * Creates a new dialog configuration with an OK handler that navigates to the given view. In
+     * addition, an {@link DialogErrorHandler#ERROR_PARAM error parameter} is appended to the URL.
      * 
      * @param view the route of the view to navigate to on confirmation
      */
@@ -141,35 +141,35 @@ public class ErrorDialogConfiguration {
      */
     public List<Component> getDialogContent(ErrorEvent event) {
         var content = new ArrayList<Component>();
-        content.add(createLabelWithTimestamp());
-        content.add(createLabelWithMessage());
+        content.add(createTimestamp());
+        content.add(createErrorMessage());
         if (showExceptionMessage) {
-            content.add(createTextFieldWithExceptionMessage(event.getThrowable()));
+            content.add(createExceptionMessage(event.getThrowable()));
         }
         if (showExceptionStacktrace) {
-            content.add(createTextAreaWithExceptionStacktrace(event.getThrowable()));
+            content.add(createExceptionStacktrace(event.getThrowable()));
         }
         return content;
     }
 
-    private NativeLabel createLabelWithTimestamp() {
+    private Component createTimestamp() {
         var formattedTimestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern(NlsText.getString("DefaultErrorHandler.timestampFormat")));
-        return new NativeLabel(NlsText.format("DefaultErrorHandler.errorDialogTimestamp", formattedTimestamp));
+        return new Span(NlsText.format("DefaultErrorHandler.errorDialogTimestamp", formattedTimestamp));
     }
 
-    private NativeLabel createLabelWithMessage() {
-        return new NativeLabel(errorMessage);
+    private Span createErrorMessage() {
+        return new Span(errorMessage);
     }
 
-    private TextField createTextFieldWithExceptionMessage(Throwable exception) {
+    private TextField createExceptionMessage(Throwable exception) {
         var textField = new TextField(NlsText.getString("DefaultErrorHandler.errorDialogDescription"));
         textField.setValue(ExceptionUtils.getRootCauseMessage(exception));
         formatTextComponent(textField);
         return textField;
     }
 
-    private TextArea createTextAreaWithExceptionStacktrace(Throwable exception) {
+    private TextArea createExceptionStacktrace(Throwable exception) {
         var textArea = new TextArea(NlsText.getString("DefaultErrorHandler.errorDialogDetails"));
         textArea.setValue(ExceptionUtils.getStackTrace(exception));
         textArea.setHeight("25em");
