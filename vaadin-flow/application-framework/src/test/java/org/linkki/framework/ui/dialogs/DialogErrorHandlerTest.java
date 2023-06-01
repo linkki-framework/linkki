@@ -18,6 +18,7 @@ import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
+import java.io.Serial;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -30,7 +31,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.util.handler.Handler;
 
@@ -48,6 +48,7 @@ import com.vaadin.flow.server.ErrorEvent;
 class DialogErrorHandlerTest {
 
     private static final String TEST_VIEW_ROUTE = "route";
+    private static final String TEST_VIEW_EMPTY_ROUTE = "";
 
     @BeforeAll
     static void setupLanguage() {
@@ -61,7 +62,7 @@ class DialogErrorHandlerTest {
 
     @BeforeEach
     void setupVaadin() {
-        MockVaadin.setup(new Routes(Stream.of(TestView.class)
+        MockVaadin.setup(new Routes(Stream.of(TestView.class, EmptyView.class)
                 .collect(Collectors.toSet()),
                 Collections.emptySet(), true));
     }
@@ -83,11 +84,12 @@ class DialogErrorHandlerTest {
                 .as("Check dialog caption is as configured").isEqualTo(dialogConfig.getCaption());
         List<Component> dialogContent = errorDialog.getContentArea().getChildren().collect(Collectors.toList());
         var configuredContent = dialogConfig.getDialogContent(event);
-        // The content of the time stamp cannot be checked using assertEquals as it contains milliseconds
+        // The content of the time stamp cannot be checked using assertEquals as it contains
+        // milliseconds
         assertThat(dialogContent).element(0).extracting(this::getTextContent).asString().startsWith("Timestamp");
         assertThat(dialogContent).elements(1, dialogContent.size() - 1)
-                    .usingElementComparator(Comparator.comparing(this::getTextContent))
-                    .isEqualTo(configuredContent.subList(1, dialogContent.size()));
+                .usingElementComparator(Comparator.comparing(this::getTextContent))
+                .isEqualTo(configuredContent.subList(1, dialogContent.size()));
 
         errorDialog.ok();
 
@@ -99,8 +101,8 @@ class DialogErrorHandlerTest {
     void testError_WithDialogCreator() {
         var caption = "caption";
         var exceptionMessage = "message";
-        BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator = (e, h) ->
-                new ConfirmationDialog(caption, h, new Text(e.getThrowable().getMessage()));
+        BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator = (e, h) -> new ConfirmationDialog(caption, h,
+                new Text(e.getThrowable().getMessage()));
         var handler = new DialogErrorHandler(dialogCreator);
 
         handler.error(new ErrorEvent(new RuntimeException(exceptionMessage)));
@@ -112,9 +114,8 @@ class DialogErrorHandlerTest {
                 .containsExactly(new Text(exceptionMessage));
 
         errorDialog.ok();
-
-        // TODO: LIN-3454 :: Fix navigation to empty start view and enable assertion
-        // assertUrlAfterOkIsCorrect(StringUtils.EMPTY);
+        
+        assertUrlAfterOkIsCorrect(StringUtils.EMPTY);
     }
 
     @SuppressWarnings("deprecation")
@@ -122,8 +123,8 @@ class DialogErrorHandlerTest {
     void testError_WithDialogCreatorAndStartView() {
         var caption = "caption";
         var exceptionMessage = "message";
-        BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator = (e, h) ->
-                new ConfirmationDialog(caption, h, new Text(e.getThrowable().getMessage()));
+        BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator = (e, h) -> new ConfirmationDialog(caption, h,
+                new Text(e.getThrowable().getMessage()));
         var handler = new DialogErrorHandler(dialogCreator, TEST_VIEW_ROUTE);
 
         handler.error(new ErrorEvent(new RuntimeException(exceptionMessage)));
@@ -156,6 +157,13 @@ class DialogErrorHandlerTest {
 
     @Route(value = TEST_VIEW_ROUTE)
     public static class TestView extends Div {
+        @Serial
+        private static final long serialVersionUID = 1L;
+    }
+
+    @Route(value = TEST_VIEW_EMPTY_ROUTE)
+    public static class EmptyView extends Div {
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 }
