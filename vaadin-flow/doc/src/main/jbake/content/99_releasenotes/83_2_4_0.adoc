@@ -11,18 +11,16 @@ This release brings a new technology baseline that includes Java 17, Spring Boot
 
 Java 17:: Java 17 is required instead of Java 11. This primarily impacts the build environment, as well as the Java version definition in the `pom.xml`.
 
-Artifact Names:: Due to the upgrade to Vaadin 24, all artifacts have been renamed to use `vaadin-flow` instead of `vaadin23`.
-This includes following dependencies: +
+Artifact Names:: Due to the upgrade to Vaadin 24, all artifacts have been renamed to use `vaadin-flow` instead of `vaadin23`. This includes following dependencies: +
 * `linkki-core-vaadin23`, now `linkki-core-vaadin-flow`
 * `linkki-core-nestedcomponent-vaadin23`, now `linkki-core-nestedcomponent-vaadin`
 * `linkki-application-framework-vaadin23`, now `linkki-application-framework-vaadlin-flow`
 * `linkki-ips-vaadin23`, now `linkki-ips-vaadin-flow`
 
-Vaadin 24:: Vaadin 24 brings several breaking changes that are documented in the https://vaadin.com/docs/latest/upgrading#breaking-changes-in-vaadin-components[Vaadin migration guide].
+Vaadin 24:: Vaadin 24 brings several breaking changes that are documented in the https://vaadin.com/docs/latest/upgrading#breaking-changes-in-vaadin-components[Vaadin migration guide]. 
 +
-* The breaking API changes only have an effect on code that uses Vaadin API directly.
-There are no resulting linkki API changes.
-To see all breaking API changes, see https://github.com/vaadin/flow-components/releases/tag/24.0.0[Vaadin release notes for Flow Components].
+* The breaking API changes only have an effect on code that uses Vaadin API directly. There are no resulting linkki API changes. To see all breaking API changes, see https://github.com/vaadin/flow-components/releases/tag/24.0.0[Vaadin release notes for Flow Components].
+* Fields from `LumoUtility` are no longer constant expressions, meaning they can no longer be used in annotations, e.g. `@BindStyleNames({ LumoUtility.Flex.AUTO })`. linkki now provides the class `LumoConstants`, that defines the same fields as constant expressions, to mitigate this problem. All existing usages of constants from `LumoUtility` in annotations should be replaced by `LumoConstans`.
 * There are some changes in the resulting DOM structure that may impact UI tests and CSS selectors.
 +
 --
@@ -33,24 +31,18 @@ To see all breaking API changes, see https://github.com/vaadin/flow-components/r
 *** Elements in `MultiSelectComboBox`
 +
 ** Some CSS properties have changed, e.g.:
-*** `--lumo-border-radius` is removed.
-Use `--lumo-border-radius-m` instead.
+*** `--lumo-border-radius` is removed. Use `--lumo-border-radius-m` instead.
 *** CSS properties to set the border radius of input fields have changed. `--vaadin-input-container-top-end-radius` is now `--vaadin-input-field-top-end-radius`, `--vaadin-input-container-bottom-end-raiuds` is now `--vaadin-input-field-bottom-end-radius`
 --
-
 For all frontend changes, see https://github.com/vaadin/web-components/releases/tag/v24.0.0[Vaadin release notes for Vaadin Web Components].
 * Visually, the application looks mostly the same as with Vaadin 23. Following visual changes may need styling adjustments if the previous behavior need to be restored:
 +
 --
 ** The `Accordion` component now display the closable toggle button directly after the caption instead of on the right end of the caption.
-** All Headings (`h1` - `h6`) do not have a default margin anymore.
-Components in linkki do not have to be adjusted.
-If headings are used in any other components, check visually if the margin still behave as expected.
+** All Headings (`h1` - `h6`) do not have a default margin anymore. Components in linkki do not have to be adjusted. If headings are used in any other components, check visually if the margin still behave as expected.
 --
-
 Styling changes can also be found in https://github.com/vaadin/web-components/releases/tag/v24.0.0[Vaadin release notes for Vaadin Web Components].
-* The `snakeyaml` dependency, which is required for using YAML configuration files with Spring Boot, has been excluded by Vaadin in this version.
-To continue using YAML files, following dependency must manually be added:
+* The `snakeyaml` dependency, which is required for using YAML configuration files with Spring Boot, has been excluded by Vaadin in this version. To continue using YAML files, following dependency must manually be added:
 +
 [source,xml]
 ----
@@ -73,26 +65,21 @@ To continue using YAML files, following dependency must manually be added:
 
 Faktor-IPS 23.6:: The <<fips-extension, linkki Faktor-IPS extension>> uses the latest Faktor-IPS version 23.6. There are no resulting API changes in the Faktor-IPS extension.
 
-Spring Boot 3 and Jakarta EE 10:: Spring-based applications need to upgrade to Spring Boot 3 or Spring framework 6. Spring Boot 2 is no longer supported by Vaadin.
-The <<maven-archetypes, Spring Boot archetype>> has been upgraded to Spring Boot 3 accordingly. +
+Spring Boot 3 and Jakarta EE 10:: Spring-based applications need to upgrade to Spring Boot 3 or Spring framework 6. Spring Boot 2 is no longer supported by Vaadin. The <<maven-archetypes, Spring Boot archetype>> has been upgraded to Spring Boot 3 accordingly. +
 Non-Spring application needs to be upgraded to be compatible with Jakarta EE 10.
 
 ==== New features and improvements
 
 ===== Improvements in Testbench-Extension
 
-The `WebDriverExtension` has been extended with an additional constructor that can be used by just passing the context path.
-In that case, the fully qualified URL is built based on the given path together with the defined test driver properties.
-This prevents that the fully qualified URL always has to be handed over as a whole.
+The `WebDriverExtension` has been extended with an additional constructor that can be used by just passing the context path. In that case, the fully qualified URL is built based on the given path together with the defined test driver properties. This prevents that the fully qualified URL always has to be handed over as a whole.
 The defined test driver system properties can be accessed by `DriverProperties`.
 
 [role="api-change"]
 ===== Hide exception stacktraces in production mode and customize the error dialog
-
 ////
 https://jira.faktorzehn.de/browse/LIN-2729
 ////
-
 For security reasons, exception stacktraces are not shown in the default error dialog anymore when the application runs in production mode.
 
 To make this behavior and error handling in whole more configurable, following API changes has been made:
@@ -110,18 +97,13 @@ To make this behavior and error handling in whole more configurable, following A
 About how to customize error handling, see <<error-handler, documentation>>.
 
 ===== Vaadin & Spring update
-
 ////
 https://jira.faktorzehn.de/browse/LIN-3319
 ////
-
-Vaadin has been updated to version 24.1.0.rc2 and Spring Boot to version 3.1.0.
-
+Vaadin has been updated to version 24.1.0.beta2 and Spring Boot to version 3.1.0.
 [WARNING]
 ==== 
-The `snakeyaml` dependency, which is required for using YAML configuration files with Spring Boot, has been excluded by Vaadin.
-To continue using YAML files, following dependency must manually be added:
-
+The `snakeyaml` dependency, which is required for using YAML configuration files with Spring Boot, has been excluded by Vaadin. To continue using YAML files, following dependency must manually be added:
 [source,xml]
 ----
 <dependency>
@@ -131,6 +113,7 @@ To continue using YAML files, following dependency must manually be added:
 ----
 ====
 
+
 [role="api-change"]
 ===== Improved detection for internationalized Strings
 
@@ -138,18 +121,10 @@ To continue using YAML files, following dependency must manually be added:
 https://jira.faktorzehn.de/browse/LIN-967
 ////
 Internationalized Strings from super classes and interfaces::
-In previous versions, internationalized Strings from super classes and interfaces had to be copied to the properties file of the subclass, with the key adjusted to the subclass.
-This made the internationalization process complicated.
-With this change, the internationalized Strings from super classes and interfaces are now automatically taken into account by linkki.
-As a result, only the String aspects that are new in the subclass need to be defined in the properties file.
-The new mechanism for the detection of internationalized Strings are described in the <<nls-properties,documentation>>.
+In previous versions, internationalized Strings from super classes and interfaces had to be copied to the properties file of the subclass, with the key adjusted to the subclass. This made the internationalization process complicated. With this change, the internationalized Strings from super classes and interfaces are now automatically taken into account by linkki. As a result, only the String aspects that are new in the subclass need to be defined in the properties file. The new mechanism for the detection of internationalized Strings are described in the <<nls-properties,documentation>>.
 
 Simplified key pattern for keys without property name::
-In case of class level aspect such as placeholder or caption, the key used to be `PmoClassName\__aspectName` as the property name is empty.
-An exception was made for section captions to make it possible to define `PmoClassName_caption`.
-This disparity is now resolved in this version.
-All keys without property name can now be defined with the pattern `PmoClassName_aspectName`, which omits the second underscore for convenience.
-The regular pattern `PmoClassName__aspectName` remains functional and has a higher precedence over the key with only one underscore.
+In case of class level aspect such as placeholder or caption, the key used to be `PmoClassName\__aspectName` as the property name is empty. An exception was made for section captions to make it possible to define `PmoClassName_caption`. This disparity is now resolved in this version. All keys without property name can now be defined with the pattern `PmoClassName_aspectName`, which omits the second underscore for convenience. The regular pattern `PmoClassName__aspectName` remains functional and has a higher precedence over the key with only one underscore.
 
 .In this example, the section caption would be `myNewCaption`
 [source,properties]
@@ -160,7 +135,6 @@ MyClass_caption=myOldCaption
 
 .API changes
 To accommodate these changes, some internal API changes have been made:
-
 [cols="a,a"]
 |===
 | Changes | Description
@@ -171,24 +145,21 @@ To accommodate these changes, some internal API changes have been made:
 
 ===== Other
 // https://jira.convista.com/browse/LIN-3360
-* The class `org.linkki.util.Optionals` has been deprecated, the `Optional` class from the JDK now offers corresponding functionality.
-The replacement methods are linked in the JavaDoc.
+* The class `org.linkki.util.Optionals` has been deprecated, the `Optional` class from the JDK now offers corresponding functionality. The replacement methods are linked in the JavaDoc.
+
 
 ==== Bugfixes
 
 // https://jira.faktorzehn.de/browse/LIN-3319
 ===== Sanitization of HTML content
 
-Using `@UILabel` with `htmlContent = true` previously did not sanitize the content.
-To make the behaviour of `htmlContent = true` more secure by default, the HTML is now automatically sanitized, removing potentially dangerous tags and attributes.
-Note that the tags `img` and `vaadin-icon` are also whitelisted.
+Using `@UILabel` with `htmlContent = true` previously did not sanitize the content. To make the behaviour of `htmlContent = true` more secure by default, the HTML is now automatically sanitized, removing potentially dangerous tags and attributes. Note that the tags `img` and `vaadin-icon` are also whitelisted.
 
 The same applies to `org.linkki.core.vaadin.component.base.LinkkiText` when using HTML content mode (`setText(..., true)`).
 
 [WARNING]
 ==== 
-When user-supplied strings are included in HTML content, they have to be escaped to prevent them from being interpreted as HTML.
-This can be achieved by using `HtmlSanitizer#escapeText`.
+When user-supplied strings are included in HTML content, they have to be escaped to prevent them from being interpreted as HTML. This can be achieved by using `HtmlSanitizer#escapeText`.
 ====
 
 ===== Other
