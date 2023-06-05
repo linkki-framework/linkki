@@ -29,7 +29,7 @@ import org.linkki.core.uiframework.UiFramework;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 @ExtendWith(VaadinUIExtension.class)
@@ -56,8 +56,8 @@ public class VaadinLinkkiExtensionTest {
 
     @Test
     public void testGetChildComponents() {
-        Component component1 = new Label("first label");
-        Component component2 = new Label("second label");
+        Component component1 = new Span("first text");
+        Component component2 = new Span("second text");
         HasComponents componentWithChildren = new VerticalLayout(component1, component2);
 
         Component[] arr = { component1, component2 };

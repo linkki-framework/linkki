@@ -26,7 +26,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Div;
 
 public class CaptionAspectDefinitionTest {
 
@@ -84,7 +84,7 @@ public class CaptionAspectDefinitionTest {
     @Test
     public void testCreateComponentValueSetter() {
         CaptionAspectDefinition captionAspectDefinition = new CaptionAspectDefinition(CaptionType.DYNAMIC, "foo");
-        Label component = new Label();
+        Div component = new Div();
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(component);
 
         Consumer<String> componentValueSetter = captionAspectDefinition.createComponentValueSetter(componentWrapper);

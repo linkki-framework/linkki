@@ -33,7 +33,7 @@ import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.data.provider.HasListDataView;
 import com.vaadin.flow.data.selection.MultiSelect;
 
@@ -51,7 +51,7 @@ public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCr
                 ifApplicable(w -> w.getComponent() instanceof HasValue && !(w.getComponent() instanceof MultiSelect),
                              new ValueAspectDefinition()),
                 ifComponentTypeIs(AbstractField.class, new DerivedReadOnlyAspectDefinition()),
-                ifComponentTypeIs(Label.class, new BindLabelValueAspectDefinition()),
+                ifComponentTypeIs(NativeLabel.class, new BindLabelValueAspectDefinition()),
                 ifComponentTypeIs(H2.class, new BindLabelValueAspectDefinition()),
                 ifComponentTypeIs(Button.class, new ButtonInvokeAspectDefinition()));
     }

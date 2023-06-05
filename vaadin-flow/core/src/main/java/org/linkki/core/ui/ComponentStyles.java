@@ -14,9 +14,13 @@
 
 package org.linkki.core.ui;
 
+import java.util.Optional;
+import java.util.function.BiConsumer;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.dom.Style;
 
 /**
  * Utility class for common CSS adjustments that are not part of the Vaadin API. Also holds utility
@@ -38,7 +42,7 @@ public class ComponentStyles {
      * @param component {@link Component} whose overflow property should be set
      */
     public static void setOverflowAuto(Component component) {
-        setStyle(component, "overflow", "auto");
+        setStyle(component, Style::setOverflow, Style.Overflow.AUTO);
     }
 
     /**
@@ -49,16 +53,14 @@ public class ComponentStyles {
      * @param width the width of the label as CSS property, e.g. 12em
      */
     public static void setFormItemLabelWidth(Component component, String width) {
-        setStyle(component, "--linkki-form-item-label-width", width);
+        BiConsumer<Style, String> formLabelWidthConsumer = (style, s) -> style.set("--linkki-form-item-label-width", s);
+        setStyle(component, formLabelWidthConsumer, width);
     }
 
-    private static void setStyle(Component component, String name, String value) {
-        if (component != null) {
-            if (component instanceof Dialog) {
-                component.getElement().getStyle().set(name, value);
-            } else {
-                component.getStyle().set(name, value);
-            }
-        }
+    private static <T> void setStyle(Component component, BiConsumer<Style, T> styleConsumer, T value) {
+        Optional.ofNullable(component)
+                .map(c -> c instanceof Dialog ? c.getElement().getStyle() : c.getStyle())
+                .ifPresent(style -> styleConsumer.accept(style, value));
+
     }
 }

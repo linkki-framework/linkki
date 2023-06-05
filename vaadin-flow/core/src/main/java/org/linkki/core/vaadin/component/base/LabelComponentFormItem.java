@@ -21,7 +21,7 @@ import java.util.function.Predicate;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 
 /**
@@ -32,11 +32,11 @@ public class LabelComponentFormItem extends FormItem {
 
     private static final long serialVersionUID = 1L;
 
-    private final Label label;
+    private final NativeLabel label;
     private final Component component;
 
     public LabelComponentFormItem(Component component, String label) {
-        this(component, new Label(requireNonNull(label, "label must not be null")));
+        this(component, new NativeLabel(requireNonNull(label, "label must not be null")));
     }
 
     /**
@@ -46,13 +46,13 @@ public class LabelComponentFormItem extends FormItem {
      * @param component The field component
      * @param label The label
      */
-    public LabelComponentFormItem(Component component, Label label) {
+    public LabelComponentFormItem(Component component, NativeLabel label) {
         this.component = requireNonNull(component, "component must not be null");
         this.label = requireNonNull(label, "label must not be null");
 
         add(component);
         addToLabel(label);
-
+      
         if (component instanceof HasValue) {
             synchronizePropertyFromField(component, "readonly", HasValue::isReadOnly);
 
@@ -79,7 +79,7 @@ public class LabelComponentFormItem extends FormItem {
         return component;
     }
 
-    public Label getLabel() {
+    public NativeLabel getLabel() {
         return label;
     }
 

@@ -30,13 +30,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 
 abstract class TC001AbstractSectionTest extends TS001AbstractBasicElementsLayoutTest {
 
     /**
      * Tests, that all elements in an {@link UISection} or an {@link UIFormSection} <b>do have</b>
-     * {@link Label labels}, including {@link LinkkiText labels}, {@link LinkkiAnchor links},
+     * {@link NativeLabel labels}, including {@link LinkkiText labels}, {@link LinkkiAnchor links},
      * {@link UICheckBox checkboxes} and {@link Button buttons}
      */
     @Test
@@ -44,7 +44,7 @@ abstract class TC001AbstractSectionTest extends TS001AbstractBasicElementsLayout
         WebElement formLayoutElement = getTestCaseSection().$(LinkkiSectionElement.class).get(0);
         List<WebElement> formItems = formLayoutElement.findElements(By.cssSelector("vaadin-form-item"));
 
-        assertThat(formItems.stream().allMatch(fi -> hasLabel(fi))).isTrue();
+        assertThat(formItems.stream().allMatch(this::hasLabel)).isTrue();
     }
 
     private boolean hasLabel(WebElement webElement) {

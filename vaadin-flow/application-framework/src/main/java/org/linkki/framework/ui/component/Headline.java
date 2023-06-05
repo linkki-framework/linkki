@@ -13,14 +13,12 @@
  */
 package org.linkki.framework.ui.component;
 
-
 import org.linkki.core.ui.bind.annotation.Bind;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -62,9 +60,9 @@ public class Headline extends Composite<HorizontalLayout> {
     }
 
     /**
-     * Creates a new {@link Headline} with a predefined {@link Label}.
+     * Creates a new {@link Headline} with a predefined {@link H2}.
      * 
-     * @param headerTitle the {@link Label} which holds the {@link Headline}'s title to be shown
+     * @param headerTitle the {@link H2} which holds the {@link Headline}'s title to be shown
      */
     public Headline(H2 headerTitle) {
         super();

@@ -20,11 +20,12 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.dom.Style;
 
 public class OverflowIssues extends VerticalLayout {
 
@@ -38,10 +39,10 @@ public class OverflowIssues extends VerticalLayout {
 
     // Vaadin Bug https://github.com/vaadin/flow-components/issues/2872
     private void vaadinBugTertiaryInlineButton() {
-        add(new Label("Icon Outlines should be rectangular:"));
+        add(new Span("Icon Outlines should be rectangular:"));
 
         Div flexbox = new Div();
-        flexbox.getStyle().set("display", "flex");
+        flexbox.getStyle().setDisplay(Style.Display.FLEX);
         flexbox.getStyle().set("flex-flow", "row nowrap");
         add(flexbox);
 
@@ -51,37 +52,37 @@ public class OverflowIssues extends VerticalLayout {
         Button b1 = new Button();
         b1.setIcon(VaadinIcon.USER.create());
         b1.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        b1.getStyle().set("outline", "auto");
+        b1.getStyle().setOutline("auto");
 
         Button b2 = new Button();
         b2.setIcon(VaadinIcon.USER.create());
         b2.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        b2.getStyle().set("outline", "auto");
+        b2.getStyle().setOutline("auto");
 
         flexbox.add(tf, b1, b2);
     }
 
     // Vaadin Bug https://github.com/vaadin/flow-components/issues/2873
     private void vaadinBugCheckbox() {
-        add(new Label("Checkbox Outline should be rectangular:"));
+        add(new Span("Checkbox Outline should be rectangular:"));
 
         HorizontalLayout wrapper = new HorizontalLayout();
 
         Checkbox cb = new Checkbox();
         cb.setLabel("I am a checkbox");
-        cb.getStyle().set("outline", "auto");
+        cb.getStyle().setOutline("auto");
         wrapper.add(cb);
 
         add(wrapper);
     }
 
     private void requiredIndicatorWithEmptyLabel() {
-        add(new Label("This layout must not have a scrollbar:"));
+        add(new Span("This layout must not have a scrollbar:"));
 
         FormLayout formLayout = new FormLayout();
 
-        FormItem formItem = formLayout.addFormItem(new Label("Ich bin ein Label ohne Label"), "");
-        formItem.getStyle().set("overflow", "auto");
+        FormItem formItem = formLayout.addFormItem(new Span("Ich bin ein Text ohne Label"), "");
+        formItem.getStyle().setOverflow(Style.Overflow.AUTO);
 
         add(formLayout);
     }

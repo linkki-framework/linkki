@@ -22,6 +22,7 @@ import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
+import com.vaadin.flow.component.html.testbench.SpanElement;
 import com.vaadin.flow.component.icon.testbench.IconElement;
 
 /**
@@ -35,6 +36,12 @@ class TC001MessageTableTest extends PlaygroundUiTest {
     void setup() {
         super.setUp();
         goToTestCase(TestScenarioView.TS013, TestScenarioView.TC001);
+    }
+
+    @Test
+    void testTitle() {
+        var span = $(SpanElement.class).id(MESSAGE_TABLE + "_title");
+        assertThat(span.getText()).isEqualTo("Message Table");
     }
 
     @Test

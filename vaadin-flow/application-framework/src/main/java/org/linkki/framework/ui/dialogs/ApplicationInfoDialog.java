@@ -40,7 +40,7 @@ public class ApplicationInfoDialog extends ConfirmationDialog {
 
     private static Component createContent(ApplicationInfoPmo applicationInfoPmo) {
         Component content = VaadinUiCreator.createComponent(applicationInfoPmo, new BindingContext());
-        content.getElement().getStyle().set("width", applicationInfoPmo.getDialogWidth());
+        content.getElement().getStyle().setWidth(applicationInfoPmo.getDialogWidth());
         content.getElement().getClassList().add(LinkkiApplicationTheme.APPLICATION_INFO_DIALOG);
 
         return content;

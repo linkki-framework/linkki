@@ -46,7 +46,8 @@ public class MessageTableSection {
         // tag::messages-component[]
         bindingManager.addUiUpdateObserver(messageTableBindingContext);
 
-        Component messageTable = MessageUiComponents.createMessageTable(validationService::getFilteredMessages,
+        Component messageTable = MessageUiComponents.createMessageTable("Message Table",
+                                                                        validationService::getFilteredMessages,
                                                                         messageTableBindingContext);
         // end::messages-component[]
 

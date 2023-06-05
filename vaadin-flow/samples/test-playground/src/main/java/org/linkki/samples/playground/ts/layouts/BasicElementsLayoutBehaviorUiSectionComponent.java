@@ -54,7 +54,7 @@ public class BasicElementsLayoutBehaviorUiSectionComponent extends LinkkiTabLayo
 
     private Component createSheetContent(Object pmo, BindingContext bindingContext) {
         Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
-        component.getElement().getStyle().set("padding", "var(--lumo-space-m)");
+        component.getElement().getStyle().setPadding("var(--lumo-space-m)");
         return component;
     }
 

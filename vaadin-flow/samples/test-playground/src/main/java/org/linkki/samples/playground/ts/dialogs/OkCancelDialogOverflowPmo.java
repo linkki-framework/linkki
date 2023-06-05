@@ -38,7 +38,7 @@ public class OkCancelDialogOverflowPmo {
         Div div = new Div();
         div.setWidth("200px");
         div.setHeight("150vh");
-        div.getStyle().set("background", "#eee");
+        div.getStyle().setBackground("#eee");
         div.getStyle().set("flex-shrink", "0");
         return div;
     }
