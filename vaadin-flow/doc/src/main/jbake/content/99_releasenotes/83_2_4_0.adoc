@@ -163,6 +163,9 @@ The same applies to `org.linkki.core.vaadin.component.base.LinkkiText` when usin
 When user-supplied strings are included in HTML content, they have to be escaped to prevent them from being interpreted as HTML. This can be achieved by using `HtmlSanitizer#escapeText`.
 ====
 
+// https://jira.faktorzehn.de/browse/LIN-3415
+* Fixed overlapping labels and input fields in small browser windows
+
 ===== Other
 // https://jira.faktorzehn.de/browse/LIN-3384
 * Fixed an incompatibility with ChromeDriver versions 111 and above in `linkki-vaadin-flow-testbench-extension`
