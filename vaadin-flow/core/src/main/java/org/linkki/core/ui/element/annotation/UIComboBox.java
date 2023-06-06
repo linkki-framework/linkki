@@ -26,9 +26,11 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
@@ -62,6 +64,7 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.ComboBoxVariant;
 import com.vaadin.flow.data.binder.Result;
@@ -239,7 +242,16 @@ public @interface UIComboBox {
 
             @Override
             public Object convertToPresentation(Object value, ValueContext context) {
-                return wrappedConverter.convertToPresentation(value, context);
+                Optional<Component> component = context.getComponent();
+                if (component.isPresent()) {
+                    @SuppressWarnings("unchecked")
+                    var converted = ((ComboBox<Object>)component.get()).getItemLabelGenerator()
+                            .apply(value);
+                    if (StringUtils.isNotEmpty(converted)) {
+                        return wrappedConverter.convertToPresentation(value, context);
+                    }
+                }
+                return null;
             }
         }
 

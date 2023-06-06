@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.uiframework.UiFramework;
 
+import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
@@ -70,10 +71,14 @@ public abstract class FormattedNumberToStringConverter<T extends Number> impleme
     @Override
     public String convertToPresentation(@CheckForNull T value, ValueContext context) {
         if (value == null) {
-            return "";
+            return getEmptyPresentation(context);
         } else {
             return getNumberFormat(getLocale(context)).format(value);
         }
+    }
+
+    protected String getEmptyPresentation(ValueContext context) {
+        return context.getHasValue().map(HasValue::getEmptyValue).map(Object::toString).orElse("");
     }
 
     private NumberFormat getNumberFormat(Locale locale) {

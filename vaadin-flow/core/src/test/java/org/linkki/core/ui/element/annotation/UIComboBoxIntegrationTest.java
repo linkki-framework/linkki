@@ -76,7 +76,8 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
 
         assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE,
                                                         TestEnum.TWO,
-                                                        TestEnum.THREE));
+                                                        TestEnum.THREE,
+                                                        TestEnum.EMPTY));
         assertThat(comboBox.isClearButtonVisible(), is(false));
     }
 
@@ -91,7 +92,8 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
 
         assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE,
                                                         TestEnum.TWO,
-                                                        TestEnum.THREE));
+                                                        TestEnum.THREE,
+                                                        TestEnum.EMPTY));
         assertThat(comboBox.isClearButtonVisible(), is(true));
     }
 
@@ -99,28 +101,29 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
     void testStaticAvailableValues() {
         ComboBox<TestEnum> staticComboBox = getStaticComponent();
         assertThat(getAllowedValues(staticComboBox), contains(TestEnum.ONE, TestEnum.TWO,
-                                                              TestEnum.THREE));
+                                                              TestEnum.THREE, TestEnum.EMPTY));
     }
 
     @Test
     void testDynamicAvailableValues() {
         assertThat(getAllowedValues(getDynamicComponent()), contains(TestEnum.ONE, TestEnum.TWO,
-                                                                     TestEnum.THREE));
+                                                                     TestEnum.THREE, TestEnum.EMPTY));
 
         List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.remove(TestEnum.ONE);
         getDefaultPmo().setValueAvailableValues(availableValues);
         modelChanged();
         assertThat(getAllowedValues(getDynamicComponent()), contains(TestEnum.TWO,
-                                                                     TestEnum.THREE));
+                                                                     TestEnum.THREE, TestEnum.EMPTY));
     }
 
     @Test
     void testCaptionProvider() {
-        assertThat(getDynamicComponent().getItemLabelGenerator().apply(null), is(""));
-        assertThat(getDynamicComponent().getItemLabelGenerator().apply(TestEnum.ONE), is("Oans"));
-        assertThat(getStaticComponent().getItemLabelGenerator().apply(TestEnum.ONE),
-                   is("ONE " + UiFramework.getLocale().toLanguageTag()));
+        assertThat(getDynamicComponent().getItemLabelGenerator().apply(null)).isEmpty();
+        assertThat(getDynamicComponent().getItemLabelGenerator().apply(TestEnum.EMPTY)).isEmpty();
+        assertThat(getDynamicComponent().getItemLabelGenerator().apply(TestEnum.ONE)).isEqualTo("Oans");
+        assertThat(getStaticComponent().getItemLabelGenerator().apply(TestEnum.ONE))
+                .isEqualTo("ONE " + UiFramework.getLocale().toLanguageTag());
     }
 
     @Test
@@ -147,6 +150,10 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
 
         TestUiUtil.setUserOriginatedValue(comboBox, TestEnum.ONE);
         assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+
+        getDefaultModelObject().setValue(TestEnum.EMPTY);
+        modelChanged();
+        assertThat(comboBox.getElement().getText()).isEmpty();
     }
 
     @Test
@@ -269,11 +276,14 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
             availableValues.add(TestEnum.ONE);
             availableValues.add(TestEnum.TWO);
             availableValues.add(TestEnum.THREE);
+            availableValues.add(TestEnum.EMPTY);
         }
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIComboBox(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
+        @UIComboBox(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC,
+                visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC,
+                itemCaptionProvider = ToStringCaptionProvider.class)
         public void value() {
             // model binding
         }
@@ -288,7 +298,8 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
 
         @Override
         @BindTooltip(TEST_TOOLTIP)
-        @UIComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
+        @UIComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED,
+                visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
         public void staticValue() {
             // model binding
         }

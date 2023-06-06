@@ -85,7 +85,7 @@ class AvailableValuesAspectDefinitionTest {
                 AvailableValuesType.DYNAMIC, NOP);
 
         assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(TestEnum.class),
-                   contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
+                   contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, TestEnum.EMPTY));
         assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(Boolean.class),
                    contains(null, true, false));
         assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(boolean.class),
@@ -156,7 +156,7 @@ class AvailableValuesAspectDefinitionTest {
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
-        assertThat(aspect.getValue(), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
+        assertThat(aspect.getValue(), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, TestEnum.EMPTY));
     }
 
     @Test
@@ -168,7 +168,7 @@ class AvailableValuesAspectDefinitionTest {
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
-        assertThat(aspect.getValue(), contains(null, TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
+        assertThat(aspect.getValue(), contains(null, TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, TestEnum.EMPTY));
     }
 
     @SuppressWarnings("unchecked")

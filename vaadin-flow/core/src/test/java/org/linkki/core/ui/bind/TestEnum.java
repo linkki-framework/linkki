@@ -23,7 +23,13 @@ public enum TestEnum {
         }
     },
     TWO("2"),
-    THREE("3");
+    THREE("3"),
+    EMPTY("") {
+        @Override
+        public String toString() {
+            return "";
+        }
+    };
 
     private String id;
 
