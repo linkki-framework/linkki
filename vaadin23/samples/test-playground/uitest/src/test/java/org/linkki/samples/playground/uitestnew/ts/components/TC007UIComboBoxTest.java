@@ -16,7 +16,7 @@ package org.linkki.samples.playground.uitestnew.ts.components;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -107,6 +107,31 @@ class TC007UIComboBoxTest extends PlaygroundUiTest {
                 .getCssValue("text-align")).isEqualTo("right"));
 
         comboBox.closePopup();
+    }
+
+    @Test
+    void testFillInitiallyNonNullButRequiredString_shouldNotBeInvalid() {
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("nonNullStringValue");
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
+        comboBox.selectByText("1");
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
+        comboBox.selectByText("");
+        assertThat(comboBox.hasAttribute("invalid")).isTrue();
+        comboBox.selectByText("1");
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
+    }
+
+    @Test
+    void testFillInitiallyNonNullButRequiredDecimal_shouldNotBeInvalid() {
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("nonNullDecimalValue");
+        comboBox.scrollIntoView();
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
+        comboBox.selectByText("1,00");
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
+        comboBox.selectByText("");
+        assertThat(comboBox.hasAttribute("invalid")).isTrue();
+        comboBox.selectByText("1,00");
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
     }
 
 }

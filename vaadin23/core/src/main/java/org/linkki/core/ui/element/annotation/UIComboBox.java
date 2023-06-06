@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static java.util.function.Predicate.not;
 import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
 import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
 import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
@@ -236,8 +237,13 @@ public @interface UIComboBox {
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public Object convertToPresentation(Object value, ValueContext context) {
-                return wrappedConverter.convertToPresentation(value, context);
+                return context.getComponent()
+                        .map(component -> ((ComboBox<Object>)component).getItemLabelGenerator().apply(value))
+                        .filter(not(String::isEmpty))
+                        .map(s -> wrappedConverter.convertToPresentation(value, context))
+                        .orElse(null);
             }
         }
 

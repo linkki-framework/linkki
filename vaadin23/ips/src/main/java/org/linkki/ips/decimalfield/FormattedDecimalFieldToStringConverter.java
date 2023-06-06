@@ -65,7 +65,7 @@ public class FormattedDecimalFieldToStringConverter
     @Override
     public String convertToPresentation(@CheckForNull Decimal value, ValueContext context) {
         if (value == null || value.isNull()) {
-            return "";
+            return getEmptyPresentation(context);
         } else {
             return super.convertToPresentation(value, context);
         }

@@ -127,5 +127,20 @@
                 ]
             }
         }
+    ],
+    "2.3.6": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.method.added",
+                        "new": "method java.lang.String org.linkki.core.ui.converters.FormattedNumberToStringConverter<T extends java.lang.Number>::getEmptyPresentation(com.vaadin.flow.data.binder.ValueContext)",
+                        "justification": "LIN-3437/LIN-3464 :: Fix valid comboBox marked as invalid"
+                    }
+                ]
+            }
+        }
     ]
 }

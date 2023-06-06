@@ -5,6 +5,14 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+
+=== Version 2.3.6
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3437
+* Fixed falsely marked as invalid combobox with initial non-null but empty representation
+
 === Version 2.3.5
 
 ==== New features and improvements
