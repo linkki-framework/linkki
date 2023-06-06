@@ -113,7 +113,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsDefaultValue("string")
-    public static final String DEFAULT_VALUE_FOR_STRING = null;
+    public static final String DEFAULT_VALUE_FOR_STRING = "";
 
     /**
      * The name of the property unrestrictedInclNull.
@@ -288,7 +288,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     public static final OrderedValueSet<String> MAX_ALLOWED_VALUES_FOR_EMPTY_STRING_VALUE_SET = new OrderedValueSet<>(
-            false, null);
+            false, "");
 
     /**
      * The default value for emptyStringValueSet.
@@ -296,7 +296,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsDefaultValue("emptyStringValueSet")
-    public static final String DEFAULT_VALUE_FOR_EMPTY_STRING_VALUE_SET = null;
+    public static final String DEFAULT_VALUE_FOR_EMPTY_STRING_VALUE_SET = "";
 
     // end::PROPERTY_STRING[]
 
@@ -949,6 +949,9 @@ public class IpsModelObject extends AbstractModelObject {
     @IpsValidationRule(name = "checkDecimal", msgCode = MSG_CODE_CHECK_DECIMAL, severity = Severity.ERROR)
     @IpsGenerated
     protected boolean checkDecimal(MessageList ml, IValidationContext context) {
+        if (getAllowedValuesForDecimal().isEmpty() && getDecimal() == Decimal.NULL) {
+            return CONTINUE_VALIDATION;
+        }
         if (!getAllowedValuesForDecimal().contains(getDecimal())) {
 
             // begin-user-code

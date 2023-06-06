@@ -369,6 +369,9 @@
             <!- - Severity for validation messages when model and persistence constraints don't match.
                 Possible values are ERROR, WARNING, INFO, and NONE. - ->
             <Setting name="persistenceColumnSizeChecksSeverity" value="ERROR"/>
+            <!- - Severity for validation messages when a custom datatype is used for an attribute but not listed in the <DataTypes> section.
+                Possible values are ERROR, WARNING, INFO, and NONE. - ->
+            <Setting name="missingDatatypeSeverity" value="ERROR"/>
             <!- - Format for table content data.
                 Possible values are XML and CSV, where XML is the Faktor-IPS standard and CSV is a more compact form optimised for large tables.
                 Changing this setting will only affect tables when they are saved the next time. - ->
@@ -393,6 +396,7 @@
   <Setting name="inferredTemplatePropertyValueThreshold" value="0.8"/>
   <Setting name="duplicateProductComponentSeverity" value="WARNING"/>
   <Setting name="persistenceColumnSizeChecksSeverity" value="WARNING"/>
+  <Setting name="missingDatatypeSeverity" value="WARNING"/>
   <Setting name="tableContentFormat" value="XML"/>
   <Setting enabled="false" name="generateValidatorClassDefault"/>
   <Setting enabled="false" name="genericValidationDefault"/>
