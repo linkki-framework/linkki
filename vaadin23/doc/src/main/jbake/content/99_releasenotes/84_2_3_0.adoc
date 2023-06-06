@@ -13,6 +13,9 @@
 // https://jira.faktorzehn.de/browse/LIN-3437
 * Fixed falsely marked as invalid combobox with initial non-null but empty representation
 
+// https://jira.faktorzehn.de/browse/LIN-3415
+* Fixed overlapping labels and input fields in small browser windows
+
 === Version 2.3.5
 
 ==== New features and improvements

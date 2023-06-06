@@ -4,7 +4,10 @@ linkki-section {
 
 linkki-section > div[slot="content"] > * {
     max-width: var(--section-item-width);
+    min-width: calc(var(--vaadin-form-item-label-spacing, 1em) + var(--linkki-form-item-label-width, 8em) + var(--vaadin-field-default-width, 12em));
+    overflow: auto;
 }
+
 
 .linkki-section-caption-text {
     margin: 0;
