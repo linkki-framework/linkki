@@ -42,5 +42,5 @@ In both cases, the `theme.json` file must include the following configuration:
 }
 ----
 
-The `styles.css` file contains the CSS customizations one wants to make in the theme. For most simple changes, adjusting some of the Lumo CSS properties should suffice. The https://demo.vaadin.com/lumo-editor/[Lumo theme editor] is a useful tool to visualize the possibilities.
+The `styles.css` file contains the CSS customizations one wants to make in the theme. For most simple changes, adjusting some of the Lumo CSS properties should suffice. The Lumo Theme Editor is a useful tool to visualize the possibilities.
 
