@@ -386,6 +386,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
             var location = new Location(parameter);
             tabLayout.setSelectedTabSheet(location.getFirstSegment());
             location.getSubLocation().ifPresent(l -> selectTc(l.getFirstSegment()));
+        } else {
+            tabLayout.setSelectedIndex(0);
         }
     }
 

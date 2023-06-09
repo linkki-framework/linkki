@@ -47,6 +47,7 @@ import com.vaadin.flow.server.ErrorEvent;
 
 class DialogErrorHandlerTest {
 
+    private static final String DEFAULT_VIEW_ROUTE = "";
     private static final String TEST_VIEW_ROUTE = "route";
 
     @BeforeAll
@@ -61,7 +62,7 @@ class DialogErrorHandlerTest {
 
     @BeforeEach
     void setupVaadin() {
-        MockVaadin.setup(new Routes(Stream.of(TestView.class)
+        MockVaadin.setup(new Routes(Stream.of(DefaultView.class, TestView.class)
                 .collect(Collectors.toSet()),
                 Collections.emptySet(), true));
     }
@@ -113,8 +114,7 @@ class DialogErrorHandlerTest {
 
         errorDialog.ok();
 
-        // TODO: LIN-3454 :: Fix navigation to empty start view and enable assertion
-        // assertUrlAfterOkIsCorrect(StringUtils.EMPTY);
+        assertUrlAfterOkIsCorrect(DEFAULT_VIEW_ROUTE);
     }
 
     @SuppressWarnings("deprecation")
@@ -152,6 +152,11 @@ class DialogErrorHandlerTest {
     private String getTextContent(Component component) {
         return component instanceof HasText ? ((HasText)component).getText()
                 : (String)((HasValue<?, ?>)component).getValue();
+    }
+
+    @Route(value = DEFAULT_VIEW_ROUTE)
+    public static class DefaultView extends Div {
+        private static final long serialVersionUID = 1L;
     }
 
     @Route(value = TEST_VIEW_ROUTE)
