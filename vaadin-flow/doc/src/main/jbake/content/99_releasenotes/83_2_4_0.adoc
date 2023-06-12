@@ -147,6 +147,8 @@ To accommodate these changes, some internal API changes have been made:
 ===== Other
 // https://jira.convista.com/browse/LIN-3360
 * The class `org.linkki.util.Optionals` has been deprecated, the `Optional` class from the JDK now offers corresponding functionality. The replacement methods are linked in the JavaDoc.
+// https://jira.convista.com/browse/LIN-3219
+* Excluded the dependency `com.google.code.findbugs:jsr305` from the compile scoped dependencies of the module `linkki-core-vaadin-flow` 
 
 
 ==== Bugfixes

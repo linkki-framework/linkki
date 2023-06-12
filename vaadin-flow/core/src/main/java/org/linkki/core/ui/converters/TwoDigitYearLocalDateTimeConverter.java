@@ -16,13 +16,13 @@ package org.linkki.core.ui.converters;
 
 import java.time.LocalDateTime;
 
-import javax.annotation.CheckForNull;
-
 import org.linkki.util.TwoDigitYearUtil;
 
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Converts {@link LocalDateTime} to {@link LocalDateTime} while recalculating two digit years into four
