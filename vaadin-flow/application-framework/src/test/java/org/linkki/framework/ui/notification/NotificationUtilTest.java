@@ -21,33 +21,27 @@ import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTI
 import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_WARNING;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.ui.test.VaadinUIExtension;
+import org.linkki.core.ui.test.KaribuUIExtension;
+import org.linkki.core.ui.test.WithLocale;
 import org.linkki.framework.ui.notifications.NotificationUtil;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.dom.Element;
 
-@ExtendWith(VaadinUIExtension.class)
+@WithLocale("en_US")
+@ExtendWith(KaribuUIExtension.class)
 class NotificationUtilTest {
 
-    // For tests to do with close button, as it has I18n caption
-    @BeforeEach
-    void setup() {
-        UI.getCurrent().setLocale(Locale.US);
-    }
 
     // Reset durations to avoid conflicts
     @AfterEach

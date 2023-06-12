@@ -33,7 +33,7 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.ui.test.VaadinUIExtension;
+import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
@@ -42,7 +42,7 @@ import org.linkki.util.validation.ValidationMarker;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 
-@ExtendWith(VaadinUIExtension.class)
+@ExtendWith(KaribuUIExtension.class)
 class OkCancelDialogTest {
 
     @Test

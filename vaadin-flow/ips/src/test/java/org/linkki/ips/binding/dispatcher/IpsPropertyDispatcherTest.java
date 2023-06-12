@@ -38,13 +38,13 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.test.VaadinUIExtension;
+import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.ips.test.model.TestIpsObject;
 import org.linkki.ips.test.model.TestIpsObject2;
 
 import com.vaadin.flow.component.UI;
 
-@ExtendWith(VaadinUIExtension.class)
+@ExtendWith(KaribuUIExtension.class)
 class IpsPropertyDispatcherTest {
 
     private final TestPmoWithIpsModelObject pmo = new TestPmoWithIpsModelObject();
@@ -353,13 +353,13 @@ class IpsPropertyDispatcherTest {
             return ipsObject;
         }
 
+        public void setIpsObject(TestIpsObject ipsObject) {
+            this.ipsObject = ipsObject;
+        }
+
         @ModelObject(name = "second")
         public TestIpsObject2 getIpsObject2() {
             return new TestIpsObject2();
-        }
-
-        public void setIpsObject(TestIpsObject ipsObject) {
-            this.ipsObject = ipsObject;
         }
 
         @UITextField(position = 1)

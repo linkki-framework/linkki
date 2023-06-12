@@ -27,7 +27,11 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  * Extension that sets a Vaadin {@link UI} before each test and removing it afterwards.
  * <p>
  * The UI locale can be changed using {@code UI.getCurrent().setLocale(...)}.
+ * 
+ * @deprecated Use {@link KaribuUIExtension} instead
+ * 
  */
+@Deprecated(since = "2.4")
 public class VaadinUIExtension implements BeforeEachCallback, AfterEachCallback {
 
     // needs to be a field due to weak reference

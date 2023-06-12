@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -73,7 +74,7 @@
             **/org/linkki/tooling/apt/util/DynamicMethodUtils.java,
             <!-- testbench-extension module -->
             **/org/linkki/testbench/**/*.java,
-            **/org/linkki/core/defaults/ui/aspects/types/*.java
+            **/org/linkki/core/defaults/ui/aspects/types/*.java,
         </sonar.coverage.exclusions>
         <sonar.cpd.exclusions>
             **/org/linkki/samples/**/*.java,
@@ -280,7 +281,9 @@
                         <configurationFile>
                             <path>${project.basedir}/api-changes.json</path>
                             <roots>
-                                <root>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</root>
+                                <root>
+                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}
+                                </root>
                                 <root>all-versions</root>
                             </roots>
                         </configurationFile>
@@ -437,7 +440,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -450,7 +453,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>

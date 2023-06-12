@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
-import org.linkki.core.ui.test.VaadinUIExtension;
+import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 
@@ -39,16 +39,15 @@ import com.vaadin.flow.component.html.Div;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-@ExtendWith(VaadinUIExtension.class)
+@ExtendWith(KaribuUIExtension.class)
 public abstract class ComponentAnnotationIntegrationTest<C extends Component, P extends AnnotationTestPmo> {
 
     protected static final String PROPERTY_VALUE = "value";
     protected static final String PROPERTY_STATIC_VALUE = "staticValue";
-
+    private final Function<Object, ? extends P> pmoCreator;
     private Object defaultModelObject;
     private P defaultPmo;
     private BindingContext bindingContext;
-    private final Function<Object, ? extends P> pmoCreator;
     private Supplier<Object> modelObjectSupplier;
     private Div defaultSection;
 

@@ -1,0 +1,28 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_releasenotes
+
+=== Version 2.5.0
+
+==== New features and improvements
+
+// https://jira.convista.com/browse/LIN-3470
+[role="api-change"]
+===== Additional utility for Karibu testing
+`KaribuUIExtension`::
+To use `KaribuUIExtension` a test class can either be annotated with `@ExtendWith(KaribuUIExtension.class)` or registered via `@RegisterExtension`. The latter allows e.g. to register and use custom classes as routes in Vaadin UI tests. Additionally, a test using `KaribuUIExtension` can be annotated with `@WithLocale` to define the UI's locale, defaulting to german.
+
+`KaribuUtils`::
+Provides utility methods for handling `Notification`-components.
+
+NOTE: `VaadinUIExtension` has been deprecated since `KaribuUIExtension` not only offers the same functionality, but also additional features.
+
+// ===== Other
+
+// ==== Bugfixes
+
+// ===== Other
+

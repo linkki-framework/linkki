@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.linkki.core.ui.test.VaadinUIExtension;
+import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.flow.component.Component;
@@ -32,7 +32,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-@ExtendWith(VaadinUIExtension.class)
+@ExtendWith(KaribuUIExtension.class)
 public class VaadinLinkkiExtensionTest {
 
     @Test

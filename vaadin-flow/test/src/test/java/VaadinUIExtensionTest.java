@@ -1,13 +1,3 @@
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.linkki.core.ui.test.VaadinUIExtension;
-
-import com.vaadin.flow.component.UI;
-
 /*
  * Copyright Faktor Zehn GmbH.
  *
@@ -22,12 +12,30 @@ import com.vaadin.flow.component.UI;
  * License.
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.ui.test.VaadinUIExtension;
+
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.server.VaadinSession;
+
+@Deprecated
 @ExtendWith(VaadinUIExtension.class)
-class VaadinUIExtensionTest {
+public class VaadinUIExtensionTest {
 
     @Test
-    void testExtension() {
-        assertThat(UI.getCurrent(), is(notNullValue()));
+    void testSetupUi() {
+        assertThat(UI.getCurrent()).isNotNull();
+        VaadinSession.setCurrent(mock(VaadinSession.class));
     }
 
+    @AfterAll
+    public static void afterAll() {
+        assertThat(UI.getCurrent()).isNull();
+        assertThat(VaadinSession.getCurrent()).isNull();
+    }
 }

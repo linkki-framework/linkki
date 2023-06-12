@@ -21,7 +21,7 @@ import static org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuIte
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.linkki.core.ui.test.VaadinUIExtension;
+import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.nls.NlsText;
@@ -33,7 +33,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-@ExtendWith(VaadinUIExtension.class)
+@ExtendWith(KaribuUIExtension.class)
 class ApplicationHeaderTest {
 
     @Test

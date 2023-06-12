@@ -23,14 +23,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.test.VaadinUIExtension;
+import org.linkki.core.ui.test.KaribuUIExtension;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-@ExtendWith(VaadinUIExtension.class)
+@ExtendWith(KaribuUIExtension.class)
 class UIIntegerFieldTest {
 
     @Test
@@ -91,6 +91,19 @@ class UIIntegerFieldTest {
         assertThat(textField.getValue(), is("123,456"));
     }
 
+    /**
+     * Returns a {@code TextField} that is bound to the given model object using the IPM data binder.
+     * The {@code TextField} is part of a mostly mocked UI so that a rudimentary Vaadin environment is
+     * in place.
+     *
+     * @param modelObject the model object to which the {@code TextField} is bound
+     * @return a {@code TextField} that is bound to the model object
+     */
+    private TextField createIntegerTextField(Object modelObject) {
+        TestPmo pmo = new TestPmo(modelObject);
+        return (TextField)TestUiUtil.createFirstComponentOf(pmo);
+    }
+
     protected static class TestModelObjectWithPrimitiveInteger {
 
         private int value = 0;
@@ -138,18 +151,5 @@ class UIIntegerFieldTest {
         public Object getModelObject() {
             return modelObject;
         }
-    }
-
-    /**
-     * Returns a {@code TextField} that is bound to the given model object using the IPM data binder.
-     * The {@code TextField} is part of a mostly mocked UI so that a rudimentary Vaadin environment is
-     * in place.
-     * 
-     * @param modelObject the model object to which the {@code TextField} is bound
-     * @return a {@code TextField} that is bound to the model object
-     */
-    private TextField createIntegerTextField(Object modelObject) {
-        TestPmo pmo = new TestPmo(modelObject);
-        return (TextField)TestUiUtil.createFirstComponentOf(pmo);
     }
 }

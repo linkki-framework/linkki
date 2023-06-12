@@ -59,7 +59,8 @@ public class MessageListNotificationPmo {
         this.text1 = text1;
     }
 
-    @UIRadioButtons(position = 11, label = "Severity 1", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, buttonAlignment = AlignmentType.HORIZONTAL)
+    @UIRadioButtons(position = 11, label = "Severity 1", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL,
+            buttonAlignment = AlignmentType.HORIZONTAL)
     public Severity getSeverity1() {
         return severity1;
     }
@@ -77,7 +78,8 @@ public class MessageListNotificationPmo {
         this.text2 = text2;
     }
 
-    @UIRadioButtons(position = 21, label = "Severity 2", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, buttonAlignment = AlignmentType.HORIZONTAL)
+    @UIRadioButtons(position = 21, label = "Severity 2", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL,
+            buttonAlignment = AlignmentType.HORIZONTAL)
     public Severity getSeverity2() {
         return severity2;
     }
@@ -95,7 +97,8 @@ public class MessageListNotificationPmo {
         this.text3 = text3;
     }
 
-    @UIRadioButtons(position = 31, label = "Severity 3", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, buttonAlignment = AlignmentType.HORIZONTAL)
+    @UIRadioButtons(position = 31, label = "Severity 3", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL,
+            buttonAlignment = AlignmentType.HORIZONTAL)
     public Severity getSeverity3() {
         return severity3;
     }
