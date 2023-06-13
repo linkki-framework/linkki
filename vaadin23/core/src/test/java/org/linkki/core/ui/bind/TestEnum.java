@@ -23,9 +23,15 @@ public enum TestEnum {
         }
     },
     TWO("2"),
-    THREE("3");
+    THREE("3"),
+    EMPTY("") {
+        @Override
+        public String toString() {
+            return "";
+        }
+    };
 
-    private String id;
+    private final String id;
 
     TestEnum(String id) {
         this.id = id;

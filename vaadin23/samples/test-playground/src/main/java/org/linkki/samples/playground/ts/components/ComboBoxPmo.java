@@ -64,9 +64,9 @@ public class ComboBoxPmo {
     @UISection(caption = "Alignment")
     public static class AlignmentPmo {
 
-        private Direction leftAligned = Direction.LEFT;
-        private Direction centerAligned = Direction.DOWN;
-        private Direction rightAligned = Direction.RIGHT;
+        private Direction leftAligned;
+        private Direction centerAligned;
+        private Direction rightAligned;
 
         @UIComboBox(position = 20, label = "Left align", textAlign = TextAlignment.LEFT)
         public Direction getLeftAligned() {
@@ -99,7 +99,7 @@ public class ComboBoxPmo {
     @UISection(caption = "Caption provider")
     public static class CaptionProviderPmo {
 
-        private Direction value = Direction.RIGHT;
+        private Direction value;
 
         @UIComboBox(position = 10, label = "With capitalized lower case caption",
                 itemCaptionProvider = CapitalizedLowerCaseCaptionProvider.class)
@@ -112,53 +112,67 @@ public class ComboBoxPmo {
         }
     }
 
-    @UISection(caption = "Required with empty value that is not null")
+    @UISection(caption = "Empty value that is not null")
     public static class NonNullEmptyValuePmo {
 
-        private String nonNullStringValue = "";
-        private Decimal nonNullDecimalValue = Decimal.NULL;
+        private String requiredStringValue = "";
+        private Decimal requiredDecimalValue = Decimal.NULL;
+        private Decimal notRequiredDecimalValue = Decimal.NULL;
 
-        @UIComboBox(position = 10, label = "Initially \"\"", content = AvailableValuesType.DYNAMIC,
+        @UIComboBox(position = 10, label = "Required with initial value \"\"", content = AvailableValuesType.DYNAMIC,
                 required = RequiredType.REQUIRED)
-        public String getNonNullStringValue() {
-            return nonNullStringValue;
+        public String getRequiredStringValue() {
+            return requiredStringValue;
         }
 
-        public void setNonNullStringValue(String nonNullStringValue) {
-            this.nonNullStringValue = nonNullStringValue;
+        public void setRequiredStringValue(String nonNullStringValue) {
+            this.requiredStringValue = nonNullStringValue;
         }
 
-        public List<String> getNonNullStringValueAvailableValues() {
-            return Arrays.asList("", "1", "2", "3");
+        public List<String> getRequiredStringValueAvailableValues() {
+            return Arrays.asList("1", "2", "3");
         }
 
-        @UIComboBox(position = 20, label = "Initially Decimal.NULL", content = AvailableValuesType.DYNAMIC,
+        @UIComboBox(position = 20, label = "Required with initial value Decimal.NULL",
+                content = AvailableValuesType.DYNAMIC,
                 required = RequiredType.REQUIRED, itemCaptionProvider = DecimalCaptionProvider.class)
-        public Decimal getNonNullDecimalValue() {
-            return nonNullDecimalValue;
+        public Decimal getRequiredDecimalValue() {
+            return requiredDecimalValue;
         }
 
-        public void setNonNullDecimalValue(Decimal nonNullDecimalValue) {
-            this.nonNullDecimalValue = nonNullDecimalValue;
+        public void setRequiredDecimalValue(Decimal nonNullDecimalValue) {
+            this.requiredDecimalValue = nonNullDecimalValue;
         }
 
-        public List<Decimal> getNonNullDecimalValueAvailableValues() {
+        public List<Decimal> getRequiredDecimalValueAvailableValues() {
+            return List.of(Decimal.valueOf(1), Decimal.valueOf(2.2));
+        }
+
+        @UIComboBox(position = 30, label = "Not required Decimal", content = AvailableValuesType.DYNAMIC,
+                itemCaptionProvider = DecimalCaptionProvider.class)
+        public Decimal getNotRequiredDecimalValue() {
+            return notRequiredDecimalValue;
+        }
+
+        public void setNotRequiredDecimalValue(Decimal notRequiredDecimalValue) {
+            this.notRequiredDecimalValue = notRequiredDecimalValue;
+        }
+
+        public List<Decimal> getNotRequiredDecimalValueAvailableValues() {
             return List.of(Decimal.NULL, Decimal.valueOf(1), Decimal.valueOf(2.2));
         }
-    }
 
-    public static class DecimalCaptionProvider implements ItemCaptionProvider<Decimal> {
+        public static class DecimalCaptionProvider implements ItemCaptionProvider<Decimal> {
 
-        private static final FormattedDecimalFieldToStringConverter CONVERTER;
+            private static final FormattedDecimalFieldToStringConverter CONVERTER = new FormattedDecimalFieldToStringConverter();
 
-        static {
-            CONVERTER = new FormattedDecimalFieldToStringConverter();
+            @Override
+            public String getCaption(Decimal value) {
+                return CONVERTER.convertToPresentation(value, new ValueContext());
+            }
+
         }
 
-        @Override
-        public String getCaption(Decimal value) {
-            return CONVERTER.convertToPresentation(value, new ValueContext());
-        }
 
     }
 
@@ -179,7 +193,7 @@ public class ComboBoxPmo {
     public static class NullValuePmo {
 
         private Direction directionWithoutNull = Direction.DOWN;
-        private Direction directionWithNull = null;
+        private Direction directionWithNull;
 
         @UIComboBox(position = 10, label = "Enum Without null", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
         public Direction getDirectionWithoutNull() {

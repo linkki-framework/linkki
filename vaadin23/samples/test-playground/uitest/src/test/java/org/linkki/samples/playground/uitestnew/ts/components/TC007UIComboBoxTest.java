@@ -111,25 +111,26 @@ class TC007UIComboBoxTest extends PlaygroundUiTest {
 
     @Test
     void testFillInitiallyNonNullButRequiredString_shouldNotBeInvalid() {
-        ComboBoxElement comboBox = $(ComboBoxElement.class).id("nonNullStringValue");
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("requiredStringValue");
         assertThat(comboBox.hasAttribute("invalid")).isFalse();
-        comboBox.selectByText("1");
-        assertThat(comboBox.hasAttribute("invalid")).isFalse();
-        comboBox.selectByText("");
-        assertThat(comboBox.hasAttribute("invalid")).isTrue();
         comboBox.selectByText("1");
         assertThat(comboBox.hasAttribute("invalid")).isFalse();
     }
-
     @Test
     void testFillInitiallyNonNullButRequiredDecimal_shouldNotBeInvalid() {
-        ComboBoxElement comboBox = $(ComboBoxElement.class).id("nonNullDecimalValue");
-        comboBox.scrollIntoView();
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("requiredDecimalValue");
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
+        comboBox.selectByText("1,00");
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
+    }
+    @Test
+    void testFillInitiallyNonNullAndNotRequiredDecimal_shouldNotBeInvalid() {
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("notRequiredDecimalValue");
         assertThat(comboBox.hasAttribute("invalid")).isFalse();
         comboBox.selectByText("1,00");
         assertThat(comboBox.hasAttribute("invalid")).isFalse();
         comboBox.selectByText("");
-        assertThat(comboBox.hasAttribute("invalid")).isTrue();
+        assertThat(comboBox.hasAttribute("invalid")).isFalse();
         comboBox.selectByText("1,00");
         assertThat(comboBox.hasAttribute("invalid")).isFalse();
     }
