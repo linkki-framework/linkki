@@ -7,7 +7,6 @@ pipeline {
         PROJECT_NAME = 'linkki'
         BUILD_NAME = 'nightly'
         CONTAINER_RETENTION = 'keep'
-        MAVEN_OPTS = '-Xmx768m'
     }
 
     stages {

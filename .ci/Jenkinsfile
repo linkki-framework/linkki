@@ -9,7 +9,6 @@ pipeline {
         // make sure that the build name does not contain '_' because this will lead to unexpected Docker failures
         DOCKER_BUILD_NAME = "${BRANCH_NAME.replaceAll('_', '-')}"
         CONTAINER_RETENTION = 'permanent-on'
-        MAVEN_OPTS = '-Xmx768m'
     }
 
     stages {
