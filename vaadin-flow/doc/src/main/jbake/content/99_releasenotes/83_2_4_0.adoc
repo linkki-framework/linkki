@@ -180,3 +180,5 @@ When user-supplied strings are included in HTML content, they have to be escaped
 * Fixed wrong timestamp format in error dialogs
 // https://jira.faktorzehn.de/browse/LIN-3437
 * Fixed falsely marked as invalid combobox with initial non-null but empty representation
+// https://jira.convista.com/browse/LIN-3495
+* Added missing CSS tweaks for `MultiSelectComboBox` (e.g. no `max-height` for error message)
