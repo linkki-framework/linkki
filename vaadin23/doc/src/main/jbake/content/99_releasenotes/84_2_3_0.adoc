@@ -16,6 +16,10 @@
 // https://jira.faktorzehn.de/browse/LIN-3415
 * Fixed overlapping labels and input fields in small browser windows
 
+// https://jira.convista.com/browse/LIN-3495
+* Added missing CSS tweaks for `MultiSelectComboBox` (e.g. no `max-height` for error message)
+
+
 === Version 2.3.5
 
 ==== New features and improvements
