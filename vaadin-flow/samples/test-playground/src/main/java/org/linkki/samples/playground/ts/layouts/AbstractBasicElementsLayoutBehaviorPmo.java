@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.ts.layouts;
 
+import java.util.List;
+
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -32,12 +34,14 @@ import org.linkki.core.ui.element.annotation.UIDoubleField;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
+import org.linkki.core.ui.element.annotation.UIMultiSelect;
 import org.linkki.core.ui.element.annotation.UIRadioButtons;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBox;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.ips.decimalfield.UIDecimalField;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject.SampleEnum;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -354,6 +358,34 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIMultiSelect(position = 62, label = "MutliSelect", //
+            modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_ENUMVALUES, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
+    public void enumValuesMultiSelect() {
+        // model binding
+    }
+
+    public boolean isEnumValuesMultiSelectRequired() {
+        return isAllElementsRequired();
+    }
+
+    public boolean isEnumValuesMultiSelectReadOnly() {
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isEnumValuesMultiSelectVisible() {
+        return isAllElementsVisible();
+    }
+
+    public boolean isEnumValuesMultiSelectEnabled() {
+        return isAllElementsEnabled();
+    }
+
+    public List<SampleEnum> getEnumValuesMultiSelectAvailableValues() {
+        return List.of(SampleEnum.values());
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIRadioButtons(position = 65, label = "RadioButtons", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_ENUMVALUE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
@@ -415,7 +447,8 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
-    @UIButton(position = 150, caption = "I am a Button", label = "Button", visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
+    @UIButton(position = 150, caption = "I am a Button", label = "Button", visible = VisibleType.DYNAMIC,
+            enabled = EnabledType.DYNAMIC)
     public void button() {
         Notification.show("Button clicked", 1000, Position.MIDDLE);
     }

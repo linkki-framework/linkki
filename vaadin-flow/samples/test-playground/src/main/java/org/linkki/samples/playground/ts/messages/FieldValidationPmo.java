@@ -16,7 +16,9 @@ package org.linkki.samples.playground.ts.messages;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.manager.DefaultBindingManager;
@@ -32,6 +34,7 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateTimeField;
+import org.linkki.core.ui.element.annotation.UIMultiSelect;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
@@ -48,12 +51,14 @@ public class FieldValidationPmo {
 
     public static final String PROPERTY_TEXT_FIELD = "textField";
     public static final String PROPERTY_COMBOBOX = "comboBox";
+    public static final String PROPERTY_MULTISELECT = "multiSelect";
     public static final String PROPERTY_DATE_TIME_FIELD = "dateTimeField";
     public static final String PROPERTY_ALL_ERRORS_TEXT_FIELD = "allErrorsTextField";
 
     private static final List<Severity> SEVERITY_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
                                                                         Severity.ERROR);
     private static final List<String> COMBOBOX_VALUES = Arrays.asList(null, "Sample", "Test");
+    private static final List<String> MULTISELECT_VALUES = Arrays.asList("Red", "Green", "Blue");
 
     @CheckForNull
     private Severity severity = null;
@@ -62,6 +67,7 @@ public class FieldValidationPmo {
 
     private String textFieldValue = StringUtils.EMPTY;
     private String comboBoxValue = "Sample";
+    private Set<String> multiSelectValues = Collections.emptySet();
     private LocalDateTime dateTimeFieldValue = LocalDateTime.now();
 
     @UIComboBox(position = 10, label = "Message severity", content = AvailableValuesType.DYNAMIC)
@@ -129,7 +135,25 @@ public class FieldValidationPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDateTimeField(position = 22, label = "Red border when invalid and read-only")
+    @UIMultiSelect(position = 22, label = "Red border when invalid and read-only", width = "18em")
+    public Set<String> getMultiSelect() {
+        return multiSelectValues;
+    }
+
+    public void setMultiSelect(Set<String> multiSelectValues) {
+        this.multiSelectValues = multiSelectValues;
+    }
+
+    public List<String> getMultiSelectAvailableValues() {
+        return MULTISELECT_VALUES;
+    }
+
+    public boolean isMultiSelectReadOnly() {
+        return fieldsReadOnly;
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIDateTimeField(position = 23, label = "Red border when invalid and read-only")
     public LocalDateTime getDateTimeField() {
         return dateTimeFieldValue;
     }
@@ -171,6 +195,7 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(invalidObject, PROPERTY_SEVERITY)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_TEXT_FIELD)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_COMBOBOX)
+                    .invalidObjectWithProperties(invalidObject, PROPERTY_MULTISELECT)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_DATE_TIME_FIELD)
                     .create();
             // end::message-builder[]
@@ -180,6 +205,7 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(this, PROPERTY_SEVERITY)
                     .invalidObjectWithProperties(this, PROPERTY_TEXT_FIELD)
                     .invalidObjectWithProperties(this, PROPERTY_COMBOBOX)
+                    .invalidObjectWithProperties(this, PROPERTY_MULTISELECT)
                     .invalidObjectWithProperties(this, PROPERTY_DATE_TIME_FIELD)
                     .create());
         } else if (severity == Severity.ERROR) {
@@ -187,6 +213,7 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(this, PROPERTY_SEVERITY)
                     .invalidObjectWithProperties(this, PROPERTY_TEXT_FIELD)
                     .invalidObjectWithProperties(this, PROPERTY_COMBOBOX)
+                    .invalidObjectWithProperties(this, PROPERTY_MULTISELECT)
                     .invalidObjectWithProperties(this, PROPERTY_DATE_TIME_FIELD)
                     .create());
         }
