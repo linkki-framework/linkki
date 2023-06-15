@@ -14,9 +14,12 @@
 
 package org.linkki.samples.playground.ts.messages;
 
-import com.vaadin.flow.component.Component;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
@@ -31,12 +34,14 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateTimeField;
+import org.linkki.core.ui.element.annotation.UIMultiSelect;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import com.vaadin.flow.component.Component;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 @UIVerticalLayout
 public class FieldValidationPmo {
@@ -46,12 +51,15 @@ public class FieldValidationPmo {
     public static final String PROPERTY_READ_ONLY_TEXT_FIELD = "readOnlyTextField";
     public static final String PROPERTY_READ_ONLY_DATE_TIME_FIELD = "readOnlyDateTimeField";
     public static final String PROPERTY_ONLY_ERROR_TEXT_FIELD = "onlyErrorTextField";
-    
+    public static final String PROPERTY_MULTISELECT = "multiSelect";
+
     public static final String PROPERTY_READ_ONLY_CHECKBOX = "readOnlyCheckBox";
 
     private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
-            Severity.ERROR);
+                                                                        Severity.ERROR);
     private static final List<String> COMBOBOX_EXAMPLE = Arrays.asList(null, "Sample", "Test");
+
+    private static final List<String> MULTISELECT_VALUES = Arrays.asList("Red", "Green", "Blue");
 
     @CheckForNull
     private Severity severity = null;
@@ -59,6 +67,7 @@ public class FieldValidationPmo {
     private boolean isReadOnly = false;
     private String readOnlyText = StringUtils.EMPTY;
     private String comboBoxText = StringUtils.EMPTY;
+    private Set<String> multiSelectValues = Collections.emptySet();
 
     @UIComboBox(position = 10, label = "Message severity", content = AvailableValuesType.DYNAMIC)
     public Severity getComboBoxValue() {
@@ -106,7 +115,7 @@ public class FieldValidationPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIComboBox(position = 21, label = "Red border when invalid and read-only", content = AvailableValuesType.DYNAMIC, 
+    @UIComboBox(position = 21, label = "Red border when invalid and read-only", content = AvailableValuesType.DYNAMIC,
             width = "18em")
     public String getReadOnlyComboBox() {
         return comboBoxText;
@@ -125,7 +134,25 @@ public class FieldValidationPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDateTimeField(position = 22, label = "Red border when invalid and read-only")
+    @UIMultiSelect(position = 22, label = "Red border when invalid and read-only", width = "18em")
+    public Set<String> getMultiSelect() {
+        return multiSelectValues;
+    }
+
+    public void setMultiSelect(Set<String> multiSelectValues) {
+        this.multiSelectValues = multiSelectValues;
+    }
+
+    public List<String> getMultiSelectAvailableValues() {
+        return MULTISELECT_VALUES;
+    }
+
+    public boolean isMultiSelectReadOnly() {
+        return isReadOnly;
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIDateTimeField(position = 23, label = "Red border when invalid and read-only")
     public LocalDateTime getReadOnlyDateTimeField() {
         return LocalDateTime.now();
     }
@@ -169,6 +196,7 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(invalidObject, PROPERTY_COMBO_BOX_VALUE)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_TEXT_FIELD)
+                    .invalidObjectWithProperties(invalidObject, PROPERTY_MULTISELECT)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
                     .create();
             // end::message-builder[]
@@ -178,6 +206,7 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
+                    .invalidObjectWithProperties(this, PROPERTY_MULTISELECT)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
                     .create());
         } else if (severity == Severity.ERROR) {
@@ -185,6 +214,7 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
+                    .invalidObjectWithProperties(this, PROPERTY_MULTISELECT)
                     .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
                     .create());
         } else {

@@ -17,6 +17,8 @@ package org.linkki.samples.playground.ts.layouts;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Set;
 
 import org.faktorips.values.Decimal;
 
@@ -29,6 +31,7 @@ public class BasicElementsLayoutBehaviorModelObject {
     public static final String PROPERTY_DATE = "date";
     public static final String PROPERTY_DATE_TIME = "dateTime";
     public static final String PROPERTY_ENUMVALUE = "enumValue";
+    public static final String PROPERTY_ENUMVALUES = "enumValues";
     public static final String PROPERTY_BOOLEANVALUE = "booleanValue";
     public static final String PROPERTY_SECRET = "secret";
     public static final String PROPERTY_BIG_DECIMAL = "bigDecimal";
@@ -52,6 +55,7 @@ public class BasicElementsLayoutBehaviorModelObject {
     private BigDecimal bigDecimal = BigDecimal.valueOf(1234567890L, 5);
     private Decimal decimalValue = Decimal.valueOf(1234567890L, 5);
     private SampleEnum enumValue;
+    private Set<SampleEnum> enumValues = Collections.emptySet();
 
     public enum SampleEnum {
 
@@ -157,6 +161,14 @@ public class BasicElementsLayoutBehaviorModelObject {
 
     public void setEnumValue(SampleEnum enumValue) {
         this.enumValue = enumValue;
+    }
+
+    public Set<SampleEnum> getEnumValues() {
+        return enumValues;
+    }
+
+    public void setEnumValues(Set<SampleEnum> enumValues) {
+        this.enumValues = enumValues;
     }
 
 }
