@@ -9,7 +9,7 @@
 
 This release brings a new technology baseline that includes Java 17, Spring Boot 3, Jakarta EE 10, Vaadin 24 and Faktor-IPS 23.6. These upgrades not only make it possible for linkki developers to make use of the new features of these platforms, it also ensures that the linkki application relies on the latest technologies that are well supported in the near future.
 
-Java 17:: Java 17 is required instead of Java 11. This primarily impacts the build environment, as well as the Java version definition in the `pom.xml`.
+Java 17:: Java 17 is required instead of Java 11w. This primarily impacts the build environment, as well as the Java version definition in the `pom.xml`.
 
 Artifact Names:: Due to the upgrade to Vaadin 24, all artifacts have been renamed to use `vaadin-flow` instead of `vaadin23`. This includes following dependencies: +
 * `linkki-core-vaadin23`, now `linkki-core-vaadin-flow`
@@ -22,7 +22,8 @@ Vaadin 24:: Vaadin 24 brings several breaking changes that are documented in the
 * The breaking API changes only have an effect on code that uses Vaadin API directly. There are no resulting linkki API changes. To see all breaking API changes, see https://github.com/vaadin/flow-components/releases/tag/24.0.0[Vaadin release notes for Flow Components].
 ** `Label` component was deprecated as it is often misused to display text content. This may lead to unexpected behavior in the UI. Check all usages if they should be replaced by a `Span` instead. `Label` is replaced by `NativeLabel` which still can be used if a `<label>` element is necessary.
 * Fields from `LumoUtility` are no longer constant expressions, meaning they can no longer be used in annotations, e.g. `@BindStyleNames({ LumoUtility.Flex.AUTO })`. linkki now provides the class `LumoConstants`, that defines the same fields as constant expressions, to mitigate this problem. All existing usages of constants from `LumoUtility` in annotations should be replaced by `LumoConstants`.
-* The way frontend resources are included has changed. Consequently, CSS and JavaScript files that are included by using `@CSSImport` or `@JsModule` may not be included anymore, if the class on which the files are included are only reachable by reflection or injection. If this problem occurs, an error can be found in the console when the affected page is opened in the browser. To mitigate this issue, add `@Uses` to the according route component with the class where the resources are included, or to a class that can be reached from the route.
+* The default way frontend resources are included has changed. Consequently, CSS and JavaScript files that are included by using `@CSSImport` or `@JsModule` may not be included anymore, if the class on which the files are included are only reachable by reflection or injection.
+If this problem occurs, an error can be found in the console when the affected page is opened in the browser. To mitigate this issue, the vaadin-maven-plugin should be configured with the configuration parameter `optimizeBundle` set to false. See https://vaadin.com/docs/latest/configuration/maven[Vaadin maven plugin configuration]
 * There are some changes in the resulting DOM structure that may impact UI tests and CSS selectors.
 +
 --

@@ -23,7 +23,6 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
-import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
 import org.linkki.samples.playground.bugs.lin1608.PmoReadonlyModelNotReadonlyPmo;
 import org.linkki.samples.playground.bugs.lin1738.DoubleClickPmo;
@@ -38,6 +37,8 @@ import org.linkki.samples.playground.bugs.lin2567.TabSheetContentWithText;
 import org.linkki.samples.playground.bugs.lin2622.MassValuesComboBoxPmo;
 import org.linkki.samples.playground.bugs.lin2867.FocusringBug;
 import org.linkki.samples.playground.bugs.lin2915.OverflowIssues;
+import org.linkki.samples.playground.bugs.lin3497.FrontendDependencyInjectionTestInterface;
+import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.Component;
@@ -60,7 +61,7 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
 
     private static final long serialVersionUID = 5094485819774125238L;
 
-    public BugCollectionView() {
+    public BugCollectionView(FrontendDependencyInjectionTestInterface frontendDependencyInjectionTest) {
         super(Orientation.VERTICAL);
 
         addTabSheets(createTabSheet(ComboBoxCaptionRefreshPmo::new),
@@ -91,6 +92,13 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      LinkkiTabSheet.builder("LIN-2867")
                              .caption(createCaptionLink("LIN-2867", "LIN-2867"))
                              .content(FocusringBug::new)
+                             .build(),
+                     LinkkiTabSheet.builder(FrontendDependencyInjectionTestInterface.ID)
+                             .caption(createCaptionLink(FrontendDependencyInjectionTestInterface.ID,
+                                                        FrontendDependencyInjectionTestInterface.CAPTION))
+                             .content(() -> new VerticalLayout(frontendDependencyInjectionTest.createComponent(),
+                                     VaadinUiCreator.createComponent(frontendDependencyInjectionTest.createPmo(),
+                                                                     new BindingContext())))
                              .build());
     }
 
