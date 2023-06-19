@@ -26,7 +26,6 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.creation.VaadinUiCreator;
@@ -44,36 +43,38 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @UIVerticalLayout
 public class FieldValidationPmo {
 
-    public static final String PROPERTY_COMBO_BOX_VALUE = "comboBoxValue";
-    public static final String PROPERTY_READ_ONLY_COMBO_BOX = "readOnlyComboBox";
-    public static final String PROPERTY_READ_ONLY_TEXT_FIELD = "readOnlyTextField";
-    public static final String PROPERTY_READ_ONLY_DATE_TIME_FIELD = "readOnlyDateTimeField";
-    public static final String PROPERTY_ALL_ERRORS_TEXT_FIELD = "allErrorsTextField";
-    public static final String PROPERTY_READ_ONLY_CHECKBOX = "readOnlyCheckBox";
-    public static final String PROPERTY_REQUIRED_COMBOBOX = "requiredComboBox";
+    public static final String PROPERTY_SEVERITY = "severity";
+    public static final String PROPERTY_FIELDS_READ_ONLY = "fieldsReadOnly";
 
-    private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
+    public static final String PROPERTY_TEXT_FIELD = "textField";
+    public static final String PROPERTY_COMBOBOX = "comboBox";
+    public static final String PROPERTY_DATE_TIME_FIELD = "dateTimeField";
+    public static final String PROPERTY_ALL_ERRORS_TEXT_FIELD = "allErrorsTextField";
+
+    private static final List<Severity> SEVERITY_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
                                                                         Severity.ERROR);
-    private static final List<String> COMBOBOX_EXAMPLE = Arrays.asList(null, "Sample", "Test");
+    private static final List<String> COMBOBOX_VALUES = Arrays.asList(null, "Sample", "Test");
 
     @CheckForNull
     private Severity severity = null;
     private boolean showLongValidationMessage = false;
-    private boolean isReadOnly = false;
-    private String readOnlyText = StringUtils.EMPTY;
-    private String comboBoxText = "Sample";
+    private boolean fieldsReadOnly = false;
+
+    private String textFieldValue = StringUtils.EMPTY;
+    private String comboBoxValue = "Sample";
+    private LocalDateTime dateTimeFieldValue = LocalDateTime.now();
 
     @UIComboBox(position = 10, label = "Message severity", content = AvailableValuesType.DYNAMIC)
-    public Severity getComboBoxValue() {
+    public Severity getSeverity() {
         return severity;
     }
 
-    public void setComboBoxValue(Severity severity) {
+    public void setSeverity(Severity severity) {
         this.severity = severity;
     }
 
-    public List<Severity> getComboBoxValueAvailableValues() {
-        return COMBOBOX_VALUES;
+    public List<Severity> getSeverityAvailableValues() {
+        return SEVERITY_VALUES;
     }
 
     @UICheckBox(position = 15, caption = "Show long validation message to test line break")
@@ -86,73 +87,70 @@ public class FieldValidationPmo {
     }
 
     @UICheckBox(position = 16, caption = "read-only")
-    public boolean isReadOnlyCheckBox() {
-        return isReadOnly;
+    public boolean getFieldsReadOnly() {
+        return fieldsReadOnly;
     }
 
-    public void setReadOnlyCheckBox(boolean readOnlyField) {
-        this.isReadOnly = readOnlyField;
+    public void setFieldsReadOnly(boolean fieldsReadOnly) {
+        this.fieldsReadOnly = fieldsReadOnly;
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UITextField(position = 20, label = "Red border when invalid and read-only")
-    public String getReadOnlyTextField() {
-        return readOnlyText;
+    public String getTextField() {
+        return textFieldValue;
     }
 
-    public void setReadOnlyTextField(String readOnlyText) {
-        this.readOnlyText = readOnlyText;
+    public void setTextField(String textFieldValue) {
+        this.textFieldValue = textFieldValue;
     }
 
-    public boolean isReadOnlyTextFieldReadOnly() {
-        return isReadOnly;
+    public boolean isTextFieldReadOnly() {
+        return fieldsReadOnly;
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIComboBox(position = 21, label = "Red border when invalid and read-only", content = AvailableValuesType.DYNAMIC,
             width = "18em")
-    public String getReadOnlyComboBox() {
-        return comboBoxText;
+    public String getComboBox() {
+        return comboBoxValue;
     }
 
-    public void setReadOnlyComboBox(String comboBoxText) {
-        this.comboBoxText = comboBoxText;
+    public void setComboBox(String comboBoxValue) {
+        this.comboBoxValue = comboBoxValue;
     }
 
-    public List<String> getReadOnlyComboBoxAvailableValues() {
-        return COMBOBOX_EXAMPLE;
+    public List<String> getComboBoxAvailableValues() {
+        return COMBOBOX_VALUES;
     }
 
-    public boolean isReadOnlyComboBoxReadOnly() {
-        return isReadOnly;
+    public boolean isComboBoxReadOnly() {
+        return fieldsReadOnly;
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIDateTimeField(position = 22, label = "Red border when invalid and read-only")
-    public LocalDateTime getReadOnlyDateTimeField() {
-        return LocalDateTime.now();
+    public LocalDateTime getDateTimeField() {
+        return dateTimeFieldValue;
     }
 
-    /**
-     * @param localDateTime ignored
-     */
-    public void setReadOnlyDateTimeField(LocalDateTime localDateTime) {
-        // ignore
+    public void setDateTimeField(LocalDateTime dateTimeFieldValue) {
+        this.dateTimeFieldValue = dateTimeFieldValue;
     }
 
-    public boolean isReadOnlyDateTimeFieldReadOnly() {
-        return isReadOnly;
+    public boolean isDateTimeFieldReadOnly() {
+        return fieldsReadOnly;
     }
 
     // tag::bind-messages[]
     @BindMessages
     @UITextField(position = 30, label = "Interested in all errors")
     public String getAllErrorsTextField() {
-        return readOnlyText;
+        return textFieldValue;
     }
 
     public void setAllErrorsTextField(String t) {
-        readOnlyText = t;
+        textFieldValue = t;
     }
 
     public MessageList getAllErrorsTextFieldMessages(MessageList messages) {
@@ -170,29 +168,29 @@ public class FieldValidationPmo {
             Object invalidObject = this;
             // tag::message-builder[]
             var message = Message.builder(getValidationMessage("Info validation message"), Severity.INFO)
-                    .invalidObjectWithProperties(invalidObject, PROPERTY_COMBO_BOX_VALUE)
-                    .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_COMBO_BOX)
-                    .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_TEXT_FIELD)
-                    .invalidObjectWithProperties(invalidObject, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
+                    .invalidObjectWithProperties(invalidObject, PROPERTY_SEVERITY)
+                    .invalidObjectWithProperties(invalidObject, PROPERTY_TEXT_FIELD)
+                    .invalidObjectWithProperties(invalidObject, PROPERTY_COMBOBOX)
+                    .invalidObjectWithProperties(invalidObject, PROPERTY_DATE_TIME_FIELD)
                     .create();
             // end::message-builder[]
             messages.add(message);
         } else if (severity == Severity.WARNING) {
             messages.add(Message.builder(getValidationMessage("Warning validation message"), Severity.WARNING)
-                    .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
-                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
-                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
-                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
+                    .invalidObjectWithProperties(this, PROPERTY_SEVERITY)
+                    .invalidObjectWithProperties(this, PROPERTY_TEXT_FIELD)
+                    .invalidObjectWithProperties(this, PROPERTY_COMBOBOX)
+                    .invalidObjectWithProperties(this, PROPERTY_DATE_TIME_FIELD)
                     .create());
         } else if (severity == Severity.ERROR) {
             messages.add(Message.builder(getValidationMessage("Error validation message"), Severity.ERROR)
-                    .invalidObjectWithProperties(this, PROPERTY_COMBO_BOX_VALUE)
-                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_COMBO_BOX)
-                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_TEXT_FIELD)
-                    .invalidObjectWithProperties(this, PROPERTY_READ_ONLY_DATE_TIME_FIELD)
+                    .invalidObjectWithProperties(this, PROPERTY_SEVERITY)
+                    .invalidObjectWithProperties(this, PROPERTY_TEXT_FIELD)
+                    .invalidObjectWithProperties(this, PROPERTY_COMBOBOX)
+                    .invalidObjectWithProperties(this, PROPERTY_DATE_TIME_FIELD)
                     .create());
         }
-        if (comboBoxText == null) {
+        if (comboBoxValue == null) {
             messages.add(Message.builder("Must not be empty", Severity.ERROR)
                     .invalidObjectWithProperties(this, "requiredComboBox")
                     .create());

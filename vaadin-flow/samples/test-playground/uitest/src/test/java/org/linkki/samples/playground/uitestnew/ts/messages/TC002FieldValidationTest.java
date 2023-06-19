@@ -17,12 +17,11 @@ package org.linkki.samples.playground.uitestnew.ts.messages;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_ALL_ERRORS_TEXT_FIELD;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_COMBO_BOX_VALUE;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_READ_ONLY_CHECKBOX;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_READ_ONLY_COMBO_BOX;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_READ_ONLY_DATE_TIME_FIELD;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_READ_ONLY_TEXT_FIELD;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_REQUIRED_COMBOBOX;
+import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_COMBOBOX;
+import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_DATE_TIME_FIELD;
+import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_FIELDS_READ_ONLY;
+import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_SEVERITY;
+import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_TEXT_FIELD;
 
 import java.util.Optional;
 
@@ -81,7 +80,7 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
     void testReadOnlyValidation_TextField() {
         selectMessageSeverity(Severity.ERROR);
         setReadOnly(true);
-        TextFieldElement textField = $(TextFieldElement.class).id(PROPERTY_READ_ONLY_TEXT_FIELD);
+        TextFieldElement textField = $(TextFieldElement.class).id(PROPERTY_TEXT_FIELD);
 
         verifyReadOnly(textField, true);
         verifyValidationErrorMessage(textField);
@@ -91,7 +90,7 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
     void testReadOnlyValidation_ComboBox() {
         selectMessageSeverity(Severity.ERROR);
         setReadOnly(true);
-        ComboBoxElement comboBox = $(ComboBoxElement.class).id(PROPERTY_READ_ONLY_COMBO_BOX);
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id(PROPERTY_COMBOBOX);
 
         verifyReadOnly(comboBox, true);
         verifyValidationErrorMessage(comboBox);
@@ -101,19 +100,14 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
     void testReadOnlyValidation_DateTimePicker() {
         selectMessageSeverity(Severity.ERROR);
         setReadOnly(true);
-        DateTimePickerElement dateTimePicker = $(DateTimePickerElement.class).id(PROPERTY_READ_ONLY_DATE_TIME_FIELD);
+        DateTimePickerElement dateTimePicker = $(DateTimePickerElement.class).id(PROPERTY_DATE_TIME_FIELD);
 
         verifyReadOnly(dateTimePicker, true);
         verifyValidationErrorMessage(dateTimePicker);
     }
 
-    /**
-     * Selects the message severity of the combo-box with the id 'comboBoxValue'.
-     *
-     * @param severity The severity to be selected
-     */
     private void selectMessageSeverity(Severity severity) {
-        ComboBoxElement messageSeverity = $(ComboBoxElement.class).id(PROPERTY_COMBO_BOX_VALUE);
+        ComboBoxElement messageSeverity = $(ComboBoxElement.class).id(PROPERTY_SEVERITY);
         if (severity == null) {
             messageSeverity.clear();
         } else {
@@ -122,7 +116,7 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
     }
 
     private void setReadOnly(boolean readOnlyState) {
-        CheckboxElement readOnly = $(CheckboxElement.class).id(PROPERTY_READ_ONLY_CHECKBOX);
+        CheckboxElement readOnly = $(CheckboxElement.class).id(PROPERTY_FIELDS_READ_ONLY);
         readOnly.setChecked(readOnlyState);
     }
 
