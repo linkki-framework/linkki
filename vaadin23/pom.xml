@@ -31,13 +31,13 @@
         <!-- this property must also be updated in samples-vaadin23 -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            23.3.12
+            23.3.14
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <!-- this property must also be updated in samples-vaadin23 -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
-            2.7.11
+            2.7.12
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
     </properties>
