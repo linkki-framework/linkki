@@ -5,6 +5,11 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.4.1
+
+// ==== New features and improvements
+// ==== Bugfixes
+
 === Version 2.4.0
 
 This release brings a new technology baseline that includes Java 17, Spring Boot 3, Jakarta EE 10, Vaadin 24 and Faktor-IPS 23.6. These upgrades not only make it possible for linkki developers to make use of the new features of these platforms, it also ensures that the linkki application relies on the latest technologies that are well supported in the near future.
