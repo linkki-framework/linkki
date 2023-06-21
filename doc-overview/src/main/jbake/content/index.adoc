@@ -6,6 +6,8 @@
 
 This list contains documentation and release notes for all available versions.
 
+=== https://doc.linkki-framework.org/2.4/99_releasenotes/[2.4 (vaadin24)]
+
 === https://doc.linkki-framework.org/2.3/99_releasenotes/[2.3 (vaadin23)]
 
 Version 2.2 should not be used.
