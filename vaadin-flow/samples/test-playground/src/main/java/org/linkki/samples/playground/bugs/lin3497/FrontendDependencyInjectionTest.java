@@ -39,7 +39,7 @@ public class FrontendDependencyInjectionTest implements FrontendDependencyInject
         return new PmoWithCssImport();
     }
 
-    @CssImport("./styles/test.css")
+    @CssImport("./styles/pmo-with-css-import.css")
     @UISection(caption = "PMO with CSS Import (should have a grey background)")
     public static class PmoWithCssImport {
         // no implementation needed
