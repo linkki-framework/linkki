@@ -27,25 +27,29 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.grid.testbench.TreeGridElement;
 
 class TC003TreeTableUpdateTest extends PlaygroundUiTest {
-
     @BeforeEach
-    void goToTestCase() {
+    void setup() {
         goToTestCase(TestScenarioView.TS014, TestScenarioView.TC003);
     }
 
     @Test
-    void testDeleteAllChildren_ShouldCollapseNode() {
+    void testDeleteAllChildren_ChildrenMustBeVisibleWhenRecreated() {
         TreeGridElement table = $(TreeGridElement.class).id(TreeTableUpdateNodePmo.class.getSimpleName() + "_table");
-        addChildRow(table);
         addChildRow(table);
         table.expandWithClick(0);
 
-        assertThat(table.getRowCount(), is(5));
+        assertThat(table.getRowCount(), is(4));
 
-        removeChildRow(table);
         removeChildRow(table);
 
         assertThat(table.getRowCount(), is(3));
+
+        addChildRow(table);
+
+        assertThat(table.getRowCount(), is(4));
+        assertThat(table.isRowExpanded(0, 0), is(true));
+        // recreate initial state
+        removeChildRow(table);
     }
 
     private void addChildRow(TreeGridElement table) {
@@ -53,6 +57,6 @@ class TC003TreeTableUpdateTest extends PlaygroundUiTest {
     }
 
     private void removeChildRow(TreeGridElement table) {
-        table.getCell(0, 2).$(ButtonElement.class).id("remove").click();
+        table.getCell(1, 2).$(ButtonElement.class).id("remove").click();
     }
 }

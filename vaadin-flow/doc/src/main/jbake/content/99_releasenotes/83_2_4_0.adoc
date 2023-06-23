@@ -12,7 +12,7 @@
 ===== Version Updates
 .Updated dependency versions:
 [cols="a,a"]
-|=== 
+|===
 |Vaadin|24.1.3
 |===
 
@@ -22,6 +22,10 @@
 ===== Compatibility with Spring Dev Tools restored
 
 With this patch version, linkki can be used with Spring Devtools in again.
+
+===== Other
+// https://jira.convista.com/browse/LIN-3507
+* Fixed added child rows are not visible in hierarchical tables
 
 === Version 2.4.1
 
