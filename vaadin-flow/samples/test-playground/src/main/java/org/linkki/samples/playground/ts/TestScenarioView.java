@@ -33,7 +33,8 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
-import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
+import org.linkki.samples.playground.nestedcomponent.NestedComponentPmo;
+import org.linkki.samples.playground.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
@@ -129,9 +130,7 @@ import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
-import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
@@ -161,6 +160,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TS013 = "TS013";
     public static final String TS014 = "TS014";
     public static final String TS015 = "TS015";
+    public static final String TS016 = "TS016";
 
     public static final String TC001 = "TC001";
     public static final String TC002 = "TC002";
@@ -178,8 +178,6 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC014 = "TC014";
     public static final String TC015 = "TC015";
     public static final String TC016 = "TC016";
-
-    public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
 
     static final String ROUTE = "playground";
 
@@ -364,20 +362,11 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS015)
                                        .testCase(TC001, CardSectionPageComponent.create())
                                        .createTabSheet(),
-                               // old tab sheets
-                               LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)
-                                       .caption(createCaptionComponent(NESTED_COMPONENT_PAGE_TAB_ID,
-                                                                       VaadinIcon.ROAD_BRANCHES))
-                                       .description("Nested Components")
-                                       .content(NestedComponentPage::new).build());
+                               TestScenario.id(TS016)
+                                       .testCase(TC001, new NestedComponentPmo())
+                                       .testCase(TC002, new NullableModelObjectInInvisibleNestedPmo())
+                                       .createTabSheet());
         add(tabLayout);
-    }
-
-    private Anchor createCaptionComponent(String id, VaadinIcon icon) {
-        var iconComp = icon.create();
-        iconComp.addClassName("p-xs");
-        return new Anchor(getLocation(id, null),
-                iconComp);
     }
 
     @Override
