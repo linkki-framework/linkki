@@ -16,12 +16,11 @@ package org.linkki.samples.playground.treetable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
-import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
@@ -31,7 +30,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 
 public class TreeTableUpdateNodePmo implements ContainerPmo<SimpleTreeNodeRowPmo> {
 
-    private List<SimpleTreeNodeRowPmo> items = Arrays
+    private final List<SimpleTreeNodeRowPmo> items = Arrays
             .asList(new SimpleTreeNodeRowPmo("first parent node"), new SimpleTreeNodeRowPmo("second parent row"),
                     new SimpleTreeNodeRowPmo("a third one"));
 
@@ -40,13 +39,20 @@ public class TreeTableUpdateNodePmo implements ContainerPmo<SimpleTreeNodeRowPmo
         return items;
     }
 
-    public class SimpleTreeNodeRowPmo implements HierarchicalRowPmo<SimpleTreeLeafRowPmo> {
+    public static class SimpleTreeNodeRowPmo implements HierarchicalRowPmo<SimpleTreeNodeRowPmo> {
 
         private final String text;
-        private List<SimpleTreeLeafRowPmo> children = new ArrayList<>();
+        private final List<SimpleTreeNodeRowPmo> children = new ArrayList<>();
+        private final Consumer<SimpleTreeNodeRowPmo> remove;
 
         private SimpleTreeNodeRowPmo(String text) {
             this.text = text;
+            this.remove = null;
+        }
+
+        private SimpleTreeNodeRowPmo(String text, Consumer<SimpleTreeNodeRowPmo> remove) {
+            this.text = text;
+            this.remove = remove;
         }
 
         @UILabel(position = 10)
@@ -56,52 +62,33 @@ public class TreeTableUpdateNodePmo implements ContainerPmo<SimpleTreeNodeRowPmo
 
         @UIButton(position = 20, icon = VaadinIcon.PLUS_CIRCLE_O, showIcon = true, visible = VisibleType.DYNAMIC)
         public void add() {
-            children.add(new SimpleTreeLeafRowPmo("a child node"));
+            children.add(new SimpleTreeNodeRowPmo("a child node of " + text, children::remove));
         }
 
         public boolean isAddVisible() {
             return true;
         }
 
-        @UIButton(position = 30, icon = VaadinIcon.MINUS_CIRCLE_O, enabled = EnabledType.DYNAMIC, showIcon = true, visible = VisibleType.DYNAMIC)
+        @UIButton(position = 30, icon = VaadinIcon.MINUS_CIRCLE_O, showIcon = true,
+                visible = VisibleType.DYNAMIC)
         public void remove() {
-            children.stream().findFirst().ifPresent(children::remove);
+            remove.accept(this);
         }
 
         public boolean isRemoveVisible() {
-            return true;
-        }
-
-        public boolean isRemoveEnabled() {
-            return !children.isEmpty();
+            return remove != null;
         }
 
         @Override
-        public List<? extends SimpleTreeLeafRowPmo> getChildRows() {
+        public List<? extends SimpleTreeNodeRowPmo> getChildRows() {
             return children;
         }
 
+        @Override
+        public String toString() {
+            return text;
+        }
+
     }
 
-    public class SimpleTreeLeafRowPmo extends SimpleTreeNodeRowPmo {
-
-        public SimpleTreeLeafRowPmo(String text) {
-            super(text);
-        }
-
-        @Override
-        public List<? extends SimpleTreeLeafRowPmo> getChildRows() {
-            return Collections.emptyList();
-        }
-
-        @Override
-        public boolean isAddVisible() {
-            return false;
-        }
-
-        @Override
-        public boolean isRemoveVisible() {
-            return false;
-        }
-    }
 }

@@ -14,7 +14,6 @@
 
 package org.linkki.core.ui.creation.table;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,7 +26,7 @@ import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider;
 
 /**
  * Wraps a vaadin {@link Grid}.
- * 
+ *
  * @param <ROW> a class annotated with linkki annotations used as PMO for a row in the table
  */
 public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<ROW> {
@@ -52,15 +51,11 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
      */
     @Override
     public void setItems(List<ROW> rootItems) {
-        boolean hasChildChanged = updateChildren(rootItems);
-        boolean rootItemsChanged = hasItemListChanged(rootItems);
-        if (hasChildChanged || rootItemsChanged) {
+        if (hasItemListChanged(rootItems) || hasChildChanged(rootItems)) {
             treeData.clear();
             treeData.addItems(rootItems, this::getCurrentChildren);
-            if (rootItemsChanged) {
-                getComponent().getDataProvider().refreshAll();
-                getComponent().getElement().setAttribute("has-items", !rootItems.isEmpty());
-            }
+            getComponent().getDataProvider().refreshAll();
+            getComponent().getElement().setAttribute("has-items", !rootItems.isEmpty());
         }
     }
 
@@ -69,44 +64,26 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
     }
 
     /**
-     * @see #updateChildren(ROW)
+     * @see #hasChildChanged(ROW)
      */
-    private boolean updateChildren(List<? extends ROW> newItems) {
-        boolean changed = false;
-        for (ROW item : newItems) {
-            changed |= updateChildren(item);
-        }
-        return changed;
+    private boolean hasChildChanged(List<? extends ROW> newItems) {
+        return newItems.stream().anyMatch(this::hasChildChanged);
     }
 
     /**
-     * Updates the children stored in the underlying container. Stored children that do not match the
-     * ones present on the given item are updated accordingly. Children of items that are not visible
-     * are ignored.
+     * Checks if a child of the specified ROW item has changed.
      *
-     * A call to {@link LinkkiInMemoryContainer#setItems(Collection)} is required if this method returns
-     * {@code true}.
+     * @param item The ROW item to check for child changes.
      *
-     * @return {@code true} if the underlying container changed as a result of the call
+     * @return {@code true} if a child of the item has changed, {@code false} otherwise.
      */
-    private boolean updateChildren(ROW item) {
+    private boolean hasChildChanged(ROW item) {
         if (!treeData.contains(item)) {
             return false;
         }
-        Collection<ROW> storedChildren = treeData.getChildren(item);
-        List<? extends ROW> currentChildren = getCurrentChildren(item);
-        boolean childrenHaveChanged = !currentChildren.equals(storedChildren);
-        boolean subChildrenHaveChanged = updateChildren(currentChildren);
-
-        if (childrenHaveChanged || subChildrenHaveChanged) {
-            getComponent().getDataProvider().refreshItem(item, true);
-            if (currentChildren.isEmpty()) {
-                getComponent().collapse(List.of(item));
-            }
-            return true;
-        } else {
-            return false;
-        }
+        var storedChildren = treeData.getChildren(item);
+        var currentChildren = getCurrentChildren(item);
+        return !currentChildren.equals(storedChildren) || hasChildChanged(currentChildren);
     }
 
     @SuppressWarnings("unchecked")

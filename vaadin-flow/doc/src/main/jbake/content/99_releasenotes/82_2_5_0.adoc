@@ -54,3 +54,5 @@ NOTE: `VaadinUIExtension` has been deprecated since `KaribuUIExtension` not only
 * Fixed wrong min-width in @UISection for layouts where the label is above the component
 // https://jira.convista.com/browse/LIN-3483
 * Fixed the issue where multiple screenshots taken for a single test case would overwrite each other
+// https://jira.convista.com/browse/LIN-3507
+* Fixed added child rows are not visible in hierarchical tables
