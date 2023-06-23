@@ -6,6 +6,16 @@
 :images-folder-name: 01_releasenotes
 
 
+=== Version 2.3.7
+
+// ==== New features and improvements
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-3507
+* Fixed added child rows are not visible in hierarchical tables
+
+
 === Version 2.3.6
 
 ==== New features and improvements

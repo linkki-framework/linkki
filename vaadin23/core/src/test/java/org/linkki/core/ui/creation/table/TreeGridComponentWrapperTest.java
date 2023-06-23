@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
@@ -31,8 +32,6 @@ import com.vaadin.flow.component.treegrid.TreeGrid;
 import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider;
 
 public class TreeGridComponentWrapperTest {
-
-    private int eventCount = 0;
 
     @Test
     void testSetItems() {
@@ -48,27 +47,29 @@ public class TreeGridComponentWrapperTest {
 
     @Test
     void testSetItems_CheckUpdateEvent() {
+        var eventCount = new AtomicInteger(0);
         TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
         List<Row> items = Arrays.asList(new Row(), new Row());
-        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount++);
+        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount.incrementAndGet());
 
         componentWrapper.setItems(items);
 
-        assertThat(eventCount, is(1));
+        assertThat(eventCount.get(), is(1));
     }
 
     @Test
     void testSetItems_CheckUpdateEventOnChange() {
+        var eventCount = new AtomicInteger(0);
         TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
         List<Row> items = Arrays.asList(new Row(), new Row());
-        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount++);
+        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount.incrementAndGet());
         componentWrapper.setItems(items);
-        eventCount = 0;
+        eventCount.set(0);
 
         items.set(0, new Row());
         componentWrapper.setItems(items);
 
-        assertThat(eventCount, is(1));
+        assertThat(eventCount.get(), is(1));
     }
 
     @Test
@@ -91,44 +92,31 @@ public class TreeGridComponentWrapperTest {
     void testSetItems_WithChildren_CheckUpdateEventOnChange() {
         TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
         List<Row> items = Arrays.asList(new Row(new Row(), new Row()), new Row(new Row(new Row())));
-        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount++);
+        var eventCount = new AtomicInteger(0);
+        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount.incrementAndGet());
         componentWrapper.setItems(items);
-        eventCount = 0;
+        eventCount.set(0);
 
         items.get(0).children.set(0, new Row());
         componentWrapper.setItems(items);
 
-        assertThat(eventCount, is(1));
+        assertThat(eventCount.get(), is(1));
     }
 
     @Test
     void testSetItems_DoNotUpdateForUnchangedList() {
         TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
         List<Row> items = Arrays.asList(new Row(), new Row());
-        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount++);
+        var eventCount = new AtomicInteger(0);
+        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount.incrementAndGet());
 
         // call setItems twice
         componentWrapper.setItems(items);
         componentWrapper.setItems(items);
 
-        assertThat(eventCount, is(1));
+        assertThat(eventCount.get(), is(1));
     }
 
-    @Test
-    void testCollapseItem_WhenNoChildren_ThenCollapsed() {
-        eventCount = 0;
-        TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
-        componentWrapper.getComponent().addCollapseListener($ -> eventCount++);
-        List<Row> items = Arrays.asList(new Row(Arrays.asList(new Row(), new Row())));
-        componentWrapper.setItems(items);
-        componentWrapper.getComponent().expand(items);
-
-        // remove all children
-        items.get(0).getChildRows().clear();
-        componentWrapper.setItems(items);
-
-        assertThat(eventCount, is(1));
-    }
 
     @Test
     void testHasItemsAttribute() {
