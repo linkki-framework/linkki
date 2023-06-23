@@ -5,9 +5,8 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'linkki'
+        BUILD_NAME = "2-4"
         BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
-        // make sure that the build name does not contain '_' because this will lead to unexpected Docker failures
-        DOCKER_BUILD_NAME = "${BRANCH_NAME.replaceAll('_', '-')}"
         CONTAINER_RETENTION = 'permanent-on'
     }
 
@@ -15,7 +14,7 @@ pipeline {
         stage('Pre-Build') {
             steps {
                 script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BRANCH_NAME}"
+                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BUILD_NAME}"
                 }
             }
         }
@@ -30,12 +29,12 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh 'bash -x .ci/docker_setup.sh ${DOCKER_BUILD_NAME}'
+                sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Test Playground</h3>
                     <ul>
-                        <li><a href='http://linkki-${env:DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow'>Vaadin Flow</a></li>
+                        <li><a href='http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow'>Vaadin Flow</a></li>
                     </ul>
                 """
             }
@@ -44,7 +43,7 @@ pipeline {
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
-                waitForServer "http://linkki-${DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow"
+                waitForServer "http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow"
             }
         }
 
@@ -68,7 +67,7 @@ pipeline {
                     }
 
                     environment {
-                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${DOCKER_BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin-flow'
+                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin-flow'
                     }
                 }
 
