@@ -20,8 +20,11 @@ import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.linkki.core.binding.LinkkiBindingException;
 
@@ -29,18 +32,24 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wrapper for a void {@link Method} without parameters. {@link #canInvoke()} can safely be accessed
- * even if the method to be invoked does not exists. {@link #invoke(Object)} will access the method via
+ * even if the method to be invoked does not exist. {@link #invoke(Object)} will access the method via
  * {@link LambdaMetafactory}.
  * 
  * @param <T> the type containing the method
  */
-public class InvokeMethod<T> extends AbstractMethod<T> {
+public class InvokeMethod<T> extends AbstractMethod<T, Consumer<T>> {
 
     @CheckForNull
     private Consumer<T> invoker;
 
     public InvokeMethod(PropertyAccessDescriptor<T, ?> descriptor) {
         super(descriptor, descriptor.getReflectionInvokeMethod());
+    }
+
+    /* private */ InvokeMethod(Class<? extends T> boundClass,
+                               String propertyName,
+                               Supplier<Optional<Method>> methodSupplier) {
+        super(boundClass, propertyName, methodSupplier);
     }
 
     /**
@@ -66,25 +75,32 @@ public class InvokeMethod<T> extends AbstractMethod<T> {
     }
 
     @Override
-    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func) {
-        try {
-            return LambdaMetafactory.metafactory(lookup,
-                                                 "accept",
-                                                 MethodType.methodType(Consumer.class),
-                                                 MethodType.methodType(Void.TYPE, Object.class),
-                                                 methodHandle,
-                                                 wrap(methodHandle));
-        } catch (LambdaConversionException e) {
-            throw new IllegalStateException("Can't create " + CallSite.class.getSimpleName() + " for "
-                    + methodHandle, e);
-        }
+    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func)
+            throws LambdaConversionException {
+        return LambdaMetafactory.metafactory(lookup,
+                                             "accept",
+                                             MethodType.methodType(Consumer.class),
+                                             MethodType.methodType(Void.TYPE, Object.class),
+                                             methodHandle,
+                                             wrap(methodHandle));
     }
 
-    @SuppressWarnings({ "unchecked" })
     private Consumer<T> invoker() {
         if (invoker == null) {
-            invoker = getMethodAs(Consumer.class);
+            invoker = getMethodAsFunction();
         }
         return invoker;
     }
+
+    protected Consumer<T> fallbackReflectionCall(Method method) {
+        return o -> {
+            try {
+                method.invoke(o);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new LinkkiBindingException(
+                        String.format("Error invoking method %s#%s", getBoundClass(), getPropertyName()), e);
+            }
+        };
+    }
+
 }

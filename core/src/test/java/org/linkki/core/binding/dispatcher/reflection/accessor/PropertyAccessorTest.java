@@ -105,8 +105,11 @@ public class PropertyAccessorTest {
         Object testObject2 = new TestObject();
         PropertyAccessor<Object, Object> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.BOOLEAN_PROPERTY);
-        assertThat(accessor.getPropertyValue(testObject2), is(true));
+        assertThat(accessor.getPropertyValue(testObject2), is(false));
+
         accessor.setPropertyValue(testObject2, true);
+
+        assertThat(accessor.getPropertyValue(testObject2), is(true));
     }
 
     @Test
@@ -115,7 +118,10 @@ public class PropertyAccessorTest {
         PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.INT_PROPERTY);
         assertEquals(42, accessor.getPropertyValue(testObject2).intValue());
+
         accessor.setPropertyValue(testObject2, 23);
+
+        assertEquals(23, accessor.getPropertyValue(testObject2).intValue());
     }
 
     @Test

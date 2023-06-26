@@ -16,7 +16,6 @@ package org.linkki.core.binding.dispatcher.reflection.accessor;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.util.LookupProvider;
-import org.linkki.util.MemberAccessors;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -25,66 +24,63 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-class WriteMethodTest {
+class InvokeMethodTest {
 
     @Test
-    void testConstructor_NoMethod() {
+    void testCanInvoke() {
         PropertyAccessDescriptor<?, ?> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
-                TestObject.DO_SOMETHING_METHOD);
-        assertThat(descriptor.getReflectionWriteMethod().get()).isEmpty();
+                TestObject.STRING_PROPERTY);
+        assertThat(descriptor.getReflectionInvokeMethod().get()).isEmpty();
 
-        assertThatNoException().isThrownBy(() -> new WriteMethod<>(descriptor));
+        var invokeMethod = new InvokeMethod<>(descriptor);
+
+        assertThat(invokeMethod.canInvoke()).isFalse();
     }
 
     @Test
-    void testCanWrite() {
-        PropertyAccessDescriptor<?, ?> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
-                TestObject.DO_SOMETHING_METHOD);
-        assertThat(descriptor.getReflectionWriteMethod().get()).isEmpty();
-
-        var writeMethod = new WriteMethod<>(descriptor);
-
-        assertThat(writeMethod.canWrite()).isFalse();
-    }
-
-    @Test
-    void testWriteValue() {
-        TestObject testObject = new TestObject();
+    void testInvoke() {
+        var testObject = new TestObject();
         assertThat(testObject.isBooleanProperty()).isFalse();
-        PropertyAccessDescriptor<TestObject, Boolean> descriptor = new PropertyAccessDescriptor<>(TestObject.class, TestObject.BOOLEAN_PROPERTY);
+        var descriptor = new PropertyAccessDescriptor<>(TestObject.class, TestObject.DO_SOMETHING_METHOD);
 
-        WriteMethod<TestObject, Boolean> writeMethod = descriptor.createWriteMethod();
-        writeMethod.writeValue(testObject, true);
+        var invokeMethod = descriptor.createInvokeMethod();
+        invokeMethod.invoke(testObject);
 
         assertThat(testObject.isBooleanProperty()).isTrue();
     }
 
     @Test
-    void testWriteValue_MethodWithException() {
+    void testInvoke_MethodWithException() {
         var descriptor = new PropertyAccessDescriptor<TestObject, String>(TestObject.class,
                 TestObject.EXCEPTION_PROPERTY);
         var instance = new TestObject();
 
-        var writeMethod = descriptor.createWriteMethod();
+        var invokeMethod = descriptor.createInvokeMethod();
 
         assertThatExceptionOfType(LinkkiBindingException.class)
-                .isThrownBy(() -> writeMethod.writeValue(instance, ""))
+                .isThrownBy(() -> invokeMethod.invoke(instance))
                 .withStackTraceContaining("test exception");
     }
 
     @Test
-    void testWriteValue_DifferentClassloader() throws NoSuchMethodException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+    void testInvoke_DifferentClassloader() throws NoSuchMethodException,
+                                                  ClassNotFoundException,
+                                                  InvocationTargetException,
+                                                  InstantiationException,
+                                                  IllegalAccessException,
+                                                  IOException {
         try (var simulatedRestartClassLoader = new SimulatedRestartClassLoader(TestObject.class)) {
             var classInCustomClassLoader = simulatedRestartClassLoader.loadClass(TestObject.class.getName());
             var method = Arrays.stream(classInCustomClassLoader.getMethods())
-                    .filter(m -> m.getName().equals("setBooleanProperty")).findFirst().get();
+                    .filter(m -> m.getName().equals("doSomething")).findFirst().get();
             assertThat(method.getDeclaringClass().getClassLoader()).isNotEqualTo(LookupProvider.class.getClassLoader());
             var instance = classInCustomClassLoader.getDeclaredConstructor().newInstance();
             assertThat(classInCustomClassLoader.getDeclaredMethod("isBooleanProperty").invoke(instance))
                     .isEqualTo(false);
-            var writeMethod = new WriteMethod<Object, Object>(classInCustomClassLoader, TestObject.BOOLEAN_PROPERTY, () -> Optional.of(method));
+            var invokeMethod = new InvokeMethod<Object>(classInCustomClassLoader, TestObject.DO_SOMETHING_METHOD,
+                    () -> Optional.of(method));
 
-            writeMethod.writeValue(instance, true);
+            invokeMethod.invoke(instance);
 
             assertThat(classInCustomClassLoader.getDeclaredMethod("isBooleanProperty").invoke(instance))
                     .isEqualTo(true);
@@ -92,17 +88,23 @@ class WriteMethodTest {
     }
 
     @Test
-    void testWriteValue_DifferentClassloader_MethodWithException() throws NoSuchMethodException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+    void testInvokeMethod_DifferentClassloader_MethodWithException() throws NoSuchMethodException,
+                                                                            ClassNotFoundException,
+                                                                            InvocationTargetException,
+                                                                            InstantiationException,
+                                                                            IllegalAccessException,
+                                                                            IOException {
         try (var simulatedRestartClassLoader = new SimulatedRestartClassLoader(TestObject.class)) {
             var classInCustomClassLoader = simulatedRestartClassLoader.loadClass(TestObject.class.getName());
             var method = Arrays.stream(classInCustomClassLoader.getMethods())
-                    .filter(m -> m.getName().equals("setThrowException")).findFirst().get();
+                    .filter(m -> m.getName().equals(TestObject.EXCEPTION_PROPERTY)).findFirst().get();
             assertThat(method.getDeclaringClass().getClassLoader()).isNotEqualTo(LookupProvider.class.getClassLoader());
             var instance = classInCustomClassLoader.getDeclaredConstructor().newInstance();
-            var writeMethod = new WriteMethod<Object, Object>(classInCustomClassLoader, TestObject.EXCEPTION_PROPERTY, () -> Optional.of(method));
+            var invokeMethod = new InvokeMethod<Object>(classInCustomClassLoader, TestObject.EXCEPTION_PROPERTY,
+                    () -> Optional.of(method));
 
             assertThatExceptionOfType(LinkkiBindingException.class)
-                    .isThrownBy(() -> writeMethod.writeValue(instance, ""))
+                    .isThrownBy(() -> invokeMethod.invoke(instance))
                     .withStackTraceContaining("test exception");
         }
     }

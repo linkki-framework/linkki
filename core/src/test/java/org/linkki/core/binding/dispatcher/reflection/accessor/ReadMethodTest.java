@@ -13,18 +13,43 @@
  */
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
+import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.LinkkiBindingException;
+import org.linkki.util.LookupProvider;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-@ExtendWith(MockitoExtension.class)
-public class ReadMethodTest {
+class ReadMethodTest {
 
     @Test
-    public void testReadValue() {
+    void testCanRead_NoGetterMethod() {
+        PropertyAccessDescriptor<?, ?> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
+                TestObject.DO_SOMETHING_METHOD);
+
+        ReadMethod<?, ?> readMethod = descriptor.createReadMethod();
+
+        assertFalse(readMethod.canRead());
+    }
+
+    @Test
+    void testCanRead_VoidGetterMethod() {
+        PropertyAccessDescriptor<?, ?> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
+                "void");
+
+        ReadMethod<?, ?> readMethod = descriptor.createReadMethod();
+
+        assertFalse(readMethod.canRead());
+    }
+
+    @Test
+    void testReadValue() {
         TestObject testObject = new TestObject();
         PropertyAccessDescriptor<TestObject, Long> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
                 TestObject.READ_ONLY_LONG_PROPERTY);
@@ -35,23 +60,73 @@ public class ReadMethodTest {
     }
 
     @Test
-    public void testReadValue_NoGetterMethod() {
-        PropertyAccessDescriptor<?, ?> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
+    void testReadValue_CanReadFalse() {
+        PropertyAccessDescriptor<TestObject, Void> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
                 TestObject.DO_SOMETHING_METHOD);
-
-        ReadMethod<?, ?> readMethod = descriptor.createReadMethod();
-
+        var readMethod = descriptor.createReadMethod();
         assertFalse(readMethod.canRead());
+        var instance = new TestObject();
+
+        assertThatExceptionOfType(IllegalStateException.class)
+                .isThrownBy(() -> readMethod.readValue(instance))
+                .withMessageContaining("Cannot find getter method")
+                .withMessageContaining(TestObject.class.getName())
+                .withMessageContaining(TestObject.DO_SOMETHING_METHOD);
     }
 
     @Test
-    public void testReadValue_VoidGetterMethod() {
-        PropertyAccessDescriptor<?, ?> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
-                "void");
+    void testReadValue_MethodWithException() {
+        var descriptor = new PropertyAccessDescriptor<TestObject, String>(TestObject.class,
+                TestObject.EXCEPTION_PROPERTY);
+        var instance = new TestObject();
 
-        ReadMethod<?, ?> readMethod = descriptor.createReadMethod();
+        var readMethod = descriptor.createReadMethod();
 
-        assertFalse(readMethod.canRead());
+        assertThatExceptionOfType(LinkkiBindingException.class)
+                .isThrownBy(() -> readMethod.readValue(instance))
+                .withStackTraceContaining("test exception");
+
     }
 
+    @Test
+    void testReadValue_DifferentClassloader() throws NoSuchMethodException,
+                                                     ClassNotFoundException,
+                                                     InvocationTargetException,
+                                                     InstantiationException,
+                                                     IllegalAccessException,
+                                                     IOException {
+        try (var simulatedRestartClassLoader = new SimulatedRestartClassLoader(TestObject.class)) {
+            var classInCustomClassLoader = simulatedRestartClassLoader.loadClass(TestObject.class.getName());
+            var method = classInCustomClassLoader.getDeclaredMethod("getReadOnlyLongProperty");
+            assertThat(method.getDeclaringClass().getClassLoader()).isNotEqualTo(LookupProvider.class.getClassLoader());
+            var instance = classInCustomClassLoader.getDeclaredConstructor().newInstance();
+            var readMethod = new ReadMethod<Object, Object>(classInCustomClassLoader,
+                    TestObject.READ_ONLY_LONG_PROPERTY, () -> Optional.of(method));
+
+            var result = readMethod.readValue(instance);
+
+            assertThat(result).isEqualTo(42L);
+        }
+    }
+
+    @Test
+    void testReadValue_DifferentClassloader_MethodWithException() throws NoSuchMethodException,
+                                                                         ClassNotFoundException,
+                                                                         InvocationTargetException,
+                                                                         InstantiationException,
+                                                                         IllegalAccessException,
+                                                                         IOException {
+        try (var simulatedRestartClassLoader = new SimulatedRestartClassLoader(TestObject.class)) {
+            var classInCustomClassLoader = simulatedRestartClassLoader.loadClass(TestObject.class.getName());
+            var method = classInCustomClassLoader.getDeclaredMethod("getThrowException");
+            assertThat(method.getDeclaringClass().getClassLoader()).isNotEqualTo(LookupProvider.class.getClassLoader());
+            var instance = classInCustomClassLoader.getDeclaredConstructor().newInstance();
+            var readMethod = new ReadMethod<Object, Object>(classInCustomClassLoader,
+                    TestObject.EXCEPTION_PROPERTY, () -> Optional.of(method));
+
+            assertThatExceptionOfType(LinkkiBindingException.class)
+                    .isThrownBy(() -> readMethod.readValue(instance))
+                    .withStackTraceContaining("test exception");
+        }
+    }
 }

@@ -13,29 +13,29 @@
  */
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.linkki.util.LazyReference.lazy;
-import static org.mockito.Mockito.when;
-
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
-public class AbstractMethodTest {
-    @Mock
-    private PropertyAccessDescriptor<?, ?> descriptor;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class AbstractMethodTest {
 
     @Test
-    public void testHasNoMethod() {
-        when(descriptor.getReflectionWriteMethod()).thenReturn(lazy(Optional::empty));
+    void testHasMethod_False() {
+        var descriptor = new PropertyAccessDescriptor<TestObject, Long>(TestObject.class, TestObject.READ_ONLY_LONG_PROPERTY);
 
-        AbstractMethod<?> writeMethod = new WriteMethod<>(descriptor);
+        var writeMethod = new WriteMethod<>(descriptor);
 
         assertFalse(writeMethod.hasMethod());
+    }
+
+    @Test
+    void testHasMethod() {
+        var descriptor = new PropertyAccessDescriptor<TestObject, Integer>(TestObject.class, TestObject.INT_PROPERTY);
+
+        var writeMethod = new WriteMethod<>(descriptor);
+
+        assertTrue(writeMethod.hasMethod());
     }
 
 }

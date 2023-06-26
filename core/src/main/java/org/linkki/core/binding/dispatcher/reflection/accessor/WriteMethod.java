@@ -19,8 +19,11 @@ import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 import org.linkki.core.binding.LinkkiBindingException;
 
@@ -34,13 +37,19 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @param <T> the type containing the property
  * @param <V> the property's type
  */
-public class WriteMethod<T, V> extends AbstractMethod<T> {
+public class WriteMethod<T, V> extends AbstractMethod<T, BiConsumer<T, V>> {
 
     @CheckForNull
     private BiConsumer<T, V> setter;
 
     WriteMethod(PropertyAccessDescriptor<T, V> descriptor) {
         super(descriptor, descriptor.getReflectionWriteMethod());
+    }
+
+    /* private */ WriteMethod(Class<? extends T> boundClass,
+                              String propertyName,
+                              Supplier<Optional<Method>> methodSupplier) {
+        super(boundClass, propertyName, methodSupplier);
     }
 
     /**
@@ -67,27 +76,34 @@ public class WriteMethod<T, V> extends AbstractMethod<T> {
         }
     }
 
-    @SuppressWarnings({ "unchecked" })
     private BiConsumer<T, V> setter() {
         if (setter == null) {
-            setter = getMethodAs(BiConsumer.class);
+            setter = getMethodAsFunction();
         }
         return setter;
     }
 
+    protected BiConsumer<T, V> fallbackReflectionCall(Method method) {
+        return (o, v) -> {
+            try {
+                method.invoke(o, v);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new LinkkiBindingException(
+                        "Cannot write value: " + v + " in " + getBoundClass() + "#" + getPropertyName(),
+                        e);
+            }
+        };
+    }
+
     @Override
-    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func) {
-        try {
-            return LambdaMetafactory.metafactory(lookup,
-                                                 "accept",
-                                                 MethodType.methodType(BiConsumer.class),
-                                                 MethodType.methodType(Void.TYPE, Object.class, Object.class),
-                                                 methodHandle,
-                                                 wrap(methodHandle));
-        } catch (LambdaConversionException e) {
-            throw new IllegalStateException("Can't create " + CallSite.class.getSimpleName() + " for "
-                    + methodHandle, e);
-        }
+    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func)
+            throws LambdaConversionException {
+        return LambdaMetafactory.metafactory(lookup,
+                                             "accept",
+                                             MethodType.methodType(BiConsumer.class),
+                                             MethodType.methodType(Void.TYPE, Object.class, Object.class),
+                                             methodHandle,
+                                             wrap(methodHandle));
     }
 
 }

@@ -1,58 +1,54 @@
 {
-    "2.2.0": [
+    "2.4.2": [
         {
             "extension": "revapi.differences",
             "configuration": {
                 "ignore": true,
                 "differences": [
                     {
-                        "code": "java.annotation.added",
-                        "old": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getCaption(===T===)",
-                        "new": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getCaption(===T===)",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
-                        "justification": "LIN-3213/LIN-3218"
-                    }
-                ]
-            }
-        }
-    ],
-    "2.3.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.class.removed",
-                        "old": "class org.linkki.core.binding.descriptor.ElementDescriptor",
-                        "justification": "LIN-1090/LIN-3247: Clean Up BindingDescriptor classes"
+                        "code": "java.method.exception.checkedAdded",
+                        "exception": "java.lang.invoke.LambdaConversionException",
+                        "package": "org.linkki.core.binding.dispatcher.reflection.accessor",
+                        "justification": "LIN-3406: Exception is catched later to fall back to reflection API"
                     },
                     {
-                        "code": "java.class.removed",
-                        "old": "class org.linkki.core.binding.descriptor.PropertyElementDescriptors",
-                        "justification": "LIN-1090/LIN-3247: Clean Up BindingDescriptor classes"
+                        "code": "java.method.added",
+                        "new": "method void org.linkki.core.binding.dispatcher.reflection.accessor.AbstractMethod<T, I>::<init>(java.lang.Class<? extends T>, java.lang.String, java.util.function.Supplier<java.util.Optional<java.lang.reflect.Method>>)",
+                        "justification": "LIN-3406: Test constructor"
                     },
                     {
-                        "code": "java.class.removed",
-                        "old": "class org.linkki.core.binding.descriptor.UIElementAnnotationReader",
-                        "justification": "LIN-1090/LIN-3247: Clean Up BindingDescriptor classes"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(java.util.List<? extends org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "new": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(org.linkki.core.binding.descriptor.property.BoundProperty, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    },
-                    {
-                        "code": "java.class.nowFinal",
-                        "old": "class org.linkki.core.binding.descriptor.BindingDescriptor",
-                        "new": "class org.linkki.core.binding.descriptor.BindingDescriptor",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
+                        "code": "java.method.abstractMethodAdded",
+                        "new": "method I org.linkki.core.binding.dispatcher.reflection.accessor.AbstractMethod<T, I>::fallbackReflectionCall(java.lang.reflect.Method)",
+                        "justification": "LIN-3406: Use reflection as fallback if method handle cannot be used"
                     },
                     {
                         "code": "java.method.removed",
-                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::addAspectDefinitions(java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
+                        "old": "method <I> I org.linkki.core.binding.dispatcher.reflection.accessor.AbstractMethod<T>::getMethodAs(java.lang.Class<? extends I>)",
+                        "justification": "LIN-3406: Use generic type instead of method argument"
+                    },
+                    {
+                        "code": "java.method.added",
+                        "new": "method I org.linkki.core.binding.dispatcher.reflection.accessor.AbstractMethod<T, I>::getMethodAsFunction()",
+                        "justification": "LIN-3406: Use generic type instead of method argument"
+                    },
+                    {
+                        "code": "java.generics.formalTypeParameterAdded",
+                        "old": "class org.linkki.core.binding.dispatcher.reflection.accessor.AbstractMethod<T>",
+                        "new": "class org.linkki.core.binding.dispatcher.reflection.accessor.AbstractMethod<T, I>",
+                        "typeParameter": "I",
+                        "justification": "LIN-3406: Use generic type instead of method argument"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java\\.method\\.added",
+                        "methodName": "fallbackReflectionCall",
+                        "package": "org\\.linkki\\.core\\.binding\\.dispatcher\\.reflection\\.accessor",
+                        "justification": "LIN-3406: Use reflection as fallback if method handle cannot be used"
+                    },
+                    {
+                        "code": "java.class.superTypeTypeParametersChanged",
+                        "oldSuperType": "org.linkki.core.binding.dispatcher.reflection.accessor.AbstractMethod<T>",
+                        "justification": "LIN-3406: Use generic type instead of method argument"
                     }
                 ]
             }

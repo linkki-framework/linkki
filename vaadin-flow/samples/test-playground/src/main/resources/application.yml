@@ -7,6 +7,10 @@ spring:
       active: dev
    main:
       banner-mode: 'off'
+   devtools:
+      restart:
+        poll-interval: "2s"
+        quiet-period: "1s"
 
 server:
    port: 8080

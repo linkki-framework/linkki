@@ -19,8 +19,11 @@ import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.linkki.core.binding.LinkkiBindingException;
 
@@ -33,13 +36,19 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @param <T> the type containing the property
  * @param <V> the property's type
  */
-public class ReadMethod<T, V> extends AbstractMethod<T> {
+public class ReadMethod<T, V> extends AbstractMethod<T, Function<T, V>> {
 
     @CheckForNull
     private Function<T, V> getter;
 
     ReadMethod(PropertyAccessDescriptor<T, V> descriptor) {
         super(descriptor, descriptor.getReflectionReadMethod());
+    }
+
+    /* private */ ReadMethod(Class<? extends T> boundClass,
+                             String propertyName,
+                             Supplier<Optional<Method>> methodSupplier) {
+        super(boundClass, propertyName, methodSupplier);
     }
 
     /**
@@ -68,20 +77,30 @@ public class ReadMethod<T, V> extends AbstractMethod<T> {
 
     private V readValueWithExceptionHandling(T boundObject) {
         try {
-            V value = getter().apply(boundObject);
-            return value;
+            return getter().apply(boundObject);
         } catch (IllegalArgumentException | IllegalStateException e) {
             throw new LinkkiBindingException(
                     "Cannot read value from object: " + boundObject + ", property: " + getPropertyName(), e);
         }
     }
 
-    @SuppressWarnings({ "unchecked" })
     private Function<T, V> getter() {
         if (getter == null) {
-            getter = getMethodAs(Function.class);
+            getter = getMethodAsFunction();
         }
         return getter;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Function<T, V> fallbackReflectionCall(Method method) {
+        return o -> {
+            try {
+                return (V)method.invoke(o);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new LinkkiBindingException(
+                        "Cannot read value from object: " + o + ", property: " + getPropertyName(), e);
+            }
+        };
     }
 
     @SuppressWarnings("unchecked")
@@ -90,19 +109,15 @@ public class ReadMethod<T, V> extends AbstractMethod<T> {
     }
 
     @Override
-    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func) {
-        try {
-            return LambdaMetafactory
-                    .metafactory(lookup,
-                                 "apply",
-                                 MethodType.methodType(Function.class),
-                                 MethodType.methodType(Object.class, Object.class),
-                                 methodHandle,
-                                 func);
-        } catch (LambdaConversionException e) {
-            throw new IllegalStateException("Can't create " + CallSite.class.getSimpleName() + " for "
-                    + methodHandle, e);
-        }
+    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func)
+            throws LambdaConversionException {
+        return LambdaMetafactory
+                .metafactory(lookup,
+                             "apply",
+                             MethodType.methodType(Function.class),
+                             MethodType.methodType(Object.class, Object.class),
+                             methodHandle,
+                             func);
     }
 
 }

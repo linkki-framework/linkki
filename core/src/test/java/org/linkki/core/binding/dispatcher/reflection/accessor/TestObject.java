@@ -22,9 +22,11 @@ public class TestObject implements TestInterface {
     public static final String INT_PROPERTY = "intProperty";
     public static final String BOOLEAN_PROPERTY = "booleanProperty";
     public static final String READ_ONLY_LONG_PROPERTY = "readOnlyLongProperty";
+    public static final String EXCEPTION_PROPERTY = "throwException";
     @CheckForNull
     private String stringValue;
     private int intValue = 42;
+    private boolean booleanValue;
 
     @CheckForNull
     public String getStringProperty() {
@@ -44,20 +46,31 @@ public class TestObject implements TestInterface {
     }
 
     public boolean isBooleanProperty() {
-        return true;
+        return booleanValue;
     }
 
     public void setBooleanProperty(boolean value) {
-        assertTrue(value);
+        this.booleanValue = value;
     }
 
     public long getReadOnlyLongProperty() {
         return 42;
     }
 
+    public String getThrowException() {
+        throw new IllegalArgumentException("test exception");
+    }
+
+    public void setThrowException(String value) {
+        throw new IllegalArgumentException("test exception");
+    }
+
+    public void throwException() {
+        throw new IllegalArgumentException("test exception");
+    }
     @Override
     public void doSomething() {
-        // do nothing :)
+        setBooleanProperty(!isBooleanProperty());
     }
 
     public void getVoid() {

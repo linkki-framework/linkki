@@ -14,16 +14,19 @@
 
 package org.linkki.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Member;
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class MemberAccessorsTest {
 
@@ -36,7 +39,7 @@ public class MemberAccessorsTest {
 
         String result = MemberAccessors.getValue(testObject, fieldOrMethod);
 
-        assertThat(result, is(testObject.field));
+        assertThat(result).isEqualTo(testObject.field);
     }
 
     @Test
@@ -46,7 +49,7 @@ public class MemberAccessorsTest {
 
         int result = MemberAccessors.getValue(testObject, fieldOrMethod);
 
-        assertThat(result, is(testObject.intField));
+        assertThat(result).isEqualTo(testObject.intField);
     }
 
     @Test
@@ -56,7 +59,7 @@ public class MemberAccessorsTest {
 
         String result = MemberAccessors.getValue(testObject, fieldOrMethod);
 
-        assertThat(result, is(testObject.getValue()));
+        assertThat(result).isEqualTo(testObject.getValue());
     }
 
     @Test
@@ -64,8 +67,8 @@ public class MemberAccessorsTest {
         TestObject testObject = new TestObject();
         Member fieldOrMethod = TestObject.class.getDeclaredMethod("getVoid");
 
-        Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> MemberAccessors.getValue(testObject, fieldOrMethod));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> MemberAccessors.getValue(testObject, fieldOrMethod));
     }
 
     @Test
@@ -75,7 +78,7 @@ public class MemberAccessorsTest {
 
         int result = MemberAccessors.getValue(testObject, fieldOrMethod);
 
-        assertThat(result, is(testObject.getInt()));
+        assertThat(result).isEqualTo(testObject.getInt());
     }
 
     @Test
@@ -83,7 +86,19 @@ public class MemberAccessorsTest {
         TestObject testObject = new TestObject();
         Member fieldOrMethod = TestObject.class.getDeclaredMethod("getThrowException");
 
-        assertThrows(RuntimeException.class, () -> MemberAccessors.getValue(testObject, fieldOrMethod));
+        assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(() -> MemberAccessors.getValue(testObject, fieldOrMethod))
+                .withStackTraceContaining("any exception thrown");
+    }
+
+    @Test
+    void testGetValue_PrivateMethod() throws NoSuchMethodException, SecurityException {
+        var testObject = new TestObject();
+        var fieldOrMethod = TestObject.class.getDeclaredMethod("getPrivateValue");
+
+        String result = MemberAccessors.getValue(testObject, fieldOrMethod);
+
+        assertThat(result).isEqualTo("privateValue");
     }
 
     @Test
@@ -91,14 +106,66 @@ public class MemberAccessorsTest {
         TestObject testObject = new TestObject();
         Constructor<? extends TestObject> constructor = testObject.getClass().getDeclaredConstructor();
 
-        assertThrows(IllegalArgumentException.class, () -> MemberAccessors.getValue(testObject, constructor));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> MemberAccessors.getValue(testObject, constructor));
     }
 
-    private static class TestObject {
+    @Test
+    void testGetValue_DifferentClassloader() throws NoSuchMethodException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        try (var simulatedRestartClassLoader = new SimulatedRestartClassLoader(TestObject.class)) {
+            var classInCustomClassLoader = simulatedRestartClassLoader.loadClass(TestObject.class.getName());
+            var method = classInCustomClassLoader.getDeclaredMethod("getValue");
+            assertThat(method.getDeclaringClass().getClassLoader()).isNotEqualTo(LookupProvider.class.getClassLoader());
+            var instance = classInCustomClassLoader.getDeclaredConstructor().newInstance();
 
-        private String field = VALUE;
+            assertThatNoException().isThrownBy(() -> MemberAccessors.getValue(instance, method));
 
-        private int intField = ThreadLocalRandom.current().nextInt();
+            String result = MemberAccessors.getValue(instance, method);
+            assertThat(result).isEqualTo(VALUE);
+        }
+    }
+
+    @Test
+    void testGetValue_DifferentClassloader_Exception() throws NoSuchMethodException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        try (var simulatedRestartClassLoader = new SimulatedRestartClassLoader(TestObject.class)) {
+            var classInCustomClassLoader = simulatedRestartClassLoader.loadClass(TestObject.class.getName());
+            var method = classInCustomClassLoader.getDeclaredMethod("getThrowException");
+            assertThat(method.getDeclaringClass().getClassLoader()).isNotEqualTo(LookupProvider.class.getClassLoader());
+            var instance = classInCustomClassLoader.getDeclaredConstructor().newInstance();
+
+            assertThatExceptionOfType(IllegalArgumentException.class)
+                    .isThrownBy(() -> MemberAccessors.getValue(instance, method))
+                    .withStackTraceContaining("any exception thrown");
+        }
+    }
+
+    private static class SimulatedRestartClassLoader extends URLClassLoader {
+
+        private final ClassLoader delegate;
+        private final Class<?>[] classes;
+
+        public SimulatedRestartClassLoader(Class<?>... classes) {
+            super(Stream.of(classes)
+                    .map(c -> c.getProtectionDomain().getCodeSource().getLocation())
+                    .toArray(URL[]::new), null);
+            this.classes = classes;
+            this.delegate = Thread.currentThread().getContextClassLoader();
+        }
+
+        @Override
+        public Class<?> loadClass(String name) throws ClassNotFoundException {
+            if (Arrays.stream(classes).map(Class::getName).anyMatch(name::equals)) {
+                return findClass(name);
+            }
+            return delegate.loadClass(name);
+        }
+    }
+
+    public static class TestObject {
+
+        private final String field = VALUE;
+
+        private final int intField = ThreadLocalRandom.current().nextInt();
 
         public TestObject() {
             // nothing to do
@@ -122,6 +189,9 @@ public class MemberAccessorsTest {
             throw new RuntimeException("any exception thrown");
         }
 
+        private String getPrivateValue() {
+            return "privateValue";
+        }
     }
 
 }

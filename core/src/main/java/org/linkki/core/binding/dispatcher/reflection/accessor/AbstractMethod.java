@@ -17,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 import static org.linkki.util.ExceptionSupplier.illegalArgumentException;
 
 import java.lang.invoke.CallSite;
+import java.lang.invoke.LambdaConversionException;
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles.Lookup;
@@ -24,17 +25,21 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 import org.linkki.util.LookupProvider;
 
 /**
  * Base class for method wrappers. Allows the wrapped {@link Method java.lang.reflect.Method} to be
  * <code>null</code>.
- * 
+ *
  * @param <T> the type containing the property
+ * @param <I> type of the method as a functional interface
  */
-public abstract class AbstractMethod<T> {
+public abstract class AbstractMethod<T, I> {
 
+    private static final Logger LOGGER = Logger.getLogger(AbstractMethod.class.getName());
+    private static boolean reflectionWarning = true;
 
     private final Class<? extends T> boundClass;
     private final String propertyName;
@@ -46,11 +51,19 @@ public abstract class AbstractMethod<T> {
      *            {@link Optional#empty()}.
      */
     protected AbstractMethod(PropertyAccessDescriptor<T, ?> descriptor, Supplier<Optional<Method>> methodSupplier) {
-        this.methodSupplier = requireNonNull(methodSupplier, "methodSupplier must not be null");
-        requireNonNull(descriptor, "descriptor must not be null");
+        this(requireNonNull(descriptor, "descriptor must not be null").getBoundClass(),
+                descriptor.getPropertyName(), methodSupplier);
+    }
 
-        boundClass = descriptor.getBoundClass();
-        propertyName = descriptor.getPropertyName();
+    /**
+     * Constructor for testing
+     */
+    /* private */ AbstractMethod(Class<? extends T> boundClass,
+                             String propertyName,
+                             Supplier<Optional<Method>> methodSupplier) {
+        this.boundClass = requireNonNull(boundClass, "boundClass must not be null");
+        this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
+        this.methodSupplier = requireNonNull(methodSupplier, "methodSupplier must not be null");
     }
 
     protected boolean hasMethod() {
@@ -76,31 +89,43 @@ public abstract class AbstractMethod<T> {
 
     /**
      * Performance optimization. Avoid creating exception supplier to save memory.
-     * 
-     * @return the read method if existent. Otherwise throws an IllegalArgumentException.
+     *
+     * @return the read method if existent. Otherwise, throws an IllegalArgumentException.
      */
     protected Method getMethodWithExceptionHandling() {
         return getReflectionMethod().orElseThrow(() -> noMethodFound(this.getClass().getSimpleName()).get());
     }
 
     /**
-     * Uses {@link LambdaMetafactory} to create an implementation of the given functional interface that
+     * Uses {@link LambdaMetafactory} to create an implementation of the functional interface that
      * references the {@link #getReflectionMethod() method found via reflection}.
+     * <p>
+     * If the method handle cannot be used due to multiple classloaders in play, {@link #fallbackReflectionCall(Method)}
+     * is called instead.
      */
-    protected <I> I getMethodAs(Class<? extends I> type) {
+    protected I getMethodAsFunction() {
         Method method = getMethodWithExceptionHandling();
         Lookup lookup = LookupProvider.lookup(method.getDeclaringClass());
         MethodHandle methodHandle = getMethodHandle(method, lookup);
         MethodType func = methodHandle.type();
-        CallSite site = getCallSite(lookup, methodHandle, func);
         try {
-            return (I)site.getTarget().invoke();
+            var callSite = getCallSite(lookup, methodHandle, func);
+            return invokeCallSite(callSite, method);
+            // CSON: IllegalCatch
+        } catch (LambdaConversionException e) {
+            logFallbackToReflection(e);
+            return fallbackReflectionCall(method);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private I invokeCallSite(CallSite callSite, Method method) {
+        try {
+            return (I)callSite.getTarget().invoke();
             // CSOFF: IllegalCatch
         } catch (Throwable e) {
-            throw new IllegalStateException("Can't create " + type.getSimpleName() + " for "
-                    + method, e);
+            throw new IllegalStateException("Can't create function for " + method, e);
         }
-        // CSON: IllegalCatch
     }
 
     private static MethodHandle getMethodHandle(Method method, Lookup lookup) {
@@ -112,11 +137,29 @@ public abstract class AbstractMethod<T> {
         }
     }
 
-    // to avoid problems with primitive parameters in Java 11
+    /**
+     * Wraps the method type to avoid problems with primitive parameters in Java 11
+     */
     protected MethodType wrap(MethodHandle methodHandle) {
         return methodHandle.type().wrap().changeReturnType(Void.TYPE);
     }
 
-    protected abstract CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func);
+    protected abstract CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func)
+            throws LambdaConversionException;
 
+    private static void logFallbackToReflection(LambdaConversionException exception) {
+        if (reflectionWarning) {
+            LOGGER.warning(() -> """
+                    Error during method invocation using method handle, falling back to reflection API. \
+                    This is probably due to different class loaders in play, \
+                    e.g. when using Spring Devtools. \
+                    This should not happen in production. \
+                    Configure a fine logging level for more information.
+                    """);
+            reflectionWarning = false;
+        }
+        LOGGER.fine(() -> "Cannot invoke method using method handle: " + exception.getMessage());
+    }
+
+    protected abstract I fallbackReflectionCall(Method method);
 }
