@@ -16,6 +16,7 @@ package org.linkki.core.binding;
 
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.handler.Handler;
 
 /**
@@ -66,11 +67,17 @@ public class ContainerBinding extends BindingContext implements Binding {
         updateBindings();
     }
 
+    /**
+     * Updates the binding itself. If the bound component is visible, updates the child components.
+     */
     @Override
     void updateBindings() {
         binding.updateFromPmo();
-        super.updateBindings();
+        if (UiFramework.isVisible(getBoundComponent())) {
+            super.updateBindings();
+        }
     }
+
 
     @Override
     public Object getBoundComponent() {
