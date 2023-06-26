@@ -18,8 +18,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Optional;
 
-import org.linkki.util.Classes;
-import org.linkki.util.MetaAnnotation;
+import org.linkki.util.reflection.Classes;
+import org.linkki.util.reflection.MetaAnnotation;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

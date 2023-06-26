@@ -19,8 +19,8 @@ import java.lang.reflect.AnnotatedElement;
 
 import org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler;
 import org.linkki.core.binding.validation.handler.DefaultMessageHandler;
-import org.linkki.util.Classes;
-import org.linkki.util.MetaAnnotation;
+import org.linkki.util.reflection.Classes;
+import org.linkki.util.reflection.MetaAnnotation;
 
 /**
  * Searches for meta-annotations of type {@link LinkkiMessages} and creates configured

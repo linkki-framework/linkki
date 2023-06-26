@@ -15,7 +15,7 @@ package org.linkki.core.binding.dispatcher.reflection;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -24,8 +24,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
-import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessor;
-import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessorCache;
+import org.linkki.util.reflection.accessor.PropertyAccessor;
 import org.linkki.core.binding.validation.message.MessageList;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -89,7 +88,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <V> V pull(Aspect<V> aspect) {
         if (aspect.isValuePresent()) {
             throw new IllegalStateException(String
@@ -98,7 +96,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
         String propertyAspectName = getPropertyAspectName(aspect);
         if (hasReadMethod(propertyAspectName)) {
-            PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
+            PropertyAccessor<Object, V> accessor = getAccessor(propertyAspectName);
 
             return Optional.ofNullable(getBoundObject())
                     .map(accessor::getPropertyValue)
@@ -135,13 +133,12 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         String propertyAspectName = getPropertyAspectName(aspect);
         if (hasReadMethod(propertyAspectName)) {
             if (hasWriteMethod(propertyAspectName)) {
-                @SuppressWarnings("unchecked")
-                PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
+                var accessor = getAccessor(propertyAspectName);
                 accessor.setPropertyValue(getExistingBoundObject(), aspect.getValue());
             } else {
                 throw new IllegalArgumentException(
                         ExceptionPropertyDispatcher.missingMethodMessage("set",
-                                                                         Arrays.asList(getBoundObject())));
+                                                                         Collections.singletonList(getBoundObject())));
             }
         } else {
             fallbackDispatcher.push(aspect);
@@ -151,8 +148,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     private <V> void invoke(Aspect<V> aspect) {
         String propertyAspectName = getPropertyAspectName(aspect);
         if (hasInvokeMethod(propertyAspectName)) {
-            @SuppressWarnings("unchecked")
-            PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
+            var accessor = getAccessor(propertyAspectName);
             accessor.invoke(getExistingBoundObject());
         } else {
             fallbackDispatcher.push(aspect);
@@ -171,7 +167,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         String propertyAspectName = getPropertyAspectName(aspect);
         if (aspect.isValuePresent()) {
             // the FallbackDispatcher should only be called if the BoundObject has no read method.
-            // Otherwise a #push() could result in a #write() to the ModelObject even if it is not
+            // Otherwise, a #push() could result in a #write() to the ModelObject even if it is not
             // declared within the PMO
             return (hasReadMethod(propertyAspectName) && hasWriteMethod(propertyAspectName))
                     || (!hasReadMethod(propertyAspectName) && fallbackDispatcher.isPushable(aspect));
@@ -201,9 +197,10 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return getAccessor(method).canInvoke();
     }
 
-    private PropertyAccessor<?, ?> getAccessor(String propertyToAccess) {
+    @SuppressWarnings("unchecked")
+    private <V> PropertyAccessor<Object, V> getAccessor(String propertyToAccess) {
         Class<?> type = getBoundObject() != null ? getExistingBoundObject().getClass() : boundObjectType;
-        return PropertyAccessorCache.get(type, propertyToAccess);
+        return (PropertyAccessor<Object, V>)PropertyAccessor.get(type, propertyToAccess);
     }
 
     private String getPropertyAspectName(Aspect<?> aspect) {

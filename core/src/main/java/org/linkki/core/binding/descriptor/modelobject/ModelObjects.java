@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.util.BeanUtils;
-import org.linkki.util.MemberAccessors;
+import org.linkki.util.reflection.accessor.MemberAccessors;
 
 /**
  * Utility class to access the model object of a PMO.

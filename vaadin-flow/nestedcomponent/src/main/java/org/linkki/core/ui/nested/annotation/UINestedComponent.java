@@ -39,7 +39,7 @@ import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
-import org.linkki.util.MemberAccessors;
+import org.linkki.util.reflection.accessor.MemberAccessors;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;

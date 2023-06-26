@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.uiframework.UiFramework;
-import org.linkki.util.Classes;
+import org.linkki.util.reflection.Classes;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

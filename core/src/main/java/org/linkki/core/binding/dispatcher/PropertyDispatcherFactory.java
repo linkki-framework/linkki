@@ -22,7 +22,7 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.staticvalue.StaticValueDispatcher;
-import org.linkki.util.MemberAccessors;
+import org.linkki.util.reflection.accessor.MemberAccessors;
 
 /**
  * Creates the default Chains of {@link PropertyDispatcher PropertyDispatchers}.

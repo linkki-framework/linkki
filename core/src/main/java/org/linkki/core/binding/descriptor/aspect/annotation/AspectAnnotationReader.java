@@ -28,8 +28,8 @@ import java.util.stream.Stream;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
-import org.linkki.util.Classes;
-import org.linkki.util.MetaAnnotation;
+import org.linkki.util.reflection.Classes;
+import org.linkki.util.reflection.MetaAnnotation;
 
 /**
  * Utility class to create {@link LinkkiAspectDefinition LinkkiAspectDefinitions} from annotations.

@@ -20,8 +20,8 @@ import java.util.Optional;
 import java.util.function.BinaryOperator;
 
 import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.util.Classes;
-import org.linkki.util.MetaAnnotation;
+import org.linkki.util.reflection.Classes;
+import org.linkki.util.reflection.MetaAnnotation;
 
 /**
  * Reads the annotation {@link LinkkiBoundProperty @LinkkiBoundProperty}.

@@ -1,63 +1,4 @@
 {
-    "2.2.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.annotation.added",
-                        "old": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getCaption(===T===)",
-                        "new": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getCaption(===T===)",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
-                        "justification": "LIN-3213/LIN-3218"
-                    }
-                ]
-            }
-        }
-    ],
-    "2.3.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.class.removed",
-                        "old": "class org.linkki.core.binding.descriptor.ElementDescriptor",
-                        "justification": "LIN-1090/LIN-3247: Clean Up BindingDescriptor classes"
-                    },
-                    {
-                        "code": "java.class.removed",
-                        "old": "class org.linkki.core.binding.descriptor.PropertyElementDescriptors",
-                        "justification": "LIN-1090/LIN-3247: Clean Up BindingDescriptor classes"
-                    },
-                    {
-                        "code": "java.class.removed",
-                        "old": "class org.linkki.core.binding.descriptor.UIElementAnnotationReader",
-                        "justification": "LIN-1090/LIN-3247: Clean Up BindingDescriptor classes"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(java.util.List<? extends org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "new": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(org.linkki.core.binding.descriptor.property.BoundProperty, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    },
-                    {
-                        "code": "java.class.nowFinal",
-                        "old": "class org.linkki.core.binding.descriptor.BindingDescriptor",
-                        "new": "class org.linkki.core.binding.descriptor.BindingDescriptor",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    },
-                    {
-                        "code": "java.method.removed",
-                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::addAspectDefinitions(java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    }
-                ]
-            }
-        }
-    ],
     "2.5.0": [
         {
             "extension": "revapi.differences",
@@ -69,11 +10,15 @@
                         "new": "method boolean org.linkki.core.uiframework.UiFrameworkExtension::isVisible(java.lang.Object)",
                         "justification": "LIN-3144/LIN-3488 :: Skip binding of invisible pmos"
                     },
-
+                    {
+                        "code": "java.class.removed",
+                        "package": "org.linkki.core.binding.dispatcher.reflection.accessor",
+                        "justification": "LIN-3406/LIN-3524 :: Move reflection utils to internal package"
+                    },
                     {
                         "code": "java.method.visibilityIncreased",
-                        "old": "method java.util.Optional<java.lang.reflect.Member> org.linkki.core.binding.descriptor.modelobject.ModelObjects::getModelObjectAccessMember(java.lang.Object, java.lang.String)",
-                        "new": "method java.util.Optional<java.lang.reflect.Member> org.linkki.core.binding.descriptor.modelobject.ModelObjects::getModelObjectAccessMember(java.lang.Object, java.lang.String)",
+                        "classSimpleName": "ModelObjects",
+                        "methodName": "getModelObjectAccessMember",
                         "oldVisibility": "private",
                         "newVisibility": "public",
                         "justification": "LIN-3144/LIN-3490 :: Evaluate converter during binding initialisation"

@@ -47,6 +47,23 @@ Provides utility methods for handling `Notification`-components.
 
 NOTE: `VaadinUIExtension` has been deprecated since `KaribuUIExtension` not only offers the same functionality, but also additional features.
 
+// https://jira.convista.com/browse/LIN-3406
+[role="api-change"]
+===== Member access utility methods cleaned up for public access
+
+Classes such as `PropertyAccessor` or `MemberAccessors` are useful classes that can be used for aspect definitions, or when writing a custom UI annotation. `MemberAccessors` offer methods to read field and method values, while `PropertyAccessor` and find and read the value of a property using the getter method, as well as call the corresponding call or invoke method.
+
+Up until now, these classes are intended for internal usage. With this version, they are moved to the `linkki-utils` module to make them more accessible. Associated classes that should remain being used internally are made package private:
+
+* `ReadMethod`
+* `WriteMethod`
+* `InvokeMethod`
+* `PropertyAccessorDescriptor`
+* `PropertyAccessorCache`
+
+`PropertyAccessorCache#get` can be replaced with `PropertyAccessor#get`. All other usages of the internal classes should be removed.
+
+
 // ===== Other
 
 ==== Bugfixes

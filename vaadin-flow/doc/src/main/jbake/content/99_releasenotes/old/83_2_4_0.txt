@@ -17,7 +17,7 @@ Artifact Names:: Due to the upgrade to Vaadin 24, all artifacts have been rename
 * `linkki-application-framework-vaadin23`, now `linkki-application-framework-vaadlin-flow`
 * `linkki-ips-vaadin23`, now `linkki-ips-vaadin-flow`
 
-Vaadin 24:: Vaadin 24 brings several breaking changes that are documented in the https://vaadin.com/docs/latest/upgrading#breaking-changes-in-vaadin-components[Vaadin migration guide]. 
+Vaadin 24:: This Vaadin version primarily updates the technology baseline. In addition, several improvements are made regarding the frontend build. As an example, resources such as CSS are now reloaded on the fly, which accelerates the development process. Vaadin 24 brings several breaking changes that are documented in the https://vaadin.com/docs/latest/upgrading#breaking-changes-in-vaadin-components[Vaadin migration guide]. There are several changes that has an effect on linkki users:
 +
 * node.js should be updated to the latest LTS version 18
 * The breaking API changes only have an effect on code that uses Vaadin API directly. There are no resulting linkki API changes. To see all breaking API changes, see Vaadin release notes for Flow Components version https://github.com/vaadin/flow-components/releases/tag/24.0.0[24.0.0] and https://github.com/vaadin/flow-components/releases/tag/24.1.0[24.1.0].
@@ -70,7 +70,11 @@ Styling changes can also be found in https://github.com/vaadin/web-components/re
 Faktor-IPS 23.6:: The <<fips-extension, linkki Faktor-IPS extension>> uses the latest Faktor-IPS version 23.6. There are no resulting API changes in the Faktor-IPS extension.
 
 Spring Boot 3 and Jakarta EE 10:: Spring-based applications need to upgrade to Spring Boot 3 or Spring framework 6. Spring Boot 2 is no longer supported by Vaadin. The <<maven-archetypes, Spring Boot archetype>> has been upgraded to Spring Boot 3 accordingly. +
-Non-Spring application needs to be upgraded to be compatible with Jakarta EE 10.
+Due to the Java update, Spring Devtools currently do not work with linkki in some Eclipse versions. Projects that are currently using Devtools for hot reload may need to exclude it temperarily.
++
+NOTE: Compatibility with Spring Devtools is restored in the patch version 2.4.2.
++
+Non-Spring application needs to be upgraded to be compatible with Jakarta EE 10. The version of the application server may need to upgraded accordingly. The Eclipse version is affected too. Versions older than 23-6 may encounter problems deploying the web project.
 
 ==== New features and improvements
 

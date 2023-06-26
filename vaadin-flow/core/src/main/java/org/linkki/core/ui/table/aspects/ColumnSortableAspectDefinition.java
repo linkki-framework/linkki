@@ -16,8 +16,7 @@ package org.linkki.core.ui.table.aspects;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessor;
-import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessorCache;
+import org.linkki.util.reflection.accessor.PropertyAccessor;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.creation.table.GridColumnWrapper;
@@ -40,9 +39,7 @@ public class ColumnSortableAspectDefinition implements LinkkiAspectDefinition {
 
     @Override
     public void initModelUpdate(PropertyDispatcher propertyDispatcher,
-            ComponentWrapper componentWrapper,
-            Handler modelChanged) {
-
+            ComponentWrapper componentWrapper, Handler modelChanged) {
         if (sortable) {
             initComparator(propertyDispatcher, (GridColumnWrapper)componentWrapper);
         }
@@ -54,7 +51,7 @@ public class ColumnSortableAspectDefinition implements LinkkiAspectDefinition {
             throw new IllegalStateException("Could not obtain bound object");
         }
 
-        PropertyAccessor<?, ?> accessor = PropertyAccessorCache.get(pmoClass, propertyDispatcher.getProperty());
+        PropertyAccessor<?, ?> accessor = PropertyAccessor.get(pmoClass, propertyDispatcher.getProperty());
         if (!accessor.canRead()) {
             String message = "Could not read %s#%s. Using a model object is not supported when using sortable in @UITableColumn.";
             throw new IllegalStateException(

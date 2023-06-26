@@ -19,18 +19,16 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
-import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessor;
-import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessorCache;
+import org.linkki.util.reflection.accessor.PropertyAccessor;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.util.BeanUtils;
-import org.linkki.util.Classes;
-import org.linkki.util.MetaAnnotation;
+import org.linkki.util.reflection.Classes;
+import org.linkki.util.reflection.MetaAnnotation;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -149,8 +147,7 @@ public final class ComponentAnnotationReader {
      */
     public static Annotation getComponentDefinitionAnnotation(AnnotatedElement annotatedElement, Object pmo) {
         List<Annotation> annotations = LINKKI_COMPONENT_ANNOTATION
-                .findAnnotatedAnnotationsOn(annotatedElement)
-                .collect(Collectors.toList());
+                .findAnnotatedAnnotationsOn(annotatedElement).toList();
         if (annotations.size() == 1) {
             return annotations.get(0);
         } else {
@@ -170,7 +167,7 @@ public final class ComponentAnnotationReader {
     @SuppressWarnings("unchecked")
     private static Class<? extends Annotation> getComponentDefinitionAnnotationClass(Object pmo,
             String pmoPropertyName) {
-        PropertyAccessor<Object, ?> propertyAccessor = (PropertyAccessor<Object, ?>)PropertyAccessorCache
+        var propertyAccessor = (PropertyAccessor<Object, ?>)PropertyAccessor
                 .get(pmo.getClass(), getComponentTypeProperty(pmoPropertyName));
         return (Class<? extends Annotation>)propertyAccessor.getPropertyValue(pmo);
     }
