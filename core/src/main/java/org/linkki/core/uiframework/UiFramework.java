@@ -73,4 +73,15 @@ public final class UiFramework {
         return get().getChildComponents(uiComponent);
     }
 
+    /**
+     * Returns whether the given UI component is actual visible or not. Invisible components might not
+     * be updated.
+     *
+     * @param uiComponent The component which visible state is requested
+     * @return <code>true</code> if the component is actual visible, <code>false</code> if not
+     */
+    public static boolean isVisible(Object uiComponent) {
+        return get().isVisible(uiComponent);
+    }
+
 }

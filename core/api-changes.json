@@ -57,5 +57,21 @@
                 ]
             }
         }
+    ],
+    "2.5.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.method.addedToInterface",
+                        "new": "method boolean org.linkki.core.uiframework.UiFrameworkExtension::isVisible(java.lang.Object)",
+                        "justification": "LIN-3144/LIN-3488 :: Skip binding of invisible pmos"
+                    }
+                ]
+            }
+        }
     ]
+
 }

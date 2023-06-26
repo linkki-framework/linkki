@@ -64,6 +64,16 @@ public class VaadinLinkkiExtensionTest {
         assertThat(UiFramework.get().getChildComponents(componentWithChildren).toArray(), is(arr));
     }
 
+    @Test
+    public void testIsVisible() {
+        var uiComponent = new Span();
+        assertThat(UiFramework.isVisible(uiComponent), is(true));
+
+        uiComponent.setVisible(false);
+        assertThat(UiFramework.isVisible(uiComponent), is(false));
+    }
+
+
     public void testGetChildComponents_noComponents() {
         String noComponent = "no Component";
         assertThat(UiFramework.get().getChildComponents(noComponent), is(Stream.empty()));

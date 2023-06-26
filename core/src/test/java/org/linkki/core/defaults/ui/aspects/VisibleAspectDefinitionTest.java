@@ -68,10 +68,10 @@ class VisibleAspectDefinitionTest {
         VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(
                 VisibleType.VISIBLE);
         Consumer<Boolean> setter = aspectDefinition.createComponentValueSetter(componentWrapper);
-        assertThat(componentWrapper.getComponent().isVisible(), is(false));
-
-        setter.accept(true);
-
         assertThat(componentWrapper.getComponent().isVisible(), is(true));
+
+        setter.accept(false);
+
+        assertThat(componentWrapper.getComponent().isVisible(), is(false));
     }
 }
