@@ -20,9 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -50,9 +48,9 @@ public class BindStyleNamesIntegrationTest {
                 .createUiElements(new TestPmoWithStaticStyleName(),
                                   bindingContext,
                                   c -> new NoLabelComponentWrapper((Component)c))
-                .collect(Collectors.toList());
+                .toList();
 
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
+        assertThat((uiElements.get(0).getComponent()).getClassName(),
                    is(TestPmoWithStaticStyleName.STYLE_NAME));
     }
 
@@ -63,9 +61,9 @@ public class BindStyleNamesIntegrationTest {
                 .createUiElements(new TestPmoWithStaticStyleNames(),
                                   bindingContext,
                                   c -> new NoLabelComponentWrapper((Component)c))
-                .collect(Collectors.toList());
+                .toList();
 
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
+        assertThat((uiElements.get(0).getComponent()).getClassName(),
                    is(String.join(" ", TestPmoWithStaticStyleNames.STYLE_NAME_1,
                                   TestPmoWithStaticStyleNames.STYLE_NAME_2)));
     }
@@ -79,10 +77,10 @@ public class BindStyleNamesIntegrationTest {
                                       ((HasStyle)c).setClassName(MY_STYLE);
                                       return new NoLabelComponentWrapper((Component)c);
                                   })
-                .collect(Collectors.toList());
+                .toList();
         bindingContext.modelChanged();
 
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
+        assertThat(uiElements.get(0).getComponent().getClassName(),
                    is(String.join(" ", MY_STYLE, TestPmoWithStaticStyleNames.STYLE_NAME_1,
                                   TestPmoWithStaticStyleNames.STYLE_NAME_2)));
     }
@@ -94,12 +92,12 @@ public class BindStyleNamesIntegrationTest {
         List<NoLabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext,
                                   c -> new NoLabelComponentWrapper((Component)c))
-                .collect(Collectors.toList());
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("style"));
+                .toList();
+        assertThat(uiElements.get(0).getComponent().getClassName(), is("style"));
 
         pmo.setClassName("new-style");
         bindingContext.modelChanged();
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("new-style"));
+        assertThat(uiElements.get(0).getComponent().getClassName(), is("new-style"));
     }
 
     @Test
@@ -109,12 +107,12 @@ public class BindStyleNamesIntegrationTest {
         List<NoLabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext,
                                   c -> new NoLabelComponentWrapper((Component)c))
-                .collect(Collectors.toList());
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("style1 style2"));
+                .toList();
+        assertThat(uiElements.get(0).getComponent().getClassName(), is("style1 style2"));
 
         pmo.setClassNames("new-style1", "new-style2");
         bindingContext.modelChanged();
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("new-style1 new-style2"));
+        assertThat(uiElements.get(0).getComponent().getClassName(), is("new-style1 new-style2"));
     }
 
     @Test
@@ -126,12 +124,12 @@ public class BindStyleNamesIntegrationTest {
                     ((HasStyle)c).setClassName(MY_STYLE);
                     return new NoLabelComponentWrapper((Component)c);
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         pmo.setClassName("new-style1");
         bindingContext.modelChanged();
 
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is(MY_STYLE + " new-style1"));
+        assertThat(uiElements.get(0).getComponent().getClassName(), is(MY_STYLE + " new-style1"));
     }
 
     @Test
@@ -143,12 +141,12 @@ public class BindStyleNamesIntegrationTest {
                     ((HasStyle)c).setClassName(MY_STYLE);
                     return new NoLabelComponentWrapper((Component)c);
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         pmo.setClassNames("new-style1", "new-style2");
         bindingContext.modelChanged();
 
-        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
+        assertThat(uiElements.get(0).getComponent().getClassName(),
                    is(MY_STYLE + " new-style1 new-style2"));
     }
 
@@ -156,12 +154,8 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_dynamic_methodMissing() {
         BindingContext bindingContext = new BindingContext();
         TestPmoMissingDynamicStyleNamesMethod pmo = new TestPmoMissingDynamicStyleNamesMethod();
-
-        Assertions.assertThrows(LinkkiBindingException.class, () -> {
-            UiCreator
-                    .createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
-                    .collect(Collectors.toList());
-        });
+        UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c)).toList();
+        Assertions.assertThrows(LinkkiBindingException.class, bindingContext::updateUi);
 
     }
 
@@ -180,12 +174,12 @@ public class BindStyleNamesIntegrationTest {
         BindingContext bindingContext = new BindingContext();
         LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
 
-        pmo.setStyleNames(Arrays.asList("gucci", "versace"));
+        pmo.setStyleNames(List.of("gucci", "versace"));
         bindingContext.modelChanged();
         assertThat(section.getClassName(), containsString("gucci"));
         assertThat(section.getClassName(), containsString("versace"));
 
-        pmo.setStyleNames(Arrays.asList("chanel"));
+        pmo.setStyleNames(List.of("chanel"));
         bindingContext.modelChanged();
         String styleNamesAfterUpdate = section.getClassName();
         assertThat(styleNamesAfterUpdate, not(containsString("gucci")));
@@ -199,11 +193,11 @@ public class BindStyleNamesIntegrationTest {
         BindingContext bindingContext = new BindingContext();
         LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
 
-        pmo.setStyleNames(Arrays.asList("ml"));
+        pmo.setStyleNames(List.of("ml"));
         bindingContext.modelChanged();
         assertThat(section.getClassName(), containsString("ml"));
 
-        pmo.setStyleNames(Arrays.asList("lisp"));
+        pmo.setStyleNames(List.of("lisp"));
         bindingContext.modelChanged();
         String styleNamesAfterUpdate = section.getClassName();
         assertThat(styleNamesAfterUpdate, not(containsString("ml")));
@@ -275,7 +269,7 @@ public class BindStyleNamesIntegrationTest {
         }
 
         public List<String> getPropertyStyleNames() {
-            return Arrays.asList(styleNames);
+            return List.of(styleNames);
         }
     }
 

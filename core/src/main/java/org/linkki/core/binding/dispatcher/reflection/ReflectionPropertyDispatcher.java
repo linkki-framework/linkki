@@ -16,6 +16,7 @@ package org.linkki.core.binding.dispatcher.reflection;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +42,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     private final Supplier<?> boundObjectSupplier;
 
+    private final Class<?> boundObjectType;
     private final String property;
 
     /**
@@ -52,9 +54,10 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
      *            (because no getters/setters exist) from the accessed object property. Must not be
      *            {@code null}.
      */
-    public ReflectionPropertyDispatcher(Supplier<?> boundObjectSupplier, String property,
+    public ReflectionPropertyDispatcher(Supplier<?> boundObjectSupplier, Class<?> boundObjectType, String property,
             PropertyDispatcher fallbackDispatcher) {
         this.boundObjectSupplier = requireNonNull(boundObjectSupplier, "boundObjectSupplier must not be null");
+        this.boundObjectType = requireNonNull(boundObjectType, "boundObjectType must not be null");
         this.property = requireNonNull(property, "property must not be null");
         this.fallbackDispatcher = requireNonNull(fallbackDispatcher, "fallbackDispatcher must not be null");
     }
@@ -78,10 +81,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public Class<?> getValueClass() {
-        Object boundObject = getBoundObject();
-        if (boundObject != null && hasReadMethod(getProperty())) {
-            Class<?> valueClass = getAccessor(getProperty()).getValueClass();
-            return valueClass;
+        if (hasReadMethod(getProperty())) {
+            return getAccessor(getProperty()).getValueClass();
         } else {
             return fallbackDispatcher.getValueClass();
         }
@@ -200,7 +201,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     private PropertyAccessor<?, ?> getAccessor(String propertyToAccess) {
-        return PropertyAccessorCache.get(getExistingBoundObject().getClass(), propertyToAccess);
+        Class<?> type = getBoundObject() != null ? getExistingBoundObject().getClass() : boundObjectType;
+        return PropertyAccessorCache.get(type, propertyToAccess);
     }
 
     private String getPropertyAspectName(Aspect<?> aspect) {
@@ -231,9 +233,11 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public String toString() {
-        Object boundObject = getBoundObject();
-        return getClass().getSimpleName() + "["
-                + (boundObject != null ? boundObject.getClass().getSimpleName() : "<no object>") + "#" + getProperty()
+        var boundObject = Optional.ofNullable(getBoundObject())
+                .map(Object::getClass)
+                .map(Class::getSimpleName)
+                .orElse("<null of type " + boundObjectType.getSimpleName() + ">");
+        return getClass().getSimpleName() + "[" + boundObject + "#" + getProperty()
                 + "]\n\t-> " + fallbackDispatcher;
     }
 

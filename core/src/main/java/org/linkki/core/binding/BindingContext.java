@@ -181,7 +181,7 @@ public class BindingContext implements UiUpdateObserver {
     public BindingContext add(Binding binding, ComponentWrapper componentWrapper) {
         requireNonNull(binding, "binding must not be null");
 
-        binding.updateFromPmo();
+        initialUpdate(binding);
         binding.displayMessages(currentMessages);
 
         bindings.put(binding.getBoundComponent(), new WeakReference<>(binding));
@@ -190,10 +190,24 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
+     * Initially updates a binding that is added to this context.
+     * <p>
+     * The update may fail if e.g. the model object is not present yet. In this case, all exceptions
+     * that occur will be ignored.
+     */
+    private void initialUpdate(Binding binding) {
+        try {
+            updateBinding(binding);
+        } catch (LinkkiBindingException e) {
+            // Ignores the exception here. It will be thrown upon the next "real" update.
+        }
+    }
+
+    /**
      * Returns all bindings in the context.
      */
     public Collection<Binding> getBindings() {
-        return getBindingStream().collect(Collectors.toUnmodifiableList());
+        return getBindingStream().toList();
     }
 
     private Stream<Binding> getBindingStream() {
@@ -305,11 +319,15 @@ public class BindingContext implements UiUpdateObserver {
         updateBindings();
     }
 
-    /**
-     * For better naming for internal usages.
-     */
     void updateBindings() {
-        getBindingStream().forEach(Binding::updateFromPmo);
+        getBindingStream().forEach(this::updateBinding);
+    }
+
+    /**
+     * Updates the given binding that is either in the context, or is to be added to the context.
+     */
+    void updateBinding(Binding binding) {
+        binding.updateFromPmo();
     }
 
     /**

@@ -15,8 +15,6 @@ package org.linkki.core.binding.dispatcher;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.function.Supplier;
-
 import org.linkki.core.binding.descriptor.modelobject.ModelObjects;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.behavior.BehaviorDependentDispatcher;
@@ -24,12 +22,13 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.staticvalue.StaticValueDispatcher;
+import org.linkki.util.MemberAccessors;
 
 /**
  * Creates the default Chains of {@link PropertyDispatcher PropertyDispatchers}.
  * <p>
  * The property dispatchers are in the following order:
- * 
+ *
  * <ol>
  * <li>{@link BehaviorDependentDispatcher}</li>
  * <li>Custom dispatchers from
@@ -69,7 +68,7 @@ public class PropertyDispatcherFactory {
      * <p>
      * Must return a {@link PropertyDispatcher}; if none are created, the given standardDispatchers
      * should be returned.
-     * 
+     *
      * @param pmo the PMO the dispatcher is responsible for
      * @param boundProperty the {@link BoundProperty} of the bound UI element
      * @param standardDispatchers the previously created dispatcher chain from
@@ -87,14 +86,16 @@ public class PropertyDispatcherFactory {
             String modelObjectName,
             String modelObjectProperty,
             PropertyDispatcher wrappedDispatcher) {
-        if (ModelObjects.isAccessible(pmo, modelObjectName)) {
-            Supplier<?> modelObject = ModelObjects.supplierFor(pmo, modelObjectName);
-            ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(modelObject,
-                    modelObjectProperty, wrappedDispatcher);
-            return new ReflectionPropertyDispatcher(() -> pmo, pmoPropertyName, modelObjectDispatcher);
-        } else {
-            return new ReflectionPropertyDispatcher(() -> pmo, pmoPropertyName, wrappedDispatcher);
-        }
+        PropertyDispatcher fallbackDispatcher = ModelObjects.getModelObjectAccessMember(pmo, modelObjectName)
+                .map(member -> new ReflectionPropertyDispatcher(
+                        () -> MemberAccessors.getValue(pmo, member),
+                        MemberAccessors.getType(member),
+                        modelObjectProperty,
+                        wrappedDispatcher))
+                .map(PropertyDispatcher.class::cast)
+                .orElse(wrappedDispatcher);
+
+        return new ReflectionPropertyDispatcher(() -> pmo, pmo.getClass(), pmoPropertyName, fallbackDispatcher);
     }
 
     private ExceptionPropertyDispatcher newExceptionDispatcher(Object pmo, String modelObjectName, String property) {

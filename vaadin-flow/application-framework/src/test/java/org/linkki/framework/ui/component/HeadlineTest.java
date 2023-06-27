@@ -19,8 +19,6 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.BindingContext;
@@ -40,7 +38,7 @@ class HeadlineTest {
         Binder binder = new Binder(headline, basicHeadlinePmo);
         binder.setupBindings(bindingContext);
 
-        Component title = headline.getContent().getChildren().collect(Collectors.toList()).get(0);
+        Component title = headline.getContent().getChildren().toList().get(0);
         assertThat(title, is(instanceOf(H2.class)));
         assertThat(((H2)title).getText(), is("Headline Title"));
     }
@@ -49,7 +47,8 @@ class HeadlineTest {
     void testHeadline_missingHeaderTitleMethod() {
         Binder binder = new Binder(new Headline(), new NoHeadlineTitleHeadlinePmo());
         BindingContext bindingContext = new BindingContext();
-        assertThrows(LinkkiBindingException.class, () -> binder.setupBindings(bindingContext));
+        binder.setupBindings(bindingContext);
+        assertThrows(LinkkiBindingException.class, bindingContext::updateUi);
     }
 
     static class BasicHeadlinePmo {

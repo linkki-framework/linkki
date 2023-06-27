@@ -137,10 +137,9 @@ class BindIconIntegrationTest {
     @Test
     public void testAspectBindIconAnnotation_Dynamic_withMethodMissing() {
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
-
-        Assertions.assertThrows(LinkkiBindingException.class, () ->
-                UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
-                        .collect(Collectors.toList()));
+        //no exception thrown during initial update
+        UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component) c)).toList();
+        Assertions.assertThrows(LinkkiBindingException.class, bindingContext::updateUi);
     }
     private List<Component> createUiElements(Object pmo) {
 

@@ -93,12 +93,11 @@ public class MemberAccessors {
      * Retrieve the value from the given member ({@link Field} or {@link Method}) in the given object by
      * calling the method or getting the value from the field. The returned value will directly be cast
      * to the expected type. Note that this is always an unsafe cast!
-     * 
+     *
      * @param <T> the expected type of the return value
      * @param object the object where to read the value from
      * @param fieldOrMethod a {@link Field} or {@link Method} to access the value
      * @return the value retrieved by the {@link Field} or {@link Method}
-     * 
      * @throws IllegalArgumentException if the field is not accessible or the value cannot be retrieved.
      *             The cause of the original exception is included.
      */
@@ -133,6 +132,25 @@ public class MemberAccessors {
 
     private static String getNameOf(Member member) {
         return member.getDeclaringClass().getCanonicalName() + "#" + member.getName();
+    }
+
+    /**
+     * Returns the type of the given member, either the type of the field, or the return type of the method.
+     *
+     * @param fieldOrMethod a {@link Field} or {@link Method} to access the value
+     * @return the type of the member
+     * @throws IllegalArgumentException if the given member is not a field or a method
+     */
+    public static Class<?> getType(Member fieldOrMethod) {
+        if (fieldOrMethod instanceof Field) {
+            return ((Field)fieldOrMethod).getType();
+        } else if (fieldOrMethod instanceof Method) {
+            return ((Method)fieldOrMethod).getReturnType();
+        } else {
+            throw new IllegalArgumentException("Only field or method is supported, found "
+                    + fieldOrMethod.getClass().getCanonicalName() + " as type of "
+                    + getNameOf(fieldOrMethod));
+        }
     }
 
 }
