@@ -4,8 +4,13 @@ linkki-section {
 
 linkki-section > div[slot="content"] > * {
     max-width: var(--section-item-width);
-    min-width: calc(var(--vaadin-form-item-label-spacing, 1em) + var(--linkki-form-item-label-width, 8em) + var(--vaadin-field-default-width, 12em));
     overflow: auto;
+}
+
+/* Make multi-column UIFormSection wrap
+   UIFormSection only supports label on the left, so selecting vaadin-form-item suffices */
+linkki-section > div[slot="content"] > vaadin-form-item {
+    min-width: calc(var(--vaadin-form-item-label-spacing, 1em) + var(--linkki-form-item-label-width, 8em) + var(--vaadin-field-default-width, 12em));
 }
 
 .linkki-section-caption-text {
