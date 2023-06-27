@@ -22,7 +22,7 @@ NOTE: `VaadinUIExtension` has been deprecated since `KaribuUIExtension` not only
 
 // ===== Other
 
-// ==== Bugfixes
-
-// ===== Other
+==== Bugfixes
+// https://jira.faktorzehn.de/browse/LIN-3513
+* Fixed wrong min-width in @UISection for layouts where the label is above the component
 
