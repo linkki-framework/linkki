@@ -51,7 +51,6 @@ For all frontend changes, see https://github.com/vaadin/web-components/releases/
 * Visually, the application looks mostly the same as with Vaadin 23. Following visual changes may need styling adjustments if the previous behavior need to be restored:
 +
 --
-** The `Accordion` component now display the closable toggle button directly after the caption instead of on the right end of the caption.
 ** All Headings (`h1` - `h6`) do not have a default margin anymore. Components in linkki do not have to be adjusted. If headings are used in any other components, check visually if the margin still behave as expected.
 --
 Styling changes can also be found in https://github.com/vaadin/web-components/releases/tag/v24.0.0[Vaadin release notes for Vaadin Web Components].
@@ -159,9 +158,6 @@ The same applies to `org.linkki.core.vaadin.component.base.LinkkiText` when usin
 When user-supplied strings are included in HTML content, they have to be escaped to prevent them from being interpreted as HTML. This can be achieved by using `HtmlSanitizer#escapeText`.
 ====
 
-// https://jira.faktorzehn.de/browse/LIN-3415
-* Fixed overlapping labels and input fields in small browser windows
-
 ===== Other
 // https://jira.faktorzehn.de/browse/LIN-3384
 * Fixed an incompatibility with ChromeDriver versions 111 and above in `linkki-vaadin-flow-testbench-extension`
@@ -175,3 +171,5 @@ When user-supplied strings are included in HTML content, they have to be escaped
 * Fixed falsely marked as invalid combobox with initial non-null but empty representation
 // https://jira.convista.com/browse/LIN-3495
 * Added missing CSS tweaks for `MultiSelectComboBox` (e.g. no `max-height` for error message)
+// https://jira.faktorzehn.de/browse/LIN-3415
+* Fixed overlapping labels and input fields in small browser windows
