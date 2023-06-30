@@ -9,6 +9,13 @@
 
 ==== New features and improvements
 
+===== Version Updates
+.Updated dependency versions:
+[cols="a,a"]
+|=== 
+|Faktor-IPS|23.6.2.release
+|===
+
 // https://jira.convista.com/browse/LIN-3470
 [role="api-change"]
 ===== Additional utility for Karibu testing
