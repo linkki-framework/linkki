@@ -59,7 +59,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsDefaultValue("foo")
-    public static final String DEFAULT_VALUE_FOR_FOO = "";
+    public static final String DEFAULT_VALUE_FOR_FOO = null;
 
 
     /**

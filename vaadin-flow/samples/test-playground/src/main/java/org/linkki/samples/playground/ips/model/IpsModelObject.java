@@ -113,7 +113,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsDefaultValue("string")
-    public static final String DEFAULT_VALUE_FOR_STRING = "";
+    public static final String DEFAULT_VALUE_FOR_STRING = null;
 
     /**
      * The name of the property unrestrictedInclNull.
@@ -288,7 +288,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     public static final OrderedValueSet<String> MAX_ALLOWED_VALUES_FOR_EMPTY_STRING_VALUE_SET = new OrderedValueSet<>(
-            false, "");
+            false, null);
 
     /**
      * The default value for emptyStringValueSet.
@@ -296,7 +296,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsDefaultValue("emptyStringValueSet")
-    public static final String DEFAULT_VALUE_FOR_EMPTY_STRING_VALUE_SET = "";
+    public static final String DEFAULT_VALUE_FOR_EMPTY_STRING_VALUE_SET = null;
 
     // end::PROPERTY_STRING[]
 
