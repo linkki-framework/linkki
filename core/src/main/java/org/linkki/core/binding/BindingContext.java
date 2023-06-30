@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.linkki.core.binding.descriptor.BindingDescriptor;
@@ -181,26 +180,12 @@ public class BindingContext implements UiUpdateObserver {
     public BindingContext add(Binding binding, ComponentWrapper componentWrapper) {
         requireNonNull(binding, "binding must not be null");
 
-        initialUpdate(binding);
+        binding.updateFromPmo();
         binding.displayMessages(currentMessages);
 
         bindings.put(binding.getBoundComponent(), new WeakReference<>(binding));
         componentWrapper.registerBinding(binding);
         return this;
-    }
-
-    /**
-     * Initially updates a binding that is added to this context.
-     * <p>
-     * The update may fail if e.g. the model object is not present yet. In this case, all exceptions
-     * that occur will be ignored.
-     */
-    private void initialUpdate(Binding binding) {
-        try {
-            updateBinding(binding);
-        } catch (LinkkiBindingException e) {
-            // Ignores the exception here. It will be thrown upon the next "real" update.
-        }
     }
 
     /**

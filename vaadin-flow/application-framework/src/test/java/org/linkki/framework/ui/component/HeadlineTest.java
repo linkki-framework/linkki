@@ -30,7 +30,7 @@ import com.vaadin.flow.component.html.H2;
 class HeadlineTest {
 
     @Test
-    public void testHeadline_headlineTitle() {
+    void testHeadline_HeadlineTitle() {
         BasicHeadlinePmo basicHeadlinePmo = new BasicHeadlinePmo();
         BindingContext bindingContext = new BindingContext();
 
@@ -44,21 +44,21 @@ class HeadlineTest {
     }
 
     @Test
-    void testHeadline_missingHeaderTitleMethod() {
+    void testHeadline_MissingHeaderTitleMethod() {
         Binder binder = new Binder(new Headline(), new NoHeadlineTitleHeadlinePmo());
         BindingContext bindingContext = new BindingContext();
-        binder.setupBindings(bindingContext);
-        assertThrows(LinkkiBindingException.class, bindingContext::updateUi);
+
+        assertThrows(LinkkiBindingException.class, () ->  binder.setupBindings(bindingContext));
     }
 
-    static class BasicHeadlinePmo {
+    public static class BasicHeadlinePmo {
 
         public String getHeaderTitle() {
             return "Headline Title";
         }
     }
 
-    static class NoHeadlineTitleHeadlinePmo {
+    public static class NoHeadlineTitleHeadlinePmo {
         // no title, no controls
     }
 }

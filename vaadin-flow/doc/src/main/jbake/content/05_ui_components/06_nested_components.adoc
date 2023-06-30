@@ -15,12 +15,12 @@ image::{images}/11_linkki_incubator/nested_pmo.png[Nested PMO]
 .Outer PMO
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/nestedcomponent/NestedComponentPmo.java[tags=nestedcomponentpmo]
+include::{source-dir}/org/linkki/samples/playground/ts/nestedcomponent/NestedComponentPmo.java[tags=nestedcomponentpmo]
 }
 ----
 
 .Inner PMO (NamePmo) annotated with @UIHorizontalLayout
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/nestedcomponent/NestedComponentPmo.java[tags=innercomponentpmo]
+include::{source-dir}/org/linkki/samples/playground/ts/nestedcomponent/NestedComponentPmo.java[tags=innercomponentpmo]
 ----

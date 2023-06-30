@@ -93,8 +93,9 @@ class BindTooltipIntegrationTest {
     void testCreateAspect_Dynamic_MethodMissing() {
         BindingContext bindingContext = new BindingContext();
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
-        UiCreator.createUiElements(pmo, bindingContext, this::getLabelComponentWrapper).toList();
-        Assertions.assertThrows(LinkkiBindingException.class, bindingContext::updateUi);
+
+        Assertions.assertThrows(LinkkiBindingException.class,
+                () -> UiCreator.createUiElements(pmo, bindingContext, this::getLabelComponentWrapper).toList());
 
     }
 

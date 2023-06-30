@@ -20,6 +20,11 @@ import com.vaadin.flow.component.html.testbench.H4Element;
 import com.vaadin.testbench.ElementQuery;
 import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.elementsbase.Element;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
+import org.openqa.selenium.By;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Page object for a linkki section
@@ -33,6 +38,18 @@ public class LinkkiSectionElement extends TestBenchElement {
 
     public DivElement getContent() {
         return $(DivElement.class).attribute("slot", "content").first();
+    }
+
+    /**
+     * Returns all components in content. If the component is wrapped in a form item, the component itself is returned.
+     */
+    public List<TestBenchElement> getContentComponents() {
+        if (LinkkiSection.THEME_VARIANT_FORM.equals(getAttribute("theme"))) {
+            return getContent().findElements(By.cssSelector("vaadin-form-item > :not(label)")).stream()
+                    .map(TestBenchElement.class::cast).collect(Collectors.toList());
+        } else {
+           return getContent().findElements(By.cssSelector("*")).stream().map(TestBenchElement.class::cast).collect(Collectors.toList());
+        }
     }
 
     public ElementQuery<ButtonElement> getCloseToggle() {

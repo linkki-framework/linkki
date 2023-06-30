@@ -18,11 +18,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
@@ -151,12 +151,12 @@ public class BindStyleNamesIntegrationTest {
     }
 
     @Test
-    public void testCreateAspect_dynamic_methodMissing() {
+    public void testCreateAspect_Dynamic_MethodMissing() {
         BindingContext bindingContext = new BindingContext();
         TestPmoMissingDynamicStyleNamesMethod pmo = new TestPmoMissingDynamicStyleNamesMethod();
-        UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c)).toList();
-        Assertions.assertThrows(LinkkiBindingException.class, bindingContext::updateUi);
 
+        assertThrows(LinkkiBindingException.class,
+                () -> UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c)).toList());
     }
 
     @Test

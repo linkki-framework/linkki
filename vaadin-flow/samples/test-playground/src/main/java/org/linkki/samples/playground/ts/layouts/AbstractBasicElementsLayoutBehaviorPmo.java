@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.ts.layouts;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
@@ -52,7 +53,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
 
     public static final String TEXT_FIELD_LONG_LABEL = "TextFieldWithALongExtendedLabel toTestLabelOverflowBehavior";
 
-    private final BasicElementsLayoutBehaviorModelObject modelObject = new BasicElementsLayoutBehaviorModelObject();
+    private Supplier<BasicElementsLayoutBehaviorModelObject> modelObject;
 
     // behaviors to be tested
     private boolean readOnly;
@@ -60,9 +61,22 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     private boolean visible = true;
     private boolean enabled = true;
 
+    protected AbstractBasicElementsLayoutBehaviorPmo() {
+        this(new BasicElementsLayoutBehaviorModelObject());
+    }
+
+    /* Constructor to avoid creating a new model object on each getter call */
+    private AbstractBasicElementsLayoutBehaviorPmo(BasicElementsLayoutBehaviorModelObject modelObject) {
+        this(() -> modelObject);
+    }
+
+    protected AbstractBasicElementsLayoutBehaviorPmo(Supplier<BasicElementsLayoutBehaviorModelObject> modelObjectSupplier) {
+        this.modelObject = modelObjectSupplier;
+    }
+
     @ModelObject
     public BasicElementsLayoutBehaviorModelObject getModelObject() {
-        return modelObject;
+        return modelObject.get();
     }
 
     @SectionHeader

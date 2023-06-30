@@ -61,7 +61,7 @@ import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.util.handler.Handler;
 
-public class BindingContextTest {
+class BindingContextTest {
 
     private static final String MSG_CODE = "TEST";
     private final TestUiComponent field1 = spy(new TestUiComponent());
@@ -106,19 +106,20 @@ public class BindingContextTest {
 
         context.add(binding, TestComponentWrapper.with(binding));
 
-        assertThat(((TestUiComponent)binding.getBoundComponent()).getValidationMessages().stream().map(Message::getCode)
+        assertThat(((TestUiComponent)binding.getBoundComponent())
+                .getValidationMessages().stream()
+                .map(Message::getCode)
                 .anyMatch(MSG_CODE::equals)).isTrue();
     }
 
     @Test
-    void testAdd_exceptionInInitialUpdate_bindingAddedSuccessful() {
+    void testAdd_ExceptionInInitialUpdate() {
         BindingContext context = new BindingContext();
         ElementBinding binding = spy(createBinding(context));
         doThrow(new LinkkiBindingException("binding exception",new RuntimeException())).when(binding).updateFromPmo();
 
-        assertThat(context.getBindings()).isEmpty();
-        context.add(binding, TestComponentWrapper.with(binding));
-        assertThat(context.getBindings()).hasSize(1);
+        assertThrows(LinkkiBindingException.class,
+                () -> context.add(binding, TestComponentWrapper.with(binding)));
     }
 
     @Test
@@ -173,7 +174,7 @@ public class BindingContextTest {
     }
 
     @Test
-    void testUpdateUiBindingsAndValidate() {
+    void testUpdateUi_UpdateBindingsAndValidate() {
         Handler afterUpdateUi = mock(Handler.class);
         BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         ElementBinding binding = spy(createBinding(context));
@@ -187,14 +188,14 @@ public class BindingContextTest {
     }
 
     @Test
-    void testUpdateUiBindings_exceptionCaughtInInitialUpdateGetsPropagated() {
+    void testUpdateUiBindings_ExceptionFromBindingGetsPropagated() {
         Handler afterUpdateUi = mock(Handler.class);
         BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         ElementBinding binding = spy(createBinding(context));
-        doThrow(new LinkkiBindingException("binding exception",new RuntimeException())).when(binding).updateFromPmo();
         context.add(binding, TestComponentWrapper.with(binding));
+        doThrow(new LinkkiBindingException("binding exception",new RuntimeException())).when(binding).updateFromPmo();
 
-        assertThrows(LinkkiBindingException.class,context::updateUi);
+        assertThrows(LinkkiBindingException.class, context::updateUi);
     }
 
     @Test
@@ -478,9 +479,7 @@ public class BindingContextTest {
 
     private TestUiLayoutComponent bindTable(BindingContext context, TestContainerPmo containerPmo) {
         TestColumnBasedComponentFactory columnBasedComponentFactory = new TestColumnBasedComponentFactory();
-        TestUiLayoutComponent table = (TestUiLayoutComponent)columnBasedComponentFactory
-                .createContainerComponent(containerPmo, context);
-        return table;
+        return (TestUiLayoutComponent)columnBasedComponentFactory.createContainerComponent(containerPmo, context);
     }
 
     private void bindAddItemButton(BindingContext context, TestContainerPmo containerPmo) {

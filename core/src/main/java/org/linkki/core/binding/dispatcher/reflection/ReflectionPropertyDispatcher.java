@@ -96,12 +96,13 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
                     .format("Static aspect %s should not be handled by %s. It seems like the dispatcher chain is broken, check your %s",
                             aspect, getClass().getSimpleName(), BindingContext.class.getSimpleName()));
         }
-        @CheckForNull
-        Object boundObject = getBoundObject();
         String propertyAspectName = getPropertyAspectName(aspect);
-        if (boundObject != null && hasReadMethod(propertyAspectName)) {
+        if (hasReadMethod(propertyAspectName)) {
             PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
-            return accessor.getPropertyValue(boundObject);
+
+            return Optional.ofNullable(getBoundObject())
+                    .map(accessor::getPropertyValue)
+                    .orElse(null);
         } else {
             return fallbackDispatcher.pull(aspect);
         }

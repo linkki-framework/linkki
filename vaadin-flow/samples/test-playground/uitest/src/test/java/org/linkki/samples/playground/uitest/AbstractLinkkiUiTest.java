@@ -13,10 +13,24 @@
  */
 package org.linkki.samples.playground.uitest;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.combobox.testbench.MultiSelectComboBoxElement;
+import com.vaadin.flow.component.dialog.testbench.DialogElement;
+import com.vaadin.flow.component.grid.testbench.GridElement;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
+import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.testbench.TabElement;
+import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
+import com.vaadin.testbench.TestBenchElement;
+import com.vaadin.testbench.TestBenchTestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -33,23 +47,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
-import com.vaadin.flow.component.dialog.testbench.DialogElement;
-import com.vaadin.flow.component.grid.testbench.GridElement;
-import com.vaadin.flow.component.menubar.MenuBar;
-import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.testbench.TabElement;
-import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
-import com.vaadin.testbench.TestBenchElement;
-import com.vaadin.testbench.TestBenchTestCase;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Helper class facilitates to use various Testbench functionality for UI testing. It helps to get
@@ -96,7 +96,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     /**
      * Find {@link ComboBox} based on the given ID then select the item with the given value.
      *
-     * @param id ID of the {@link ComboBox}
+     * @param id    ID of the {@link ComboBox}
      * @param value Value to be selected
      */
     public void selectCombobox(String id, String value) {
@@ -116,7 +116,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     /**
      * Type the given text into the {@link TextField} with the given ID.
      *
-     * @param id ID of the {@link TextField}
+     * @param id    ID of the {@link TextField}
      * @param value input value
      */
     public void typeInTextBox(String id, String value) {
@@ -156,7 +156,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
      * caption.
      * <p>
      * Note that the test would fail if no element matches the given locator.
-     * 
+     *
      * @param locator {@link By Locator} of the {@link WebElement}
      * @param caption Caption of the {@link WebElement} that has to be found
      * @return the optional {@link WebElement} matching the given locator and caption if any
@@ -176,7 +176,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
 
     /**
      * Finds and returns {@link VerticalLayoutElement} section by the given {@link Class}
-     * 
+     *
      * @param cls class name of the section
      * @return Section as {@link VerticalLayoutElement}
      */
@@ -186,8 +186,8 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
 
     /**
      * Clicks the button in the section header with the given index
-     * 
-     * @param cls class name of the section
+     *
+     * @param cls         class name of the section
      * @param buttonIndex index of the button
      */
     public void clickSectionHeaderButton(Class<?> cls, int buttonIndex) {
@@ -195,8 +195,31 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     }
 
     /**
+     * Returns the value of the web element as String.
+     * <p>
+     * As {@link com.vaadin.flow.component.checkbox.Checkbox}es always have the value "on", the property "checked" is used instead.
+     * <p>
+     * As {@link com.vaadin.flow.component.combobox.MultiSelectComboBox} does not define the property value,
+     * "_inputElementValue" is used instead.
+     */
+    public String getValueString(TestBenchElement webElement) {
+        // checkbox value is mapped to the property checked
+        if ("vaadin-checkbox".equals(webElement.getTagName())) {
+            return webElement.getPropertyString("checked");
+        } else if ("vaadin-multi-select-combo-box".equals(webElement.getTagName())) {
+            return String.join(", ", webElement.getPropertyString("_inputElementValue"));
+        } else {
+            return webElement.getPropertyString("value");
+        }
+    }
+
+    public boolean hasValue(TestBenchElement webElement) {
+        return getValueString(webElement) != null;
+    }
+
+    /**
      * Clicks on the element in the context menu of a header button with the given text
-     * 
+     *
      * @param text displayed text of the context menu element
      */
     public void clickContextMenuItem(String text) {
@@ -227,7 +250,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
 
     /**
      * Only works when the tested Component implements {@link HasPrefixAndSuffix} in Vaadin-flow
-     * 
+     *
      * @param element the {@link WebElement} to select the suffix from
      * @return WebElement which contains Suffix
      */
@@ -245,7 +268,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
 
     /**
      * Searches for a dialog with the given title
-     * 
+     *
      * @param title The title of the dialog
      * @return The {@link DialogElement}
      */
@@ -259,7 +282,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
 
     /**
      * Confirms dialog with Ok
-     * 
+     *
      * @param dialog The {@link DialogElement dialog} to confirm and to close
      */
     public void confirmDialog(DialogElement dialog) {

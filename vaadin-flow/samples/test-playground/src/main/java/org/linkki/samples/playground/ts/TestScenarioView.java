@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.playground.ts;
 
+import java.io.Serial;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +34,8 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
-import org.linkki.samples.playground.nestedcomponent.NestedComponentPmo;
-import org.linkki.samples.playground.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
+import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentPmo;
+import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
@@ -181,8 +182,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
 
     static final String ROUTE = "playground";
 
+    @Serial
     private static final long serialVersionUID = 1L;
-
 
     private final LinkkiTabLayout tabLayout;
 

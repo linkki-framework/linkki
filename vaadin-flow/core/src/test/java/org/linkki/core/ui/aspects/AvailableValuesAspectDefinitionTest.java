@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -211,7 +213,9 @@ class AvailableValuesAspectDefinitionTest {
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
                                                                             new NoLabelComponentWrapper(component));
 
-        assertThrows(NullPointerException.class, () -> uiUpdater.apply());
+        verify(component).setItems(Collections.emptyList());
+        assertDoesNotThrow(uiUpdater::apply);
+        verifyNoMoreInteractions(component);
     }
 
     @Test

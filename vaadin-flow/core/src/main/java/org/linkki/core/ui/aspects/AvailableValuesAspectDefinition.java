@@ -76,15 +76,16 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
             @Nullable Collection<?> newItemsParam,
             ComponentWrapper componentWrapper) {
         if (newItemsParam == null) {
-            if (availableValuesType == AvailableValuesType.DYNAMIC) {
-                throw new NullPointerException("get" + propertyName + "AvailableValues() must not return null.");
-            } else {
+            if (availableValuesType != AvailableValuesType.DYNAMIC) {
                 throw new IllegalStateException(
-                        "Cannot retrieve list of available values for " + propertyName);
+                        "Cannot retrieve list of available values for property " + propertyName);
+            } else {
+                // retains current value
+                return;
             }
         }
-        ArrayList<Object> newItems = new ArrayList<>(
-                requireNonNull(newItemsParam, "List of available values must not be null"));
+
+        ArrayList<Object> newItems = new ArrayList<>(requireNonNull(newItemsParam, "List of available values must not be null"));
 
         handleNullItems(componentWrapper, newItems);
         boolean hasChanged = cache.replaceContent(newItems);
@@ -92,7 +93,6 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
             setDataProvider(componentWrapper, cache.getItems());
         }
     }
-
 
     /**
      * Returns an {@link Aspect} with name {@link AvailableValuesAspectDefinition#NAME}. The value of

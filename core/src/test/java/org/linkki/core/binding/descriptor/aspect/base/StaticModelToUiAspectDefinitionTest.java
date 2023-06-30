@@ -40,8 +40,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class StaticModelToUiAspectDefinitionTest {
-
+class StaticModelToUiAspectDefinitionTest {
 
     @Mock
     private PropertyDispatcher propertyDispatcher;
@@ -52,8 +51,8 @@ public class StaticModelToUiAspectDefinitionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testCreateUiUpdater() {
-        when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(true);
+    void testCreateUiUpdater() {
+        when(propertyDispatcher.pull(any())).thenReturn(true);
 
         assertThat(componentWrapper.getComponent().isEnabled(), is(false));
 
@@ -67,8 +66,8 @@ public class StaticModelToUiAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateUiUpdater_WrapsExceptionInPull() {
-        when(propertyDispatcher.pull(Mockito.any())).thenThrow(RuntimeException.class);
+    void testCreateUiUpdater_WrapsExceptionInPull() {
+        when(propertyDispatcher.pull(any())).thenThrow(RuntimeException.class);
 
         Assertions.assertThrows(LinkkiBindingException.class,
                                 () -> aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper));
@@ -83,7 +82,7 @@ public class StaticModelToUiAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter() {
+    void testCreateComponentValueSetter() {
         Consumer<Boolean> setter = aspectDefinition.createComponentValueSetter(componentWrapper);
         assertThat(componentWrapper.getComponent().isEnabled(), is(false));
         setter.accept(true);
@@ -91,7 +90,8 @@ public class StaticModelToUiAspectDefinitionTest {
     }
 
     @Test
-    public void testComponentValueSetterOnlyCalledOnce() {
+    void testComponentValueSetterOnlyCalledOnce() {
+        when(propertyDispatcher.pull(any())).thenReturn(2);
         aspectDefinition = spy(new TestStaticModelToUiAspectDefinition());
         var componentValueSetter = spy(new ComponentValueSetterConsumer());
         doReturn(componentValueSetter).when(aspectDefinition).createComponentValueSetter(any());
@@ -99,7 +99,6 @@ public class StaticModelToUiAspectDefinitionTest {
         var uiUpdater = aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
         uiUpdater.apply();
         verify(componentValueSetter).accept(any());
-
     }
 
     static class ComponentValueSetterConsumer implements Consumer<Integer> {
