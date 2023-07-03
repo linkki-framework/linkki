@@ -47,6 +47,12 @@ pipeline {
             }
         }
 
+        stage('Check Git Diffs') {
+            steps {
+                verifyNoChangedFiles()
+            }
+        }
+
         stage('UI Test and Checks') {
             when {
                 expression {
@@ -153,12 +159,6 @@ pipeline {
                         }
                     }
                 }
-            }
-        }
-
-        stage('Check Git Diffs') {
-            steps {
-                verifyNoChangedFiles()
             }
         }
 
