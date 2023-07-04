@@ -166,7 +166,8 @@ class StaticValueNlsServiceTest {
         var pmo = StaticValueNlsServiceTest.TestPmo.class;
         assertThat(NLS_SERVICE.getString(pmo, "superProperty", "", "not found")).isEqualTo("gefunden in super");
         assertThat(NLS_SERVICE.getString(pmo, "interfaceProperty", "", "not found")).isEqualTo("gefunden in interface");
-        assertThat(NLS_SERVICE.getString(pmo, "superInterfaceProperty", "", "not found")).isEqualTo("gefunden in super interface");
+        assertThat(NLS_SERVICE.getString(pmo, "superInterfaceProperty", "", "not found"))
+                .isEqualTo("gefunden in super interface");
     }
 
     private void setLocale(Locale locale) {
@@ -217,14 +218,14 @@ class StaticValueNlsServiceTest {
         // empty
     }
 
-    private static class TestPmo extends SuperPmo
+    static class TestPmo extends SuperPmo
             implements InterfacePmo {
         public String getProperty() {
             return "";
         }
     }
 
-    private static class SuperPmo {
+    static class SuperPmo {
         public String getSuperProperty() {
             return "";
         }

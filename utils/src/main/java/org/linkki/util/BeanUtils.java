@@ -19,8 +19,6 @@ import java.beans.Introspector;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Optional;
@@ -148,23 +146,17 @@ public class BeanUtils {
      */
     @CheckForNull
     public static Object getValueFromField(Object object, Field field) {
-        return AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            @Override
-            @CheckForNull
-            public Object run() {
-                boolean accessible = field.canAccess(object);
-                if (!accessible) {
-                    field.setAccessible(true);
-                }
-                try {
-                    return field.get(object);
-                } catch (IllegalAccessException e) {
-                    throw new IllegalArgumentException(e);
-                } finally {
-                    field.setAccessible(accessible);
-                }
-            }
-        });
+        boolean accessible = field.canAccess(object);
+        if (!accessible) {
+            field.setAccessible(true);
+        }
+        try {
+            return field.get(object);
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(e);
+        } finally {
+            field.setAccessible(accessible);
+        }
     }
 
     /**

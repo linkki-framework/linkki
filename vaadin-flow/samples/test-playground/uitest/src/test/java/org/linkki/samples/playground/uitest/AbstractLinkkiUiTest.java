@@ -43,9 +43,9 @@ import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
+import com.vaadin.flow.component.shared.HasSuffix;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
-import com.vaadin.flow.component.textfield.HasPrefixAndSuffix;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.testbench.TestBenchElement;
@@ -226,7 +226,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     }
 
     /**
-     * Only works when the tested Component implements {@link HasPrefixAndSuffix} in Vaadin-flow
+     * Only works when the tested Component implements {@link HasSuffix} in Vaadin-flow
      * 
      * @param element the {@link WebElement} to select the suffix from
      * @return WebElement which contains Suffix

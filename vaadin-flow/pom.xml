@@ -31,15 +31,16 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            24.1.0
+            24.1.2
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <!-- this property must also be updated in samples-vaadin-flow -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
-            3.1.0
+            3.1.1
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
+        <karibu.version>2.1.0</karibu.version>
     </properties>
 
     <dependencyManagement>
@@ -48,13 +49,6 @@
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-core</artifactId>
                 <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <!-- prevents transitive version conflict between vaadin__vaadin-mobile-drag-drop and vaadin-dnd.
-                Can lead to non-deterministic build failure when linkki-apt is used in a concurrent maven build -->
-                <groupId>org.webjars.npm</groupId>
-                <artifactId>mobile-drag-drop</artifactId>
-                <version>2.3.0-rc.2</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -70,7 +64,7 @@
             <dependency>
                 <groupId>com.github.mvysny.kaributesting</groupId>
                 <artifactId>karibu-testing-v24</artifactId>
-                <version>2.0.2</version>
+                <version>${karibu.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

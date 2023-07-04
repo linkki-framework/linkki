@@ -14,18 +14,10 @@
 
 package org.linkki.samples.playground.products;
 
-import com.vaadin.flow.component.accordion.Accordion;
-import com.vaadin.flow.component.accordion.AccordionPanel;
-import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.component.details.DetailsVariant;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.menubar.MenuBar;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.splitlayout.SplitLayoutVariant;
-import com.vaadin.flow.component.tabs.Tabs.Orientation;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.ComponentStyles;
@@ -39,9 +31,18 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.framework.ui.component.Headline;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import com.vaadin.flow.component.accordion.Accordion;
+import com.vaadin.flow.component.accordion.AccordionPanel;
+import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.details.DetailsVariant;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayoutVariant;
+import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
 /**
  * Layout to display detailed content of a policy or offer.
@@ -62,24 +63,24 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
         tabLayout.addTabSheets(
-                LinkkiTabSheet.builder("tab1")
-                        .caption("Just Sections")
-                        .content(() -> new DefaultBindingManagerPage(
-                                new ProductsSamplePmo.VerticalSamplePmo(),
-                                new ProductsSamplePmo.VerticalSamplePmo(),
-                                new ProductsSamplePmo.HorizontalSamplePmo(),
-                                new ProductsSamplePmo.VerticalSamplePmo(),
-                                new ProductsSamplePmo.VerticalSamplePmo()))
-                        .build(),
-                LinkkiTabSheet.builder("tab3")
-                        .caption("Tables and Sections")
-                        .content(() -> new DefaultBindingManagerPage(
-                                new ProductsSamplePmo.VerticalSamplePmo(),
-                                new ProductsSamplePmo.HorizontalSamplePmo(),
-                                new ProductsSampleTablePmo(5, 0),
-                                new ProductsSampleTablePmo(10, 0),
-                                new ProductsSamplePmo.VerticalSamplePmo()))
-                        .build());
+                               LinkkiTabSheet.builder("tab1")
+                                       .caption("Just Sections")
+                                       .content(() -> new DefaultBindingManagerPage(
+                                               new ProductsSamplePmo.VerticalSamplePmo(),
+                                               new ProductsSamplePmo.VerticalSamplePmo(),
+                                               new ProductsSamplePmo.HorizontalSamplePmo(),
+                                               new ProductsSamplePmo.VerticalSamplePmo(),
+                                               new ProductsSamplePmo.VerticalSamplePmo()))
+                                       .build(),
+                               LinkkiTabSheet.builder("tab3")
+                                       .caption("Tables and Sections")
+                                       .content(() -> new DefaultBindingManagerPage(
+                                               new ProductsSamplePmo.VerticalSamplePmo(),
+                                               new ProductsSamplePmo.HorizontalSamplePmo(),
+                                               new ProductsSampleTablePmo(5, 0),
+                                               new ProductsSampleTablePmo(10, 0),
+                                               new ProductsSamplePmo.VerticalSamplePmo()))
+                                       .build());
 
         ComponentStyles.setFormItemLabelWidth(tabLayout, "15em");
 
@@ -134,8 +135,9 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         @Override
         public List<AccordionRowPmo> getItems() {
             return List.of(new AccordionRowPmo(Optional.empty(), LocalDate.now(), "process 2"),
-                    new AccordionRowPmo(Optional.of(VaadinIcon.ARROW_RIGHT), LocalDate.now().minusDays(1), "process 1"),
-                    new AccordionRowPmo(Optional.empty(), LocalDate.now().minusDays(2), "process 1"));
+                           new AccordionRowPmo(Optional.of(VaadinIcon.ARROW_RIGHT), LocalDate.now().minusDays(1),
+                                   "process 1"),
+                           new AccordionRowPmo(Optional.empty(), LocalDate.now().minusDays(2), "process 1"));
         }
 
         @Override
@@ -144,7 +146,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         }
     }
 
-    private static class AccordionRowPmo {
+    static class AccordionRowPmo {
 
         private final Optional<VaadinIcon> icon;
         private final LocalDate date;

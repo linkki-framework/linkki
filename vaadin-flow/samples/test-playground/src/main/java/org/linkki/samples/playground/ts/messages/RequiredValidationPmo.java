@@ -46,6 +46,7 @@ public class RequiredValidationPmo {
     @BindLabel
     @UITextField(position = 10, modelAttribute = PROPERTY_TEXT_FIELD, required = RequiredType.REQUIRED)
     public void textField() {
+        // model binding
     }
 
     public String getTextFieldLabel() {

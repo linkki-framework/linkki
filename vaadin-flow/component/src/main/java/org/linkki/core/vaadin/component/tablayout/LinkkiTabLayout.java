@@ -152,7 +152,7 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
      */
     public void addTabSheet(LinkkiTabSheet tabSheet, int index) {
         tabSheets.put(tabSheet.getTab(), tabSheet);
-        getTabsComponent().addComponentAtIndex(index, tabSheet.getTab());
+        getTabsComponent().addTabAtIndex(index, tabSheet.getTab());
     }
 
     /**

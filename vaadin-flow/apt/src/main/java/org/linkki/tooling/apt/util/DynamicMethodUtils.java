@@ -24,8 +24,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -223,26 +221,21 @@ public final class DynamicMethodUtils {
             return asList(((AvailableValuesAspectDefinition<?>)aspectDefinition).createAspect(
                                                                                               VisibleType.class));
         } else if (aspectDefinition instanceof CompositeAspectDefinition) {
-            return AccessController.doPrivileged(new PrivilegedAction<List<Aspect<?>>>() {
-                @Override
-                public List<Aspect<?>> run() {
-                    Field field;
-                    try {
-                        field = CompositeAspectDefinition.class.getDeclaredField("aspectDefinitions");
-                        field.setAccessible(true);
-                        @SuppressWarnings("unchecked")
-                        List<LinkkiAspectDefinition> innerAspectDefinitions = (List<LinkkiAspectDefinition>)field
-                                .get(aspectDefinition);
-                        return innerAspectDefinitions.stream()
-                                .flatMap(it -> getAspects(method, it).stream())
-                                .collect(toList());
-                    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
-                            | IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
+            Field field;
+            try {
+                field = CompositeAspectDefinition.class.getDeclaredField("aspectDefinitions");
+                field.setAccessible(true);
+                @SuppressWarnings("unchecked")
+                List<LinkkiAspectDefinition> innerAspectDefinitions = (List<LinkkiAspectDefinition>)field
+                        .get(aspectDefinition);
+                return innerAspectDefinitions.stream()
+                        .flatMap(it -> getAspects(method, it).stream())
+                        .collect(toList());
+            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
+                    | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
 
-                }
-            });
         } else {
             return emptyList();
         }

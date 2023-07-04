@@ -30,7 +30,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.util.handler.Handler;
 
@@ -84,11 +83,12 @@ class DialogErrorHandlerTest {
                 .as("Check dialog caption is as configured").isEqualTo(dialogConfig.getCaption());
         List<Component> dialogContent = errorDialog.getContentArea().getChildren().collect(Collectors.toList());
         var configuredContent = dialogConfig.getDialogContent(event);
-        // The content of the time stamp cannot be checked using assertEquals as it contains milliseconds
+        // The content of the time stamp cannot be checked using assertEquals as it contains
+        // milliseconds
         assertThat(dialogContent).element(0).extracting(this::getTextContent).asString().startsWith("Timestamp");
         assertThat(dialogContent).elements(1, dialogContent.size() - 1)
-                    .usingElementComparator(Comparator.comparing(this::getTextContent))
-                    .isEqualTo(configuredContent.subList(1, dialogContent.size()));
+                .usingElementComparator(Comparator.comparing(this::getTextContent))
+                .isEqualTo(configuredContent.subList(1, dialogContent.size()));
 
         errorDialog.ok();
 
@@ -100,8 +100,8 @@ class DialogErrorHandlerTest {
     void testError_WithDialogCreator() {
         var caption = "caption";
         var exceptionMessage = "message";
-        BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator = (e, h) ->
-                new ConfirmationDialog(caption, h, new Text(e.getThrowable().getMessage()));
+        BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator = (e, h) -> new ConfirmationDialog(caption, h,
+                new Text(e.getThrowable().getMessage()));
         var handler = new DialogErrorHandler(dialogCreator);
 
         handler.error(new ErrorEvent(new RuntimeException(exceptionMessage)));
@@ -122,8 +122,8 @@ class DialogErrorHandlerTest {
     void testError_WithDialogCreatorAndStartView() {
         var caption = "caption";
         var exceptionMessage = "message";
-        BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator = (e, h) ->
-                new ConfirmationDialog(caption, h, new Text(e.getThrowable().getMessage()));
+        BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator = (e, h) -> new ConfirmationDialog(caption, h,
+                new Text(e.getThrowable().getMessage()));
         var handler = new DialogErrorHandler(dialogCreator, TEST_VIEW_ROUTE);
 
         handler.error(new ErrorEvent(new RuntimeException(exceptionMessage)));

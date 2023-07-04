@@ -24,7 +24,6 @@ import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UIComboBox;
-import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
@@ -134,7 +133,8 @@ public class ComboBoxPmo {
             return Arrays.asList("1", "2", "3");
         }
 
-        @UIComboBox(position = 20, label = "Required with initial value Decimal.NULL", content = AvailableValuesType.DYNAMIC,
+        @UIComboBox(position = 20, label = "Required with initial value Decimal.NULL",
+                content = AvailableValuesType.DYNAMIC,
                 required = RequiredType.REQUIRED, itemCaptionProvider = DecimalCaptionProvider.class)
         public Decimal getRequiredDecimalValue() {
             return requiredDecimalValue;
