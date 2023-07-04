@@ -13,7 +13,6 @@
  */
 package org.linkki.testbench.util;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -36,9 +35,9 @@ public class ScreenshotUtil {
     public static void takeScreenshot(WebDriver driver, String description) {
         try {
             LOGGER.info("Taking screenshot of " + driver.getCurrentUrl());
-            BufferedImage screenshotImage = ImageIO
+            var screenshotImage = ImageIO
                     .read(new ByteArrayInputStream(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES)));
-            final File errorScreenshotFile = getErrorScreenshotFile(description);
+            var errorScreenshotFile = getErrorScreenshotFile(description);
             LOGGER.info("Writing screenshot to " + errorScreenshotFile.getAbsolutePath());
             ImageIO.write(screenshotImage, "png", errorScreenshotFile);
         } catch (IOException e) {
@@ -46,10 +45,24 @@ public class ScreenshotUtil {
         }
     }
 
-    private static File getErrorScreenshotFile(String description) {
-        File outputFolder = new File("target", "error-screenshots");
+    private static File getErrorScreenshotFile(String description) throws IOException {
+        var outputFolder = new File("target", "error-screenshots");
         outputFolder.mkdir();
-        return new File(outputFolder.getPath(), description + ".png");
+        var fileName = getFileName(outputFolder, description);
+        return new File(outputFolder.getPath(), fileName);
     }
 
+    private static String getFileName(File outputFolder, String description) throws IOException {
+        var existingFiles = outputFolder.list((dir, name) -> name.startsWith(description));
+        if (existingFiles == null) {
+            // throw an exception to stop before overwriting existing files
+            throw new RuntimeException("Unable to read existing screenshots");
+        }
+        // ensure no screenshots are overwritten
+        if (existingFiles.length == 0) {
+            return description + ".png";
+        } else {
+            return description + "_" + existingFiles.length + 1 + ".png";
+        }
+    }
 }
