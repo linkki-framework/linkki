@@ -21,10 +21,10 @@ import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
+import org.linkki.core.util.HtmlContent;
 import org.linkki.samples.playground.binding.model.Contact;
 
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 public class ContactRowPmo {
@@ -54,20 +54,14 @@ public class ContactRowPmo {
 
     @UITableColumn(width = 50)
     // tag::contactRowPmo-labelHtmlContent[]
-    @UILabel(position = 5, label = "", htmlContent = true)
-    public String getGender() {
-        Icon icon = null;
-        switch (contact.getGender()) {
-            case FEMALE:
-                icon = new Icon(VaadinIcon.FEMALE);
-                break;
-            case MALE:
-                icon = new Icon(VaadinIcon.MALE);
-                break;
-            default:
-                icon = new Icon(VaadinIcon.CHILD);
-        }
-        return icon.getElement().getOuterHTML();
+    @UILabel(position = 5, label = "")
+    public HtmlContent getGender() {
+        var icon = switch (contact.getGender()) {
+            case FEMALE -> VaadinIcon.FEMALE;
+            case MALE -> VaadinIcon.MALE;
+            default -> VaadinIcon.CHILD;
+        };
+        return HtmlContent.icon(icon.create());
     }
     // end::contactRowPmo-labelHtmlContent[]
 
@@ -88,7 +82,8 @@ public class ContactRowPmo {
     @UITableColumn(width = 60)
     // tag::contactRowPmo-buttonBinding[]
     @BindTooltip("Edit")
-    @UIButton(position = 30, icon = VaadinIcon.EDIT, showIcon = true, caption = "", variants = ButtonVariant.LUMO_TERTIARY_INLINE)
+    @UIButton(position = 30, icon = VaadinIcon.EDIT, showIcon = true, caption = "",
+            variants = ButtonVariant.LUMO_TERTIARY_INLINE)
     public void edit() {
         editAction.accept(contact);
     }
@@ -96,7 +91,8 @@ public class ContactRowPmo {
 
     @UITableColumn(width = 60)
     @BindTooltip("Delete")
-    @UIButton(position = 40, icon = VaadinIcon.TRASH, showIcon = true, caption = "", variants = ButtonVariant.LUMO_TERTIARY_INLINE)
+    @UIButton(position = 40, icon = VaadinIcon.TRASH, showIcon = true, caption = "",
+            variants = ButtonVariant.LUMO_TERTIARY_INLINE)
     public void delete() {
         deleteAction.accept(contact);
     }

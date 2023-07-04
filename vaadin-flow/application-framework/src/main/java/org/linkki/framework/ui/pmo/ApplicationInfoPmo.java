@@ -37,25 +37,25 @@ public class ApplicationInfoPmo {
         this.applicationInfo = applicationInfo;
     }
 
-    @UILabel(position = 10, htmlContent = true)
+    @UILabel(position = 10)
     public String getTitle() {
-        return "<h2>" + getApplicationInfo().getApplicationName() + "</h2>";
+        return getApplicationInfo().getApplicationName();
     }
 
-    @UILabel(position = 20, htmlContent = true)
+    @UILabel(position = 20)
     public String getVersion() {
         return NlsText.getString("ApplicationInfoPmo.Version") + ": "
                 + getApplicationInfo().getApplicationVersion();
     }
 
-    @UILabel(position = 30, htmlContent = true)
+    @UILabel(position = 30)
     public String getDescription() {
-        return "<p>" + getApplicationInfo().getApplicationDescription() + "</p>";
+        return getApplicationInfo().getApplicationDescription();
     }
 
-    @UILabel(position = 40, htmlContent = true)
+    @UILabel(position = 40)
     public String getCopyright() {
-        return "<p>" + getApplicationInfo().getCopyright() + "</p>";
+        return getApplicationInfo().getCopyright();
     }
 
     public ApplicationInfo getApplicationInfo() {

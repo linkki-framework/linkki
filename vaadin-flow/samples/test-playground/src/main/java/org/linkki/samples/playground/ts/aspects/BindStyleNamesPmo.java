@@ -18,6 +18,7 @@ import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
+import org.linkki.core.util.HtmlContent;
 
 import com.vaadin.flow.component.dependency.CssImport;
 
@@ -33,10 +34,10 @@ public class BindStyleNamesPmo {
         return "I am a white text within a blue box with a thick border";
     }
 
-    @UILabel(position = 10, htmlContent = true)
-    public String getDescription() {
-        return "This section tests that style names are retrieved dynamically."
-                + "<br>The following field takes its input as style names";
+    @UILabel(position = 10)
+    public HtmlContent getDescription() {
+        return HtmlContent.multilineText("This section tests that style names are retrieved dynamically.",
+                                         "The following field takes its input as style names");
     }
 
     @BindStyleNames

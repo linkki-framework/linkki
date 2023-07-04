@@ -21,6 +21,7 @@ import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UILabel.DefaultLabelCaptionProvider;
+import org.linkki.core.util.HtmlContent;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
 /**
@@ -31,17 +32,52 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
 
     public static final String NAME = LabelAspectDefinition.VALUE_ASPECT_NAME;
 
+    @Deprecated(since = "2.5.0")
     private final boolean htmlContent;
+
     private final ItemCaptionProvider<?> itemCaptionProvider;
 
+    /**
+     * Creates a new {@link LabelValueAspectDefinition} using the {@link DefaultLabelCaptionProvider}r
+     * 
+     * @since 2.5.0
+     */
+    public LabelValueAspectDefinition() {
+        this(new DefaultLabelCaptionProvider());
+    }
+
+    /**
+     *
+     * Creates a new {@link LabelValueAspectDefinition} using the provided {@link ItemCaptionProvider}r
+     * 
+     * @since 2.5.0
+     */
+    public LabelValueAspectDefinition(ItemCaptionProvider<?> itemCaptionProvider) {
+        this.itemCaptionProvider = itemCaptionProvider;
+        htmlContent = false;
+    }
+
+    /**
+     * @deprecated Use {@link LabelValueAspectDefinition#LabelValueAspectDefinition()} instead.<br>
+     *             Content that should be interpreted as HTML should be returned as {@link HtmlContent}.
+     */
+    @Deprecated(since = "2.5.0")
     public LabelValueAspectDefinition(boolean htmlContent) {
         this(htmlContent, new DefaultLabelCaptionProvider());
     }
 
+    /**
+     * @deprecated Use
+     *             {@link LabelValueAspectDefinition#LabelValueAspectDefinition(ItemCaptionProvider)}
+     *             instead. <br>
+     *             Content that should be interpreted as HTML should be returned as {@link HtmlContent}.
+     */
+    @Deprecated(since = "2.5.0")
     public LabelValueAspectDefinition(boolean htmlContent, ItemCaptionProvider<?> itemCaptionProvider) {
         this.htmlContent = htmlContent;
         this.itemCaptionProvider = itemCaptionProvider;
     }
+
 
     @Override
     public Aspect<Object> createAspect() {
@@ -51,6 +87,6 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
         LinkkiText label = (LinkkiText)componentWrapper.getComponent();
-        return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v), htmlContent);
+        return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v), v instanceof HtmlContent || htmlContent);
     }
 }

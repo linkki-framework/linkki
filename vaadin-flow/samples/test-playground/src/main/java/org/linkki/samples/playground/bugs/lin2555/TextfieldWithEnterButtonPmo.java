@@ -14,11 +14,14 @@
 
 package org.linkki.samples.playground.bugs.lin2555;
 
+import java.util.Collections;
+
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.util.HtmlContent;
 import org.linkki.core.vaadin.component.KeyCode;
 import org.linkki.framework.ui.notifications.NotificationUtil;
 
@@ -31,16 +34,19 @@ public class TextfieldWithEnterButtonPmo {
 
     private String text = "initialText";
 
-    @UILabel(position = 0, htmlContent = true)
-    public String getDescription() {
-        return "Steps to reproduce:" +
-                "<ol>" +
-                "<li>focus text field</li>" +
-                "<li>change the value in text field</li>" +
-                "<li>press enter without leaving the text field</li>" +
-                "</ol>" +
-                "Expected behavior: a notification is present showing the changed value <br>" +
-                "Bug behavior: a notification is present showing the value before change";
+    @UILabel(position = 0)
+    public HtmlContent getDescription() {
+        return HtmlContent.builder()
+                .text("Steps to reproduce:")
+                .tag("ol", Collections.emptyMap(), HtmlContent.builder()
+                        .tag("li", "focus text field")
+                        .tag("li", "change the value in text field")
+                        .tag("li", "press enter without leaving the text field")
+                        .build())
+                .text("Expected behavior: a notification is present showing the changed value")
+                .br()
+                .text("Bug behavior: a notification is present showing the value before change")
+                .build();
     }
 
     @UITextField(position = 1)

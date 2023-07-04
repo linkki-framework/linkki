@@ -113,8 +113,12 @@ public @interface UILabel {
      * <p>
      * HTML content is not compatible with some annotations that manipulate the resulting component,
      * like {@link BindIcon}.
+     * 
+     * @deprecated Use {@link org.linkki.core.util.HtmlContent} as return type instead.
      */
+    @Deprecated(since = "2.5.0")
     boolean htmlContent() default false;
+
 
     /**
      * Specifies which {@link ItemCaptionProvider} should be used to convert the value into a String.
@@ -156,7 +160,7 @@ public @interface UILabel {
                     new LabelAspectDefinition(annotation.label()),
                     new VisibleAspectDefinition(annotation.visible()),
                     new LabelValueAspectDefinition(annotation.htmlContent(),
-                                                   instantiate(annotation::itemCaptionProvider)),
+                            instantiate(annotation::itemCaptionProvider)),
                     new IconPositionAspectDefinition(annotation.iconPosition()));
         }
     }

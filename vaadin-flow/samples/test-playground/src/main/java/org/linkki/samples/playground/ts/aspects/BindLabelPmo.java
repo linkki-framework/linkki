@@ -23,6 +23,7 @@ import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.util.HtmlContent;
 
 /**
  * Test PMO in order to test {@link BindLabel @BindLabel}. Belongs to test scenario TS008/TC015.
@@ -37,9 +38,9 @@ public class BindLabelPmo implements PresentationModelObject {
         return dynamicLabel;
     }
 
-    @UILabel(position = 10, htmlContent = true)
-    public String getDynamicLabelsHeadline() {
-        return "<h4>Dynamic labels</h4>";
+    @UILabel(position = 10)
+    public HtmlContent getDynamicLabelsHeadline() {
+        return h4("Dynamic labels");
     }
 
     public void setDynamicLabel(String label) {
@@ -83,9 +84,9 @@ public class BindLabelPmo implements PresentationModelObject {
         return dynamicLabel;
     }
 
-    @UILabel(position = 45, htmlContent = true)
-    public String getAutoLabelsHeadline() {
-        return "<h4>Auto type labels</h4>";
+    @UILabel(position = 45)
+    public HtmlContent getAutoLabelsHeadline() {
+        return h4("Auto type labels");
     }
 
     @BindLabel(labelType = LabelType.AUTO)
@@ -108,9 +109,9 @@ public class BindLabelPmo implements PresentationModelObject {
         return dynamicLabel;
     }
 
-    @UILabel(position = 60, htmlContent = true)
-    public String getStaticLabelsHeadline() {
-        return "<h4>Static labels</h4>";
+    @UILabel(position = 60)
+    public HtmlContent getStaticLabelsHeadline() {
+        return h4("Static labels");
     }
 
     // tag::bindLabel-static[]
@@ -121,14 +122,18 @@ public class BindLabelPmo implements PresentationModelObject {
     }
     // end::bindLabel-static[]
 
-    @UILabel(position = 70, htmlContent = true)
-    public String getNoneLabelsHeadline() {
-        return "<h4>No labels</h4>";
+    @UILabel(position = 70)
+    public HtmlContent getNoneLabelsHeadline() {
+        return h4("No labels");
     }
 
     @BindLabel(labelType = LabelType.NONE)
     @UIButton(position = 75, label = "Do not display")
     public void noneButton() {
         // button
+    }
+
+    private HtmlContent h4(String string) {
+        return HtmlContent.builder().tag("h4", string).build();
     }
 }

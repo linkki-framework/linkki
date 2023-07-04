@@ -1,61 +1,76 @@
 {
-    "all-versions": [
-        {
-            "extension": "revapi.filter",
-            "configuration": {
-                "elements": {
-                    "exclude": [
-                        ".* com\\.vaadin\\.flow\\..*"
-                    ]
-                }
-            }
-        },
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.core\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.util\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    }
-                ]
-            }
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".* com\\.vaadin\\.flow\\..*"
+          ]
         }
-    ],
-    "2.3.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(java.util.List<? extends org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "new": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(org.linkki.core.binding.descriptor.property.BoundProperty, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    },
-                    {
-                        "code": "java.method.removed",
-                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::addAspectDefinitions(java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    },
-                    {
-                        "code": "java.class.nowFinal",
-                        "old": "class org.linkki.core.binding.descriptor.BindingDescriptor",
-                        "new": "class org.linkki.core.binding.descriptor.BindingDescriptor",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    }
-                ]
-            }
-        }
-    ]
+      }
+    },
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.core\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.util\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          }
+        ]
+      }
+    }
+  ],
+  "2.5.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.annotation.attributeRemoved",
+            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getCopyright()",
+            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getCopyright()",
+            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 40)",
+            "attribute": "htmlContent",
+            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
+          },
+          {
+            "code": "java.annotation.attributeRemoved",
+            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getDescription()",
+            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getDescription()",
+            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 30)",
+            "attribute": "htmlContent",
+            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
+          },
+          {
+            "code": "java.annotation.attributeRemoved",
+            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getTitle()",
+            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getTitle()",
+            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 10)",
+            "attribute": "htmlContent",
+            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
+          },
+          {
+            "code": "java.annotation.attributeRemoved",
+            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getVersion()",
+            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getVersion()",
+            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 20)",
+            "attribute": "htmlContent",
+            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
+          }
+        ]
+      }
+    }
+  ]
 }

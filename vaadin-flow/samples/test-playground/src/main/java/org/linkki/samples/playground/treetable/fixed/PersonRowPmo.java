@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.treetable.fixed;
 
+import org.linkki.core.util.HtmlContent;
+
 public class PersonRowPmo extends AbstractPersonRowPmo {
 
     private final Person person;
@@ -23,8 +25,9 @@ public class PersonRowPmo extends AbstractPersonRowPmo {
     }
 
     @Override
-    public String getAddress() {
-        return person.getAddress() + "<br/>" + person.getCity() + " " + person.getZipCode();
+    public HtmlContent getAddress() {
+        return HtmlContent.multilineText(person.getAddress(),
+                                         person.getCity() + " " + person.getZipCode());
     }
 
     @Override

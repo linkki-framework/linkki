@@ -27,6 +27,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.core.util.HtmlContent;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.component.UI;
@@ -41,7 +42,7 @@ public class LabelValueAspectDefinitionTest {
     @Test
     public void testCreateComponentValueSetter_SetsString() {
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept("foo");
@@ -53,7 +54,7 @@ public class LabelValueAspectDefinitionTest {
     @Test
     public void testCreateComponentValueSetter_UsesToString() {
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept(new Object() {
@@ -70,7 +71,7 @@ public class LabelValueAspectDefinitionTest {
     public void testCreateComponentValueSetter_UsesStandardConverter() {
         UI.getCurrent().setLocale(Locale.GERMAN);
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept(Integer.valueOf(123456));
@@ -82,7 +83,7 @@ public class LabelValueAspectDefinitionTest {
     public void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
         UI.getCurrent().setLocale(Locale.US);
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept(Integer.valueOf(123456));
@@ -93,7 +94,7 @@ public class LabelValueAspectDefinitionTest {
     @Test
     public void testCreateComponentValueSetter_UsesCustomConverter() {
         LinkkiText label = new LinkkiText();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
 
@@ -123,8 +124,9 @@ public class LabelValueAspectDefinitionTest {
         assertThat(label.getText(), is("Foo"));
     }
 
+    @SuppressWarnings("deprecation")
     @Test
-    public void testCreateComponentValueSetter_HtmlContent() {
+    public void testCreateComponentValueSetter_HtmlContent_deprecated() {
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition(true)
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
@@ -140,6 +142,22 @@ public class LabelValueAspectDefinitionTest {
 
         assertThat(label.getText(), is("foo"));
     }
+
+    @Test
+    public void testCreateComponentValueSetter_HtmlContent() {
+        LinkkiText label = new LinkkiText();
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
+                .createComponentValueSetter(new NoLabelComponentWrapper(label));
+        var htmlContent = HtmlContent.builder().tag("i", "foo").build();
+
+        valueSetter.accept(htmlContent);
+
+        var linkkiTextSpan = label.getElement().getChildren().findFirst().orElseThrow();
+        var innerHTML = linkkiTextSpan.getProperty("innerHTML");
+        assertThat(innerHTML, is("<i>foo</i>"));
+
+    }
+
 
     private enum FooBar {
         FOO,

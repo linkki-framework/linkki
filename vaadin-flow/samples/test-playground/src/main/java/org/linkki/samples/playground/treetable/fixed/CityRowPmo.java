@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.treetable.fixed;
 
+import org.linkki.core.util.HtmlContent;
+
 import java.util.List;
 
 public class CityRowPmo extends SummarizingPersonRowPmo {
@@ -26,8 +28,8 @@ public class CityRowPmo extends SummarizingPersonRowPmo {
     }
 
     @Override
-    public String getAddress() {
-        return city + " (" + getChildRows().size() + ")";
+    public HtmlContent getAddress() {
+        return HtmlContent.text(city + " (" + getChildRows().size() + ")");
     }
 
 }

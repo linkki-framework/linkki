@@ -49,7 +49,6 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
 
         ((TestModelObjectWithString)getDefaultModelObject()).setValue("fdsa");
         modelChanged();
-        // htmlContent = true
         assertThat(label.getText(), is("fdsa"));
     }
 
@@ -63,7 +62,6 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
 
         ((TestModelObjectWithInteger)getDefaultModelObject()).setValue(123456);
         modelChanged();
-        // htmlContent = true
         assertThat(label.getText(), is("123.456"));
     }
 
@@ -117,7 +115,7 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
         }
 
         @Override
-        @UILabel(position = 1, visible = VisibleType.DYNAMIC, htmlContent = true, styleNames = STYLES)
+        @UILabel(position = 1, visible = VisibleType.DYNAMIC, styleNames = STYLES)
         public void value() {
             // model binding
         }

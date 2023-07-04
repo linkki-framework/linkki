@@ -17,8 +17,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,10 +33,12 @@ import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UIMultiSelect;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
+import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.theme.LinkkiTheme;
+import org.linkki.core.util.HtmlContent;
 import org.linkki.samples.playground.ips.model.Marker;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -49,31 +52,6 @@ public class LabelPmo {
     private static final String CUSTOM_STYLE = "default-style";
     private Set<String> styles = Set.of();
 
-    @UILabel(position = 10, label = "Label with HTML Content", htmlContent = true)
-    @BindIcon(value = VaadinIcon.ACCORDION_MENU)
-    @BindSuffix("%")
-    public String getHtmlContentLabel() {
-        return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
-    }
-
-    @UILabel(position = 15, label = "Label with sanitized HTML content", htmlContent = true)
-    public String getSanitizedHtmlContentLabel() {
-        return "<b><iframe onload=\"alert('LIN-3319 :: Should not be visible!');\"/>" +
-                "This should be bold text without showing the stripped tag 'iframe'</b>";
-    }
-
-    @UILabel(position = 16, label = "Sanitized HTML content containing a Vaadin icon", htmlContent = true)
-    public String getSanitizedHtmlContentWithIconLabel() {
-        var icon = VaadinIcon.PLUS.create();
-        icon.setColor("red");
-        var iconHtml = icon.getElement().getOuterHTML();
-        return "This text should end with a red plus icon " + iconHtml;
-    }
-
-    @UILabel(position = 20, label = "Label without HTML Content")
-    public String getNotHtmlContentLabel() {
-        return "<b>NOT</b> HTML Content";
-    }
 
     @UILabel(position = 50, label = "Label with a BigDecimal as Value")
     @BindIcon(value = VaadinIcon.ACCORDION_MENU)
@@ -116,8 +94,8 @@ public class LabelPmo {
     @BindIcon(VaadinIcon.CIRCLE)
     @UILabel(position = 95, label = "Label with a dynamic style", htmlContent = true)
     public String getStyledLabelAndIcon() {
-        var icon = LumoIcon.ARROW_DOWN.create(); 
-        return "Select my style in the 'Styles' multi selection box below "  + icon.getElement().getOuterHTML();
+        var icon = LumoIcon.ARROW_DOWN.create();
+        return "Select my style in the 'Styles' multi selection box below " + icon.getElement().getOuterHTML();
     }
 
     @UIMultiSelect(position = 96, label = "Styles")
@@ -152,17 +130,23 @@ public class LabelPmo {
         return "Icon on the right";
     }
 
+
+    @UINestedComponent(position = 140, label = "HTML Content")
+    public HtmlContentLabelPmo getHtmlContentLabelPmo() {
+        return new HtmlContentLabelPmo();
+    }
+
     @UINestedComponent(position = 150, label = "UILabel in table")
     public LabelTablePmo getLabelTable() {
         return new LabelTablePmo();
     }
 
-    @UISection
+    @UISection(caption = "UILabel in table")
     public static class LabelTablePmo implements ContainerPmo<LabelRowPmo> {
 
         @Override
         public List<LabelRowPmo> getItems() {
-            return Arrays.asList(new LabelRowPmo());
+            return List.of(new LabelRowPmo());
         }
 
         @Override
@@ -172,13 +156,7 @@ public class LabelPmo {
 
         @Override
         public Optional<TableFooterPmo> getFooterPmo() {
-            return Optional.of(new TableFooterPmo() {
-
-                @Override
-                public String getFooterText(String column) {
-                    return "Footer for " + column;
-                }
-            });
+            return Optional.of(column -> "Footer for " + column);
         }
 
     }
@@ -186,9 +164,13 @@ public class LabelPmo {
     public static class LabelRowPmo {
 
         @UITableColumn(width = 200)
-        @UILabel(position = 10, label = "Label with HTML Content", htmlContent = true)
-        public String getHtmlContentLabel() {
-            return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
+        @UILabel(position = 10, label = "Label with HtmlContent as return type")
+        public HtmlContent getHtmlContentLabel() {
+            return HtmlContent.builder()
+                    .styledTag("i", "color: red;", "HTML")
+                    .text(" ")
+                    .tag("b", "Content")
+                    .build();
         }
 
         @UITableColumn(width = 200)
@@ -210,5 +192,90 @@ public class LabelPmo {
             return "";
         }
 
+    }
+
+    @UIHorizontalLayout
+    public static class HtmlContentLabelPmo {
+        @UINestedComponent(position = 10, label = "")
+        public HtmlContentPropertyLabelPmo getHtmlContentPropertyLabelPmo() {
+            return new HtmlContentPropertyLabelPmo();
+        }
+
+        @UINestedComponent(position = 20, label = "")
+        public HtmlContentReturnTypeLabelPmo getHtmlContentReturnTypeLabelPmo() {
+            return new HtmlContentReturnTypeLabelPmo();
+        }
+
+
+        @UISection(caption = "Label with HtmlContent using htmlContent=true", layout = SectionLayout.VERTICAL)
+        public class HtmlContentPropertyLabelPmo {
+
+            @UILabel(position = 10, label = "Label with HTML Content", htmlContent = true)
+            @BindIcon(value = VaadinIcon.ACCORDION_MENU)
+            @BindSuffix("%")
+            public String getHtmlContentLabel() {
+                return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
+            }
+
+            @UILabel(position = 15, label = "Label with sanitized HTML content", htmlContent = true)
+            public String getSanitizedHtmlContentLabel() {
+                return "<b><iframe onload=\"alert('LIN-3319 :: Should not be visible!');\"/>" +
+                        "This should be bold text without showing the stripped tag 'iframe'</b>";
+            }
+
+            @UILabel(position = 16, label = "Sanitized HTML content containing a Vaadin icon", htmlContent = true)
+            public String getSanitizedHtmlContentWithIconLabel() {
+                var icon = VaadinIcon.PLUS.create();
+                icon.setColor("red");
+                var iconHtml = icon.getElement().getOuterHTML();
+                return "This text should end with a red plus icon " + iconHtml;
+            }
+
+            @UILabel(position = 20, label = "Label without HTML Content")
+            public String getNotHtmlContentLabel() {
+                return "<b>NOT</b> HTML Content";
+            }
+        }
+
+        @UISection(caption = "Label with HtmlContent using HtmlContent as returnType", layout = SectionLayout.VERTICAL)
+        public static class HtmlContentReturnTypeLabelPmo {
+
+
+            // tag::labelPmo-labelHtmlContent[]
+            @UILabel(position = 10, label = "Label with HtmlContent")
+            @BindIcon(value = VaadinIcon.ACCORDION_MENU)
+            @BindSuffix("%")
+            public HtmlContent getHtmlContentLabel() {
+                return HtmlContent.builder()
+                        .styledTag("i", "color: red;", "HTML")
+                        .text(" ")
+                        .tag("b", "Content")
+                        .build();
+            }
+            // end::labelPmo-labelHtmlContent[]
+
+            @UILabel(position = 15, label = "Label with sanitized HTML content")
+            public HtmlContent getSanitizedHtmlContentLabel() {
+                var iframe = HtmlContent.builder()
+                        .tag("iframe", Map.of("onload", "alert('LIN-3319 :: Should not be visible!');"))
+                        .text("This should be bold text without showing the stripped tag 'iframe'")
+                        .build();
+                return HtmlContent.builder().tag("b", Collections.emptyMap(), iframe).build();
+            }
+
+            @UILabel(position = 16, label = "Sanitized HTML content containing a Vaadin icon")
+            public HtmlContent getSanitizedHtmlContentWithIconLabel() {
+                var icon = VaadinIcon.PLUS.create();
+                icon.setColor("red");
+                return HtmlContent.builder()
+                        .text("This text should end with a red plus icon ")
+                        .icon(icon).build();
+            }
+
+            @UILabel(position = 20, label = "HTMLContent as escaped String")
+            public HtmlContent getNotHtmlContentLabel() {
+                return HtmlContent.text("<b>NOT</b> HTML Content");
+            }
+        }
     }
 }

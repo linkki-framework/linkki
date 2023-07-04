@@ -24,6 +24,7 @@ import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UILink.LinkTarget;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
+import org.linkki.core.util.HtmlContent;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -52,9 +53,13 @@ public class BindIconPmo {
         this.text = text;
     }
 
-    @UILabel(position = 10, htmlContent = true)
-    public String getButtonHeadline() {
-        return "<h5>@UIButton</h5>";
+    @UILabel(position = 10)
+    public HtmlContent getButtonHeadline() {
+        return h5("@UIButton");
+    }
+
+    private static HtmlContent h5(String content) {
+        return HtmlContent.builder().tag("h5", content).build();
     }
 
     @BindIcon
@@ -83,9 +88,9 @@ public class BindIconPmo {
         return text;
     }
 
-    @UILabel(position = 20, htmlContent = true)
-    public String getLinkHeadline() {
-        return "<h5>@UILink</h5>";
+    @UILabel(position = 20)
+    public HtmlContent getLinkHeadline() {
+        return h5("@UILink");
     }
 
     @BindIcon
@@ -114,9 +119,9 @@ public class BindIconPmo {
         return text;
     }
 
-    @UILabel(position = 30, htmlContent = true)
-    public String getLabelHeadline() {
-        return "<h5>@UILabel</h5>";
+    @UILabel(position = 30)
+    public HtmlContent getLabelHeadline() {
+        return h5("@UILabel");
     }
 
     @BindIcon

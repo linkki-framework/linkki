@@ -17,12 +17,13 @@ package org.linkki.samples.playground.treetable.fixed;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
+import org.linkki.core.util.HtmlContent;
 
 public abstract class AbstractPersonRowPmo {
 
     @UITableColumn(flexGrow = 150)
-    @UILabel(position = 40, label = "Address", htmlContent = true)
-    public abstract String getAddress();
+    @UILabel(position = 40, label = "Address")
+    public abstract HtmlContent getAddress();
 
     @UITableColumn(flexGrow = 75)
     @UILabel(position = 50, label = "Last Name")

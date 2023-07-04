@@ -17,7 +17,6 @@ package org.linkki.samples.playground.bugs.lin2200;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
@@ -25,6 +24,7 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.util.HtmlContent;
 
 @UISection(caption = ComboBoxNewInstancePmo.CAPTION)
 public class ComboBoxNewInstancePmo {
@@ -37,14 +37,14 @@ public class ComboBoxNewInstancePmo {
     private List<Choice> choices = IntStream.range(0, 20)
             .mapToObj(i -> SECURE_RANDOM.nextDouble())
             .map(Choice::new)
-            .collect(Collectors.toList());
+            .toList();
     private Choice choice = choices.get(0);
 
-    @UILabel(position = 5, htmlContent = true)
-    public String getDescription() {
-        return "The getters for this combo box return new instances that do not implement "
-                + "equals() every time.\nInteracting with this combo box should not cause a "
-                + "repeated reset of the field. This can be observed in the network monitor.";
+    @UILabel(position = 5)
+    public HtmlContent getDescription() {
+        return HtmlContent
+                .multilineText("The getters for this combo box return new instances that do not implement equals() every time.",
+                               "Interacting with this combo box should not cause a repeated reset of the field. This can be observed in the network monitor.");
     }
 
     @UIComboBox(position = 10, label = "Values", content = AvailableValuesType.DYNAMIC)
@@ -57,7 +57,7 @@ public class ComboBoxNewInstancePmo {
     }
 
     public List<Choice> getChoiceAvailableValues() {
-        return choices.stream().map(c -> new Choice(c.getValue())).collect(Collectors.toList());
+        return choices.stream().map(c -> new Choice(c.getValue())).toList();
     }
 
     @UIButton(position = 20, caption = "Change values")

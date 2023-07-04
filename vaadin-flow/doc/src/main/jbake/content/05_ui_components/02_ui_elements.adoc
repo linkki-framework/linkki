@@ -80,13 +80,17 @@ TIP: A `@UILabel` also has the additional property <<label,`label`>>. If a value
 When used in a table, the `label` is used as the column name while the `caption` is displayed in the table cell. 
 
 HTML Content::
-The content of the label can be enriched with HTML if `htmlContent=true` is specified.
+The label's content can be enhanced with HTML when the annotated method returns an `HtmlContent` object. The `HtmlContent` class provides access to a builder for creating HTML content. For common use cases, static methods are available to simplify `HtmlContent` creation.
+If HTML content from the model needs to be displayed, the `HtmlContent.sanitize(String)` method can be used to generate a sanitized HtmlContent instance based on the model's value.
+An example below illustrates how to create multicolored text.
 
 .Example HTML Label Content
 [source, java]
 ----
-include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelHtmlContent]
+include::{source-dir}/org/linkki/samples/playground/ts/components/LabelPmo.java[tags=labelPmo-labelHtmlContent]
 ----
+A common usecase is to display a string split accross multiple lines. This can be achieved by using the `HtmlContent.multilineText(String ...)` method.
+If you are building an extendable PMO and it may be reasonable for subclasses to use `HTMLContent`, make sure that the method returns `HtmlContent`.
 
 [[label-style-names]]
 Styles::
