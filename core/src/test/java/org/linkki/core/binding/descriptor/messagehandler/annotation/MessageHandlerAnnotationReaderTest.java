@@ -43,9 +43,9 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
  * message handler or the {@link DefaultMessageHandler} in case there is no message handler configured.
  * To not test for concrete instances and to not rely on specific implementation the following behavior
  * is assumed: With the mocked {@link ComponentWrapper} and {@link PropertyDispatcher} the default
- * message handler returns {@link #DEFAULT_MESSAGE} whereas a special configured message handler returns
- * {@link #SPECIFIC_MESSAGE}. This way we can test whether the default behavior or the configured
- * message handler is used.
+ * message handler returns DEFAULT_MESSAGE whereas a special configured message handler returns
+ * SPECIFIC_MESSAGE. This way we can test whether the default behavior or the configured message handler
+ * is used.
  */
 class MessageHandlerAnnotationReaderTest {
 
@@ -69,7 +69,7 @@ class MessageHandlerAnnotationReaderTest {
 
         LinkkiMessageHandler messageHandler = MessageHandlerAnnotationReader.getMessageHandler(currentMethod);
         MessageList messageList = messageHandler.process(new MessageList(SPECIFIC_MESSAGE), componentWrapper,
-                propertyDispatcher);
+                                                         propertyDispatcher);
 
         assertThat(messageList).isEqualTo(new MessageList(DEFAULT_MESSAGE));
     }
@@ -83,7 +83,7 @@ class MessageHandlerAnnotationReaderTest {
 
         LinkkiMessageHandler messageHandler = MessageHandlerAnnotationReader.getMessageHandler(currentMethod);
         MessageList messageList = messageHandler.process(new MessageList(SPECIFIC_MESSAGE), componentWrapper,
-                propertyDispatcher);
+                                                         propertyDispatcher);
 
         assertThat(messageList).isEqualTo(new MessageList(SPECIFIC_MESSAGE));
     }

@@ -35,7 +35,7 @@ public final class DriverProperties {
 
     /**
      * Creates the URL by appending the defined {@link #getTestHostname() host name},
-     * {@link #getTestPortValue() port} and the two given paths.
+     * {@link #getTestPort() port} and the two given paths.
      */
     public static String getTestUrl(String defaultBasePath, String path) {
         return new URIBuilder()

@@ -80,8 +80,8 @@ public class ErrorDialogConfiguration {
     /**
      * Customizes the dialog caption. The default is a localized version of 'Error in the Application'.
      */
-    public ErrorDialogConfiguration withCaption(String caption) {
-        this.caption = caption;
+    public ErrorDialogConfiguration withCaption(String dialogCaption) {
+        this.caption = dialogCaption;
         return this;
     }
 
@@ -89,8 +89,8 @@ public class ErrorDialogConfiguration {
      * Customizes the dialog error message. The default is a localized version of 'An unexpected error
      * occurred.'.
      */
-    public ErrorDialogConfiguration withErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public ErrorDialogConfiguration withErrorMessage(String message) {
+        this.errorMessage = message;
         return this;
     }
 

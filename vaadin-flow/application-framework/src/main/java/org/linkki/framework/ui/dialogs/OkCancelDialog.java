@@ -30,7 +30,6 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasSize;
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -75,7 +74,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *           {@link MessageList#getFirstMessage(Severity)})
  */
 @CssImport("./styles/linkki-dialog.css")
-public class OkCancelDialog extends Composite<Dialog> implements HasStyle, HasSize, BeforeLeaveObserver {
+public class OkCancelDialog extends Composite<Dialog> implements HasSize, BeforeLeaveObserver {
 
     public static final String CLASS_NAME_CONTENT_AREA = "linkki-dialog-content-area";
     public static final String CLASS_NAME_MESSAGE_AREA = "linkki-dialog-message-area";

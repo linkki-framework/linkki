@@ -34,6 +34,7 @@ public class ConverterErrorPmo {
 
     @UIIntegerField(position = 10, label = "IntegerField", modelAttribute = "integerField")
     public void integerField() {
+        // model binding
     }
 
     public static Component createComponent() {
