@@ -25,6 +25,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
 public class ScreenshotUtil {
+    
+    private static final String ERROR_MESSAGE = "Failed to take a screenshot of the test failure";
 
     private static final Logger LOGGER = Logger.getLogger(ScreenshotUtil.class.getName());
 
@@ -41,7 +43,7 @@ public class ScreenshotUtil {
             LOGGER.info("Writing screenshot to " + errorScreenshotFile.getAbsolutePath());
             ImageIO.write(screenshotImage, "png", errorScreenshotFile);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to take a screenshot of the test failure", e);
+            throw new RuntimeException(ERROR_MESSAGE, e);
         }
     }
 
@@ -52,11 +54,11 @@ public class ScreenshotUtil {
         return new File(outputFolder.getPath(), fileName);
     }
 
-    private static String getFileName(File outputFolder, String description) throws IOException {
+    private static String getFileName(File outputFolder, String description) {
         var existingFiles = outputFolder.list((dir, name) -> name.startsWith(description));
         if (existingFiles == null) {
             // throw an exception to stop before overwriting existing files
-            throw new RuntimeException("Unable to read existing screenshots");
+            throw new RuntimeException(ERROR_MESSAGE + ": Unable to read existing screenshots");
         }
         // ensure no screenshots are overwritten
         if (existingFiles.length == 0) {
