@@ -78,4 +78,6 @@ In the example above the annotation of `firstNameInsuredPerson()` defines that t
 
 If the annotation contains no property `modelObject`, the method annotated with `@ModelObject` (without name) is called. Correspondingly the model object for `firstNamePolicyHolder()` is determined via `getPolicyHolder()`.
 
-For situations where a method annotated with `@ModelObject` returns `null`, further getter method may have to be implemented. These methods must delegate to the existing model object or return default values if the model object is unavailable. The setter methods do not have to be implemented explicitly. The fields are treated as read only as long as no model object exists. As soon as one is available, the model object's setter method is called automatically.
+==== `null` Model Object
+
+For situations where a method annotated with `@ModelObject` returns `null`, the fields are treated as read only as long as no model object exists. As soon as one is available, methods from model object are called accordingly.

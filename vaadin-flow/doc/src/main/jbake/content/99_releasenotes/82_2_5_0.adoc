@@ -9,6 +9,20 @@
 
 ==== New features and improvements
 
+//https://jira.convista.com/browse/LIN-3144
+//https://jira.convista.com/browse/LIN-3067
+[role="api-change"]
+===== No exception if model object is null
+
+When using model binding, linkki would throw an exception if the model object is null upon creation or update until now. With this change, linkki would gracefully handle the `null` value.
+
+How the `null` value is handled depends on the respective aspect definition.
+Aspect definitions that are provided by linkki are adjusted accordingly. In case of the value aspect, the field value is cleared if the model object is `null`. Boolean valued aspects such as enabled or visible are set to `false`.
+
+Custom aspect definition may need to be adjusted to be able to handle `null` value. If model object is `null` upon update, `PropertyDispatcher#pull` now returns `null` instead of throwing an exception. This can then be handled in the UI updater created in `LinkkiApsectDefinition#createUiupdater`.
+
+When using `ModelToUiAspectDefinition`, a new method `#handleNullItem` has been introduced which can be overridden to define the null handling. The behavior defaults to calling the component value setter created by `#createComponentValueSetter` with `null`.
+
 // https://jira.convista.com/browse/LIN-3470
 [role="api-change"]
 ===== Additional utility for Karibu testing
