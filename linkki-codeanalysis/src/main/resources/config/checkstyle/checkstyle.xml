@@ -15,6 +15,11 @@
             <property name="checkFormat" value="FileLengthCheck" />
             <property name="influenceFormat" value="-2" />
         </module>
+        <module name="UnusedLocalVariable">
+            <property name="id" value="checkstyle:unusedlocalvariable" />
+        </module>
+        <module name="UnusedImports" />
+        <module name="EmptyCatchBlock" />
         <module name="ConstantName" />
         <module name="LocalFinalVariableName" />
         <module name="LocalVariableName" />

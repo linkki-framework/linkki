@@ -19,7 +19,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;

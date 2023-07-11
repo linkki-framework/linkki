@@ -72,7 +72,7 @@ public class OkCancelDialogHandlerPmo {
                 .cancelHandler(this::onCancel)
                 .build();
 
-        @SuppressWarnings("unused")
+        @SuppressWarnings("checkstyle:unusedlocalvariable")
         DialogBindingManager bindingManager = new DialogBindingManager(dialog,
                 ValidationService.NOP_VALIDATION_SERVICE);
 

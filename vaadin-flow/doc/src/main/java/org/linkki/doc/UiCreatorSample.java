@@ -31,7 +31,7 @@ import com.vaadin.flow.component.html.Div;
 
 public class UiCreatorSample {
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("checkstyle:unusedlocalvariable")
     public void createLayoutFromPmo() {
         BindingContext bindingContext = new BindingContext();
         // tag::createComponent[]
@@ -39,7 +39,7 @@ public class UiCreatorSample {
         // end::createComponent[]
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("checkstyle:unusedlocalvariable")
     public void createTableFromPmo() {
         BindingContext bindingContext = new BindingContext();
         List<Partner> partners = Arrays.asList(new Partner());
