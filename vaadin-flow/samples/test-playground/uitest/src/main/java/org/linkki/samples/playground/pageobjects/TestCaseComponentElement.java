@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.pageobjects;
 
+import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import org.openqa.selenium.By;
 
 import com.vaadin.testbench.TestBenchElement;
@@ -25,8 +26,8 @@ import com.vaadin.testbench.elementsbase.Element;
 @Element("test-case-component")
 public class TestCaseComponentElement extends TestBenchElement {
 
-    public TestBenchElement getContentWrapper() {
-        return findElement(By.id("content-wrapper"));
+    public VerticalLayoutElement getContentWrapper() {
+        return $(VerticalLayoutElement.class).id("content-wrapper");
     }
 
 }

@@ -14,8 +14,11 @@
 package org.linkki.core.binding.dispatcher.reflection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 import static org.linkki.core.matcher.MessageMatchers.hasSize;
 import static org.mockito.Mockito.doNothing;
@@ -29,7 +32,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
@@ -45,16 +47,15 @@ import org.mockito.Mockito;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class ReflectionPropertyDispatcherTest {
+class ReflectionPropertyDispatcherTest {
     private static final String PRIMITIVE_BOOLEAN = "primitiveBoolean";
     private static final String OBJECT_BOOLEAN = "objectBoolean";
-    private static final String XYZ = "xyz";
-    private static final String ABC = "abc";
+    private static final String DUMMY = "dummy";
     private TestModelObject testModelObject;
     private TestPMO testPmo;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         testModelObject = new TestModelObject();
         testPmo = new TestPMO(testModelObject);
     }
@@ -68,68 +69,70 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testConstructor_NoSupplier() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
+    void testConstructor_NoSupplier() {
+        assertThrows(NullPointerException.class, () -> {
             @SuppressWarnings("unused")
-            ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(null, "null",
-                    new ExceptionPropertyDispatcher("null", testModelObject, testPmo));
+            ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(
+                    null, TestPMO.class,
+                    "null", new ExceptionPropertyDispatcher("null", testModelObject, testPmo));
         });
     }
 
     @Test
-    public void testConstructor_NoFallback() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
+    void testConstructor_NoFallback() {
+        assertThrows(NullPointerException.class, () -> {
             @SuppressWarnings("unused")
             ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(
-                    this::getTestPmo,
+                    this::getTestPmo, TestPMO.class,
                     "foo", null);
         });
     }
 
     @Test
-    public void testConstructor_NoProperty() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
+    void testConstructor_NoProperty() {
+        assertThrows(NullPointerException.class, () -> {
             @SuppressWarnings("unused")
             ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(
-                    this::getTestPmo,
+                    this::getTestPmo, TestPMO.class,
                     null, new ExceptionPropertyDispatcher("null", testModelObject, testPmo));
         });
     }
 
     @Test
-    public void testGetValueClass() {
-        assertEquals(String.class, setupPmoDispatcher(ABC).getValueClass());
-        assertEquals(String.class, setupPmoDispatcher(XYZ).getValueClass());
+    void testGetValueClass() {
+        assertEquals(String.class, setupPmoDispatcher(TestModelObject.MODEL_PROPERTY).getValueClass());
+        assertEquals(String.class, setupPmoDispatcher(TestPMO.PROPERTY_XYZ).getValueClass());
         assertEquals(Boolean.class, setupPmoDispatcher(OBJECT_BOOLEAN).getValueClass());
         assertEquals(Boolean.TYPE, setupPmoDispatcher(PRIMITIVE_BOOLEAN).getValueClass());
     }
 
     @Test
-    public void testGetValue_FromPmo() {
-        assertEquals("890", setupPmoDispatcher(XYZ).pull(Aspect.of("")));
+    void testGetValue_FromPmo() {
+        assertEquals("890", setupPmoDispatcher(TestPMO.PROPERTY_XYZ).pull(Aspect.of("")));
 
         testPmo.setPmoProp("abc123");
         assertEquals("abc123", setupPmoDispatcher(TestPMO.PROPERTY_PMO_PROP).pull(Aspect.of("")));
     }
 
     @Test
-    public void testGetValue_FromModelObject() {
-        assertEquals("567", setupPmoDispatcher(ABC).pull(Aspect.of("")));
-        testModelObject.setAbc("anotherValue");
-        assertEquals("anotherValue", setupPmoDispatcher(ABC).pull(Aspect.of("")));
+    void testGetValue_FromModelObject() {
+        assertEquals("567", setupPmoDispatcher(TestModelObject.MODEL_PROPERTY).pull(Aspect.of("")));
+        testModelObject.setModelProperty("anotherValue");
+        assertEquals("anotherValue", setupPmoDispatcher(TestModelObject.MODEL_PROPERTY).pull(Aspect.of("")));
     }
 
     @Test
-    public void testGetValue_ChangedModelObject() {
+    void testGetValue_ChangedModelObject() {
         TestModelObject newTestModelObject = new TestModelObject();
         testPmo.setModelObject(newTestModelObject);
-        newTestModelObject.setAbc("newAbcValue");
+        newTestModelObject.setModelProperty("newModelObjectPropertyValue");
 
-        assertEquals("newAbcValue", setupPmoDispatcher(ABC).pull(Aspect.of("")));
+        assertEquals("newModelObjectPropertyValue",
+                setupPmoDispatcher(TestModelObject.MODEL_PROPERTY).pull(Aspect.of("")));
     }
 
     @Test
-    public void testGetValue_ChangedPmo() {
+    void testGetValue_ChangedPmo() {
         TestModelObject newTestModelObject = new TestModelObject();
         testPmo = new TestPMO(newTestModelObject);
         testPmo.setPmoProp("newValue");
@@ -138,144 +141,161 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testGetValue_ChangedPmoAndModelObject() {
+    void testGetValue_ChangedPmoAndModelObject() {
         TestModelObject newTestModelObject = new TestModelObject();
         testPmo = new TestPMO(newTestModelObject);
         testPmo.setPmoProp("newValue");
-        newTestModelObject.setAbc("newAbcValue");
+        newTestModelObject.setModelProperty("newModelPropertyValue");
 
         assertEquals("newValue", setupPmoDispatcher(TestPMO.PROPERTY_PMO_PROP).pull(Aspect.of("")));
-        assertEquals("newAbcValue", setupPmoDispatcher(ABC).pull(Aspect.of("")));
+        assertEquals("newModelPropertyValue", setupPmoDispatcher(TestModelObject.MODEL_PROPERTY).pull(Aspect.of("")));
     }
 
     @Test
-    public void testGetValue_IllegalProperty() {
+    void testGetValue_IllegalProperty() {
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher("doesNotExist",
                 testModelObject, testPmo);
         ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(this::getTestModelObject,
-                "doesNotExist", exceptionDispatcher);
+                TestModelObject.class, "doesNotExist", exceptionDispatcher);
         ReflectionPropertyDispatcher pmoDispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                "doesNotExist",
-                modelObjectDispatcher);
+                TestModelObject.class,
+                "doesNotExist", modelObjectDispatcher);
 
-        Assertions.assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
             pmoDispatcher.pull(Aspect.of(""));
         });
 
     }
 
     @Test
-    public void testGetValue_NullProperty() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
+    void testGetValue_NullProperty() {
+        assertThrows(NullPointerException.class, () -> {
             setupPmoDispatcher(null).pull(Aspect.of(""));
         });
 
     }
 
     @Test
-    public void testSetValue_DispatchToModelObject() {
-        assertEquals("567", setupPmoDispatcher(ABC).pull(Aspect.of("")));
+    void testSetValue_DispatchToModelObject() {
+        assertEquals("567",
+                setupPmoDispatcher(TestModelObject.MODEL_PROPERTY).pull(Aspect.of("")));
     }
 
     @Test
-    public void testGetMessages_Empty() {
+    void testGetMessages_Empty() {
         MessageList messageList = new MessageList();
-        assertThat(setupPmoDispatcher(XYZ).getMessages(messageList), emptyMessageList());
+        assertThat(setupPmoDispatcher(TestPMO.PROPERTY_XYZ).getMessages(messageList), emptyMessageList());
         assertThat(setupPmoDispatcher("invalidProperty").getMessages(messageList), emptyMessageList());
     }
 
     @Test
-    public void testGetMessages_ShouldReturnMessagesFromModelObject() {
+    void testGetMessages_ShouldReturnMessagesFromModelObject() {
         MessageList messageList = new MessageList();
-        Message msg1 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, XYZ)
+        Message msg1 = Message.builder(DUMMY, Severity.ERROR)
+                .invalidObjectWithProperties(testModelObject, TestModelObject.PROPERTY_XYZ)
                 .create();
-        Message msg2 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, ABC)
+        Message msg2 = Message.builder(DUMMY, Severity.ERROR)
+                .invalidObjectWithProperties(testModelObject, DUMMY)
                 .create();
         messageList.add(msg1);
         messageList.add(msg2);
 
-        assertThat(setupPmoDispatcher(XYZ).getMessages(messageList), hasSize(1));
-        assertThat(setupPmoDispatcher(ABC).getMessages(messageList), hasSize(1));
+        assertThat(setupPmoDispatcher(TestModelObject.PROPERTY_XYZ).getMessages(messageList), hasSize(1));
+        assertThat(setupPmoDispatcher(DUMMY).getMessages(messageList), hasSize(1));
         assertThat(setupPmoDispatcher("invalidProperty").getMessages(messageList), emptyMessageList());
     }
 
     @Test
-    public void testGetMessages_ShouldReturnMessagesFromPmo() {
+    void testGetMessages_ShouldReturnMessagesFromPmo() {
         MessageList messageList = new MessageList();
-        Message msg1 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testPmo, XYZ).create();
-        Message msg2 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testPmo, ABC).create();
-        Message msg3 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, XYZ)
+        Message msg1 = Message.builder(DUMMY, Severity.ERROR).invalidObjectWithProperties(testPmo, TestPMO.PROPERTY_XYZ).create();
+        Message msg2 = Message.builder(DUMMY, Severity.ERROR).invalidObjectWithProperties(testPmo, DUMMY).create();
+        Message msg3 = Message.builder(DUMMY, Severity.ERROR).invalidObjectWithProperties(testModelObject, TestModelObject.PROPERTY_XYZ)
                 .create();
         messageList.add(msg1);
         messageList.add(msg2);
         messageList.add(msg3);
 
-        assertThat(setupPmoDispatcher(XYZ).getMessages(messageList), hasSize(2));
-        assertThat(setupPmoDispatcher(ABC).getMessages(messageList), hasSize(1));
+        assertThat(setupPmoDispatcher(TestPMO.PROPERTY_XYZ).getMessages(messageList), hasSize(2));
+        assertThat(setupPmoDispatcher(DUMMY).getMessages(messageList), hasSize(1));
         assertThat(setupPmoDispatcher("invalidProperty").getMessages(messageList), emptyMessageList());
     }
 
     @Test
-    public void testGetMessages_IgnoreIrrelevantMessages() {
+    void testGetMessages_IgnoreIrrelevantMessages() {
         MessageList messageList = new MessageList();
-        Message msg1 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(new Object(), XYZ).create();
-        Message msg2 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(new Object(), ABC).create();
+        Message msg1 = Message.builder(DUMMY, Severity.ERROR).invalidObjectWithProperties(new Object(), TestPMO.PROPERTY_XYZ).create();
+        Message msg2 = Message.builder(DUMMY, Severity.ERROR).invalidObjectWithProperties(new Object(), DUMMY).create();
         messageList.add(msg1);
         messageList.add(msg2);
 
-        assertThat(setupPmoDispatcher(XYZ).getMessages(messageList), emptyMessageList());
-        assertThat(setupPmoDispatcher(ABC).getMessages(messageList), emptyMessageList());
+        assertThat(setupPmoDispatcher(TestPMO.PROPERTY_XYZ).getMessages(messageList), emptyMessageList());
+        assertThat(setupPmoDispatcher(DUMMY).getMessages(messageList), emptyMessageList());
         assertThat(setupPmoDispatcher("invalidProperty").getMessages(messageList), emptyMessageList());
     }
 
     @Test
-    public void testModelObjectNullReturn() {
+    void testPull_ModelObjectNull() {
         testModelObject = null;
         testPmo = new TestPMO(null);
 
-        assertEquals("890", setupModelObjectDispatcher("xyz").pull(Aspect.of("")));
+        assertNull(setupModelObjectDispatcher("xyz").pull(Aspect.of("")));
     }
 
     @Test
-    public void testPull_Static() {
+    void testPull_Static_IllegalStateException() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
-                TestModelObject.PROPERTY_ABC,
-                new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
+                TestPMO.class, TestModelObject.MODEL_PROPERTY,
+                new ExceptionPropertyDispatcher(TestModelObject.MODEL_PROPERTY));
 
-        Assertions.assertThrows(IllegalStateException.class, () -> {
-            dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
-        });
+        var exception = assertThrows(IllegalStateException.class,
+                () -> dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false)));
+        assertThat(exception.getMessage(), containsString("Static aspect Aspect: 'visible', Value: 'false' should not be handled by ReflectionPropertyDispatcher."));
     }
 
     @Test
-    public void testPull_Dynamic() {
+    void testPull_Dynamic() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
-                TestPMO.PROPERTY_XYZ,
+                TestPMO.class, TestPMO.PROPERTY_XYZ,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_XYZ));
-        testModelObject.setAbc("nicht bla");
+
+        testModelObject.setModelProperty("not " + TestModelObject.XYZ_VISIBLE);
         assertThat(dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(false));
 
-        testModelObject.setAbc("bla");
+        testModelObject.setModelProperty(TestModelObject.XYZ_VISIBLE);
         assertThat(dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(true));
     }
 
     @Test
-    public void testPush_Static() {
-        TestModelObject spyObject = spy(new TestModelObject());
-        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyObject,
-                TestModelObject.PROPERTY_ABC,
-                new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
+    void testPull_Dynamic_NoMatchingMethod() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
+                TestPMO.class, TestPMO.PROPERTY_XYZ,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_XYZ, testPmo));
 
-        dispatcher.push(Aspect.of("", "something"));
-        verify(spyObject).setAbc(Mockito.eq("something"));
+        var exception = assertThrows(IllegalStateException.class,
+                () -> dispatcher.pull(Aspect.of("notExistingAspect")));
+        assertThat(exception.getMessage(), containsString("Cannot find method \"is/getXyzNotExistingAspect\""));
+        assertThat(exception.getMessage(), containsString(TestPMO.class.getName()));
     }
 
     @Test
-    public void testPush_Static_PmoWithoutReadMethod() {
+    void testPush_Static() {
+        TestModelObject spyObject = spy(new TestModelObject());
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyObject,
+                TestModelObject.class, TestModelObject.MODEL_PROPERTY,
+                new ExceptionPropertyDispatcher(TestModelObject.MODEL_PROPERTY));
+
+        dispatcher.push(Aspect.of("", "something"));
+
+        verify(spyObject).setModelProperty(Mockito.eq("something"));
+    }
+
+    @Test
+    void testPush_Static_PmoWithoutReadMethod() {
         PropertyDispatcher mockedDispatcher = noActionInPushMockedDispatcher();
 
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                TestPMO.INVALID_PROPERTY_MISSING_GETTER_PMO, mockedDispatcher);
+                TestPMO.class, TestPMO.INVALID_PROPERTY_MISSING_GETTER_PMO, mockedDispatcher);
 
         dispatcher.push(Aspect.of("", "something"));
 
@@ -283,33 +303,33 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testPush_Static_PmoWithoutWriteMethod() {
+    void testPush_Static_PmoWithoutWriteMethod() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                TestPMO.PROPERTY_PMO_GETTER_ONLY, noActionInPushMockedDispatcher());
+                TestPMO.class, TestPMO.PROPERTY_PMO_GETTER_ONLY, noActionInPushMockedDispatcher());
 
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            dispatcher.push(Aspect.of("", "something"));
-        });
+        var exception = assertThrows(IllegalArgumentException.class,
+                () -> dispatcher.push(Aspect.of("", "something")));
+        assertThat(exception.getMessage(), containsString("Cannot find method \"set\" in any of the classes"));
+        assertThat(exception.getMessage(), containsString(TestPMO.class.getName()));
     }
 
-
     @Test
-    public void testPush_Dynamic() {
+    void testPush_Dynamic() {
         TestPMO spyPmo = spy(testPmo);
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
-                TestPMO.PROPERTY_BUTTON_CLICK,
+                TestPMO.class, TestPMO.PROPERTY_BUTTON_CLICK,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
 
         dispatcher.push(Aspect.of(""));
+
         verify(spyPmo).buttonClick();
     }
 
     @Test
-    public void testPush_Dynamic_NoBoundObject() {
+    void testPush_Dynamic_NoBoundObject() {
         TestPMO spyPmo = spy(testPmo);
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> null,
-                TestPMO.PROPERTY_BUTTON_CLICK,
+                TestPMO.class, TestPMO.PROPERTY_BUTTON_CLICK,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
 
         dispatcher.push(Aspect.of(""));
@@ -317,69 +337,76 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testPush_Dynamic_NoMethod() {
+    void testPush_Dynamic_NoMethod() {
         TestPMO spyPmo = spy(testPmo);
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
-                TestPMO.PROPERTY_BUTTON_CLICK,
+                TestPMO.class, TestPMO.PROPERTY_BUTTON_CLICK,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             dispatcher.push(Aspect.of("NoMethod"));
         });
     }
 
     @Test
-    public void testIsPushable_WithReadWithoutWrite() {
+    void testIsPushable_WithReadWithoutWrite() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                TestPMO.PROPERTY_PMO_GETTER_ONLY,
+                TestPMO.class, TestPMO.PROPERTY_PMO_GETTER_ONLY,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_GETTER_ONLY));
 
         assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(false));
     }
 
     @Test
-    public void testIsPushable_WithReadAndWrite() {
+    void testIsPushable_WithReadAndWrite() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                TestPMO.PROPERTY_PMO_PROP,
+                TestPMO.class, TestPMO.PROPERTY_PMO_PROP,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_PROP));
 
         assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(true));
     }
 
     @Test
-    public void testIsPushable_WithReadAndWriteNoBoundObject() {
+    void testIsPushable_WithReadAndWriteNoBoundObject() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> null,
-                TestPMO.PROPERTY_PMO_PROP,
+                TestPMO.class, TestPMO.PROPERTY_PMO_PROP,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_PROP));
 
         assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(false));
     }
 
     @Test
-    public void testIsPushable_NoInvokeMethod() {
+    void testIsPushable_NoInvokeMethod() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                TestPMO.PROPERTY_PMO_GETTER_ONLY,
+                TestPMO.class, TestPMO.PROPERTY_PMO_GETTER_ONLY,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_GETTER_ONLY));
 
         assertThat(dispatcher.isPushable(Aspect.of("")), is(false));
     }
 
     @Test
-    public void testIsPushable_InvokeMethod() {
+    void testIsPushable_InvokeMethod() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                TestPMO.PROPERTY_BUTTON_CLICK,
+                TestPMO.class, TestPMO.PROPERTY_BUTTON_CLICK,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
 
         assertThat(dispatcher.isPushable(Aspect.of("")), is(true));
     }
 
     @Test
-    public void testIsPushable_InvokeMethodNoBoundObject() {
+    void testIsPushable_InvokeMethodNoBoundObject() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> null,
-                TestPMO.PROPERTY_BUTTON_CLICK,
+                TestPMO.class, TestPMO.PROPERTY_BUTTON_CLICK,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
 
         assertThat(dispatcher.isPushable(Aspect.of("")), is(false));
+    }
+    @Test
+    void testToString() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                TestPMO.class, TestPMO.PROPERTY_BUTTON_CLICK,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
+        assertThat(dispatcher.toString(), is("ReflectionPropertyDispatcher[TestPMO#buttonClick]\n\t-> ExceptionPropertyDispatcher[#buttonClick]"));
     }
 
     private static PropertyDispatcher noActionInPushMockedDispatcher() {
@@ -392,8 +419,8 @@ public class ReflectionPropertyDispatcherTest {
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(property, testModelObject,
                 testPmo);
         ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(this::getTestModelObject,
-                property, exceptionDispatcher);
-        return new ReflectionPropertyDispatcher(this::getTestPmo, property, modelObjectDispatcher);
+                TestModelObject.class, property, exceptionDispatcher);
+        return new ReflectionPropertyDispatcher(this::getTestPmo, TestPMO.class, property, modelObjectDispatcher);
     }
 
     private ReflectionPropertyDispatcher setupModelObjectDispatcher(String property) {
@@ -401,8 +428,8 @@ public class ReflectionPropertyDispatcherTest {
                 testModelObject,
                 testPmo);
         ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                property, exceptionDispatcher);
-        return new ReflectionPropertyDispatcher(this::getTestModelObject, property,
+                TestPMO.class, property, exceptionDispatcher);
+        return new ReflectionPropertyDispatcher(this::getTestModelObject, TestModelObject.class, property,
                 modelObjectDispatcher);
     }
 
@@ -428,20 +455,20 @@ public class ReflectionPropertyDispatcherTest {
         }
 
         public boolean isXyzEnabled() {
-            return modelObject.getAbc().equals("123");
+            return modelObject.getModelProperty().equals(TestModelObject.XYZ_ENABLED);
         }
 
         public boolean isXyzVisible() {
-            return modelObject.getAbc().equals("bla");
+            return modelObject.getModelProperty().equals(TestModelObject.XYZ_VISIBLE);
         }
 
         public boolean isXyzRequired() {
-            return modelObject.getAbc().equals("zzz");
+            return modelObject.getModelProperty().equals(TestModelObject.XYZ_REQUIRED);
         }
 
         public List<String> getXyzAvailableValues() {
-            if (modelObject.getAbc().equals("lov")) {
-                return Arrays.asList(new String[] { "1", "2", "3" });
+            if (modelObject.getModelProperty().equals(TestModelObject.XYZ_AVAILABLE_VALUES)) {
+                return Arrays.asList("1", "2", "3");
             } else {
                 return Collections.emptyList();
             }
@@ -465,7 +492,7 @@ public class ReflectionPropertyDispatcherTest {
             return pmoProp;
         }
 
-        public void setPmoProp(String pmoProp) {
+        public void setPmoProp(@CheckForNull String pmoProp) {
             this.pmoProp = pmoProp;
         }
 
@@ -484,7 +511,12 @@ public class ReflectionPropertyDispatcherTest {
 
     static class TestModelObject {
 
-        public static final String PROPERTY_ABC = "abc";
+        public static final String MODEL_PROPERTY = "modelProperty";
+        public static final String XYZ_VISIBLE = "visible";
+        public static final String XYZ_ENABLED = "enabled";
+        public static final String XYZ_REQUIRED = "required";
+        public static final String XYZ_AVAILABLE_VALUES = "availableValues";
+        public static final String PROPERTY_XYZ = "xyz";
 
         private String xyz = "123";
         private String abc = "567";
@@ -506,7 +538,7 @@ public class ReflectionPropertyDispatcherTest {
             return objectBoolean;
         }
 
-        public void setObjectBoolean(Boolean objectBoolean) {
+        public void setObjectBoolean(@CheckForNull Boolean objectBoolean) {
             this.objectBoolean = objectBoolean;
         }
 
@@ -518,31 +550,31 @@ public class ReflectionPropertyDispatcherTest {
             this.xyz = xyz;
         }
 
-        public String getAbc() {
+        public String getModelProperty() {
             return abc;
         }
 
-        public void setAbc(String abc) {
+        public void setModelProperty(String abc) {
             this.abc = abc;
         }
 
-        public boolean isAbcEnabled() {
+        public boolean isModelPropertyEnabled() {
             return true;
         }
 
-        public boolean isAbcVisible() {
+        public boolean isModelPropertyVisible() {
             return true;
         }
 
-        public String getAbcCaption() {
+        public String getModelPropertyCaption() {
             return "HodorHodor";
         }
 
-        public boolean isAbcRequired() {
+        public boolean isModelPropertyRequired() {
             return true;
         }
 
-        public List<?> getAbcAvailableValues() {
+        public List<?> getModelPropertyAvailableValues() {
             return Collections.emptyList();
         }
 

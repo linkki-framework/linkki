@@ -18,12 +18,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
@@ -138,9 +138,8 @@ class BindIconIntegrationTest {
     public void testAspectBindIconAnnotation_Dynamic_withMethodMissing() {
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
 
-        Assertions.assertThrows(LinkkiBindingException.class, () ->
-                UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
-                        .collect(Collectors.toList()));
+        assertThrows(LinkkiBindingException.class,
+                () -> UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component) c)).toList());
     }
     private List<Component> createUiElements(Object pmo) {
 

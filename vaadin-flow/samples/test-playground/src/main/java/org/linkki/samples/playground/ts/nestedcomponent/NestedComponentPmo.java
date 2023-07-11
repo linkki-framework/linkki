@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.nestedcomponent;
+package org.linkki.samples.playground.ts.nestedcomponent;
 
 import java.time.LocalDate;
 

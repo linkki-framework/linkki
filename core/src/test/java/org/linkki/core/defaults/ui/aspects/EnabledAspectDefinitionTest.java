@@ -28,12 +28,12 @@ import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class EnabledAspectDefinitionTest {
+class EnabledAspectDefinitionTest {
 
     private TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
 
     @Test
-    public void testCreateAspect_enabled() {
+    void testCreateAspect_Enabled() {
         EnabledAspectDefinition aspectDefinition = new EnabledAspectDefinition(EnabledType.ENABLED);
 
         Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
@@ -43,7 +43,17 @@ public class EnabledAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateAspect_dynamic() {
+    void testCreateAspect_Disabled() {
+        EnabledAspectDefinition aspectDefinition = new EnabledAspectDefinition(EnabledType.DISABLED);
+
+        Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
+
+        assertThat(createdAspect.getName(), is(EnabledAspectDefinition.NAME));
+        assertThat(createdAspect.getValue(), is(false));
+    }
+
+    @Test
+    void testCreateAspect_Dynamic() {
         EnabledAspectDefinition aspectDefinition = new EnabledAspectDefinition(EnabledType.DYNAMIC);
 
         Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
@@ -53,7 +63,7 @@ public class EnabledAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetterComponentWrapper() {
+    void testCreateComponentValueSetter() {
         EnabledAspectDefinition aspectDefinition = new EnabledAspectDefinition(
                 EnabledType.ENABLED);
         Consumer<Boolean> setter = aspectDefinition.createComponentValueSetter(componentWrapper);
@@ -65,4 +75,21 @@ public class EnabledAspectDefinitionTest {
         assertThat(componentWrapper.getComponent().isEnabled(), is(true));
     }
 
+    @Test
+    void testHandleNullValue() {
+        var aspectDefinition = new EnabledAspectDefinition(EnabledType.DYNAMIC);
+        Consumer<Boolean> setter = aspectDefinition.createComponentValueSetter(componentWrapper);
+        setter.accept(true);
+        assertThat(componentWrapper.getComponent().isEnabled(), is(true));
+
+        aspectDefinition.handleNullValue(setter, componentWrapper);
+
+        assertThat(componentWrapper.getComponent().isEnabled(), is(false));
+
+        setter.accept(true);
+
+        aspectDefinition.handleNullValue(setter, componentWrapper);
+
+        assertThat(componentWrapper.getComponent().isEnabled(), is(false));
+    }
 }

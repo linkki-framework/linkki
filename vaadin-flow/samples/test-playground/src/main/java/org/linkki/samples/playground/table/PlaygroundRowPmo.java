@@ -30,6 +30,8 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 
+import java.util.Optional;
+
 
 public class PlaygroundRowPmo {
 
@@ -64,7 +66,7 @@ public class PlaygroundRowPmo {
     }
 
     public boolean isNameReadOnly() {
-        return !getModelObject().isActive();
+        return !isModelObjectActive();
     }
 
     @UITableColumn(flexGrow = 10)
@@ -81,7 +83,7 @@ public class PlaygroundRowPmo {
     }
 
     public boolean isOptionReadOnly() {
-        return !getModelObject().isActive();
+        return !isModelObjectActive();
     }
 
     @UITableColumn(width = 160)
@@ -92,7 +94,11 @@ public class PlaygroundRowPmo {
     }
 
     public boolean isDateReadOnly() {
-        return !getModelObject().isActive();
+        return !isModelObjectActive();
+    }
+
+    private boolean isModelObjectActive() {
+        return Optional.ofNullable(getModelObject()).map(TableModelObject::isActive).orElse(false);
     }
 
     @UIButton(position = 60, showIcon = true, icon = VaadinIcon.TRASH, caption = "", label = "Del")

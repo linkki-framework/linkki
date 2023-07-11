@@ -94,11 +94,33 @@ public class MemberAccessorsTest {
         assertThrows(IllegalArgumentException.class, () -> MemberAccessors.getValue(testObject, constructor));
     }
 
+    @Test
+    void testGetType_Field() throws NoSuchFieldException{
+        Member field = TestObject.class.getDeclaredField("field");
+        assertThat(MemberAccessors.getType(field), is(String.class));
+    }
+
+    @Test
+    void testGetType_Method() throws NoSuchMethodException {
+        Member method = TestObject.class.getDeclaredMethod("getValue");
+        assertThat(MemberAccessors.getType(method), is(String.class));
+    }
+
+    @Test
+    void testGetType_NotMethodOrField() throws NoSuchMethodException {
+        TestObject testObject = new TestObject();
+        Constructor<? extends TestObject> constructor = testObject.getClass().getDeclaredConstructor();
+        var illegalArgumentException = assertThrows(IllegalArgumentException.class,
+                () -> MemberAccessors.getType(constructor));
+        assertThat(illegalArgumentException.getMessage(),
+                is("Only field or method is supported, found java.lang.reflect.Constructor as type of org.linkki.util.MemberAccessorsTest.TestObject#org.linkki.util.MemberAccessorsTest$TestObject"));
+    }
+
     private static class TestObject {
 
-        private String field = VALUE;
+        private final String field = VALUE;
 
-        private int intField = ThreadLocalRandom.current().nextInt();
+        private final int intField = ThreadLocalRandom.current().nextInt();
 
         public TestObject() {
             // nothing to do

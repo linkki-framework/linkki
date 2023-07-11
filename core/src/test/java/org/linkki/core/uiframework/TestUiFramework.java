@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
 import org.linkki.core.defaults.nls.TestComponentWrapperFactory;
+import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.nls.TestUiLayoutComponent;
 
 public class TestUiFramework implements UiFrameworkExtension {
@@ -55,5 +56,10 @@ public class TestUiFramework implements UiFrameworkExtension {
         } else {
             return Stream.empty();
         }
+    }
+
+    @Override
+    public boolean isVisible(Object uiComponent) {
+        return ((TestUiComponent)uiComponent).isVisible();
     }
 }

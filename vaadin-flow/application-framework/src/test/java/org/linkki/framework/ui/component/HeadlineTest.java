@@ -19,8 +19,6 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.BindingContext;
@@ -32,7 +30,7 @@ import com.vaadin.flow.component.html.H2;
 class HeadlineTest {
 
     @Test
-    public void testHeadline_headlineTitle() {
+    void testHeadline_HeadlineTitle() {
         BasicHeadlinePmo basicHeadlinePmo = new BasicHeadlinePmo();
         BindingContext bindingContext = new BindingContext();
 
@@ -40,26 +38,27 @@ class HeadlineTest {
         Binder binder = new Binder(headline, basicHeadlinePmo);
         binder.setupBindings(bindingContext);
 
-        Component title = headline.getContent().getChildren().collect(Collectors.toList()).get(0);
+        Component title = headline.getContent().getChildren().toList().get(0);
         assertThat(title, is(instanceOf(H2.class)));
         assertThat(((H2)title).getText(), is("Headline Title"));
     }
 
     @Test
-    void testHeadline_missingHeaderTitleMethod() {
+    void testHeadline_MissingHeaderTitleMethod() {
         Binder binder = new Binder(new Headline(), new NoHeadlineTitleHeadlinePmo());
         BindingContext bindingContext = new BindingContext();
-        assertThrows(LinkkiBindingException.class, () -> binder.setupBindings(bindingContext));
+
+        assertThrows(LinkkiBindingException.class, () ->  binder.setupBindings(bindingContext));
     }
 
-    static class BasicHeadlinePmo {
+    public static class BasicHeadlinePmo {
 
         public String getHeaderTitle() {
             return "Headline Title";
         }
     }
 
-    static class NoHeadlineTitleHeadlinePmo {
+    public static class NoHeadlineTitleHeadlinePmo {
         // no title, no controls
     }
 }

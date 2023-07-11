@@ -52,4 +52,10 @@ public class VaadinLinkkiExtension implements UiFrameworkExtension {
         return Stream.empty();
     }
 
+    @Override
+    public boolean isVisible(Object uiComponent) {
+        return ((Component)uiComponent).isVisible();
+    }
+
+
 }

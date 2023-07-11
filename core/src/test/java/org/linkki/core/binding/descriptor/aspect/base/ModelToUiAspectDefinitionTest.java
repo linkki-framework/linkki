@@ -16,6 +16,8 @@ package org.linkki.core.binding.descriptor.aspect.base;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,7 +25,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.function.Consumer;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.LinkkiBindingException;
@@ -37,19 +38,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ModelToUiAspectDefinitionTest {
-
+class ModelToUiAspectDefinitionTest {
 
     @Mock
     private PropertyDispatcher propertyDispatcher;
 
-    private TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
+    private final TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
 
-    private ModelToUiAspectDefinition<Boolean> aspectDefinition = new TestModelToUiAspectDefinition();
+    private final TestModelToUiAspectDefinition aspectDefinition = new TestModelToUiAspectDefinition();
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testCreateUiUpdater() {
+    void testCreateUiUpdater() {
         when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(true);
 
         Handler handler = aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
@@ -64,17 +64,36 @@ public class ModelToUiAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateUiUpdater_WrapsExceptionInPull() {
+    void testCreateUiUpdater_WrapsExceptionInPull() {
         when(propertyDispatcher.pull(any())).thenThrow(RuntimeException.class);
         Handler handler = aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
 
-        Assertions.assertThrows(LinkkiBindingException.class, () -> {
-            handler.apply();
-        });
+        assertThrows(LinkkiBindingException.class, handler::apply);
     }
 
     @Test
-    public void testCreateAspect() {
+    void testCreateUiUpdate_HandleNullValue_ComponentDoesNotAllowNull() {
+        assertThat(componentWrapper.getComponent().isEnabled(), is(false));
+        when(propertyDispatcher.pull(any())).thenReturn(null);
+        var updater = aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
+
+        assertThrows(LinkkiBindingException.class, updater::apply);
+    }
+
+    @Test
+    void testCreateUiUpdate_HandleNullValue() {
+        componentWrapper.getComponent().setTooltipText("text");
+        when(propertyDispatcher.pull(any())).thenReturn(null);
+        var aspectDefinition = new TestModelToUiAspectDefinitionAllowingNull();
+        var updater = aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
+
+        updater.apply();
+
+        assertThat(componentWrapper.getComponent().getTooltipText(), is(nullValue()));
+    }
+
+    @Test
+    void testCreateAspect() {
         Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
 
         assertThat(createdAspect.getName(), is(TestModelToUiAspectDefinition.NAME));
@@ -82,12 +101,13 @@ public class ModelToUiAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter() {
+    void testCreateComponentValueSetter() {
         Consumer<Boolean> setter = aspectDefinition.createComponentValueSetter(componentWrapper);
         assertThat(componentWrapper.getComponent().isEnabled(), is(false));
         setter.accept(true);
         assertThat(componentWrapper.getComponent().isEnabled(), is(true));
     }
+
 
     private static class TestModelToUiAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
@@ -101,6 +121,21 @@ public class ModelToUiAspectDefinitionTest {
         @Override
         public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
             return componentWrapper::setEnabled;
+        }
+    }
+
+    private static class TestModelToUiAspectDefinitionAllowingNull extends ModelToUiAspectDefinition<String> {
+
+        public static final String NAME = "allowsNull";
+
+        @Override
+        public Aspect<String> createAspect() {
+            return Aspect.of(NAME, "");
+        }
+
+        @Override
+        public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+            return componentWrapper::setTooltip;
         }
     }
 

@@ -18,6 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -133,6 +135,31 @@ class ContainerBindingTest {
 
         assertThat(testAspectDef.triggered).isTrue();
         assertThat(testDependantAspectDef.triggered).isTrue();
+    }
+
+    @Test
+    void testUpdateBindings_NotUpdateInvisibleChildren() {
+        var bindingContext = new BindingContext();
+        var component = new TestUiComponent();
+        component.setVisible(false);
+        var componentWrapper = new TestComponentWrapper(component);
+        var testAspectDef = new TestAspectDef();
+        var testDependantAspectDef = new TestDependantAspectDef(testAspectDef);
+        var bindingDescriptor = new BindingDescriptor(BoundProperty.of("test"),
+                List.of(testAspectDef));
+        var bindingDescriptorDependants = new BindingDescriptor(BoundProperty.of("test2"),
+                List.of(testDependantAspectDef));
+        var binding = bindingContext.bindContainer(new Object(), bindingDescriptor, componentWrapper);
+        binding.bind(new Object(), bindingDescriptorDependants, componentWrapper);
+
+        // resetting to false because an initial update has been triggered
+        testAspectDef.triggered = false;
+        testDependantAspectDef.triggered = false;
+        binding.updateBindings();
+
+        assertThat(testAspectDef.triggered).isTrue();
+        // not triggered since the component is invisible
+        assertThat(testDependantAspectDef.triggered).isFalse();
     }
 
     @Test

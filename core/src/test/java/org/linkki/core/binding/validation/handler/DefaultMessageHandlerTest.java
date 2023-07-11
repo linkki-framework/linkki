@@ -49,7 +49,8 @@ class DefaultMessageHandlerTest {
                 .create();
         MessageList messages = new MessageList(validMessage, invalidMessage);
         TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> boundObject, BOUND_PROPERTY,
+        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> boundObject, Object.class,
+                BOUND_PROPERTY,
                 new ExceptionPropertyDispatcher(BOUND_PROPERTY));
 
         defaultMessageHandler.process(messages, componentWrapper, propertyDispatcher);
@@ -65,7 +66,8 @@ class DefaultMessageHandlerTest {
                 .create();
         MessageList messages = new MessageList(fatalMessage);
         TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> boundObject, BOUND_PROPERTY,
+        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> boundObject, Object.class,
+                BOUND_PROPERTY,
                 new ExceptionPropertyDispatcher(BOUND_PROPERTY));
 
         defaultMessageHandler.process(messages, componentWrapper, propertyDispatcher);

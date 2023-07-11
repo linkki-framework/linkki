@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.defaults.nls.TestUiComponent;
 
 public class UiFrameworkTest {
 
@@ -27,4 +28,13 @@ public class UiFrameworkTest {
         assertThat(UiFramework.get(), is(instanceOf(TestUiFramework.class)));
     }
 
+
+    @Test
+    public void testIsVisible() {
+        var uiComponent = new TestUiComponent();
+        assertThat(UiFramework.isVisible(uiComponent), is(true));
+
+        uiComponent.setVisible(false);
+        assertThat(UiFramework.isVisible(uiComponent), is(false));
+    }
 }

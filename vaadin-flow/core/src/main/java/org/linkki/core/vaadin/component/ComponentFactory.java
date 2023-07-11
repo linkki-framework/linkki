@@ -24,6 +24,7 @@ import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.LinkkiComponentUtil;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 import org.linkki.core.vaadin.component.base.LinkkiCheckBox;
 
@@ -127,13 +128,13 @@ public class ComponentFactory {
      * 
      */
     public static TextField newNumberFieldWithFormattingPattern(int maxLength, String width, String pattern) {
-        if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
+        if (UiFramework.getLocale() == null) {
             throw new IllegalStateException(
                     "Creating a number field with a formatting pattern requires a UI with a locale");
         }
 
         NumberFormat testFormatter = new DecimalFormat(pattern,
-                new DecimalFormatSymbols(UI.getCurrent().getLocale()));
+                new DecimalFormatSymbols(UiFramework.getLocale()));
         StringBuilder regexBuilder = new StringBuilder("[");
         testFormatter.format(-1234567890).chars()
                 .forEach(regexBuilder::appendCodePoint);

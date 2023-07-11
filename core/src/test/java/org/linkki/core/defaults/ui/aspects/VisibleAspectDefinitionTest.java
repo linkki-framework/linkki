@@ -24,6 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -33,7 +34,7 @@ class VisibleAspectDefinitionTest {
     private final TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
 
     @Test
-    void testCreateAspect_visible() {
+    void testCreateAspect_Visible() {
         VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(VisibleType.VISIBLE);
 
         Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
@@ -43,7 +44,7 @@ class VisibleAspectDefinitionTest {
     }
 
     @Test
-    void testCreateAspect_invisible() {
+    void testCreateAspect_Invisible() {
         VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(VisibleType.INVISIBLE);
 
         Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
@@ -54,7 +55,7 @@ class VisibleAspectDefinitionTest {
     }
 
     @Test
-    void testCreateAspect_dynamic() {
+    void testCreateAspect_Dynamic() {
         VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(VisibleType.DYNAMIC);
 
         Aspect<Boolean> createdAspect = aspectDefinition.createAspect();
@@ -68,10 +69,28 @@ class VisibleAspectDefinitionTest {
         VisibleAspectDefinition aspectDefinition = new VisibleAspectDefinition(
                 VisibleType.VISIBLE);
         Consumer<Boolean> setter = aspectDefinition.createComponentValueSetter(componentWrapper);
+        assertThat(componentWrapper.getComponent().isVisible(), is(true));
+
+        setter.accept(false);
+
+        assertThat(componentWrapper.getComponent().isVisible(), is(false));
+    }
+
+    @Test
+    void testHandleNullValue() {
+        var aspectDefinition = new VisibleAspectDefinition(VisibleType.DYNAMIC);
+        Consumer<Boolean> setter = aspectDefinition.createComponentValueSetter(componentWrapper);
+        setter.accept(false);
+        assertThat(componentWrapper.getComponent().isVisible(), is(false));
+
+        aspectDefinition.handleNullValue(setter, componentWrapper);
+
         assertThat(componentWrapper.getComponent().isVisible(), is(false));
 
         setter.accept(true);
 
-        assertThat(componentWrapper.getComponent().isVisible(), is(true));
+        aspectDefinition.handleNullValue(setter, componentWrapper);
+
+        assertThat(componentWrapper.getComponent().isVisible(), is(false));
     }
 }

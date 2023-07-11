@@ -14,7 +14,6 @@
 
 package org.linkki.core.ui.creation.table;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -102,7 +101,7 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
         if (childrenHaveChanged || subChildrenHaveChanged) {
             getComponent().getDataProvider().refreshItem(item, true);
             if (currentChildren.isEmpty()) {
-                getComponent().collapse(Arrays.asList(item));
+                getComponent().collapse(List.of(item));
             }
             return true;
         } else {
@@ -112,11 +111,10 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
 
     @SuppressWarnings("unchecked")
     private List<ROW> getCurrentChildren(ROW item) {
-        if (!(item instanceof HierarchicalRowPmo<?>)) {
-            return Collections.emptyList();
-        } else {
-            HierarchicalRowPmo<? extends ROW> hierarchicalRowPmo = (HierarchicalRowPmo<? extends ROW>)item;
+        if (item instanceof HierarchicalRowPmo<?> hierarchicalRowPmo) {
             return (List<ROW>)hierarchicalRowPmo.getChildRows();
+        } else {
+            return Collections.emptyList();
         }
     }
 

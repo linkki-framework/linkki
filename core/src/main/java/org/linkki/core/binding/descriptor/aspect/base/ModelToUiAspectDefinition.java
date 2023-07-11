@@ -40,7 +40,12 @@ public abstract class ModelToUiAspectDefinition<V> implements LinkkiAspectDefini
         Aspect<V> aspect = createAspect();
         return () -> {
             try {
-                setter.accept(propertyDispatcher.pull(aspect));
+                var aspectValue = propertyDispatcher.pull(aspect);
+                if (aspectValue != null) {
+                    setter.accept(aspectValue);
+                } else {
+                    handleNullValue(setter, componentWrapper);
+                }
                 // CSOFF: IllegalCatch
             } catch (RuntimeException e) {
                 handleUiUpdateException(e, propertyDispatcher, aspect);
@@ -88,8 +93,24 @@ public abstract class ModelToUiAspectDefinition<V> implements LinkkiAspectDefini
     /**
      * Defines how the value of the value of the {@link ComponentWrapper} is set.
      * 
-     * @param componentWrapper UI component of which the value has to be
+     * @apiNote Note that the returned setter's argument is only consumed if the aspect value is not
+     *          null. Otherwise, {@link #handleNullValue(Consumer, ComponentWrapper)} is called, which
+     *          passes the null value to the setter by default.
+     *
+     * @param componentWrapper UI component of which the value has to be set
      * @return setter for the value of the {@link ComponentWrapper}
      */
     public abstract Consumer<V> createComponentValueSetter(ComponentWrapper componentWrapper);
+
+    /**
+     * Defines how to handle null aspect values.
+     *
+     * @implNote By default, the null value is passed to the value setter.
+     *
+     * @param componentValueSetter setter for the value of the component wrapper
+     * @param componentWrapper UI component of which the value has to be set
+     */
+    public void handleNullValue(Consumer<V> componentValueSetter, ComponentWrapper componentWrapper) {
+        componentValueSetter.accept(null);
+    }
 }

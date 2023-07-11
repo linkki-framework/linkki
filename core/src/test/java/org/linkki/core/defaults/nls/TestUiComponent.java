@@ -24,7 +24,7 @@ public class TestUiComponent {
 
     @CheckForNull
     private String id;
-    private boolean visible;
+    private boolean visible = true;
     private boolean enabled;
     private boolean required;
     @CheckForNull

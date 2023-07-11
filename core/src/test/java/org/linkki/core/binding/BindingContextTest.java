@@ -15,8 +15,10 @@ package org.linkki.core.binding;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -59,7 +61,7 @@ import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.util.handler.Handler;
 
-public class BindingContextTest {
+class BindingContextTest {
 
     private static final String MSG_CODE = "TEST";
     private final TestUiComponent field1 = spy(new TestUiComponent());
@@ -77,7 +79,7 @@ public class BindingContextTest {
 
     private ElementBinding createBinding(BindingContext context, TestPmo pmo, TestUiComponent component) {
         return new ElementBinding(new TestComponentWrapper(component),
-                new ReflectionPropertyDispatcher(() -> pmo, "value",
+                new ReflectionPropertyDispatcher(() -> pmo, pmo.getClass(), "type",
                         new ExceptionPropertyDispatcher("value", pmo)),
                 context::modelChanged, new ArrayList<>(), new DefaultMessageHandler());
     }
@@ -104,8 +106,20 @@ public class BindingContextTest {
 
         context.add(binding, TestComponentWrapper.with(binding));
 
-        assertThat(((TestUiComponent)binding.getBoundComponent()).getValidationMessages().stream().map(Message::getCode)
+        assertThat(((TestUiComponent)binding.getBoundComponent())
+                .getValidationMessages().stream()
+                .map(Message::getCode)
                 .anyMatch(MSG_CODE::equals)).isTrue();
+    }
+
+    @Test
+    void testAdd_ExceptionInInitialUpdate() {
+        BindingContext context = new BindingContext();
+        ElementBinding binding = spy(createBinding(context));
+        doThrow(new LinkkiBindingException("binding exception",new RuntimeException())).when(binding).updateFromPmo();
+
+        assertThrows(LinkkiBindingException.class,
+                () -> context.add(binding, TestComponentWrapper.with(binding)));
     }
 
     @Test
@@ -160,7 +174,7 @@ public class BindingContextTest {
     }
 
     @Test
-    void testUpdateUiBindingsAndValidate() {
+    void testUpdateUi_UpdateBindingsAndValidate() {
         Handler afterUpdateUi = mock(Handler.class);
         BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         ElementBinding binding = spy(createBinding(context));
@@ -171,6 +185,17 @@ public class BindingContextTest {
 
         verify(binding).updateFromPmo();
         verify(afterUpdateUi).apply();
+    }
+
+    @Test
+    void testUpdateUiBindings_ExceptionFromBindingGetsPropagated() {
+        Handler afterUpdateUi = mock(Handler.class);
+        BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
+        ElementBinding binding = spy(createBinding(context));
+        context.add(binding, TestComponentWrapper.with(binding));
+        doThrow(new LinkkiBindingException("binding exception",new RuntimeException())).when(binding).updateFromPmo();
+
+        assertThrows(LinkkiBindingException.class, context::updateUi);
     }
 
     @Test
@@ -454,9 +479,7 @@ public class BindingContextTest {
 
     private TestUiLayoutComponent bindTable(BindingContext context, TestContainerPmo containerPmo) {
         TestColumnBasedComponentFactory columnBasedComponentFactory = new TestColumnBasedComponentFactory();
-        TestUiLayoutComponent table = (TestUiLayoutComponent)columnBasedComponentFactory
-                .createContainerComponent(containerPmo, context);
-        return table;
+        return (TestUiLayoutComponent)columnBasedComponentFactory.createContainerComponent(containerPmo, context);
     }
 
     private void bindAddItemButton(BindingContext context, TestContainerPmo containerPmo) {

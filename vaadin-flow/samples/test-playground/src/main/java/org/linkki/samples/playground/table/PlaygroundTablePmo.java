@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.table;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -58,9 +59,10 @@ public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, Playgro
     public Optional<TableFooterPmo> getFooterPmo() {
         return Optional
                 .of(c -> "index".contentEquals(c)
-                        ? String.valueOf(getItems().stream().map(PlaygroundRowPmo::getModelObject)
-                                .map(TableModelObject::getIndex)
-                                .collect(Collectors.summingInt(i -> i)))
+                        ? String.valueOf((Integer)getItems().stream()
+                        .map(PlaygroundRowPmo::getModelObject)
+                        .filter(Objects::nonNull)
+                        .map(TableModelObject::getIndex).mapToInt(i -> i).sum())
                         : c + "Footer");
     }
 

@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.linkki.core.binding.descriptor.BindingDescriptor;
@@ -193,7 +192,7 @@ public class BindingContext implements UiUpdateObserver {
      * Returns all bindings in the context.
      */
     public Collection<Binding> getBindings() {
-        return getBindingStream().collect(Collectors.toUnmodifiableList());
+        return getBindingStream().toList();
     }
 
     private Stream<Binding> getBindingStream() {
@@ -305,11 +304,15 @@ public class BindingContext implements UiUpdateObserver {
         updateBindings();
     }
 
-    /**
-     * For better naming for internal usages.
-     */
     void updateBindings() {
-        getBindingStream().forEach(Binding::updateFromPmo);
+        getBindingStream().forEach(this::updateBinding);
+    }
+
+    /**
+     * Updates the given binding that is either in the context, or is to be added to the context.
+     */
+    void updateBinding(Binding binding) {
+        binding.updateFromPmo();
     }
 
     /**

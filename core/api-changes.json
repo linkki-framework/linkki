@@ -57,5 +57,36 @@
                 ]
             }
         }
+    ],
+    "2.5.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.method.addedToInterface",
+                        "new": "method boolean org.linkki.core.uiframework.UiFrameworkExtension::isVisible(java.lang.Object)",
+                        "justification": "LIN-3144/LIN-3488 :: Skip binding of invisible pmos"
+                    },
+
+                    {
+                        "code": "java.method.visibilityIncreased",
+                        "old": "method java.util.Optional<java.lang.reflect.Member> org.linkki.core.binding.descriptor.modelobject.ModelObjects::getModelObjectAccessMember(java.lang.Object, java.lang.String)",
+                        "new": "method java.util.Optional<java.lang.reflect.Member> org.linkki.core.binding.descriptor.modelobject.ModelObjects::getModelObjectAccessMember(java.lang.Object, java.lang.String)",
+                        "oldVisibility": "private",
+                        "newVisibility": "public",
+                        "justification": "LIN-3144/LIN-3490 :: Evaluate converter during binding initialisation"
+                    },
+                    {
+                        "code": "java.method.numberOfParametersChanged",
+                        "old": "method void org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatcher::<init>(java.util.function.Supplier<?>, java.lang.String, org.linkki.core.binding.dispatcher.PropertyDispatcher)",
+                        "new": "method void org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatcher::<init>(java.util.function.Supplier<?>, java.lang.Class<?>, java.lang.String, org.linkki.core.binding.dispatcher.PropertyDispatcher)",
+                        "justification": "LIN-3144/LIN-3490 :: Evaluate converter during binding initialisation"
+                    }
+                ]
+            }
+        }
     ]
+
 }

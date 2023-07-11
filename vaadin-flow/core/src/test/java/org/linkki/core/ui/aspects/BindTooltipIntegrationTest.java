@@ -19,7 +19,6 @@ import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -44,7 +43,7 @@ class BindTooltipIntegrationTest {
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticTooltip(),
                                   bindingContext, this::getLabelComponentWrapper)
-                .collect(Collectors.toList());
+                .toList();
 
         assertThat(uiElements.get(0).getComponent().getElement().getAttribute("title"),
                    is(TestPmoWithStaticTooltip.TOOLTIP));
@@ -56,7 +55,7 @@ class BindTooltipIntegrationTest {
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticEmptyTooltip(),
                                   bindingContext, this::getLabelComponentWrapper)
-                .collect(Collectors.toList());
+                .toList();
 
         assertThat(uiElements.get(0).getComponent().getElement().getAttribute("title"), is(emptyString()));
     }
@@ -68,7 +67,7 @@ class BindTooltipIntegrationTest {
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext,
                                   c -> new LabelComponentWrapper((Component)c, WrapperType.COMPONENT))
-                .collect(Collectors.toList());
+                .toList();
         assertThat(uiElements.get(0).getComponent().getElement().getAttribute("title"), is("basic tooltip"));
 
         pmo.setTooltip(null);
@@ -82,7 +81,7 @@ class BindTooltipIntegrationTest {
         TestPmoWithDynamicTooltip pmo = new TestPmoWithDynamicTooltip("basic tooltip");
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, this::getLabelComponentWrapper)
-                .collect(Collectors.toList());
+                .toList();
         assertThat(uiElements.get(0).getComponent().getElement().getAttribute("title"), is("basic tooltip"));
 
         pmo.setTooltip(null);
@@ -95,10 +94,8 @@ class BindTooltipIntegrationTest {
         BindingContext bindingContext = new BindingContext();
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
 
-        Assertions.assertThrows(LinkkiBindingException.class, () -> {
-            UiCreator.createUiElements(pmo, bindingContext, this::getLabelComponentWrapper)
-                    .collect(Collectors.toList());
-        });
+        Assertions.assertThrows(LinkkiBindingException.class,
+                () -> UiCreator.createUiElements(pmo, bindingContext, this::getLabelComponentWrapper).toList());
 
     }
 

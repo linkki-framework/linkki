@@ -134,7 +134,18 @@ public class ModelObjects {
         return getModelObjectAccessMember(pmo, modelObjectName).isPresent();
     }
 
-    private static Optional<Member> getModelObjectAccessMember(Object pmo, String modelObjectName) {
+    /**
+     * Returns the accessible method or field that is annotated with {@link ModelObject @ModelObject} using the given name
+     * if there is any.
+     *
+     * @param pmo an object used for a presentation model
+     * @param modelObjectName the name of the model object
+     *
+     * @return method or field to access the model object with the given name
+     * @throws ModelObjectAnnotationException if multiple annotations for the model object name are
+     *             present
+     */
+    public static Optional<Member> getModelObjectAccessMember(Object pmo, String modelObjectName) {
         return CACHE.computeIfAbsent(new Key(pmo.getClass(), modelObjectName),
                                      key -> new ModelObjects(key.pmoClass, key.modelObjectName).getAccessMember());
     }

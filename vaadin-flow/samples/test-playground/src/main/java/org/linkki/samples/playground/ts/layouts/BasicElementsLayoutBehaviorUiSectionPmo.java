@@ -16,7 +16,16 @@ package org.linkki.samples.playground.ts.layouts;
 
 import org.linkki.core.ui.layout.annotation.UISection;
 
+import java.util.function.Supplier;
+
 @UISection(caption = "@UISection")
 public class BasicElementsLayoutBehaviorUiSectionPmo extends AbstractBasicElementsLayoutBehaviorPmo {
-    // no content needed
+
+    public BasicElementsLayoutBehaviorUiSectionPmo() {
+        super();
+    }
+
+    public BasicElementsLayoutBehaviorUiSectionPmo(Supplier<BasicElementsLayoutBehaviorModelObject> modelObjectSupplier) {
+        super(modelObjectSupplier);
+    }
 }
