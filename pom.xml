@@ -53,7 +53,7 @@
         <jakarta.annotation-api.version>2.1.0</jakarta.annotation-api.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <spotbugs.version>4.7.3</spotbugs.version>
-        <checkstyle.version>10.11.0</checkstyle.version>
+        <checkstyle.version>10.12.1</checkstyle.version>
 
         <revapi-maven-plugin.version>0.15.0</revapi-maven-plugin.version>
         <revapi-java.version>0.28.1</revapi-java.version>
