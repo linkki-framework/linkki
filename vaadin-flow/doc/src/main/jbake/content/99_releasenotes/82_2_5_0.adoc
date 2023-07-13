@@ -13,7 +13,8 @@
 .Updated dependency versions:
 [cols="a,a"]
 |=== 
-|Faktor-IPS|23.6.2.release
+|Faktor-IPS         |23.6.2.release
+|Vaadin             |24.1.3
 |===
 
 //https://jira.convista.com/browse/LIN-3144
