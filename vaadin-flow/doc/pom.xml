@@ -1,6 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,6 +19,8 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <deploymentFolder>${project.version}</deploymentFolder>
         <sonar.skip>true</sonar.skip>
+        <jade-maven-plugin.version>1.0.8</jade-maven-plugin.version>
+        <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
     </properties>
 
     <artifactId>linkki-core-documentation-vaadin-flow</artifactId>
@@ -76,7 +77,7 @@
             <plugin>
                 <groupId>de.faktorzehn.doc</groupId>
                 <artifactId>jade-maven-plugin</artifactId>
-                <version>1.0.8</version>
+                <version>${jade-maven-plugin.version}</version>
                 <configuration>
                     <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
                     <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
@@ -109,7 +110,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>wagon-maven-plugin</artifactId>
-                <version>2.0.0</version>
+                <version>${wagon-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>upload-documentation</id>
@@ -166,7 +167,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
