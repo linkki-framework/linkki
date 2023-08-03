@@ -78,6 +78,15 @@ Affected files, for example:
 * `typed.d.ts`
 * `vite.config.ts`
 
+// https://jira.convista.com/browse/LIN-1621
+[role="api-change"]
+===== Partial support for `null` model objects in `IpsPropertyDispatcher`
+When determining a label from the Faktor-IPS model, the `IpsPropertyDispatcher` now falls back to the declared model object class if the model object of a PMO is `null`.
+This behavior is only supported for labels.
+
+Therefore, the constructor `IpsPropertyDispatcher(Supplier, Supplier, String, PropertyDispatcher)` has been added. The second supplier can be used to provide the model object class used for the fallback.
+The constructor `IpsPropertyDispatcher(Supplier, String, PropertyDispatcher)` has been deprecated.
+
 // ===== Other
 
 ==== Bugfixes

@@ -20,11 +20,15 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.section.annotations.TestUIField2;
@@ -34,9 +38,47 @@ import org.linkki.core.pmo.ModelObject;
 
 public class ModelObjectsTest {
 
+    private static Stream<Arguments> pmoValues() {
+        return Stream.of(Arguments.of(new TestObject()),
+                         Arguments.of(new TestSub()),
+                         Arguments.of((TestObject)null));
+    }
+
+    @ParameterizedTest
+    @MethodSource("pmoValues")
+    void testClassSupplierFor_MethodAccessMember(TestObject modelObject) {
+        var pmo = new TestPmo();
+        pmo.testObject = modelObject;
+
+        var supplier = ModelObjects.classSupplierFor(pmo, ModelObject.DEFAULT_NAME);
+
+        // class should always equal declared type, irrespective of model object value
+        assertThat(supplier.get(), is(TestObject.class));
+    }
+
+    @ParameterizedTest
+    @MethodSource("pmoValues")
+    void testClassSupplierFor_FieldAccessMember(TestObject modelObject) {
+        var pmo = new PmoWithModelObjectField();
+        pmo.testObject = modelObject;
+
+        var supplier = ModelObjects.classSupplierFor(pmo, ModelObject.DEFAULT_NAME);
+
+        // class should always equal declared type, irrespective of model object value
+        assertThat(supplier.get(), is(TestObject.class));
+    }
+
+    @Test
+    void testClassSupplierFor_MissingModelObject() {
+        var pmo = new PmoWithoutModelObject();
+
+        assertThrows(ModelObjectAnnotationException.class,
+                     () -> ModelObjects.classSupplierFor(pmo, ModelObject.DEFAULT_NAME));
+    }
+
     @Test
     public void testGetModelObjectSupplier_noAnnotation() {
-        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+        assertThrows(ModelObjectAnnotationException.class, () -> {
             ModelObjects.supplierFor(new TestObject(), ModelObject.DEFAULT_NAME);
         });
 
@@ -44,14 +86,14 @@ public class ModelObjectsTest {
 
     @Test
     public void testGetModelObjectSupplier_ThrowsExceptionIfNoMatchingAnnotationExists() {
-        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+        assertThrows(ModelObjectAnnotationException.class, () -> {
             ModelObjects.supplierFor(new PmoWithNamedModelObject(), "someOtherName");
         });
     }
 
     @Test
     public void testGetModelObjectSupplier_ThrowsExceptionIfAnnotatedMethodReturnsVoid() {
-        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+        assertThrows(ModelObjectAnnotationException.class, () -> {
             ModelObjects.supplierFor(new PmoWithVoidModelObjectMethod(),
                                      ModelObject.DEFAULT_NAME);
         });
@@ -104,7 +146,7 @@ public class ModelObjectsTest {
 
     @Test
     public void testModelObjectAnnotatedField() {
-        PmoWithModelObjectField pmoWithModelObjectField = new PmoWithModelObjectField();
+        PmoWithModelObjectSubField pmoWithModelObjectField = new PmoWithModelObjectSubField();
         assertThat(ModelObjects.supplierFor(pmoWithModelObjectField, ModelObject.DEFAULT_NAME)
                 .get(),
                    is(pmoWithModelObjectField.testSub));
@@ -135,7 +177,7 @@ public class ModelObjectsTest {
     public void testTwoDefaultModelObjectAnnotations() {
         PmoWithTwoDefaultModelObjects pmoWithTwoDefaultModelObjects = new PmoWithTwoDefaultModelObjects();
 
-        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+        assertThrows(ModelObjectAnnotationException.class, () -> {
             ModelObjects.supplierFor(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME)
                     .get();
         });
@@ -145,7 +187,7 @@ public class ModelObjectsTest {
     public void testTwoDefaultModelObjectMethodAnnotations() {
         PmoWithTwoDefaultModelObjectMethods pmoWithTwoDefaultModelObjects = new PmoWithTwoDefaultModelObjectMethods();
 
-        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+        assertThrows(ModelObjectAnnotationException.class, () -> {
             ModelObjects.supplierFor(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME)
                     .get();
         });
@@ -212,6 +254,11 @@ public class ModelObjectsTest {
 
     public static class PmoWithModelObjectField {
         @ModelObject
+        private TestObject testObject = new TestObject();
+    }
+
+    public static class PmoWithModelObjectSubField {
+        @ModelObject
         private TestSub testSub = new TestSub();
     }
 
@@ -267,7 +314,11 @@ public class ModelObjectsTest {
         }
     }
 
-    public static class PmoWithModelObjectFieldInSuperclass extends PmoWithModelObjectField {
+    public static class PmoWithoutModelObject {
+        // nothing to do
+    }
+
+    public static class PmoWithModelObjectFieldInSuperclass extends PmoWithModelObjectSubField {
         // nothing to do
     }
 
@@ -278,5 +329,4 @@ public class ModelObjectsTest {
     public static class TestSub extends TestObject {
         // nothing to do
     }
-
 }

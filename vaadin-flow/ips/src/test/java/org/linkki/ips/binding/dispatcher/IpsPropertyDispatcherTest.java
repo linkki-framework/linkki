@@ -74,14 +74,11 @@ class IpsPropertyDispatcherTest {
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
         Locale systemDefaultLocale = Locale.getDefault();
-        switch (systemDefaultLocale.getLanguage()) {
-            case "de":
-                // because system locale trumps IPS default locale
-                assertThat(string, is("Foo auf Deutsch"));
-                break;
-
-            default:
-                assertThat(string, is("Foo in English"));
+        // because system locale trumps IPS default locale
+        if (systemDefaultLocale.getLanguage().equals("de")) {
+            assertThat(string, is("Foo auf Deutsch"));
+        } else {
+            assertThat(string, is("Foo in English"));
         }
     }
 
@@ -89,6 +86,21 @@ class IpsPropertyDispatcherTest {
     void testPull_Class() {
         UI.getCurrent().setLocale(Locale.GERMANY);
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain("");
+
+        String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
+
+        assertThat(string, is("Ein Testobjekt"));
+
+        UI.getCurrent().setLocale(Locale.ENGLISH);
+        string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
+
+        assertThat(string, is("A test object"));
+    }
+
+    @Test
+    void testPull_Class_ModelObjectNull() {
+        UI.getCurrent().setLocale(Locale.GERMANY);
+        var ipsPropertyDispatcher = ipsDispatcherChainWithModelObjectNull("");
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
@@ -321,7 +333,7 @@ class IpsPropertyDispatcherTest {
      */
     @Test
     void testPull_EmptyValueSet_ShouldBeEmpty() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(pmo::getIpsObject,
+        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(pmo::getIpsObject, pmo::getClass,
                 TestIpsObject.PROPERTY_EMPTYVALUESET,
                 new NoOpPropertyDispatcher());
 
@@ -332,16 +344,43 @@ class IpsPropertyDispatcherTest {
         assertThat(collection, is(empty()));
     }
 
-    private IpsPropertyDispatcher ipsDispatcherChain(String modelAttribute) {
-        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(
+    @SuppressWarnings("deprecation")
+    @Test
+    void testPull_DeprecatedConstructor() {
+        var ipsPropertyDispatcher = new IpsPropertyDispatcher(
                 pmo::getIpsObject,
+                TestIpsObject.PROPERTY_FOO,
+                dispatcherChain(TestIpsObject.PROPERTY_FOO));
+
+        UI.getCurrent().setLocale(Locale.GERMANY);
+        var string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
+        assertThat(string, is("Foo auf Deutsch"));
+
+        UI.getCurrent().setLocale(Locale.ENGLISH);
+        string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
+        assertThat(string, is("Foo in English"));
+    }
+
+    private IpsPropertyDispatcher ipsDispatcherChain(String modelAttribute) {
+        return new IpsPropertyDispatcher(
+                pmo::getIpsObject,
+                () -> pmo.getIpsObject().getClass(),
                 modelAttribute,
-                propertyDispatcherFactory
-                        .createDispatcherChain(pmo,
-                                               BoundProperty.of("bar")
-                                                       .withModelAttribute(modelAttribute),
-                                               PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER));
-        return ipsPropertyDispatcher;
+                dispatcherChain(modelAttribute));
+    }
+
+    private IpsPropertyDispatcher ipsDispatcherChainWithModelObjectNull(String modelAttribute) {
+        return new IpsPropertyDispatcher(
+                () -> null,
+                () -> pmo.getIpsObject().getClass(),
+                modelAttribute,
+                dispatcherChain(modelAttribute));
+    }
+
+    private PropertyDispatcher dispatcherChain(String modelAttribute) {
+        return propertyDispatcherFactory
+                .createDispatcherChain(pmo, BoundProperty.of("bar").withModelAttribute(modelAttribute),
+                                       PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 
     public static class TestPmoWithIpsModelObject {

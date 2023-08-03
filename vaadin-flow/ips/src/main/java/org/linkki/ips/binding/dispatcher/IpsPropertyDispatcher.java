@@ -46,18 +46,31 @@ import org.linkki.core.uiframework.UiFramework;
  * {@link LinkkiAspectDefinition#DERIVED_BY_LINKKI} if the bound object is a Faktor-IPS model object.
  * <p>
  * It answers the required aspect with <code>true</code> in case of the bound property is a
- * {@link PolicyAttribute} with a {@link ValueSet} that does not contains <code>null</code>.
+ * {@link PolicyAttribute} with a {@link ValueSet} that does not contain <code>null</code>.
  */
 public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
 
-    private final WeakHashMap<Object, Optional<ModelElement>> modelElementCache = new WeakHashMap<>(2, 1);
+    private final WeakHashMap<Class<?>, Optional<ModelElement>> modelElementCache = new WeakHashMap<>(2, 1);
     private final Supplier<?> modelObjectSupplier;
+    private final Supplier<Class<?>> modelObjectClassSupplier;
     private final String modelAttribute;
 
+    /**
+     * @deprecated Use {@link #IpsPropertyDispatcher(Supplier, Supplier, String, PropertyDispatcher)}
+     *             instead.
+     */
+    @Deprecated(since = "2.5.0")
     public IpsPropertyDispatcher(Supplier<?> modelObjectSupplier, String modelAttribute,
+            PropertyDispatcher wrappedDispatcher) {
+        this(modelObjectSupplier, () -> null, modelAttribute, wrappedDispatcher);
+    }
+
+    public IpsPropertyDispatcher(Supplier<?> modelObjectSupplier, Supplier<Class<?>> modelObjectClassSupplier,
+            String modelAttribute,
             PropertyDispatcher wrappedDispatcher) {
         super(wrappedDispatcher);
         this.modelObjectSupplier = modelObjectSupplier;
+        this.modelObjectClassSupplier = modelObjectClassSupplier;
         this.modelAttribute = modelAttribute;
     }
 
@@ -163,15 +176,16 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
 
     private Optional<ModelElement> findModelElement() {
         Object modelObject = modelObjectSupplier.get();
-        if (modelObject != null) {
-            return modelElementCache.computeIfAbsent(modelObject, this::findModelElement);
+        Class<?> modelObjectClass = modelObject != null ? modelObject.getClass() : modelObjectClassSupplier.get();
+
+        if (modelObjectClass != null) {
+            return modelElementCache.computeIfAbsent(modelObjectClass, this::findModelElement);
         } else {
             return Optional.empty();
         }
     }
 
-    private Optional<ModelElement> findModelElement(Object modelObject) {
-        Class<?> modelObjectClass = modelObject.getClass();
+    private Optional<ModelElement> findModelElement(Class<?> modelObjectClass) {
         if (IpsModel.isPolicyCmptType(modelObjectClass) || IpsModel.isProductCmptType(modelObjectClass)) {
             Type type = IpsModel.getType(modelObjectClass);
             if (modelAttribute.isEmpty()) {
@@ -201,6 +215,7 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
         if (ModelObjects.isAccessible(pmo, boundProperty.getModelObject())) {
             return new IpsPropertyDispatcher(
                     ModelObjects.supplierFor(pmo, boundProperty.getModelObject()),
+                    ModelObjects.classSupplierFor(pmo, boundProperty.getModelObject()),
                     boundProperty.getModelAttribute(),
                     standardDispatchers);
         } else {

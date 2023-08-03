@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <FaktorIps-TableOfContents xmlversion="3.0">
  <PolicyCmptType implementationClass="org.linkki.samples.playground.ips.model.IpsModelObject" ipsObjectId="IpsModelObject" ipsObjectQualifiedName="IpsModelObject"/>
+ <PolicyCmptType implementationClass="org.linkki.samples.playground.ips.model.IpsModelObjectChild" ipsObjectId="IpsModelObjectChild" ipsObjectQualifiedName="IpsModelObjectChild"/>
  <EnumContent implementationClass="org.linkki.samples.playground.ips.model.Marker" ipsObjectId="model.Marker" ipsObjectQualifiedName="Marker.Type"/>
 </FaktorIps-TableOfContents>

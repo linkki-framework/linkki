@@ -35,7 +35,7 @@ public class TC001IpsComponentsTest {
     @UITestConfiguration(locale = "en")
     class TC001IpsComponentsTestEn extends AbstractTC001IpsComponentsTest {
         TC001IpsComponentsTestEn() {
-            super("A String attribute");
+            super("A String attribute", "Overridden attribute");
         }
     }
 
@@ -43,34 +43,56 @@ public class TC001IpsComponentsTest {
     @UITestConfiguration(locale = "de")
     class TC001IpsComponentsTestDe extends AbstractTC001IpsComponentsTest {
         TC001IpsComponentsTestDe() {
-            super("Ein String-Attribut");
+            super("Ein String-Attribut", "Überschriebenes Attribut");
         }
     }
 
     private abstract class AbstractTC001IpsComponentsTest extends PlaygroundUiTest {
+        private final String modelObjectLabel;
+        private final String modelObjectChildLabel;
         private TestCaseComponentElement testCaseSection;
 
-        private String expectedlabelValue;
+        AbstractTC001IpsComponentsTest(String modelObjectLabel, String modelObjectChildLabel) {
+            this.modelObjectLabel = modelObjectLabel;
+            this.modelObjectChildLabel = modelObjectChildLabel;
+        }
 
         @BeforeEach
         void goToTestCase() {
             testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC001);
         }
 
-        AbstractTC001IpsComponentsTest(String labelValue) {
-            this.expectedlabelValue = labelValue;
-        }
-
         @Test
         void testModelAttribute_Label() {
-            TextFieldElement textField = testCaseSection.$(TextFieldElement.class).id("getString");
-            NativeLabelElement label = textField
+            var textField = testCaseSection.$(TextFieldElement.class).id("getString");
+            var label = textField
                     .findElement(By.xpath("./.."))
                     .$(NativeLabelElement.class).last();
 
-            assertThat(label.getText(), is(expectedlabelValue));
+            assertThat(label.getText(), is(modelObjectLabel));
             assertThat(label.getTagName(), is("label"));
         }
 
+        @Test
+        void testModelAttribute_ModelObjectChild_Label() {
+            var textField = testCaseSection.$(TextFieldElement.class).id("getStringFromModelObjectChild");
+            var label = textField
+                    .findElement(By.xpath("./.."))
+                    .$(NativeLabelElement.class).last();
+
+            assertThat(label.getText(), is(modelObjectChildLabel));
+            assertThat(label.getTagName(), is("label"));
+        }
+
+        @Test
+        void testModelAttribute_ModelObjectNull_Label() {
+            var textField = testCaseSection.$(TextFieldElement.class).id("getStringWithModelObjectNull");
+            var label = textField
+                    .findElement(By.xpath("./.."))
+                    .$(NativeLabelElement.class).last();
+
+            assertThat(label.getText(), is(modelObjectLabel));
+            assertThat(label.getTagName(), is("label"));
+        }
     }
 }

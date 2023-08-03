@@ -93,7 +93,7 @@ import org.linkki.samples.playground.ts.ips.AvailableValuesSectionPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.DecimalLabelPmo;
 import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
-import org.linkki.samples.playground.ts.ips.IpsPmo;
+import org.linkki.samples.playground.ts.ips.IpsLabelPage;
 import org.linkki.samples.playground.ts.ips.RequiredSectionPmo;
 import org.linkki.samples.playground.ts.ips.VisibleSectionPmo;
 import org.linkki.samples.playground.ts.layout.HorizontalAlignmentTestComponent;
@@ -403,7 +403,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
         BindingContext bc = bindingManager.getContext("IpsBindingContext");
 
         return TestScenario.id(TS004)
-                .testCase(TC001, () -> VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bc))
+                .testCase(TC001, () -> new IpsLabelPage(bc))
                 .testCase(TC002, () -> VaadinUiCreator.createComponent(new DecimalFieldPmo(), bc))
                 .testCase(TC003, () -> VaadinUiCreator.createComponent(new RequiredSectionPmo(), bc))
                 .testCase(TC004, () -> VaadinUiCreator.createComponent(new VisibleSectionPmo(), bc))

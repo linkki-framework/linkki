@@ -119,6 +119,37 @@ public class ModelObjects {
     }
 
     /**
+     * Reads the given presentation model object's class to find a method or field annotated with
+     * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
+     * given model object name. Returns a supplier that supplies the model objects declared class. Note
+     * that only the method or field is inspected, not the actual model object's class at runtime.
+     *
+     * @param pmo a presentation model object
+     * @param modelObjectName the name of the model object as provided by a method/field annotated with
+     *            {@link ModelObject @ModelObject}
+     *
+     * @return a supplier that supplies the model objects declared class or {@code null} if the access
+     *         member is not a field or method
+     *
+     * @throws ModelObjectAnnotationException if no matching method or field is found, the method has no
+     *             return value, the field has the type {@link Void} or multiple annotations for the
+     *             same model object name are present.
+     */
+    public static Supplier<Class<?>> classSupplierFor(Object pmo, String modelObjectName) {
+        Member accessMember = getModelObjectAccessMember(pmo, modelObjectName)
+                .orElseThrow(() -> ModelObjectAnnotationException.noAnnotatedMember(pmo.getClass(), modelObjectName));
+        return () -> {
+            if (accessMember instanceof Field field) {
+                return field.getType();
+            } else if (accessMember instanceof Method method) {
+                return method.getReturnType();
+            } else {
+                return null;
+            }
+        };
+    }
+
+    /**
      * Tests whether the presentation model object has an accessible method or field annotated with
      * {@link ModelObject @ModelObject} using the given name.
      *
@@ -135,8 +166,8 @@ public class ModelObjects {
     }
 
     /**
-     * Returns the accessible method or field that is annotated with {@link ModelObject @ModelObject} using the given name
-     * if there is any.
+     * Returns the accessible method or field that is annotated with {@link ModelObject @ModelObject}
+     * using the given name if there is any.
      *
      * @param pmo an object used for a presentation model
      * @param modelObjectName the name of the model object

@@ -37,6 +37,4 @@ public class IpsPmo {
         // model binding
     }
     // end::getString[]
-
-
 }
