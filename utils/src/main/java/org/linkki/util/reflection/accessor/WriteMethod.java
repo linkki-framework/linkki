@@ -52,6 +52,7 @@ final class WriteMethod<T, V> extends AbstractMethod<T, BiConsumer<T, V>> {
        getMethodAsFunction().accept(target, value);
     }
 
+    @Override
     protected BiConsumer<T, V> fallbackReflectionCall(Method method) {
         return (o, v) -> {
             try {

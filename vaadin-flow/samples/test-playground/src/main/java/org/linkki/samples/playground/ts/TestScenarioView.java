@@ -34,8 +34,6 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
-import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentPmo;
-import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
@@ -117,6 +115,8 @@ import org.linkki.samples.playground.ts.messages.ConverterErrorPmo;
 import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.messages.RequiredValidationPmo;
+import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentPmo;
+import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
@@ -191,11 +191,13 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public TestScenarioView() {
         setSizeFull();
         tabLayout = LinkkiTabLayout.newSidebarLayout();
+        // prevent automatically loading first tab
+        tabLayout.getTabsComponent().setAutoselect(false);
         tabLayout.setId("test-scenario-selector");
         tabLayout.addTabSheets(
                                // new test scenarios
                                TestScenario.id(TS001)
-                                       .testCase(TC001, new BasicElementsLayoutBehaviorUiSectionComponent())
+                                       .testCase(TC001, BasicElementsLayoutBehaviorUiSectionComponent::new)
                                        .testCase(TC002, () -> {
                                            var component = VaadinUiCreator
                                                    .createComponent(new BasicElementsLayoutBehaviorFormSectionPmo(),
@@ -217,7 +219,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                            component.getElement().getStyle().setHeight("200px");
                                            return component;
                                        })
-                                       .testCase(TC003, new SectionLayoutComponent())
+                                       .testCase(TC003, SectionLayoutComponent::new)
                                        .testCase(TC004,
                                                  () -> new VerticalLayout(
                                                          SectionHeaderBehaviorComponent.createClosableSection(),
@@ -247,18 +249,18 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC009, new LinkPmo())
                                        .testCase(TC010, new ButtonPmo())
                                        .testCase(TC011, new CustomFieldPmo())
-                                       .testCase(TC012, new DynamicComponentPage())
+                                       .testCase(TC012, DynamicComponentPage::new)
                                        .testCase(TC013, new DateTimeFieldPmo())
                                        .testCase(TC014, new YesNoComboBoxPmo())
                                        .testCase(TC015, new MultiSelectPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
-                                       .testCase(TC001, new LinkkiTextComponent())
-                                       .testCase(TC002, new LinkkiAnchorComponent())
+                                       .testCase(TC001, LinkkiTextComponent::new)
+                                       .testCase(TC002, LinkkiAnchorComponent::new)
                                        .createTabSheet(),
                                TestScenario.id(TS007)
-                                       .testCase(TC001, new VerticalAlignmentTestComponent())
-                                       .testCase(TC002, new HorizontalAlignmentTestComponent())
+                                       .testCase(TC001, VerticalAlignmentTestComponent::new)
+                                       .testCase(TC002, HorizontalAlignmentTestComponent::new)
                                        .testCase(TC003, new HorizontalPaddingSpacingTestComponent())
                                        .testCase(TC004, new VerticalPaddingSpacingTestComponent())
                                        .createTabSheet(),
@@ -274,7 +276,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC009, new BindSuffixPmo())
                                        .testCase(TC010, new BindPlaceholderPmo())
                                        .testCase(TC011, new BindComboBoxItemStylePmo())
-                                       .testCase(TC012, new VerticalLayout(
+                                       .testCase(TC012, () -> new VerticalLayout(
                                                VaadinUiCreator
                                                        .createComponent(new BindReadOnlyBehaviorPmo("writable section"),
                                                                         new BindingContext()),
@@ -288,7 +290,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                                                                 .readOnly()))
                                                                                 .build())))
                                        .testCase(TC013, new BindAutoFocusPmo())
-                                       .testCase(TC014, new VerticalLayout(
+                                       .testCase(TC014, () -> new VerticalLayout(
                                                VaadinUiCreator.createComponent(new BindVariantNamesTablePmoNoBorder(),
                                                                                new BindingContext()),
                                                VaadinUiCreator
@@ -302,13 +304,13 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC002, new MessageListNotificationPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS010)
-                                       .testCase(TC001, new HorizontalTabLayoutComponent())
-                                       .testCase(TC002, new VerticalTabLayoutComponent())
-                                       .testCase(TC003, new TabLayoutVisibilityComponent())
-                                       .testCase(TC004, new AfterTabSelectedComponent())
+                                       .testCase(TC001, HorizontalTabLayoutComponent::new)
+                                       .testCase(TC002, VerticalTabLayoutComponent::new)
+                                       .testCase(TC003, TabLayoutVisibilityComponent::new)
+                                       .testCase(TC004, AfterTabSelectedComponent::new)
                                        .createTabSheet(),
                                TestScenario.id(TS011)
-                                       .testCase(TC001, OkCancelDialogHandlerPmo.create())
+                                       .testCase(TC001, OkCancelDialogHandlerPmo::create)
                                        .testCase(TC002, new QuestionAndConfirmationDialogPmo())
                                        .testCase(TC003, new OkCancelDialogOverflowPmo())
                                        .testCase(TC004, new OkCancelDialogSectionSpacingPmo())
@@ -318,10 +320,10 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC008, new OkCancelDialogMessagePmo())
                                        .createTabSheet(),
                                TestScenario.id(TS012)
-                                       .testCase(TC001, TableWithValidationSection.create())
-                                       .testCase(TC002, SelectableTableSection.create())
+                                       .testCase(TC001, TableWithValidationSection::create)
+                                       .testCase(TC002, SelectableTableSection::create)
                                        .testCase(TC003, new ColumnWidthTablePmo())
-                                       .testCase(TC004, DynamicFieldsSection.create())
+                                       .testCase(TC004, DynamicFieldsSection::create)
                                        .testCase(TC005, new NumberFooterTablePmo())
                                        .testCase(TC006, () -> new VerticalLayout(
                                                VaadinUiCreator.createComponent(new TableWithPlaceholderPmo(),
@@ -341,27 +343,28 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                            return section;
                                        })
                                        .testCase(TC009,
-                                                 VaadinUiCreator.createComponent(new TableWithEmptyLabelColumnPmo(),
-                                                                                 new BindingContext()))
+                                                 () -> VaadinUiCreator
+                                                         .createComponent(new TableWithEmptyLabelColumnPmo(),
+                                                                          new BindingContext()))
                                        .testCase(TC010,
-                                                 VaadinUiCreator.createComponent(new SortableTablePmo(),
-                                                                                 new BindingContext()))
+                                                 () -> VaadinUiCreator.createComponent(new SortableTablePmo(),
+                                                                                       new BindingContext()))
                                        .createTabSheet(),
                                TestScenario.id(TS013)
-                                       .testCase(TC001, MessageTableSection.create())
-                                       .testCase(TC002, FieldValidationPmo.createComponent())
-                                       .testCase(TC003, ButtonValidationPmo.createComponent())
-                                       .testCase(TC004, ConverterErrorPmo.createComponent())
-                                       .testCase(TC005, RequiredValidationPmo.createComponent())
+                                       .testCase(TC001, MessageTableSection::create)
+                                       .testCase(TC002, FieldValidationPmo::createComponent)
+                                       .testCase(TC003, ButtonValidationPmo::createComponent)
+                                       .testCase(TC004, ConverterErrorPmo::createComponent)
+                                       .testCase(TC005, RequiredValidationPmo::createComponent)
                                        .createTabSheet(),
                                TestScenario.id(TS014)
-                                       .testCase(TC001, TreeTableSection.createPersonTreeTableSection())
-                                       .testCase(TC002, TreeTableSection.createLeagueTreeTableSection())
-                                       .testCase(TC003, TreeTableSection.createUpdateNodeTreeTableSection())
-                                       .testCase(TC004, TreeTableSection.createTreeTableWithPlaceholderSection())
+                                       .testCase(TC001, TreeTableSection::createPersonTreeTableSection)
+                                       .testCase(TC002, TreeTableSection::createLeagueTreeTableSection)
+                                       .testCase(TC003, TreeTableSection::createUpdateNodeTreeTableSection)
+                                       .testCase(TC004, TreeTableSection::createTreeTableWithPlaceholderSection)
                                        .createTabSheet(),
                                TestScenario.id(TS015)
-                                       .testCase(TC001, CardSectionPageComponent.create())
+                                       .testCase(TC001, CardSectionPageComponent::create)
                                        .createTabSheet(),
                                TestScenario.id(TS016)
                                        .testCase(TC001, new NestedComponentPmo())
@@ -400,13 +403,13 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
         BindingContext bc = bindingManager.getContext("IpsBindingContext");
 
         return TestScenario.id(TS004)
-                .testCase(TC001, VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bc))
-                .testCase(TC002, VaadinUiCreator.createComponent(new DecimalFieldPmo(), bc))
-                .testCase(TC003, VaadinUiCreator.createComponent(new RequiredSectionPmo(), bc))
-                .testCase(TC004, VaadinUiCreator.createComponent(new VisibleSectionPmo(), bc))
-                .testCase(TC005, VaadinUiCreator.createComponent(new EnabledSectionPmo(), bc))
-                .testCase(TC006, VaadinUiCreator.createComponent(new DecimalLabelPmo(), bc))
-                .testCase(TC007, VaadinUiCreator.createComponent(new AvailableValuesSectionPmo(), bc))
+                .testCase(TC001, () -> VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bc))
+                .testCase(TC002, () -> VaadinUiCreator.createComponent(new DecimalFieldPmo(), bc))
+                .testCase(TC003, () -> VaadinUiCreator.createComponent(new RequiredSectionPmo(), bc))
+                .testCase(TC004, () -> VaadinUiCreator.createComponent(new VisibleSectionPmo(), bc))
+                .testCase(TC005, () -> VaadinUiCreator.createComponent(new EnabledSectionPmo(), bc))
+                .testCase(TC006, () -> VaadinUiCreator.createComponent(new DecimalLabelPmo(), bc))
+                .testCase(TC007, () -> VaadinUiCreator.createComponent(new AvailableValuesSectionPmo(), bc))
                 .createTabSheet();
     }
 

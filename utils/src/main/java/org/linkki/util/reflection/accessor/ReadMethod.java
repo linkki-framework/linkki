@@ -60,6 +60,7 @@ final class ReadMethod<T, V> extends AbstractMethod<T, Function<T, V>> {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     protected Function<T, V> fallbackReflectionCall(Method method) {
         return o -> {
             try {

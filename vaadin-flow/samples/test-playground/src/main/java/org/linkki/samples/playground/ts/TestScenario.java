@@ -43,16 +43,23 @@ public class TestScenario {
         return this;
     }
 
-    public TestScenario testCase(String testCaseId, Component component) {
+    public TestScenario testCase(String testCaseId, Supplier<Component> componentSupplier) {
         tabSheets.add(LinkkiTabSheet.builder(testCaseId)
                 .caption(createTestCaseCaption(testCaseId, TestCatalog.getCaseTitle(scenarioId, testCaseId)))
-                .content(() -> new TestCaseComponent(scenarioId, testCaseId, component))
+                .content(() -> new TestCaseComponent(scenarioId, testCaseId, componentSupplier.get()))
                 .build());
         return this;
     }
 
-    public TestScenario testCase(String testCaseId, Supplier<Component> componentSupplier) {
-        return testCase(testCaseId, componentSupplier.get());
+    /**
+     * Do not delete, otherwise passing a component would wrongly call
+     * {@link #testCase(String, Object)}.
+     * 
+     * @deprecated Use {@link #testCase(String, Supplier)} instead.
+     */
+    @Deprecated(since = "2.5.0")
+    public TestScenario testCase(String testCaseId, Component component) {
+        return testCase(testCaseId, () -> component);
     }
 
     public LinkkiTabSheet createTabSheet() {

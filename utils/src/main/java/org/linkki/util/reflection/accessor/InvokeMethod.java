@@ -76,6 +76,7 @@ final class InvokeMethod<T> extends AbstractMethod<T, Consumer<T>> {
         };
     }
 
+    @Override
     protected Consumer<T> fallbackReflectionCall(Method method) {
         return o -> {
             try {
