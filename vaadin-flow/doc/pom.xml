@@ -14,8 +14,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <documentation.dtitle>linkki documentation - vaadin-flow</documentation.dtitle>
-        <basedir.parent>${project.parent.basedir}</basedir.parent>
         <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
+        <basedir.parent>${project.parent.basedir}</basedir.parent>
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <deploymentFolder>${project.version}</deploymentFolder>
@@ -86,7 +86,7 @@
                         <vspotbugs>${spotbugs.version}</vspotbugs>
                         <vcommonslang>${commons-lang3.version}</vcommonslang>
                         <homelink>https://doc.linkki-framework.org</homelink>
-                        <logo>logo.png</logo>
+                        <logo>https://doc.linkki-framework.org/linkki.png</logo>
                         <projectVersion>${project.version}</projectVersion>
                     </properties>
                     <excludeLinks>
