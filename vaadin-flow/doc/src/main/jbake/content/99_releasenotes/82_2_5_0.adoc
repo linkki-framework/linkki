@@ -13,7 +13,7 @@
 .Updated dependency versions:
 [cols="a,a"]
 |=== 
-|Faktor-IPS         |23.6.2.release
+|Faktor-IPS         |24.1.0.a20230728-01
 |Vaadin             |24.1.4
 |===
 
