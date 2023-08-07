@@ -8,7 +8,7 @@
 
 === Version 2.3.7
 
-// ==== New features and improvements
+* Vaadin has been updated to version 23.3.19 and Spring Boot to version 2.7.14
 
 ==== Bugfixes
 

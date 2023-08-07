@@ -8,7 +8,6 @@ pipeline {
         BUILD_NAME = 'nightly'
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'keep'
-        MAVEN_OPTS = '-Xmx768m'
     }
 
     stages {
