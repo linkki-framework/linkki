@@ -142,5 +142,23 @@
                 ]
             }
         }
+    ],
+    "2.5.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.method.defaultValueChanged",
+                        "old": "method org.linkki.core.ui.layout.VerticalAlignment org.linkki.core.ui.layout.annotation.UIHorizontalLayout::alignment()",
+                        "new": "method org.linkki.core.ui.layout.VerticalAlignment org.linkki.core.ui.layout.annotation.UIHorizontalLayout::alignment()",
+                        "oldValue": "org.linkki.core.ui.layout.VerticalAlignment.MIDDLE",
+                        "newValue": "org.linkki.core.ui.layout.VerticalAlignment.BASELINE",
+                        "justification": "LIN-3422"
+                    }
+                ]
+            }
+        }
     ]
 }

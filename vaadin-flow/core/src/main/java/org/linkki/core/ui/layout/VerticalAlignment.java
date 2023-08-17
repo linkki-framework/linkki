@@ -22,7 +22,8 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 public enum VerticalAlignment {
     TOP(Alignment.START),
     MIDDLE(Alignment.CENTER),
-    BOTTOM(Alignment.END);
+    BOTTOM(Alignment.END),
+    BASELINE(Alignment.BASELINE);
 
     private final Alignment alignment;
 

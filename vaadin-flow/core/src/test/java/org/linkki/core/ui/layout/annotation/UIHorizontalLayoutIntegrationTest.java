@@ -43,8 +43,8 @@ public class UIHorizontalLayoutIntegrationTest {
 
         HorizontalLayout layout = (HorizontalLayout)component;
 
-        assertThat("Default vertical alignment should be middle", layout.getDefaultVerticalComponentAlignment(),
-                   is(Alignment.CENTER));
+        assertThat("Default vertical alignment should be baseline", layout.getDefaultVerticalComponentAlignment(),
+                   is(Alignment.BASELINE));
 
         assertThat("Child component should be correctly created", layout.getComponentCount(), is(1));
         assertThat("Child component should be correctly created", layout.getComponentAt(0),

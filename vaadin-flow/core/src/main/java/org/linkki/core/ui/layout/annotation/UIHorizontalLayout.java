@@ -54,7 +54,7 @@ public @interface UIHorizontalLayout {
      * The {@link VerticalAlignment vertical alignment} of the {@link HorizontalLayout}'s children
      * relative to each other.
      */
-    VerticalAlignment alignment() default VerticalAlignment.MIDDLE;
+    VerticalAlignment alignment() default VerticalAlignment.BASELINE;
 
     /**
      * The state of{@link HorizontalLayout} padding. {@link HorizontalLayout#setPadding(boolean)}
