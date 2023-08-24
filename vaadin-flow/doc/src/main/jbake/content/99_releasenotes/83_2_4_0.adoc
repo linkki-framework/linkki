@@ -5,12 +5,24 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.4.3
+
+==== New features and improvements
+
+===== Updated dependencies
+The following versions have been updated:
+[cols="a,a"]
+|===
+|Vaadin|24.1.6
+|Faktor-IPS|23.6.4.release
+|===
+
 === Version 2.4.2
 
 ==== New features and improvements
 
 ===== Updated dependencies
-Following versions have been updated:
+The following versions have been updated:
 [cols="a,a"]
 |===
 |Vaadin|24.1.3
@@ -31,8 +43,8 @@ With this patch version, linkki can be used with Spring Devtools in again.
 
 ==== New features and improvements
 
-===== Version Updates
-.Updated dependency versions:
+===== Updated dependencies
+The following versions have been updated:
 [cols="a,a"]
 |=== 
 |Faktor-IPS|23.6.2.release
