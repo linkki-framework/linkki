@@ -17,6 +17,8 @@ package org.linkki.samples.playground.uitestnew.ts.components;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.samples.playground.uitestnew.ts.components.util.IconTestUtil.verifyIconPosition;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.aspects.types.IconPosition;
@@ -24,6 +26,8 @@ import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.By;
+
+import com.vaadin.flow.component.combobox.testbench.MultiSelectComboBoxElement;
 
 class TC001UILabelTest extends PlaygroundUiTest {
 
@@ -56,7 +60,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
         assertThat(label.getHTMLContent())
                 .isEqualTo("<b>This should be bold text without showing the stripped tag 'iframe'</b>");
     }
-    
+
     @Test
     void testLabel_SanitizedHtmlContentWithIcon() {
         LinkkiTextElement label = $(LinkkiTextElement.class).id("sanitizedHtmlContentWithIconLabel");
@@ -84,10 +88,132 @@ class TC001UILabelTest extends PlaygroundUiTest {
     }
 
     @Test
-    void testLabel_WithCustomStyle() {
-        LinkkiTextElement label = $(LinkkiTextElement.class).id("styledLabel");
+    void testLabel_CustomStyle_RightAligned() {
+        var label = $(LinkkiTextElement.class).id("rightAlignedLabel");
 
-        assertThat(label.getCssValue("color")).isEqualTo("rgba(0, 128, 0, 1)");
+        assertThat(label.getCssValue("text-align")).isEqualTo("right");
+        assertThat(label.getCssValue("color")).isEqualTo("rgba(128, 0, 128, 1)");
+        assertThat(label.$("span").first().getCssValue("color")).isEqualTo("rgba(128, 0, 128, 1)");
+    }
+
+    @Test
+    void testLabel_WithTextColor_Info() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("text-info");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+    }
+
+    @Test
+    void testLabel_WithTextColor_Warning() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("text-warning");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(189, 164, 0, 1)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+    }
+
+    @Test
+    void testLabel_WithTextColor_Error() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("text-error");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(202, 21, 12, 1)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+    }
+
+    @Test
+    void testLabel_WithIconColor_Info() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("icon-info");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color"))
+                .isEqualTo("rgba(26, 117, 230, 1)");
+    }
+
+    @Test
+    void testLabel_WithIconColor_Warning() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("icon-warning");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(255, 204, 0, 1)");
+    }
+
+    @Test
+    void testLabel_WithIconColor_Error() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("icon-error");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(226, 29, 18, 1)");
+    }
+
+    @Test
+    void testLabel_WithTextAndIconColor_Info() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("text-info", "icon-info");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
+    }
+
+    @Test
+    void testLabel_WithTextAndIconColor_Warning() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("text-warning", "icon-warning");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(189, 164, 0, 1)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(255, 204, 0, 1)");
+    }
+
+    @Test
+    void testLabel_WithTextAndIconColor_Error() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("text-error", "icon-error");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(202, 21, 12, 1)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(226, 29, 18, 1)");
+    }
+
+    @Test
+    void testLabel_WithDifferentIconAndTextColor() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("text-success", "icon-info");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(10, 118, 55, 1)");
+        assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
+    }
+
+    @Test
+    void testLabel_IconTextColorNotAppliedToHtmlTextIcon() {
+        LinkkiTextElement linkkiTextElement = $(LinkkiTextElement.class).id("styledLabelAndIcon");
+
+        selectStyles("text-success", "icon-info");
+
+        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(10, 118, 55, 1)");
+        // linkki text inner icon has text color but not icon-text-color applied to the additional icon
+        assertThat(linkkiTextElement.$("vaadin-icon").first().getCssValue("color")).isEqualTo("rgba(10, 118, 55, 1)");
+    }
+
+    private void selectStyles(String... elementsToSelect) {
+        MultiSelectComboBoxElement multiSelectComboBoxElement = $(MultiSelectComboBoxElement.class)
+                .id("styledLabelAndIconStyleNames");
+        multiSelectComboBoxElement.deselectAll();
+        multiSelectComboBoxElement.openPopup();
+        Stream.of(elementsToSelect).forEach(multiSelectComboBoxElement::selectByText);
     }
 
     @Test

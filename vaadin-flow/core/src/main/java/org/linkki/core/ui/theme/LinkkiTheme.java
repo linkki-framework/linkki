@@ -13,7 +13,11 @@
  */
 package org.linkki.core.ui.theme;
 
+import org.linkki.core.vaadin.component.base.LinkkiText;
+
 import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.LumoUtility;
+import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
 /**
  * Constants for names and CSS class constants used by default linkki theme.
@@ -44,6 +48,9 @@ public class LinkkiTheme {
     /** Style for tables created by linkki */
     public static final String TABLE = "linkki-table";
 
+    /** Style class for table footer that should be bold. */
+    public static final String GRID_FOOTER_BOLD = "linkki-grid-footer-bold";
+
     /**
      * A component that contains an icon
      * 
@@ -52,11 +59,63 @@ public class LinkkiTheme {
     @Deprecated(since = "2.1.1")
     public static final String HAS_ICON = "linkki-has-icon";
 
-    /** Style class for labels that should look like placeholders in table sections. **/
+    /**
+     * Style class for labels that should look like placeholders in table sections.
+     * 
+     * @deprecated Use {@link Text#TEXT_PLACEHOLDER} instead.
+     **/
+    @Deprecated(since = "2.5.0")
     public static final String PLACEHOLDER_LABEL = "placeholder-label";
 
     private LinkkiTheme() {
         // prevent instantiation
     }
 
+    /**
+     * Style classes for {@link LinkkiText labels}. Additional text styles can be found in
+     * {@link LumoUtility.TextColor}.
+     * 
+     * @implNote The purpose of this utility class is to consolidate styling constants for the
+     *           {@link LinkkiText} component. Future enhancements or modifications related to
+     *           {@link LinkkiText} styling should also be added here.
+     *           <p>
+     *           This class is placed here instead of LinkkiText to make it easier to find.
+     */
+    public static final class Text {
+
+        /** Makes a label look like a placeholder in table sections. */
+        public static final String TEXT_PLACEHOLDER = "text-placeholder";
+
+        /**
+         * Show icon of a {@link LinkkiText} in the success color. For success colored text, use
+         * {@link TextColor#SUCCESS}.
+         */
+        public static final String ICON_SUCCESS = "icon-success";
+
+        /**
+         * Show icon of a {@link LinkkiText} in the warning color. For warning colored text, use
+         * {@link TextColor#WARNING}.
+         */
+        public static final String ICON_WARNING = "icon-warning";
+
+        /**
+         * Show icon of a {@link LinkkiText} in the error color. For error colored text, use
+         * {@link TextColor#ERROR}.
+         */
+        public static final String ICON_ERROR = "icon-error";
+
+        /**
+         * Show icon in the info color.
+         */
+        public static final String ICON_INFO = "icon-info";
+
+        /**
+         * Show text and icon in the info color.
+         */
+        public static final String TEXT_INFO = "text-info";
+
+        private Text() {
+            // prevent instantiation
+        }
+    }
 }

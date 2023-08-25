@@ -22,7 +22,6 @@ import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.vaadin.component.base.LinkkiText;
-import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
@@ -37,6 +36,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  */
 public final class MessageUiComponents {
 
+    public static final String ICON_STYLE_CLASS_PREFIX = "icon-";
+
     private MessageUiComponents() {
         // prevent instantiation
     }
@@ -44,11 +45,11 @@ public final class MessageUiComponents {
     /**
      * Returns the CSS style name for the message's {@link Severity}.
      * 
-     * @implNote the style names consist of the {@link LinkkiApplicationTheme#MESSAGE_PREFIX} and the
-     *           {@link Severity#name() Severity's name}, for example {@code linkki-message-error}.
+     * @implNote the style names consist of the {@link #ICON_STYLE_CLASS_PREFIX} and the
+     *           {@link Severity#name() Severity's name}, for example {@code icon-error}.
      */
     public static String getStyle(Severity severity) {
-        return LinkkiApplicationTheme.MESSAGE_PREFIX + severity.name().toLowerCase();
+        return ICON_STYLE_CLASS_PREFIX + severity.name().toLowerCase();
     }
 
     /**

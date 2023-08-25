@@ -1,45 +1,69 @@
 html {
-    /* linkki properties */
+    
+    --lumo-warning-text-color: hsl(52, 100%, 37%);
+    
     --linkki-input-background: var(--lumo-contrast-10pct);
     --linkki-input-background-hover: var(--lumo-contrast-20pct);
     --linkki-input-border-color-readonly: var(--lumo-contrast-20pct);
     --linkki-readonly-text-color: var(--lumo-body-text-color);
 
-    --linkki-info-color: hsla(213, 80%, 70%, 1);
-    --linkki-info-color-10pct: hsla(213, 80%, 50%, 0.13);
-    --linkki-info-color-50pct: hsla(213, 80%, 50%, 0.8);
-    --linkki-warning-color: hsla(50, 80%, 50%, 1);
-    --linkki-warning-color-10pct: hsla(50, 80%, 50%, 0.2);
-    --linkki-warning-color-50pct: hsla(50, 80%, 40%, 0.8);
+    --linkki-info-color: hsl(213, 80%, 50%);
+    --linkki-info-color-10pct: hsla(213, 80%, 49%, 0.1);
+    --linkki-info-color-50pct: hsla(213, 80%, 49%, 0.5);
+    --linkki-info-text-color: hsl(213, 80%, 50%);
+
+    --linkki-warning-color: var(--lumo-warning-color);
+    --linkki-warning-color-10pct: hsla(45, 100%, 60%, 0.3);
+    --linkki-warning-color-50pct: hsla(45, 100%, 60%, 0.5);
+    --linkki-warning-text-color: var(--lumo-warning-text-color);
+
+    --linkki-success-color: var(--lumo-success-color);
+    --linkki-success-color-10pct: var(--lumo-success-color-10pct);
+    --linkki-success-color-50pct: var(--lumo-success-color-50pct);
+    --linkki-success-text-color: var(--lumo-success-text-color);
+
+    --linkki-error-color: var(--lumo-error-color);
+    --linkki-error-color-10pct: var(--lumo-error-color-10pct);
+    --linkki-error-color-50pct: var(--lumo-error-color-50pct);
+    --linkki-error-text-color: var(--lumo-error-text-color);
     
     --linkki-section-gap: var(--lumo-space-l);
     
     /* lumo properties */
-    --lumo-error-color: hsla(0, 61%, 54%, 1);
     --lumo-clickable-cursor: pointer;
     
     /* prefer 'Segoe UI' over Roboto */ 
     --lumo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+a:not([href]) {
+    color: inherit;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+
+/******************************************************************************
+ * THEME: DARK
+ ******************************************************************************/
+ 
 [theme~="dark"] {
     /* needs to be set again to respect the dark lumo values */
     --linkki-input-background: var(--lumo-contrast-10pct);
     --linkki-input-background-hover: var(--lumo-contrast-20pct);
     --linkki-input-border-color-readonly: var(--lumo-contrast-20pct);
     --linkki-readonly-text-color: var(--lumo-body-text-color);
-    
-    --linkki-info-color: hsla(213, 80%, 70%, 1);
-    --linkki-info-color-10pct: hsla(213, 80%, 70%, 0.3);
-    --linkki-info-color-50pct: hsla(213, 80%, 70%, 0.8);
-    --linkki-warning-color: hsla(50, 80%, 50%, 1);
-    --linkki-warning-color-10pct: hsla(50, 80%, 50%, 0.3);
-    --linkki-warning-color-50pct: hsla(50, 80%, 70%, 0.8);
 
-    /* lumo properties */
-    --lumo-error-color: hsla(0, 61%, 54%, 1);
+    --linkki-info-color: hsl(213, 80%, 64%);
+    --linkki-info-color-50pct: hsl(213, 80%, 50%);
+    --linkki-info-text-color: hsl(213, 80%, 64%);
 }
 
+
+/******************************************************************************
+ * THEME: COMPACT
+ ******************************************************************************/
+ 
 [theme~="compact"] {
   --lumo-size-xl: 3rem;
   --lumo-size-l: 2.5rem;
@@ -53,76 +77,161 @@ html {
   --lumo-space-xs: 0.2rem;
 } 
 
-a:not([href]) {
-    color: inherit;
-    text-decoration: none;
-    pointer-events: none;
-}
 
-.linkki-right-aligned > span {
-    text-align: right;
-}
-
-.linkki-grid-footer-sum {
-    --linkki-footer-alignment: right;
-    --linkki-footer-text-shadow: 0 .1px 0 currentColor;
-}
-
-.linkki-grid-footer-bold {
-    --linkki-footer-text-shadow: 0 .1px 0 currentColor;
-}
+/******************************************************************************
+ * COLORS FOR VALIDATIONS ON INPUT COMPONENTS
+ ******************************************************************************
+ * Vaadin UI Components with validation errors have a fixed background 
+ * color set to --lumo-error-color... on the vaadin-input-container.
+ * To get different colors for info, warning and success, we added
+ * a severity selector to the wrapping element,
+ * see org.linkki.core.ui.wrapper.VaadinComponentWrapper.workaroundVaadinClientValidation().
+ * Therefore we can just change the --lumo-error... variables based on this severity
+ *
+ * --lumo-error-color-10pct is used for the background color of the input component
+ * --lumo-error-color-50pct is used for the focus ring around the input component
+ * --lumo-error-text-color is used for the message text
+ *
+ */
 
 [severity="info"] {
     --lumo-error-color-10pct: var(--linkki-info-color-10pct);
     --lumo-error-color-50pct: var(--linkki-info-color-50pct);
-    --lumo-error-text-color: var(--linkki-info-color-50pct);
+    --lumo-error-text-color: var(--linkki-info-text-color);
 }
 [severity="warning"] {
     --lumo-error-color-10pct: var(--linkki-warning-color-10pct);
     --lumo-error-color-50pct: var(--linkki-warning-color-50pct);
-    --lumo-error-text-color: var(--linkki-warning-color-50pct);
+    --lumo-error-text-color: var(--linkki-warning-text-color);
+}
+[severity="success"] {
+    --lumo-error-color-10pct: var(--linkki-success-color-10pct);
+    --lumo-error-color-50pct: var(--linkki-success-color-50pct);
+    --lumo-error-text-color: var(--linkki-success-text-color);
 }
 
-/* 
+
+/******************************************************************************
  * FONT MAPPING FOR SEGOE UI
- *
+ ******************************************************************************
  * these font-faces set the font-weight settings for Segoe UI
  * as they are interpreted in Chrome on Windows.
-*/
-
-
+ */
+ 
 @font-face {
   font-family: 'Segoe UI';
   font-weight: 1 199;
   src: local("Segoe UI Light");
 }
-
 @font-face {
   font-family: 'Segoe UI';
   font-weight: 200 399;
   src: local("Segoe UI Semilight");
 }
-
 @font-face {
   font-family: 'Segoe UI';
   font-weight: 400 499;
   src: local("Segoe UI");
 }
-
 @font-face {
   font-family: 'Segoe UI';
   font-weight: 500 699;
   src: local("Segoe UI Semibold");
 }
-
 @font-face {
   font-family: 'Segoe UI';
   font-weight: 700 799;
   src: local("Segoe UI Bold");
 }
-
 @font-face {
   font-family: 'Segoe UI';
   font-weight: 800 999;
   src: local("Segoe UI Black");
+}
+
+
+/******************************************************************************
+ * UTILITY CLASSES
+ ******************************************************************************/
+ 
+.text-placeholder {
+   font-style: italic;
+   opacity: 0.7;
+}
+
+linkki-section vaadin-form-item .text-placeholder {
+  position: relative;
+  left: calc(-1 * var(--linkki-form-item-label-width, 8em));
+}
+
+/* deprecated selector: .linkki-right-aligned ,  therefore combining the styles of .linkki-right-aligned > span and .text-right into a single style block  */
+.linkki-right-aligned > span,
+.text-right {
+    text-align: right;
+}
+
+.linkki-grid-footer-sum {
+  --linkki-footer-alignment: right;
+  --linkki-footer-text-shadow: 0 .1px 0 currentColor;
+}
+
+.linkki-grid-footer-bold {
+  --linkki-footer-text-shadow: 0 .1px 0 currentColor;
+}
+
+
+/*************************************
+ * ICON COLORS
+ *************************************/
+ 
+.icon-success > .linkki-text-icon {
+  color: var(--linkki-success-color);
+}
+.icon-warning > .linkki-text-icon {
+  color: var(--linkki-warning-color);
+}
+.icon-error > .linkki-text-icon {
+  color: var(--linkki-error-color);
+}
+.icon-info > .linkki-text-icon {
+  color: var(--linkki-info-color);
+}
+
+/*************************************
+ * TEXT COLORS
+ *************************************/
+ 
+/* Similar to LumoUtility#TextColor */
+.text-info {
+  color: var(--linkki-info-text-color);
+}
+
+/* Use text color only on span in linkki-text */
+linkki-text.text-success,
+linkki-text.text-warning,
+linkki-text.text-error,
+linkki-text.text-info {
+    color: inherit;
+}
+
+linkki-text.text-success > span {
+    color: var(--linkki-success-text-color);
+}
+linkki-text.text-warning > span {
+    color: var(--linkki-warning-text-color);
+}
+linkki-text.text-error > span {
+    color: var(--linkki-error-text-color);
+}
+linkki-text.text-info > span {
+    color: var(--linkki-info-text-color);
+}
+
+
+/******************************************************************************
+ * DEPRECATED STYLES
+ ******************************************************************************/
+.placeholder-label {
+    font-style: italic;
+    opacity: 0.7;
 }

@@ -20,25 +20,34 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.aspects.annotation.BindSuffix;
 import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UIMultiSelect;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.framework.ui.LinkkiApplicationTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.samples.playground.ips.model.Marker;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.theme.lumo.LumoIcon;
+import com.vaadin.flow.theme.lumo.LumoUtility;
+
 
 @UISection(layout = SectionLayout.VERTICAL)
 public class LabelPmo {
+
+    private static final String CUSTOM_STYLE = "default-style";
+    private Set<String> styles = Set.of();
 
     @UILabel(position = 10, label = "Label with HTML Content", htmlContent = true)
     @BindIcon(value = VaadinIcon.ACCORDION_MENU)
@@ -93,10 +102,42 @@ public class LabelPmo {
         return Marker.REQUIRED_INFORMATION_MISSING;
     }
 
-    @UILabel(position = 95, label = "Label with a custom style", styleNames = { "style1",
-            LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED })
-    public String getStyledLabel() {
-        return "I am a custom styled GREEN and RIGHT ALIGNED label";
+    @BindStyleNames
+    @UILabel(position = 93, label = "Right-aligned label with custom style")
+    public String getRightAlignedLabel() {
+        return "I am a RIGHT ALIGNED label with a custom style";
+    }
+
+    public Set<String> getRightAlignedLabelStyleNames() {
+        return Set.of(CUSTOM_STYLE, LumoUtility.TextAlignment.RIGHT);
+    }
+
+    @BindStyleNames
+    @BindIcon(VaadinIcon.CIRCLE)
+    @UILabel(position = 95, label = "Label with a dynamic style", htmlContent = true)
+    public String getStyledLabelAndIcon() {
+        var icon = LumoIcon.ARROW_DOWN.create(); 
+        return "Select my style in the 'Styles' multi selection box below "  + icon.getElement().getOuterHTML();
+    }
+
+    @UIMultiSelect(position = 96, label = "Styles")
+    public Set<String> getStyledLabelAndIconStyleNames() {
+        return styles;
+    }
+
+    public void setStyledLabelAndIconStyleNames(Set<String> styles) {
+        this.styles = styles;
+    }
+
+    public List<String> getStyledLabelAndIconStyleNamesAvailableValues() {
+        return List.of(LinkkiTheme.Text.ICON_SUCCESS,
+                       LinkkiTheme.Text.ICON_WARNING,
+                       LinkkiTheme.Text.ICON_ERROR,
+                       LinkkiTheme.Text.ICON_INFO,
+                       LumoUtility.TextColor.SUCCESS,
+                       LumoUtility.TextColor.WARNING,
+                       LumoUtility.TextColor.ERROR,
+                       LinkkiTheme.Text.TEXT_INFO);
     }
 
     @UILabel(position = 100, label = "Label with an icon on the left")

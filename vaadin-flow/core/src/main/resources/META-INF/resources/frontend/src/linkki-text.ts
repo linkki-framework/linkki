@@ -9,8 +9,17 @@ class LinkkiText extends LitElement {
 
   static styles = css`
     :host {
+      --lumo-text-field-size: var(--lumo-size-m);
+
       display: inline-flex;
       outline: none;
+      color: var(--lumo-body-text-color);
+      font-size: var(--lumo-font-size-m);
+      font-family: var(--lumo-font-family);
+
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-tap-highlight-color: transparent;
     }
 
     ::slotted([slot="prefix"]),
@@ -68,14 +77,6 @@ class LinkkiText extends LitElement {
       box-sizing: border-box;
     }
 
-    :host([label])::before {
-      margin-top: calc(var(--lumo-font-size-s) * 1.5);
-    }
-
-    :host([label][theme~='small'])::before {
-      margin-top: calc(var(--lumo-font-size-xs) * 1.5);
-    }
-
     :host([dir='rtl']) .label {
       margin-left: 0;
         margin-right: calc(var(--lumo-border-radius-m) / 4);
@@ -84,16 +85,6 @@ class LinkkiText extends LitElement {
     :host([dir='rtl']) .label {
       padding-left: 1em;
       padding-right: 0;
-    }
-
-    :host {
-      --lumo-text-field-size: var(--lumo-size-m);
-      color: var(--lumo-body-text-color);
-      font-size: var(--lumo-font-size-m);
-      font-family: var(--lumo-font-family);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      -webkit-tap-highlight-color: transparent;
     }
 
     :host([label]) {
@@ -106,6 +97,7 @@ class LinkkiText extends LitElement {
       box-sizing: border-box;
       display: inline-flex;
       align-items: center;
+      margin-top: calc(var(--lumo-font-size-s) * 1.5);
     }
 
     :host([theme~='compact']) {
@@ -119,6 +111,10 @@ class LinkkiText extends LitElement {
     :host([theme~='small']) {
       font-size: var(--lumo-font-size-s);
       --lumo-text-field-size: var(--lumo-size-s);
+    }
+
+    :host([theme~='small'][label])::before {
+      margin-top: calc(var(--lumo-font-size-xs) * 1.5);
     }
 
     :host([theme~='small'][label]) .label {

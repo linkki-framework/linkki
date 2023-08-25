@@ -12,6 +12,9 @@ spring:
         poll-interval: "2s"
         quiet-period: "1s"
 
+vaadin:
+   launch-browser: true
+
 server:
    port: 8080
    servlet:

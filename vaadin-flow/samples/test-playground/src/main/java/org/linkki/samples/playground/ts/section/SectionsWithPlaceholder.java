@@ -37,7 +37,7 @@ public class SectionsWithPlaceholder {
     @UISection(caption = "Form layout section with placeholder label", layout = SectionLayout.FORM)
     public static class PlaceholderLabelSectionPmo {
 
-        @UILabel(position = 10, label = "", styleNames = LinkkiTheme.PLACEHOLDER_LABEL)
+        @UILabel(position = 10, label = "", styleNames = LinkkiTheme.Text.TEXT_PLACEHOLDER)
         public String getPlaceholder() {
             return "This is a placeholder.";
         }
@@ -47,7 +47,7 @@ public class SectionsWithPlaceholder {
     @UISection(caption = "Horizonal section with placeholder label", layout = SectionLayout.HORIZONTAL)
     public static class PlaceholderlabelHorizontalSectionPmo {
 
-        @UILabel(position = 10, label = "", styleNames = LinkkiTheme.PLACEHOLDER_LABEL)
+        @UILabel(position = 10, label = "", styleNames = LinkkiTheme.Text.TEXT_PLACEHOLDER)
         public String getPlaceholder() {
             return "This is a placeholder.";
         }

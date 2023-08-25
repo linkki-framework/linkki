@@ -91,15 +91,100 @@ Therefore, the constructor `IpsPropertyDispatcher(Supplier, Supplier, String, Pr
 The constructor `IpsPropertyDispatcher(Supplier, String, PropertyDispatcher)` has been deprecated.
 
 //https://jira.convista.com/browse/LIN-1921
-===== Overloaded Constructors for DialogBindingManager and PmoBaseDialogFactory`
+===== Overloaded Constructors for `DialogBindingManager` and `PmoBaseDialogFactory`
 The DialogBindingManager class has been enhanced to offer an overloaded constructor, which now accommodates an extra parameter of type PropertyDispatcherFactory. This enhancement provides flexibility by allowing the use of a custom PropertyDispatcherFactory, or falling back to the default Java constructor for PropertyDispatcherFactory.
 
 Similarly, the PmoBasedDialogFactory class has also been equipped with an overloaded constructor that embraces the PropertyDispatcherFactory parameter, or reverting to the default Java constructor if needed. Additionally, the PmoBasedDialogFactory class has been seamlessly integrated with the recently introduced overloaded constructor of the DialogBindingManager class.
 
+
+// https://jira.convista.com/browse/LIN-550
+[role="api-change"]
 ===== `UITimeField` added
 
 A new annotation <<ui-timefield, @UITimeField>> has been added for selecting a time. 
 The annotation has the property `step` for setting the time interval in the time picker overlay.
+
+
+===== Improved Styling and Consistency for linkki Theme
+Following table defines a mapping between linkki and Lumo color definitions. For each linkki color, the corresponding Lumo color is identified. It's important to note that some linkki colors, such as --linkki-info-text-color, do not have a direct Lumo counterpart, marked as "N/A" in the table.
+
+|===
+|linkki Color |Lumo Color
+
+|--linkki-info-color
+|N/A (custom color used)
+
+|--linkki-info-text-color
+|N/A (custom color used)
+
+|--linkki-warning-color
+|--lumo-warning-color
+
+|--linkki-warning-text-color
+|--lumo-warning-text-color
+
+|---linkki-success-color
+|--lumo-success-color
+
+|--linkki-success-text-color
+|--lumo-success-text-color
+
+|--linkki-warning-text-color
+|--lumo-warning-text-color
+
+|--linkki-warning-text-color
+|--lumo-warning-text-color
+|===
+
+The table below defines visual behaviors for icons and text based on their specific classes. These styles primarily target the `vaadin-icon` component within linkki, enabling a more dynamic visual feedback system.
+
+|===
+|CSS Selector |Color Variable Used
+
+|icon-success > vaadin-icon
+|--linkki-success-color
+
+|icon-warning > vaadin-icon
+|--linkki-warning-color
+
+|icon-error > vaadin-icon
+|--linkki-error-color
+
+|icon-info > vaadin-icon.linkki-text-icon
+|--linkki-info-color
+
+|text-info
+|--linkki-info-text-color
+
+|linkki-text.text-success > span
+|--lumo-success-text-color
+
+|linkki-text.text-warning > span
+|--lumo-warning-text-color
+
+|linkki-text.text-error > span
+|--lumo-error-text-color
+
+|linkki-text.text-info > span
+|--linkki-info-text-color
+|===
+
+There are a few selectors that have been deprecated in favor of new ones that are more consistent with linkki and Lumo.
+
+|===
+|Deprecated Selector |New Selector
+
+|LinkkiTheme#PLACEHOLDER_LABEL
+|LinkkiTheme.Text#TEXT_PLACEHOLDER
+
+|LinkkiApplicationTheme#TEXT_RIGHT_ALIGNED
+|LumoUtility.TextAlign#RIGHT
+
+|LinkkiApplicationTheme#MESSAGE_PREFIX
+|MessageUiComponents#ICON_STYLE_CLASS_PREFIX
+|===
+
+
 
 // ===== Other
 

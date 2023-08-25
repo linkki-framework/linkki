@@ -18,6 +18,7 @@ import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.component.Headline;
@@ -56,7 +57,10 @@ public final class LinkkiApplicationTheme {
 
     /**
      * Prefix for {@link Message} label style classes. The errorLevel in lower case is used as suffix
+     *
+     * @deprecated Use icon styles in {@link org.linkki.core.ui.theme.LinkkiTheme.Text} instead.
      */
+    @Deprecated(since = "2.5.0")
     public static final String MESSAGE_PREFIX = "linkki-message-"; // $NON-NLS-1$
 
     /** Style class prefix {@link Message} labels. The errorLevel in lower case is used as suffix */
@@ -92,14 +96,20 @@ public final class LinkkiApplicationTheme {
 
     /**
      * Style class for table footer that should be bold.
+     * 
+     * @deprecated Use {@link LinkkiTheme#GRID_FOOTER_BOLD} instead.
      */
+    @Deprecated(since = "2.5.0")
     public static final String GRID_FOOTER_BOLD = "linkki-grid-footer-bold"; // $NON-NLS-1$
 
     /**
      * Style class for {@link UILabel}s, that should be right aligned.
      * <p>
      * For tables, {@link UITableColumn#textAlign()} should be used instead.
+     *
+     * @deprecated Use {@link com.vaadin.flow.theme.lumo.LumoUtility.TextAlignment#RIGHT} instead.
      */
+    @Deprecated(since = "2.5.0")
     public static final String TEXT_RIGHT_ALIGNED = "linkki-right-aligned";
 
     private LinkkiApplicationTheme() {

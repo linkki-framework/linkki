@@ -58,7 +58,7 @@ public @interface UISection {
     /** The caption text for the section. */
     String caption() default "";
 
-    /** Whether or not the section can be collapsed by the user. */
+    /** Whether the section can be collapsed by the user. */
     boolean closeable() default false;
 
     public static class SectionComponentDefinitonCreator implements ComponentDefinitionCreator<UISection> {

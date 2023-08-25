@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.ui.theme.LinkkiTheme;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 
@@ -28,22 +29,19 @@ class MessageRowPmoTest {
     @Test
     void testGetStyleNames_Error() {
         pmo = new MessageRowPmo(Message.newError("code", "error"));
-        assertThat(pmo.getTextStyleNames()).contains("linkki-message-row",
-                                                     "linkki-message-error");
+        assertThat(pmo.getTextStyleNames()).contains("linkki-message-row", LinkkiTheme.Text.ICON_ERROR);
     }
 
     @Test
     void testGetStyleNames_Warning() {
         pmo = new MessageRowPmo(Message.newWarning("code", "warning"));
-        assertThat(pmo.getTextStyleNames()).contains("linkki-message-row",
-                                                     "linkki-message-warning");
+        assertThat(pmo.getTextStyleNames()).contains("linkki-message-row", LinkkiTheme.Text.ICON_WARNING);
     }
 
     @Test
     void testGetStyleNames_Info() {
         pmo = new MessageRowPmo(Message.newInfo("code", "info"));
-        assertThat(pmo.getTextStyleNames()).contains("linkki-message-row",
-                                                     "linkki-message-info");
+        assertThat(pmo.getTextStyleNames()).contains("linkki-message-row", LinkkiTheme.Text.ICON_INFO);
     }
 
     @Test

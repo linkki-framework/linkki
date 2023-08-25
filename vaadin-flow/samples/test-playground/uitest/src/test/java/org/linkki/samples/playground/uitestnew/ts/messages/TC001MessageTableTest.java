@@ -54,7 +54,7 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         GridElement grid = $(GridElement.class).id(MESSAGE_TABLE);
         IconElement icon = grid.getCell(0, 0).$(IconElement.class).first();
 
-        assertThat(icon.getCssValue("color")).isEqualTo("rgba(210, 67, 67, 1)");
+        assertThat(icon.getCssValue("color")).isEqualTo("rgba(226, 29, 18, 1)");
         assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:exclamation-circle");
     }
 
@@ -63,7 +63,7 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         GridElement grid = $(GridElement.class).id(MESSAGE_TABLE);
         IconElement icon = grid.getCell(1, 0).$(IconElement.class).first();
 
-        assertThat(icon.getCssValue("color")).isEqualTo("rgba(242, 174, 85, 1)");
+        assertThat(icon.getCssValue("color")).isEqualTo("rgba(255, 204, 0, 1)");
         assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:warning");
     }
 
@@ -72,7 +72,7 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         GridElement grid = $(GridElement.class).id(MESSAGE_TABLE);
         IconElement icon = grid.getCell(2, 0).$(IconElement.class).first();
 
-        assertThat(icon.getCssValue("color")).isEqualTo("rgba(153, 199, 255, 1)");
+        assertThat(icon.getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
         assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:info-circle");
     }
 

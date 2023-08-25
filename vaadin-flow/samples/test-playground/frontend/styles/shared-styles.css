@@ -10,10 +10,10 @@
 #BindStyleNamesPmo.style3 {
     font-weight: bold;
 }
-#LabelPmo .style1 {
-	color: green;
+#LabelPmo .default-style {
+	color: purple;
 }
-#LabelPmo .style1 > span {
+#LabelPmo .default-style > span {
     width: 500px;
 }
 #ButtonValidationPmo .button-validation  {

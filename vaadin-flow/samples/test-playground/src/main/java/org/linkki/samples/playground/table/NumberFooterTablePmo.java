@@ -28,11 +28,11 @@ import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.framework.ui.LinkkiApplicationTheme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.samples.playground.table.NumberFooterTablePmo.NumberFooterRowPmo;
 
 @UISection(caption = "Table with table right aligned column and table footer")
-@BindStyleNames(LinkkiApplicationTheme.GRID_FOOTER_BOLD)
+@BindStyleNames(LinkkiTheme.GRID_FOOTER_BOLD)
 public class NumberFooterTablePmo implements ContainerPmo<NumberFooterRowPmo> {
 
     private final TableFooterPmo footer;
