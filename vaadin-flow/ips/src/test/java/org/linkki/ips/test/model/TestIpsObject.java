@@ -50,6 +50,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("foo")
     public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_FOO = new UnrestrictedValueSet<>(true);
 
 
@@ -75,6 +76,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("valueSetInclNull")
     public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_VALUE_SET_INCL_NULL = new UnrestrictedValueSet<>(true);
 
 
@@ -100,6 +102,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("valueSetExclNull")
     public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_VALUE_SET_EXCL_NULL = new UnrestrictedValueSet<>(
             false);
 
@@ -126,6 +129,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("emptyValueSet")
     public static final OrderedValueSet<MonthDay> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<>(false,
             null);
 
@@ -152,6 +156,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("valueSetRangeOfIntInclNull")
     public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL = IntegerRange
             .valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), true);
 
@@ -178,6 +183,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("valueSetRangeOfIntExclNull")
     public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL = IntegerRange
             .valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), false);
 
@@ -204,6 +210,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("valueSetIntUnrestricted")
     public static final ValueSet<Integer> MAX_ALLOWED_VALUES_FOR_VALUE_SET_INT_UNRESTRICTED = new UnrestrictedValueSet<>(
             true);
 
@@ -230,6 +237,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("valueSetNotDiscrete")
     public static final DoubleRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_NOT_DISCRETE = DoubleRange
             .valueOf(Double.valueOf(1), Double.valueOf(100), (Double)null, false);
 

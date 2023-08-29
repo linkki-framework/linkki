@@ -81,6 +81,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("decimal")
     public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL = DecimalRange
             .valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false);
     /**
@@ -105,6 +106,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("string")
     public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_STRING = new UnrestrictedValueSet<>(true);
 
     /**
@@ -127,6 +129,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("unrestrictedInclNull")
     public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_INCL_NULL = new UnrestrictedValueSet<>(
             true);
 
@@ -150,6 +153,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("unrestrictedExclNull")
     public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL = new UnrestrictedValueSet<>(
             false);
 
@@ -173,6 +177,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("emptyValueSet")
     public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<>(false,
             null);
     /**
@@ -195,6 +200,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("enumerationValueSet")
     public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_ENUMERATION_VALUE_SET = new OrderedValueSet<>(
             false, null, Marker.REQUIRED_INFORMATION_MISSING, Marker.TECHNICAL_CONSTRAINT_VIOLATED);
 
@@ -218,6 +224,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("integerEnumerationValueSet")
     public static final OrderedValueSet<Integer> MAX_ALLOWED_VALUES_FOR_INTEGER_ENUMERATION_VALUE_SET = new OrderedValueSet<>(
             true, null, Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4),
             Integer.valueOf(5), null);
@@ -242,6 +249,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("integerRangeValueSet")
     public static final IntegerRange MAX_ALLOWED_RANGE_FOR_INTEGER_RANGE_VALUE_SET = IntegerRange
             .valueOf(Integer.valueOf("0"), Integer.valueOf(100), Integer.valueOf(5), true);
 
@@ -265,6 +273,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("booleanValueSet")
     public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_BOOLEAN_VALUE_SET = new UnrestrictedValueSet<>(false);
 
     /**
@@ -287,6 +296,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("emptyStringValueSet")
     public static final OrderedValueSet<String> MAX_ALLOWED_VALUES_FOR_EMPTY_STRING_VALUE_SET = new OrderedValueSet<>(
             false, null);
 

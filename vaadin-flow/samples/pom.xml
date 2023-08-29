@@ -1,5 +1,5 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,12 +17,25 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <vaadin.version>24.1.4</vaadin.version>
+        <vaadin.version>24.1.7</vaadin.version>
         <spotbugs.version>4.6.0</spotbugs.version>
-        <spring-boot.version>3.1.1</spring-boot.version>
-        <checkstyle.version>10.3.2</checkstyle.version>
+        <spring-boot.version>3.1.3</spring-boot.version>
+        <checkstyle.version>10.3.4</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
+        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+        
+        <!-- Maven plugin versions -->
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
+        <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+        <maven-checkstyle-plugin.version>3.2.2</maven-checkstyle-plugin.version>
+        <spotbugs-maven-plugin.version>4.5.3.0</spotbugs-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
+        <tomee-maven-plugin.version>7.1.4</tomee-maven-plugin.version>
     </properties>
 
     <modules>
@@ -53,7 +66,7 @@
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
-                <version>6.0.0</version>
+                <version>${jakarta.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -282,22 +295,22 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.11.0</version>
+                    <version>${maven-compiler-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>${maven-source-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>${maven-javadoc-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>${maven-deploy-plugin.version}</version>
                     <configuration>
                         <skip>true</skip>
                     </configuration>
@@ -306,34 +319,34 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.2.2</version>
+                    <version>${maven-checkstyle-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.5.3.0</version>
+                    <version>${spotbugs-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.7</version>
+                    <version>${jacoco-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>${maven-surefire-plugin.version}</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>${maven-war-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.tomee.maven</groupId>
                     <artifactId>tomee-maven-plugin</artifactId>
-                    <version>7.1.3</version> <!-- TomEE 8 uses Java EE 8 -->
+                    <version>${tomee-maven-plugin.version}</version> <!-- TomEE 8 uses Java EE 8 -->
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>

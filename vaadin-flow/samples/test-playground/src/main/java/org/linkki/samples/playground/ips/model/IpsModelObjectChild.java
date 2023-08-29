@@ -46,6 +46,7 @@ public class IpsModelObjectChild extends IpsModelObject {
      *
      * @generated
      */
+    @IpsAllowedValues("string")
     public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_STRING = new UnrestrictedValueSet<>(true);
 
     /**

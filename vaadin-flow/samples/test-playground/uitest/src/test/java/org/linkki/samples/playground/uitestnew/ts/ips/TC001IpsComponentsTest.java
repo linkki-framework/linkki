@@ -35,7 +35,7 @@ public class TC001IpsComponentsTest {
     @UITestConfiguration(locale = "en")
     class TC001IpsComponentsTestEn extends AbstractTC001IpsComponentsTest {
         TC001IpsComponentsTestEn() {
-            super("A String attribute", "Overridden attribute");
+            super("A String attribute", "Overriden attribute");
         }
     }
 

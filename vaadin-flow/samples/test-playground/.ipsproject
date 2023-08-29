@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="24.1.a20230728-01"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="24.1.a20230828-01"/>
  </RequiredIpsFeatures>
 
  <!--
