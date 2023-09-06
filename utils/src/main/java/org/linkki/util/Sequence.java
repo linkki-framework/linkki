@@ -42,18 +42,20 @@ import edu.umd.cs.findbugs.annotations.CheckReturnValue;
  * To allow access to the elements of this sequence it implements the {@link Iterable} interface and
  * provides methods like {@link #list()} or {@link #stream()} to access the internal list.
  */
-public class Sequence<T> implements Iterable<T>, Serializable {
+public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<T> list;
+    public Sequence {
+        list = List.copyOf(list);
+    }
 
     private Sequence() {
-        this.list = Collections.emptyList();
+        this(Collections.emptyList());
     }
 
     private Sequence(Collection<T> collection) {
-        this.list = Collections.unmodifiableList(new ArrayList<>(collection));
+        this(List.copyOf(collection));
     }
 
     /**
@@ -142,7 +144,6 @@ public class Sequence<T> implements Iterable<T>, Serializable {
         return with(Arrays.asList(newElements));
     }
 
-
     /**
      * Returns a new {@link Sequence} concatenated with the elements produced by the given
      * {@link Supplier Suppliers} if the condition is {@code true}. This {@link Sequence} is not
@@ -177,15 +178,6 @@ public class Sequence<T> implements Iterable<T>, Serializable {
         } else {
             return this;
         }
-    }
-
-    /**
-     * Returns the values/objects in the sequence as unmodifiable list in the order they are added.
-     * 
-     * @return an unmodifiable list containing all elements of this sequence.
-     */
-    public List<T> list() {
-        return list;
     }
 
     @Override

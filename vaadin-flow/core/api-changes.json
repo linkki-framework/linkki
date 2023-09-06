@@ -31,131 +31,30 @@
             }
         }
     ],
-    "2.2.0": [
+    "2.6.0": [
         {
             "extension": "revapi.differences",
             "configuration": {
                 "ignore": true,
                 "differences": [
                     {
-                        "code": "java.method.added",
-                        "new": "method void org.linkki.core.vaadin.component.base.LinkkiText::setIconOnComponent(com.vaadin.flow.component.icon.VaadinIcon, java.util.function.Consumer<com.vaadin.flow.component.icon.Icon>)",
-                        "justification": "LIN-3176/LIN-3177 :: Fix icon size in LinkkiText prefix and suffix components"
+                        "code": "java.class.nonFinalClassInheritsFromNewClass",
+                        "old": "class org.linkki.util.Sequence<T>",
+                        "new": "class org.linkki.util.Sequence<T>",
+                        "superClass": "java.lang.Record",
+                        "justification": "LIN-3570"
                     },
                     {
-                        "code": "java.field.addedStaticField",
-                        "new": "field org.linkki.core.vaadin.component.base.LinkkiText.ICON_CLASS_NAME",
-                        "justification": "LIN-3176/LIN-3177 :: Fix icon size in LinkkiText prefix and suffix components"
-                    },
-                    {
-                        "code": "java.annotation.added",
-                        "old": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getCaption(===T===)",
-                        "new": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getCaption(===T===)",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
-                        "justification": "LIN-3213/LIN-3218"
-                    }
-                ]
-            }
-        }
-    ],
-    "2.3.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.class.noLongerInheritsFromClass",
-                        "class": "org.linkki.core.ui.aspects.LabelAspectDefinition",
-                        "justification": "LIN-2529/LIN-3257"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(java.util.List<? extends org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "new": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(org.linkki.core.binding.descriptor.property.BoundProperty, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    },
-                    {
-                        "code": "java.method.removed",
-                        "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::addAspectDefinitions(java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
+                        "code": "java.class.kindChanged",
+                        "old": "class org.linkki.util.Sequence<T>",
+                        "new": "class org.linkki.util.Sequence<T>",
+                        "justification": "LIN-3570 - is now a record instead of class"
                     },
                     {
                         "code": "java.class.nowFinal",
-                        "old": "class org.linkki.core.binding.descriptor.BindingDescriptor",
-                        "new": "class org.linkki.core.binding.descriptor.BindingDescriptor",
-                        "justification": "LIN-1090/LIN-3248: Reintroduce BindingDescriptor"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.annotation.removed",
-                        "old": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
-                        "new": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
-                        "annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
-                        "justification": "LIN-1090/LIN-3253"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.annotation.added",
-                        "old": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
-                        "new": "method java.lang.String .*org\\.linkki\\.core\\.ui\\.element\\.annotation\\..*",
-                        "annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObjectProperty",
-                        "justification": "LIN-1090/LIN-3253"
-                    }
-                ]
-            }
-        }
-    ],
-    "2.4.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.class.noLongerInheritsFromClass",
-                        "old": "class org.linkki.core.vaadin.component.base.LabelComponentFormItem",
-                        "new": "class org.linkki.core.vaadin.component.base.LabelComponentFormItem",
-                        "justification": "LIN-3350 :: Update to Vaadin 24"
-                    },
-                    {
-                        "code": "java.class.noLongerInheritsFromClass",
-                        "old": "class org.linkki.core.vaadin.component.base.LinkkiCheckBox",
-                        "new": "class org.linkki.core.vaadin.component.base.LinkkiCheckBox",
-                        "justification": "LIN-3350 :: Update to Vaadin 24"
-
-                    },
-                    {
-                        "code": "java.annotation.added",
-                        "old": "method void org.linkki.core.vaadin.component.page.AbstractPage::init()",
-                        "new": "method void org.linkki.core.vaadin.component.page.AbstractPage::init()",
-                        "annotation": "@jakarta.annotation.PostConstruct",
-                        "justification": "LIN-3350 :: Update to Vaadin 24"
-                    },
-                    {
-                        "code": "java.annotation.removed",
-                        "old": "method void org.linkki.core.vaadin.component.page.AbstractPage::init()",
-                        "new": "method void org.linkki.core.vaadin.component.page.AbstractPage::init()",
-                        "annotation": "@javax.annotation.PostConstruct",
-                        "justification": "LIN-3350 :: Update to Vaadin 24"
-                    }
-                ]
-            }
-        }
-    ],
-    "2.5.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.method.defaultValueChanged",
-                        "old": "method org.linkki.core.ui.layout.VerticalAlignment org.linkki.core.ui.layout.annotation.UIHorizontalLayout::alignment()",
-                        "new": "method org.linkki.core.ui.layout.VerticalAlignment org.linkki.core.ui.layout.annotation.UIHorizontalLayout::alignment()",
-                        "oldValue": "org.linkki.core.ui.layout.VerticalAlignment.MIDDLE",
-                        "newValue": "org.linkki.core.ui.layout.VerticalAlignment.BASELINE",
-                        "justification": "LIN-3422"
+                        "old": "class org.linkki.util.Sequence<T>",
+                        "new": "class org.linkki.util.Sequence<T>",
+                        "justification": "LIN-3570 - was effectively final before"
                     }
                 ]
             }

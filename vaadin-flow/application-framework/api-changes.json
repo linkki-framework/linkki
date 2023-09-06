@@ -31,57 +31,30 @@
       }
     }
   ],
-  "2.5.0": [
+  "2.6.0": [
     {
       "extension": "revapi.differences",
       "configuration": {
         "ignore": true,
         "differences": [
           {
-            "code": "java.annotation.attributeRemoved",
-            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getCopyright()",
-            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getCopyright()",
-            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 40)",
-            "attribute": "htmlContent",
-            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
+            "code": "java.class.nonFinalClassInheritsFromNewClass",
+            "old": "class org.linkki.util.Sequence<T>",
+            "new": "class org.linkki.util.Sequence<T>",
+            "superClass": "java.lang.Record",
+            "justification": "LIN-3570"
           },
           {
-            "code": "java.annotation.attributeRemoved",
-            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getDescription()",
-            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getDescription()",
-            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 30)",
-            "attribute": "htmlContent",
-            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
+            "code": "java.class.kindChanged",
+            "old": "class org.linkki.util.Sequence<T>",
+            "new": "class org.linkki.util.Sequence<T>",
+            "justification": "LIN-3570 - is now a record instead of class"
           },
           {
-            "code": "java.annotation.attributeRemoved",
-            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getTitle()",
-            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getTitle()",
-            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 10)",
-            "attribute": "htmlContent",
-            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
-          },
-          {
-            "code": "java.annotation.attributeRemoved",
-            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getVersion()",
-            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getVersion()",
-            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 20)",
-            "attribute": "htmlContent",
-            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
-          },
-          {
-            "code": "java.annotation.removed",
-            "old": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
-            "new": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
-            "annotation": "@org.linkki.core.ui.layout.annotation.UISection",
-            "justification": "LIN-3659 :: Fix unwanted whitespace in ApplicationInfoDialog"
-          },
-          {
-            "code": "java.annotation.added",
-            "old": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
-            "new": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
-            "annotation": "@org.linkki.core.ui.layout.annotation.UIVerticalLayout",
-            "justification": "LIN-3659 :: Fix unwanted whitespace in ApplicationInfoDialog"
+            "code": "java.class.nowFinal",
+            "old": "class org.linkki.util.Sequence<T>",
+            "new": "class org.linkki.util.Sequence<T>",
+            "justification": "LIN-3570 - was effectively final before"
           }
         ]
       }
