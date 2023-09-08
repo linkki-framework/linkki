@@ -99,24 +99,23 @@ class BindValidationMessagesHandlerTest {
     }
 
     @Test
-    void testProcessMessages_GetRelevantMessagesFailed() throws NoSuchMethodException {
+    void testProcessMessages_UsageInGridReturnEmptyMessageList() throws NoSuchMethodException {
         TestPmo pmo = new TestPmo();
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
-        when(dispatcher.getBoundObject()).thenReturn(this.getClass());
+        when(dispatcher.getBoundObject()).thenReturn(TestPmo.class);
         LinkkiMessageHandler messageHandler = getMessageHandlerForMethod(pmo, ERRORS_ONLY_TEXT_FIELD);
 
         assertThat(messageHandler).isInstanceOf(BindValidationMessagesHandler.class);
 
         BindValidationMessagesHandler validationHandler = (BindValidationMessagesHandler)messageHandler;
 
-        assertThatThrownBy(() -> validationHandler.getRelevantMessages(MESSAGES, dispatcher))
-                .isInstanceOf(LinkkiBindingException.class)
-                .hasMessage("Cannot invoke method getOnlyErrorsTextFieldMessages(MessagesList) on " + this.getClass());
+        var relevantMessages = validationHandler.getRelevantMessages(MESSAGES, dispatcher);
+        assertThat(relevantMessages).isEmpty();
     }
 
     /**
-     * Mocks a {@link PropertyDispatcher} which contains the class {@link TestPmo} as the bound object
-     * and returns defined {@link #MESSAGES messages}.
+     * Mocks a {@link PropertyDispatcher} which contains the {@link TestPmo} as the bound object and
+     * returns defined {@link #MESSAGES messages}.
      *
      * @param pmo The bound PMO object
      */

@@ -104,3 +104,5 @@ Similarly, the PmoBasedDialogFactory class has also been equipped with an overlo
 * Fixed added child rows are not visible in hierarchical tables
 // https://jira.convista.com/browse/LIN-3422
 * Fixed the issue where error messages in a HorizontalLayout containing nested components within a Section were causing misalignment due to the VerticalLayout being set to "Middle." The fix involved setting the vertical alignment of UIHorizontalLayout to "Baseline," ensuring consistent alignment and enhancing visual cohesiveness and readability.
+// https://jira.convista.com/browse/LIN-3531
+* Fixed @BindMessages not working on Grid column fields
