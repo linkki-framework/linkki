@@ -38,6 +38,7 @@ import org.linkki.samples.playground.bugs.lin2622.MassValuesComboBoxPmo;
 import org.linkki.samples.playground.bugs.lin2867.FocusringBug;
 import org.linkki.samples.playground.bugs.lin2915.OverflowIssues;
 import org.linkki.samples.playground.bugs.lin3497.FrontendDependencyInjectionTestInterface;
+import org.linkki.samples.playground.bugs.lin3531.BindMessagesOnGridColumnsBug;
 import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
@@ -99,6 +100,10 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                              .content(() -> new VerticalLayout(frontendDependencyInjectionTest.createComponent(),
                                      VaadinUiCreator.createComponent(frontendDependencyInjectionTest.createPmo(),
                                                                      new BindingContext())))
+                             .build(),
+                     LinkkiTabSheet.builder("LIN-3531")
+                             .caption(createCaptionLink("LIN-3531", "LIN-3531"))
+                             .content(BindMessagesOnGridColumnsBug::new)
                              .build());
     }
 

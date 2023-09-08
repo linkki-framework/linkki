@@ -245,3 +245,5 @@ When user-supplied strings are included in HTML content, they have to be escaped
 * Added missing CSS tweaks for `MultiSelectComboBox` (e.g. no `max-height` for error message)
 // https://jira.faktorzehn.de/browse/LIN-3415
 * Fixed overlapping labels and input fields in small browser windows
+// https://jira.faktorzehn.de/browse/LIN-3531
+* Fixed @BindMessages not working on Grid Column Fields

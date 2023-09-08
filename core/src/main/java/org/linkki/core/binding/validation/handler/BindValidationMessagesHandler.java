@@ -14,16 +14,15 @@
 
 package org.linkki.core.binding.validation.handler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.MessageList;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 // tag::message-handler[]
 public class BindValidationMessagesHandler extends DefaultMessageHandler {
@@ -43,53 +42,29 @@ public class BindValidationMessagesHandler extends DefaultMessageHandler {
             return key.pmoClass.getMethod(validationMethodName, MessageList.class);
         } catch (NoSuchMethodException | SecurityException e) {
             throw new LinkkiBindingException(String.format("Cannot find method %s(MessagesList) in %s",
-                                                           validationMethodName, key.pmoClass.getName()), e);
+                                                           validationMethodName, key.pmoClass.getName()),
+                    e);
         }
     }
 
     @Override
     protected MessageList getRelevantMessages(MessageList messages, PropertyDispatcher propertyDispatcher) {
         try {
+            if (propertyDispatcher.getBoundObject() instanceof Class<?>) {
+                // The bound object is most likely a column from a grid.
+                 return new MessageList();
+            }
             return (MessageList)validationMethod.invoke(propertyDispatcher.getBoundObject(), messages);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new LinkkiBindingException(String.format("Cannot invoke method %s(MessagesList) on %s",
                                                            validationMethod.getName(),
-                                                           propertyDispatcher.getBoundObject()), e);
+                                                           propertyDispatcher.getBoundObject()),
+                    e);
         }
     }
 
     // end::message-handler[]
-    private static class CacheKey {
-
-        private final Class<?> pmoClass;
-        private final String propertyName;
-
-        public CacheKey(Class<?> pmoClass, String modelObjectName) {
-            this.pmoClass = pmoClass;
-            this.propertyName = modelObjectName;
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + ((propertyName == null) ? 0 : propertyName.hashCode());
-            result = prime * result + ((pmoClass == null) ? 0 : pmoClass.hashCode());
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            CacheKey cacheKey = (CacheKey)o;
-            return Objects.equals(pmoClass, cacheKey.pmoClass)
-                    && Objects.equals(propertyName, cacheKey.propertyName);
-        }
+    private record CacheKey(Class<?> pmoClass, String propertyName) {
     }
     // tag::message-handler[]
 }
