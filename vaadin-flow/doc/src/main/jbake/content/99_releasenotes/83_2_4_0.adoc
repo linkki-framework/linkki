@@ -5,6 +5,14 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.4.4
+
+==== Bugfixes
+
+// https://jira.faktorzehn.de/browse/LIN-3531
+* Fixed @BindMessages not working on Grid column fields
+
+
 === Version 2.4.3
 
 ==== New features and improvements
@@ -245,5 +253,4 @@ When user-supplied strings are included in HTML content, they have to be escaped
 * Added missing CSS tweaks for `MultiSelectComboBox` (e.g. no `max-height` for error message)
 // https://jira.faktorzehn.de/browse/LIN-3415
 * Fixed overlapping labels and input fields in small browser windows
-// https://jira.faktorzehn.de/browse/LIN-3531
-* Fixed @BindMessages not working on Grid Column Fields
+
