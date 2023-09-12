@@ -14,8 +14,6 @@
 
 package org.linkki.framework.ui.component;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.function.Supplier;
 
 import org.linkki.core.binding.validation.message.Message;
@@ -34,7 +32,10 @@ import com.vaadin.flow.component.dependency.CssImport;
 public class MessageTablePmo extends SimpleTablePmo<Message, MessageRowPmo> {
 
     protected MessageTablePmo(Supplier<MessageList> messageList) {
-        super(() -> messageList.get().stream().collect(toList()));
+        super(() -> messageList.get()
+                .stream()
+                .distinct()
+                .toList());
     }
 
     @Override

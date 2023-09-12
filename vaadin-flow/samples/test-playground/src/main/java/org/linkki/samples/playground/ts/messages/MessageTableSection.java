@@ -74,6 +74,8 @@ public class MessageTableSection {
             if (messagesPresent) {
                 return new MessageList(
                         Message.builder("An error message", Severity.ERROR).create(),
+                        //one duplicate message to test LIN-3530
+                        Message.builder("An error message", Severity.ERROR).create(),
                         Message.builder("A warning message", Severity.WARNING).create(),
                         Message.builder("An info message", Severity.INFO).create());
             } else {

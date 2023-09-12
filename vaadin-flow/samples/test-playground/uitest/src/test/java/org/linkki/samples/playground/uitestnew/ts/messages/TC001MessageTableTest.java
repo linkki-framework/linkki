@@ -43,6 +43,11 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         var span = $(SpanElement.class).id(MESSAGE_TABLE + "_title");
         assertThat(span.getText()).isEqualTo("Message Table");
     }
+    @Test
+    void testTitleDuplicateMessageDoesNotShowAsEmptyRow() {
+        GridElement grid = $(GridElement.class).id(MESSAGE_TABLE);
+        assertThat(grid.getRowCount()).isEqualTo(3);
+    }
 
     @Test
     void testErrorIcon() {

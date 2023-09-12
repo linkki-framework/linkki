@@ -106,3 +106,5 @@ Similarly, the PmoBasedDialogFactory class has also been equipped with an overlo
 * Fixed the issue where error messages in a HorizontalLayout containing nested components within a Section were causing misalignment due to the VerticalLayout being set to "Middle." The fix involved setting the vertical alignment of UIHorizontalLayout to "Baseline," ensuring consistent alignment and enhancing visual cohesiveness and readability.
 // https://jira.convista.com/browse/LIN-3531
 * Fixed @BindMessages not working on Grid column fields
+// https://jira.convista.com/browse/LIN-3530
+* Fixed empty rows in MessageTablePmo when duplicate messages are present
