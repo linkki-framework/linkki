@@ -93,6 +93,11 @@ The DialogBindingManager class has been enhanced to offer an overloaded construc
 
 Similarly, the PmoBasedDialogFactory class has also been equipped with an overloaded constructor that embraces the PropertyDispatcherFactory parameter, or reverting to the default Java constructor if needed. Additionally, the PmoBasedDialogFactory class has been seamlessly integrated with the recently introduced overloaded constructor of the DialogBindingManager class.
 
+===== `UITimeField` added
+
+A new annotation <<ui-timefield, @UITimeField>> has been added for selecting a time. 
+The annotation has the property `step` for setting the time interval in the time picker overlay.
+
 // ===== Other
 
 ==== Bugfixes

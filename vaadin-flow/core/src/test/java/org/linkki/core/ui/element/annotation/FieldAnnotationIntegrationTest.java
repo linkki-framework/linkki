@@ -37,21 +37,19 @@ abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?, ?>, P e
 
     @Test
     void testRequired() {
-        assertThat(getStaticComponent().isRequiredIndicatorVisible(), is(true));
+        assertThat(getStaticComponent().isRequiredIndicatorVisible()).isTrue();
         testBinding(F::isRequiredIndicatorVisible, AnnotationTestPmo::setRequired, false);
     }
 
     /**
-     * Tests if null value is correctly transfered to the model if the field is required.
-     * 
-     * @see FieldValueAspectDefinition#prepareFieldToHandleNullForRequiredFields(AbstractField)
+     * Tests if null value is correctly transferred to the model if the field is required.
      */
     abstract void testNullInputIfRequired();
 
     @Test
     void testReadonlyWithoutSetter() {
-        assertThat(getStaticComponent().isReadOnly(), is(true));
-        assertThat(getDynamicComponent().isReadOnly(), is(false));
+        assertThat(getStaticComponent().isReadOnly()).isTrue();
+        assertThat(getDynamicComponent().isReadOnly()).isFalse();
     }
 
     @Test
@@ -69,9 +67,7 @@ abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?, ?>, P e
     void testAutocompleteOff() {
         F component = createFirstComponent();
 
-        if (component instanceof HasAutocomplete) {
-            HasAutocomplete autocompleteComponent = (HasAutocomplete)component;
-
+        if (component instanceof HasAutocomplete autocompleteComponent) {
             assertThat(autocompleteComponent.getAutocomplete()).isEqualTo(Autocomplete.OFF);
         }
     }

@@ -20,6 +20,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>> |Field for numbers
 |<<ui-checkbox,`UICheckbox`>> |Control for boolean input
 |<<ui-datefield,`UIDateField`>> |Field for date entry with date picker
+|<<ui-timefield,`UITimeField`>> |Field for time entry with time picker
 |<<ui-datetimefield,`UIDateTimeField`>> |Field for date and time entry with date time picker
 |<<ui-combobox,`UIComboBox`>> |Dropdown field with predefined options
 |<<ui-multiselect,`UIMultiSelect`>> |Dropdown field with predefined options for selecting multiple options
@@ -153,20 +154,25 @@ If no format is specified for a `UIIntegerField`, *linkki* uses the default Java
 
 [[ui-datefield]]
 ==== UIDateField
-The annotation https://vaadin.com/docs/latest/components/date-picker[`@UIDateField`] generates a date input field and corresponds to `com.vaadin.flow.component.datepicker.DatePicker`. It allows specifying a date format using the property `dateFormat: String`. If no date format is defined, the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
+The annotation `@UIDateField` generates a date input field and corresponds to https://vaadin.com/docs/latest/components/date-picker[`com.vaadin.flow.component.datepicker.DatePicker`]. It allows specifying a date format using the property `dateFormat: String`. If no date format is defined, the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
 The UIDateField allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
 
-[[ui-datetimefield]]
-==== UIDateTimeField
-The annotation https://vaadin.com/docs/latest/components/date-time-picker[`@UIDateTimeField`] generates a date and time input field and corresponds to `com.vaadin.flow.component.datetimepicker.DateTimePicker`. It is used for selecting both a date and a time of day. `UIDateTimeField` has all the properties of the annotation <<ui-datefield, UIDateField>>. In addition, it also has:
+[[ui-timefield]]
+==== UITimeField
+The annotation `@UITimeField` generates a time input field and corresponds to https://vaadin.com/docs/latest/components/time-picker[`com.vaadin.flow.component.datepicker.TimePicker`].
+Values typed into the time field will automatically be converted to the format matching the `Locale` setting. E.g. `15:00` becomes `3:00 PM` when the `Locale` is English.
+
+It has one additional property:
 
 * `step: long`
 
-The property `step` defines the time interval, in minutes, between the items displayed in the time picker overlay. It also specifies the amount by which the time increases/decreases using the Up/Down arrow keys (when the overlays are disabled). Its default value is `60`.
+This property defines the time interval in minutes between the items displayed in the time picker overlay. It also specifies the amount by which the time increases/decreases using the Up/Down arrow keys when the overlays are disabled. Its default value is `60`.
 
-WARNING: The `step` must divide an hour or day evenly. For example, `15`, `30` and `120` are valid steps, while `42` and `300` are not. If you use an invalid value, Vaadin will throw an exception!
+WARNING: The `step` must divide an hour or day evenly. For example, `15`, `30` and `60` are valid steps, while `42` and `300` are not. If  an invalid value is used, an exception will be thrown by Vaadin.
 
-Values typed into the time field will automatically be converted to the format matching the `Locale` setting. E.g. `15:00` becomes `3:00 PM` when the `Locale` is English.
+[[ui-datetimefield]]
+==== UIDateTimeField
+The annotation `@UIDateTimeField` generates a date and time input field and corresponds to https://vaadin.com/docs/latest/components/date-time-picker[`com.vaadin.flow.component.datetimepicker.DateTimePicker`]. It is used for selecting both a date and a time of day. `UIDateTimeField` has all the properties of the annotations <<ui-datefield, UIDateField>> and <<ui-timefield, UITimeField>>.
 
 [[ui-combobox]]
 ==== UIComboBox

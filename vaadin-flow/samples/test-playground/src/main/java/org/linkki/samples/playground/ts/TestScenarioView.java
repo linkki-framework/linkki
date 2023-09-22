@@ -80,6 +80,7 @@ import org.linkki.samples.playground.ts.components.MultiSelectPmo;
 import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
 import org.linkki.samples.playground.ts.components.TextAreaPmo;
 import org.linkki.samples.playground.ts.components.TextFieldPmo;
+import org.linkki.samples.playground.ts.components.TimeFieldPmo;
 import org.linkki.samples.playground.ts.components.YesNoComboBoxPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogErrorHandlerPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogWithCustomSizePmo;
@@ -253,6 +254,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC013, new DateTimeFieldPmo())
                                        .testCase(TC014, new YesNoComboBoxPmo())
                                        .testCase(TC015, new MultiSelectPmo())
+                                       .testCase(TC016, new TimeFieldPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, LinkkiTextComponent::new)

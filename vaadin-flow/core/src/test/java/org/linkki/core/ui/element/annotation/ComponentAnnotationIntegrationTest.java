@@ -14,9 +14,7 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyString;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Locale;
 import java.util.function.BiConsumer;
@@ -97,11 +95,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
 
         @NonNull
         Component component1 = TestUiUtil.getComponentAtIndex(0, getDefaultSection());
-        assertThat(component1.getId(), is(getDynamicComponent().getId()));
+        assertThat(component1.getId()).isEqualTo(getDynamicComponent().getId());
 
         @NonNull
         Component component2 = TestUiUtil.getComponentAtIndex(1, getDefaultSection());
-        assertThat(component2.getId(), is(getStaticComponent().getId()));
+        assertThat(component2.getId()).isEqualTo(getStaticComponent().getId());
     }
 
     @Test
@@ -111,9 +109,8 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
 
     @Test
     public void testLabelBinding() {
-        assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 0), is(emptyString()));
-        assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 1),
-                   is(AnnotationTestPmo.TEST_LABEL));
+        assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 0)).isEmpty();
+        assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 1)).isEqualTo(AnnotationTestPmo.TEST_LABEL);
     }
 
     /**
@@ -147,16 +144,16 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
             BiConsumer<AnnotationTestPmo, V> setter,
             V defaultValue,
             V testValue) {
-        assertThat(componentValueGetter.apply(getStaticComponent()), is(testValue));
+        assertThat(componentValueGetter.apply(getStaticComponent())).isEqualTo(testValue);
 
         setter.accept(defaultPmo, testValue);
         modelChanged();
 
         C dynamicComponent = getDynamicComponent();
-        assertThat(componentValueGetter.apply(dynamicComponent), is(testValue));
+        assertThat(componentValueGetter.apply(dynamicComponent)).isEqualTo(testValue);
         setter.accept(defaultPmo, defaultValue);
         modelChanged();
-        assertThat(componentValueGetter.apply(dynamicComponent), is(defaultValue));
+        assertThat(componentValueGetter.apply(dynamicComponent)).isEqualTo(defaultValue);
     }
 
     /**

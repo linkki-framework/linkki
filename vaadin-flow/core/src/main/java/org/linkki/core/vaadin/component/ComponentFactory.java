@@ -43,6 +43,7 @@ import com.vaadin.flow.component.textfield.Autocomplete;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
+import com.vaadin.flow.component.timepicker.TimePicker;
 
 public class ComponentFactory {
 
@@ -250,6 +251,40 @@ public class ComponentFactory {
         // DateTimePicker gets confused with year numbers below 1000 anyway
         field.setMin(LocalDateTime.of(LocalDate.ofYearDay(1000, 1), LocalTime.of(0, 0)));
         field.setMax(LocalDateTime.of(LocalDate.ofYearDay(9999, 365), LocalTime.of(23, 59, 59)));
+        field.setStep(Duration.ofMinutes(step));
+        field.setAutoOpen(autoOpen);
+        field.getElement().setProperty("autoselect", autoselect);
+        return field;
+    }
+
+    /**
+     * Creates a new default {@link TimePicker} with the given step,
+     * {@link TimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect feature to
+     * <code>true</code>.
+     *
+     * @param step the {@link Duration time interval} between the items displayed in the time picker
+     *            overlay
+     */
+    public static TimePicker newTimeField(long step) {
+        return newTimeField(step, false, true);
+    }
+
+    /**
+     * Creates a {@link TimePicker} with the given options.
+     *
+     * @param step The {@link Duration time interval} between the items displayed in the time picker
+     *            overlay
+     * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
+     * @param autoselect If <code>true</code>, the time value will be selected when the field is
+     *            focused.
+     */
+    public static TimePicker newTimeField(long step, boolean autoOpen, boolean autoselect) {
+        if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
+            throw new IllegalStateException("Creating a datetime field requires a UI with locale");
+        }
+        var field = new TimePicker();
+        field.setMin(LocalTime.of(0, 0));
+        field.setMax(LocalTime.of(23, 59, 59));
         field.setStep(Duration.ofMinutes(step));
         field.setAutoOpen(autoOpen);
         field.getElement().setProperty("autoselect", autoselect);

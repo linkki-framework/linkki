@@ -23,10 +23,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Type;
 import java.time.Duration;
-import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -44,58 +43,61 @@ import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
-import org.linkki.core.ui.converters.TwoDigitYearLocalDateTimeConverter;
-import org.linkki.core.ui.element.annotation.UIDateTimeField.DateTimeFieldAspectCreator;
-import org.linkki.core.ui.element.annotation.UIDateTimeField.DateTimeFieldComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.timepicker.TimePicker;
-import com.vaadin.flow.data.converter.Converter;
 
 /**
- * A field for date and time input, in accordance with {@link DateTimePicker}.
+ * A field for time input, in accordance with {@link TimePicker}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBoundProperty
-@LinkkiComponent(DateTimeFieldComponentDefinitionCreator.class)
-@LinkkiAspect(DateTimeFieldAspectCreator.class)
+@LinkkiComponent(UITimeField.TimeFieldComponentDefinitionCreator.class)
+@LinkkiAspect(UITimeField.TimeFieldAspectCreator.class)
 @LinkkiPositioned
-public @interface UIDateTimeField {
+public @interface UITimeField {
 
-    /** Mandatory attribute, defines display order of UI elements */
+    /**
+     * Mandatory attribute, defines display order of UI elements.
+     */
     @LinkkiPositioned.Position
     int position();
 
-    /** Provides a description label next to the UI element */
+    /**
+     * Provides a description label next to the UI element.
+     */
     String label() default DERIVED_BY_LINKKI;
 
-    /** Defines if a UI component is editable, using values of {@link EnabledType} */
+    /**
+     * Defines if a UI component is editable, using values of {@link EnabledType}.
+     */
     EnabledType enabled() default ENABLED;
 
-    /** Marks mandatory fields visually */
+    /**
+     * Marks mandatory fields visually.
+     */
     RequiredType required() default NOT_REQUIRED;
 
     /**
-     * Specifies if a component is shown, using values of {@link VisibleType}
+     * Specifies if a component is shown, using values of {@link VisibleType}.
      */
     VisibleType visible() default VISIBLE;
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model
-     * binding
+     * binding.
      */
     @LinkkiBoundProperty.ModelObjectProperty
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
-     * Name of a property in the class of the bound {@link ModelObject} to use model binding
+     * Name of a property in the class of the bound {@link ModelObject} to use model binding.
      */
     @LinkkiBoundProperty.ModelAttribute
-    String modelAttribute() default "";
+    String modelAttribute() default StringUtils.EMPTY;
 
     /**
      * Defines the time interval (in minutes) between the items displayed in the time picker overlay. It
@@ -106,44 +108,28 @@ public @interface UIDateTimeField {
      */
     long step() default 60L;
 
-    class DateTimeFieldAspectCreator implements AspectDefinitionCreator<UIDateTimeField> {
+    class TimeFieldAspectCreator implements AspectDefinitionCreator<UITimeField> {
 
         @Override
-        public LinkkiAspectDefinition create(UIDateTimeField annotation) {
-            ValueAspectDefinition dateTimeFieldValueAspectDefinition = new ValueAspectDefinition() {
-
-                private final TwoDigitYearLocalDateTimeConverter twoDigitYearConverter = new TwoDigitYearLocalDateTimeConverter();
-
-                @Override
-                protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
-                    @SuppressWarnings("unchecked")
-                    Converter<LocalDateTime, ?> superConverter = (Converter<LocalDateTime, ?>)super.getConverter(presentationType,
-                                                                                                                 modelType);
-                    return twoDigitYearConverter.chain(superConverter);
-                }
-            };
-
-            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
-            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+        public LinkkiAspectDefinition create(UITimeField annotation) {
+            var enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            var requiredAspectDefinition = new RequiredAspectDefinition(
                     annotation.required(),
                     enabledAspectDefinition);
-
             return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
                     enabledAspectDefinition,
                     requiredAspectDefinition,
                     new VisibleAspectDefinition(annotation.visible()),
-                    dateTimeFieldValueAspectDefinition,
+                    new ValueAspectDefinition(),
                     new DerivedReadOnlyAspectDefinition());
         }
-
     }
 
-    class DateTimeFieldComponentDefinitionCreator implements ComponentDefinitionCreator<UIDateTimeField> {
+    class TimeFieldComponentDefinitionCreator implements ComponentDefinitionCreator<UITimeField> {
 
         @Override
-        public LinkkiComponentDefinition create(UIDateTimeField annotation, AnnotatedElement annotatedElement) {
-            return pmo -> ComponentFactory.newDateTimeField(annotation.step());
+        public LinkkiComponentDefinition create(UITimeField annotation, AnnotatedElement annotatedElement) {
+            return pmo -> ComponentFactory.newTimeField(annotation.step());
         }
-
     }
 }
