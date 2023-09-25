@@ -17,13 +17,17 @@ package org.linkki.util.reflection.accessor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.reflect.TypeUtils;
+
 /**
- * Utility class to get easy access to the return value of member. In contrast to {@link PropertyAccessor},
- * values of fields can also be read, in addition to the return value of methods.
+ * Utility class to get easy access to the return value of member. In contrast to
+ * {@link PropertyAccessor}, values of fields can also be read, in addition to the return value of
+ * methods.
  * <p>
  * The implementation may use any performance optimization like caching of access code but never caches
  * the returned value. Every call will retrieve the current value from the method or field.
@@ -95,17 +99,43 @@ public class MemberAccessors {
     }
 
     /**
-     * Returns the type of the given member, either the type of the field, or the return type of the method.
+     * Returns the type of the given member, either the type of the field, or the return type of the
+     * method.
      *
      * @param fieldOrMethod a {@link Field} or {@link Method} to access the value
      * @return the type of the member
      * @throws IllegalArgumentException if the given member is not a field or a method
+     *
+     * @deprecated use {@link #getType(Member, Type)} instead to be able to handle generic types
+     *             properly
      */
+    @Deprecated(since = "2.5.0")
     public static Class<?> getType(Member fieldOrMethod) {
         if (fieldOrMethod instanceof Field field) {
             return field.getType();
         } else if (fieldOrMethod instanceof Method method) {
             return method.getReturnType();
+        } else {
+            throw new IllegalArgumentException("Only field or method is supported, found "
+                    + fieldOrMethod.getClass().getCanonicalName() + " as type of "
+                    + getNameOf(fieldOrMethod));
+        }
+    }
+
+    /**
+     * Returns the type of the given member, either the type of the field, or the return type of the
+     * method. The concrete {@link Type class} is required to be able to handle generics types properly.
+     *
+     * @param fieldOrMethod a {@link Field} or {@link Method} to access the value
+     * @param clazz the {@link Type class} that contains the member
+     * @return the type of the member
+     * @throws IllegalArgumentException if the given member is not a field or a method
+     */
+    public static Class<?> getType(Member fieldOrMethod, Type clazz) {
+        if (fieldOrMethod instanceof Field field) {
+            return field.getType();
+        } else if (fieldOrMethod instanceof Method method) {
+            return TypeUtils.getRawType(method.getGenericReturnType(), clazz);
         } else {
             throw new IllegalArgumentException("Only field or method is supported, found "
                     + fieldOrMethod.getClass().getCanonicalName() + " as type of "

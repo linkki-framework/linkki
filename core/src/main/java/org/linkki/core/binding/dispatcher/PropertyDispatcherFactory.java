@@ -89,7 +89,7 @@ public class PropertyDispatcherFactory {
         PropertyDispatcher fallbackDispatcher = ModelObjects.getModelObjectAccessMember(pmo, modelObjectName)
                 .map(member -> new ReflectionPropertyDispatcher(
                         () -> MemberAccessors.getValue(pmo, member),
-                        MemberAccessors.getType(member),
+                        MemberAccessors.getType(member, pmo.getClass()),
                         modelObjectProperty,
                         wrappedDispatcher))
                 .map(PropertyDispatcher.class::cast)

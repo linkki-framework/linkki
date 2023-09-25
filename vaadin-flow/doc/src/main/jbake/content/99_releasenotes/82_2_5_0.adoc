@@ -17,8 +17,9 @@
 |Vaadin             |24.1.7
 |===
 
-//https://jira.convista.com/browse/LIN-3144
-//https://jira.convista.com/browse/LIN-3067
+// https://jira.convista.com/browse/LIN-3144
+// https://jira.convista.com/browse/LIN-3067
+// https://jira.convista.com/browse/LIN-3551
 [role="api-change"]
 ===== Improved update behavior
 
@@ -34,6 +35,8 @@ Aspect definitions that are provided by linkki are adjusted accordingly. In case
 Custom aspect definition may need to be adjusted to be able to handle `null` value. If model object is `null` upon update, `PropertyDispatcher#pull` now returns `null` instead of throwing an exception. This can then be handled in the UI updater created in `LinkkiApsectDefinition#createUiupdater`.
 +
 When using `ModelToUiAspectDefinition`, a new method `#handleNullItem` has been introduced which can be overridden to define the `null` handling. The behavior defaults to calling the component value setter created by `#createComponentValueSetter` with `null`.
++
+To be able to handle `null` values for generic model objects properly when using the `PropertyDispatcherFactory`, `MemberAccessors#getType(Member)` has been deprecated and replaced by `MemberAccessors#getType(Member, Type)`, where `Type` is the concrete PMO class.
 
 
 // https://jira.convista.com/browse/LIN-3470

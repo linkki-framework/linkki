@@ -14,9 +14,9 @@
 
 package org.linkki.util.reflection.accessor;
 
-import org.junit.jupiter.api.Test;
-import org.linkki.util.reflection.LookupProvider;
-import org.linkki.util.reflection.accessor.MemberAccessors;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -28,7 +28,8 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.linkki.util.reflection.LookupProvider;
 
 class MemberAccessorsTest {
 
@@ -115,13 +116,13 @@ class MemberAccessorsTest {
     @Test
     void testGetType_Field() throws NoSuchFieldException {
         Member field = TestObject.class.getDeclaredField("field");
-        assertThat(MemberAccessors.getType(field)).isEqualTo(String.class);
+        assertThat(MemberAccessors.getType(field, TestObject.class)).isEqualTo(String.class);
     }
 
     @Test
     void testGetType_Method() throws NoSuchMethodException {
         Member method = TestObject.class.getDeclaredMethod("getValue");
-        assertThat(MemberAccessors.getType(method)).isEqualTo(String.class);
+        assertThat(MemberAccessors.getType(method, TestObject.class)).isEqualTo(String.class);
     }
 
     @Test
@@ -130,19 +131,33 @@ class MemberAccessorsTest {
         Constructor<? extends TestObject> constructor = testObject.getClass().getDeclaredConstructor();
 
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> MemberAccessors.getType(constructor))
+                .isThrownBy(() -> MemberAccessors.getType(constructor, TestObject.class))
                 .withMessageContaining("Only field or method is supported")
                 .withMessageContaining("java.lang.reflect.Constructor")
                 .withMessageContaining(TestObject.class.getName());
     }
 
     @Test
+    @SuppressWarnings("deprecation")
+    void testGetType_GenericSuperClass_Deprecated() throws NoSuchMethodException {
+        var method = GenericSuperClass.class.getMethod("getTestObject");
+        // only the superclass of the return type is found
+        assertThat(MemberAccessors.getType(method)).isEqualTo(TestObject.class);
+    }
+
+    @Test
+    void testGetType_GenericSuperClass() throws NoSuchMethodException {
+        var method = GenericSuperClass.class.getMethod("getTestObject");
+        assertThat(MemberAccessors.getType(method, GenericSuperclassImpl.class)).isEqualTo(InheritedTestObject.class);
+    }
+
+    @Test
     void testGetValue_DifferentClassloader() throws NoSuchMethodException,
-                                                    ClassNotFoundException,
-                                                    InvocationTargetException,
-                                                    InstantiationException,
-                                                    IllegalAccessException,
-                                                    IOException {
+            ClassNotFoundException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException,
+            IOException {
         try (var simulatedRestartClassLoader = new SimulatedRestartClassLoader(TestObject.class)) {
             var classInCustomClassLoader = simulatedRestartClassLoader.loadClass(TestObject.class.getName());
             var method = classInCustomClassLoader.getDeclaredMethod("getValue");
@@ -158,11 +173,11 @@ class MemberAccessorsTest {
 
     @Test
     void testGetValue_DifferentClassloader_Exception() throws NoSuchMethodException,
-                                                              ClassNotFoundException,
-                                                              InvocationTargetException,
-                                                              InstantiationException,
-                                                              IllegalAccessException,
-                                                              IOException {
+            ClassNotFoundException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException,
+            IOException {
         try (var simulatedRestartClassLoader = new SimulatedRestartClassLoader(TestObject.class)) {
             var classInCustomClassLoader = simulatedRestartClassLoader.loadClass(TestObject.class.getName());
             var method = classInCustomClassLoader.getDeclaredMethod("getThrowException");
@@ -181,7 +196,8 @@ class MemberAccessorsTest {
         private final Class<?>[] classes;
 
         public SimulatedRestartClassLoader(Class<?>... classes) {
-            super(Stream.of(classes).map(c -> c.getProtectionDomain().getCodeSource().getLocation()).toArray(URL[]::new), null);
+            super(Stream.of(classes).map(c -> c.getProtectionDomain().getCodeSource().getLocation())
+                    .toArray(URL[]::new), null);
             this.classes = classes;
             this.delegate = Thread.currentThread().getContextClassLoader();
         }
@@ -228,4 +244,24 @@ class MemberAccessorsTest {
         }
     }
 
+    private static abstract class GenericSuperClass<T extends TestObject> {
+
+        private T testObject;
+
+        public T getTestObject() {
+            return testObject;
+        }
+
+        public void setTestObject(T testObject) {
+            this.testObject = testObject;
+        }
+    }
+
+    private static class GenericSuperclassImpl extends GenericSuperClass<InheritedTestObject> {
+        // nothing to do here
+    }
+
+    private static class InheritedTestObject extends TestObject {
+        // nothing to do here
+    }
 }
