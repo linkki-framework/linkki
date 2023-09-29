@@ -53,24 +53,32 @@ public class FieldValidationPmo {
     public static final String PROPERTY_COMBOBOX = "comboBox";
     public static final String PROPERTY_MULTISELECT = "multiSelect";
     public static final String PROPERTY_DATE_TIME_FIELD = "dateTimeField";
-    public static final String PROPERTY_ALL_ERRORS_TEXT_FIELD = "allErrorsTextField";
+    public static final String PROPERTY_ONLY_ERRORS_FIELD = "onlyErrorsTextField";
 
     private static final List<Severity> SEVERITY_VALUES = Arrays.asList(null, Severity.INFO, Severity.WARNING,
                                                                         Severity.ERROR);
     private static final List<String> COMBOBOX_VALUES = Arrays.asList(null, "Sample", "Test");
     private static final List<String> MULTISELECT_VALUES = Arrays.asList("Red", "Green", "Blue");
 
-    @CheckForNull
-    private Severity severity = null;
     private boolean showLongValidationMessage = false;
     private boolean fieldsReadOnly = false;
 
+    @CheckForNull
+    private Severity severity = null;
     private String textFieldValue = StringUtils.EMPTY;
     private String comboBoxValue = "Sample";
     private Set<String> multiSelectValues = Collections.emptySet();
     private LocalDateTime dateTimeFieldValue = LocalDateTime.now();
 
-    @UIComboBox(position = 10, label = "Message severity", content = AvailableValuesType.DYNAMIC)
+    public static Component createComponent() {
+        var pmo = new FieldValidationPmo();
+        ValidationService validationService = pmo::validate;
+        var bindingManager = new DefaultBindingManager(validationService);
+        return VaadinUiCreator.createComponent(pmo, bindingManager.getContext(pmo.getClass()));
+    }
+
+    @UIComboBox(position = 10, label = "Add Generic Validation Message With Severity",
+            content = AvailableValuesType.DYNAMIC, width = "350px")
     public Severity getSeverity() {
         return severity;
     }
@@ -83,7 +91,7 @@ public class FieldValidationPmo {
         return SEVERITY_VALUES;
     }
 
-    @UICheckBox(position = 15, caption = "Show long validation message to test line break")
+    @UICheckBox(position = 15, caption = "Show very long generic message to test line break")
     public boolean isShowLongValidationMessage() {
         return showLongValidationMessage;
     }
@@ -102,7 +110,7 @@ public class FieldValidationPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextField(position = 20, label = "Red border when invalid and read-only")
+    @UITextField(position = 20, label = "@UITextField: must not contain more than 1 character!")
     public String getTextField() {
         return textFieldValue;
     }
@@ -116,7 +124,7 @@ public class FieldValidationPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIComboBox(position = 21, label = "Red border when invalid and read-only", content = AvailableValuesType.DYNAMIC,
+    @UIComboBox(position = 21, label = "@UIComboBox: must not be empty!", content = AvailableValuesType.DYNAMIC,
             width = "18em")
     public String getComboBox() {
         return comboBoxValue;
@@ -135,7 +143,7 @@ public class FieldValidationPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIMultiSelect(position = 22, label = "Red border when invalid and read-only", width = "18em")
+    @UIMultiSelect(position = 22, label = "@UIMultiSelect: at most two elements can be selected!", width = "18em")
     public Set<String> getMultiSelect() {
         return multiSelectValues;
     }
@@ -153,7 +161,7 @@ public class FieldValidationPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDateTimeField(position = 23, label = "Red border when invalid and read-only")
+    @UIDateTimeField(position = 23, label = "@UIDateTimeField: should not be empty!")
     public LocalDateTime getDateTimeField() {
         return dateTimeFieldValue;
     }
@@ -168,16 +176,12 @@ public class FieldValidationPmo {
 
     // tag::bind-messages[]
     @BindMessages
-    @UITextField(position = 30, label = "Interested in all errors")
-    public String getAllErrorsTextField() {
-        return textFieldValue;
+    @UITextField(position = 30, label = "Interested in all error messages")
+    public String getOnlyErrorsTextField() {
+        return "This component will show all validation error messages from all the other components";
     }
 
-    public void setAllErrorsTextField(String t) {
-        textFieldValue = t;
-    }
-
-    public MessageList getAllErrorsTextFieldMessages(MessageList messages) {
+    public MessageList getOnlyErrorsTextFieldMessages(MessageList messages) {
         return messages.stream()
                 .filter(m -> Severity.ERROR == m.getSeverity())
                 .collect(MessageList.collector());
@@ -187,11 +191,14 @@ public class FieldValidationPmo {
     @NonNull
     public MessageList validate() {
         var messages = new MessageList();
+
+        // generic validation messages on all components based on the selected severity
         if (severity == Severity.INFO) {
             // for documentation
             Object invalidObject = this;
             // tag::message-builder[]
-            var message = Message.builder(getValidationMessage("Info validation message"), Severity.INFO)
+            var message = Message
+                    .builder(getValidationMessage("Generic info validation message on all fields"), Severity.INFO)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_SEVERITY)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_TEXT_FIELD)
                     .invalidObjectWithProperties(invalidObject, PROPERTY_COMBOBOX)
@@ -201,7 +208,8 @@ public class FieldValidationPmo {
             // end::message-builder[]
             messages.add(message);
         } else if (severity == Severity.WARNING) {
-            messages.add(Message.builder(getValidationMessage("Warning validation message"), Severity.WARNING)
+            messages.add(Message
+                    .builder(getValidationMessage("Generic warning validation message on all fields"), Severity.WARNING)
                     .invalidObjectWithProperties(this, PROPERTY_SEVERITY)
                     .invalidObjectWithProperties(this, PROPERTY_TEXT_FIELD)
                     .invalidObjectWithProperties(this, PROPERTY_COMBOBOX)
@@ -209,7 +217,8 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(this, PROPERTY_DATE_TIME_FIELD)
                     .create());
         } else if (severity == Severity.ERROR) {
-            messages.add(Message.builder(getValidationMessage("Error validation message"), Severity.ERROR)
+            messages.add(Message
+                    .builder(getValidationMessage("Generic error validation message on all fields"), Severity.ERROR)
                     .invalidObjectWithProperties(this, PROPERTY_SEVERITY)
                     .invalidObjectWithProperties(this, PROPERTY_TEXT_FIELD)
                     .invalidObjectWithProperties(this, PROPERTY_COMBOBOX)
@@ -217,11 +226,29 @@ public class FieldValidationPmo {
                     .invalidObjectWithProperties(this, PROPERTY_DATE_TIME_FIELD)
                     .create());
         }
-        if (comboBoxValue == null) {
-            messages.add(Message.builder("Must not be empty", Severity.ERROR)
-                    .invalidObjectWithProperties(this, "requiredComboBox")
+
+        // component specific validation messages
+        if (textFieldValue.length() > 1) {
+            messages.add(Message.builder("@UITextField: must be at most one character!", Severity.ERROR)
+                    .invalidObjectWithProperties(this, PROPERTY_TEXT_FIELD)
                     .create());
         }
+        if (comboBoxValue == null) {
+            messages.add(Message.builder("@UIComboBox: must not be empty!", Severity.ERROR)
+                    .invalidObjectWithProperties(this, PROPERTY_COMBOBOX)
+                    .create());
+        }
+        if (multiSelectValues.size() > 2) {
+            messages.add(Message.builder("@UIMultiSelect: at most two elements can be selected!", Severity.ERROR)
+                    .invalidObjectWithProperties(this, PROPERTY_MULTISELECT)
+                    .create());
+        }
+        if (dateTimeFieldValue == null) {
+            messages.add(Message.builder("@UIDateTimeField: should not be empty!", Severity.WARNING)
+                    .invalidObjectWithProperties(this, PROPERTY_DATE_TIME_FIELD)
+                    .create());
+        }
+
         return messages;
     }
 
@@ -231,12 +258,5 @@ public class FieldValidationPmo {
                 + "on top of the buttons. Of course, the message only wraps if the size of the screen "
                 + "is small enough.")
                 : baseMessage;
-    }
-
-    public static Component createComponent() {
-        var pmo = new FieldValidationPmo();
-        ValidationService validationService = pmo::validate;
-        var bindingManager = new DefaultBindingManager(validationService);
-        return VaadinUiCreator.createComponent(pmo, bindingManager.getContext(pmo.getClass()));
     }
 }
