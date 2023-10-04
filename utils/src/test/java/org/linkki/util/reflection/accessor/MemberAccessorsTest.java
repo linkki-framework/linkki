@@ -146,9 +146,15 @@ class MemberAccessorsTest {
     }
 
     @Test
-    void testGetType_GenericSuperClass() throws NoSuchMethodException {
+    void testGetType_Method_GenericSuperClass() throws NoSuchMethodException {
         var method = GenericSuperClass.class.getMethod("getTestObject");
         assertThat(MemberAccessors.getType(method, GenericSuperclassImpl.class)).isEqualTo(InheritedTestObject.class);
+    }
+
+    @Test
+    void testGetType_Field_GenericSuperClass() throws NoSuchFieldException {
+        var field = GenericSuperClass.class.getField("testField");
+        assertThat(MemberAccessors.getType(field, GenericSuperclassImpl.class)).isEqualTo(InheritedTestObject.class);
     }
 
     @Test
@@ -246,6 +252,7 @@ class MemberAccessorsTest {
 
     private static abstract class GenericSuperClass<T extends TestObject> {
 
+        public T testField;
         private T testObject;
 
         public T getTestObject() {

@@ -39,7 +39,7 @@ class NullModelObjectIntegrationTest {
         var children = component.getChildren().toList();
         assertThat(children.size())
                 .as("Child components are created")
-                .isEqualTo(4);
+                .isEqualTo(5);
 
         var component1 = (HasValue<?, ?>)children.get(0);
         assertThat(component1.getValue())
@@ -69,6 +69,11 @@ class NullModelObjectIntegrationTest {
                 .as("If the value aspect delegates to the model object, the value of the field is cleared" +
                         "even if the converter does not permit null")
                 .isEqualTo("");
+
+        assertThat(((TextField)children.get(4)).getValue())
+                .as("If the value aspect delegates to the model object, the value of the field is cleared" +
+                        "even if the converter does not permit null")
+                .isEqualTo("");
     }
 
     @Test
@@ -90,15 +95,21 @@ class NullModelObjectIntegrationTest {
 
     public static abstract class GenericModelObjectPmo<MO extends TestModelObject> {
 
-        public static final String INHERITED_MODEL_OBJECT = "inherited";
+        public static final String INHERITED_MODEL_OBJECT_METHOD = "inheritedMethod";
+        public static final String INHERITED_MODEL_OBJECT_FIELD = "inheritedField";
+
+        @ModelObject(name = INHERITED_MODEL_OBJECT_FIELD)
+        @CheckForNull
+        public MO inheritedModelObjectField;
 
         private MO inheritedModelObject;
 
         public GenericModelObjectPmo(MO inheritedModelObject) {
             this.inheritedModelObject = inheritedModelObject;
+            this.inheritedModelObjectField = inheritedModelObject;
         }
 
-        @ModelObject(name = INHERITED_MODEL_OBJECT)
+        @ModelObject(name = INHERITED_MODEL_OBJECT_METHOD)
         @CheckForNull
         public MO getInheritedModelObject() {
             return inheritedModelObject;
@@ -106,6 +117,15 @@ class NullModelObjectIntegrationTest {
 
         public void setInheritedModelObject(@CheckForNull MO inheritedModelObject) {
             this.inheritedModelObject = inheritedModelObject;
+        }
+
+        @CheckForNull
+        public MO getInheritedModelObjectField() {
+            return inheritedModelObjectField;
+        }
+
+        public void setInheritedModelObjectField(@CheckForNull MO inheritedModelObjectField) {
+            this.inheritedModelObjectField = inheritedModelObjectField;
         }
     }
 
@@ -151,8 +171,13 @@ class NullModelObjectIntegrationTest {
             this.pmoValue = pmoValue;
         }
 
-        @UITextField(position = 40, modelObject = INHERITED_MODEL_OBJECT, modelAttribute = INHERITED_PROPERTY)
-        public void inheritedProperty() {
+        @UITextField(position = 40, modelObject = INHERITED_MODEL_OBJECT_METHOD, modelAttribute = INHERITED_PROPERTY)
+        public void inheritedPropertyMethod() {
+            // model binding
+        }
+
+        @UITextField(position = 50, modelObject = INHERITED_MODEL_OBJECT_FIELD, modelAttribute = INHERITED_PROPERTY)
+        public void inheritedPropertyField() {
             // model binding
         }
     }

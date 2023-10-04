@@ -133,7 +133,7 @@ public class MemberAccessors {
      */
     public static Class<?> getType(Member fieldOrMethod, Type clazz) {
         if (fieldOrMethod instanceof Field field) {
-            return field.getType();
+            return TypeUtils.getRawType(field.getGenericType(), clazz);
         } else if (fieldOrMethod instanceof Method method) {
             return TypeUtils.getRawType(method.getGenericReturnType(), clazz);
         } else {
