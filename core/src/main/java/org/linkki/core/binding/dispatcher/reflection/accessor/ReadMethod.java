@@ -46,8 +46,8 @@ public class ReadMethod<T, V> extends AbstractMethod<T, Function<T, V>> {
     }
 
     /* private */ ReadMethod(Class<? extends T> boundClass,
-                             String propertyName,
-                             Supplier<Optional<Method>> methodSupplier) {
+            String propertyName,
+            Supplier<Optional<Method>> methodSupplier) {
         super(boundClass, propertyName, methodSupplier);
     }
 
@@ -92,6 +92,7 @@ public class ReadMethod<T, V> extends AbstractMethod<T, Function<T, V>> {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     protected Function<T, V> fallbackReflectionCall(Method method) {
         return o -> {
             try {

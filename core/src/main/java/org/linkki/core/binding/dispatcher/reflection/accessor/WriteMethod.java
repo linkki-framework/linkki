@@ -47,8 +47,8 @@ public class WriteMethod<T, V> extends AbstractMethod<T, BiConsumer<T, V>> {
     }
 
     /* private */ WriteMethod(Class<? extends T> boundClass,
-                              String propertyName,
-                              Supplier<Optional<Method>> methodSupplier) {
+            String propertyName,
+            Supplier<Optional<Method>> methodSupplier) {
         super(boundClass, propertyName, methodSupplier);
     }
 
@@ -83,6 +83,7 @@ public class WriteMethod<T, V> extends AbstractMethod<T, BiConsumer<T, V>> {
         return setter;
     }
 
+    @Override
     protected BiConsumer<T, V> fallbackReflectionCall(Method method) {
         return (o, v) -> {
             try {

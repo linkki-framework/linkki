@@ -47,8 +47,8 @@ public class InvokeMethod<T> extends AbstractMethod<T, Consumer<T>> {
     }
 
     /* private */ InvokeMethod(Class<? extends T> boundClass,
-                               String propertyName,
-                               Supplier<Optional<Method>> methodSupplier) {
+            String propertyName,
+            Supplier<Optional<Method>> methodSupplier) {
         super(boundClass, propertyName, methodSupplier);
     }
 
@@ -92,6 +92,7 @@ public class InvokeMethod<T> extends AbstractMethod<T, Consumer<T>> {
         return invoker;
     }
 
+    @Override
     protected Consumer<T> fallbackReflectionCall(Method method) {
         return o -> {
             try {
