@@ -13,6 +13,11 @@
     <packaging>jar</packaging>
     <name>linkki Databinding and Core Framework for Vaadin Flow</name>
 
+    <properties>
+        <apache-httpclient.version>4.5.14</apache-httpclient.version>
+        <commons-codec.version>1.15</commons-codec.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.linkki-framework</groupId>
@@ -59,5 +64,32 @@
             <artifactId>karibu-testing-v24</artifactId>
         </dependency>
 
+        <!-- These dependencies were removed in flow-server 24.1.13.
+             They are still included to prevent breaking downstream applications in a patch version. -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
     </dependencies>
+    
+    <dependencyManagement>
+        <dependencies>
+            <!-- These dependencies were removed in flow-server 24.1.13.
+                 They are still included and managed to prevent breaking downstream applications in a patch version. -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${apache-httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

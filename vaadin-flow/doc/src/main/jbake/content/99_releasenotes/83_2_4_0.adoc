@@ -5,6 +5,19 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.4.5
+
+==== New features and improvements
+
+===== Updated dependencies
+The following versions have been updated:
+[cols="a,a"]
+|===
+|Vaadin|24.1.12
+|Spring-Boot|3.1.4
+|===
+
+
 === Version 2.4.4
 
 ==== New features and improvements

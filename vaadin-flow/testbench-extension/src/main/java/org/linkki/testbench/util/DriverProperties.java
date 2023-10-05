@@ -13,7 +13,8 @@
  */
 package org.linkki.testbench.util;
 
-import org.apache.http.client.utils.URIBuilder;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Used to read the test configuration for the UI test driver.
@@ -38,12 +39,17 @@ public final class DriverProperties {
      * {@link #getTestPort() port} and the two given paths.
      */
     public static String getTestUrl(String defaultBasePath, String path) {
-        return new URIBuilder()
-                .setScheme(getTestProtocol())
-                .setHost(getTestHostname())
-                .setPort(getTestPortValue())
-                .setPath(getTestPath(defaultBasePath) + "/" + path)
-                .toString();
+        String fullPath = getTestPath(defaultBasePath) + "/" + path;
+        if (!fullPath.startsWith("/")) {
+            fullPath = "/" + fullPath;
+        }
+
+        try {
+            var uri = new URI(getTestProtocol(), null, getTestHostname(), getTestPortValue(), fullPath, null, null);
+            return uri.toString();
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Failed to create URI", e);
+        }
     }
 
     /**
