@@ -40,6 +40,30 @@
             <version>${selenium.version}</version>
         </dependency>
     </dependencies>
+    
+    <dependencyManagement>
+        <dependencies>
+            <!-- Enforce Selenium versions because vaadin-testbench-core 8.2.4 contains the dependency 
+             org.seleniumhq.selenium:selenium-devtools-v115:4.11.0
+             which differs from the other Selenium versions used there.
+             This causes the enforcer to fail otherwise. -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-remote-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-json</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

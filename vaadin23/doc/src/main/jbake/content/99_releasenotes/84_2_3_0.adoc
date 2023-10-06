@@ -6,6 +6,14 @@
 :images-folder-name: 01_releasenotes
 
 
+=== Version 2.3.8
+
+Dependency versions are updated:
+
+* Vaadin 23.3.25
+* Spring Boot 2.7.16
+* Faktor-IPS 22.12.15
+
 === Version 2.3.7
 
 * Vaadin has been updated to version 23.3.19 and Spring Boot to version 2.7.14

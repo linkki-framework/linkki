@@ -19,7 +19,7 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <deploymentFolder>${project.version}</deploymentFolder>
         <sonar.skip>true</sonar.skip>
-        <jade-maven-plugin.version>1.0.8</jade-maven-plugin.version>
+        <jade-maven-plugin.version>1.0.10</jade-maven-plugin.version>
         <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
     </properties>
 
