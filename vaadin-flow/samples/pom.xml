@@ -137,13 +137,15 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>${java.version}</release>
-                    <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                     <compilerArgs>
+                        <arg>-Xmaxerrs</arg>
+                        <arg>1000</arg>
                         <arg>-Xmaxwarns</arg>
-                        <arg>500</arg>
-                        <arg>-Xlint</arg>
-                        <!-- Because the eclipse compiler and javac differ: 
+                        <arg>1000</arg>
+                        <arg>-Xlint:all</arg>
+                        <arg>-Xlint:-processing</arg>
+                        <!-- Because the eclipse compiler and javac differ:
                             https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
                         <arg>-Xlint:-varargs</arg>
                     </compilerArgs>
