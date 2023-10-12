@@ -47,28 +47,6 @@ include::{sample-parent-dir}/pom.xml[tags=linkki-application-framework]
 
 In addition to the *linkki* dependency, a *linkki* application with Vaadin may require a Vaadin Spring Boot starter.
 
-
-[[maven-archetypes]]
-=== Maven Archetypes
-
-*linkki* can be used for a plain Vaadin web application or with Spring Boot. For each of those options, there is a matching Maven archetype that creates a new project with all necessary dependencies and some sample code to get started. They can be created from a command line:
-
-[source,subs="verbatim,attributes"]
-.Plain *linkki*
-----
-mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-plain-application-vaadin-flow -DarchetypeVersion={projectVersion}
-----
-
-The resulting application can be deployed to your application server of choice or simply started with `mvn clean package org.eclipse.jetty:jetty-maven-plugin:run`, where it can be viewed at `http://localhost:8080/`.
-
-[source,subs="verbatim,attributes"]
-.*linkki* with Spring Boot
-----
-mvn archetype:generate -DarchetypeGroupId=org.linkki-framework.archetypes -DarchetypeArtifactId=linkki-archetype-spring-application-vaadin-flow -DarchetypeVersion={projectVersion}
-----
-
-The resulting application can be started with `java -jar target/*.jar` and be viewed at `http://localhost:8080/`.
-
 === Initial project structure
 
 image::{images}{images-folder-name}/app_structure.png[]

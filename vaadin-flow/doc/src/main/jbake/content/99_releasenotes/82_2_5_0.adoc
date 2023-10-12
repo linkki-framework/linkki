@@ -184,9 +184,9 @@ There are a few selectors that have been deprecated in favor of new ones that ar
 |MessageUiComponents#ICON_STYLE_CLASS_PREFIX
 |===
 
-
-
-// ===== Other
+===== Other
+// https://jira.convista.com/browse/LIN-3557
+* The <<maven-archetypes-spring, documentation>> that describes how to build and start an application created by the Spring Boot archetype has been adjusted to match the different requirements regarding development and production mode. 
 
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-3513
