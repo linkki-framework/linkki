@@ -27,7 +27,7 @@ NOTE: Persisting the report is *not* part of this tutorial.
 
 To start this project, you need
 
-* Java 11 +
+* Java 17 +
 * your favorite Java IDE
 * Maven
 * a modern browser
@@ -111,7 +111,7 @@ include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.jav
 
 The UI contains "only" the section for the creation of the report.
 
-The first part is "normal" Vaadin code. The interesting *linkki* parts start at `(2)`. The PMO is passed as parameter to the method `PmoBasedSectionFactory#createAndBindSection`, as well as a <<binding-basics, `BindingContext`>>.  At last, the created `section` must now be set as `content` of the UI.
+The first part is "normal" Vaadin code. The interesting *linkki* parts start at `(2)`. The PMO is passed as parameter to the method `VaadinUiCreator#createComponent`, as well as a <<binding-basics, `BindingContext`>>.  At last, the created `section` must now be set as `content` of the UI.
 
 .UI
 [source,java]
