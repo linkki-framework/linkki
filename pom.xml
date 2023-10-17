@@ -93,6 +93,8 @@
             <!-- testbench-extension module -->
             **/org/linkki/testbench/**/*.java,
             **/org/linkki/core/defaults/ui/aspects/types/*.java,
+            <!-- Excluded error page becasue hard to test -->
+            **/org/linkki/framework/ui/error/LinkkiErrorPage.java
         </sonar.coverage.exclusions>
         <sonar.cpd.exclusions>
             **/org/linkki/samples/**/*.java,
