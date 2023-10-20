@@ -90,6 +90,7 @@ import org.linkki.samples.playground.ts.dialogs.OkCancelDialogOverflowPmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogSectionSpacingPmo;
 import org.linkki.samples.playground.ts.dialogs.QuestionAndConfirmationDialogPmo;
 import org.linkki.samples.playground.ts.dialogs.SetFormItemLabelWidthDialogPmo;
+import org.linkki.samples.playground.ts.error.LinkkiErrorPagePmo;
 import org.linkki.samples.playground.ts.ips.AvailableValuesSectionPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.DecimalLabelPmo;
@@ -163,6 +164,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TS014 = "TS014";
     public static final String TS015 = "TS015";
     public static final String TS016 = "TS016";
+    public static final String TS017 = "TS017";
 
     public static final String TC001 = "TC001";
     public static final String TC002 = "TC002";
@@ -371,6 +373,15 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS016)
                                        .testCase(TC001, new NestedComponentPmo())
                                        .testCase(TC002, new NullableModelObjectInInvisibleNestedPmo())
+                                       .createTabSheet(),
+                               TestScenario.id(TS017)
+                                       .testCase(TC001, () -> {
+                                           var component = VaadinUiCreator
+                                                   .createComponent(new LinkkiErrorPagePmo(),
+                                                                    new BindingContext(TC001));
+                                           ComponentStyles.setFormItemLabelWidth(component, "250px");
+                                           return component;
+                                       })
                                        .createTabSheet());
         add(tabLayout);
     }

@@ -195,6 +195,15 @@ There are a few selectors that have been deprecated in favor of new ones that ar
 ===== `IpsDialogCreator` Utility Class to create `PmoBasedDialogFactory` with `IpsPropertyDispatcherFactory` and `ValidationService`
 The `IpsDialogCreator` class was introduced to address instantiation complexities and provides methods such as `create()` for default configuration and `with(ValidationService validationService)` for custom validation settings, both of which return `PmoBasedDialogFactory` with a preconfigured `IpsPropertyDispatcher`.
 
+// https://jira.convista.com/browse/LIN-3453
+===== Default Error Page for Exceptions During Navigation
+
+With `LinkkiErrorPage`, a default error page has been introduced that handles all kinds of unhandled exceptions thrown during navigation.
+If found by the Vaadin component scan, the page will open automatically in described cases.
+Sensitive information, such as detailed exception messages or stack traces, will not be shown in production environments.
+
+Consult the <<linkki-error-page, documentation>> for further information on how to customize the layout as well as the provided error information.
+
 ===== Other
 // https://jira.convista.com/browse/LIN-3557
 * The <<maven-archetypes-spring, documentation>> that describes how to build and start an application created by the Spring Boot archetype has been adjusted to match the different requirements regarding development and production mode. 

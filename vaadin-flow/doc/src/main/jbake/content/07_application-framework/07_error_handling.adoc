@@ -5,7 +5,6 @@
 [[error-handler]]
 === Error Handling
 
-
 Unhandled runtime exceptions in the application are handled by a so-called `ErrorHandler`. 
 By default, *linkki* shows information about the occurred error within a dialog.
 
@@ -47,4 +46,73 @@ public ErrorHandler getErrorHandler() {
 }
 ----
 
-For a higher degree of customization, use a new implementation of `ErrorHandler` in `ApplicationConfig#getErrorHandler()`.
+[[linkki-error-page]]
+==== Default Error Page for Exceptions During Navigation
+
+The `LinkkiErrorPage` offers a comprehensive solution to handle and present all kinds of unhandled errors thrown during navigation. 
+This class serves as a universal and customizable error page designed for *linkki* application, but is flexible enough to be adapted by other applications.
+
+In general, the error page provides the following information and actions that are individually customizable by overwriting respective methods:
+[options="header", cols="2,3,1"]
+|===
+| Information / Action
+| Default                       
+| Method to Customize
+
+| Title shown in the browser tab
+| A general short error message
+| `getPageTitle()`
+
+| Error message
+| The custom error message contained by `ErrorParameter` or, if not set, a general default  
+| `createErrorMessage(ErrorParameter)`
+
+| Navigation component
+| A button to navigate to the start view (corresponds to the application context path)            
+| `createNavigationButton()`
+
+| Error details
+| Timestamp and exception type      
+| `createErrorDetails(ErrorParameter)`
+|===
+
+In development mode, the exception stack trace is also shown.
+
+[IMPORTANT]
+====
+Neither the exception message nor the exception stack trace is shown in productive environments to avoid revealing security-sensitive information.
+
+Keep this in mind when customizing the error page. Whether the application runs in development mode can be determined by calling `isDevelopmentMode()`.
+====
+
+The error page can be adjusted to the general application layout by creating a subclass that is annotated with `@ParentLayout`.
+Nonetheless, the style of the page's components itselves is fixed and should not be changed.
+
+To use the error page, it has to be included in the Vaadin component scan. 
+If the default page should be used without customizations, this can be done by including the package `org.linkki.framework.ui.error` in `@EnableVaadin`.
+Alternatively in a Spring Boot application, a subclass of `LinkkiErrorPage` can be created and annotated with `@Component` to handle the page as a bean.
+This also allows bean injection that can be used to gather additional application information to be shown by the error page.
+
+.Example usage in a Spring Boot application with custom parent layout and page title
+[source,java]
+----
+@Component
+@ParentLayout(CustomAppLayout.class)
+public class CustomErrorPage extends LinkkiErrorPage {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private final String pageTitle;
+
+    // ApplicationInfo must be available as a bean here
+    CustomErrorPage(ApplicationInfo applicationInfo) {
+        this.pageTitle = applicationInfo.getApplicationName();
+    }
+
+    @Override
+    public String getPageTitle() {
+        return pageTitle;
+    }
+}
+----

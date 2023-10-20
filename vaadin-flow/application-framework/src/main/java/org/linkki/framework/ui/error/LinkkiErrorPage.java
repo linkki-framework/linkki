@@ -203,13 +203,17 @@ public class LinkkiErrorPage extends VerticalLayout
         return messageWrapper;
     }
 
+    /**
+     * Returns {@code true} whether the application runs in development mode. If it runs in production
+     * mode, {@code false} is returned.
+     */
+    protected boolean isDevelopmentMode() {
+        return !VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode();
+    }
+
     private String localize() {
         return NlsService.get().getString(BUNDLE_NAME, LinkkiErrorPage.MSG_KEY_GO_TO_START_VIEW)
                 .orElse('!' + LinkkiErrorPage.MSG_KEY_GO_TO_START_VIEW + '!');
-    }
-
-    private boolean isDevelopmentMode() {
-        return !VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode();
     }
 
     private Div createStackTrace(Exception exception) {
