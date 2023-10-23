@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="24.1.a20230828-01"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="24.1.a20231023-01"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -228,6 +228,13 @@
           <Entry
              type="archive"
              file="base.ipsar">      The archive file.
+          </Entry>
+         
+        Maven:
+          <Entry
+             container="JDTClasspathContainer"                      When using maven, the referenced projects can be replaced by the Maven-Classpath-Container.
+             path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"      This entry should be the last entry in the IpsObjectPath.
+             reexported="false" type="container" />
           </Entry>
     -->
  <IpsObjectPath basePackageDerived="org.linkki.samples.playground.ips.model" basePackageMergable="org.linkki.samples.playground.ips.model" outputDefinedPerSrcFolder="false" outputFolderDerivedSources="src/main/resources" outputFolderMergableSources="src/main/java">

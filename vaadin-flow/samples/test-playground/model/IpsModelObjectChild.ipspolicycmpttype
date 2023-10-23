@@ -10,7 +10,7 @@
   <Label locale="de" value="Überschriebenes Attribut"/>
   <Description locale="en"/>
   <Description locale="de"/>
-  <ValueSet abstract="false">
+  <ValueSet>
    <AllValues containsNull="true"/>
   </ValueSet>
  </Attribute>

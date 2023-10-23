@@ -14,6 +14,7 @@ import org.faktorips.runtime.model.annotation.IpsAttribute;
 import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
 import org.faktorips.runtime.model.annotation.IpsAttributes;
 import org.faktorips.runtime.model.annotation.IpsDefaultValue;
+import org.faktorips.valueset.DerivedValueSet;
 import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
 import org.faktorips.runtime.model.type.AttributeKind;
@@ -103,8 +104,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("valueSetExclNull")
-    public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_VALUE_SET_EXCL_NULL = new UnrestrictedValueSet<>(
-            false);
+    public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_VALUE_SET_EXCL_NULL = new DerivedValueSet<>();
 
 
     /**
@@ -415,7 +415,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
-    @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Derived)
     @IpsGenerated
     public boolean isValueSetExclNull() {
         return valueSetExclNull;
