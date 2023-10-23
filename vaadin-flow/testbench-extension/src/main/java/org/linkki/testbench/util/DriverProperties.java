@@ -13,7 +13,7 @@
  */
 package org.linkki.testbench.util;
 
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.hc.core5.net.URIBuilder;
 
 /**
  * Used to read the test configuration for the UI test driver.

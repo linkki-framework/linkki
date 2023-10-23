@@ -14,7 +14,7 @@
 [cols="a,a"]
 |=== 
 |Faktor-IPS         |24.1.0.a20231023-01
-|Vaadin             |24.1.7
+|Vaadin             |24.2.0
 |===
 
 // https://jira.convista.com/browse/LIN-3144

@@ -14,17 +14,18 @@
 
 package org.linkki.testbench.pageobjects;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.linkki.core.vaadin.component.section.LinkkiSection;
+import org.openqa.selenium.By;
+
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.html.testbench.H4Element;
 import com.vaadin.testbench.ElementQuery;
 import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.elementsbase.Element;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
-import org.openqa.selenium.By;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Page object for a linkki section
