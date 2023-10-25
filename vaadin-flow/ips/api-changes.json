@@ -26,5 +26,25 @@
         ]
       }
     }
+  ],
+  "2.5.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new":  "class org.linkki.framework.ui.dialogs.OkCancelDialog",
+            "justification": "LIN-3615/LIN-3616"
+          },
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "class org.linkki.framework.ui.dialogs.PmoBasedDialogFactory",
+            "justification": "LIN-3615/LIN-3616"
+          }
+        ]
+      }
+    }
   ]
 }
