@@ -13,7 +13,8 @@
  */
 package org.linkki.testbench.util;
 
-import org.apache.hc.core5.net.URIBuilder;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Used to read the test configuration for the UI test driver.
@@ -38,12 +39,13 @@ public final class DriverProperties {
      * {@link #getTestPort() port} and the two given paths.
      */
     public static String getTestUrl(String defaultBasePath, String path) {
-        return new URIBuilder()
-                .setScheme(getTestProtocol())
-                .setHost(getTestHostname())
-                .setPort(getTestPortValue())
-                .setPath(getTestPath(defaultBasePath) + "/" + path)
-                .toString();
+        try {
+            var testPath = getTestPath(defaultBasePath) + "/" + path;
+            return new URI(getTestProtocol(), null, getTestHostname(), getTestPortValue(), testPath, null, null)
+                    .toString();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -66,10 +68,15 @@ public final class DriverProperties {
     }
 
     /**
-     * Gets the {@code test.path} property or the given defaultPath if no property is set.
+     * Gets the {@code test.path} property or the given defaultPath if no property is set. The path
+     * always starts with /.
      */
     public static String getTestPath(String defaultPath) {
-        return SystemProperties.get("test.path").orElse(defaultPath);
+        var testPath = SystemProperties.get("test.path").orElse(defaultPath);
+        if (!testPath.startsWith("/")) {
+            testPath = "/" + testPath;
+        }
+        return testPath;
     }
 
     /**

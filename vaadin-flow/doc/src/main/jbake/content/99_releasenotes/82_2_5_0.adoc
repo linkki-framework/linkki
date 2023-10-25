@@ -9,13 +9,21 @@
 
 ==== New features and improvements
 
-===== Version Updates
+===== Dependency Updates
 .Updated dependency versions:
 [cols="a,a"]
 |=== 
 |Faktor-IPS         |24.1.0.a20231023-01
 |Vaadin             |24.2.0
 |===
+
+// https://jira.convista.com/browse/FCOM-1967
+[CAUTION]
+====
+With Vaadin 24.2, the compile-scoped dependency `org.apache.httpcomponents:httpclient` has been removed. It cannot be used transitively anymore.
+
+Furthermore, the compile-scoped dependency `org.seleniumhq.selenium:selenium-http-jdk-client` has been removed from the testbench extension.
+====
 
 // https://jira.convista.com/browse/LIN-3144
 // https://jira.convista.com/browse/LIN-3067
