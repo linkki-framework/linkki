@@ -90,7 +90,7 @@ import org.linkki.samples.playground.ts.dialogs.OkCancelDialogOverflowPmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogSectionSpacingPmo;
 import org.linkki.samples.playground.ts.dialogs.QuestionAndConfirmationDialogPmo;
 import org.linkki.samples.playground.ts.dialogs.SetFormItemLabelWidthDialogPmo;
-import org.linkki.samples.playground.ts.error.LinkkiErrorPagePmo;
+import org.linkki.samples.playground.ts.error.ErrorHandlingPmo;
 import org.linkki.samples.playground.ts.ips.AvailableValuesSectionPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.DecimalLabelPmo;
@@ -377,9 +377,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS017)
                                        .testCase(TC001, () -> {
                                            var component = VaadinUiCreator
-                                                   .createComponent(new LinkkiErrorPagePmo(),
+                                                   .createComponent(new ErrorHandlingPmo(),
                                                                     new BindingContext(TC001));
-                                           ComponentStyles.setFormItemLabelWidth(component, "250px");
+                                           ComponentStyles.setFormItemLabelWidth(component, "300px");
                                            return component;
                                        })
                                        .createTabSheet());

@@ -29,7 +29,7 @@ Following values can be configured:
 * the URL to navigate to on confirmation
 * the caption of the dialog
 * the displayed error message
-* whether the exception cause message should be shown (default: `true`)
+* whether the exception cause message should be shown (default: `false` in production mode, otherwise `true`)
 * whether the exception stacktrace should be shown (default: `false` in production mode, otherwise `true`)
 
 .Overriding the used error handler within a concrete implementation of `ApplicationConfig`

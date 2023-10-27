@@ -204,6 +204,11 @@ Sensitive information, such as detailed exception messages or stack traces, will
 
 Consult the <<linkki-error-page, documentation>> for further information on how to customize the layout as well as the provided error information.
 
+// https://jira.convista.com/browse/LIN-3453
+===== `ErrorDialogConfiguration` hides exception message in production mode by default
+`ErrorDialogConfiguration` now only shows the exception message by default if the application does not run in the production mode, else the message will not be added.
+Consequently, a new method `ErrorDialogConfiguration#showExceptionMessage()` has been introduced to customize this behavior.
+
 ===== Other
 // https://jira.convista.com/browse/LIN-3557
 * The <<maven-archetypes-spring, documentation>> that describes how to build and start an application created by the Spring Boot archetype has been adjusted to match the different requirements regarding development and production mode. 

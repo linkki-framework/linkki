@@ -16,12 +16,16 @@ package org.linkki.samples.playground.ui;
 import java.time.LocalDate;
 import java.util.Locale;
 
+import com.vaadin.flow.server.ErrorHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.framework.ui.dialogs.DialogErrorHandler;
+import org.linkki.framework.ui.dialogs.ErrorDialogConfiguration;
 import org.linkki.ips.decimalfield.FormattedDecimalFieldToStringConverter;
 import org.linkki.samples.playground.application.SampleView;
 import org.linkki.samples.playground.application.custom.CustomView;
@@ -73,6 +77,14 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
         return PlaygroundApplicationHeader::new;
     }
 
+    @Override
+    public ErrorHandler getErrorHandler() {
+        var config = ErrorDialogConfiguration.createWithHandlerNavigatingTo(StringUtils.EMPTY)
+                .withCaption("Custom Error Handler")
+                .withErrorMessage("Custom error message");
+        return new DialogErrorHandler(config);
+    }
+    
     @Override
     public LinkkiConverterRegistry getConverterRegistry() {
         return ApplicationConfig.super.getConverterRegistry()

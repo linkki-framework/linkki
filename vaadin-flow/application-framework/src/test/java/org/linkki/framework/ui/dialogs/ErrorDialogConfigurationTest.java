@@ -78,11 +78,10 @@ class ErrorDialogConfigurationTest {
         var content = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_DEFAULT_TEST_VIEW)
                 .getDialogContent(new ErrorEvent(exception));
 
-        assertThat(content).hasSize(3);
+        assertThat(content).hasSize(2);
         assertTimestamp(content.get(0));
         assertErrorMessage(content.get(1), DEFAULT_ERROR_MESSAGE);
-        assertExceptionMessage(content.get(2), EXPECTED_EXCEPTION_MESSAGE);
-        // implies there is not exception stacktrace field
+        // implies there are no exception message and stacktrace fields
     }
 
     @Test
@@ -96,15 +95,15 @@ class ErrorDialogConfigurationTest {
         var config = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_CUSTOM_TEST_VIEW)
                 .withCaption(customCaption)
                 .withErrorMessage(customErrorMessage)
-                .hideExceptionMessage()
+                .showExceptionMessage()
                 .showExceptionStacktrace();
         var content = config.getDialogContent(new ErrorEvent(exception));
 
-        assertThat(content).hasSize(3);
+        assertThat(content).hasSize(4);
         assertTimestamp(content.get(0));
         assertErrorMessage(content.get(1), customErrorMessage);
-        // implies there is no exception message field
-        assertExceptionStacktrace(content.get(2), ExceptionUtils.getStackTrace(exception));
+        assertExceptionMessage(content.get(2), EXPECTED_EXCEPTION_MESSAGE);
+        assertExceptionStacktrace(content.get(3), ExceptionUtils.getStackTrace(exception));
     }
 
     @Test

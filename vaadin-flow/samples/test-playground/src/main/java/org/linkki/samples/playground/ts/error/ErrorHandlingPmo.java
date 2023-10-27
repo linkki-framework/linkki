@@ -12,18 +12,24 @@
  * License.
  */
 
-package org.linkki.samples.playground.customlayout.pmo;
+package org.linkki.samples.playground.ts.error;
 
 import org.linkki.core.ui.element.annotation.UIButton;
-import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
+import org.linkki.core.ui.layout.annotation.UISection;
 
-@UIVerticalLayout
-public class ErrorDialogPmo {
-    
-    @UIButton(position = 10,
+import com.vaadin.flow.component.UI;
+
+@UISection
+public class ErrorHandlingPmo {
+
+    @UIButton(position = 10, label = "Manually throw navigation exception", caption = "Navigate to a Non-Existent View")
+    public void navigateToUnknownView() {
+        UI.getCurrent().navigate("<manually navigated to unknown view>");
+    }
+
+    @UIButton(position = 20, label = "Manually throw general RuntimeException",
             caption = "Open Custom Error Dialog")
     public void showExceptionDialogWithoutExceptionDetails() {
-        throw new RuntimeException("The exception stacktrace should be hidden. " +
-                "Confirming should forward to the start view.");
+        throw new RuntimeException("IMPORTANT: This message should not shown in production mode");
     }
 }

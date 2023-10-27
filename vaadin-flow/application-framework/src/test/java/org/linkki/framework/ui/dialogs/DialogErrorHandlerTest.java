@@ -71,6 +71,7 @@ class DialogErrorHandlerTest {
         var dialogConfig = ErrorDialogConfiguration.createWithHandlerNavigatingTo(TEST_VIEW_ROUTE)
                 .withCaption("custom caption")
                 .withErrorMessage("custom error message")
+                .showExceptionMessage()
                 .hideExceptionStacktrace();
         var handler = new DialogErrorHandler(dialogConfig);
         var event = new ErrorEvent(new RuntimeException());

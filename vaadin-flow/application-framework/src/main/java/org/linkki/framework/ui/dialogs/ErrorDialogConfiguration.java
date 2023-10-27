@@ -45,8 +45,8 @@ import com.vaadin.flow.server.VaadinService;
  * <li>Exception message</li>
  * <li>Exception stacktrace</li>
  * </ul>
- * For security reasons, the exception stacktrace is only shown by default if the application is not in
- * the production mode.
+ * For security reasons, the exception's message and stack trace are only shown by default if the
+ * application is not in the production mode.
  */
 public class ErrorDialogConfiguration {
 
@@ -55,9 +55,8 @@ public class ErrorDialogConfiguration {
     private String caption = NlsText.getString("DefaultErrorHandler.errorDialogTitle");
     private String errorMessage = NlsText.getString("DefaultErrorHandler.errorDialogText");
 
-    private boolean showExceptionMessage = true;
-    private boolean showExceptionStacktrace = !VaadinService.getCurrent().getDeploymentConfiguration()
-            .isProductionMode();
+    private boolean showExceptionMessage = isDevelopmentMode();
+    private boolean showExceptionStacktrace = isDevelopmentMode();
 
     private ErrorDialogConfiguration(Handler handler) {
         this.handler = handler;
@@ -75,6 +74,10 @@ public class ErrorDialogConfiguration {
 
     private static void navigateToStartView(String startView) {
         UI.getCurrent().navigate(startView, QueryParameters.fromString(DialogErrorHandler.ERROR_PARAM));
+    }
+
+    private static boolean isDevelopmentMode() {
+        return !VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode();
     }
 
     /**
@@ -95,7 +98,17 @@ public class ErrorDialogConfiguration {
     }
 
     /**
-     * Hides the exception cause message. By default, the message is shown.
+     * Shows the exception message within the dialog. By default, the message is only shown if the
+     * application does not run in the production mode.
+     */
+    public ErrorDialogConfiguration showExceptionMessage() {
+        this.showExceptionMessage = true;
+        return this;
+    }
+
+    /**
+     * Hides the exception message within the dialog. By default, the message is only shown if the
+     * application does not run in the production mode.
      */
     public ErrorDialogConfiguration hideExceptionMessage() {
         this.showExceptionMessage = false;

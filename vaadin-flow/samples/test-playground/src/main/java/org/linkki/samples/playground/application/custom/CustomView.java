@@ -14,9 +14,10 @@
 
 package org.linkki.samples.playground.application.custom;
 
+import java.io.Serial;
+
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
-import org.linkki.samples.playground.customlayout.pmo.ErrorDialogPmo;
 import org.linkki.samples.playground.customlayout.pmo.HotelSearchPmo;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -27,10 +28,10 @@ public class CustomView extends VerticalLayout {
 
     public static final String NAME = "custom-layout";
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public CustomView() {
-        add(VaadinUiCreator.createComponent(new ErrorDialogPmo(), new BindingContext()));
         // tag::CustomLayoutAnnotation[]
         add(VaadinUiCreator.createComponent(new HotelSearchPmo(), new BindingContext()));
         // end::CustomLayoutAnnotation[]
