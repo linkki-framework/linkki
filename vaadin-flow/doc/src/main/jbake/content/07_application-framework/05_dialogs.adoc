@@ -9,6 +9,8 @@
 
 ==== Creating dialogs with PMOs using layout annotation
 Dialogs can be created with PMOs annotated with any <<layout, layout annotation>> when using `PmoBasedDialogFactory`.
+Instances of `PmoBasedDialogFactory` with a pre-configured `IpsPropertyDispatcherFactory` can be created using
+`IpsDialogCreator#create()` or `IpsDialogCreator#with(ValidationService)` methods.
 
 NOTE: PMO classes without any layout annotation are not supported when using `PmoBasedDialogFactory`
 

@@ -106,7 +106,6 @@ Similarly, the PmoBasedDialogFactory class has also been equipped with an overlo
 
 
 // https://jira.convista.com/browse/LIN-550
-[role="api-change"]
 ===== `UITimeField` added
 
 A new annotation <<ui-timefield, @UITimeField>> has been added for selecting a time. 
@@ -193,35 +192,8 @@ There are a few selectors that have been deprecated in favor of new ones that ar
 |===
 
 //https://jira.convista.com/browse/LIN-3615
-[role="api-change"]
 ===== `IpsDialogCreator` Utility Class to create `PmoBasedDialogFactory` with `IpsPropertyDispatcherFactory` and `ValidationService`
 The `IpsDialogCreator` class was introduced to address instantiation complexities and provides methods such as `create()` for default configuration and `with(ValidationService validationService)` for custom validation settings, both of which return `PmoBasedDialogFactory` with a preconfigured `IpsPropertyDispatcher`.
-
-The `IpsDialogCreator` class provides the following primary static methods:
-
-.`create()`:
-* Returns a `PmoBasedDialogFactory` instance with default configurations.
-* Utilizes `IpsPropertyDispatcherFactory` and a no-operation `ValidationService`.
-
-.`with(ValidationService validationService)`:
-* Returns a `PmoBasedDialogFactory` instance that's configured with a specified `ValidationService`.
-* Ensures integration of `IpsPropertyDispatcherFactory` by default.
-
-====== Usage
-
-.Example using the `create()` method:
-[source,java]
-----
-PmoBasedDialogFactory defaultFactory = IpsDialogCreator.create();
-----
-
-.Example using the `with(ValidationService)` method:
-[source,java]
-----
-PmoBasedDialogFactory customFactory = IpsDialogCreator.with(customValidationService);
-----
-
-Further more, A dependency on `linkki-application-framework-vaadin-flow` has been added in the `linkki-ips-vaadin-flow` module to incorporate the `PmoBasedDialogFactory`.
 
 ===== Other
 // https://jira.convista.com/browse/LIN-3557
