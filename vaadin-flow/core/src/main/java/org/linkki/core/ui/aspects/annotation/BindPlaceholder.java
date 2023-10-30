@@ -24,23 +24,29 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.aspects.PlaceholderAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindPlaceholder.BindPlaceholderAspectDefinitionCreator;
 import org.linkki.core.ui.aspects.types.PlaceholderType;
-import org.linkki.core.ui.element.annotation.UIDoubleField;
+import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 
 
 /**
- * BindPlaceholder can add a placeholder to UI elements which have a setPlaceholder method. Common UI
- * elements which support BindPlaceholder are {@link UIIntegerField}, {@link UIDoubleField},
- * {@link UITextField} or {@link UITextArea}. BindPlaceholder can only be inherited when applied on
- * class level.
+ * The {@code BindPlaceholder} annotation can be used to add a placeholder text to UI elements that can display a
+ * placeholder, such as: {@link UITextArea} {@link UIIntegerField}, {@link UITextField} and {@link UIComboBox}.
+ * <p>
+ * When annotated at the class level, the placeholder text is inheritable, which means that subclasses will default to
+ * using the defined placeholder.
+ * <p>
+ * Additionally, {@code BindPlaceholder} can be applied to {@link ContainerPmo}. In such cases, it provides a
+ * placeholder text that is displayed when the table contains no items. Moreover, the table header and footer are
+ * concealed when no items are present.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
+@Target(value = {ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
 @InheritedAspect
 @LinkkiAspect(BindPlaceholderAspectDefinitionCreator.class)
 public @interface BindPlaceholder {

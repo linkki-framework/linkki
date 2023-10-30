@@ -146,6 +146,12 @@ include::{source-dir}/org/linkki/samples/playground/table/selection/PlaygroundSe
 .Example result
 image::{images}{images-folder-name}/selectable_table.png[Selectable table, align="center"]
 
+[[ui-placeholder-table]]
+==== Placeholder
+The `@BindPlaceholder` annotation is utilized to provide a placeholder in tables when they are empty, enhancing the UI by informing users of the absence of items. Further details and behaviors are described in the <<placeholder, Placeholder Configuration section>>.
+
+NOTE: For `@BindPlaceholder` applied to table PMOs, headers and footers are automatically hidden in empty tables. This is an inherited behavior; subclasses of an annotated class cannot override this aspect.
+
 
 [[ui-table-footer]]
 ==== Table footer
