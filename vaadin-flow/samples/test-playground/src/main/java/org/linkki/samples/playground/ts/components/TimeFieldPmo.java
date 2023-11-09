@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.ts.components;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.element.annotation.UITimeField;
@@ -26,6 +27,7 @@ public class TimeFieldPmo {
     private String textFieldOne;
     private LocalTime time = LocalTime.now();
     private String textFieldTwo;
+    private LocalTime timeWithSecondPrecision = LocalTime.now();
 
     @UITextField(position = 10, label = "Field to test tabbing")
     public String getTextFieldOne() {
@@ -52,6 +54,15 @@ public class TimeFieldPmo {
 
     public void setTextFieldTwo(String textFieldTwo) {
         this.textFieldTwo = textFieldTwo;
+    }
+
+    @UITimeField(position = 40, label = "@UITimeField with 15 second steps", step = 15L, precision = ChronoUnit.SECONDS)
+    public LocalTime getTimeWithSecondPrecision() {
+        return timeWithSecondPrecision;
+    }
+
+    public void setTimeWithSecondPrecision(LocalTime timeWithSecondPrecision) {
+        this.timeWithSecondPrecision = timeWithSecondPrecision;
     }
 
 }

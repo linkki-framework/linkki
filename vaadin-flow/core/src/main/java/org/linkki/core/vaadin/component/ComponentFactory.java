@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +52,7 @@ public class ComponentFactory {
      * @see <a href="https://en.wikipedia.org/wiki/Non-breaking_space">Non-breaking_space</a>
      */
     public static final String NO_BREAK_SPACE = "&nbsp";
+    public static final String AUTOSELECT = "autoselect";
 
     private ComponentFactory() {
         // prevents instantiation
@@ -88,8 +90,8 @@ public class ComponentFactory {
      * <p>
      * If the given maxLength is less than or equal to 0, the maximal character count is unlimited.
      * <p>
-     * If the given width is not specified and maxLength is greater than 0, the width of the field is
-     * inferred by maxLength.
+     * If the given width is not specified and maxLength is greater than 0, the width of the field is inferred by
+     * maxLength.
      */
     public static TextField newTextField(int maxLength, String width) {
         TextField field = newTextField();
@@ -123,10 +125,9 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a new {@link TextField} to display numbers with the specified formatting pattern. The
-     * pattern is converted to a regex by using it to format a test number and checking the result to
-     * see which characters are allowed.
-     * 
+     * Creates a new {@link TextField} to display numbers with the specified formatting pattern. The pattern is
+     * converted to a regex by using it to format a test number and checking the result to see which characters are
+     * allowed.
      */
     public static TextField newNumberFieldWithFormattingPattern(int maxLength, String width, String pattern) {
         if (UiFramework.getLocale() == null) {
@@ -155,11 +156,10 @@ public class ComponentFactory {
      * <p>
      * If the given maxLength is less than or equal to 0, the maximal character count is unlimited.
      * <p>
-     * If the given width is an empty String and maxLength is greater than 0, the width of the field is
-     * inferred by maxLength.
+     * If the given width is an empty String and maxLength is greater than 0, the width of the field is inferred by
+     * maxLength.
      * <p>
-     * The height is only set if the given String is not {@link StringUtils#isEmpty(CharSequence)
-     * empty}.
+     * The height is only set if the given String is not {@link StringUtils#isEmpty(CharSequence) empty}.
      */
     public static TextArea newTextArea(int maxLength, String width, String height) {
         var textArea = newTextArea();
@@ -202,10 +202,9 @@ public class ComponentFactory {
 
     /**
      * Creates a {@link DatePicker} with the given options
-     * 
+     *
      * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
-     * @param autoselect If <code>true</code>, the date value will be selected when the field is
-     *            focused.
+     * @param autoselect If <code>true</code>, the date value will be selected when the field is focused.
      */
     public static DatePicker newDateField(boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
@@ -218,15 +217,14 @@ public class ComponentFactory {
         field.setMin(LocalDate.ofYearDay(1000, 1));
         field.setMax(LocalDate.ofYearDay(9999, 365));
         field.setAutoOpen(autoOpen);
-        field.getElement().setProperty("autoselect", autoselect);
+        field.getElement().setProperty(AUTOSELECT, autoselect);
         return field;
     }
 
     /**
-     * Creates a new default {@link DateTimePicker} with the given step,
-     * {@link DateTimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect feature
-     * to <code>true</code>
-     * 
+     * Creates a new default {@link DateTimePicker} with the given step, {@link DateTimePicker#setAutoOpen(boolean)} set
+     * to <code>false</code> and the autoselect feature to <code>true</code>
+     *
      * @param step the time interval, in minutes, between the items displayed in the time picker overlay
      */
     public static DateTimePicker newDateTimeField(long step) {
@@ -235,11 +233,10 @@ public class ComponentFactory {
 
     /**
      * Creates a {@link DateTimePicker} with the given options
-     * 
+     *
      * @param step The time interval, in minutes, between the items displayed in the time picker overlay
      * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
-     * @param autoselect If <code>true</code>, the date value will be selected when the field is
-     *            focused.
+     * @param autoselect If <code>true</code>, the date value will be selected when the field is focused.
      */
     public static DateTimePicker newDateTimeField(long step, boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
@@ -253,41 +250,40 @@ public class ComponentFactory {
         field.setMax(LocalDateTime.of(LocalDate.ofYearDay(9999, 365), LocalTime.of(23, 59, 59)));
         field.setStep(Duration.ofMinutes(step));
         field.setAutoOpen(autoOpen);
-        field.getElement().setProperty("autoselect", autoselect);
+        field.getElement().setProperty(AUTOSELECT, autoselect);
         return field;
     }
 
     /**
-     * Creates a new default {@link TimePicker} with the given step,
-     * {@link TimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect feature to
+     * Creates a new default {@link TimePicker} with the given step, {@link TimePicker#setAutoOpen(boolean)} set to
+     * <code>false</code> and the autoselect feature to
      * <code>true</code>.
      *
-     * @param step the {@link Duration time interval} between the items displayed in the time picker
-     *            overlay
+     * @param step the {@link Duration time interval} between the items displayed in the time picker overlay
+     * @param precision the precision of the interval (e.g., minutes or seconds)
      */
-    public static TimePicker newTimeField(long step) {
-        return newTimeField(step, false, true);
+    public static TimePicker newTimeField(long step, ChronoUnit precision) {
+        return newTimeField(step, precision, false, true);
     }
 
     /**
      * Creates a {@link TimePicker} with the given options.
      *
-     * @param step The {@link Duration time interval} between the items displayed in the time picker
-     *            overlay
+     * @param step The {@link Duration time interval} between the items displayed in the time picker overlay
+     * @param precision the precision of the interval (e.g., minutes or seconds)
      * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
-     * @param autoselect If <code>true</code>, the time value will be selected when the field is
-     *            focused.
+     * @param autoselect If <code>true</code>, the time value will be selected when the field is focused.
      */
-    public static TimePicker newTimeField(long step, boolean autoOpen, boolean autoselect) {
+    public static TimePicker newTimeField(long step, ChronoUnit precision, boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
             throw new IllegalStateException("Creating a datetime field requires a UI with locale");
         }
         var field = new TimePicker();
         field.setMin(LocalTime.of(0, 0));
         field.setMax(LocalTime.of(23, 59, 59));
-        field.setStep(Duration.ofMinutes(step));
+        field.setStep(getStepDuration(step, precision));
         field.setAutoOpen(autoOpen);
-        field.getElement().setProperty("autoselect", autoselect);
+        field.getElement().setProperty(AUTOSELECT, autoselect);
         return field;
     }
 
@@ -308,5 +304,19 @@ public class ComponentFactory {
         return layout;
     }
 
-
+    /**
+     * Converts the step and precision to a {@link Duration}.
+     *
+     * @param step the step size
+     * @param precision the precision of the step size
+     *
+     * @return the Duration based on the step and precision
+     */
+    private static Duration getStepDuration(long step, ChronoUnit precision) {
+        return switch (precision) {
+            case SECONDS -> Duration.ofSeconds(step);
+            case MINUTES -> Duration.ofMinutes(step);
+            default -> throw new IllegalArgumentException("Unsupported ChronoUnit for step size");
+        };
+    }
 }

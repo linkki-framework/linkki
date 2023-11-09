@@ -15,7 +15,9 @@ package org.linkki.core.ui.element.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Duration;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
@@ -40,14 +42,42 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
     }
 
     @Test
-    void testTimeField() {
+    void testTimeFieldWithoutPrecision() {
         var modelObject = new TestModelObjectWithLocalTime();
         var timeFieldPmo = createFirstComponent(modelObject);
+
+        assertThat(timeFieldPmo.getStep()).isEqualTo(Duration.ofMinutes(60));
 
         TestUiUtil.setUserOriginatedValue(timeFieldPmo, USER_INPUT_TIME);
         assertThat(modelObject.getValue()).isEqualTo(USER_INPUT_TIME);
         TestUiUtil.setUserOriginatedValue(timeFieldPmo, null);
         assertThat(modelObject.getValue()).isNull();
+    }
+
+    @Test
+    void testTimeFieldWithSecondsPrecision() {
+        var modelObject = getDefaultModelObject();
+        var timeFieldPmo = getComponentById("valueSeconds");
+
+        assertThat(timeFieldPmo.getStep()).isEqualTo(Duration.ofSeconds(30));
+
+        TestUiUtil.setUserOriginatedValue(timeFieldPmo, USER_INPUT_TIME);
+        assertThat(modelObject.getValueSeconds()).isEqualTo(USER_INPUT_TIME);
+        TestUiUtil.setUserOriginatedValue(timeFieldPmo, null);
+        assertThat(modelObject.getValueSeconds()).isNull();
+    }
+
+    @Test
+    void testTimeFieldWithMinutesPrecision() {
+        var modelObject = getDefaultModelObject();
+        var timeFieldPmo = getComponentById("valueMinutes");
+
+        assertThat(timeFieldPmo.getStep()).isEqualTo(Duration.ofMinutes(30));
+
+        TestUiUtil.setUserOriginatedValue(timeFieldPmo, USER_INPUT_TIME);
+        assertThat(modelObject.getValueMinutes()).isEqualTo(USER_INPUT_TIME);
+        TestUiUtil.setUserOriginatedValue(timeFieldPmo, null);
+        assertThat(modelObject.getValueMinutes()).isNull();
     }
 
     @Test
@@ -69,6 +99,7 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
         assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2)).isEqualTo("Foo");
     }
 
+
     @Override
     protected UITimeFieldIntegrationTest.TestModelObjectWithLocalTime getDefaultModelObject() {
         return (UITimeFieldIntegrationTest.TestModelObjectWithLocalTime)super.getDefaultModelObject();
@@ -85,10 +116,11 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UITimeField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC,
-                visible = VisibleType.DYNAMIC, step = 30)
+                visible = VisibleType.DYNAMIC)
         public void value() {
             // model binding
         }
+
 
         @Override
         @BindTooltip(TEST_TOOLTIP)
@@ -102,12 +134,30 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
         public LocalTime getFoo() {
             return LocalTime.now();
         }
+
+        @UITimeField(position = 4, step = 30, precision = ChronoUnit.SECONDS)
+        public void valueSeconds() {
+            // model binding
+        }
+
+
+        @UITimeField(position = 5, step = 30, precision = ChronoUnit.MINUTES)
+        public void valueMinutes() {
+            // model binding
+        }
     }
 
     protected static class TestModelObjectWithLocalTime {
 
         @CheckForNull
         private LocalTime value = null;
+
+        @CheckForNull
+        private LocalTime valueSeconds = null;
+
+        @CheckForNull
+        private LocalTime valueMinutes = null;
+
 
         @CheckForNull
         public LocalTime getStaticValue() {
@@ -122,5 +172,23 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
         public void setValue(@CheckForNull LocalTime value) {
             this.value = value;
         }
+
+        public LocalTime getValueSeconds() {
+            return valueSeconds;
+        }
+
+        public void setValueSeconds(LocalTime valueSeconds) {
+            this.valueSeconds = valueSeconds;
+        }
+
+        public LocalTime getValueMinutes() {
+            return valueMinutes;
+        }
+
+        public void setValueMinutes(LocalTime valueMinutes) {
+            this.valueMinutes = valueMinutes;
+        }
+
+
     }
 }

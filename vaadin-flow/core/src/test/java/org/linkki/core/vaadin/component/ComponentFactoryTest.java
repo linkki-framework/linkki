@@ -15,10 +15,12 @@
 package org.linkki.core.vaadin.component;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.core.vaadin.component.ComponentFactory.AUTOSELECT;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +32,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.timepicker.TimePicker;
 
 @ExtendWith(KaribuUIExtension.class)
 class ComponentFactoryTest {
@@ -74,7 +77,7 @@ class ComponentFactoryTest {
     void testNewDateField_Default() {
         DatePicker dateField = ComponentFactory.newDateField();
 
-        assertThat(dateField.getElement().getProperty("autoselect")).isEqualTo("true");
+        assertThat(dateField.getElement().getProperty(AUTOSELECT)).isEqualTo("true");
         assertThat(dateField.isAutoOpen()).isFalse();
     }
 
@@ -82,7 +85,7 @@ class ComponentFactoryTest {
     void testNewDateField_CustomAutoFeatures() {
         DatePicker dateField = ComponentFactory.newDateField(true, false);
 
-        assertThat(dateField.getElement().getProperty("autoselect")).isEqualTo("false");
+        assertThat(dateField.getElement().getProperty(AUTOSELECT)).isEqualTo("false");
         assertThat(dateField.isAutoOpen()).isTrue();
     }
 
@@ -153,7 +156,7 @@ class ComponentFactoryTest {
 
         assertThat(Duration.ofMinutes(60)).isEqualTo(dateTimeField.getStep());
         assertThat(dateTimeField.isAutoOpen()).isFalse();
-        assertThat(dateTimeField.getElement().getProperty("autoselect")).isEqualTo("true");
+        assertThat(dateTimeField.getElement().getProperty(AUTOSELECT)).isEqualTo("true");
     }
 
     @Test
@@ -162,7 +165,7 @@ class ComponentFactoryTest {
 
         assertThat(Duration.ofMinutes(120)).isEqualTo(dateTimeField.getStep());
         assertThat(dateTimeField.isAutoOpen()).isTrue();
-        assertThat(dateTimeField.getElement().getProperty("autoselect")).isEqualTo("false");
+        assertThat(dateTimeField.getElement().getProperty(AUTOSELECT)).isEqualTo("false");
     }
 
     @Test
@@ -176,6 +179,32 @@ class ComponentFactoryTest {
         DateTimePicker dateTimeField = ComponentFactory.newDateTimeField(60);
 
         assertThat(dateTimeField.getDatePickerI18n().getToday()).isEqualTo("Heute");
+    }
+
+    @Test
+    void testNewTimeFieldWithSeconds() {
+
+        long stepInSeconds = 30;
+        TimePicker timePicker = ComponentFactory.newTimeField(stepInSeconds, ChronoUnit.SECONDS);
+
+        Duration stepDuration = timePicker.getStep();
+
+        assertThat(stepDuration)
+                .withFailMessage("TimePicker step size to be 30 seconds, but it was %s", stepDuration)
+                .isEqualTo(Duration.ofSeconds(stepInSeconds));
+    }
+
+    @Test
+    void testNewTimeFieldWithMinutes() {
+
+        long stepInMinutes = 1;
+        TimePicker timePicker = ComponentFactory.newTimeField(stepInMinutes, ChronoUnit.MINUTES);
+
+        Duration stepDuration = timePicker.getStep();
+
+        assertThat(stepDuration)
+                .withFailMessage("TimePicker step size to be 1 Minute, but it was %s", stepDuration)
+                .isEqualTo(Duration.ofMinutes(stepInMinutes));
     }
 
 }

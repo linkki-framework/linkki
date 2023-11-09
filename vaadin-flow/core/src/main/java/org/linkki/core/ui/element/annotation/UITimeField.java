@@ -24,6 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -100,13 +101,19 @@ public @interface UITimeField {
     String modelAttribute() default StringUtils.EMPTY;
 
     /**
-     * Defines the time interval (in minutes) between the items displayed in the time picker overlay. It
-     * also specifies the amount by which the time increases/decreases using the Up/Down arrow keys
-     * (when the overlays are disabled).
-     * 
+     * Defines the time interval (in the specified {@link #precision()}) between the items displayed in
+     * the time picker overlay. It also specifies the amount by which the time increases/decreases using
+     * the Up/Down arrow keys (when the overlays are disabled).
+     *
      * @see TimePicker#setStep(Duration)
      */
     long step() default 60L;
+
+    /**
+     * The precision for the time values, e.g., minutes or seconds. Defaults to minutes.
+     *
+     */
+    ChronoUnit precision() default ChronoUnit.MINUTES;
 
     class TimeFieldAspectCreator implements AspectDefinitionCreator<UITimeField> {
 
@@ -129,7 +136,7 @@ public @interface UITimeField {
 
         @Override
         public LinkkiComponentDefinition create(UITimeField annotation, AnnotatedElement annotatedElement) {
-            return pmo -> ComponentFactory.newTimeField(annotation.step());
+            return pmo -> ComponentFactory.newTimeField(annotation.step(), annotation.precision());
         }
     }
 }

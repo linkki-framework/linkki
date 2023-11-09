@@ -172,6 +172,12 @@ It has one additional property:
 
 This property defines the time interval in minutes between the items displayed in the time picker overlay. It also specifies the amount by which the time increases/decreases using the Up/Down arrow keys when the overlays are disabled. Its default value is `60`.
 
+* `precision: ChronoUnit`
+
+The `precision` property specifies the unit of granularity for the time value, such as `minutes` or `seconds`. By default, this is set to `minutes`.
+
+It is noted that the overlay for time selection is disabled when `precision` is configured with a `step` size resulting in intervals smaller than 15 minutes. This is to prevent an impractical number of choices from being displayed. Manual entry of time, including seconds, is permitted and processed accordingly. It is also possible to adjust the time using the up and down arrow keys.
+
 WARNING: The `step` must divide an hour or day evenly. For example, `15`, `30` and `60` are valid steps, while `42` and `300` are not. If  an invalid value is used, an exception will be thrown by Vaadin.
 
 [[ui-datetimefield]]

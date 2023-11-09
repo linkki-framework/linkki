@@ -106,10 +106,11 @@ Similarly, the PmoBasedDialogFactory class has also been equipped with an overlo
 
 
 // https://jira.convista.com/browse/LIN-550
+// https://jira.convista.com/browse/LIN-3624
 ===== `UITimeField` added
 
-A new annotation <<ui-timefield, @UITimeField>> has been added for selecting a time. 
-The annotation has the property `step` for setting the time interval in the time picker overlay.
+A new annotation <<ui-timefield, @UITimeField>> has been added for selecting a time.
+The annotation has the properties `step` and `precision` for configuring the time picker. The `step` property sets the interval between items in the overlay, while `precision` defines the smallest unit for time selection, supporting both minute and second intervals.
 
 // https://jira.convista.com/browse/LIN-3174
 ===== Improved Styling and Consistency for linkki Theme
