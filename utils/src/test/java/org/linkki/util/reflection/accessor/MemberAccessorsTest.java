@@ -16,6 +16,7 @@ package org.linkki.util.reflection.accessor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import java.io.IOException;
@@ -146,16 +147,63 @@ class MemberAccessorsTest {
     }
 
     @Test
-    void testGetType_Method_GenericSuperClass() throws NoSuchMethodException {
+    void testGetType_Method_GenericSuperClassImpl() throws NoSuchMethodException {
         var method = GenericSuperClass.class.getMethod("getTestObject");
-        assertThat(MemberAccessors.getType(method, GenericSuperclassImpl.class)).isEqualTo(InheritedTestObject.class);
+        assertThat(MemberAccessors.getType(method, GenericSuperClassImpl.class)).isEqualTo(InheritedTestObject.class);
     }
+
+
+    @Test
+    void testGetType_Field_GenericSuperClassImpl() throws NoSuchFieldException {
+        var field = GenericSuperClass.class.getField("testField");
+        assertThat(MemberAccessors.getType(field, GenericSuperClassImpl.class)).isEqualTo(InheritedTestObject.class);
+    }
+
 
     @Test
     void testGetType_Field_GenericSuperClass() throws NoSuchFieldException {
         var field = GenericSuperClass.class.getField("testField");
-        assertThat(MemberAccessors.getType(field, GenericSuperclassImpl.class)).isEqualTo(InheritedTestObject.class);
+        assertThat(MemberAccessors.getType(field, GenericSuperClass.class)).isEqualTo(TestObject.class);
     }
+
+
+    @Test
+    void testGetType_Method_GenericSuperClass() throws NoSuchMethodException {
+        var method = GenericSuperClass.class.getMethod("getTestObject");
+        assertThat(MemberAccessors.getType(method, GenericSuperClass.class)).isEqualTo(TestObject.class);
+    }
+
+
+    @Test
+    void testGetType_Field_FullyGenericSuperClass() throws NoSuchFieldException {
+        var field = FullyGenericSuperClass.class.getField("testField");
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> MemberAccessors.getType(field, FullyGenericSuperClass.class));
+    }
+
+
+    @Test
+    void testGetType_Method_FullyGenericSuperClass() throws NoSuchMethodException {
+        var method = FullyGenericSuperClass.class.getMethod("getTestObject");
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> MemberAccessors.getType(method, FullyGenericSuperClass.class));
+    }
+
+    @Test
+    void testGetType_Field_MultipleGenericSuperClass() throws NoSuchFieldException {
+        var field = MultipleGenericSuperClass.class.getField("testField");
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> MemberAccessors.getType(field, MultipleGenericSuperClass.class));
+    }
+
+
+    @Test
+    void testGetType_Method_MultipleGenericSuperClass() throws NoSuchMethodException {
+        var method = MultipleGenericSuperClass.class.getMethod("getTestObject");
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> MemberAccessors.getType(method, MultipleGenericSuperClass.class));
+    }
+
 
     @Test
     void testGetValue_DifferentClassloader() throws NoSuchMethodException,
@@ -250,7 +298,8 @@ class MemberAccessorsTest {
         }
     }
 
-    private static abstract class GenericSuperClass<T extends TestObject> {
+
+    private static abstract class FullyGenericSuperClass<T> {
 
         public T testField;
         private T testObject;
@@ -264,11 +313,43 @@ class MemberAccessorsTest {
         }
     }
 
-    private static class GenericSuperclassImpl extends GenericSuperClass<InheritedTestObject> {
+    private static abstract class MultipleGenericSuperClass<T extends TestObject & TestInterface> {
+
+        public T testField;
+        private T testObject;
+
+        public T getTestObject() {
+            return testObject;
+        }
+
+        public void setTestObject(T testObject) {
+            this.testObject = testObject;
+        }
+    }
+
+    private static abstract class GenericSuperClass<T extends TestObject> {
+        public T testField;
+        private T testObject;
+
+        public T getTestObject() {
+            return testObject;
+        }
+
+        public void setTestObject(T testObject) {
+            this.testObject = testObject;
+        }
+    }
+
+    private static class GenericSuperClassImpl extends GenericSuperClass<InheritedTestObject> {
         // nothing to do here
     }
 
     private static class InheritedTestObject extends TestObject {
         // nothing to do here
     }
+
+    private static interface TestInterface {
+        // nothing to do here
+    }
+
 }

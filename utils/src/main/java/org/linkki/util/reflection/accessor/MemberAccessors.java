@@ -18,6 +18,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -129,18 +131,40 @@ public class MemberAccessors {
      * @param fieldOrMethod a {@link Field} or {@link Method} to access the value
      * @param clazz the {@link Type class} that contains the member
      * @return the type of the member
-     * @throws IllegalArgumentException if the given member is not a field or a method
+     * @throws IllegalArgumentException if the given member is not a field or a method, or if the Type
+     *             can not be resolved
+     *
      */
     public static Class<?> getType(Member fieldOrMethod, Type clazz) {
+        Type genericType;
         if (fieldOrMethod instanceof Field field) {
-            return TypeUtils.getRawType(field.getGenericType(), clazz);
+            genericType = field.getGenericType();
         } else if (fieldOrMethod instanceof Method method) {
-            return TypeUtils.getRawType(method.getGenericReturnType(), clazz);
+            genericType = method.getGenericReturnType();
         } else {
             throw new IllegalArgumentException("Only field or method is supported, found "
                     + fieldOrMethod.getClass().getCanonicalName() + " as type of "
                     + getNameOf(fieldOrMethod));
         }
+
+        Class<?> rawType = TypeUtils.getRawType(genericType, clazz);
+        if (rawType != null) {
+            return rawType;
+        }
+        if (genericType instanceof TypeVariable<?> typeVariable) {
+            Type[] implicitBounds = TypeUtils.getImplicitBounds(typeVariable);
+
+            if (implicitBounds.length > 1) {
+                throw new IllegalArgumentException("Multiple possible Types found for " + getNameOf(fieldOrMethod)
+                        + ". Unable to determine which of " + Arrays.toString(implicitBounds) + " to return.");
+            }
+
+            if (implicitBounds[0] instanceof Class<?> boundClass && !Object.class.equals(boundClass)) {
+                return boundClass;
+            }
+        }
+        throw new IllegalArgumentException(
+                "Unable to resolve Type of " + getNameOf(fieldOrMethod));
     }
 
 }
