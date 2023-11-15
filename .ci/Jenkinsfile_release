@@ -85,7 +85,7 @@ pipeline {
             }
         }
 
-        stage('Maven Deployment') {
+        stage('Upload release') {
             steps {
                 script {
                     withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
@@ -97,6 +97,8 @@ pipeline {
                         }
                     }
                 }
+
+                uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
             }
         }
     }

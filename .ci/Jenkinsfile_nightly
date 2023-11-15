@@ -21,7 +21,15 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
+                    sh 'mvn -U -T 6 -Pproduction clean source:jar javadoc:jar deploy'
+                }
+            }
+        }
+
+        stage('Upload Documentation') {
+            steps {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
                 }
             }
         }
@@ -85,7 +93,7 @@ pipeline {
             recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
             jacoco sourceInclusionPattern: '**/*.java'
 
-            archiveArtifacts 'vaadin-flow/doc/target/linkki-core-documentation*/**/*.*'
+            archiveArtifacts 'vaadin-flow/doc/target/doc/**'
         }
 
         regression {
