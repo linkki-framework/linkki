@@ -347,7 +347,7 @@ The following configuration options are available for `PlaceholderType`:
 ===== Tables
 The `@BindPlaceholder` annotation can also be used on table PMOs providing a placeholder text that is shown in case the table has no items. Table header and footer will also be hidden.
 
-NOTE: This aspect is an inherited aspect. If a class is annotated with `@BindPlaceholder`, all subclasses will hide their tables using the declared annotation in their super class. It is not possible for subclasses to override this behavior.
+NOTE: This aspect is an inherited aspect. If a class is annotated with `@BindPlaceholder`, all subclasses will hide their tables using the declared annotation in their super class. It is not possible for subclasses to remove this behavior. It is however possible to set an new placeholder in a subclass.
 
 .`@BindPlaceholder` on table PMO
 [source,java]

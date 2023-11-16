@@ -35,18 +35,19 @@ import org.linkki.core.ui.element.annotation.UITextField;
 
 
 /**
- * The {@code BindPlaceholder} annotation can be used to add a placeholder text to UI elements that can display a
- * placeholder, such as: {@link UITextArea} {@link UIIntegerField}, {@link UITextField} and {@link UIComboBox}.
+ * This aspect can be used to add a placeholder text to UI elements that can display a placeholder, such
+ * as: {@link UITextArea} {@link UIIntegerField}, {@link UITextField} and {@link UIComboBox}. The
+ * placeholder is shown when the UI field would be empty.
  * <p>
- * When annotated at the class level, the placeholder text is inheritable, which means that subclasses will default to
- * using the defined placeholder.
+ * {@code BindPlaceholder} can also be applied to a {@link ContainerPmo} at class level. In such cases,
+ * it provides a placeholder text that is displayed when the table contains no items. Moreover, the
+ * table header and footer are concealed when no items are present.
  * <p>
- * Additionally, {@code BindPlaceholder} can be applied to {@link ContainerPmo}. In such cases, it provides a
- * placeholder text that is displayed when the table contains no items. Moreover, the table header and footer are
- * concealed when no items are present.
+ * When annotated at the class level, the placeholder text is inheritable, which means that subclasses
+ * will default to using the defined placeholder.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
+@Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
 @InheritedAspect
 @LinkkiAspect(BindPlaceholderAspectDefinitionCreator.class)
 public @interface BindPlaceholder {

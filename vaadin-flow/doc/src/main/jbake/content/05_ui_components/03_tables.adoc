@@ -148,10 +148,7 @@ image::{images}{images-folder-name}/selectable_table.png[Selectable table, align
 
 [[ui-placeholder-table]]
 ==== Placeholder
-The `@BindPlaceholder` annotation is utilized to provide a placeholder in tables when they are empty, enhancing the UI by informing users of the absence of items. Further details and behaviors are described in the <<placeholder, Placeholder Configuration section>>.
-
-NOTE: For `@BindPlaceholder` applied to table PMOs, headers and footers are automatically hidden in empty tables. This is an inherited behavior; subclasses of an annotated class cannot override this aspect.
-
+To display informative placeholder text when a table is devoid of data, leverage the `@BindPlaceholder` annotation. This annotation serves to notify users about the absence of items within the table. For a comprehensive understanding of placeholder configuration, refer to the <<placeholder, Placeholder Configuration>> section for detailed explanations and behaviors.
 
 [[ui-table-footer]]
 ==== Table footer
