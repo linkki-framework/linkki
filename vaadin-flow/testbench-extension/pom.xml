@@ -13,8 +13,6 @@
 
     <properties>
         <vaadin.testbench.version>${vaadin.version}</vaadin.testbench.version>
-        <!-- Selenium version must match the one defined in Vaadin TestBench -->
-        <selenium.version>4.11.0</selenium.version>
     </properties>
 
     <dependencies>
@@ -33,11 +31,6 @@
             <artifactId>vaadin-testbench</artifactId>
             <version>${vaadin.testbench.version}</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-http-jdk-client</artifactId>
-            <version>${selenium.version}</version>
         </dependency>
 
          <dependency>
