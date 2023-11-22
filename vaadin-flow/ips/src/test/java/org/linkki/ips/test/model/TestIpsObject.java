@@ -415,7 +415,8 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
-    @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Derived)
+    @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Derived,
+            primitive = true)
     @IpsGenerated
     public boolean isValueSetExclNull() {
         return valueSetExclNull;

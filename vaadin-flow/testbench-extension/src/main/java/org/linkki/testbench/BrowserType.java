@@ -28,7 +28,6 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.http.jdk.JdkHttpClient;
 
 /**
  * BrowserType supported by webdriver. Currently only Chrome is supported.
@@ -79,11 +78,6 @@ public enum BrowserType {
 
     private static final Logger LOGGER = Logger.getLogger(BrowserType.class.getName());
 
-    /**
-     * @implNote Due to an <a href="https://github.com/SeleniumHQ/selenium/issues/11750">issue with the
-     *           default HTTP client</a>, the newer {@link JdkHttpClient} has to be enabled. This can be
-     *           removed once Selenium switches its default.
-     */
     protected void setChromeDriverSystemProperty() {
         String property = "webdriver.chrome.driver";
         if (isNull(System.getProperty(property))) {
@@ -96,8 +90,6 @@ public enum BrowserType {
 
             LOGGER.info("Setting " + property + " to " + driver.getAbsolutePath());
             System.setProperty(property, driver.getAbsolutePath());
-
-            System.setProperty("webdriver.http.factory", "jdk-http-client");
         }
     }
 

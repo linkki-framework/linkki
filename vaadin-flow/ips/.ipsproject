@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="24.1.a20231023-01"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="24.1.rc01"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -140,6 +140,9 @@
 
    <!--Enables the generation of the getter method getEffectiveFromAsCalendar(). Only works with the setting "Base class of policy components".-->
    <Property name="generateGetEffectiveFromAsCalendar" value="true"/>
+
+   <!--Whether additional annotations should be generated on all methods or only on @generated ones, therefore excluding @restrainedmodifiable methods. Handwritten, @restrainedmodifiable methods can be excluded from the 'Generate additional annotations' setting, for instance, if they should be included in code coverage.-->
+   <Property name="additionalAnnotationsLocation" value="GeneratedAndRestrainedModifiable"/>
   </IpsArtefactBuilderSetConfig>
  </IpsArtefactBuilderSet>
 

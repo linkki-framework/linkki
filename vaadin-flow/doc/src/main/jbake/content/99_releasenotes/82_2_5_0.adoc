@@ -13,8 +13,9 @@
 .Updated dependency versions:
 [cols="a,a"]
 |=== 
-|Faktor-IPS         |24.1.0.a20231023-01
-|Vaadin             |24.2.0
+|Faktor-IPS         |24.1.0.rc01
+|Vaadin             |24.2.4
+|Spring Boot        |3.1.6
 |===
 
 // https://jira.convista.com/browse/FCOM-1967
