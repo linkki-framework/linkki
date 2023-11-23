@@ -77,6 +77,11 @@ public @interface UITableColumn {
 
     /**
      * Configures whether a column can be collapsed and whether it initially is.
+     * <p>
+     * If there are any collapsible columns in a table, a right aligned header menu is displayed in the
+     * corresponding section with which the user can toggle the visibility of a collapsible column.
+     * <p>
+     * A column can only be collapsible if the table is created inside of a section.
      * 
      * @implNote Table columns are by default not collapsible.
      */
@@ -107,11 +112,11 @@ public @interface UITableColumn {
          */
         NOT_COLLAPSIBLE(false, false),
         /**
-         * The column is collapsible and is initially visible.
+         * The column is collapsible (if the table is part of a section) and is initially visible.
          */
         COLLAPSIBLE(true, false),
         /**
-         * The column is collapsible and is initially collapsed.
+         * The column is collapsible (if the table is part of a section) and is initially collapsed.
          */
         INITIALLY_COLLAPSED(true, true);
 
