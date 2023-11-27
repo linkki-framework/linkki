@@ -152,13 +152,11 @@ class MemberAccessorsTest {
         assertThat(MemberAccessors.getType(method, GenericSuperClassImpl.class)).isEqualTo(InheritedTestObject.class);
     }
 
-
     @Test
     void testGetType_Field_GenericSuperClassImpl() throws NoSuchFieldException {
         var field = GenericSuperClass.class.getField("testField");
         assertThat(MemberAccessors.getType(field, GenericSuperClassImpl.class)).isEqualTo(InheritedTestObject.class);
     }
-
 
     @Test
     void testGetType_Field_GenericSuperClass() throws NoSuchFieldException {
@@ -166,44 +164,51 @@ class MemberAccessorsTest {
         assertThat(MemberAccessors.getType(field, GenericSuperClass.class)).isEqualTo(TestObject.class);
     }
 
-
     @Test
     void testGetType_Method_GenericSuperClass() throws NoSuchMethodException {
         var method = GenericSuperClass.class.getMethod("getTestObject");
         assertThat(MemberAccessors.getType(method, GenericSuperClass.class)).isEqualTo(TestObject.class);
     }
 
-
     @Test
     void testGetType_Field_FullyGenericSuperClass() throws NoSuchFieldException {
         var field = FullyGenericSuperClass.class.getField("testField");
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> MemberAccessors.getType(field, FullyGenericSuperClass.class));
+                .isThrownBy(() -> MemberAccessors.getType(field, FullyGenericSuperClass.class))
+                .withMessageContaining(FullyGenericSuperClass.class.getSimpleName())
+                .withMessageContaining("testField");
     }
-
 
     @Test
     void testGetType_Method_FullyGenericSuperClass() throws NoSuchMethodException {
         var method = FullyGenericSuperClass.class.getMethod("getTestObject");
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> MemberAccessors.getType(method, FullyGenericSuperClass.class));
+                .isThrownBy(() -> MemberAccessors.getType(method, FullyGenericSuperClass.class))
+                .withMessageContaining(FullyGenericSuperClass.class.getSimpleName())
+                .withMessageContaining("getTestObject");
     }
 
     @Test
     void testGetType_Field_MultipleGenericSuperClass() throws NoSuchFieldException {
         var field = MultipleGenericSuperClass.class.getField("testField");
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> MemberAccessors.getType(field, MultipleGenericSuperClass.class));
+                .isThrownBy(() -> MemberAccessors.getType(field, MultipleGenericSuperClass.class))
+                .withMessageContaining(MultipleGenericSuperClass.class.getSimpleName())
+                .withMessageContaining("testField")
+                .withMessageContaining(TestObject.class.getSimpleName())
+                .withMessageContaining(TestInterface.class.getSimpleName());
     }
-
 
     @Test
     void testGetType_Method_MultipleGenericSuperClass() throws NoSuchMethodException {
         var method = MultipleGenericSuperClass.class.getMethod("getTestObject");
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> MemberAccessors.getType(method, MultipleGenericSuperClass.class));
+                .isThrownBy(() -> MemberAccessors.getType(method, MultipleGenericSuperClass.class))
+                .withMessageContaining(MultipleGenericSuperClass.class.getSimpleName())
+                .withMessageContaining("getTestObject")
+                .withMessageContaining(TestObject.class.getSimpleName())
+                .withMessageContaining(TestInterface.class.getSimpleName());
     }
-
 
     @Test
     void testGetValue_DifferentClassloader() throws NoSuchMethodException,
@@ -297,7 +302,6 @@ class MemberAccessorsTest {
             return "privateValue";
         }
     }
-
 
     private static abstract class FullyGenericSuperClass<T> {
 

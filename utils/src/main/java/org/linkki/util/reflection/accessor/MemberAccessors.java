@@ -136,35 +136,44 @@ public class MemberAccessors {
      *
      */
     public static Class<?> getType(Member fieldOrMethod, Type clazz) {
-        Type genericType;
+        Type type;
         if (fieldOrMethod instanceof Field field) {
-            genericType = field.getGenericType();
+            type = field.getGenericType();
         } else if (fieldOrMethod instanceof Method method) {
-            genericType = method.getGenericReturnType();
+            type = method.getGenericReturnType();
         } else {
-            throw new IllegalArgumentException("Only field or method is supported, found "
-                    + fieldOrMethod.getClass().getCanonicalName() + " as type of "
-                    + getNameOf(fieldOrMethod));
+            throw exceptionUnableToDetermineTypeOf(fieldOrMethod,
+                                                   "Only field or method is supported, but found "
+                                                       + fieldOrMethod.getClass().getCanonicalName()
+                                                       + " as accessor type of the member.");
         }
 
-        Class<?> rawType = TypeUtils.getRawType(genericType, clazz);
+        Class<?> rawType = TypeUtils.getRawType(type, clazz);
         if (rawType != null) {
             return rawType;
-        }
-        if (genericType instanceof TypeVariable<?> typeVariable) {
+        } else if (type instanceof TypeVariable<?> typeVariable) {
             Type[] implicitBounds = TypeUtils.getImplicitBounds(typeVariable);
 
             if (implicitBounds.length > 1) {
-                throw new IllegalArgumentException("Multiple possible Types found for " + getNameOf(fieldOrMethod)
-                        + ". Unable to determine which of " + Arrays.toString(implicitBounds) + " to return.");
+                throw exceptionUnableToDetermineTypeOf(fieldOrMethod, "The type variable has multiple bounds:"
+                                                               + Arrays.toString(implicitBounds));
             }
 
             if (implicitBounds[0] instanceof Class<?> boundClass && !Object.class.equals(boundClass)) {
                 return boundClass;
+            } else {
+                throw exceptionUnableToDetermineTypeOf(fieldOrMethod,
+                                                       "Cannot determine the bound of the type variable.");
             }
         }
         throw new IllegalArgumentException(
-                "Unable to resolve Type of " + getNameOf(fieldOrMethod));
+                "Unable to determine the type of the member " + getNameOf(fieldOrMethod));
+    }
+
+    private static IllegalArgumentException exceptionUnableToDetermineTypeOf(Member fieldOrMethod,
+                                                                             String cause) {
+       return new IllegalArgumentException("Unable to determine the type of the member " + getNameOf(fieldOrMethod)
+                                                   + ". " + cause);
     }
 
 }
