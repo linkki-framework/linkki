@@ -9,7 +9,8 @@
 
     <groupId>org.linkki-framework</groupId>
     <artifactId>linkki-documentation-landing-page</artifactId>
-    <version>2.5.0-SNAPSHOT</version>
+    <!-- Do not change, referenced by doc.faktorzehn.de webserver -->
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>Linkki Core Documentation Landing Page</name>
@@ -43,7 +44,7 @@
         </plugins>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven
                     build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
