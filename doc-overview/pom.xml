@@ -5,9 +5,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <documentation.dtitle>linkki documentation</documentation.dtitle>
-        <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
-        <jade.runExternalLinkTests>true</jade.runExternalLinkTests>
-        <deploymentFolder>versions</deploymentFolder>
     </properties>
 
     <groupId>org.linkki-framework</groupId>
@@ -17,28 +14,13 @@
 
     <name>Linkki Core Documentation Landing Page</name>
 
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>linkki Releases</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>linkki Snapshots</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>de.faktorzehn.doc</groupId>
                 <artifactId>jade-maven-plugin</artifactId>
-                <version>1.0.9</version>
+                <version>1.1.0-SNAPSHOT</version>
                 <configuration>
-                    <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
-                    <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
                     <properties>
                         <title>${documentation.dtitle}</title>
                         <homelink>https://doc.linkki-framework.org/versions/</homelink>
@@ -55,31 +37,6 @@
                         <goals>
                             <goal>generate-docs</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>wagon-maven-plugin</artifactId>
-                <version>2.0.2</version>
-                <executions>
-                    <execution>
-                        <id>upload-documentation</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>upload</goal>
-                        </goals>
-                        <configuration>
-                            <commands>
-                                <command>rm -rf \
-                                    /var/www/doc.linkki-framework.org/${deploymentFolder}/*</command>
-                            </commands>
-                            <serverId>linkkidoc</serverId>
-                            <fromDir>${jade.outputDirectory}/html</fromDir>
-                            <includes>**/*</includes>
-                            <url>scp://${doc.user}@doc.linkki-framework.org:2004</url>
-                            <toDir>/var/www/doc.linkki-framework.org/${deploymentFolder}</toDir>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -104,7 +61,7 @@
                                             jade-maven-plugin
                                         </artifactId>
                                         <versionRange>
-                                            1.0
+                                            1.1
                                         </versionRange>
                                         <goals>
                                             <goal>generate-docs</goal>
@@ -120,12 +77,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>3.4.3</version>
-            </extension>
-        </extensions>
     </build>
 </project>

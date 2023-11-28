@@ -1,0 +1,37 @@
+library 'f10-jenkins-library@1.0_patches'
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                dir('doc-overview') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        sh 'mvn clean package'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                dir('doc-overview') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        uploadDocumentation project: 'linkki-version-overview', folder: 'target/doc/html'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        regression {
+            emailext to: '${REGRESSION_EMAIL_LINKKI}', mimeType: 'text/html', subject: 'Jenkins Build Failure - $PROJECT_NAME', body: '''
+                <img src="https://jenkins.io/images/logos/fire/fire.png" style="max-width: 300px;" alt="Jenkins is not happy about it ...">
+                <br>
+                $BUILD_URL
+            '''
+        }
+    }
+}
