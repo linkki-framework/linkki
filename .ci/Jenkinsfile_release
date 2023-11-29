@@ -85,20 +85,22 @@ pipeline {
             }
         }
 
-        stage('Upload release') {
+        stage('Upload Release') {
             steps {
                 script {
-                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                        // only publish normal releases (no rcs & milestones) on maven central
-                        if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease,releaseDocumentation -Ddoc.user=doc']
-                        } else {
-                            uploadRelease commands: ['mvn javadoc:jar source:jar deploy -Ddoc.user=doc']
+                    uploadRelease() {
+                        uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
+
+                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                            // only publish final releases (no rcs & milestones) on maven central
+                            if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
+                                sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease'
+                            } else {
+                                sh 'mvn javadoc:jar source:jar deploy'
+                            }
                         }
                     }
                 }
-
-                uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
             }
         }
     }
