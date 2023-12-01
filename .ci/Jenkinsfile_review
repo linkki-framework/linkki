@@ -7,7 +7,6 @@ pipeline {
         PROJECT_NAME = 'linkki'
         BRANCH_NAME = "${env.GERRIT_BRANCH}"
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
-        MAVEN_DEFAULT_REPO = "${env.HOME}/.m2/repository"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de"
@@ -22,12 +21,6 @@ pipeline {
                 }
 
                 preBuildSteps()
-
-                // Setup local repository
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_DEFAULT_REPO}', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 4 -P production org.apache.maven.plugins:maven-dependency-plugin:3.3.0:go-offline -DincludeScope=compile'
-                    sh 'cp -r ${MAVEN_DEFAULT_REPO} ${MAVEN_REPOSITORY}'
-                }
 
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                     dependsOn(credentials: 'gerrit_rest') {}

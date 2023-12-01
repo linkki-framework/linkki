@@ -11,9 +11,9 @@
     align-self: center;
 }
 
-.linkki-application-menu {
-    --_lumo-button-color: var(--lumo-primary-contrast-color);
-    --_lumo-button-background-color: transparent;
+.linkki-application-menu vaadin-menu-bar-button {
+    --_lumo-button-text-color: var(--lumo-primary-contrast-color);
+    --_lumo-button-background: transparent;
 }
 
 .linkki-main-area {
