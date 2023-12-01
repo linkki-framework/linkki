@@ -89,9 +89,9 @@ pipeline {
             steps {
                 script {
                     uploadRelease() {
-                        uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
-
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                            uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
+
                             // only publish final releases (no rcs & milestones) on maven central
                             if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
                                 sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease'
