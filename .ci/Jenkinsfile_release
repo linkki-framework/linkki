@@ -12,14 +12,13 @@ pipeline {
         BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
         // make sure that the build name does not contain '_' because this will lead to unexpected Docker failures
         DOCKER_BUILD_NAME = "${params.RELEASE_VERSION.replaceAll('_', '-')}"
-        DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'keep'
     }
 
     stages {
         stage('Prepare Release') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     prepareRelease additionalModules: ['vaadin23/samples/test-playground/uitest']
                 }
             }
@@ -27,7 +26,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -P production clean javadoc:jar source:jar install'
                 }
 
@@ -72,7 +71,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true'
                 }
@@ -89,7 +88,7 @@ pipeline {
         stage('Maven Deployment') {
             steps {
                 script {
-                    withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                         // only publish normal releases (no rcs & milestones) on maven central
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
                             uploadRelease commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease,releaseDocumentation -Ddoc.user=doc']

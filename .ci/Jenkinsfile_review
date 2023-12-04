@@ -7,7 +7,6 @@ pipeline {
         PROJECT_NAME = 'linkki'
         BRANCH_NAME = "${env.GERRIT_BRANCH}"
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
-        DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         MAVEN_DEFAULT_REPO = "${env.HOME}/.m2/repository"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin23"
@@ -26,12 +25,12 @@ pipeline {
                 verifyChangelog file: 'vaadin23/doc/src/main/jbake/content/99_releasenotes/87_2_1_0.adoc'
 
                 // Setup local repository
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_DEFAULT_REPO}', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_DEFAULT_REPO}', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 4 -P production org.apache.maven.plugins:maven-dependency-plugin:3.3.0:go-offline -DincludeScope=compile'
                     sh 'cp -r ${MAVEN_DEFAULT_REPO} ${MAVEN_REPOSITORY}'
                 }
 
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                     dependsOn(credentials: 'gerrit_rest') {}
                 }
             }
@@ -39,7 +38,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
                         clean install javadoc:javadoc \
                         -Pproduction \
@@ -60,7 +59,7 @@ pipeline {
                 stage('Check API') {
                     steps {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                            withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                            withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                 sh 'mvn -T 6 -pl "!linkki-codeanalysis" validate org.revapi:revapi-maven-plugin:check'
                             }
                         }
@@ -69,7 +68,7 @@ pipeline {
 
                 stage('Faktor-IPS build') {
                     steps {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin23 -Dmaven.repo.local="${MAVEN_REPOSITORY}" faktorips:faktorips-clean faktorips:faktorips-build'
                         }
                     }
@@ -98,7 +97,7 @@ pipeline {
 
                         stage('UI Test') {
                             steps {
-                                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
                                         -Dmaven.test.failure.ignore=true'
                                 }
@@ -123,7 +122,7 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     withSonarQubeEnv('SonarQube') {
-                                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                             sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
                                                     -Dsonar.projectKey=${PROJECT_NAME} \
                                                     -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \

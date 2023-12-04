@@ -6,7 +6,6 @@ pipeline {
     environment {
         PROJECT_NAME = 'linkki'
         BUILD_NAME = 'nightly'
-        DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'keep'
     }
 
@@ -21,7 +20,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
                 }
             }
@@ -49,7 +48,7 @@ pipeline {
 
         stage('UI Test') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin23/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true'
                 }
@@ -65,7 +64,7 @@ pipeline {
         
         stage('Java 17 Test') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -T 6 -P Java17Test test'
                 }
 
@@ -76,7 +75,7 @@ pipeline {
         stage('External Link Tests') {
             steps {
                 retry(3) {
-                    withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                         sh 'mvn -U -pl "vaadin23/doc" jade:test-external-links'
                     }
                 }
