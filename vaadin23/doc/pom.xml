@@ -14,13 +14,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <documentation.dtitle>linkki documentation - vaadin23</documentation.dtitle>
         <basedir.parent>${project.parent.basedir}</basedir.parent>
-        <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
-        <deploymentFolder>${project.version}</deploymentFolder>
         <sonar.skip>true</sonar.skip>
-        <jade-maven-plugin.version>1.0.10</jade-maven-plugin.version>
-        <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
+
+        <jade-maven-plugin.version>1.1.0</jade-maven-plugin.version>
     </properties>
 
     <artifactId>linkki-core-documentation-vaadin23</artifactId>
@@ -80,16 +78,14 @@
                 <artifactId>jade-maven-plugin</artifactId>
                 <version>${jade-maven-plugin.version}</version>
                 <configuration>
-                    <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
-                    <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
                     <properties>
                         <title>${documentation.dtitle}</title>
                         <readmepath>${basedir.parent}</readmepath>
                         <vspotbugs>${spotbugs.version}</vspotbugs>
                         <vcommonslang>${commons-lang3.version}</vcommonslang>
                         <homelink>https://doc.linkki-framework.org</homelink>
-                        <logo>logo.png</logo>
-                        <projectVersion>${project.version}</projectVersion>
+                        <logo>https://doc.linkki-framework.org/linkki.png</logo>
+                        <showSubheadersInMenu>true</showSubheadersInMenu>
                     </properties>
                     <excludeLinks>
                         <excludeLink>.*localhost.*</excludeLink>
@@ -103,31 +99,6 @@
                         <goals>
                             <goal>generate-docs</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>wagon-maven-plugin</artifactId>
-                <version>${wagon-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>upload-documentation</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>upload</goal>
-                        </goals>
-                        <configuration>
-                            <commands>
-                                <command>rm -rf \
-                                    /var/www/doc.linkki-framework.org/${deploymentFolder}/*</command>
-                            </commands>
-                            <serverId>linkkidoc</serverId>
-                            <fromDir>${jade.outputDirectory}/html</fromDir>
-                            <includes>**/*</includes>
-                            <url>scp://${doc.user}@doc.linkki-framework.org:2004</url>
-                            <toDir>/var/www/doc.linkki-framework.org/${deploymentFolder}</toDir>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -175,21 +146,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>3.4.1</version>
-            </extension>
-        </extensions>
     </build>
-    <profiles>
-        <profile>
-            <id>releaseDocumentation</id>
-            <properties>
-                <deploymentFolder>${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}</deploymentFolder>
-            </properties>
-        </profile>
-    </profiles>
-
 </project>

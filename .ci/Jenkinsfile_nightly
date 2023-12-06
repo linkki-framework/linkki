@@ -21,7 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
+                    sh 'mvn -U -T 6 -Pproduction clean source:jar javadoc:jar deploy'
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline {
                 MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin23'
             }
         }
-        
+
         stage('Java 17 Test') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
@@ -95,7 +95,7 @@ pipeline {
             recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
             jacoco sourceInclusionPattern: '**/*.java'
 
-            archiveArtifacts 'vaadin23/doc/target/linkki-core-documentation*/**/*.*'
+            archiveArtifacts 'vaadin23/doc/target/doc/**'
         }
 
         regression {
