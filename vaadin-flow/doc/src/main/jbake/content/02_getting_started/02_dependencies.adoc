@@ -34,6 +34,6 @@ include::{vaadin-dir}/pom.xml[tags=vaadin-version]
 
 ==== Optional Libraries
 
-linkki can be used with https://spring.io/projects/spring-boot[Spring Boot], this version is tested with Spring Boot version
+linkki can be used with https://spring.io/projects/spring-boot/[Spring Boot], this version is tested with Spring Boot version
 include::{vaadin-dir}/pom.xml[tags=spring-boot-version]
 .

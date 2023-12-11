@@ -83,13 +83,12 @@
                         <vspotbugs>${spotbugs.version}</vspotbugs>
                         <vcommonslang>${commons-lang3.version}</vcommonslang>
                         <homelink>https://doc.linkki-framework.org</homelink>
-                        <logo>logo.png</logo>
+                        <logo>https://doc.linkki-framework.org/linkki.png</logo>
+                        <showSubheadersInMenu>true</showSubheadersInMenu>
                     </properties>
                     <excludeLinks>
                         <excludeLink>.*localhost.*</excludeLink>
                         <excludeLink>https://www.faktorzehn.com/de/impressum</excludeLink>
-                        <!-- permanent redirect to Spring Boot docs -->
-                        <excludeLink>https://spring.io/projects/spring-boot</excludeLink>
                     </excludeLinks>
                 </configuration>
                 <executions>
