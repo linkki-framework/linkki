@@ -37,6 +37,12 @@
             "code": "java.class.externalClassExposedInAPI",
             "new": "interface kotlin.jvm.functions.Function0<R>",
             "justification": "LIN-3470"
+          },
+          {
+            "regex": true,
+            "code": "java.annotation.attributeValueChanged",
+            "new": ".*org\\.junit\\.jupiter\\.api\\..*",
+            "justification": "FCOM-2037"
           }
         ]
       }
