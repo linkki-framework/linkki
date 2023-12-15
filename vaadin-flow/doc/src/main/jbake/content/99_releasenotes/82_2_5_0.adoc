@@ -57,11 +57,10 @@ To be able to handle `null` values for generic model objects properly when using
 // https://jira.convista.com/browse/LIN-3470
 [role="api-change"]
 ===== Additional utility for Karibu testing
-`KaribuUIExtension`::
-To use `KaribuUIExtension` a test class can either be annotated with `@ExtendWith(KaribuUIExtension.class)` or registered via `@RegisterExtension`. The latter allows e.g. to register and use custom classes as routes in Vaadin UI tests. Additionally, a test using `KaribuUIExtension` can be annotated with `@WithLocale` to define the UI's locale, defaulting to german.
 
-`KaribuUtils`::
-Provides utility methods for handling `Notification`-components.
+`KaribuUIExtension` and `KaribuUtils` have been added to allow JUnit Testing with https://github.com/mvysny/karibu-testing[Karibu-Testing]. To use these simply import the module 'linkki-vaadin-flow-test'. 
+
+See <<karibu-testing, Testing with Karibu>> for more Details.
 
 NOTE: `VaadinUIExtension` has been deprecated since `KaribuUIExtension` not only offers the same functionality, but also additional features.
 

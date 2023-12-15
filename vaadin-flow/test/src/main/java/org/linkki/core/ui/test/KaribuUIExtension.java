@@ -112,7 +112,7 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
         }
 
         /**
-         * Adds a supplier for instances that should be used vor injections in Vaadin e.g. route
+         * Adds a supplier for instances that should be used for injections in Vaadin e.g. route
          * components.
          *
          * @see com.vaadin.flow.di.Instantiator#getOrCreate(Class)
