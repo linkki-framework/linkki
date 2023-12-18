@@ -14,7 +14,7 @@
 [cols="a,a"]
 |===
 |Faktor-IPS         |24.1.0.release
-|Vaadin             |24.3.0.rc1
+|Vaadin             |24.3.1
 |Spring Boot        |3.2.0
 |Commons IO         |2.15.0
 |===
