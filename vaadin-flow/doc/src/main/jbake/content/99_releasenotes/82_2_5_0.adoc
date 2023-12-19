@@ -40,8 +40,6 @@ Spring Boot has been updated to 3.2.0. Check the https://github.com/spring-proje
 
 The update behavior has been improved for two cases:
 
-Invisible PMOs:: Updates of child bindings are now skipped entirely if the PMO is invisible. This reduces the number of unnecessary binding updates, making using nested components more efficient.
-
 Null model object:: When using model binding, linkki would throw an exception if the model object is `null` upon creation or update until now. With this change, linkki would gracefully handle the `null` value.
 +
 How the `null` value is handled depends on the respective aspect definition.
@@ -53,6 +51,15 @@ When using `ModelToUiAspectDefinition`, a new method `#handleNullItem` has been 
 +
 To be able to handle `null` values for generic model objects properly when using the `PropertyDispatcherFactory`, `MemberAccessors#getType(Member)` has been deprecated and replaced by `MemberAccessors#getType(Member, Type)`, where `Type` is the concrete PMO class.
 
+Invisible PMOs:: Updates of child bindings are now skipped entirely if the PMO is invisible. This reduces the number of unnecessary binding updates, making using nested components more efficient.
+
+[CAUTION]
+====
+An initial update is still conducted upon the creation of child bindings, even in invisible PMOs. This necessitates null- and Exception-handling, particularly when direct model binding is absent. To address this, consider:
+
+. Using a temporary model object at PMO creation, followed by a switch to the actual model object and a call to `BindingContext.uiUpdated()`.
+. Maintaining null-checks in getter methods where direct model binding is not used, ensuring resilience during the initial update.
+====
 
 // https://jira.convista.com/browse/LIN-3470
 [role="api-change"]

@@ -201,9 +201,17 @@ IMPORTANT: `INVISIBLE`, `DISABLED`, `INVISIBLE_IF_WRITABLE` are only supported f
 [[bind-visible]]
 ===== Bind Visible
 
-`@BindVisible` changes a component's visibility from the PMO by invoking a method named `is[PropertyName]Visible()`.
+`@BindVisible` changes a component's visibility from the PMO by invoking a method named `is[PropertyName]Visible()`. When annotating an entire PMO the method is `isVisible()`.
 
 The aspect has a default value of type `VisibiltyType` with the option `DYNAMIC`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`.
+
+[NOTE]
+====
+Updates of child bindings are skipped if a PMO is invisible. Due to an initial update upon creation, null-/Exception-handling might however still be necessary. To address this, consider:
+
+. Creating the PMO with a dummy model object to facilitate the initial update, then switch to the correct model object and use `BindingContext.uiUpdated()` for subsequent updates.
+. Retain null checks in getter methods without direct model binding to ensure stability during the initial update.
+====
 
 [[bind-style-names]]
 ===== Style Names
