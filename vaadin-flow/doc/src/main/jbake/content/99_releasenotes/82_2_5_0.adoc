@@ -99,7 +99,7 @@ Affected files, for example:
 * `package.json`
 * `package-lock.json`
 * `tsconfig.json`
-* `typed.d.ts`
+* `types.d.ts`
 * `vite.config.ts`
 
 // https://jira.convista.com/browse/LIN-1621
