@@ -47,12 +47,16 @@ public class DatePickerGermanTest extends AbstractUiTest {
     }
 
     private static Stream<Arguments> dates() {
+        int testYear1 = LocalDate.now().getYear() - 50;
+        String twoDigY1 = String.valueOf(testYear1).substring(2);
+        int testYear2 = LocalDate.now().getYear();
+        String twoDigY2 = String.valueOf(testYear2).substring(2);
         return Stream.of(
                          Arguments.of("030120", LocalDate.of(2020, 1, 3)),
                          Arguments.of("05071850", LocalDate.of(1850, 7, 5)),
-                         Arguments.of("6.4.73", LocalDate.of(1973, 4, 6)),
                          Arguments.of("9.1.1654", LocalDate.of(1654, 1, 9)),
-                         Arguments.of("25.11.22", LocalDate.of(2022, 11, 25)),
+                         Arguments.of("6.4." + twoDigY1, LocalDate.of(testYear1, 4, 6)),
+                         Arguments.of("25.11." + twoDigY2, LocalDate.of(testYear2, 11, 25)),
                          Arguments.of("07.08.2232", LocalDate.of(2232, 8, 7)));
     }
 
