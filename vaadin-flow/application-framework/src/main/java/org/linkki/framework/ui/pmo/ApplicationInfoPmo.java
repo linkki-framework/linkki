@@ -15,7 +15,7 @@
 package org.linkki.framework.ui.pmo;
 
 import org.linkki.core.ui.element.annotation.UILabel;
-import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
@@ -28,10 +28,10 @@ import org.linkki.framework.ui.nls.NlsText;
  *           the default {@link ApplicationInfoDialog}.
  */
 @SuppressWarnings("javadoc")
-@UISection
+@UIVerticalLayout
 public class ApplicationInfoPmo {
 
-    private ApplicationInfo applicationInfo;
+    private final ApplicationInfo applicationInfo;
 
     public ApplicationInfoPmo(ApplicationInfo applicationInfo) {
         this.applicationInfo = applicationInfo;

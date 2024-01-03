@@ -68,6 +68,20 @@
             "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 20)",
             "attribute": "htmlContent",
             "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
+          },
+          {
+            "code": "java.annotation.removed",
+            "old": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
+            "new": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
+            "annotation": "@org.linkki.core.ui.layout.annotation.UISection",
+            "justification": "LIN-3659 :: Fix unwanted whitespace in ApplicationInfoDialog"
+          },
+          {
+            "code": "java.annotation.added",
+            "old": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
+            "new": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
+            "annotation": "@org.linkki.core.ui.layout.annotation.UIVerticalLayout",
+            "justification": "LIN-3659 :: Fix unwanted whitespace in ApplicationInfoDialog"
           }
         ]
       }

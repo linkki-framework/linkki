@@ -242,3 +242,5 @@ Consequently, a new method `ErrorDialogConfiguration#showExceptionMessage()` has
 * Fixed empty rows in MessageTablePmo when duplicate messages are present
 // https://jira.convista.com/browse/LIN-3588
 * Missing English resource bundle has been added for `DatePickerI18nCreator`, which is used to internationalize a `DatePicker`
+// https://jira.convista.com/browse/LIN-3659
+* Fixed improperly indented content in ApplicationInfoPmo
