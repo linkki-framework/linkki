@@ -158,8 +158,9 @@ If no format is specified for a `UIIntegerField`, *linkki* uses the default Java
 
 [[ui-datefield]]
 ==== UIDateField
-The annotation `@UIDateField` generates a date input field and corresponds to https://vaadin.com/docs/latest/components/date-picker[`com.vaadin.flow.component.datepicker.DatePicker`]. It allows specifying a date format using the property `dateFormat: String`. If no date format is defined, the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
-The UIDateField allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
+The `@UIDateField` annotation creates a date input field and is equivalent to https://vaadin.com/docs/latest/components/date-picker[`com.vaadin.flow.component.datepicker.DatePicker`].
+The date is formatted according to the language preference set in the user's browser. For example, using the German `Locale` will format the date as `dd.mm.yyyy`.
+The `UIDateField` allows multiple date formats to be set, and by default uses the same date format as the standard Vaadin date field, but also allows dates to be entered without punctuation, so for example `010420` becomes `01.04.2020`.
 
 [[ui-timefield]]
 ==== UITimeField
