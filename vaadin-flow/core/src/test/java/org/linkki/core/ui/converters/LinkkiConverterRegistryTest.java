@@ -28,7 +28,6 @@ import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 import com.vaadin.flow.data.converter.StringToBigIntegerConverter;
-import com.vaadin.flow.data.converter.StringToDateConverter;
 import com.vaadin.flow.data.converter.StringToDoubleConverter;
 
 class LinkkiConverterRegistryTest {

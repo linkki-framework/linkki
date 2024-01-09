@@ -13,6 +13,7 @@
  */
 package org.linkki.ips.decimalfield;
 
+import java.io.Serial;
 import java.text.DecimalFormat;
 
 import org.faktorips.values.Decimal;
@@ -36,6 +37,7 @@ public class FormattedDecimalFieldToStringConverter
 
     public static final String DEFAULT_FORMAT = "#,##0.00##";
 
+    @Serial
     private static final long serialVersionUID = 2694562525960273214L;
 
     public FormattedDecimalFieldToStringConverter() {

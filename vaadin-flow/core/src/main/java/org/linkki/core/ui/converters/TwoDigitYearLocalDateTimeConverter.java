@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.converters;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 import org.linkki.util.TwoDigitYearUtil;
@@ -31,6 +32,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 public class TwoDigitYearLocalDateTimeConverter implements Converter<LocalDateTime, LocalDateTime> {
 
+    @Serial
     private static final long serialVersionUID = -7168406748935260872L;
 
     @CheckForNull

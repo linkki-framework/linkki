@@ -8,11 +8,11 @@
 [[fips-extension]]
 === Faktor-IPS Extension
 
-NOTE: Dependency <<_linkki_ips_vaadin_flow, `linkki-ips-vaadin-flow`>> is needed.
-
 *linkki* is often used in conjunction with https://www.faktorzehn.org/de[Faktor-IPS]. The module `linkki-ips-vaadin-flow` provides some useful functionalities for this combination.
 
-To use the extension simply include the following Maven dependency:
+[NOTE]
+====
+To use the extension, the dependency <<_linkki_ips_vaadin_flow, `linkki-ips-vaadin-flow`>> must be included:
 
 [source,xml]
 ----
@@ -21,12 +21,23 @@ To use the extension simply include the following Maven dependency:
     <artifactId>linkki-ips-vaadin-flow</artifactId>
 </dependency>
 ----
+====
 
 ==== Fields for Faktor-IPS Data Types
 
 A new UI component annotation `@UIDecimalField` supports the Faktor-IPS data type `Decimal`. It is  quite similar to `@UIDoubleField` but supports `Decimal` instead of `Double`.
 
-Other Faktor-IPS-specific fields - for example a `Money` field - may follow.
+[[ips-converters]]
+==== Faktor-IPS Converters
+
+The Faktor-IPS extension offers various converters enabling the utilization of Faktor-IPS data types for UI components. 
+To activate these converters, they must be configured within the <<linkki-converter-registry, `LinkkiConverterRegistry`>>.
+
+|===
+| Converter | Description
+
+| `StringToMoneyConverter` | Converts `String` to `Money` and vice versa. It leverages a `FormattedDecimalFieldToStringConverter` for converting decimal values to and from their string representations. Makes it possible to use `Money` for `String`-valued UI components such as `@UILabel`.
+|===
 
 ==== Faktor-IPS Model Validation
 

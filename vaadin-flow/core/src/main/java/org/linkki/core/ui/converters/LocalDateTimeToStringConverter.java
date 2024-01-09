@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.converters;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -28,12 +29,18 @@ import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+/**
+ * Converts {@link LocalDateTime} to {@link String}.
+ */
 public class LocalDateTimeToStringConverter implements Converter<String, LocalDateTime> {
 
+    @Serial
     private static final long serialVersionUID = -643467350091621552L;
 
     @Override
-    public Result<LocalDateTime> convertToModel(String value, ValueContext context) {
+    public Result<LocalDateTime> convertToModel(@CheckForNull String value, ValueContext context) {
         if (value == null) {
             return Result.ok(null);
         }
@@ -46,7 +53,7 @@ public class LocalDateTimeToStringConverter implements Converter<String, LocalDa
     }
 
     @Override
-    public String convertToPresentation(LocalDateTime value, ValueContext context) {
+    public String convertToPresentation(@CheckForNull LocalDateTime value, ValueContext context) {
         if (value == null) {
             return null;
         }

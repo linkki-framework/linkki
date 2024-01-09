@@ -82,6 +82,7 @@ import org.linkki.samples.playground.ts.components.TextAreaPmo;
 import org.linkki.samples.playground.ts.components.TextFieldPmo;
 import org.linkki.samples.playground.ts.components.TimeFieldPmo;
 import org.linkki.samples.playground.ts.components.YesNoComboBoxPmo;
+import org.linkki.samples.playground.ts.converters.ConvertersPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogErrorHandlerPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogWithCustomSizePmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
@@ -96,6 +97,7 @@ import org.linkki.samples.playground.ts.ips.AvailableValuesSectionPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.DecimalLabelPmo;
 import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
+import org.linkki.samples.playground.ts.ips.IpsConvertersPmo;
 import org.linkki.samples.playground.ts.ips.IpsLabelPage;
 import org.linkki.samples.playground.ts.ips.RequiredSectionPmo;
 import org.linkki.samples.playground.ts.ips.VisibleSectionPmo;
@@ -169,6 +171,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TS015 = "TS015";
     public static final String TS016 = "TS016";
     public static final String TS017 = "TS017";
+    public static final String TS018 = "TS018";
 
     public static final String TC001 = "TC001";
     public static final String TC002 = "TC002";
@@ -396,6 +399,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                            ComponentStyles.setFormItemLabelWidth(component, "300px");
                                            return component;
                                        })
+                                       .createTabSheet(),
+                               TestScenario.id(TS018)
+                                       .testCase(TC001, new ConvertersPmo())
                                        .createTabSheet());
         add(tabLayout);
     }
@@ -437,6 +443,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                 .testCase(TC005, () -> VaadinUiCreator.createComponent(new EnabledSectionPmo(), bc))
                 .testCase(TC006, () -> VaadinUiCreator.createComponent(new DecimalLabelPmo(), bc))
                 .testCase(TC007, () -> VaadinUiCreator.createComponent(new AvailableValuesSectionPmo(), bc))
+                .testCase(TC008, () -> VaadinUiCreator.createComponent(new IpsConvertersPmo(), bc))
                 .createTabSheet();
     }
 

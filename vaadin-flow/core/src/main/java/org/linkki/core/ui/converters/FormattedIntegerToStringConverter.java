@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.converters;
 
+import java.io.Serial;
 import java.text.DecimalFormat;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -24,6 +25,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 public class FormattedIntegerToStringConverter extends FormattedNumberToStringConverter<Integer> {
 
+    @Serial
     private static final long serialVersionUID = 6756969882235490962L;
 
     /**

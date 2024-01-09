@@ -39,13 +39,13 @@ Any version and scope configurations of linkki dependencies can then be removed.
 
 //https://jira.convista.com/browse/LIN-3293
 [role="api-change"]
-===== Added `INVISIBLE_IF_EMPTY` to `VisibleType`
+===== New VisibleType `INVISIBLE_IF_EMPTY`
 
 A new enum value, `INVISIBLE_IF_EMPTY`, is now available in `VisibleType`. When used, the `VisibleAspectDefinition` evaluates the linked method's output. Components linked to this method will be hidden if the result is `null` or an empty `String`, enhancing UI cleanliness.
 Further details can be found <<visible, in the documentation>>.
 
 //https://jira.convista.com/browse/LIN-3561
-===== Introduce Multi-Selection in tables
+===== Multi-selection in tables
 
 * The `BindTableSelection` now includes a new attribute called `selectionMode`. Its default value is `Grid.SelectionMode.SINGLE`.
 * A new interface `MultiSelectableTablePmo` has been added.
@@ -68,7 +68,7 @@ linkki theme defines CSS custom properties which is the easiest way to customize
 <<css-custom-properties-linkki-theme, "Styling">>.
 
 //https://jira.convista.com/browse/LIN-3682
-===== linkki tutorial
+===== linkki tutorial in the documentation
 The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tutorial>>).
 
 [role="api-change"]
@@ -104,7 +104,6 @@ To reflect the changes, following constants have been renamed:
 
 See <<section-theme-variants, section "Theme Variants">> for more details on how to use the theme variant.
 
-
 //https://jira.convista.com/browse/LIN-3701
 [role="api-change"]
 ===== Customizable position of the loading indicator
@@ -121,6 +120,15 @@ The position of the loading indicator can be configured with two new css propert
 In de _linkki_ theme the loading indicator is configured to be displayed at the bottom of the page by default.
 
 For more details see <<loading-indicator, loading indicator>>.
+
+//https://jira.convista.com/browse/LIN-3627
+===== New converters for GregorianCalendar and Money
+
+New converters have been added to convert `GregorianCalendar` and `Money` to `String`.
+
+The `StringToGregorianCalendarConverter` is integrated into the <<linkki-converter-registry, LinkkiConverterRegistry>> and can be used with `@UITextField` or `@UILabel` directly.
+
+In the Faktor-IPS extension, a new converter for `Money` has been added which can be used for `String`-valued fields such as `@UITextField`. Its functionality is documented <<ips-converters, here>>. This converter is not applied by default, thus have to be added to the converter registry if needed.
 
 ===== Other
 //https://jira.convista.com/browse/LIN-3671

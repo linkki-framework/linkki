@@ -29,7 +29,8 @@ Between `ApplicationHeader` and `ApplicationFooter` is the main area that displa
 [[application-config]]
 ==== Application Configuration
 
-The main aspects of the application are configured using the `ApplicationConfig`. This interface needs to be implemented once in every *linkki* application and provided to the `ApplicationLayout`. 
+The main aspects of the application are configured using the `ApplicationConfig`. This interface needs to be implemented once in every *linkki* application and provided to the `ApplicationLayout`.
+Furthermore, a <<linkki-converter-registry, Converter Registry>> is defined there, which defines how to convert values in the UI components.
 
 [[application-info]]
 ===== ApplicationInfo

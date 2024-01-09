@@ -15,6 +15,7 @@ package org.linkki.core.ui.converters;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -40,6 +41,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 public abstract class FormattedNumberToStringConverter<T extends Number> implements Converter<String, T> {
 
+    @Serial
     private static final long serialVersionUID = -872944068146887949L;
 
     private final String format;

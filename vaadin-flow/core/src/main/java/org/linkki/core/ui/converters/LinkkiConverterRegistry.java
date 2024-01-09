@@ -15,6 +15,7 @@ package org.linkki.core.ui.converters;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -39,7 +40,6 @@ import com.vaadin.flow.data.converter.LocalDateToDateConverter;
 import com.vaadin.flow.data.converter.StringToBigDecimalConverter;
 import com.vaadin.flow.data.converter.StringToBigIntegerConverter;
 import com.vaadin.flow.data.converter.StringToBooleanConverter;
-import com.vaadin.flow.data.converter.StringToDateConverter;
 import com.vaadin.flow.data.converter.StringToDoubleConverter;
 import com.vaadin.flow.data.converter.StringToFloatConverter;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
@@ -62,6 +62,7 @@ public class LinkkiConverterRegistry implements Serializable {
      */
     private static final String ERROR_MESSAGE = "Error converting Value";
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final List<Converter<?, ?>> DEFAULT_CONVERTERS = Arrays.asList(
@@ -83,6 +84,7 @@ public class LinkkiConverterRegistry implements Serializable {
                                                                                           ERROR_MESSAGE),
                                                                                   new StringToFloatConverter(
                                                                                           ERROR_MESSAGE),
+                                                                                  new StringToGregorianCalendarConverter(),
                                                                                   new StringToIntegerConverter(
                                                                                           ERROR_MESSAGE),
                                                                                   new StringToLongConverter(
@@ -129,7 +131,7 @@ public class LinkkiConverterRegistry implements Serializable {
     }
 
     /**
-     * Finds a converter that does match the two types for the presentation an the model type.
+     * Finds a converter that matches the type for the presentation as well as the model type.
      * <p>
      * If the types are {@link Class classes} they have to match exactly the type of a converter. We
      * do not check assignable types because the covariance and contravariance depends on the
