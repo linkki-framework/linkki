@@ -5,6 +5,15 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.3.9
+
+Dependency versions are updated:
+
+* Vaadin 23.3.31
+* Spring Boot 2.7.18
+* Faktor-IPS 22.12.16.release
+
+The new Vaadin Testbench version uses selenium to 4.16.1 (previously 4.8.3). Because of crashes with this version and our chrome driver we use 4.14.0 instead which seems to work stable.
 
 === Version 2.3.8
 

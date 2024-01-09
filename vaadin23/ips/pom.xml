@@ -12,7 +12,7 @@
     <name>linkki Extension for Faktor-IPS with Vaadin 23</name>
 
     <properties>
-        <faktorips.version>22.12.15.release</faktorips.version>
+        <faktorips.version>22.12.16.release</faktorips.version>
     </properties>
 
     <dependencies>
