@@ -7,14 +7,14 @@ import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
 import org.linkki.util.handler.Handler;
 
-public class ${ApplicationName}Page extends AbstractPage{
+public class ${ApplicationName}Page extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
     private final BindingManager bindingManager;
 
     public ${ApplicationName}Page() {
-    	this.bindingManager = new DefaultBindingManager();
+        this.bindingManager = new DefaultBindingManager();
     }
 
     @Override

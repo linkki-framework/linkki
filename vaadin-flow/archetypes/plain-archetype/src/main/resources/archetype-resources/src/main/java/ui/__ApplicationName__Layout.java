@@ -3,7 +3,7 @@ package ${package}.ui;
 
 import org.linkki.framework.ui.application.ApplicationLayout;
 
-public class ${ApplicationName}Layout extends ApplicationLayout{
+public class ${ApplicationName}Layout extends ApplicationLayout {
 
     private static final long serialVersionUID = 1L;
 
@@ -11,3 +11,4 @@ public class ${ApplicationName}Layout extends ApplicationLayout{
         super(new ${ApplicationName}Config());
     }
 }
+

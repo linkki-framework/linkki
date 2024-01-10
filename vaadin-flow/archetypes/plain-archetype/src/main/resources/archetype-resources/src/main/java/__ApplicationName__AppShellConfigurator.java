@@ -5,7 +5,8 @@ import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
 
 @Theme("linkki")
-public class ${ApplicationName}AppShellConfigurator implements AppShellConfigurator{
+@SuppressWarnings("HideUtilityClassConstructor")
+public class ${ApplicationName}AppShellConfigurator implements AppShellConfigurator {
 
     private static final long serialVersionUID = 1L;
 

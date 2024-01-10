@@ -9,7 +9,7 @@ import ${package}.ui.${ApplicationName}Layout;
 
 @PageTitle("${ApplicationName}")
 @Route(value = "", layout = ${ApplicationName}Layout.class)
-public class ${ApplicationName}View extends VerticalLayout{
+public class ${ApplicationName}View extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 

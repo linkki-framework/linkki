@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Theme("linkki")
 @SpringBootApplication
+@SuppressWarnings("HideUtilityClassConstructor")
 public class ${ApplicationName} implements AppShellConfigurator {
 
     private static final long serialVersionUID = 1L;
