@@ -15,15 +15,14 @@
 package org.linkki.samples.playground.ts.layout;
 
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 
-@UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
-public class HorizontalLayoutMiddlePmo {
+@UIHorizontalLayout
+public class HorizontalLayoutDefaultAlignmentPmo {
 
     @UITextField(position = 1)
     public String getText() {
-        return "I should be in the middle";
+        return "I should be aligned at baseline which is the default";
     }
 
 }

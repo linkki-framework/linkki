@@ -35,6 +35,9 @@ public class VerticalAlignmentTestComponent extends HorizontalLayout {
         add(VaadinUiCreator.createComponent(new HorizontalLayoutBottomPmo(),
                                             new BindingContext("HorizontalLayoutBottomPmo")));
 
+        add(VaadinUiCreator.createComponent(new HorizontalLayoutDefaultAlignmentPmo(),
+                                            new BindingContext("HorizontalLayoutDefaultAlignmentPmo")));
+
         getChildren()
                 .forEach(c -> c.getStyle().set("background-color", "#fafafa").set("margin", "10px"));
     }

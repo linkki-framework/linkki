@@ -223,6 +223,13 @@ Consult the <<linkki-error-page, documentation>> for further information on how 
 `ErrorDialogConfiguration` now only shows the exception message by default if the application does not run in the production mode, else the message will not be added.
 Consequently, a new method `ErrorDialogConfiguration#showExceptionMessage()` has been introduced to customize this behavior.
 
+
+[role="api-change"]
+// https://jira.convista.com/browse/LIN-3422
+===== The default vertical alignment of `@UIHorizontalLayout` was set to baseline
+This fixed the issue where error messages in a HorizontalLayout containing nested components within a Section were causing misalignment due to the VerticalLayout being set to "Middle".
+The fix involved setting the vertical alignment of UIHorizontalLayout to "Baseline", ensuring consistent alignment and enhancing visual cohesiveness and readability.
+
 ===== Other
 // https://jira.convista.com/browse/LIN-3557
 * The <<maven-archetypes-spring, documentation>> that describes how to build and start an application created by the Spring Boot archetype has been adjusted to match the different requirements regarding development and production mode. 
@@ -234,8 +241,6 @@ Consequently, a new method `ErrorDialogConfiguration#showExceptionMessage()` has
 * Fixed the issue where multiple screenshots taken for a single test case would overwrite each other
 // https://jira.convista.com/browse/LIN-3507
 * Fixed added child rows are not visible in hierarchical tables
-// https://jira.convista.com/browse/LIN-3422
-* Fixed the issue where error messages in a HorizontalLayout containing nested components within a Section were causing misalignment due to the VerticalLayout being set to "Middle." The fix involved setting the vertical alignment of UIHorizontalLayout to "Baseline," ensuring consistent alignment and enhancing visual cohesiveness and readability.
 // https://jira.convista.com/browse/LIN-3531
 * Fixed @BindMessages not working on Grid column fields
 // https://jira.convista.com/browse/LIN-3530
