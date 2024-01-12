@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin-flow</artifactId>
-        <version>2.4.7-SNAPSHOT</version>
+        <version>2.4.7</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.linkki-framework.tooling</groupId>
             <artifactId>linkki-apt</artifactId>
-            <version>2.4.7-SNAPSHOT</version>
+            <version>2.4.7</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
