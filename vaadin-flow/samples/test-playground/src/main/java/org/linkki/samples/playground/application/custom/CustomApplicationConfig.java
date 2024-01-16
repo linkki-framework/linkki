@@ -45,9 +45,7 @@ public class CustomApplicationConfig implements ApplicationConfig {
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(
-                           // tag::applicationMenuItemDefinition[]
                            new ApplicationMenuItemDefinition("Playground", "playground", TestScenarioView.class),
-                           // end::applicationMenuItemDefinition[]
                            new ApplicationMenuItemDefinition("Click Handler Constructor Variants", "click-handler",
                                    Arrays.asList(new ApplicationMenuItemDefinition("External Link", "external-link",
                                            "https://www.linkki-framework.org"),

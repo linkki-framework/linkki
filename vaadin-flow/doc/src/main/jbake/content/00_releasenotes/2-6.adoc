@@ -3,14 +3,15 @@
 :jbake-order: 0
 
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
-:images-folder-name: 01_releasenotes
+:images-folder-name: 00_releasenotes
 
 === Version 2.6.0
 
 // ==== New features and improvements
 
 // ===== Dependency Updates
-// .Updated dependency versions:
+
+// The following versions have been updated:
 // [cols="a,a"]
 // |===
 // |===
