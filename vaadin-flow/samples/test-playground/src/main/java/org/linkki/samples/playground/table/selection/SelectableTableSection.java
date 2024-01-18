@@ -26,6 +26,7 @@ import org.linkki.samples.playground.table.PlaygroundRowPmo;
 import org.linkki.samples.playground.table.TableModelObject;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.selection.SingleSelect;
 
@@ -42,7 +43,7 @@ public class SelectableTableSection {
         PlaygroundSelectableTablePmo selectableTableSectionPmo = new PlaygroundSelectableTablePmo(
                 () -> modelObjects,
                 () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
-                o -> modelObjects.remove(o));
+                modelObjects::remove);
 
         GridSection gridSection = (GridSection)new PmoBasedSectionFactory()
                 .createSection(selectableTableSectionPmo, new BindingContext("selectableTable"));
@@ -53,15 +54,25 @@ public class SelectableTableSection {
                                                                       new SelectionComparisonSectionPmo(
                                                                               () -> (PlaygroundRowPmo)singleSelect
                                                                                       .getValue(),
-                                                                              () -> selectableTableSectionPmo
-                                                                                      .getSelection(),
+                                                                              selectableTableSectionPmo::getSelection,
                                                                               comparisonBindingContext::modelChanged),
                                                                       comparisonBindingContext);
+
+        VisualOnlySelectableTablePmo visualOnlySelectableTablePmo = new VisualOnlySelectableTablePmo(
+                () -> modelObjects,
+                () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
+                modelObjects::remove);
+
+        GridSection gridVisualOnlySection = (GridSection)new PmoBasedSectionFactory()
+                .createSection(visualOnlySelectableTablePmo, new BindingContext("visualOnlySelectableTable"));
 
         Div div = new Div();
         div.setWidthFull();
         div.add(gridSection);
         div.add(comparisonSection);
+        // a small space between the first two sections and the third one
+        div.add(new Html("<div style='height: 17px;'></div>"));
+        div.add(gridVisualOnlySection);
         return div;
     }
 }

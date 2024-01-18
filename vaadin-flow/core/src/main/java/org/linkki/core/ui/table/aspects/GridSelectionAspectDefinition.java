@@ -14,9 +14,8 @@
 
 package org.linkki.core.ui.table.aspects;
 
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.Grid.SelectionMode;
-import com.vaadin.flow.data.selection.SingleSelect;
+import java.util.Objects;
+
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -25,48 +24,66 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.columnbased.ColumnBasedComponentWrapper;
 import org.linkki.util.handler.Handler;
 
-import java.util.Objects;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.data.selection.SingleSelect;
 
 /**
  * Aspect definition to handle selection and double click on a table.
  *
  * @implNote This definition contains two aspects: {@value #SELECTION_ASPECT_NAME} and
- * {@value #DOUBLE_CLICK_ASPECT_NAME}. This is due to the fact that the selection aspect must
- * be evaluated before the double click aspect.
+ *           {@value #DOUBLE_CLICK_ASPECT_NAME}. This is due to the fact that the selection aspect must
+ *           be evaluated before the double click aspect.
  */
 public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
 
     public static final String SELECTION_ASPECT_NAME = "selection";
     public static final String DOUBLE_CLICK_ASPECT_NAME = "onDoubleClick";
 
+    private final boolean visualOnly;
+
+    /**
+     * @deprecated Use {@link #GridSelectionAspectDefinition(boolean)} instead
+     */
+    @Deprecated(since = "2.6.0")
+    public GridSelectionAspectDefinition() {
+        this(false);
+    }
+
+    public GridSelectionAspectDefinition(boolean visualOnly) {
+        this.visualOnly = visualOnly;
+    }
+
     @Override
     public void initModelUpdate(PropertyDispatcher propertyDispatcher,
-                                ComponentWrapper componentWrapper,
-                                Handler modelChanged) {
+            ComponentWrapper componentWrapper,
+            Handler modelChanged) {
         Grid<?> grid = (Grid<?>)componentWrapper.getComponent();
         grid.setSelectionMode(SelectionMode.SINGLE);
-        SingleSelect<?, ?> singleSelect = grid.asSingleSelect();
-        singleSelect.addValueChangeListener(e -> {
-            Object newSelection = e.getValue();
-            if (newSelection != null) {
-                propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, newSelection));
-            }
-            modelChanged.apply();
-        });
-        grid.addItemDoubleClickListener(e -> {
-            Object clickedItem = e.getItem();
-            if (singleSelect.getOptionalValue().map(v -> !Objects.equals(v, clickedItem)).orElse(true)) {
-                propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, e.getItem()));
-            }
-            propertyDispatcher.push(Aspect.of(DOUBLE_CLICK_ASPECT_NAME));
-            modelChanged.apply();
-        });
+        if (!visualOnly) {
+            SingleSelect<?, ?> singleSelect = grid.asSingleSelect();
+            singleSelect.addValueChangeListener(e -> {
+                Object newSelection = e.getValue();
+                if (newSelection != null) {
+                    propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, newSelection));
+                }
+                modelChanged.apply();
+            });
+            grid.addItemDoubleClickListener(e -> {
+                Object clickedItem = e.getItem();
+                if (singleSelect.getOptionalValue().map(v -> !Objects.equals(v, clickedItem)).orElse(true)) {
+                    propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, e.getItem()));
+                }
+                propertyDispatcher.push(Aspect.of(DOUBLE_CLICK_ASPECT_NAME));
+                modelChanged.apply();
+            });
+        }
     }
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         Object component = componentWrapper.getComponent();
-        if (component instanceof Grid) {
+        if (component instanceof Grid && !visualOnly) {
             SingleSelect<?, ?> grid = ((Grid<?>)componentWrapper.getComponent()).asSingleSelect();
             return () -> grid.setValue(propertyDispatcher.pull(Aspect.of(SELECTION_ASPECT_NAME)));
         } else {
@@ -79,4 +96,7 @@ public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
         return ColumnBasedComponentWrapper.COLUMN_BASED_TYPE.isAssignableFrom(type);
     }
 
+    boolean isVisualOnly() {
+        return visualOnly;
+    }
 }

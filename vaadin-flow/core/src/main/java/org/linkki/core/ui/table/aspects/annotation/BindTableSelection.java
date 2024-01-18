@@ -14,7 +14,6 @@
 
 package org.linkki.core.ui.table.aspects.annotation;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -40,11 +39,13 @@ import org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelec
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindTableSelection {
 
-    class TableSelectionAspectDefinitionCreator implements AspectDefinitionCreator<Annotation> {
+    /** If <code>true</code>, the table will be only for visual reasons selectable */
+    boolean visualOnly() default false;
 
+    class TableSelectionAspectDefinitionCreator implements AspectDefinitionCreator<BindTableSelection> {
         @Override
-        public LinkkiAspectDefinition create(Annotation annotation) {
-            return new GridSelectionAspectDefinition();
+        public LinkkiAspectDefinition create(BindTableSelection annotation) {
+            return new GridSelectionAspectDefinition(annotation.visualOnly());
         }
     }
 }

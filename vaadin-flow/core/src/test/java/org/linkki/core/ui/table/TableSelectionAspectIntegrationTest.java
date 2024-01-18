@@ -24,6 +24,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,8 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.table.aspects.GridSelectionAspectDefinition;
+import org.linkki.core.ui.table.aspects.annotation.BindTableSelection;
 import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.core.vaadin.component.section.GridSection;
 
@@ -155,6 +158,14 @@ class TableSelectionAspectIntegrationTest {
         verify(tablePmo).onDoubleClick();
     }
 
+    @Test
+    void testVisualOnlyTable_VisualOnlySetTrue() {
+        var tablePmo = new TestVisualOnlyselectableTablePmo("row1", "row2");
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+
+        assertThat("Table is selectable", table.getSelectionModel(), is(instanceOf(GridSingleSelectionModel.class)));
+    }
+
     @UISection
     public static class TestSelectableTablePmo extends SimpleTablePmo<String, TestSelectableTableRowPmo>
             implements SelectableTablePmo<TestSelectableTableRowPmo> {
@@ -205,6 +216,20 @@ class TableSelectionAspectIntegrationTest {
             return "TestSelectableTableRowPmo{" +
                     "value='" + value + '\'' +
                     '}';
+        }
+    }
+
+    @UISection
+    @BindTableSelection(visualOnly = true)
+    public static class TestVisualOnlyselectableTablePmo extends SimpleTablePmo<String, TestSelectableTableRowPmo> {
+
+        protected TestVisualOnlyselectableTablePmo(String... rows) {
+            super(Arrays.asList(rows));
+        }
+
+        @Override
+        protected TestSelectableTableRowPmo createRow(String modelObject) {
+            return new TestSelectableTableRowPmo(modelObject);
         }
     }
 }

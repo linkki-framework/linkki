@@ -57,39 +57,61 @@
                         "justification": "LIN-3570 - was effectively final before"
                     },
                     {
-                      "code": "java.annotation.removed",
-                      "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(T[])",
-                      "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(T[])",
-                      "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                      "justification": "LIN-3570"
+                        "code": "java.annotation.removed",
+                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(T[])",
+                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(T[])",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+                        "justification": "LIN-3570"
                     },
                     {
-                      "code": "java.annotation.removed",
-                      "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(java.util.Collection<T>)",
-                      "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(java.util.Collection<T>)",
-                      "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                      "justification": "LIN-3570"
+                        "code": "java.annotation.removed",
+                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(java.util.Collection<T>)",
+                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(java.util.Collection<T>)",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+                        "justification": "LIN-3570"
                     },
                     {
-                      "code": "java.annotation.removed",
-                      "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(org.linkki.util.Sequence<T>)",
-                      "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(org.linkki.util.Sequence<T>)",
-                      "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                      "justification": "LIN-3570"
+                        "code": "java.annotation.removed",
+                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(org.linkki.util.Sequence<T>)",
+                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(org.linkki.util.Sequence<T>)",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+                        "justification": "LIN-3570"
                     },
                     {
-                      "code": "java.annotation.removed",
-                      "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>)",
-                      "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>)",
-                      "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                      "justification": "LIN-3570"
+                        "code": "java.annotation.removed",
+                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>)",
+                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>)",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+                        "justification": "LIN-3570"
                     },
                     {
-                      "code": "java.annotation.removed",
-                      "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>[])",
-                      "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>[])",
-                      "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                      "justification": "LIN-3570"
+                        "code": "java.annotation.removed",
+                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>[])",
+                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>[])",
+                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+                        "justification": "LIN-3570"
+                    },
+                    {
+                        "code": "java.method.parameterTypeChanged",
+                        "old": "parameter org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator::create(===java.lang.annotation.Annotation===)",
+                        "new": "parameter org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator::create(===org.linkki.core.ui.table.aspects.annotation.BindTableSelection===)",
+                        "parameterIndex": "0",
+                        "justification": "LIN-3147"
+                    },
+                    {
+                        "code": "java.class.noLongerImplementsInterface",
+                        "old": "class org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator",
+                        "new": "class org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator",
+                        "interface": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<java.lang.annotation.Annotation>",
+                        "justification": "LIN-3147"
+                    },
+                    {
+                        "code": "java.class.superTypeTypeParametersChanged",
+                        "old": "class org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator",
+                        "new": "class org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator",
+                        "oldSuperType": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<java.lang.annotation.Annotation>",
+                        "newSuperType": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<org.linkki.core.ui.table.aspects.annotation.BindTableSelection>",
+                        "justification": "LIN-3147"
                     }
                 ]
             }
