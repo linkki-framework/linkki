@@ -49,7 +49,9 @@ pipeline {
         stage('UI Test and Checks') {
             when {
                 expression {
-                    return currentBuild.currentResult != "FAILURE"
+                    // skip stage when only documentation changed
+                    def diff = sh returnStatus: true, script: "git diff HEAD^ HEAD --name-status --exit-code -- . ':!vaadin-flow/doc/'"
+                    return diff
                 }
             }
 
