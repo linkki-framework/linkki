@@ -10,8 +10,9 @@
 ==== New features and improvements
 
 ===== Dependency Updates
-.Updated dependency versions:
-[cols="a,a"]
+
+The following versions have been updated:
+[cols="1,1"]
 |===
 |Faktor-IPS         |24.1.1.release
 |Vaadin             |24.3.2
@@ -29,7 +30,7 @@ Furthermore, the compile-scoped dependency `org.seleniumhq.selenium:selenium-htt
 
 [NOTE]
 ====
-Spring Boot has been updated to 3.2.0. Check the https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.2-Release-Notes[release notes] for more information.
+Spring Boot has been updated to 3.2.1. Check the https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.2-Release-Notes[release notes] for more information.
 ====
 
 // https://jira.convista.com/browse/LIN-3144
