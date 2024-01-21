@@ -1,63 +1,63 @@
 {
-  "all-versions": [
-    {
-      "extension": "revapi.filter",
-      "configuration": {
-        "elements": {
-          "exclude": [
-            ".* com\\.vaadin\\.flow\\..*"
-          ]
+    "all-versions": [
+        {
+            "extension": "revapi.filter",
+            "configuration": {
+                "elements": {
+                    "exclude": [
+                        ".* com\\.vaadin\\.flow\\..*"
+                    ]
+                }
+            }
+        },
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.core\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.util\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    }
+                ]
+            }
         }
-      }
-    },
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.linkki\\.core\\..*",
-            "justification": "LIN-2651/LIN-2652"
-          },
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.linkki\\.util\\..*",
-            "justification": "LIN-2651/LIN-2652"
-          }
-        ]
-      }
-    }
-  ],
-  "2.6.0": [
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "code": "java.class.nonFinalClassInheritsFromNewClass",
-            "old": "class org.linkki.util.Sequence<T>",
-            "new": "class org.linkki.util.Sequence<T>",
-            "superClass": "java.lang.Record",
-            "justification": "LIN-3570"
-          },
-          {
-            "code": "java.class.kindChanged",
-            "old": "class org.linkki.util.Sequence<T>",
-            "new": "class org.linkki.util.Sequence<T>",
-            "justification": "LIN-3570 - is now a record instead of class"
-          },
-          {
-            "code": "java.class.nowFinal",
-            "old": "class org.linkki.util.Sequence<T>",
-            "new": "class org.linkki.util.Sequence<T>",
-            "justification": "LIN-3570 - was effectively final before"
-          }
-        ]
-      }
-    }
-  ]
+    ],
+    "2.6.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.class.nonFinalClassInheritsFromNewClass",
+                        "old": "class org.linkki.util.Sequence<T>",
+                        "new": "class org.linkki.util.Sequence<T>",
+                        "superClass": "java.lang.Record",
+                        "justification": "LIN-3570"
+                    },
+                    {
+                        "code": "java.class.kindChanged",
+                        "old": "class org.linkki.util.Sequence<T>",
+                        "new": "class org.linkki.util.Sequence<T>",
+                        "justification": "LIN-3570 - is now a record instead of class"
+                    },
+                    {
+                        "code": "java.class.nowFinal",
+                        "old": "class org.linkki.util.Sequence<T>",
+                        "new": "class org.linkki.util.Sequence<T>",
+                        "justification": "LIN-3570 - was effectively final before"
+                    }
+                ]
+            }
+        }
+    ]
 }

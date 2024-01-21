@@ -1,15 +1,15 @@
 {
-	"all-versions": [
-		{
-			"extension": "revapi.filter",
-			"configuration": {
-				"elements": {
-					"exclude": [
-						".* org\\.linkki\\.core\\..*",
-						".* org\\.linkki\\.util\\..*"
-					]
-				}
-			}
-		}
-	]
+    "all-versions": [
+        {
+            "extension": "revapi.filter",
+            "configuration": {
+                "elements": {
+                    "exclude": [
+                        ".* org\\.linkki\\.core\\..*",
+                        ".* org\\.linkki\\.util\\..*"
+                    ]
+                }
+            }
+        }
+    ]
 }
