@@ -1,90 +1,34 @@
 {
-  "all-versions": [
-    {
-      "extension": "revapi.filter",
-      "configuration": {
-        "elements": {
-          "exclude": [
-            ".* com\\.vaadin\\.flow\\..*"
-          ]
+    "all-versions": [
+        {
+            "extension": "revapi.filter",
+            "configuration": {
+                "elements": {
+                    "exclude": [
+                        ".* com\\.vaadin\\.flow\\..*"
+                    ]
+                }
+            }
+        },
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.core\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.util\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    }
+                ]
+            }
         }
-      }
-    },
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.linkki\\.core\\..*",
-            "justification": "LIN-2651/LIN-2652"
-          },
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.linkki\\.util\\..*",
-            "justification": "LIN-2651/LIN-2652"
-          }
-        ]
-      }
-    }
-  ],
-  "2.5.0": [
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "code": "java.annotation.attributeRemoved",
-            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getCopyright()",
-            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getCopyright()",
-            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 40)",
-            "attribute": "htmlContent",
-            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
-          },
-          {
-            "code": "java.annotation.attributeRemoved",
-            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getDescription()",
-            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getDescription()",
-            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 30)",
-            "attribute": "htmlContent",
-            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
-          },
-          {
-            "code": "java.annotation.attributeRemoved",
-            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getTitle()",
-            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getTitle()",
-            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 10)",
-            "attribute": "htmlContent",
-            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
-          },
-          {
-            "code": "java.annotation.attributeRemoved",
-            "old": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getVersion()",
-            "new": "method java.lang.String org.linkki.framework.ui.pmo.ApplicationInfoPmo::getVersion()",
-            "annotation": "@org.linkki.core.ui.element.annotation.UILabel(position = 20)",
-            "attribute": "htmlContent",
-            "justification": "LIN-3332 :: Deprecated the attribute htmlContent in @UILabel"
-          },
-          {
-            "code": "java.annotation.removed",
-            "old": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
-            "new": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
-            "annotation": "@org.linkki.core.ui.layout.annotation.UISection",
-            "justification": "LIN-3659 :: Fix unwanted whitespace in ApplicationInfoDialog"
-          },
-          {
-            "code": "java.annotation.added",
-            "old": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
-            "new": "class org.linkki.framework.ui.pmo.ApplicationInfoPmo",
-            "annotation": "@org.linkki.core.ui.layout.annotation.UIVerticalLayout",
-            "justification": "LIN-3659 :: Fix unwanted whitespace in ApplicationInfoDialog"
-          }
-        ]
-      }
-    }
-  ]
+    ]
 }
