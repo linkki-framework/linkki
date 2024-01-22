@@ -11,7 +11,7 @@ pipeline {
         PROJECT_NAME = 'linkki'
         BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
         // make sure that the build name does not contain '_' because this will lead to unexpected Docker failures
-        DOCKER_BUILD_NAME = "${params.RELEASE_VERSION.replaceAll(/_|./, '-')}"
+        DOCKER_BUILD_NAME = "${params.RELEASE_VERSION.replaceAll(/_|\./, '-')}"
         CONTAINER_RETENTION = 'keep'
     }
 
