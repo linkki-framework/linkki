@@ -23,6 +23,42 @@
             "old": "class org.linkki.util.Sequence<T>",
             "new": "class org.linkki.util.Sequence<T>",
             "justification": "LIN-3570 - was effectively final before"
+          },
+          {
+            "code": "java.annotation.removed",
+            "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(T[])",
+            "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(T[])",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+            "justification": "LIN-3570"
+          },
+          {
+            "code": "java.annotation.removed",
+            "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(java.util.Collection<T>)",
+            "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(java.util.Collection<T>)",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+            "justification": "LIN-3570"
+          },
+
+          {
+            "code": "java.annotation.removed",
+            "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(org.linkki.util.Sequence<T>)",
+            "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(org.linkki.util.Sequence<T>)",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+            "justification": "LIN-3570"
+          },
+          {
+            "code": "java.annotation.removed",
+            "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>)",
+            "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>)",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+            "justification": "LIN-3570"
+          },
+          {
+            "code": "java.annotation.removed",
+            "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>[])",
+            "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>[])",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
+            "justification": "LIN-3570"
           }
         ]
       }

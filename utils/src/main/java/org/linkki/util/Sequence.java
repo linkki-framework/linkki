@@ -30,8 +30,6 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import edu.umd.cs.findbugs.annotations.CheckReturnValue;
-
 /**
  * This sequence is a wrapper for a list to create immutable lists easily. It could be instantiated
  * using the static of-methods or the {@link #empty()} method.
@@ -47,7 +45,9 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     private static final long serialVersionUID = 1L;
 
     public Sequence {
-        list = List.copyOf(list);
+        // must not be replaced by List.copyOf, because it would fail on Collections containing
+        // nullValues which is currently allowed
+        list = Collections.unmodifiableList(new ArrayList<>(list));
     }
 
     private Sequence() {
@@ -55,14 +55,14 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     }
 
     private Sequence(Collection<T> collection) {
-        this(List.copyOf(collection));
+        this(new ArrayList<>(collection));
     }
 
     /**
      * Creates a new {@link Sequence} with the elements of the given {@link Collection}.
-     * 
+     *
      * @param elements the elements that should be part of this sequence
-     * 
+     *
      * @return the new {@link Sequence} with the given elements
      */
     @SuppressWarnings("unchecked")
@@ -72,9 +72,9 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
 
     /**
      * Creates a new {@link Sequence} with the given elements.
-     * 
+     *
      * @param elements the elements that should be part of this sequence
-     * 
+     *
      * @return the new {@link Sequence} with the given elements
      */
     @SafeVarargs
@@ -84,7 +84,7 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
 
     /**
      * Creates an empty {@link Sequence}.
-     * 
+     *
      * @return an empty {@link Sequence}
      */
     public static <T> Sequence<T> empty() {
@@ -94,12 +94,11 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     /**
      * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is not
      * affected.
-     * 
+     *
      * @param elements the new elements that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements
      */
-    @CheckReturnValue
     public Sequence<T> with(Collection<T> elements) {
         ArrayList<T> collection = new ArrayList<>(list.size() + elements.size());
         collection.addAll(list);
@@ -110,7 +109,7 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     /**
      * Returns a new {@link Sequence} concatenated with those of the given elements that are not already
      * contained in this {@link Sequence}. This {@link Sequence} is not affected.
-     * 
+     *
      * @param elements the new elements that should be concatenated if they are not already contained
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements
@@ -125,7 +124,6 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     /**
      * Returns a new {@link Sequence} concatenated with the given sequence of elements.
      */
-    @CheckReturnValue
     public final Sequence<T> with(Sequence<T> sequence) {
         return with(sequence.list());
     }
@@ -133,12 +131,11 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     /**
      * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is not
      * affected.
-     * 
+     *
      * @param newElements the new elements that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements
      */
-    @CheckReturnValue
     @SafeVarargs
     public final Sequence<T> with(T... newElements) {
         return with(Arrays.asList(newElements));
@@ -148,13 +145,12 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
      * Returns a new {@link Sequence} concatenated with the elements produced by the given
      * {@link Supplier Suppliers} if the condition is {@code true}. This {@link Sequence} is not
      * affected.
-     * 
+     *
      * @param suppliers the suppliers for new elements that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements or this {@link Sequence} if the condition is {@code false}
      */
     @SafeVarargs
-    @CheckReturnValue
     public final Sequence<T> withIf(boolean condition, Supplier<T>... suppliers) {
         if (condition) {
             return with(Arrays.stream(suppliers).map(Supplier::get).collect(Collectors.toList()));
@@ -166,12 +162,11 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     /**
      * Returns a new {@link Sequence} concatenated with the element produced by the given
      * {@link Supplier} if the condition is {@code true}. This {@link Sequence} is not affected.
-     * 
+     *
      * @param supplier the supplier for a new element that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements or this {@link Sequence} if the condition is {@code false}
      */
-    @CheckReturnValue
     public final Sequence<T> withIf(boolean condition, Supplier<T> supplier) {
         if (condition) {
             return with(supplier.get());
@@ -187,7 +182,7 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
 
     /**
      * Directly access the stream of the list that contains all the elements of this sequence.
-     * 
+     *
      * @return the {@link Stream} of {@link #list()}
      */
     public Stream<T> stream() {
