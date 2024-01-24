@@ -32,8 +32,8 @@ import com.vaadin.flow.data.selection.SingleSelect;
  * Aspect definition to handle selection and double click on a table.
  *
  * @implNote This definition contains two aspects: {@value #SELECTION_ASPECT_NAME} and
- *           {@value #DOUBLE_CLICK_ASPECT_NAME}. This is due to the fact that the selection aspect must
- *           be evaluated before the double click aspect.
+ *           {@value #DOUBLE_CLICK_ASPECT_NAME}. This is due to the fact that the selection aspect
+ *           must be evaluated before the double click aspect.
  */
 public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
 
@@ -42,10 +42,6 @@ public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
 
     private final boolean visualOnly;
 
-    /**
-     * @deprecated Use {@link #GridSelectionAspectDefinition(boolean)} instead
-     */
-    @Deprecated(since = "2.6.0")
     public GridSelectionAspectDefinition() {
         this(false);
     }
