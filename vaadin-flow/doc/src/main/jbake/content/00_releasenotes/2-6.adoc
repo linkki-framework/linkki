@@ -7,6 +7,8 @@
 
 === Version 2.6.0
 
+//==== New features and improvements
+
 // ==== New features and improvements
 
 // ===== Dependency Updates
@@ -17,3 +19,11 @@
 // |===
 
 // ==== Bugfixes
+
+==== Bugfixes
+// https://jira.convista.com/browse/LIN-3674
+* A new exception `MessageException` has been introduced, which is designed to convey explicit messages to end users. Key highlights include:
+** In production mode, generic messages are displayed and sensitive details are concealed to prevent exposure of technical information.
+** In development mode, if a custom message is available, it is displayed; otherwise, the specific `MessageException` message is shown. This provides improved clarity and utility in error messages.
+** `MessageException` supports an overloaded constructor with a cause, facilitating more detailed exception chaining and debugging insights in development mode.
+

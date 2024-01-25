@@ -11,6 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
+
 package org.linkki.framework.ui.error;
 
 import java.io.PrintWriter;
@@ -18,6 +19,8 @@ import java.io.Serial;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.nls.NlsService;
@@ -43,16 +46,17 @@ import com.vaadin.flow.server.HttpStatusCode;
 import com.vaadin.flow.server.VaadinService;
 
 /**
- * Represents a default error page to manage and display {@link Exception exceptions}.
+ * Represents a default error page for managing and displaying exceptions.
  * <p>
- * By definition, an error message is shown together with the timestamp and the exception type.
- * Furthermore, a button is offered to navigate to the start view. In development mode, the exception
- * stacktrace is shown. In general, no critical technical details will be shown to the end user. The
- * described components can be overwritten individually while the page layout is fixed. Use
- * {@link ParentLayout} in a subclass to adjust this page to the general application layout.
+ * This error page is designed to show an error message, the timestamp and type of the exception,
+ * and provides a button to navigate back to the start view. In development mode, it additionally
+ * displays the exception stack trace. The components like the error message, navigation button, and
+ * error details can be customized by overriding their respective methods, while the page layout is
+ * fixed.
  * <p>
- * To use this page, it must be found by the Vaadin or the Spring Boot package scan. To use the Spring
- * Boot scan, a subclass must be annotated with {@code @Component}.
+ * Use {@link ParentLayout} in a subclass to integrate this page into the general application
+ * layout. To make this page discoverable by Vaadin or Spring Boot, it should be included in the
+ * package scan. When using Spring Boot, annotate a subclass with {@code @Component}.
  */
 @CssImport("./styles/error-page.css")
 @DefaultErrorHandler
@@ -61,13 +65,15 @@ public class LinkkiErrorPage extends VerticalLayout
 
     @Serial
     private static final long serialVersionUID = 1L;
-
+    private static final Logger LOGGER = Logger.getLogger(LinkkiErrorPage.class.getName());
     private static final String BUNDLE_NAME = "org/linkki/framework/ui/nls/messages";
     private static final String MSG_KEY_GO_TO_START_VIEW = "ErrorPage.GoToStartView";
     private static final String MSG_KEY_PAGE_TITLE = "ErrorPage.Title";
     private static final String MSG_KEY_TAB_NAME = "ErrorPage.Tab.Name";
     private static final String MSG_KEY_DEFAULT_ERROR_MESSAGE = "ErrorPage.Default.Message";
+    private static final String MSG_KEY_ADDITIONAL_ERROR_MESSAGE = "ErrorPage.Additional.Message";
 
+    private boolean developmentMode = false;
     private final Div messageWrapper;
 
     /**
@@ -75,6 +81,7 @@ public class LinkkiErrorPage extends VerticalLayout
      */
     public LinkkiErrorPage() {
         setId(getClass().getSimpleName());
+        this.developmentMode = isDevelopmentMode();
         var contentWrapper = createContentWrapper();
         messageWrapper = new Div();
         messageWrapper.addClassName("error-page-message");
@@ -83,7 +90,7 @@ public class LinkkiErrorPage extends VerticalLayout
 
     /**
      * Sets the title shown in the browser tab.
-     * 
+     *
      * @apiNote Override this to customize the title.
      */
     @Override
@@ -92,8 +99,8 @@ public class LinkkiErrorPage extends VerticalLayout
     }
 
     /**
-     * Processes the given error parameter and updates the content of the error page to display relevant
-     * details about the occurred exception.
+     * Processes the given error parameter and updates the content of the error page to display
+     * relevant details about the occurred exception.
      * <p>
      * By default, the error page consists of the following elements in the described order:
      * <ul>
@@ -105,7 +112,7 @@ public class LinkkiErrorPage extends VerticalLayout
      * occurrence and the exception type</li>
      * <li>The exception stacktrace (only in non-productive environments)</li>
      * </ul>
-     * 
+     *
      * @param event The before-enter event triggering this error parameter setting
      * @param parameter The error parameter containing {@link Exception} details
      *
@@ -119,12 +126,13 @@ public class LinkkiErrorPage extends VerticalLayout
     @Override
     public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<Exception> parameter) {
         messageWrapper.removeAll();
+        LOGGER.log(Level.SEVERE, NlsText.getString(MSG_KEY_DEFAULT_ERROR_MESSAGE), parameter.getException());
         var title = new H4(NlsText.getString(MSG_KEY_PAGE_TITLE));
         messageWrapper.add(title);
         messageWrapper.add(createErrorMessage(parameter));
         messageWrapper.add(createNavigationButton());
         messageWrapper.add(createErrorDetails(parameter));
-        if (isDevelopmentMode()) {
+        if (developmentMode) {
             messageWrapper.add(createStackTrace(parameter.getException()));
         }
         return HttpStatusCode.INTERNAL_SERVER_ERROR.getCode();
@@ -135,59 +143,61 @@ public class LinkkiErrorPage extends VerticalLayout
      * <p>
      * The shown error message is determined as described in the following:
      * <ul>
+     * <li>If the exception is an instance of {@link MessageException}, the specific message from
+     * the exception will be displayed.</li>
      * <li>If a custom message is available in the provided {@link ErrorParameter}, it will be
      * displayed.</li>
-     * <li>If a custom message is missing and the application runs in a non-production environment, the
-     * actual {@link Exception} message will be shown.</li>
-     * <li>Else, if the application is running in production mode and no custom message is available, a
-     * generic error message will be shown to avoid exposing technical details to the end user.</li>
+     * <li>If a custom message is missing and the application runs in a non-production environment,
+     * the actual {@link Exception} message will be shown.</li>
+     * <li>Else, if the application is running in production mode and no custom message is
+     * available, a generic error message will be shown to avoid exposing technical details to the
+     * end user.</li>
      * </ul>
+     * In development mode, additional details about the exception may be shown to aid in debugging.
+     * <p>
+     * This method can be overridden to provide a custom implementation for displaying error
+     * messages or to change the criteria for how messages are selected and displayed.
      *
      * @param parameter The error parameter containing {@link Exception} details
      *
      * @return A {@link Component} displaying the error message
-     * 
+     *
      * @apiNote Override this method to customize the error message.
      */
     protected Component createErrorMessage(ErrorParameter<Exception> parameter) {
-        var message = new LinkkiText();
-        if (parameter.hasCustomMessage()) {
-            message.setText(parameter.getCustomMessage());
-        } else if (isDevelopmentMode()) {
-            message.setText(parameter.getException().getMessage());
-        } else {
-            message.setText(NlsText.getString(MSG_KEY_DEFAULT_ERROR_MESSAGE));
-        }
+        var exception = parameter.getException();
+
+        String messageText = (exception instanceof MessageException)
+                ? getMessageForMessageException(((MessageException)exception))
+                : getMessageForOtherExceptions(parameter);
+
+        LinkkiText message = new LinkkiText();
+        message.setText(messageText);
         return message;
     }
 
     /**
-     * Creates component that displays error details. By default, it consists of the timestamp of when
-     * the error occurred and the type of the {@link Exception}. The timestamp is formatted in the
-     * "yyyy-MM-dd HH:mm:ss" pattern.
+     * Creates component that displays error details. By default, it consists of the timestamp of
+     * when the error occurred and the type of the {@link Exception}. The timestamp is formatted in
+     * the "yyyy-MM-dd HH:mm:ss" pattern.
      *
      * @param parameter The {@link ErrorParameter} containing {@link Exception} details
      *
      * @return The created error details {@link Component}
-     * 
+     *
      * @apiNote Override this method to show customized error details.
      */
     protected Component createErrorDetails(ErrorParameter<Exception> parameter) {
-        var currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        var exceptionType = parameter.getException().getClass().getSimpleName();
-        var formattedTimestampAndCause = HtmlContent.multilineText("Timestamp: " + currentTimestamp,
-                                                                   "Cause: " + exceptionType);
         var timestampAndCause = new LinkkiText();
-        timestampAndCause.setText(formattedTimestampAndCause.toString(), true);
+        timestampAndCause.setText(getFormattedTimestampAndCause(parameter), true);
         return timestampAndCause;
     }
-
 
     /**
      * Creates a button that, when clicked, navigates to the default start view.
      *
      * @return The button used for navigation
-     * 
+     *
      * @apiNote Override this method to customize the navigation button.
      */
     protected Button createNavigationButton() {
@@ -204,15 +214,66 @@ public class LinkkiErrorPage extends VerticalLayout
     }
 
     /**
-     * Returns {@code true} whether the application runs in development mode. If it runs in production
-     * mode, {@code false} is returned.
+     * Returns {@code true} whether the application runs in development mode. If it runs in
+     * production mode, {@code false} is returned.
      */
     protected boolean isDevelopmentMode() {
         return !VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode();
     }
 
+    private String getMessageForMessageException(MessageException exception) {
+        String mainMessage = exception.getMessage();
+        String additionalInfo = getAdditionalInfo(exception);
+
+        if (additionalInfo.isEmpty()) {
+            return mainMessage;
+        }
+
+        return HtmlContent.multilineText(mainMessage, additionalInfo).toString();
+    }
+
+    private String getAdditionalInfo(MessageException exception) {
+        var messageOfCause = getMessage(exception.getCause());
+        var message = exception.getMessage();
+
+        if (messageOfCause.isEmpty()) {
+            return "";
+        }
+
+        if (messageOfCause.equals(message)) {
+            return "";
+        }
+
+        return NlsText.getString(MSG_KEY_ADDITIONAL_ERROR_MESSAGE) + messageOfCause;
+    }
+
+    private String getMessage(Throwable exception) {
+        return exception != null ? exception.getMessage() : "";
+    }
+
+    private String getMessageForOtherExceptions(ErrorParameter<Exception> parameter) {
+        if (developmentMode) {
+            return parameter.hasCustomMessage()
+                    ? parameter.getCustomMessage()
+                    : parameter.getException().getMessage();
+        }
+
+        return NlsText.getString(MSG_KEY_DEFAULT_ERROR_MESSAGE);
+    }
+
+    private String getFormattedTimestampAndCause(ErrorParameter<Exception> parameter) {
+        var pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        var currentTimestamp = LocalDateTime.now().format(pattern);
+        var exceptionType = parameter.getException().getClass().getSimpleName();
+
+        return HtmlContent.multilineText("Timestamp: " + currentTimestamp,
+                                         developmentMode ? "Cause: " + exceptionType : "")
+                .toString();
+    }
+
     private String localize() {
-        return NlsService.get().getString(BUNDLE_NAME, LinkkiErrorPage.MSG_KEY_GO_TO_START_VIEW)
+        return NlsService.get()
+                .getString(BUNDLE_NAME, LinkkiErrorPage.MSG_KEY_GO_TO_START_VIEW)
                 .orElse('!' + LinkkiErrorPage.MSG_KEY_GO_TO_START_VIEW + '!');
     }
 
@@ -237,10 +298,9 @@ public class LinkkiErrorPage extends VerticalLayout
         var iconWrapper = new Div();
         iconWrapper.addClassName("error-page-icon");
         iconWrapper.addClassName("linkki-message-error");
-        wrapper.add(iconWrapper);
-
         var icon = VaadinIcon.EXCLAMATION_CIRCLE.create();
         iconWrapper.add(icon);
+        wrapper.add(iconWrapper);
 
         return wrapper;
     }
