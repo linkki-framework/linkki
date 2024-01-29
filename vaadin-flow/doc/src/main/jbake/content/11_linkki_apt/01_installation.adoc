@@ -17,8 +17,6 @@ To include *linkki-apt* in the compile process you need to add it as an annotati
 	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-compiler-plugin</artifactId>
 	<configuration>
-		<source>1.8</source> <!-- or higher, depending on your project -->
-		<target>1.8</target> <!-- or higher, depending on your project -->
 		<annotationProcessorPaths>
 			<annotationProcessorPath>
 				<groupId>org.linkki-framework.tooling</groupId>
