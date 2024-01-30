@@ -45,12 +45,9 @@ class LinkkiErrorPageTest {
 
     private static final String ROUTE_START_VIEW = StringUtils.EMPTY;
     private static final String ROUTE_ERROR_PAGE_TEST_VIEW = "error-page";
-    private static final String ROUTE_ERROR_PAGE_TEST_MSG_EX = "error-page-message-exception";
-    private static final String ROUTE_ERROR_PAGE_TEST_MSG_EX_CAUSE = "error-page-message-exception-cause";
 
     private static final String START_VIEW_SPAN_ID = "test-span";
     private static final String TEST_MESSAGE_WITH_HTML = "Test Message<br>with HTML";
-    public static final String MESSAGE_EXCEPTION_FOR_DISPLAY = "Message exception for display";
 
     @BeforeAll
     static void setupLanguage() {
@@ -78,7 +75,7 @@ class LinkkiErrorPageTest {
         var errorDetails = children.get(3);
         assertTitle(title);
         assertErrorMessage(message, "An unknown error occurred.");
-        assertErrorDetailsProduction(errorDetails);
+        assertErrorDetails(errorDetails);
         assertThat(_find(Div.class, div -> div.withClasses("error-page-stacktrace"))).isEmpty();
         assertNavigationButton(navigationButton);
     }
@@ -105,71 +102,6 @@ class LinkkiErrorPageTest {
         assertNavigationButton(navigationButton);
     }
 
-    @Test
-    void testLinkkiErrorPage_DevelopmentMode_MessageException() {
-        setupVaadin(false);
-        UI.getCurrent().navigate(ErrorPageViewMessageException.class);
-
-        var errorPageContent = _get(Div.class, div -> div.withClasses("error-page-message"));
-        var children = errorPageContent.getChildren().toList();
-
-        var title = children.get(0);
-        var message = children.get(1);
-        var navigationButton = children.get(2);
-        var errorDetails = children.get(3);
-        var stacktrace = children.get(4);
-
-        assertTitle(title);
-        assertErrorMessageForMessageException(message);
-        assertErrorDetails(errorDetails);
-        assertNavigationButton(navigationButton);
-        assertThat(stacktrace.getElement().getText()).startsWith("org.linkki.framework.ui.error.MessageException");
-    }
-
-    @Test
-    void testLinkkiErrorPage_DevelopmentMode_MessageExceptionAndCause() {
-        setupVaadin(false);
-        UI.getCurrent().navigate(ErrorPageViewMessageExceptionWithCause.class);
-
-        var errorPageContent = _get(Div.class, div -> div.withClasses("error-page-message"));
-        var children = errorPageContent.getChildren().toList();
-
-        var title = children.get(0);
-        var message = children.get(1);
-        var navigationButton = children.get(2);
-        var errorDetails = children.get(3);
-        var stacktrace = children.get(4);
-
-        assertTitle(title);
-        assertThat(message).isInstanceOf(LinkkiText.class);
-        LinkkiText messageTextComponent = (LinkkiText)message;
-        String actualMessage = messageTextComponent.getText();
-        assertThat(actualMessage).isEqualTo("Message exception for display<br>Additional Info: UnknownException<br>");
-        assertErrorDetails(errorDetails);
-        assertNavigationButton(navigationButton);
-        assertThat(stacktrace.getElement().getText()).startsWith("org.linkki.framework.ui.error.MessageException");
-    }
-
-    @Test
-    void testLinkkiErrorPage_ProductionMode_MessageExceptionAndCause() {
-        setupVaadin(true);
-        UI.getCurrent().navigate(ErrorPageViewMessageExceptionWithCause.class);
-
-        var errorPageContent = _get(Div.class, div -> div.withClasses("error-page-message"));
-        var children = errorPageContent.getChildren().toList();
-
-        var title = children.get(0);
-        var message = children.get(1);
-        var navigationButton = children.get(2);
-        var errorDetails = children.get(3);
-
-        assertTitle(title);
-        assertErrorMessage(message, "Message exception for display<br>Additional Info: UnknownException<br>");
-        assertErrorDetailsProduction(errorDetails);
-        assertThat(_find(Div.class, div -> div.withClasses("error-page-stacktrace"))).isEmpty();
-        assertNavigationButton(navigationButton);
-    }
-
     private void assertTitle(Component title) {
         assertThat(title.getElement().getText()).isEqualTo("Ooops, something went wrong!");
     }
@@ -183,16 +115,8 @@ class LinkkiErrorPageTest {
     private void assertErrorDetails(Component errorDetails) {
         assertThat(errorDetails).isInstanceOf(LinkkiText.class);
         var errorDetailsText = ((LinkkiText)errorDetails).getText();
-        assertThat(errorDetailsText).contains("Timestamp:", "Cause:");
+        assertThat(errorDetailsText).contains("Timestamp:", "Cause: IllegalArgumentException");
     }
-
-    private void assertErrorDetailsProduction(Component errorDetails) {
-        assertThat(errorDetails).isInstanceOf(LinkkiText.class);
-        var errorDetailsText = ((LinkkiText)errorDetails).getText();
-        assertThat(errorDetailsText).contains("Timestamp:");
-        assertThat(errorDetailsText).doesNotContain("Cause:");
-    }
-
 
     /**
      * This method executes and tests the navigation event triggered by the passed button. After calling
@@ -205,13 +129,6 @@ class LinkkiErrorPageTest {
         assertThat(_find(Span.class, span -> span.withId(START_VIEW_SPAN_ID))).isNotEmpty();
     }
 
-    private void assertErrorMessageForMessageException(Component messageComponent) {
-        assertThat(messageComponent).isInstanceOf(LinkkiText.class);
-        LinkkiText messageTextComponent = (LinkkiText)messageComponent;
-        String actualMessage = messageTextComponent.getText();
-        assertThat(actualMessage).contains(MESSAGE_EXCEPTION_FOR_DISPLAY);
-    }
-
     /**
      * Mocks Vaadin for the current test instance with the given production mode and the given test
      * view.
@@ -220,9 +137,7 @@ class LinkkiErrorPageTest {
      */
     private void setupVaadin(boolean productionMode) {
         System.setProperty("vaadin.productionMode", String.valueOf(productionMode));
-        MockVaadin.setup(new Routes(Stream.of(StartView.class, ErrorPageView.class,
-                        ErrorPageViewMessageException.class, ErrorPageViewMessageExceptionWithCause.class)
-                        .collect(Collectors.toSet()),
+        MockVaadin.setup(new Routes(Stream.of(StartView.class, ErrorPageView.class).collect(Collectors.toSet()),
                 Collections.emptySet(), true));
     }
 
@@ -252,38 +167,5 @@ class LinkkiErrorPageTest {
             errorPage.setErrorParameter(null, errorParameter);
             add(errorPage);
         }
-    }
-
-    @Route(value = ROUTE_ERROR_PAGE_TEST_MSG_EX)
-    public static class ErrorPageViewMessageException extends Div {
-
-        @Serial
-        private static final long serialVersionUID = 1L;
-
-        public ErrorPageViewMessageException() {
-            var errorPage = new LinkkiErrorPage();
-            var errorParameter = new ErrorParameter<>(Exception.class,
-                    new MessageException(MESSAGE_EXCEPTION_FOR_DISPLAY));
-            errorPage.setErrorParameter(null, errorParameter);
-            add(errorPage);
-        }
-    }
-
-    @Route(value = ROUTE_ERROR_PAGE_TEST_MSG_EX_CAUSE)
-    public static class ErrorPageViewMessageExceptionWithCause extends Div {
-
-        @Serial
-        private static final long serialVersionUID = 1L;
-        private static final String TEST_CAUSE_MESSAGE = "UnknownException";
-
-        public ErrorPageViewMessageExceptionWithCause() {
-            var errorPage = new LinkkiErrorPage();
-            Throwable cause = new Exception(TEST_CAUSE_MESSAGE);
-            var errorParameter = new ErrorParameter<>(Exception.class,
-                    new MessageException(MESSAGE_EXCEPTION_FOR_DISPLAY, cause));
-            errorPage.setErrorParameter(null, errorParameter);
-            add(errorPage);
-        }
-
     }
 }

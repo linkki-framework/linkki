@@ -32,5 +32,4 @@ public class ErrorHandlingPmo {
     public void showExceptionDialogWithoutExceptionDetails() {
         throw new RuntimeException("IMPORTANT: This message should not shown in production mode");
     }
-
 }
