@@ -7,7 +7,11 @@
 
 === Version 2.6.0
 
-// ==== New features and improvements
+==== New features and improvements
+
+===== Other
+//https://jira.convista.com/browse/LIN-3671
+* `BindVariantNames` now applies to all Vaadin components, expanding its functionality beyond its previous limitation to components that implemented HasTheme.
 
 // ===== Dependency Updates
 

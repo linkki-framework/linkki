@@ -18,12 +18,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.vaadin.flow.component.HasTheme;
-
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.StaticModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.util.Consumers;
+
+import com.vaadin.flow.component.HasElement;
+import com.vaadin.flow.component.HasTheme;
 
 /**
  * This aspect sets a vaadin defined variant names using {@link HasTheme#addThemeName(String)}.
@@ -45,9 +46,8 @@ public class BindVariantNamesAspectDefinition extends StaticModelToUiAspectDefin
 
     @Override
     public Consumer<List<String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        if (componentWrapper.getComponent() instanceof HasTheme) {
-            HasTheme component = (HasTheme)componentWrapper.getComponent();
-            return variantNames -> variantNames.forEach(component::addThemeName);
+        if (componentWrapper.getComponent() instanceof HasElement component) {
+            return component.getElement().getThemeList()::addAll;
         } else {
             return Consumers.nopConsumer();
         }

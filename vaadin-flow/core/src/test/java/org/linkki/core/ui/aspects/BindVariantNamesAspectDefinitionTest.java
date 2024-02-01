@@ -56,25 +56,25 @@ class BindVariantNamesAspectDefinitionTest {
         var component = new Button();
         assertThat(component.getThemeNames(), is(empty()));
 
-        String[] themes = {"cosmic-horror", "whoop-dee-doo"};
+        String[] themes = { "cosmic-horror", "whoop-dee-doo" };
         apply(component, themes);
 
         assertThat(component.getThemeNames(), containsInAnyOrder(themes));
     }
 
     @Test
-    void testSetVariantNames_Anchor() {
-        // Anchor does not support themes
+    void testSetVariantNames_ComponentNotImplementingHasTheme() {
         var component = new Anchor();
         assertThat(component.getElement().getAttribute(ThemeListImpl.THEME_ATTRIBUTE_NAME), nullValue());
 
         apply(component, "ultimate-boredom");
 
-        assertThat(component.getElement().getAttribute(ThemeListImpl.THEME_ATTRIBUTE_NAME), nullValue());
+        assertThat(component.getElement().getAttribute(ThemeListImpl.THEME_ATTRIBUTE_NAME), is("ultimate-boredom"));
     }
 
     void apply(Component component, String... themes) {
-        new BindVariantNamesAspectDefinition(themes).createUiUpdater(dispatcher, new NoLabelComponentWrapper(component)).apply();
+        new BindVariantNamesAspectDefinition(themes).createUiUpdater(dispatcher, new NoLabelComponentWrapper(component))
+                .apply();
     }
 
 }

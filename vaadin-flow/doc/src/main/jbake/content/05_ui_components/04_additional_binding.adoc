@@ -385,7 +385,7 @@ TIP: BindAutoFocus can set the `autofocus` property on UI elements which impleme
 [[variant-names]]
 ===== Variant names
 
-Vaadin components get rendered as HTML and styled via CSS. The `@BindVariantNames` annotation can be used to add specific Vaadin variants to components implementing the `HasTheme` interface.
+Vaadin components get rendered as HTML and styled via CSS. The `@BindVariantNames` annotation can be used to add specific Vaadin variants to components.
 It is possible to provide a single variant name (`@BindVariantNames("no-border")`) or an array of variant names (`@BindVariantNames({"no-row-borders", "compact"})`) as the annotation's value.
 
 .`@BindVariantNames` on TablePmo
