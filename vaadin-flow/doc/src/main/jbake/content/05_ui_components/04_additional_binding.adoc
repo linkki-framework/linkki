@@ -79,7 +79,23 @@ The property `visible` controls whether the component is visible. There are the 
 |`VISIBLE`   |The UI element is visible (*default*)
 |`INVISIBLE` |The UI element is invisible
 |`DYNAMIC`   |Whether the UI element is visible is controlled by the return value of the method `boolean is<PropertyName>Visible()`
-|=== 
+|`INVISIBLE_IF_EMPTY`|Whether the UI element is visible is depends on the value of the bound property. The UI element will be invisible if that value is `null` or an empty `String`.
+|===
+
+TIP: Using `INVISIBLE_IF_EMPTY` is mostly suited for read only fields like labels. A vanishing input field would probably confuse any application user.
+The following example demonstrates its usage.
+
+```java
+@UISection
+class ReferencePmo {
+    // model object ...
+
+    @UILabel(position = 10, modelAttribute = "externalRef", visible = VisibleType.INVISIBLE_IF_EMPTY)
+    public void externalRef() {
+        // model binding
+    }
+}
+```
 
 [[required]]
 ===== Required

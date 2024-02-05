@@ -7,8 +7,12 @@
 
 === Version 2.6.0
 
-// ==== New features and improvements
+==== New features and improvements
 
+[role="api-change"]
+===== Added `INVISIBLE_IF_EMPTY` to `VisibleType` (https://jira.convista.com/browse/LIN-3293[LIN-3293])
+A new enum value, `INVISIBLE_IF_EMPTY`, is now available in `VisibleType`. When used, the `VisibleAspectDefinition` evaluates the linked method's output. Components linked to this method will be hidden if the result is `null` or an empty `String`, enhancing UI cleanliness.
+Further details can be found here <<visible>>.
 // ===== Dependency Updates
 
 // The following versions have been updated:
