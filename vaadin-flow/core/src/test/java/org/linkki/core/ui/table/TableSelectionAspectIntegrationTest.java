@@ -24,7 +24,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,13 +36,14 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.table.aspects.GridSelectionAspectDefinition;
 import org.linkki.core.ui.table.aspects.annotation.BindTableSelection;
+import org.linkki.core.ui.table.pmo.MultiSelectableTablePmo;
 import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.core.vaadin.component.section.GridSection;
 
 import com.github.mvysny.kaributesting.v10.GridKt;
 import com.github.mvysny.kaributesting.v10.MockVaadin;
+import com.vaadin.flow.component.grid.GridMultiSelectionModel;
 import com.vaadin.flow.component.grid.GridSingleSelectionModel;
 
 class TableSelectionAspectIntegrationTest {
@@ -166,6 +168,32 @@ class TableSelectionAspectIntegrationTest {
         assertThat("Table is selectable", table.getSelectionModel(), is(instanceOf(GridSingleSelectionModel.class)));
     }
 
+    @Test
+    void testMultiTableSectionSelectable() {
+        var tableSection = (GridSection)VaadinUiCreator.createComponent(new TestMultiSelectableTablePmo(),
+                                                                        new BindingContext());
+
+        assertThat("Table in table section is selectable", tableSection.getGrid().getSelectionModel(),
+                   is(instanceOf(GridMultiSelectionModel.class)));
+    }
+
+    @Test
+    void testMultiSelectableTable_InitialNullSelection() {
+        var tablePmo = spy(new TestMultiSelectableTablePmo("row1", "row2"));
+
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+
+        assertThat(table.getSelectedItems(), is(empty()));
+    }
+
+    @Test
+    void testMultiGetSelection_Initial() {
+        var tablePmo = new TestMultiSelectableTablePmo("row1", "row2");
+        tablePmo.setSelection(new HashSet<>(tablePmo.getItems()));
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems().size(), is(2));
+    }
+
     @UISection
     public static class TestSelectableTablePmo extends SimpleTablePmo<String, TestSelectableTableRowPmo>
             implements SelectableTablePmo<TestSelectableTableRowPmo> {
@@ -230,6 +258,33 @@ class TableSelectionAspectIntegrationTest {
         @Override
         protected TestSelectableTableRowPmo createRow(String modelObject) {
             return new TestSelectableTableRowPmo(modelObject);
+        }
+    }
+
+    @UISection
+    public static class TestMultiSelectableTablePmo extends SimpleTablePmo<String, TestSelectableTableRowPmo>
+            implements MultiSelectableTablePmo<TestSelectableTableRowPmo> {
+
+        private Set<TestSelectableTableRowPmo> selectedRows;
+
+        protected TestMultiSelectableTablePmo(String... rows) {
+            super(Arrays.asList(rows));
+            this.selectedRows = new HashSet<>();
+        }
+
+        @Override
+        protected TestSelectableTableRowPmo createRow(String modelObject) {
+            return new TestSelectableTableRowPmo(modelObject);
+        }
+
+        @Override
+        public Set<TestSelectableTableRowPmo> getSelection() {
+            return selectedRows;
+        }
+
+        @Override
+        public void setSelection(Set<TestSelectableTableRowPmo> selectedRows) {
+            this.selectedRows = selectedRows;
         }
     }
 }

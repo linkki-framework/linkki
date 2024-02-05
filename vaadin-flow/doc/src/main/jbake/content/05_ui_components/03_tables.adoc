@@ -130,16 +130,20 @@ include::{source-dir}/org/linkki/samples/playground/treetable/dynamic/CategoryRo
 ==== Row selection in Tables
 
 By default, table rows are not selectable. If table row selection should be possible,
+the `ContainerPmo` implementation should implement either the `SelectableTablePmo` interface for single selection or the `MultiSelectableTablePmo` interface for multiple selections.
 
-the `ContainerPmo` implementation should also implement the interface `SelectableTablePmo`. This interface requires three methods:
+When implementing the `SelectableTablePmo` interface, it requires three methods:
 
 * `ROW getSelection()`: returns the selected row
 * `setSelection(ROW)`: sets the new selected row
 * `onDoubleClick()`: executes action when a double click is made on the selected row. It is safe to assume that `setSelection(ROW)` is already called.
 
-However, in scenarios where selection is needed for visual reasons only, the `@BindTableSelection(visualOnly = true)` annotation can be applied. This allows tables to be made selectable without the need to implement the `SelectableTablePmo` interface.
+When implementing the `MultiSelectableTablePmo` interface, it requires only two methods:
 
-Note that it is not possible to nullify the selection once a row is selected.
+* `Set<ROW> getSelection()`: returns the selected rows
+* `setSelection(Set<ROW>)`: sets the new selected rows
+
+However, in scenarios where selection is needed for visual reasons only, the `@BindTableSelection(visualOnly = true)` annotation can be applied. This allows tables to be made selectable without the need to implement any interface.
 
 .Example for a selectable table
 [source,java]
@@ -155,6 +159,15 @@ include::{source-dir}/org/linkki/samples/playground/table/selection/VisualOnlySe
 
 .Example result
 image::{images}{images-folder-name}/selectable_table.png[Selectable table, align="center"]
+
+.Example for a multi selectable table
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/table/selection/PlaygroundMultiSelectableTablePmo.java[tags=multi-selectable-table]
+----
+
+.Example result
+image::{images}{images-folder-name}/multi_selectable_table.png[Multi-Selectable table, align="center"]
 
 [[ui-placeholder-table]]
 ==== Placeholder

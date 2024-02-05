@@ -27,10 +27,11 @@ import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.ui.table.aspects.GridSelectionAspectDefinition;
 import org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator;
 
+import com.vaadin.flow.component.grid.Grid;
+
 /**
- * Binds the selection of a table row to the aspect
- * {@value GridSelectionAspectDefinition#SELECTION_ASPECT_NAME}. In addition, the double click invokes
- * the aspect {@value GridSelectionAspectDefinition#DOUBLE_CLICK_ASPECT_NAME}.
+ * Binds the selection of a table row to the aspect {@value GridSelectionAspectDefinition#SELECTION_ASPECT_NAME}. In
+ * addition, the double click invokes the aspect {@value GridSelectionAspectDefinition#DOUBLE_CLICK_ASPECT_NAME}.
  */
 @InheritedAspect
 @LinkkiAspect(TableSelectionAspectDefinitionCreator.class)
@@ -39,13 +40,37 @@ import org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelec
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindTableSelection {
 
-    /** If <code>true</code>, the table will be only for visual reasons selectable */
+    /**
+     * If <code>true</code>, the table will be selectable only for visual reasons and the methods mentioned in
+     * {@link #selectionMode()} are no longer required.
+     */
     boolean visualOnly() default false;
+
+    /**
+     * Controls the selection mode of the created table.
+     * <ul>
+     * <li> {@link Grid.SelectionMode#SINGLE} - for single selection. requires:
+     * <ul>
+     *     <li>ROW getSelection()</li>
+     *     <li>void setSelection(ROW)</li>
+     *     <li>void onDoubleClick()</li>
+     * </ul>
+     * </li>
+     * <li> {@link Grid.SelectionMode#MULTI} - for multi selection. requires:
+     * <ul>
+     *    <li>{@literal Set<ROW>} getSelection()</li>
+     *    <li>void setSelection({@literal Set<ROW>})</li>
+     * </ul>
+     * </li>
+     * <li> {@link Grid.SelectionMode#NONE} - for no selection.</li>
+     * </ul>
+     */
+    Grid.SelectionMode selectionMode() default Grid.SelectionMode.SINGLE;
 
     class TableSelectionAspectDefinitionCreator implements AspectDefinitionCreator<BindTableSelection> {
         @Override
         public LinkkiAspectDefinition create(BindTableSelection annotation) {
-            return new GridSelectionAspectDefinition(annotation.visualOnly());
+            return new GridSelectionAspectDefinition(annotation.visualOnly(), annotation.selectionMode());
         }
     }
 }

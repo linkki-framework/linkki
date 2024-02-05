@@ -66,13 +66,23 @@ public class SelectableTableSection {
         GridSection gridVisualOnlySection = (GridSection)new PmoBasedSectionFactory()
                 .createSection(visualOnlySelectableTablePmo, new BindingContext("visualOnlySelectableTable"));
 
+        PlaygroundMultiSelectableTablePmo multiSelectableTablePmo = new PlaygroundMultiSelectableTablePmo(
+                () -> modelObjects,
+                () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
+                modelObjects::remove);
+
+        GridSection gridMultiSection = (GridSection)new PmoBasedSectionFactory()
+                .createSection(multiSelectableTablePmo, new BindingContext("multiSelectableTable"));
+
         Div div = new Div();
         div.setWidthFull();
         div.add(gridSection);
         div.add(comparisonSection);
-        // a small space between the first two sections and the third one
+        // a small space
         div.add(new Html("<div style='height: 17px;'></div>"));
         div.add(gridVisualOnlySection);
+        div.add(new Html("<div style='height: 17px;'></div>"));
+        div.add(gridMultiSection);
         return div;
     }
 }

@@ -9,6 +9,13 @@
 
 ==== New features and improvements
 
+//https://jira.convista.com/browse/LIN-3561
+===== Introduce Multi-Selection in tables
+* The `BindTableSelection` now includes a new attribute called `selectionMode`. Its default value is `Grid.SelectionMode.SINGLE`.
+* A new interface `MultiSelectableTablePmo` has been added.
+While `SelectableTablePmo` defines the necessary Methods when the `selectionMode` is `Grid.SelectionMode.SINGLE`,
+so does the interface `MultiSelectableTablePmo` for when `selectionMode` is `Grid.SelectionMode.MULTI`.
+
 ===== Other
 //https://jira.convista.com/browse/LIN-3671
 * `BindVariantNames` now applies to all Vaadin components, expanding its functionality beyond its previous limitation to components that implemented HasTheme.
