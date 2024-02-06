@@ -5,6 +5,22 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.5.1
+
+==== Bugfixes
+
+//https://jira.convista.com/browse/LIN-3674
+===== Default Error Page Exception Handling
+
+For better message handling in the `LinkkiErrorPage` a new `MessageException` was introduced.
+
+* On receiving a `MessageException`, the error page shows the message of this exception in production as well as in development mode.
+* On receiving any other exception:
+** In development mode: a custom message or the exception message is shown to the user.
+** In production mode: only a generic error message is shown to the user to hide any sensitive information.
+
+Additionally logging for the thrown exception has been added. `MessageExceptions` are only logged if they contain a cause. All other exceptions are logged anyways.
+
 === Version 2.5.0
 
 ==== New features and improvements

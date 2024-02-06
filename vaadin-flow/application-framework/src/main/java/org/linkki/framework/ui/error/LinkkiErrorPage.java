@@ -18,10 +18,11 @@ import java.io.Serial;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.nls.NlsService;
-import org.linkki.core.util.HtmlContent;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.nls.NlsText;
 
@@ -45,11 +46,11 @@ import com.vaadin.flow.server.VaadinService;
 /**
  * Represents a default error page to manage and display {@link Exception exceptions}.
  * <p>
- * By definition, an error message is shown together with the timestamp and the exception type.
- * Furthermore, a button is offered to navigate to the start view. In development mode, the exception
- * stacktrace is shown. In general, no critical technical details will be shown to the end user. The
- * described components can be overwritten individually while the page layout is fixed. Use
- * {@link ParentLayout} in a subclass to adjust this page to the general application layout.
+ * By definition, an error message is shown together with the timestamp. Furthermore, a button is
+ * offered to navigate to the start view. In development mode, the exception stacktrace is shown. In
+ * general, no critical technical details will be shown to the end user. The described components can be
+ * overwritten individually while the page layout is fixed. Use {@link ParentLayout} in a subclass to
+ * adjust this page to the general application layout.
  * <p>
  * To use this page, it must be found by the Vaadin or the Spring Boot package scan. To use the Spring
  * Boot scan, a subclass must be annotated with {@code @Component}.
@@ -67,6 +68,8 @@ public class LinkkiErrorPage extends VerticalLayout
     private static final String MSG_KEY_PAGE_TITLE = "ErrorPage.Title";
     private static final String MSG_KEY_TAB_NAME = "ErrorPage.Tab.Name";
     private static final String MSG_KEY_DEFAULT_ERROR_MESSAGE = "ErrorPage.Default.Message";
+
+    private static final Logger LOGGER = Logger.getLogger(LinkkiErrorPage.class.getName());
 
     private final Div messageWrapper;
 
@@ -102,8 +105,8 @@ public class LinkkiErrorPage extends VerticalLayout
      * <li>A {@link #createNavigationButton() button} to navigate to start page (using an empty
      * route)</li>
      * <li>{@link #createErrorDetails(ErrorParameter) Error details}: the timestamp of the error
-     * occurrence and the exception type</li>
-     * <li>The exception stacktrace (only in non-productive environments)</li>
+     * occurrence</li>
+     * <li>The exception stack trace (only in development mode)</li>
      * </ul>
      * 
      * @param event The before-enter event triggering this error parameter setting
@@ -118,6 +121,8 @@ public class LinkkiErrorPage extends VerticalLayout
      */
     @Override
     public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<Exception> parameter) {
+        logException(parameter);
+
         messageWrapper.removeAll();
         var title = new H4(NlsText.getString(MSG_KEY_PAGE_TITLE));
         messageWrapper.add(title);
@@ -131,16 +136,35 @@ public class LinkkiErrorPage extends VerticalLayout
     }
 
     /**
-     * Creates a component that is used for displaying the error message.
-     * <p>
-     * The shown error message is determined as described in the following:
+     * Logs the exception.
+     * 
+     * @param parameter The error parameter containing {@link Exception} details
+     * 
+     * @apiNote Override this method to customize logging.
+     * 
+     * @implSpec The default implementation logs exceptions as {@link Level#SEVERE}.
+     *           {@code MessageExceptions} {@link MessageException#MessageException(String) without a
+     *           cause} are purely informational, and therefore not logged.
+     */
+    protected void logException(ErrorParameter<Exception> parameter) {
+        var exception = parameter.getCaughtException();
+        if (exception instanceof MessageException) {
+            // only log MessageExceptions with cause
+            if (exception.getCause() != null) {
+                LOGGER.log(Level.SEVERE, "Unhandled exception", exception.getCause());
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "Unhandled exception", exception);
+        }
+    }
+
+    /**
+     * Creates a component that is used for displaying the error message depending on the actual
+     * exception type and production or development mode.
      * <ul>
-     * <li>If a custom message is available in the provided {@link ErrorParameter}, it will be
-     * displayed.</li>
-     * <li>If a custom message is missing and the application runs in a non-production environment, the
-     * actual {@link Exception} message will be shown.</li>
-     * <li>Else, if the application is running in production mode and no custom message is available, a
-     * generic error message will be shown to avoid exposing technical details to the end user.</li>
+     * <li>For a {@link MessageException} it always displays the exception message.</li>
+     * <li>For all other exceptions it shows the custom message or the message of the exception in
+     * development mode or a generic error message in production mode.</li>
      * </ul>
      *
      * @param parameter The error parameter containing {@link Exception} details
@@ -151,13 +175,20 @@ public class LinkkiErrorPage extends VerticalLayout
      */
     protected Component createErrorMessage(ErrorParameter<Exception> parameter) {
         var message = new LinkkiText();
-        if (parameter.hasCustomMessage()) {
-            message.setText(parameter.getCustomMessage());
+        var exception = parameter.getCaughtException();
+
+        if (exception instanceof MessageException) {
+            message.setText(exception.getMessage());
         } else if (isDevelopmentMode()) {
-            message.setText(parameter.getException().getMessage());
+            if (parameter.hasCustomMessage()) {
+                message.setText(parameter.getCustomMessage());
+            } else {
+                message.setText(exception.getMessage());
+            }
         } else {
             message.setText(NlsText.getString(MSG_KEY_DEFAULT_ERROR_MESSAGE));
         }
+
         return message;
     }
 
@@ -169,26 +200,24 @@ public class LinkkiErrorPage extends VerticalLayout
      * @param parameter The {@link ErrorParameter} containing {@link Exception} details
      *
      * @return The created error details {@link Component}
-     * 
+     *
      * @apiNote Override this method to show customized error details.
      */
     protected Component createErrorDetails(ErrorParameter<Exception> parameter) {
-        var currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        var exceptionType = parameter.getException().getClass().getSimpleName();
-        var formattedTimestampAndCause = HtmlContent.multilineText("Timestamp: " + currentTimestamp,
-                                                                   "Cause: " + exceptionType);
-        var timestampAndCause = new LinkkiText();
-        timestampAndCause.setText(formattedTimestampAndCause.toString(), true);
-        return timestampAndCause;
+        var timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        var component = new LinkkiText();
+        component.setText("Timestamp: " + timestamp);
+        return component;
     }
 
-
     /**
-     * Creates a button that, when clicked, navigates to the default start view.
+     * Creates a button to navigate away from the error page.
      *
      * @return The button used for navigation
      * 
      * @apiNote Override this method to customize the navigation button.
+     * 
+     * @implSpec The default implementation creates a button that navigates to the default start view.
      */
     protected Button createNavigationButton() {
         var goToStartViewButton = new Button(localize());
@@ -204,8 +233,12 @@ public class LinkkiErrorPage extends VerticalLayout
     }
 
     /**
-     * Returns {@code true} whether the application runs in development mode. If it runs in production
-     * mode, {@code false} is returned.
+     * Returns whether the application runs in development mode.
+     * <p>
+     * A return value of {@code true} results in internal information (e.g. detailed error messages and
+     * stack traces) being shown on the page.
+     * 
+     * @apiNote It should not be necessary to override this method.
      */
     protected boolean isDevelopmentMode() {
         return !VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode();

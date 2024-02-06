@@ -1,34 +1,54 @@
 {
-    "all-versions": [
-        {
-            "extension": "revapi.filter",
-            "configuration": {
-                "elements": {
-                    "exclude": [
-                        ".* com\\.vaadin\\.flow\\..*"
-                    ]
-                }
-            }
-        },
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.core\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.util\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    }
-                ]
-            }
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".* com\\.vaadin\\.flow\\..*"
+          ]
         }
-    ]
+      }
+    },
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.core\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.util\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          }
+        ]
+      }
+    }
+  ],
+  "2.5.1": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.method.added",
+            "new": "method void org.linkki.framework.ui.error.LinkkiErrorPage::logException(com.vaadin.flow.router.ErrorParameter<java.lang.Exception>)",
+            "justification": "LIN-3674"
+          },
+          {
+            "code": "java.class.added",
+            "new": "class org.linkki.framework.ui.error.MessageException",
+            "justification": "LIN-3674"
+          }
+        ]
+      }
+    }
+  ]
 }

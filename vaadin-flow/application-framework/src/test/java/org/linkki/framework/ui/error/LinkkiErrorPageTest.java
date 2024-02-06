@@ -21,11 +21,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.Serial;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -43,11 +43,9 @@ import com.vaadin.flow.router.Route;
 
 class LinkkiErrorPageTest {
 
-    private static final String ROUTE_START_VIEW = StringUtils.EMPTY;
-    private static final String ROUTE_ERROR_PAGE_TEST_VIEW = "error-page";
-
     private static final String START_VIEW_SPAN_ID = "test-span";
     private static final String TEST_MESSAGE_WITH_HTML = "Test Message<br>with HTML";
+    private static final String CUSTOM_MESSAGE = "CustomMessage";
 
     @BeforeAll
     static void setupLanguage() {
@@ -66,18 +64,42 @@ class LinkkiErrorPageTest {
         // Manually load the error page since navigating to an unknown route causes Karibu to fail.
         UI.getCurrent().navigate(ErrorPageView.class);
 
-        var errorPageContent = _get(Div.class, div -> div.withClasses("error-page-message"));
-        var children = errorPageContent.getChildren().toList();
-        assertThat(children).hasSize(4);
-        var title = children.get(0);
-        var message = children.get(1);
-        var navigationButton = children.get(2);
-        var errorDetails = children.get(3);
-        assertTitle(title);
-        assertErrorMessage(message, "An unknown error occurred.");
-        assertErrorDetails(errorDetails);
+        var testWrapper = new LinkkiErrorPageTestHelper();
+        assertTitle(testWrapper.getTitle());
+        assertErrorMessage(testWrapper.getMessage(), "An unknown error occurred.");
+        assertErrorDetails(testWrapper.getErrorDetails());
         assertThat(_find(Div.class, div -> div.withClasses("error-page-stacktrace"))).isEmpty();
-        assertNavigationButton(navigationButton);
+        assertNavigationButton(testWrapper.getNavigationButton());
+    }
+
+    @Test
+    void testLinkkiErrorPage_ProductionMode_MessageException() {
+        setupVaadin(true);
+
+        // Manually load the error page since navigating to an unknown route causes Karibu to fail.
+        UI.getCurrent().navigate(MessageErrorPageView.class);
+
+        var testWrapper = new LinkkiErrorPageTestHelper();
+        assertTitle(testWrapper.getTitle());
+        assertThat(testWrapper.size()).isEqualTo(4);
+        // Text of MessageException should always be shown
+        assertErrorMessage(testWrapper.getMessage(), TEST_MESSAGE_WITH_HTML);
+    }
+
+
+    @Test
+    void testLinkkiErrorPage_DevelopmentMode_CustomMessageShown() {
+        setupVaadin(false);
+
+        // Manually load the error page since navigating to an unknown route causes Karibu to fail.
+        UI.getCurrent().navigate(CustomMessageErrorPageView.class);
+
+        var testWrapper = new LinkkiErrorPageTestHelper();
+        assertTitle(testWrapper.getTitle());
+        assertErrorMessage(testWrapper.getMessage(), CUSTOM_MESSAGE);
+        assertErrorDetails(testWrapper.getErrorDetails());
+        assertThat(testWrapper.getStacktrace().getElement().getText()).startsWith("java.lang.IllegalArgumentException");
+        assertNavigationButton(testWrapper.getNavigationButton());
     }
 
     @Test
@@ -87,19 +109,12 @@ class LinkkiErrorPageTest {
         // Manually load the error page since navigating to an unknown route causes Karibu to fail.
         UI.getCurrent().navigate(ErrorPageView.class);
 
-        var errorPageContent = _get(Div.class, div -> div.withClasses("error-page-message"));
-        var children = errorPageContent.getChildren().toList();
-        assertThat(children).hasSize(5);
-        var title = children.get(0);
-        var message = children.get(1);
-        var navigationButton = children.get(2);
-        var errorDetails = children.get(3);
-        var stacktrace = children.get(4);
-        assertTitle(title);
-        assertErrorMessage(message, TEST_MESSAGE_WITH_HTML);
-        assertErrorDetails(errorDetails);
-        assertThat(stacktrace.getElement().getText()).startsWith("java.lang.IllegalArgumentException");
-        assertNavigationButton(navigationButton);
+        var testWrapper = new LinkkiErrorPageTestHelper();
+        assertTitle(testWrapper.getTitle());
+        assertErrorMessage(testWrapper.getMessage(), TEST_MESSAGE_WITH_HTML);
+        assertErrorDetails(testWrapper.getErrorDetails());
+        assertThat(testWrapper.getStacktrace().getElement().getText()).startsWith("java.lang.IllegalArgumentException");
+        assertNavigationButton(testWrapper.getNavigationButton());
     }
 
     private void assertTitle(Component title) {
@@ -115,7 +130,7 @@ class LinkkiErrorPageTest {
     private void assertErrorDetails(Component errorDetails) {
         assertThat(errorDetails).isInstanceOf(LinkkiText.class);
         var errorDetailsText = ((LinkkiText)errorDetails).getText();
-        assertThat(errorDetailsText).contains("Timestamp:", "Cause: IllegalArgumentException");
+        assertThat(errorDetailsText).contains("Timestamp:").doesNotContain("IllegalArgumentException");
     }
 
     /**
@@ -137,11 +152,14 @@ class LinkkiErrorPageTest {
      */
     private void setupVaadin(boolean productionMode) {
         System.setProperty("vaadin.productionMode", String.valueOf(productionMode));
-        MockVaadin.setup(new Routes(Stream.of(StartView.class, ErrorPageView.class).collect(Collectors.toSet()),
+        MockVaadin.setup(new Routes(
+                Set.of(StartView.class, ErrorPageView.class, MessageErrorPageView.class,
+                       CustomMessageErrorPageView.class),
                 Collections.emptySet(), true));
     }
 
-    @Route(value = ROUTE_START_VIEW)
+
+    @Route("")
     public static class StartView extends Div {
 
         @Serial
@@ -154,18 +172,85 @@ class LinkkiErrorPageTest {
         }
     }
 
-    @Route(value = ROUTE_ERROR_PAGE_TEST_VIEW)
-    public static class ErrorPageView extends Div {
+    abstract static class TestLinkkiErrorPageView extends Div {
 
+        TestLinkkiErrorPageView(Exception exception, String customMessage) {
+            var errorPage = new LinkkiErrorPage();
+            var errorParameter = Optional.ofNullable(customMessage)
+                    .map(m -> new ErrorParameter<>(Exception.class, exception, m))
+                    .orElse(new ErrorParameter<>(Exception.class, exception));
+            errorPage.setErrorParameter(null, errorParameter);
+            add(errorPage);
+        }
+
+        TestLinkkiErrorPageView(Exception exception) {
+            this(exception, null);
+        }
+    }
+
+    @Route("error-page")
+    public static class ErrorPageView extends TestLinkkiErrorPageView {
         @Serial
         private static final long serialVersionUID = 1L;
 
         public ErrorPageView() {
-            var errorPage = new LinkkiErrorPage();
-            var errorParameter = new ErrorParameter<>(Exception.class,
-                    new IllegalArgumentException(TEST_MESSAGE_WITH_HTML));
-            errorPage.setErrorParameter(null, errorParameter);
-            add(errorPage);
+            super(new IllegalArgumentException(TEST_MESSAGE_WITH_HTML));
+        }
+    }
+
+    @Route("message-error-page")
+    public static class MessageErrorPageView extends TestLinkkiErrorPageView {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        public MessageErrorPageView() {
+            super(new MessageException(TEST_MESSAGE_WITH_HTML));
+        }
+    }
+
+    @Route("custom-message-error-page")
+    public static class CustomMessageErrorPageView extends TestLinkkiErrorPageView {
+
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        public CustomMessageErrorPageView() {
+            super(new IllegalArgumentException(TEST_MESSAGE_WITH_HTML), CUSTOM_MESSAGE);
+        }
+    }
+
+    static class LinkkiErrorPageTestHelper {
+
+        private final List<Component> children;
+
+        public LinkkiErrorPageTestHelper() {
+            var errorPageContent = _get(Div.class, div -> div.withClasses("error-page-message"));
+            children = errorPageContent.getChildren().toList();
+        }
+
+        int size() {
+            return children.size();
+        }
+
+        Component getTitle() {
+            return children.get(0);
+        }
+
+        Component getMessage() {
+            return children.get(1);
+        }
+
+        Component getNavigationButton() {
+            return children.get(2);
+        }
+
+        Component getErrorDetails() {
+            return children.get(3);
+        }
+
+        Component getStacktrace() {
+            assertThat(children).as("Page must have at least 5 children to show the error stacktrace").hasSize(5);
+            return children.get(4);
         }
     }
 }

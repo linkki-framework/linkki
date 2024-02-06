@@ -28,12 +28,12 @@ class ErrorPageTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCase() {
-        goToTestCase(TestScenarioView.TS017, TestScenarioView.TC001);
+        goToTestCase(TestScenarioView.TS017, TestScenarioView.TC002);
     }
 
     @Test
     void testErrorPage() {
-        $(ButtonElement.class).id("navigateToUnknownView").click();
+        $(ButtonElement.class).id("runtimeException").click();
 
         var errorPage = findElements(By.id("CustomErrorPage"));
         assertThat(errorPage).hasSize(1);
