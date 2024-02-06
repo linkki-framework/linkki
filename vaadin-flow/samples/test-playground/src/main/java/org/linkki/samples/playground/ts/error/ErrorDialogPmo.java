@@ -17,17 +17,10 @@ package org.linkki.samples.playground.ts.error;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import com.vaadin.flow.component.UI;
-
 @UISection
-public class ErrorHandlingPmo {
+public class ErrorDialogPmo {
 
-    @UIButton(position = 10, label = "Manually throw navigation exception", caption = "Navigate to a Non-Existent View")
-    public void navigateToUnknownView() {
-        UI.getCurrent().navigate("<manually navigated to unknown view>");
-    }
-
-    @UIButton(position = 20, label = "Manually throw general RuntimeException",
+    @UIButton(position = 10, label = "Throw general RuntimeException",
             caption = "Open Custom Error Dialog")
     public void showExceptionDialogWithoutExceptionDetails() {
         throw new RuntimeException("IMPORTANT: This message should not shown in production mode");

@@ -49,14 +49,23 @@ public ErrorHandler getErrorHandler() {
 [[linkki-error-page]]
 ==== Default Error Page for Exceptions During Navigation
 
-The `LinkkiErrorPage` offers a comprehensive solution to handle and present all kinds of unhandled errors thrown during navigation. 
-This class serves as a universal and customizable error page designed for *linkki* application, but is flexible enough to be adapted by other applications.
+The `LinkkiErrorPage` offers a comprehensive solution to handle and present all kinds of unhandled errors thrown during navigation.
+This class serves as a universal and customizable error page designed for *linkki* applications, but is flexible enough to be adapted by other applications.
 
-In general, the error page provides the following information and actions that are individually customizable by overwriting respective methods:
+Generally no sensitive information should be presented to the user in production mode. Therefore, only a generic error message will be used for any kind of exception - except `MessageException`. The message of a `MessageException` will be shown to the user in this error page in development mode as well as in production mode. So be careful with the content that is used as exception message of a `MessageException`!
+
+[IMPORTANT]
+====
+No sensitive information must be used in the exception message of a `MessageException`!
+====
+
+`MessageExceptions` are only logged if they contain a cause. All other exceptions are logged anyways.
+
+The default implementation of this error page provides the following information and actions that are individually customizable by overwriting respective methods:
 [options="header", cols="2,3,1"]
 |===
 | Information / Action
-| Default                       
+| Default
 | Method to Customize
 
 | Title shown in the browser tab
@@ -64,23 +73,31 @@ In general, the error page provides the following information and actions that a
 | `getPageTitle()`
 
 | Error message
-| The custom error message contained by `ErrorParameter` or, if not set, a general default  
+| If a `MessageException` was thrown, the error page shows the message of this exception in production as well as in development mode.
+
+For any other exception it shows a custom message or the exception message in development mode or a generic error message to hide any sensitive information in production mode.
 | `createErrorMessage(ErrorParameter)`
 
 | Navigation component
-| A button to navigate to the start view (corresponds to the application context path)            
+| A button to navigate to the start view (corresponds to the application context path)
 | `createNavigationButton()`
 
 | Error details
-| Timestamp and exception type      
+| Timestamp and exception type
 | `createErrorDetails(ErrorParameter)`
+
+| Logging of the exception
+| Logs the message of an `MessageException` if it contains a cause.
+
+For all other exceptions the exception message is logged anyways.
+| `logException(ErrorParameter<Exception>)`
 |===
 
 In development mode, the exception stack trace is also shown.
 
 [IMPORTANT]
 ====
-Neither the exception message nor the exception stack trace is shown in productive environments to avoid revealing security-sensitive information.
+Neither the exception message nor the exception stack trace is shown in production mode to avoid revealing security-sensitive information.
 
 Keep this in mind when customizing the error page. Whether the application runs in development mode can be determined by calling `isDevelopmentMode()`.
 ====

@@ -40,4 +40,5 @@
     overflow-y: auto;
     border: 1px solid #ddd;
     padding: 5px;
+    white-space: pre;
 }
