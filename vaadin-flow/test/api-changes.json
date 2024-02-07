@@ -47,5 +47,36 @@
         ]
       }
     }
+  ],
+  "2.5.1": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.annotation.attributeValueChanged",
+            "old": "class com.github.mvysny.kaributesting.v10.Routes",
+            "new": "class com.github.mvysny.kaributesting.v10.Routes",
+            "annotationType": "kotlin.Metadata",
+            "attribute": "mv",
+            "oldValue": "{1, 8, 0}",
+            "newValue": "{1, 9, 0}",
+            "justification": "FCOM-2185/FCOM-2243 :: Karibu Version updated to 2.1.2"
+          },
+          {
+            "ignore": true,
+            "code": "java.annotation.attributeValueChanged",
+            "old": "interface kotlin.jvm.functions.Function0<R>",
+            "new": "interface kotlin.jvm.functions.Function0<R>",
+            "annotationType": "kotlin.Metadata",
+            "attribute": "mv",
+            "oldValue": "{1, 8, 0}",
+            "newValue": "{1, 9, 0}",
+            "justification": "FCOM-2185/FCOM-2243 :: Karibu Version updated to 2.1.2"
+          }
+        ]
+      }
+    }
   ]
 }
