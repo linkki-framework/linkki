@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.ts.aspects;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
@@ -90,6 +92,16 @@ public class BindVisiblePmo {
         return visible;
     }
 
+    @BindVisible
+    @UINestedComponent(position = 60, label = "")
+    public InvisibleIfEmptyPmo getInvisibleIfEmpty() {
+        return new InvisibleIfEmptyPmo();
+    }
+
+    public boolean isInvisibleIfEmptyVisible() {
+        return visible;
+    }
+
     @UISection(caption = "@UISection")
     public class TestSubSectionPmo {
 
@@ -119,6 +131,42 @@ public class BindVisiblePmo {
                 return "foo";
             }
         }
+    }
+
+    @UISection(caption = "@UISection :: Invisible If Empty")
+    public class InvisibleIfEmptyPmo {
+
+        private String text;
+        private LocalDate date = LocalDate.now();
+
+        @UITextField(position = 0, label = "Text")
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        @UIDateField(position = 10, label = "Date Field Null", visible = VisibleType.INVISIBLE_IF_EMPTY)
+        public LocalDate getDate() {
+            return date;
+        }
+
+        public void setDate(LocalDate date) {
+            this.date = date;
+        }
+
+        @UILabel(position = 20, label = "Label Null", visible = VisibleType.INVISIBLE_IF_EMPTY)
+        public String getNullString() {
+            return null;
+        }
+
+        @UILabel(position = 30, label = "Invisible Label on Empty Text", visible = VisibleType.INVISIBLE_IF_EMPTY)
+        public String getLabel() {
+            return text;
+        }
+
     }
 
 }

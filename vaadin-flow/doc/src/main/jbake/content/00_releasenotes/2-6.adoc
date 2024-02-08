@@ -9,6 +9,18 @@
 
 ==== New features and improvements
 
+// ===== Dependency Updates
+
+// The following versions have been updated:
+// [cols="a,a"]
+// |===
+// |===
+
+[role="api-change"]
+===== Added `INVISIBLE_IF_EMPTY` to `VisibleType` (https://jira.convista.com/browse/LIN-3293[LIN-3293])
+A new enum value, `INVISIBLE_IF_EMPTY`, is now available in `VisibleType`. When used, the `VisibleAspectDefinition` evaluates the linked method's output. Components linked to this method will be hidden if the result is `null` or an empty `String`, enhancing UI cleanliness.
+Further details can be found here <<visible>>.
+
 //https://jira.convista.com/browse/LIN-3561
 ===== Introduce Multi-Selection in tables
 * The `BindTableSelection` now includes a new attribute called `selectionMode`. Its default value is `Grid.SelectionMode.SINGLE`.
@@ -19,13 +31,6 @@ so does the interface `MultiSelectableTablePmo` for when `selectionMode` is `Gri
 ===== Other
 //https://jira.convista.com/browse/LIN-3671
 * `BindVariantNames` now applies to all Vaadin components, expanding its functionality beyond its previous limitation to components that implemented HasTheme.
-
-// ===== Dependency Updates
-
-// The following versions have been updated:
-// [cols="a,a"]
-// |===
-// |===
 
 ==== Bugfixes
 

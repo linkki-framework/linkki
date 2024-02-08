@@ -21,6 +21,7 @@ import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.ui.aspects.UiUpdateUtil;
 import org.linkki.util.handler.Handler;
 
 /**
@@ -61,23 +62,16 @@ public abstract class ModelToUiAspectDefinition<V> implements LinkkiAspectDefini
      * <p>
      * Subclasses may change the behavior, throw more useful exceptions or silently ignore the exception
      * (beware this might lead to very difficult search for failures).
-     * 
+     *
      * @param e the exception that was caught
      * @param propertyDispatcher the {@link PropertyDispatcher} that was used to update the UI
      * @param aspect the aspect that was used to update the UI
+     *
      */
     protected void handleUiUpdateException(RuntimeException e,
-            PropertyDispatcher propertyDispatcher,
-            Aspect<V> aspect) {
-        Object boundObject = propertyDispatcher.getBoundObject();
-        throw new LinkkiBindingException(
-                e.getMessage() +
-                        " while applying " +
-                        (aspect.getName().isEmpty() ? "value" : "aspect " + aspect.getName()) +
-                        " of " +
-                        (boundObject != null ? boundObject.getClass() : "<no object>") +
-                        "#" + propertyDispatcher.getProperty(),
-                e);
+                                         PropertyDispatcher propertyDispatcher,
+                                         Aspect<V> aspect) {
+        UiUpdateUtil.handleUiUpdateException(e, propertyDispatcher, aspect);
     }
 
     /**

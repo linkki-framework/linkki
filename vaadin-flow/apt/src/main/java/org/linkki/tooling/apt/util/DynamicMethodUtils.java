@@ -39,6 +39,7 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.tooling.apt.validator.Messages;
@@ -88,12 +89,17 @@ public final class DynamicMethodUtils {
                                                                                                                                     aspectDefinitions,
                                                                                                                                     messager);
 
+        Set<DynamicAspectMethodName> expectedMethodsForVisibleAspectDefinition = getExpectedMethodsForVisibleAspectDefinition(method,
+                                                                                                                              aspectDefinitions,
+                                                                                                                              messager);
+
         Set<DynamicAspectMethodName> expectedMethodsFromCompositeAspectDefinition = getExpectedMethodsFromCompositeAspectDefinition(method,
                                                                                                                                     aspectDefinitions,
                                                                                                                                     messager);
 
         return Stream.of(expectedMethodsFromAvailableValuesAspectDefinitions,
                          expectedMethodsFromModelToUiAspectDefinition,
+                         expectedMethodsForVisibleAspectDefinition,
                          expectedMethodsFromCompositeAspectDefinition)
                 .flatMap(Set::stream)
                 .collect(toSet());
@@ -143,6 +149,27 @@ public final class DynamicMethodUtils {
                 .collect(toSet());
     }
 
+    private static Set<DynamicAspectMethodName> getExpectedMethodsForVisibleAspectDefinition(
+            ExecutableElement method,
+            List<LinkkiAspectDefinition> aspectDefinitions,
+            Messager messager) {
+
+        var visibleAspectDefinitions = aspectDefinitions.stream()
+                .filter(VisibleAspectDefinition.class::isInstance)
+                .map(VisibleAspectDefinition.class::cast)
+                .toList();
+
+        var absentVisibleAspects = visibleAspectDefinitions.stream()
+                .flatMap(aspectDefinition -> createAspect(aspectDefinition, method, messager).stream())
+                .filter(aspect -> !aspect.isValuePresent())
+                .filter(aspect -> !aspect.getName().isEmpty())
+                .toList();
+
+        return absentVisibleAspects.stream()
+                .map(aspect -> new DynamicAspectMethodName(method, aspect.getName(), true))
+                .collect(toSet());
+    }
+
     private static Set<DynamicAspectMethodName> getExpectedMethodsFromAvailableValuesAspectDefinition(
             ExecutableElement method,
             List<LinkkiAspectDefinition> aspectDefinitions,
@@ -163,6 +190,21 @@ public final class DynamicMethodUtils {
             Messager messager) {
         try {
             return Optional.of(aspectDefinition.createAspect());
+            // CSOFF: IllegalCatch
+        } catch (RuntimeException e) {
+            // CSON: IllegalCatch
+            String msg = String.format(Messages.getString(ASPECT_CREATION_FAILED),
+                                       aspectDefinition.getClass().getSimpleName(), e.getMessage());
+            messager.printMessage(Kind.WARNING, msg, method);
+            return Optional.empty();
+        }
+    }
+
+    private static Optional<Aspect<Boolean>> createAspect(VisibleAspectDefinition aspectDefinition,
+                                                    Element method,
+                                                    Messager messager) {
+        try {
+            return Optional.of(aspectDefinition.createAspect(() -> null));
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
             // CSON: IllegalCatch

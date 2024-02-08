@@ -13,7 +13,9 @@
  */
 package org.linkki.core.defaults.ui.aspects.types;
 
-/** Defines whether an UI component is visible. */
+import org.apache.commons.lang3.StringUtils;
+
+/** Defines whether a UI component is visible. */
 public enum VisibleType {
 
     /** The UI component is always visible. */
@@ -26,6 +28,14 @@ public enum VisibleType {
      * The visible state is read from the PMO by invoking a method named
      * {@code is[PropertyName]Visible()}.
      */
-    DYNAMIC;
+    DYNAMIC,
+
+    /**
+     * The UI component is invisible if the contained value is {@code null}
+     * or {@link StringUtils#isEmpty(CharSequence)} in case it's a {@link String}.
+     * This value is mostly suited for read only labels,
+     * since an input field that vanishes after deleting its content would be confusing the user.
+     */
+    INVISIBLE_IF_EMPTY;
 
 }
