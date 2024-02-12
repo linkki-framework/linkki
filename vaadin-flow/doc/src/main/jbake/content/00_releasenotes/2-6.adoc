@@ -9,12 +9,15 @@
 
 ==== New features and improvements
 
-// ===== Dependency Updates
+===== Dependency Updates
 
-// The following versions have been updated:
-// [cols="a,a"]
-// |===
-// |===
+The following versions have been updated:
+[cols="a,a"]
+|===
+| Faktor-IPS                | 24.1.3.release
+| Vaadin                    | 24.3.5
+| Spring Boot               | 3.2.2
+|===
 
 [role="api-change"]
 ===== Added `INVISIBLE_IF_EMPTY` to `VisibleType` (https://jira.convista.com/browse/LIN-3293[LIN-3293])
