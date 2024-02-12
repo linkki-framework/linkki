@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.defaults.ui.element;
 
@@ -38,12 +38,13 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * We provide three default implementations:
  * <ul>
  * <li>{@link DefaultCaptionProvider} calls a method {@code getName()} on the value object.</li>
- * <li>{@link ToStringCaptionProvider} simply uses the object's {@link Object#toString()} method.</li>
+ * <li>{@link ToStringCaptionProvider} simply uses the object's {@link Object#toString()}
+ * method.</li>
  * </ul>
  * <p>
- * The {@link ItemCaptionProvider} is called once for each ComboBox and each value during each update.
- * This is necessary to detect possible changes of the caption for the same object. It is therefore
- * particularly important that the ItemCaptionProvider is very fast.
+ * The {@link ItemCaptionProvider} is called once for each ComboBox and each value during each
+ * update. This is necessary to detect possible changes of the caption for the same object. It is
+ * therefore particularly important that the ItemCaptionProvider is very fast.
  */
 @FunctionalInterface
 public interface ItemCaptionProvider<T> {
@@ -91,11 +92,11 @@ public interface ItemCaptionProvider<T> {
 
     /**
      * This is the unsafe version of {@link #getCaption(Object)}. The framework will only call this
-     * method because the type is not necessarily known in the UI selection component. When implementing
-     * this interface you could ignore this method because it simply delegates to
+     * method because the type is not necessarily known in the UI selection component. When
+     * implementing this interface you could ignore this method because it simply delegates to
      * {@link #getCaption(Object)} which is the type-safe variant for you, or to
-     * {@link #getNullCaption()} if the value is <code>null</code>. However, if anybody does something
-     * nasty we would get a ClassCastException right here.
+     * {@link #getNullCaption()} if the value is <code>null</code>. However, if anybody does
+     * something nasty we would get a ClassCastException right here.
      * 
      * @param value The value for which we need a caption
      * @return The caption for the specified value

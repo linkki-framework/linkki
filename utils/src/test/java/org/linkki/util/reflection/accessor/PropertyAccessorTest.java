@@ -1,32 +1,31 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util.reflection.accessor;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.linkki.util.reflection.TestInterface;
-import org.linkki.util.reflection.TestObject;
-import org.linkki.util.reflection.accessor.PropertyAccessor;
-import org.linkki.util.reflection.other.OtherPackageTestObject;
-import org.linkki.util.reflection.other.TestPublicSubclass;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.linkki.test.matcher.Matchers.assertThat;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.linkki.util.reflection.TestInterface;
+import org.linkki.util.reflection.TestObject;
+import org.linkki.util.reflection.other.OtherPackageTestObject;
+import org.linkki.util.reflection.other.TestPublicSubclass;
 
 class PropertyAccessorTest {
 
@@ -58,7 +57,7 @@ class PropertyAccessorTest {
         assertEquals("anotherValue", testObject.getStringProperty());
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     void testSetPropertyValue_ExceptionDuringInvocation_WrongType() {
         assertThatExceptionOfType(RuntimeException.class)
@@ -118,7 +117,7 @@ class PropertyAccessorTest {
     void testBooleanProperty() {
         Object testObject2 = new TestObject();
         PropertyAccessor<Object, Object> accessor = new PropertyAccessor<>(TestObject.class,
-                                                                           TestObject.PROPERTY_BOOLEAN);
+                TestObject.PROPERTY_BOOLEAN);
         assertThat(accessor.getPropertyValue(testObject2), is(false));
 
         accessor.setPropertyValue(testObject2, true);
@@ -130,7 +129,7 @@ class PropertyAccessorTest {
     void testIntProperty() {
         TestObject testObject2 = new TestObject();
         PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,
-                                                                                TestObject.PROPERTY_INT);
+                TestObject.PROPERTY_INT);
         assertEquals(42, accessor.getPropertyValue(testObject2).intValue());
 
         accessor.setPropertyValue(testObject2, 23);
@@ -142,7 +141,7 @@ class PropertyAccessorTest {
     void testCanReadWriteInvoke() {
         TestObject testObject2 = new TestObject();
         PropertyAccessor<TestObject, Long> propertyAccessor = new PropertyAccessor<>(TestObject.class,
-                                                                                     TestObject.PROPERTY_READ_ONLY_LONG);
+                TestObject.PROPERTY_READ_ONLY_LONG);
 
         assertThat((propertyAccessor.canWrite()), is(false));
         assertThat(propertyAccessor.canRead());
@@ -157,7 +156,7 @@ class PropertyAccessorTest {
         TestObject testObject2 = new TestObject();
 
         PropertyAccessor<TestObject, Long> accessor = new PropertyAccessor<>(TestObject.class,
-                                                                             TestObject.PROPERTY_READ_ONLY_LONG);
+                TestObject.PROPERTY_READ_ONLY_LONG);
 
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> accessor.setPropertyValue(testObject2, 5L));
@@ -166,7 +165,7 @@ class PropertyAccessorTest {
     @Test
     void testGetValueClass() {
         PropertyAccessor<TestObject, Long> accessor = new PropertyAccessor<>(TestObject.class,
-                                                                             TestObject.PROPERTY_READ_ONLY_LONG);
+                TestObject.PROPERTY_READ_ONLY_LONG);
 
         assertEquals(long.class, accessor.getValueClass());
     }
@@ -174,7 +173,7 @@ class PropertyAccessorTest {
     @Test
     void testGetValueClass2() {
         PropertyAccessor<TestObject, Boolean> accessor = new PropertyAccessor<>(TestObject.class,
-                                                                                TestObject.PROPERTY_BOOLEAN);
+                TestObject.PROPERTY_BOOLEAN);
 
         assertEquals(boolean.class, accessor.getValueClass());
     }
@@ -192,7 +191,7 @@ class PropertyAccessorTest {
     @Test
     void testGetPropertyValue_ExceptionDuringInvocation() {
         PropertyAccessor<TestObject, Long> propertyAccessor = new PropertyAccessor<>(TestObject.class,
-                                                                                     TestObject.PROPERTY_READ_ONLY_LONG);
+                TestObject.PROPERTY_READ_ONLY_LONG);
 
         Long propertyValue = propertyAccessor.getPropertyValue(testObject);
 
@@ -205,7 +204,7 @@ class PropertyAccessorTest {
     @Test
     void testDefaultMethod() {
         PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<>(TestInterfaceImpl.class,
-                                                                                          TestInterface.RO_DEFAULT_METHOD);
+                TestInterface.RO_DEFAULT_METHOD);
         TestInterface testInterfaceImpl = new TestInterfaceImpl();
         String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
         assertEquals("Hello", propertyValue);
@@ -299,7 +298,7 @@ class PropertyAccessorTest {
     @Test
     void testPerformance() {
         PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,
-                                                                                TestObject.PROPERTY_INT);
+                TestObject.PROPERTY_INT);
         for (long l = 1000L; l <= 1_000_000_000L; l *= 1000) {
             long start = System.currentTimeMillis();
             for (int i = 0; i < l; i++) {

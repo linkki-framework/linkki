@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.table.aspects;
@@ -33,8 +33,8 @@ import com.vaadin.flow.data.selection.SingleSelect;
  * Aspect definition to handle selection and double-click on a table.
  *
  * @implNote This definition contains two aspects: {@value #SELECTION_ASPECT_NAME} and
- *           {@value #DOUBLE_CLICK_ASPECT_NAME}. This is due to the fact that the selection aspect must
- *           be evaluated before the double click aspect.
+ *           {@value #DOUBLE_CLICK_ASPECT_NAME}. This is due to the fact that the selection aspect
+ *           must be evaluated before the double click aspect.
  */
 public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
 
@@ -110,10 +110,10 @@ public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
         Object component = componentWrapper.getComponent();
         if (!visualOnly && component instanceof Grid<?> grid) {
             return switch (selectionMode) {
-                case SINGLE ->
-                    () -> grid.asSingleSelect().setValue(propertyDispatcher.pull(Aspect.of(SELECTION_ASPECT_NAME)));
-                case MULTI ->
-                    () -> grid.asMultiSelect().setValue(propertyDispatcher.pull(Aspect.of(SELECTION_ASPECT_NAME)));
+                case SINGLE -> () -> grid.asSingleSelect()
+                        .setValue(propertyDispatcher.pull(Aspect.of(SELECTION_ASPECT_NAME)));
+                case MULTI -> () -> grid.asMultiSelect()
+                        .setValue(propertyDispatcher.pull(Aspect.of(SELECTION_ASPECT_NAME)));
                 case NONE -> Handler.NOP_HANDLER;
             };
         } else {

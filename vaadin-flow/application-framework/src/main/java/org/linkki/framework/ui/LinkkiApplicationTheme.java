@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.framework.ui;
 
@@ -56,7 +56,8 @@ public final class LinkkiApplicationTheme {
     public static final String DIALOG_BUTTON_BAR = "linkki-dialog-button-bar";
 
     /**
-     * Prefix for {@link Message} label style classes. The errorLevel in lower case is used as suffix
+     * Prefix for {@link Message} label style classes. The errorLevel in lower case is used as
+     * suffix
      *
      * @deprecated Use icon styles in {@link org.linkki.core.ui.theme.LinkkiTheme.Text} instead.
      */
@@ -72,7 +73,9 @@ public final class LinkkiApplicationTheme {
      */
     public static final String MESSAGE_LABEL = "linkki-message-label";
 
-    /** Style for a table that shows a {@link MessageList}, created by {@link MessageUiComponents}. */
+    /**
+     * Style for a table that shows a {@link MessageList}, created by {@link MessageUiComponents}.
+     */
     public static final String MESSAGE_TABLE = "linkki-message-table";
 
     /** Style for a row in a message table, @see {@link #MESSAGE_TABLE} */
@@ -116,6 +119,5 @@ public final class LinkkiApplicationTheme {
         // This is just a utility class used to list constants and therefore should not be
         // instantiated
     }
-
 
 }

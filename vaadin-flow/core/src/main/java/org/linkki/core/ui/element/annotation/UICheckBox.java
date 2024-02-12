@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -70,8 +70,8 @@ public @interface UICheckBox {
     /**
      * Provides a label on the left side of the check box.
      * <p>
-     * Normally a check box does not have a label on the left side but a {@link #caption()} which rests
-     * on the right side of the box.
+     * Normally a check box does not have a label on the left side but a {@link #caption()} which
+     * rests on the right side of the box.
      */
     String label() default "";
 
@@ -82,9 +82,9 @@ public @interface UICheckBox {
      * <p>
      * For a label on the left, use {@link #label()} for the label text.
      * <p>
-     * If the check box is used inside a {@link UITableColumn}, the {@link #label()} will be displayed
-     * in the column header while the {@link #caption()} will be displayed inside the table cell
-     * together with the check box.
+     * If the check box is used inside a {@link UITableColumn}, the {@link #label()} will be
+     * displayed in the column header while the {@link #caption()} will be displayed inside the
+     * table cell together with the check box.
      */
     String caption() default DERIVED_BY_LINKKI;
 
@@ -100,8 +100,8 @@ public @interface UICheckBox {
     VisibleType visible() default VISIBLE;
 
     /**
-     * The name of the model object that is to be bound if multiple model objects are included for model
-     * binding.
+     * The name of the model object that is to be bound if multiple model objects are included for
+     * model binding.
      */
     @LinkkiBoundProperty.ModelObjectProperty
     String modelObject() default ModelObject.DEFAULT_NAME;

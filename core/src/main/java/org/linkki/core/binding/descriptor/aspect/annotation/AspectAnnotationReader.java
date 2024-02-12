@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding.descriptor.aspect.annotation;
@@ -43,8 +43,8 @@ public class AspectAnnotationReader {
     }
 
     /**
-     * Creates a list of {@link LinkkiAspectDefinition LinkkiAspectDefinitions} that are annotated in
-     * the definition of the given linkki UI annotation.
+     * Creates a list of {@link LinkkiAspectDefinition LinkkiAspectDefinitions} that are annotated
+     * in the definition of the given linkki UI annotation.
      * 
      * @param uiAnnotation UI annotation that is used for linkki bindings
      * @return list of aspect definitions that apply to the given UI annotation
@@ -60,8 +60,9 @@ public class AspectAnnotationReader {
         return LINKKI_ASPECT_ANNOTATION.findAllOn(uiAnnotation)
                 .map(t -> {
                     @SuppressWarnings("unchecked")
-                    Class<? extends AspectDefinitionCreator<UI_ANNOTATION>> creator = (Class<? extends AspectDefinitionCreator<UI_ANNOTATION>>)t
-                            .value();
+                    Class<? extends AspectDefinitionCreator<UI_ANNOTATION>> creator =
+                            (Class<? extends AspectDefinitionCreator<UI_ANNOTATION>>)t
+                                    .value();
                     return creator;
                 })
                 .map(Classes::instantiate)
@@ -72,11 +73,11 @@ public class AspectAnnotationReader {
      * Creates a list of {@link LinkkiAspectDefinition LinkkiAspectDefinitions} from all
      * {@link LinkkiAspect}-annotated annotations on the given {@link AnnotatedElement}.
      * <p>
-     * If the given element is a class, {@link InheritedAspect inherited annotations} from superclasses
-     * and interfaces are returned as well. Only the first occurrence of an annotation type is included
-     * in the result. Local annotations on the annotated class take precedence over those from
-     * supertypes, which take precedence over those from interfaces. There is no guarantee about the
-     * order of annotations from different (super-)interfaces.
+     * If the given element is a class, {@link InheritedAspect inherited annotations} from
+     * superclasses and interfaces are returned as well. Only the first occurrence of an annotation
+     * type is included in the result. Local annotations on the annotated class take precedence over
+     * those from supertypes, which take precedence over those from interfaces. There is no
+     * guarantee about the order of annotations from different (super-)interfaces.
      * 
      * <em>Note:</em> If the annotated element supports multiple component definition annotations it
      * might be wrong to just use all available aspects. Instead it might be necessary to select the
@@ -109,9 +110,10 @@ public class AspectAnnotationReader {
      * component definitions.
      * 
      * @param componentDefAnnotation the selected component definition annotation
-     * @param annotatedElement the annotated element that provides annotations with additional aspects
-     * @return The list of {@link LinkkiAspectDefinition aspect definitions} that are used for the field
-     *         created for the given annotation.
+     * @param annotatedElement the annotated element that provides annotations with additional
+     *            aspects
+     * @return The list of {@link LinkkiAspectDefinition aspect definitions} that are used for the
+     *         field created for the given annotation.
      */
     public static List<LinkkiAspectDefinition> createAspectDefinitionsFor(Annotation componentDefAnnotation,
             AnnotatedElement annotatedElement) {
@@ -125,9 +127,9 @@ public class AspectAnnotationReader {
     }
 
     /**
-     * Returns linkki annotations present on the given class, as well as annotations on superclasses and
-     * interfaces marked with {@link InheritedAspect @InheritedAspect}. Only the first occurrence of an
-     * annotation type is included in the result.
+     * Returns linkki annotations present on the given class, as well as annotations on superclasses
+     * and interfaces marked with {@link InheritedAspect @InheritedAspect}. Only the first
+     * occurrence of an annotation type is included in the result.
      * 
      * Accessible for testing purposes only.
      * 
@@ -135,7 +137,7 @@ public class AspectAnnotationReader {
      */
     /* private */ static List<Annotation> getUniqueLinkkiAnnotations(Class<?> cls) {
         LinkedList<Annotation> annotations = getAnnotations(cls, false);
-        Set<Class<?>> annotationTypes = new HashSet<Class<?>>();
+        Set<Class<?>> annotationTypes = new HashSet<>();
 
         for (Iterator<Annotation> i = annotations.descendingIterator(); i.hasNext();) {
             Annotation annotation = i.next();

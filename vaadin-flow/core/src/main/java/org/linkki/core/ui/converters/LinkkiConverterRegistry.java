@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.converters;
 
@@ -49,16 +49,16 @@ import com.vaadin.flow.server.VaadinSession;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * A converter registry that holds a set of standard converters. The registry could be instantiated with
- * additional converters which would be set before the default converters. That means if the registry is
- * initiated with a custom converter which has the same types as an existing one, the custom converter
- * is used with higher priority.
+ * A converter registry that holds a set of standard converters. The registry could be instantiated
+ * with additional converters which would be set before the default converters. That means if the
+ * registry is initiated with a custom converter which has the same types as an existing one, the
+ * custom converter is used with higher priority.
  */
 public class LinkkiConverterRegistry implements Serializable {
 
     /**
-     * Using the default implementation the converter message could not be translated in the locale of
-     * the client because it is set within the constructor.
+     * Using the default implementation the converter message could not be translated in the locale
+     * of the client because it is set within the constructor.
      */
     private static final String ERROR_MESSAGE = "Error converting Value";
 
@@ -131,9 +131,9 @@ public class LinkkiConverterRegistry implements Serializable {
     /**
      * Finds a converter that does match the two types for the presentation an the model type.
      * <p>
-     * If the types are {@link Class classes} they have to match exactly the type of a converter. We do
-     * not check assignable types because the covariance and contravariance depends on the direction of
-     * conversion.
+     * If the types are {@link Class classes} they have to match exactly the type of a converter. We
+     * do not check assignable types because the covariance and contravariance depends on the
+     * direction of conversion.
      * <p>
      * If both types are equal or we cannot determine the correct type for any reason, the
      * {@link Converter#identity() identity converter} is returned.
@@ -146,8 +146,8 @@ public class LinkkiConverterRegistry implements Serializable {
      * @param modelType The type of the model, that means the value type of the model property
      * @return the converter that best match the two types
      * 
-     * @throws IllegalArgumentException if the types could be considered to be correct but no matching
-     *             converter could be found.
+     * @throws IllegalArgumentException if the types could be considered to be correct but no
+     *             matching converter could be found.
      */
     @SuppressWarnings("unchecked")
     public <P, M> Converter<P, M> findConverter(Type presentationType, Type modelType) {
@@ -189,14 +189,13 @@ public class LinkkiConverterRegistry implements Serializable {
                                 + modelType));
     }
 
-
     /**
      * This method determines whether we should use an identity converter. This might be because of:
      * <ul>
      * <li>Any of the types are null: this might be if the type was a {@link TypeVariable}</li>
      * <li>Both types are the same: this case is easy</li>
-     * <li>One type is Object: this looks like we cannot get the correct type by any reason, better use
-     * identity than nothing</li>
+     * <li>One type is Object: this looks like we cannot get the correct type by any reason, better
+     * use identity than nothing</li>
      * </ul>
      */
     private boolean isIdentityNecessary(@CheckForNull Class<?> rawPresentationType,
@@ -246,8 +245,8 @@ public class LinkkiConverterRegistry implements Serializable {
 
     /**
      * Returns the {@link LinkkiConverterRegistry} that is configured in the current
-     * {@link VaadinSession}. Another instance of {@link LinkkiConverterRegistry} could be configured
-     * using
+     * {@link VaadinSession}. Another instance of {@link LinkkiConverterRegistry} could be
+     * configured using
      * 
      * <pre>
      * VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, converterRegistry);

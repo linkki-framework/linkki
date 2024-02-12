@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.aspects.annotation;
@@ -30,13 +30,13 @@ import org.linkki.core.ui.aspects.annotation.BindComboBoxItemStyle.BindComboBoxI
  * statically defined in the annotation or dynamically queried via the method
  * {@code get<propertyName>ItemStyle}}.
  * <p>
- * In case of a dynamic style via method invocation the return type of the method is not a single string
- * but a {@code Function<?, String>}. The method is called only once for creating a new combo box but
- * the function is called for every item in the combo box to allow different styles for every single
- * item.
+ * In case of a dynamic style via method invocation the return type of the method is not a single
+ * string but a {@code Function<?, String>}. The method is called only once for creating a new combo
+ * box but the function is called for every item in the combo box to allow different styles for
+ * every single item.
  * <p>
- * The style classes are applied only to elements in the popup menu, the selected value in the combo box
- * is never styled, only the text.
+ * The style classes are applied only to elements in the popup menu, the selected value in the combo
+ * box is never styled, only the text.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
@@ -48,10 +48,11 @@ public @interface BindComboBoxItemStyle {
      * Multiple style names could be provided like
      * <code>@BindComboBoxItemStyle({ STYLE_NAME_1, STYLE_NAME_2 })</code>
      * <p>
-     * If the value is an empty array (which is the default) the style names are retrieved dynamically.
-     * That means the style names are retrieved from the method {@code get<PropertyName>ItemStyle()}
-     * which must return a {@code Function<TYPE, String>} where TYPE is the type of the combo box items.
-     * The function is called for every item in the combo box pop menu.
+     * If the value is an empty array (which is the default) the style names are retrieved
+     * dynamically. That means the style names are retrieved from the method
+     * {@code get<PropertyName>ItemStyle()} which must return a {@code Function<TYPE, String>} where
+     * TYPE is the type of the combo box items. The function is called for every item in the combo
+     * box pop menu.
      */
     String[] value() default {};
 

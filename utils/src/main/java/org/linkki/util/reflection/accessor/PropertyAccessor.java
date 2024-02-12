@@ -1,30 +1,32 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util.reflection.accessor;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
-import org.linkki.util.LazyInitializingMap;
-
 import static java.util.Objects.requireNonNull;
 
+import org.linkki.util.LazyInitializingMap;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
- * Allows reading and writing a value from/to an object's property. Also provides the value class of the
- * property.
+ * Allows reading and writing a value from/to an object's property. Also provides the value class of
+ * the property.
  * <p>
- * For accessing an object's property, create a {@link PropertyAccessor} for the class to be accessed
- * and the name of the property. The accessor can determine whether the property can be read, written or invoked.
+ * For accessing an object's property, create a {@link PropertyAccessor} for the class to be
+ * accessed and the name of the property. The accessor can determine whether the property can be
+ * read, written or invoked.
  *
  * @param <T> the type containing the property
  * @param <V> the property's type
@@ -32,7 +34,8 @@ import static java.util.Objects.requireNonNull;
 public final class PropertyAccessor<T, V> {
 
     private static final LazyInitializingMap<CacheKey, PropertyAccessor<?, ?>> ACCESSOR_CACHE =
-            new LazyInitializingMap<>(key -> new PropertyAccessor<>(key.clazz, key.property));
+            new LazyInitializingMap<>(
+                    key -> new PropertyAccessor<>(key.clazz, key.property));
 
     private final String propertyName;
     private final ReadMethod<T, V> readMethod;
@@ -43,7 +46,7 @@ public final class PropertyAccessor<T, V> {
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
         requireNonNull(boundClass, "boundClass must not be null");
         PropertyAccessDescriptor<T, V> propertyAccessDescriptor = new PropertyAccessDescriptor<>(boundClass,
-                                                                                                 propertyName);
+                propertyName);
         readMethod = propertyAccessDescriptor.createReadMethod();
         writeMethod = propertyAccessDescriptor.createWriteMethod();
         invokeMethod = propertyAccessDescriptor.createInvokeMethod();
@@ -81,7 +84,8 @@ public final class PropertyAccessor<T, V> {
     }
 
     /**
-     * @return <code>true</code> if there is a read method (getter) for the given object and property
+     * @return <code>true</code> if there is a read method (getter) for the given object and
+     *         property
      */
     public boolean canWrite() {
         return writeMethod.isPresent();
@@ -89,14 +93,15 @@ public final class PropertyAccessor<T, V> {
 
     /**
      * @return <code>true</code> if there is a method that can be invoked for the given object and
-     * property
+     *         property
      */
     public boolean canInvoke() {
         return invokeMethod.isPresent();
     }
 
     /**
-     * @return <code>true</code> if there is a write method (setter) for the given object and property
+     * @return <code>true</code> if there is a write method (setter) for the given object and
+     *         property
      */
     public boolean canRead() {
         return readMethod.isPresent();
@@ -111,7 +116,7 @@ public final class PropertyAccessor<T, V> {
     }
 
     /**
-     * @param clazz    a class
+     * @param clazz a class
      * @param property a property of the class
      * @return a {@link PropertyAccessor} to access the property of instances of the class
      */

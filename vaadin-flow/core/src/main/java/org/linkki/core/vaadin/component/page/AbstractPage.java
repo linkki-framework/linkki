@@ -1,21 +1,23 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.vaadin.component.page;
 
 import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
+
+import jakarta.annotation.PostConstruct;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.manager.BindingManager;
@@ -30,16 +32,15 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
-import jakarta.annotation.PostConstruct;
 
 /**
  * A page allows displaying and editing data in a vertical layout. It usually consists of so called
- * sections but can also contain arbitrary UI components. Sections (or other components) can be added to
- * take up either the whole width or 50% of the page.
+ * sections but can also contain arbitrary UI components. Sections (or other components) can be
+ * added to take up either the whole width or 50% of the page.
  * 
- * If the page is created via injection framework, the {@link #init()} method is called automatically
- * and ensures that the {@link #createContent()} method is called. Additionally, margins are added to
- * the page.
+ * If the page is created via injection framework, the {@link #init()} method is called
+ * automatically and ensures that the {@link #createContent()} method is called. Additionally,
+ * margins are added to the page.
  * 
  * Note: If the page is not injected you need to call {@link #init()} manually!
  * 
@@ -74,8 +75,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
 
     /**
      * Creates the actual UI. This cannot be done in the constructor, because clients can provide
-     * subclasses with specialized BindingManagers and/or section-factories that are not available in
-     * this super-class. In order to be able to create a UI, the initialization must be performed
+     * subclasses with specialized BindingManagers and/or section-factories that are not available
+     * in this super-class. In order to be able to create a UI, the initialization must be performed
      * <em>after</em> constructors, subclass constructors and dependency injection (constructor and
      * field injection). Hence a separate init-method. It is annotated as post-construct so the DI
      * framework can call it automatically.
@@ -96,8 +97,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Creates a section based on the given PMO and adds it to the page taking 100% of the page width.
-     * If the PMO is a {@link ContainerPmo} a table section is created.
+     * Creates a section based on the given PMO and adds it to the page taking 100% of the page
+     * width. If the PMO is a {@link ContainerPmo} a table section is created.
      * 
      * @return The new section created based on the given PMO.
      */
@@ -108,8 +109,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Creates sections based on the given PMOs and adds them horizontally, each taking up equal part of
-     * the page width. If a PMO is a {@link ContainerPmo} a table section is created.
+     * Creates sections based on the given PMOs and adds them horizontally, each taking up equal
+     * part of the page width. If a PMO is a {@link ContainerPmo} a table section is created.
      * <p>
      * To add sections vertically, call {@link #addSection(Object)} for each PMO instead.
      * 
@@ -139,8 +140,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * Refreshes the content displayed on this page. Data bindings are reloaded, but no sections are
      * removed/added.
      * <p>
-     * This method should be overridden if the page contains components that do not use data binding and
-     * have to be refreshed manually.
+     * This method should be overridden if the page contains components that do not use data binding
+     * and have to be refreshed manually.
      */
     @Override
     @OverrideMustInvoke

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.ts.components;
@@ -101,7 +101,8 @@ public class ComboBoxPmo {
 
         private Direction value;
 
-        @UIComboBox(position = 10, label = "With capitalized lower case caption",
+        @UIComboBox(position = 10,
+                label = "With capitalized lower case caption",
                 itemCaptionProvider = CapitalizedLowerCaseCaptionProvider.class)
         public Direction getValue() {
             return value;
@@ -119,7 +120,9 @@ public class ComboBoxPmo {
         private Decimal requiredDecimalValue = Decimal.NULL;
         private Decimal notRequiredDecimalValue = Decimal.NULL;
 
-        @UIComboBox(position = 10, label = "Required with initial value \"\"", content = AvailableValuesType.DYNAMIC,
+        @UIComboBox(position = 10,
+                label = "Required with initial value \"\"",
+                content = AvailableValuesType.DYNAMIC,
                 required = RequiredType.REQUIRED)
         public String getRequiredStringValue() {
             return requiredStringValue;
@@ -133,9 +136,11 @@ public class ComboBoxPmo {
             return Arrays.asList("1", "2", "3");
         }
 
-        @UIComboBox(position = 20, label = "Required with initial value Decimal.NULL",
+        @UIComboBox(position = 20,
+                label = "Required with initial value Decimal.NULL",
                 content = AvailableValuesType.DYNAMIC,
-                required = RequiredType.REQUIRED, itemCaptionProvider = DecimalCaptionProvider.class)
+                required = RequiredType.REQUIRED,
+                itemCaptionProvider = DecimalCaptionProvider.class)
         public Decimal getRequiredDecimalValue() {
             return requiredDecimalValue;
         }
@@ -148,7 +153,9 @@ public class ComboBoxPmo {
             return List.of(Decimal.valueOf(1), Decimal.valueOf(2.2));
         }
 
-        @UIComboBox(position = 30, label = "Not required Decimal", content = AvailableValuesType.DYNAMIC,
+        @UIComboBox(position = 30,
+                label = "Not required Decimal",
+                content = AvailableValuesType.DYNAMIC,
                 itemCaptionProvider = DecimalCaptionProvider.class)
         public Decimal getNotRequiredDecimalValue() {
             return notRequiredDecimalValue;
@@ -164,7 +171,8 @@ public class ComboBoxPmo {
 
         public static class DecimalCaptionProvider implements ItemCaptionProvider<Decimal> {
 
-            private static final FormattedDecimalFieldToStringConverter CONVERTER = new FormattedDecimalFieldToStringConverter();
+            private static final FormattedDecimalFieldToStringConverter CONVERTER =
+                    new FormattedDecimalFieldToStringConverter();
 
             @Override
             public String getCaption(Decimal value) {
@@ -172,7 +180,6 @@ public class ComboBoxPmo {
             }
 
         }
-
 
     }
 

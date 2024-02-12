@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding;
 
@@ -116,10 +116,10 @@ class BindingContextTest {
     void testAdd_ExceptionInInitialUpdate() {
         BindingContext context = new BindingContext();
         ElementBinding binding = spy(createBinding(context));
-        doThrow(new LinkkiBindingException("binding exception",new RuntimeException())).when(binding).updateFromPmo();
+        doThrow(new LinkkiBindingException("binding exception", new RuntimeException())).when(binding).updateFromPmo();
 
         assertThrows(LinkkiBindingException.class,
-                () -> context.add(binding, TestComponentWrapper.with(binding)));
+                     () -> context.add(binding, TestComponentWrapper.with(binding)));
     }
 
     @Test
@@ -193,7 +193,7 @@ class BindingContextTest {
         BindingContext context = new BindingContextBuilder().afterUpdateHandler(afterUpdateUi).build();
         ElementBinding binding = spy(createBinding(context));
         context.add(binding, TestComponentWrapper.with(binding));
-        doThrow(new LinkkiBindingException("binding exception",new RuntimeException())).when(binding).updateFromPmo();
+        doThrow(new LinkkiBindingException("binding exception", new RuntimeException())).when(binding).updateFromPmo();
 
         assertThrows(LinkkiBindingException.class, context::updateUi);
     }

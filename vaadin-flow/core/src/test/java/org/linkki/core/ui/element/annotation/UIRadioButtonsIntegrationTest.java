@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -108,7 +108,6 @@ class UIRadioButtonsIntegrationTest
                 .count());
     }
 
-
     @Test
     void testUpdate() {
         TestModelObjectWithString modelObject = (TestModelObjectWithString)getDefaultModelObject();
@@ -138,7 +137,10 @@ class UIRadioButtonsIntegrationTest
         }
 
         @Override
-        @UIRadioButtons(position = 0, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC, content = AvailableValuesType.DYNAMIC)
+        @UIRadioButtons(position = 0,
+                visible = VisibleType.DYNAMIC,
+                enabled = EnabledType.DYNAMIC,
+                content = AvailableValuesType.DYNAMIC)
         public void value() {
             // model binding
         }
@@ -148,22 +150,32 @@ class UIRadioButtonsIntegrationTest
         }
 
         @Override
-        @UIRadioButtons(position = 10, visible = VisibleType.INVISIBLE, enabled = EnabledType.DISABLED, content = AvailableValuesType.NO_VALUES, label = AnnotationTestPmo.TEST_LABEL)
+        @UIRadioButtons(position = 10,
+                visible = VisibleType.INVISIBLE,
+                enabled = EnabledType.DISABLED,
+                content = AvailableValuesType.NO_VALUES,
+                label = AnnotationTestPmo.TEST_LABEL)
         public void staticValue() {
             // model binding
         }
 
-        @UIRadioButtons(position = 20, buttonAlignment = AlignmentType.HORIZONTAL, content = AvailableValuesType.NO_VALUES)
+        @UIRadioButtons(position = 20,
+                buttonAlignment = AlignmentType.HORIZONTAL,
+                content = AvailableValuesType.NO_VALUES)
         public void valueHorizontal() {
             // model binding
         }
 
-        @UIRadioButtons(position = 30, buttonAlignment = AlignmentType.VERTICAL, content = AvailableValuesType.NO_VALUES)
+        @UIRadioButtons(position = 30,
+                buttonAlignment = AlignmentType.VERTICAL,
+                content = AvailableValuesType.NO_VALUES)
         public void valueVertical() {
             // model binding
         }
 
-        @UIRadioButtons(position = 40, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = TestEnumCaptionProvider.class)
+        @UIRadioButtons(position = 40,
+                content = AvailableValuesType.ENUM_VALUES_EXCL_NULL,
+                itemCaptionProvider = TestEnumCaptionProvider.class)
         public void enumValue() {
             // model binding
         }

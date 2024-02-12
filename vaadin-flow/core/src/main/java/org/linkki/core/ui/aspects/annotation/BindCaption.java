@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.aspects.annotation;
@@ -34,8 +34,8 @@ import com.vaadin.flow.component.HasText;
 /**
  * This aspect sets a user defined caption text using {@link HasText#setText(String)}.
  * <p>
- * If used on a {@link ContainerPmo}, the caption of the surrounding {@link UISection} is set instead of
- * the table's caption.
+ * If used on a {@link ContainerPmo}, the caption of the surrounding {@link UISection} is set
+ * instead of the table's caption.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
@@ -44,7 +44,6 @@ public @interface BindCaption {
 
     /** The displayed text for {@link CaptionType#STATIC} */
     String value() default StringUtils.EMPTY;
-
 
     /** Defines how the caption text should be retrieved */
     CaptionType captionType() default CaptionType.AUTO;

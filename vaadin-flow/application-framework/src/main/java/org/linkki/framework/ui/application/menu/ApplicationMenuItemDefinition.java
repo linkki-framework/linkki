@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.framework.ui.application.menu;
 
@@ -30,7 +30,6 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.router.RouteConfiguration;
-
 
 /**
  * Defines an item in the application's main menu.
@@ -82,9 +81,9 @@ public class ApplicationMenuItemDefinition {
     /**
      * Creates a new menu item that navigates to the given URL on click.
      * <p>
-     * If the URL is a relative link that does not start with a protocol, {@link UI#navigate(String)} is
-     * used. Otherwise, the link is treated as an external link and is called by using
-     * {@link Page#setLocation(String)}.
+     * If the URL is a relative link that does not start with a protocol,
+     * {@link UI#navigate(String)} is used. Otherwise, the link is treated as an external link and
+     * is called by using {@link Page#setLocation(String)}.
      * <p>
      * If a internal URL is needed, use {@link RouteConfiguration#getUrl(Class)}.
      * 
@@ -102,9 +101,9 @@ public class ApplicationMenuItemDefinition {
     /**
      * Creates a new menu item that navigates to the given URL on click.
      * <p>
-     * If the URL is a relative link that does not start with a protocol, {@link UI#navigate(String)} is
-     * used. Otherwise, the link is treated as an external link and is called by using
-     * {@link Page#setLocation(String)}.
+     * If the URL is a relative link that does not start with a protocol,
+     * {@link UI#navigate(String)} is used. Otherwise, the link is treated as an external link and
+     * is called by using {@link Page#setLocation(String)}.
      * <p>
      * If a internal URL is needed, use {@link RouteConfiguration#getUrl(Class)}.
      * 
@@ -147,7 +146,8 @@ public class ApplicationMenuItemDefinition {
      * Creates a new menu item with the given sub-menu items.
      * 
      * @param name displayed text of the menu item
-     * @param subMenuItemDefinitions items that are displayed in the sub-menu of the newly created item
+     * @param subMenuItemDefinitions items that are displayed in the sub-menu of the newly created
+     *            item
      * @deprecated Use
      *             {@link ApplicationMenuItemDefinition#ApplicationMenuItemDefinition(String, String, List)}
      *             instead
@@ -162,7 +162,8 @@ public class ApplicationMenuItemDefinition {
      * 
      * @param name displayed text of the menu item
      * @param id id for the html element
-     * @param subMenuItemDefinitions items that are displayed in the sub-menu of the newly created item
+     * @param subMenuItemDefinitions items that are displayed in the sub-menu of the newly created
+     *            item
      * @since 2.0.0
      */
     public ApplicationMenuItemDefinition(String name, String id,

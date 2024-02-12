@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util.reflection.accessor;
 
@@ -29,8 +29,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wrapper for a setter {@link Method}. {@link #isPresent()} can safely be accessed even if no write
- * method exists. {@link #writeValue(Object, Object)} will access the setter via {@link LambdaMetafactory} if possible,
- * falling back to using reflection API.
+ * method exists. {@link #writeValue(Object, Object)} will access the setter via
+ * {@link LambdaMetafactory} if possible, falling back to using reflection API.
  * 
  * @param <T> the type containing the property
  * @param <V> the property's type
@@ -49,7 +49,7 @@ final class WriteMethod<T, V> extends AbstractMethod<T, BiConsumer<T, V>> {
      * @throws RuntimeException if an error occurs while accessing the write method
      */
     public void writeValue(T target, @CheckForNull V value) {
-       getMethodAsFunction().accept(target, value);
+        getMethodAsFunction().accept(target, value);
     }
 
     @Override
@@ -80,7 +80,8 @@ final class WriteMethod<T, V> extends AbstractMethod<T, BiConsumer<T, V>> {
             try {
                 methodAsFunction.accept(o, v);
                 // CSOFF: IllegalCatch
-                // Rewords all exceptions to make sure the bound class and property appear in the message
+                // Rewords all exceptions to make sure the bound class and property appear in the
+                // message
             } catch (RuntimeException e) {
                 throw errorCallingMethod(e).get();
             }

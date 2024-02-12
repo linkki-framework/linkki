@@ -40,7 +40,7 @@
             3.2.1
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
-        <karibu.version>2.1.0</karibu.version>
+        <karibu.version>2.1.2</karibu.version>
     </properties>
 
     <dependencyManagement>

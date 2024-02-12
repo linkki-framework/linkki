@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.testbench.pageobjects;
@@ -42,14 +42,16 @@ public class LinkkiSectionElement extends TestBenchElement {
     }
 
     /**
-     * Returns all components in content. If the component is wrapped in a form item, the component itself is returned.
+     * Returns all components in content. If the component is wrapped in a form item, the component
+     * itself is returned.
      */
     public List<TestBenchElement> getContentComponents() {
         if (LinkkiSection.THEME_VARIANT_FORM.equals(getAttribute("theme"))) {
             return getContent().findElements(By.cssSelector("vaadin-form-item > :not(label)")).stream()
                     .map(TestBenchElement.class::cast).collect(Collectors.toList());
         } else {
-           return getContent().findElements(By.cssSelector("*")).stream().map(TestBenchElement.class::cast).collect(Collectors.toList());
+            return getContent().findElements(By.cssSelector("*")).stream().map(TestBenchElement.class::cast)
+                    .collect(Collectors.toList());
         }
     }
 

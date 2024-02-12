@@ -1,21 +1,25 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.aspects;
 
-import com.vaadin.flow.component.listbox.ListBox;
-import com.vaadin.flow.component.textfield.TextField;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
@@ -23,15 +27,15 @@ import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import java.util.NoSuchElementException;
-
-import static org.assertj.core.api.Assertions.*;
+import com.vaadin.flow.component.listbox.ListBox;
+import com.vaadin.flow.component.textfield.TextField;
 
 class RequiredAspectDefinitionTest {
 
     @Test
     void testCreateComponentValueSetter_NotRequired_NotHasValue() {
-        var aspectDefinition = new RequiredAspectDefinition(RequiredType.NOT_REQUIRED, new EnabledAspectDefinition(EnabledType.ENABLED));
+        var aspectDefinition = new RequiredAspectDefinition(RequiredType.NOT_REQUIRED,
+                new EnabledAspectDefinition(EnabledType.ENABLED));
         var component = ComponentFactory.newButton();
         var componentWrapper = new NoLabelComponentWrapper(component);
 
@@ -42,7 +46,8 @@ class RequiredAspectDefinitionTest {
 
     @Test
     void testCreateComponentValueSetter_HasValue() {
-        var aspectDefinition = new RequiredAspectDefinition(RequiredType.REQUIRED, new EnabledAspectDefinition(EnabledType.ENABLED));
+        var aspectDefinition = new RequiredAspectDefinition(RequiredType.REQUIRED,
+                new EnabledAspectDefinition(EnabledType.ENABLED));
         var component = new TextField();
         var componentWrapper = new NoLabelComponentWrapper(component);
         assertThat(component.isRequiredIndicatorVisible()).describedAs("Required indicator is false by default")
@@ -51,13 +56,15 @@ class RequiredAspectDefinitionTest {
         var componentValueSetter = aspectDefinition.createComponentValueSetter(componentWrapper);
         componentValueSetter.accept(true);
 
-        assertThat(component.isRequiredIndicatorVisible()).describedAs("Component value setter sets the required indicator")
+        assertThat(component.isRequiredIndicatorVisible())
+                .describedAs("Component value setter sets the required indicator")
                 .isTrue();
     }
 
     @Test
     void testCreateComponentValueSetter_ListBox() {
-        var aspectDefinition = new RequiredAspectDefinition(RequiredType.REQUIRED, new EnabledAspectDefinition(EnabledType.ENABLED));
+        var aspectDefinition = new RequiredAspectDefinition(RequiredType.REQUIRED,
+                new EnabledAspectDefinition(EnabledType.ENABLED));
         var component = new ListBox<>();
         var componentWrapper = new NoLabelComponentWrapper(component);
 
@@ -68,7 +75,8 @@ class RequiredAspectDefinitionTest {
 
     @Test
     void testCreateAspect_Required() {
-        var aspectDefinition = new RequiredAspectDefinition(RequiredType.REQUIRED, new EnabledAspectDefinition(EnabledType.ENABLED));
+        var aspectDefinition = new RequiredAspectDefinition(RequiredType.REQUIRED,
+                new EnabledAspectDefinition(EnabledType.ENABLED));
 
         var aspect = aspectDefinition.createAspect();
 
@@ -78,7 +86,8 @@ class RequiredAspectDefinitionTest {
 
     @Test
     void testCreateAspect_NotRequired() {
-        var aspectDefinition = new RequiredAspectDefinition(RequiredType.NOT_REQUIRED, new EnabledAspectDefinition(EnabledType.ENABLED));
+        var aspectDefinition = new RequiredAspectDefinition(RequiredType.NOT_REQUIRED,
+                new EnabledAspectDefinition(EnabledType.ENABLED));
 
         var aspect = aspectDefinition.createAspect();
 
@@ -127,7 +136,8 @@ class RequiredAspectDefinitionTest {
         component.setRequiredIndicatorVisible(true);
         var componentWrapper = new NoLabelComponentWrapper(component);
 
-        aspectDefinition.handleNullValue(aspectDefinition.createComponentValueSetter(componentWrapper), componentWrapper);
+        aspectDefinition.handleNullValue(aspectDefinition.createComponentValueSetter(componentWrapper),
+                                         componentWrapper);
 
         assertThat(component.isRequiredIndicatorVisible()).as("The required indicator defaulted to false").isFalse();
     }

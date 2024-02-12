@@ -1,19 +1,17 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util.reflection.accessor;
-
-import org.linkki.util.BeanUtils;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.LambdaConversionException;
@@ -27,10 +25,12 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.linkki.util.BeanUtils;
+
 /**
- * Wrapper for a getter {@link Method}. {@link #isPresent()} can safely be accessed even if no read method
- * exists. {@link #readValue(Object)} will access the getter via {@link LambdaMetafactory} if possible,
- * falling back to using reflection API.
+ * Wrapper for a getter {@link Method}. {@link #isPresent()} can safely be accessed even if no read
+ * method exists. {@link #readValue(Object)} will access the getter via {@link LambdaMetafactory} if
+ * possible, falling back to using reflection API.
  * 
  * @param <T> the type containing the property
  * @param <V> the property's type
@@ -38,15 +38,15 @@ import java.util.function.Supplier;
 final class ReadMethod<T, V> extends AbstractMethod<T, Function<T, V>> {
 
     ReadMethod(Class<? extends T> boundClass,
-                             String propertyName,
-                             Supplier<Optional<Method>> methodSupplier) {
+            String propertyName,
+            Supplier<Optional<Method>> methodSupplier) {
         super(boundClass, propertyName, methodSupplier);
     }
 
     @SuppressWarnings("unchecked")
     public ReadMethod(Method method) {
         super((Class<? extends T>)method.getDeclaringClass(),
-              BeanUtils.getPropertyName(method), () -> Optional.of(method));
+                BeanUtils.getPropertyName(method), () -> Optional.of(method));
     }
 
     /**
@@ -77,7 +77,8 @@ final class ReadMethod<T, V> extends AbstractMethod<T, Function<T, V>> {
             try {
                 return methodAsFunction.apply(o);
                 // CSOFF: IllegalCatch
-                // Rewords all exceptions to make sure the bound class and property appear in the message
+                // Rewords all exceptions to make sure the bound class and property appear in the
+                // message
             } catch (RuntimeException e) {
                 throw errorCallingMethod(e).get();
             }

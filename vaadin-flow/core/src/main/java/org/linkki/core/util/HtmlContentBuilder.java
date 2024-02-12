@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.util;
@@ -25,17 +25,17 @@ import org.jsoup.safety.Safelist;
 import com.vaadin.flow.component.icon.Icon;
 
 /**
- * A utility class for building sanitized HTML content. This class allows you to construct HTML content
- * with various tags and attributes while ensuring that the generated HTML is safe and free from
- * potential security vulnerabilities.
+ * A utility class for building sanitized HTML content. This class allows you to construct HTML
+ * content with various tags and attributes while ensuring that the generated HTML is safe and free
+ * from potential security vulnerabilities.
  */
 public final class HtmlContentBuilder {
 
     private final StringBuilder contentBuilder = new StringBuilder();
 
     /**
-     * Appends plain text to the HTML content being built. Any HTML content contained in the given text
-     * is escaped.
+     * Appends plain text to the HTML content being built. Any HTML content contained in the given
+     * text is escaped.
      *
      * @param text the text to be appended
      * @return this {@code HtmlContentBuilder} instance for method chaining
@@ -68,7 +68,6 @@ public final class HtmlContentBuilder {
         return tag(tag, attributes, "");
     }
 
-
     /**
      * Appends an HTML tag with specified content. The tag, its attributes, and the content are
      * sanitized to ensure they adhere to the HTML whitelist. The tag is escaped.
@@ -82,9 +81,9 @@ public final class HtmlContentBuilder {
     }
 
     /**
-     * Appends an HTML tag with specified attributes and HTML content. The tag, its attributes, and the
-     * content are sanitized to ensure they adhere to the HTML whitelist. The given tag is only appended
-     * if it is contained in the {@link Safelist HTML whitelist}.
+     * Appends an HTML tag with specified attributes and HTML content. The tag, its attributes, and
+     * the content are sanitized to ensure they adhere to the HTML whitelist. The given tag is only
+     * appended if it is contained in the {@link Safelist HTML whitelist}.
      *
      * @param tag the HTML tag to be appended, e.g. 'b', 'i', 'strong', 'em', etc.
      * @param attributes a map of tag attributes, e.g. Map.of("style","textcolor:red;")
@@ -96,9 +95,9 @@ public final class HtmlContentBuilder {
     }
 
     /**
-     * Appends an HTML tag with specified attributes and plain text content. The tag, its attributes,
-     * and the content are sanitized to ensure they adhere to the HTML whitelist. The given tag is only
-     * appended if it is contained in the {@link Safelist HTML whitelist}.
+     * Appends an HTML tag with specified attributes and plain text content. The tag, its
+     * attributes, and the content are sanitized to ensure they adhere to the HTML whitelist. The
+     * given tag is only appended if it is contained in the {@link Safelist HTML whitelist}.
      *
      * @param tag the HTML tag to be appended, e.g. 'b', 'i', 'strong', 'em', etc.
      * @param attributes a map of tag attributes, e.g. Map.of("style","textcolor:red;")
@@ -132,8 +131,8 @@ public final class HtmlContentBuilder {
     }
 
     /**
-     * Appends an HTML icon element represented by a Vaadin {@code Icon} component to the HTML content
-     * being built.
+     * Appends an HTML icon element represented by a Vaadin {@code Icon} component to the HTML
+     * content being built.
      *
      * @param icon the Vaadin {@code Icon} component representing the icon
      * @return this {@code HtmlContentBuilder} instance for method chaining
@@ -151,8 +150,8 @@ public final class HtmlContentBuilder {
     }
 
     /**
-     * Appends potentially harmful text content to the HTML content being built. The text is sanitized
-     * to ensure it does not contain any harmful HTML or JavaScript code.
+     * Appends potentially harmful text content to the HTML content being built. The text is
+     * sanitized to ensure it does not contain any harmful HTML or JavaScript code.
      *
      * @param html the HTML text content to be appended
      * @return this {@code HtmlContentBuilder} instance for method chaining

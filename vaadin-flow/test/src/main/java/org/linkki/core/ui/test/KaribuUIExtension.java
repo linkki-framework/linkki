@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.test;
 
@@ -91,7 +91,8 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
     }
 
     /**
-     * Configures a mapping between route components and instances which should be injected into Vaadin
+     * Configures a mapping between route components and instances which should be injected into
+     * Vaadin
      */
     public static class KaribuConfiguration {
 
@@ -99,12 +100,12 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
         private final Map<ClassKey, Supplier<?>> instances = new HashMap<>();
 
         /**
-         * Adds a route. When Vaadin navigates to the given component class, the supplier is called to
-         * provide the content.
+         * Adds a route. When Vaadin navigates to the given component class, the supplier is called
+         * to provide the content.
          *
-         * @apiNote The supplier may create a component of a different type than the route component.
-         *          This allows using very simple components, instead of having to work with a subclass
-         *          of a more complex route.
+         * @apiNote The supplier may create a component of a different type than the route
+         *          component. This allows using very simple components, instead of having to work
+         *          with a subclass of a more complex route.
          */
         public void addRoute(Class<? extends Component> route, Supplier<? extends Component> supplier) {
             routeComponents.add(route);

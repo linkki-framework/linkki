@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.framework.ui.dialogs;
 
@@ -51,26 +51,27 @@ import com.vaadin.flow.router.BeforeLeaveObserver;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom. To add
- * a component as dialog content use {@link #addContent(Component)}.
+ * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom. To
+ * add a component as dialog content use {@link #addContent(Component)}.
  * <p>
- * To create a new {@link OkCancelDialog}, consider using the {@link Builder} that can be retrieved by
- * calling {@link #builder(String)}.
+ * To create a new {@link OkCancelDialog}, consider using the {@link Builder} that can be retrieved
+ * by calling {@link #builder(String)}.
  * 
- * @implNote To create a dialog with fixed dimensions, use the method {@link #setSize(String, String)}.
- *           This is useful if:
+ * @implNote To create a dialog with fixed dimensions, use the method
+ *           {@link #setSize(String, String)}. This is useful if:
  *           <ul>
  *           <li>there are different options that may change the layout</li>
  *           <li>you do not want that the dialog dynamically increase height for validation
  *           messages</li>
  *           </ul>
- *           For more information on sizing and layout behavior see {@link #setSize(String, String)}.
+ *           For more information on sizing and layout behavior see
+ *           {@link #setSize(String, String)}.
  *           <p>
- *           To validate the data in the dialog or give the user warning or information messages, set a
- *           validation service via ({@link #setValidationService(ValidationService)}). The first
- *           message with the highest {@link Severity} reported during the validation via the
- *           {@link ValidationService#getValidationMessages()} is displayed at the bottom of the dialog,
- *           between its content and the OK and cancel buttons. (see
+ *           To validate the data in the dialog or give the user warning or information messages,
+ *           set a validation service via ({@link #setValidationService(ValidationService)}). The
+ *           first message with the highest {@link Severity} reported during the validation via the
+ *           {@link ValidationService#getValidationMessages()} is displayed at the bottom of the
+ *           dialog, between its content and the OK and cancel buttons. (see
  *           {@link MessageList#getFirstMessage(Severity)})
  */
 @CssImport("./styles/linkki-dialog.css")
@@ -85,8 +86,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
     private static final long serialVersionUID = 1L;
 
     /**
-     * The overall layout of this dialog. This is the content of the dialog that contains all components
-     * including the header.
+     * The overall layout of this dialog. This is the content of the dialog that contains all
+     * components including the header.
      */
     private final VerticalLayout layout;
 
@@ -135,8 +136,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
      * 
      * @param caption the dialog's caption
      * @param okHandler the handler that handle clicks on the OK button
-     * @param cancelHandler the handler that is apply upon clicks on the Cancel button or upon closing
-     *            the dialog
+     * @param cancelHandler the handler that is apply upon clicks on the Cancel button or upon
+     *            closing the dialog
      * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button
      * @param contentComponents dialog's main area content
      */
@@ -249,19 +250,20 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
 
     /**
      * Use this method to create a dialog with fixed size. The size may be absolute or relative for
-     * example 60% of browser window. Specifies the width and height of the dialog and sets all internal
-     * layout components to full size.
+     * example 60% of browser window. Specifies the width and height of the dialog and sets all
+     * internal layout components to full size.
      * <p>
-     * If you specify the height and add multiple components using {@link #addContent(Component)} all
-     * added components will have the same expand ratio by default (which is 0). This causes all
+     * If you specify the height and add multiple components using {@link #addContent(Component)}
+     * all added components will have the same expand ratio by default (which is 0). This causes all
      * components to be assigned equal space. Use {@link #addContent(Component, float)} to assign a
      * specific expand ratios to a component. For example, if you want to have all components to use
-     * only as much space as they need and the last component to consume all excess space, add the last
-     * component using <code>addContent(component, 1)</code> and all other components without expand
-     * ratio (using <code>addContent(component)</code>).
+     * only as much space as they need and the last component to consume all excess space, add the
+     * last component using <code>addContent(component, 1)</code> and all other components without
+     * expand ratio (using <code>addContent(component)</code>).
      * <p>
-     * When calculating the correct height always consider that there might be validation messages below
-     * your content. If the dialog's height is too small the components may overlap or be cropped.
+     * When calculating the correct height always consider that there might be validation messages
+     * below your content. If the dialog's height is too small the components may overlap or be
+     * cropped.
      * <p>
      * If you need a dialog with dynamic height and only want to set the width, use
      * {@link #setWidth(String)} instead.
@@ -284,13 +286,13 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
 
     /**
      * Retrieves the message list from the validation service and filters it according to its
-     * {@link #getValidationDisplayState()}. The filtered messages are returned. If needed, a message
-     * from the list is displayed and the OK button is disabled.
+     * {@link #getValidationDisplayState()}. The filtered messages are returned. If needed, a
+     * message from the list is displayed and the OK button is disabled.
      * 
      * @implSpec A previously displayed message is removed if the message list does not contain any
-     *           messages. If the message list contains a message, the first message with the highest
-     *           errorLevel is displayed. If the message list contains an error message the OK button is
-     *           disabled.
+     *           messages. If the message list contains a message, the first message with the
+     *           highest errorLevel is displayed. If the message list contains an error message the
+     *           OK button is disabled.
      */
     public MessageList validate() {
         MessageList messages = validationDisplayState.filter(getValidationService().getValidationMessages());
@@ -302,7 +304,6 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
 
         return messages;
     }
-
 
     private void updateMessageArea(MessageList messages) {
         messageArea.removeAll();
@@ -316,7 +317,6 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
 
         messageArea.setVisible(messageArea.getComponentCount() > 0);
     }
-
 
     /** Returns the validation service that validates data in the dialog. */
 
@@ -424,8 +424,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
     }
 
     /**
-     * Sets caption of the cancel button. The text is used directly, no further localization will take
-     * place.
+     * Sets caption of the cancel button. The text is used directly, no further localization will
+     * take place.
      * 
      * @throws IllegalStateException if the dialog does not have a cancel button
      */
@@ -579,7 +579,6 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         OK_CANCEL
     }
 
-
     /**
      * Creates a {@link Builder} for a {@link OkCancelDialog} with the required parameters for a
      * {@link OkCancelDialog}.
@@ -600,8 +599,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
      * <p>
      * To use the builder simply create an instance by calling the
      * {@link OkCancelDialog#builder(String)}. Afterwards add needed information to the builder for
-     * example call {@link #okHandler(Handler okHandler)} to provide an {@link Handler} for clicking on
-     * the OK button. When the builder has every information that is needed to create a proper
+     * example call {@link #okHandler(Handler okHandler)} to provide an {@link Handler} for clicking
+     * on the OK button. When the builder has every information that is needed to create a proper
      * {@link OkCancelDialog} call {@link #build()}.
      */
     @SuppressWarnings("hiding")
@@ -635,8 +634,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         /**
          * Sets content of main area that should be provided to the new {@link OkCancelDialog}.
          * 
-         * @param contentComponents components that should be added to the main area of the resulting
-         *            {@link OkCancelDialog}
+         * @param contentComponents components that should be added to the main area of the
+         *            resulting {@link OkCancelDialog}
          * @return this builder instance to directly add further properties
          */
         public Builder content(Component... contentComponents) {
@@ -658,8 +657,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         }
 
         /**
-         * Sets {@link Handler cancelHandler} which will be invoked on click on the Cancel button in the
-         * resulting {@link OkCancelDialog} or when the dialog is closed.
+         * Sets {@link Handler cancelHandler} which will be invoked on click on the Cancel button in
+         * the resulting {@link OkCancelDialog} or when the dialog is closed.
          * 
          * @param cancelHandler the handler that handles
          * @return this builder instance to directly add further properties
@@ -670,8 +669,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         }
 
         /**
-         * Sets {@link ButtonOption}, which will control apprearence of OK, Cancel buttons in the new
-         * {@link OkCancelDialog}.
+         * Sets {@link ButtonOption}, which will control apprearence of OK, Cancel buttons in the
+         * new {@link OkCancelDialog}.
          * 
          * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button on
          *            resulting {@link OkCancelDialog}
@@ -698,8 +697,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         }
 
         /**
-         * Sets caption of the OK button. The text is used directly, no further localization will take
-         * place.
+         * Sets caption of the OK button. The text is used directly, no further localization will
+         * take place.
          * 
          * @param okCaption the localized caption to use for the OK button
          * @return this builder instance to directly add further properties
@@ -712,9 +711,9 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         }
 
         /**
-         * Sets caption of the cancel button. The text is used directly, no further localization will
-         * take place. This setting only takes effect if the builder is configured to use a cancel
-         * button when calling {@link #build()}.
+         * Sets caption of the cancel button. The text is used directly, no further localization
+         * will take place. This setting only takes effect if the builder is configured to use a
+         * cancel button when calling {@link #build()}.
          * 
          * @param cancelCaption the localized caption to use for the cancel button
          * @return this builder instance to directly add further properties

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.vaadin.component.tablayout;
 
@@ -186,17 +186,18 @@ public class LinkkiTabSheet {
 
         private BooleanSupplier visibilitySupplier = () -> true;
 
-        private final List<ComponentEventListener<TabSheetSelectionChangeEvent>> selectionChangeListeners = new ArrayList<>();
+        private final List<ComponentEventListener<TabSheetSelectionChangeEvent>> selectionChangeListeners =
+                new ArrayList<>();
 
         private LinkkiTabSheetBuilder(String id) {
             this.id = requireNonNull(id, "id must not be null");
         }
 
         /**
-         * Specifies the given {@link Component} as caption of the tab. Any existing caption that is set
-         * by {@link #caption(Component) or #withCaption(String)} is overwritten. The caption of sheet
-         * can be either a text of a component. To use a text caption, call {@link #caption(String)}
-         * instead.
+         * Specifies the given {@link Component} as caption of the tab. Any existing caption that is
+         * set by {@link #caption(Component) or #withCaption(String)} is overwritten. The caption of
+         * sheet can be either a text of a component. To use a text caption, call
+         * {@link #caption(String)} instead.
          * 
          * @param newCaption caption component of the tab
          * @return {@code this} for method chaining
@@ -280,8 +281,8 @@ public class LinkkiTabSheet {
         /**
          * Builds a {@link LinkkiTabSheet} instance using the values in this builder.
          * <p>
-         * Note that a content must be provided. The caption and description default to the ID if none
-         * is provided.
+         * Note that a content must be provided. The caption and description default to the ID if
+         * none is provided.
          * 
          * @return a new {@link LinkkiTabSheet}
          */

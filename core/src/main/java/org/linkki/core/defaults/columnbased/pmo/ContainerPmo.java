@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.defaults.columnbased.pmo;
 
@@ -70,22 +70,22 @@ public interface ContainerPmo<ROW> {
      * @implSpec !!! Important Note !!!
      *           <p>
      *           The container MUST return a list with identical items if the rows to be displayed
-     *           haven't changed. This is not given if you create a new list with new item PMOs on each
-     *           call of the {@link #getItems()} method. If you don't adhere to this rule, the contents
-     *           of the table will be replaces each time you leave a cell after you have changed a
-     *           value. This results in poor performance and the focus gets lost each time you leave a
-     *           cell (after changing the value).
+     *           haven't changed. This is not given if you create a new list with new item PMOs on
+     *           each call of the {@link #getItems()} method. If you don't adhere to this rule, the
+     *           contents of the table will be replaces each time you leave a cell after you have
+     *           changed a value. This results in poor performance and the focus gets lost each time
+     *           you leave a cell (after changing the value).
      *           <p>
-     *           If you create the item PMOs based on a list of model objects, the easiest way is to use
-     *           the {@link SimpleItemSupplier}.
+     *           If you create the item PMOs based on a list of model objects, the easiest way is to
+     *           use the {@link SimpleItemSupplier}.
      */
     List<ROW> getItems();
 
     /**
      * Returns a {@link TableFooterPmo} that provides the data for the table footer.
      * 
-     * @return The PMO that provides the data for the footer or an empty optional if no footer should be
-     *         shown (default).
+     * @return The PMO that provides the data for the footer or an empty optional if no footer
+     *         should be shown (default).
      */
     default Optional<TableFooterPmo> getFooterPmo() {
         return Optional.empty();
@@ -94,9 +94,9 @@ public interface ContainerPmo<ROW> {
     /**
      * Returns a {@link ButtonPmo} for the add button in the table section.
      * 
-     * @implSpec If you plan to {@link BindingContext#removeBindingsForPmo(Object) remove bindings from
-     *           a binding context} later, make sure to not create a new instance on every call to this
-     *           method.
+     * @implSpec If you plan to {@link BindingContext#removeBindingsForPmo(Object) remove bindings
+     *           from a binding context} later, make sure to not create a new instance on every call
+     *           to this method.
      */
     default Optional<ButtonPmo> getAddItemButtonPmo() {
         return Optional.empty();

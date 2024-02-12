@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -88,7 +88,6 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
-
     @Test
     void testTextFieldValueWithLocalDateTime_DateConversion() {
         TestModelObjectWithLocalDateTime modelObject = new TestModelObjectWithLocalDateTime();
@@ -148,14 +147,23 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIDateTimeField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, step = 30)
+        @UIDateTimeField(position = 1,
+                label = "",
+                enabled = EnabledType.DYNAMIC,
+                required = RequiredType.DYNAMIC,
+                visible = VisibleType.DYNAMIC,
+                step = 30)
         public void value() {
             // model binding
         }
 
         @Override
         @BindTooltip(TEST_TOOLTIP)
-        @UIDateTimeField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
+        @UIDateTimeField(position = 2,
+                label = TEST_LABEL,
+                enabled = EnabledType.DISABLED,
+                required = RequiredType.REQUIRED,
+                visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
         }
@@ -170,7 +178,6 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
 
         @CheckForNull
         private Date value = null;
-
 
         @CheckForNull
         @Override

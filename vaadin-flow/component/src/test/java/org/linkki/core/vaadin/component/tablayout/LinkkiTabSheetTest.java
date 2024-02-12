@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.vaadin.component.tablayout;
@@ -89,7 +89,6 @@ class LinkkiTabSheetTest {
     void testBuilder_DescriptionDefaultsToBlank() {
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").content(() -> new Span("content")).build();
 
-
         assertThat(tabSheet.getTab().getElement().getAttribute("title"), is(""));
         // TODO LIN-2054
     }
@@ -122,7 +121,6 @@ class LinkkiTabSheetTest {
         assertThat(tabSheet.getTab().getChildren().count(), is(0l));
     }
 
-
     @Test
     void testBuilder_WithCaptionComponent() {
         Icon icon = VaadinIcon.PLUS.create();
@@ -145,7 +143,7 @@ class LinkkiTabSheetTest {
 
     @Test
     void testBuilder_WithVisibilitySupplier() {
-        LinkedList<Boolean> visibility = new LinkedList<Boolean>(Arrays.asList(true, true, false));
+        LinkedList<Boolean> visibility = new LinkedList<>(Arrays.asList(true, true, false));
 
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").content(() -> new Span("content"))
                 .visibleWhen(visibility::pop).build();
@@ -239,7 +237,6 @@ class LinkkiTabSheetTest {
                                             .content(() -> innerContent2)
                                             .build());
         content2.add(innerTabLayout);
-
 
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheets(tabSheet1, tabSheet2);

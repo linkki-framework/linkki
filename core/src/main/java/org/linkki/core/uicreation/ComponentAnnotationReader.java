@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.uicreation;
@@ -23,12 +23,12 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
-import org.linkki.util.reflection.accessor.PropertyAccessor;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.util.BeanUtils;
 import org.linkki.util.reflection.Classes;
 import org.linkki.util.reflection.MetaAnnotation;
+import org.linkki.util.reflection.accessor.PropertyAccessor;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -48,12 +48,12 @@ public final class ComponentAnnotationReader {
     }
 
     /**
-     * Checks whether the given {@link Annotation} defines a {@link LinkkiComponentDefinition} using the
-     * {@link LinkkiComponent} annotation.
+     * Checks whether the given {@link Annotation} defines a {@link LinkkiComponentDefinition} using
+     * the {@link LinkkiComponent} annotation.
      * 
      * @param annotation the annotation that should be checked
-     * @return <code>true</code> if the annotation defines a {@link LinkkiComponentDefinition} otherwise
-     *         <code>false</code>
+     * @return <code>true</code> if the annotation defines a {@link LinkkiComponentDefinition}
+     *         otherwise <code>false</code>
      */
     public static boolean isComponentDefinition(@CheckForNull Annotation annotation) {
         return LINKKI_COMPONENT_ANNOTATION.isPresentOn(annotation);
@@ -65,8 +65,8 @@ public final class ComponentAnnotationReader {
      * {@link #isComponentDefinition(Annotation) is a component definition annotation}.
      * 
      * @param annotatedElement the element that should be checked
-     * @return <code>true</code> if the element defines a {@link LinkkiComponentDefinition} otherwise
-     *         <code>false</code>
+     * @return <code>true</code> if the element defines a {@link LinkkiComponentDefinition}
+     *         otherwise <code>false</code>
      */
     public static boolean isComponentDefinitionPresent(AnnotatedElement annotatedElement) {
         return LINKKI_COMPONENT_ANNOTATION
@@ -74,8 +74,8 @@ public final class ComponentAnnotationReader {
     }
 
     /***
-     * Returns all methods of the given class with a component definition. All components must have a
-     * valid {@link LinkkiPositioned position}, by which the stream is sorted.
+     * Returns all methods of the given class with a component definition. All components must have
+     * a valid {@link LinkkiPositioned position}, by which the stream is sorted.
      * 
      * @param pmoClass the class to search
      * @return a sorted stream of methods with a component definition
@@ -89,9 +89,9 @@ public final class ComponentAnnotationReader {
     }
 
     /**
-     * Returns the component which is instantiated using the {@link LinkkiComponentDefinition} that is
-     * defined in the {@link LinkkiComponent @LinkkiComponent} annotation that must be present in the
-     * given annotation.
+     * Returns the component which is instantiated using the {@link LinkkiComponentDefinition} that
+     * is defined in the {@link LinkkiComponent @LinkkiComponent} annotation that must be present in
+     * the given annotation.
      * 
      * @param annotation annotation that defines a {@link LinkkiComponentDefinition}
      * @return the component definition
@@ -111,13 +111,13 @@ public final class ComponentAnnotationReader {
     }
 
     /**
-     * Returns the component which is instantiated using the {@link LinkkiComponentDefinition} that is
-     * defined in the {@link LinkkiComponent @LinkkiComponent} annotation if one is found on an
+     * Returns the component which is instantiated using the {@link LinkkiComponentDefinition} that
+     * is defined in the {@link LinkkiComponent @LinkkiComponent} annotation if one is found on an
      * annotation of the given element.
      * 
-     * @implSpec This method can only be used if there is maximum one component definition annotation.
-     *           If the {@link AnnotatedElement} supports dynamic fields (multiple component
-     *           definitions, selected by an extra method) use
+     * @implSpec This method can only be used if there is maximum one component definition
+     *           annotation. If the {@link AnnotatedElement} supports dynamic fields (multiple
+     *           component definitions, selected by an extra method) use
      *           {@link #getComponentDefinitionAnnotation(AnnotatedElement, Object)} instead.
      * 
      * @param annotatedElement an element annotated with an annotation that defines a
@@ -137,10 +137,10 @@ public final class ComponentAnnotationReader {
      * Finds the annotation of the {@link AnnotatedElement} that defines a
      * {@link LinkkiComponentDefinition}.
      * <p>
-     * In most cases only one component definition is used for an annotated element. If there are more
-     * than one such annotations the PMO must have an additional method to select the one that should be
-     * active for an PMO instance. That method must be a getter with the same property and suffix
-     * {@value #COMPONENT_PROPERTY_SUFFIX}.
+     * In most cases only one component definition is used for an annotated element. If there are
+     * more than one such annotations the PMO must have an additional method to select the one that
+     * should be active for an PMO instance. That method must be a getter with the same property and
+     * suffix {@value #COMPONENT_PROPERTY_SUFFIX}.
      * 
      * @param annotatedElement the {@link AnnotatedElement} that is annotated with the component
      *            definition annotations.

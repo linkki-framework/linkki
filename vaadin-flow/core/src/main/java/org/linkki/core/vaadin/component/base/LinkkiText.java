@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.vaadin.component.base;
@@ -36,8 +36,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
- * A text component that can have an additional {@link VaadinIcon} and a label. It also supports a HTML
- * mode.
+ * A text component that can have an additional {@link VaadinIcon} and a label. It also supports a
+ * HTML mode.
  */
 @Tag("linkki-text")
 @JsModule("./src/linkki-text.ts")
@@ -122,8 +122,8 @@ public class LinkkiText extends Component implements HasIcon, HasPrefix, HasSuff
      * HTML text will be sanitized by using {@link HtmlSanitizer#sanitizeText(String)} for security
      * reasons.<br>
      * Note that <b>user-supplied strings have to be {@link HtmlSanitizer#escapeText(String)
-     * escaped}</b> when including them in the HTML content. Otherwise, they will also be interpreted as
-     * HTML.
+     * escaped}</b> when including them in the HTML content. Otherwise, they will also be
+     * interpreted as HTML.
      *
      * @param text the text or HTML content to set
      * @param html use the text as HTML content when <code>true</code>, use the text as plain text
@@ -152,8 +152,8 @@ public class LinkkiText extends Component implements HasIcon, HasPrefix, HasSuff
     /**
      * Sets the {@link IconPosition icon position} to be used.
      *
-     * @param position The position which defines whether the icon should be displayed on the left or on
-     *            the right side of the text
+     * @param position The position which defines whether the icon should be displayed on the left
+     *            or on the right side of the text
      */
     public void setIconPosition(@CheckForNull IconPosition position) {
         iconPosition = position;

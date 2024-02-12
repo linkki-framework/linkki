@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding;
 
@@ -47,7 +47,6 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 class BinderIntegrationTest {
-
 
     private BindingContext bindingContext;
 
@@ -92,7 +91,6 @@ class BinderIntegrationTest {
         assertThat(getTooltip(view.numberField), is("test tool tip"));
         assertThat(getTooltip(view.button), is("test tool tip"));
         assertTrue(view.listSelect.getListDataView().contains("c"));
-
 
         // Binding view -> pmo
         TestUiUtil.setUserOriginatedValue(view.numberField, "42");
@@ -249,8 +247,8 @@ class BinderIntegrationTest {
     }
 
     /**
-     * If the given model attribute is invalid, but a valid pmo property is provided, then the binding
-     * falls back to the pmo property.
+     * If the given model attribute is invalid, but a valid pmo property is provided, then the
+     * binding falls back to the pmo property.
      */
 
     @Test
@@ -323,7 +321,10 @@ class BinderIntegrationTest {
         @BindTooltip
         private final Button button = new Button();
 
-        @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT, availableValues = AvailableValuesType.DYNAMIC, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED)
+        @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT,
+                availableValues = AvailableValuesType.DYNAMIC,
+                enabled = EnabledType.DISABLED,
+                required = RequiredType.REQUIRED)
         private ListBox<String> listSelect;
 
         private TextField numberField;
@@ -331,10 +332,12 @@ class BinderIntegrationTest {
         public void initFields() {
             textField = new TextField();
             numberField = new TextField();
-            listSelect = new ListBox<String>();
+            listSelect = new ListBox<>();
         }
 
-        @Bind(pmoProperty = TestPmo.PROPERTY_NUMBER, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
+        @Bind(pmoProperty = TestPmo.PROPERTY_NUMBER,
+                enabled = EnabledType.DYNAMIC,
+                required = RequiredType.REQUIRED_IF_ENABLED)
         @BindTooltip
         public TextField getNumberField() {
             return numberField;

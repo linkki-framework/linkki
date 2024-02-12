@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding.validation.message;
 
@@ -54,7 +54,6 @@ public class MessageListTest {
         invalidObjectProperty2 = new ObjectProperty("B", "anotherTestProperty");
         invalidObjectProperty3 = new ObjectProperty("C", "higherIndexProperty", 2);
 
-
         msg1 = Message.builder("Test1", Severity.INFO).invalidObject(invalidObjectProperty1).create();
         msg2 = Message.builder("Test2", Severity.INFO).invalidObject(invalidObjectProperty2).create();
         msg3 = Message.builder("Test3", Severity.INFO).invalidObject(invalidObjectProperty3).create();
@@ -63,7 +62,6 @@ public class MessageListTest {
         msgList1.add(msg2);
         msgList1.add(msg3);
     }
-
 
     @Test
     public void testGetMessagesFor_shouldAddMessage() {
@@ -208,7 +206,6 @@ public class MessageListTest {
         MessageList emptyMessageList = new MessageList();
         assertThat(emptyMessageList.getText(), is(StringUtils.EMPTY));
     }
-
 
     @Test
     public void testGetMessagesFor_noObjects_shouldReturnEmptyMessageList() {

@@ -1,23 +1,23 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util.handler;
 
 import static java.util.Objects.requireNonNull;
 
 /**
- * A functional interface to proceed any operation. May be used to provide click handler or any other
- * runnable action.
+ * A functional interface to proceed any operation. May be used to provide click handler or any
+ * other runnable action.
  * <p>
  * Handlers can be composed using the {@link #andThen(Handler)} method.
  */
@@ -35,8 +35,8 @@ public interface Handler {
     void apply();
 
     /**
-     * Returns a composed handler that first executes this handler's {@link #apply()} method and then
-     * the {@link #apply()} method of the given handler.
+     * Returns a composed handler that first executes this handler's {@link #apply()} method and
+     * then the {@link #apply()} method of the given handler.
      * 
      * @see #compose(Handler)
      */
@@ -49,13 +49,13 @@ public interface Handler {
     }
 
     /**
-     * Returns a composed handler that first applies the {@code before} handler, and then applies this
-     * handler. If evaluation of either handler throws an exception, it is relayed to the caller of the
-     * composed handler.
+     * Returns a composed handler that first applies the {@code before} handler, and then applies
+     * this handler. If evaluation of either handler throws an exception, it is relayed to the
+     * caller of the composed handler.
      *
      * @param before the handler to apply before this handler is applied
-     * @return a composed handler that first applies the {@code before} handler and then applies this
-     *         handler
+     * @return a composed handler that first applies the {@code before} handler and then applies
+     *         this handler
      * @throws NullPointerException if before is null
      *
      * @see #andThen(Handler)

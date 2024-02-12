@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.layout.annotation;
 
@@ -36,8 +36,8 @@ public enum SectionLayout {
      * <p>
      * Note that with this option, several components such as {@link UIButton}, {@link UICheckBox},
      * {@link UILabel} and {@link UILink} do not support labels.<br>
-     * {@link UITextArea} and {@link UITextField} will take up all available space by default. To change
-     * this, {@link UITextArea#width()} resp. {@link UITextField#width()} must be set to "".
+     * {@link UITextArea} and {@link UITextField} will take up all available space by default. To
+     * change this, {@link UITextArea#width()} resp. {@link UITextField#width()} must be set to "".
      */
     HORIZONTAL(SectionLayoutDefinition.LABEL_ON_TOP, LinkkiSection.THEME_VARIANT_HORIZONTAL),
 

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.uitestnew.ts.tables;
@@ -48,7 +48,7 @@ class TC003UITableColumnTest extends PlaygroundUiTest {
 
         // Selenium rounds to the next integer, this may lead to rounding error
         assertThat(cellWithoutAnnotation1.getSize().getWidth() - cellWithoutAnnotation2.getSize().getWidth(),
-                is(lessThanOrEqualTo(1)));
+                   is(lessThanOrEqualTo(1)));
     }
 
     @Test
@@ -59,7 +59,7 @@ class TC003UITableColumnTest extends PlaygroundUiTest {
         double excessWidthAssingedToColumnWithFlexGrow3 = table.getCell(0, 1).getSize().getWidth() - 100;
 
         assertThat(Math.round(excessWidthAssingedToColumnWithFlexGrow3 / excessWidthAssignedToColumnWithNoAnnotation),
-                is(3L));
+                   is(3L));
     }
 
     @Test
@@ -70,9 +70,8 @@ class TC003UITableColumnTest extends PlaygroundUiTest {
         int excessWidthAssignedToColumnWithNoAnnotation = table.getCell(0, 3).getSize().getWidth() - 100;
         int excessWidthAssingedToColumnWithFlexGrow1AndWidth200 = table.getCell(0, 4).getSize().getWidth() - 200;
 
-
         // Selenium rounds to the next integer, this may lead to rounding error
         assertThat(excessWidthAssignedToColumnWithNoAnnotation - excessWidthAssingedToColumnWithFlexGrow1AndWidth200,
-                is(lessThanOrEqualTo(1)));
+                   is(lessThanOrEqualTo(1)));
     }
 }

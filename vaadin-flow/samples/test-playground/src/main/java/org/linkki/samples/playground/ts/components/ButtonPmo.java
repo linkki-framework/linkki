@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.ts.components;
@@ -43,13 +43,21 @@ public class ButtonPmo {
         return "Counter: " + counter;
     }
 
-
-    @UIButton(position = 10, label = "Button with caption and icon", caption = "Increase Counter", icon = VaadinIcon.PLUS, showIcon = true)
+    @UIButton(position = 10,
+            label = "Button with caption and icon",
+            caption = "Increase Counter",
+            icon = VaadinIcon.PLUS,
+            showIcon = true)
     public void increaseCounter() {
         counter++;
     }
 
-    @UIButton(position = 20, label = "Button with variant", caption = "Reset Counter", icon = VaadinIcon.ARROW_BACKWARD, showIcon = true, variants = ButtonVariant.LUMO_TERTIARY)
+    @UIButton(position = 20,
+            label = "Button with variant",
+            caption = "Reset Counter",
+            icon = VaadinIcon.ARROW_BACKWARD,
+            showIcon = true,
+            variants = ButtonVariant.LUMO_TERTIARY)
     public void resetCounter() {
         counter = 0;
     }
@@ -58,7 +66,6 @@ public class ButtonPmo {
     public TestShortcutBehavior getTestBehaviorWithTextArea() {
         return testBehaviorWithTextArea;
     }
-
 
     public void setTestBehaviorWithTextArea(TestShortcutBehavior testBehaviorWithTextArea) {
         this.testBehaviorWithTextArea = testBehaviorWithTextArea;
@@ -87,8 +94,11 @@ public class ButtonPmo {
         return content;
     }
 
-    @UIButton(position = 50, label = "Button with Enter", caption = "Increase counter", //
-            shortcutKeyCode = KeyCode.ENTER, variants = ButtonVariant.LUMO_PRIMARY, //
+    @UIButton(position = 50,
+            label = "Button with Enter",
+            caption = "Increase counter", //
+            shortcutKeyCode = KeyCode.ENTER,
+            variants = ButtonVariant.LUMO_PRIMARY, //
             visible = VisibleType.DYNAMIC)
     public void buttonWithEnter() {
         increaseCounter();
@@ -98,8 +108,11 @@ public class ButtonPmo {
         return getTestBehaviorWithTextArea().equals(TestShortcutBehavior.BUTTON_WITH_ENTER);
     }
 
-    @UIButton(position = 70, label = "Button with Crtl+Enter", caption = "Increase counter", //
-            shortcutKeyCode = KeyCode.ENTER, shortcutKeyModifiers = KeyModifier.CONTROL, //
+    @UIButton(position = 70,
+            label = "Button with Crtl+Enter",
+            caption = "Increase counter", //
+            shortcutKeyCode = KeyCode.ENTER,
+            shortcutKeyModifiers = KeyModifier.CONTROL, //
             visible = VisibleType.DYNAMIC)
     public void buttonWithModifier() {
         increaseCounter();
@@ -109,9 +122,13 @@ public class ButtonPmo {
         return getTestBehaviorWithTextArea().equals(TestShortcutBehavior.BUTTON_WITH_CRTL_ENTER);
     }
 
-    @UIButton(position = 80, label = "Button with Enter if not empty", caption = "Increase counter", //
-            shortcutKeyCode = KeyCode.ENTER, variants = ButtonVariant.LUMO_PRIMARY, //
-            visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
+    @UIButton(position = 80,
+            label = "Button with Enter if not empty",
+            caption = "Increase counter", //
+            shortcutKeyCode = KeyCode.ENTER,
+            variants = ButtonVariant.LUMO_PRIMARY, //
+            visible = VisibleType.DYNAMIC,
+            enabled = EnabledType.DYNAMIC)
     public void buttonWithEnterIfNotEmpty() {
         increaseCounter();
     }

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -56,16 +56,17 @@ import org.linkki.core.vaadin.component.ComponentFactory;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 
 /**
- * Creates a {@link MultiSelectComboBox} that allows the selection of multiple values with the specified
- * parameters.
+ * Creates a {@link MultiSelectComboBox} that allows the selection of multiple values with the
+ * specified parameters.
  * <p>
- * Setter and getter require a return type of {@link Set Set&lt;VALUE_TYPE&gt;}. Because of that there
- * is no ordering guarantee for the selected values.
+ * Setter and getter require a return type of {@link Set Set&lt;VALUE_TYPE&gt;}. Because of that
+ * there is no ordering guarantee for the selected values.
  * <p>
  * Unlike the content of a {@link UIComboBox}, the content of a {@link UIMultiSelect} is set to
- * {@link AvailableValuesType#DYNAMIC} and therefore a method {@code get[PropertyName]AvailableValues()}
- * is always required. The type of this method can any kind of {@link Collection}. But keep in mind that
- * some sub-types of {@link Collection} do not provide any ordering guarantees.
+ * {@link AvailableValuesType#DYNAMIC} and therefore a method
+ * {@code get[PropertyName]AvailableValues()} is always required. The type of this method can any
+ * kind of {@link Collection}. But keep in mind that some sub-types of {@link Collection} do not
+ * provide any ordering guarantees.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -125,8 +126,8 @@ public @interface UIMultiSelect {
      * Specifies which {@link ItemCaptionProvider} should be used to convert the values into String
      * captions.
      * <p>
-     * Default value assumes that the value class has a method "getName" and uses this method for the
-     * String representation.
+     * Default value assumes that the value class has a method "getName" and uses this method for
+     * the String representation.
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 

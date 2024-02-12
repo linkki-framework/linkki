@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.framework.ui.application;
 
@@ -35,19 +35,21 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
- * A navigation header bar that is displayed on the top of an {@link ApplicationLayout}. By default, it
- * consists of the {@link ApplicationMenu} on the left as well as a right aligned {@link MenuBar}.
+ * A navigation header bar that is displayed on the top of an {@link ApplicationLayout}. By default,
+ * it consists of the {@link ApplicationMenu} on the left as well as a right aligned
+ * {@link MenuBar}.
  * 
  * @implSpec {@link ApplicationHeader} can be styled with the CSS class
- *           {@link LinkkiApplicationTheme#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses
- *           the style name {@link LinkkiApplicationTheme#APPLICATION_HEADER_RIGHT} additionally.
+ *           {@link LinkkiApplicationTheme#APPLICATION_HEADER}. The right aligned {@link MenuBar}
+ *           uses the style name {@link LinkkiApplicationTheme#APPLICATION_HEADER_RIGHT}
+ *           additionally.
  * 
  * @implNote The methods {@link #createRightMenuBar()}, {@link #addHelpMenu(MenuBar)} and
- *           {@link #addHelpMenuItems(MenuItem)} can be used to create an {@link ApplicationInfoDialog}
- *           menu item in the right {@link MenuBar}.
+ *           {@link #addHelpMenuItems(MenuItem)} can be used to create an
+ *           {@link ApplicationInfoDialog} menu item in the right {@link MenuBar}.
  *           <p>
- *           The methods {@link #createRightMenuBar()}, can for example be used to create a user logout
- *           menu item in the right {@link MenuBar}.
+ *           The methods {@link #createRightMenuBar()}, can for example be used to create a user
+ *           logout menu item in the right {@link MenuBar}.
  * 
  * @see ApplicationMenu
  */
@@ -86,11 +88,12 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     }
 
     /**
-     * Adds navigation elements on the left of the header. Adds the {@link ApplicationMenu} by default.
+     * Adds navigation elements on the left of the header. Adds the {@link ApplicationMenu} by
+     * default.
      * 
-     * @implNote Only override this method if you do not need the {@link ApplicationMenu} or need to add
-     *           elements other than {@link ApplicationMenu}. The {@link ApplicationMenu} itself is
-     *           passed to this {@link ApplicationHeader}'s constructor.
+     * @implNote Only override this method if you do not need the {@link ApplicationMenu} or need to
+     *           add elements other than {@link ApplicationMenu}. The {@link ApplicationMenu} itself
+     *           is passed to this {@link ApplicationHeader}'s constructor.
      * 
      * @see ApplicationMenu for further information about its configuration.
      */
@@ -101,8 +104,8 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     }
 
     /**
-     * Creates a {@link HorizontalLayout} and calls {@link #addRightComponents(HorizontalLayout)} to add
-     * items to it.
+     * Creates a {@link HorizontalLayout} and calls {@link #addRightComponents(HorizontalLayout)} to
+     * add items to it.
      */
     private void addRightComponents() {
         HorizontalLayout wrapper = new HorizontalLayout();
@@ -130,8 +133,8 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * Creates a right aligned {@link MenuBar} that is added to the {@link ApplicationHeader} by
      * {@link #addRightComponents(HorizontalLayout)}.
      * 
-     * @implSpec The created {@link MenuBar} contains a {@link #addHelpMenu(MenuBar) help menu item} by
-     *           default.
+     * @implSpec The created {@link MenuBar} contains a {@link #addHelpMenu(MenuBar) help menu item}
+     *           by default.
      */
     protected MenuBar createRightMenuBar() {
         MenuBar rightMenuBar = new MenuBar();
@@ -158,21 +161,21 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
 
     /**
      * Adds by default the {@link ApplicationInfoDialog about sub menu item} created by
-     * {@link #addApplicationInfoMenuItem(MenuItem)} to the given <code>helpMenu</code> that is created
-     * in {@link #addHelpMenu(MenuBar)}.
+     * {@link #addApplicationInfoMenuItem(MenuItem)} to the given <code>helpMenu</code> that is
+     * created in {@link #addHelpMenu(MenuBar)}.
      * 
      * @implNote Override to add more sub menu items.
      *           <p>
-     *           Extend {@link ApplicationInfoPmo} and override {@link #createApplicationInfoPmo()} to
-     *           customize the created {@link ApplicationInfoDialog}.
+     *           Extend {@link ApplicationInfoPmo} and override {@link #createApplicationInfoPmo()}
+     *           to customize the created {@link ApplicationInfoDialog}.
      */
     protected void addHelpMenuItems(MenuItem helpMenu) {
         addApplicationInfoMenuItem(helpMenu);
     }
 
     /**
-     * Adds an {@link ApplicationInfoDialog about sub menu item} to the given <code>helpMenu</code> that
-     * is created in {@link #addHelpMenu(MenuBar)}.
+     * Adds an {@link ApplicationInfoDialog about sub menu item} to the given <code>helpMenu</code>
+     * that is created in {@link #addHelpMenu(MenuBar)}.
      */
     protected void addApplicationInfoMenuItem(MenuItem helpMenu) {
         new ApplicationMenuItemDefinition(NlsText.getString("ApplicationHeader.Info"), APPMENU_INFO_ID,

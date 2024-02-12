@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding.validation.message;
 
@@ -18,16 +18,14 @@ import java.util.Objects;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-
 /**
- * An instance of this class identifies a property in an object, e.g. the name property of a specific
- * person.
+ * An instance of this class identifies a property in an object, e.g. the name property of a
+ * specific person.
  */
 
 public class ObjectProperty implements Serializable {
 
     private static final long serialVersionUID = -6116979544231081015L;
-
 
     private final Object object;
     @CheckForNull
@@ -57,12 +55,12 @@ public class ObjectProperty implements Serializable {
     }
 
     /**
-     * Creates an ObjectProperty that characterizes only the object but not a specific property of it.
+     * Creates an ObjectProperty that characterizes only the object but not a specific property of
+     * it.
      */
     public ObjectProperty(Object object) {
         this(object, null, -1);
     }
-
 
     private int createHashCode() {
         int hash = object.hashCode() + index;
@@ -89,8 +87,8 @@ public class ObjectProperty implements Serializable {
     }
 
     /**
-     * In case of {@link #getObject()} is an array or list this index defines which object of the index
-     * is referenced.
+     * In case of {@link #getObject()} is an array or list this index defines which object of the
+     * index is referenced.
      * 
      * @return The index of the referenced object in the array/list that is referenced by
      *         {@link #getObject()}. Returns -1 if there is no index available.
@@ -102,11 +100,11 @@ public class ObjectProperty implements Serializable {
     }
 
     /**
-     * Returns whether this {@link ObjectProperty} has an index that identifies an object in an array or
-     * list.
+     * Returns whether this {@link ObjectProperty} has an index that identifies an object in an
+     * array or list.
      * 
-     * @return <code>true</code> if this {@link ObjectProperty} references an index, false if there is
-     *         no index available.
+     * @return <code>true</code> if this {@link ObjectProperty} references an index, false if there
+     *         is no index available.
      */
     public boolean hasIndex() {
         return index >= 0;

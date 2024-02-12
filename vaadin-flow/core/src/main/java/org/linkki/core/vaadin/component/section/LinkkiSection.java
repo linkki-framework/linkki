@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.vaadin.component.section;
 
@@ -37,9 +37,9 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * A section consists of a header displaying a caption and a body/content containing controls to view
- * and edit data. Optionally the section can be closed and opened. When the section is closed only the
- * header is shown.
+ * A section consists of a header displaying a caption and a body/content containing controls to
+ * view and edit data. Optionally the section can be closed and opened. When the section is closed
+ * only the header is shown.
  */
 @Tag("linkki-section")
 @CssImport("./styles/linkki-section.css")
@@ -51,8 +51,8 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      */
     public static final String CLASS_SECTION_STYLE_CARD = "section-style-card";
     /**
-     * CSS class that can be applied to arbitrary component to make all contained sections captions less
-     * prominent.
+     * CSS class that can be applied to arbitrary component to make all contained sections captions
+     * less prominent.
      */
     public static final String CLASS_SECTION_SECONDARY_CAPTION = "section-style-secondary-caption";
     public static final String THEME_VARIANT_HORIZONTAL = "horizontal";
@@ -123,8 +123,8 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
     }
 
     /**
-     * Updates the caption of this section. If there is no caption, a new one will be added. If the new
-     * caption is {@code null} or empty, any existing caption label will be removed.
+     * Updates the caption of this section. If there is no caption, a new one will be added. If the
+     * new caption is {@code null} or empty, any existing caption label will be removed.
      * 
      * @param caption the caption text
      */
@@ -140,9 +140,9 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
     }
 
     /**
-     * Adds a button to the header using the given button PMO. The new button is added on the left, in
-     * front of the components added earlier. However, the caption text will always be the leftmost
-     * item, if it is present.
+     * Adds a button to the header using the given button PMO. The new button is added on the left,
+     * in front of the components added earlier. However, the caption text will always be the
+     * leftmost item, if it is present.
      */
     public void addHeaderButton(Button button) {
         addComponentToHeaderLayout(button, SLOT_HEADER_COMPONENTS, true);
@@ -169,8 +169,8 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      * 
      * @param component the {@link Component} to add
      * @param slot the Slot to insert the {@link Component}
-     * @param insertLeft if <code>true</code>, the {@link Component} is inserted at the most left, else
-     *            it is appended
+     * @param insertLeft if <code>true</code>, the {@link Component} is inserted at the most left,
+     *            else it is appended
      */
     private void addComponentToHeaderLayout(Component component, String slot, boolean insertLeft) {
         if (component instanceof Button) {
@@ -236,8 +236,8 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
 
     /**
      * @implSpec Implementations of this method have to return the section's content, which is the
-     *           {@link Component} added to the section. The section's header is not part of the content
-     *           and has to be excluded.
+     *           {@link Component} added to the section. The section's header is not part of the
+     *           content and has to be excluded.
      * 
      * @return the content of this section
      * @deprecated use {@link #getContentWrapper()} instead.

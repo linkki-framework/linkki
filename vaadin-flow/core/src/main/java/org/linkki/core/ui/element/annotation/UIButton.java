@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -83,8 +83,8 @@ public @interface UIButton {
      * Defines how the value of caption should be retrieved, using values of {@link CaptionType}.
      * <p>
      * Despite in other annotations like {@link BindCaption} the default here is
-     * {@link CaptionType#STATIC} (and NOT {@link CaptionType#AUTO} because it is a common use case to
-     * have a button with only an icon but no caption.
+     * {@link CaptionType#STATIC} (and NOT {@link CaptionType#AUTO} because it is a common use case
+     * to have a button with only an icon but no caption.
      * 
      */
     CaptionType captionType() default CaptionType.STATIC;
@@ -121,8 +121,8 @@ public @interface UIButton {
     String[] shortcutKeyCode() default {};
 
     /**
-     * Set a modifier for the short cut. Only useful in combination with a {@link #shortcutKeyCode()}.
-     * Use constants from {@link KeyModifier}.
+     * Set a modifier for the short cut. Only useful in combination with a
+     * {@link #shortcutKeyCode()}. Use constants from {@link KeyModifier}.
      */
     KeyModifier[] shortcutKeyModifiers() default {};
 

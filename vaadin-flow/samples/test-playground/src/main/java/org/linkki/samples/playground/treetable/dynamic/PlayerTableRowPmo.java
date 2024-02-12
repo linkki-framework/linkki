@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.treetable.dynamic;
@@ -34,7 +34,10 @@ public abstract class PlayerTableRowPmo {
     public abstract String getTeam();
 
     @UITableColumn(width = 200)
-    @UIComboBox(position = 20, label = "Position", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = PositionCaptionProvider.class)
+    @UIComboBox(position = 20,
+            label = "Position",
+            content = AvailableValuesType.ENUM_VALUES_EXCL_NULL,
+            itemCaptionProvider = PositionCaptionProvider.class)
     public abstract Position getPosition();
 
     @UITextField(position = 30, label = "First Name")
@@ -47,7 +50,6 @@ public abstract class PlayerTableRowPmo {
     @UITableColumn(width = 60, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UILabel(position = 50, label = "Age")
     public abstract String getAge();
-
 
     protected static int getAge(LocalDate dateOfBirth) {
         return Period.between(dateOfBirth, LocalDate.now()).getYears();

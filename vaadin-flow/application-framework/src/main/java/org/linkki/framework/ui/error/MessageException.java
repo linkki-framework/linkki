@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.framework.ui.error;
@@ -20,7 +20,8 @@ package org.linkki.framework.ui.error;
  * localization must take place on the calling side.
  * <p>
  * Since the message is displayed regardless of the deployment environment of the application, it
- * <b>must not expose internal details</b> (e.g. technical or sensitive information) about the system.
+ * <b>must not expose internal details</b> (e.g. technical or sensitive information) about the
+ * system.
  */
 public class MessageException extends RuntimeException {
 
@@ -30,9 +31,9 @@ public class MessageException extends RuntimeException {
      * Constructs a new {@code MessageException} with the given message.
      * <p>
      * This constructor is <b>only intended for errors directly caused by the user</b>, which do not
-     * have any impact on the application. Since it is purely informational, it is <b>not logged</b> by
-     * the default implementation of {@link LinkkiErrorPage}. An example use case would be the user
-     * specifying an invalid ID in the URL.
+     * have any impact on the application. Since it is purely informational, it is <b>not logged</b>
+     * by the default implementation of {@link LinkkiErrorPage}. An example use case would be the
+     * user specifying an invalid ID in the URL.
      * 
      * @param message the localized message displayed to the end user.
      */
@@ -48,8 +49,8 @@ public class MessageException extends RuntimeException {
      * unhandled exceptions</b> by the default implementation of {@link LinkkiErrorPage}.
      * 
      * @param message the localized message displayed to the end user.
-     * @param cause the cause. It is not shown in a production deployment, so it may contain internal
-     *            details about the system.
+     * @param cause the cause. It is not shown in a production deployment, so it may contain
+     *            internal details about the system.
      */
     public MessageException(String message, Throwable cause) {
         super(message, cause);

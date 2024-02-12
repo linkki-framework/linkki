@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -64,9 +64,9 @@ public @interface UILink {
     int position();
 
     /**
-     * Provides a label for the link. Normally a link does not need a label. The label stands next to the component and
-     * depends on the current layout (may not be visible in every layout). In tables the label is used for the column
-     * header.
+     * Provides a label for the link. Normally a link does not need a label. The label stands next
+     * to the component and depends on the current layout (may not be visible in every layout). In
+     * tables the label is used for the column header.
      */
     String label() default "";
 
@@ -76,17 +76,17 @@ public @interface UILink {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Static text displayed on the link. If the value should be determined dynamically either let caption be empty or
-     * set {@link #captionType()} to {@link CaptionType#DYNAMIC} explicitly. In this case a method named
-     * {@code get<PropertyName>Caption} is called.
+     * Static text displayed on the link. If the value should be determined dynamically either let
+     * caption be empty or set {@link #captionType()} to {@link CaptionType#DYNAMIC} explicitly. In
+     * this case a method named {@code get<PropertyName>Caption} is called.
      */
     String caption() default "";
 
     /**
      * Defines how the value of caption should be retrieved, using values of {@link CaptionType}.
      * <p>
-     * In case of {@link CaptionType#DYNAMIC} or {@link CaptionType#AUTO} with empty {@link #caption()} a method named
-     * {@code get<PropertyName>Caption} is called.
+     * In case of {@link CaptionType#DYNAMIC} or {@link CaptionType#AUTO} with empty
+     * {@link #caption()} a method named {@code get<PropertyName>Caption} is called.
      */
     CaptionType captionType() default CaptionType.AUTO;
 
@@ -99,8 +99,8 @@ public @interface UILink {
     String target() default LinkTarget.SELF;
 
     /**
-     * Specifies the {@link IconPosition position} of the icon, whether it is displayed on the left or on the right side
-     * of the link.
+     * Specifies the {@link IconPosition position} of the icon, whether it is displayed on the left
+     * or on the right side of the link.
      */
     IconPosition iconPosition() default IconPosition.RIGHT;
 
@@ -126,7 +126,7 @@ public @interface UILink {
                     new LinkHrefAspectDefinition(),
                     new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),
                     new LinkTargetAspectDefinition(annotation.target(),
-                                                   LinkTarget.DYNAMIC.equals(annotation.target())),
+                            LinkTarget.DYNAMIC.equals(annotation.target())),
                     new IconPositionAspectDefinition(annotation.iconPosition()));
         }
     }

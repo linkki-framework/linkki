@@ -55,7 +55,7 @@ class BindVariantNamesIntegrationTest {
             return "Field without variant";
         }
 
-        @BindVariantNames(value="greco-roman")
+        @BindVariantNames(value = "greco-roman")
         @UITextField(position = 20)
         public String getFieldWithVariant() {
             return "Field with variant";

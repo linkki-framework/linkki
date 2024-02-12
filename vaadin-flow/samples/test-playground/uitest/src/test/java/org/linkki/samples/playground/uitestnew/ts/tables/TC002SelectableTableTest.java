@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.uitestnew.ts.tables;
@@ -49,24 +49,25 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
         GridElement selectableTable = getGrid(PlaygroundSelectableTablePmo.class);
 
         assertThat("First row should be initially selected",
-                selectableTable.getRow(PlaygroundSelectableTablePmo.INITAL_SELECTED_ROW).getAttribute("selected"),
-                is("true"));
+                   selectableTable.getRow(PlaygroundSelectableTablePmo.INITAL_SELECTED_ROW).getAttribute("selected"),
+                   is("true"));
 
         selectableTable.getRow(1).select();
 
         assertThat("After selecting a different row, the previously selected row should not be selected anymore",
-                selectableTable.getRow(0).isSelected(),
-                is(false));
+                   selectableTable.getRow(0).isSelected(),
+                   is(false));
         assertThat("After selecting a different row, the new row should be selected",
-                selectableTable.getRow(1).isSelected(),
-                is(true));
+                   selectableTable.getRow(1).isSelected(),
+                   is(true));
 
         clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
 
         assertThat("The selected row in the PMO should be the same as the selected row in the table",
-                $(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
-                allOf(is("Name 2"),
-                        is($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION).getText())));
+                   $(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
+                   allOf(is("Name 2"),
+                         is($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION)
+                                 .getText())));
 
         // change selection with key
         selectableTable.getCell(2, 1).click();
@@ -79,9 +80,9 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
 
         clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
-                is("Name 2"));
+                   is("Name 2"));
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION).getText(),
-                is("Name 2"));
+                   is("Name 2"));
     }
 
     @Test
@@ -100,9 +101,9 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
         List<NotificationElement> notificationsAfterDoubleClick = $(NotificationElement.class).all();
         assertThat("Double click aspect should be triggered", notificationsAfterDoubleClick, hasSize(1));
         assertThat("Double click should be executed on the correct row",
-                notificationsAfterDoubleClick.get(0).getText(),
-                allOf(containsString(PlaygroundSelectableTablePmo.NOTIFICATION_DOUBLE_CLICK),
-                        containsString("Name 4")));
+                   notificationsAfterDoubleClick.get(0).getText(),
+                   allOf(containsString(PlaygroundSelectableTablePmo.NOTIFICATION_DOUBLE_CLICK),
+                         containsString("Name 4")));
     }
 
     @Test
@@ -111,18 +112,18 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
         selectableTable.getRow(0).select();
         clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
-                is("Name 1"));
+                   is("Name 1"));
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION).getText(),
-                is("Name 1"));
+                   is("Name 1"));
         assertThat(selectableTable.getRow(0).isSelected(), is(true));
 
         selectableTable.getRow(0).select();
 
         clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
-                is("Name 1"));
+                   is("Name 1"));
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION).getText(),
-                is("Name 1"));
+                   is("Name 1"));
         assertThat(selectableTable.getRow(0).isSelected(), is(true));
     }
 }

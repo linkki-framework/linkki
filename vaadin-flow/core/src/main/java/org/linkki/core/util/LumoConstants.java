@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.util;
@@ -20,10 +20,10 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
  * This class provides constant expressions of the properties defined in {@link LumoUtility}. This
  * allows the properties to be used inside annotations.
  * 
- * @apiNote Properties in {@link LumoUtility} are not constant expressions by design. This is to prevent
- *          inlining, so the class scanner that bundles additional frontend resources can detect usage
- *          of the class. linkki directly includes the utility CSS classes via its theme, which does not
- *          require class scanning.
+ * @apiNote Properties in {@link LumoUtility} are not constant expressions by design. This is to
+ *          prevent inlining, so the class scanner that bundles additional frontend resources can
+ *          detect usage of the class. linkki directly includes the utility CSS classes via its
+ *          theme, which does not require class scanning.
  * 
  * @deprecated This class was only needed with Vaadin 24.1.0 and 24.1.1, with version 24.1.2
  *             {@link LumoUtility} defines correct constant values again.

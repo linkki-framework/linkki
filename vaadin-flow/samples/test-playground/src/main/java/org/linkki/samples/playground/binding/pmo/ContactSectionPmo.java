@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.samples.playground.binding.pmo;
 
@@ -47,7 +47,10 @@ public class ContactSectionPmo {
     }
 
     @BindTooltip
-    @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = Contact.PROPERTY_FIRSTNAME)
+    @UITextField(position = 10,
+            label = "Firstname",
+            required = RequiredType.REQUIRED,
+            modelAttribute = Contact.PROPERTY_FIRSTNAME)
     public void firstname() {
         /* model binding only */
     }
@@ -57,7 +60,10 @@ public class ContactSectionPmo {
     }
 
     @BindTooltip
-    @UITextField(position = 20, label = "Lastname", required = RequiredType.REQUIRED, modelAttribute = Contact.PROPERTY_LASTNAME)
+    @UITextField(position = 20,
+            label = "Lastname",
+            required = RequiredType.REQUIRED,
+            modelAttribute = Contact.PROPERTY_LASTNAME)
     public void lastname() {
         /* model binding only */
     }
@@ -67,15 +73,20 @@ public class ContactSectionPmo {
     }
 
     // tag::radiobutton[]
-    @UIRadioButtonGroup(position = 30, label = "Gender", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
-            itemCaptionProvider = GenderCaptionProvider.class, modelAttribute = Contact.PROPERTY_GENDER)
+    @UIRadioButtonGroup(position = 30,
+            label = "Gender",
+            content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
+            itemCaptionProvider = GenderCaptionProvider.class,
+            modelAttribute = Contact.PROPERTY_GENDER)
     public void gender() {
         /* model binding only */
     }
     // end::radiobutton[]
 
-    @UIComboBox(position = 40, label = "Country of Birth", //
-            content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class, //
+    @UIComboBox(position = 40,
+            label = "Country of Birth", //
+            content = AvailableValuesType.DYNAMIC,
+            itemCaptionProvider = ToStringCaptionProvider.class, //
             modelAttribute = Contact.PROPERTY_COUNTRY_OF_BIRTH)
     public void countryOfBirth() {
         /* model binding only */

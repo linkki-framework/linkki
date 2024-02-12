@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -120,11 +120,11 @@ public @interface UIYesNoComboBox {
     String modelAttribute() default "";
 
     /**
-     * Specifies which {@link ItemCaptionProvider} should be used to convert boolean values into String
-     * captions.
+     * Specifies which {@link ItemCaptionProvider} should be used to convert boolean values into
+     * String captions.
      * <p>
-     * Default value prints the boolean values in the system locale (for example "yes"/"no" in English
-     * or "ja"/nein" in German).
+     * Default value prints the boolean values in the system locale (for example "yes"/"no" in
+     * English or "ja"/nein" in German).
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default BooleanCaptionProvider.class;
 
@@ -135,18 +135,19 @@ public @interface UIYesNoComboBox {
 
         @Override
         public LinkkiAspectDefinition create(UIYesNoComboBox annotation) {
-            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                    AvailableValuesType.ENUM_VALUES_INCL_NULL, ComboBox::setItems) {
+            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition =
+                    new AvailableValuesAspectDefinition<>(
+                            AvailableValuesType.ENUM_VALUES_INCL_NULL, ComboBox::setItems) {
 
-                @SuppressWarnings("unchecked")
-                @Override
-                protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
-                    boolean hasNullItem = items.removeIf(Objects::isNull);
-                    ((ComboBox<Object>)componentWrapper.getComponent())
-                            .setClearButtonVisible(hasNullItem);
-                }
+                        @SuppressWarnings("unchecked")
+                        @Override
+                        protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
+                            boolean hasNullItem = items.removeIf(Objects::isNull);
+                            ((ComboBox<Object>)componentWrapper.getComponent())
+                                    .setClearButtonVisible(hasNullItem);
+                        }
 
-            };
+                    };
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(

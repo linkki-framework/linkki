@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.framework.ui.dialogs;
@@ -38,15 +38,15 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 /**
  * Default dialog used by {@link DialogErrorHandler} to show error information.
  * <p>
- * By default, the error dialog only shows an exception stacktrace if the Vaadin application does not
- * run in the production mode and hides it otherwise.
+ * By default, the error dialog only shows an exception stacktrace if the Vaadin application does
+ * not run in the production mode and hides it otherwise.
  * 
- * @deprecated use {@link ErrorDialogConfiguration} to customize an error dialog. This class is not used
- *             by default anymore. If a subclass has been used to customize the dialog that is shown by
- *             DialogErrorHandler, the customization must be implemented by using an
- *             ErrorDialogConfiguration instead. If the grade of customization exceeds the possibilities
- *             offered by {@link ErrorDialogConfiguration}, a new {@link ErrorHandler} can be created to
- *             use a fully customized dialog.
+ * @deprecated use {@link ErrorDialogConfiguration} to customize an error dialog. This class is not
+ *             used by default anymore. If a subclass has been used to customize the dialog that is
+ *             shown by DialogErrorHandler, the customization must be implemented by using an
+ *             ErrorDialogConfiguration instead. If the grade of customization exceeds the
+ *             possibilities offered by {@link ErrorDialogConfiguration}, a new {@link ErrorHandler}
+ *             can be created to use a fully customized dialog.
  */
 @Deprecated(since = "2.4.0")
 public class DefaultErrorDialog extends ConfirmationDialog {
@@ -78,8 +78,8 @@ public class DefaultErrorDialog extends ConfirmationDialog {
     /**
      * Checks whether the exception stacktrace should be shown.
      * 
-     * @return {@code true} if the property {@code vaadin.showExceptionStacktrace} is added or if the
-     *         application does not run in the production mode
+     * @return {@code true} if the property {@code vaadin.showExceptionStacktrace} is added or if
+     *         the application does not run in the production mode
      */
     private static boolean showExceptionStacktrace() {
         boolean isProductionMode = VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode();

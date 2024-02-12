@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.ips.binding.dispatcher;
@@ -43,7 +43,8 @@ import org.linkki.core.uiframework.UiFramework;
  * {@link PropertyDispatcher} to answer some aspects using Faktor-IPS model information.
  * <p>
  * It returns Faktor-IPS labels for String valued aspects marked with
- * {@link LinkkiAspectDefinition#DERIVED_BY_LINKKI} if the bound object is a Faktor-IPS model object.
+ * {@link LinkkiAspectDefinition#DERIVED_BY_LINKKI} if the bound object is a Faktor-IPS model
+ * object.
  * <p>
  * It answers the required aspect with <code>true</code> in case of the bound property is a
  * {@link PolicyAttribute} with a {@link ValueSet} that does not contain <code>null</code>.
@@ -56,7 +57,8 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
     private final String modelAttribute;
 
     /**
-     * @deprecated Use {@link #IpsPropertyDispatcher(Supplier, Supplier, String, PropertyDispatcher)}
+     * @deprecated Use
+     *             {@link #IpsPropertyDispatcher(Supplier, Supplier, String, PropertyDispatcher)}
      *             instead.
      */
     @Deprecated(since = "2.5.0")
@@ -123,8 +125,8 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
     }
 
     /**
-     * Evaluates the required aspect. Ask the other dispatchers first, as they may evaluate more quickly
-     * than to retrieve the value set from Faktor-IPS model.
+     * Evaluates the required aspect. Ask the other dispatchers first, as they may evaluate more
+     * quickly than to retrieve the value set from Faktor-IPS model.
      */
     private Boolean getRequiredTyped(Aspect<Boolean> aspect) {
         boolean otherDispatcherRequired = Optional.ofNullable(super.pull(aspect)).orElse(false);
@@ -135,7 +137,6 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
         boolean otherDispatcherValue = Optional.ofNullable(super.pull(aspect)).orElse(true);
         return otherDispatcherValue ? isVisibleOrEnabledInModel() : otherDispatcherValue;
     }
-
 
     /**
      * Checks, if the Faktor-IPS attribute needs to be visible or enabled in the UI.<br>
@@ -161,7 +162,6 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
     private boolean isNotRequired(ValueSet<?> valueSet) {
         return valueSet.isEmpty() || valueSet.containsNull();
     }
-
 
     private ValueSet<?> getValueSet(ModelElement modelElement) {
         if (modelElement instanceof PolicyAttribute) {
@@ -199,8 +199,8 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
     }
 
     /**
-     * Returns an {@link IpsPropertyDispatcher} wrapping the given standard dispatchers if the given PMO
-     * is a Faktor-IPS object and returns the standard dispatchers unchanged otherwise.
+     * Returns an {@link IpsPropertyDispatcher} wrapping the given standard dispatchers if the given
+     * PMO is a Faktor-IPS object and returns the standard dispatchers unchanged otherwise.
      * 
      * @param pmo a presentation model object
      * @param boundProperty a {@link BoundProperty} of the PMO
@@ -222,6 +222,5 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
             return standardDispatchers;
         }
     }
-
 
 }

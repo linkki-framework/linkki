@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.ts.aspects;
@@ -23,7 +23,8 @@ import org.linkki.core.ui.layout.annotation.UISection;
 public class BindTooltipPmo {
 
     private String tooltipText = "This fiels has a tooltip that changes dynamically with the content of this textfield";
-    private String tooltipHtmlText = "<p>This is a nice <br /> text with some <br> new lines </p><div> <br> and some html</div>";
+    private String tooltipHtmlText =
+            "<p>This is a nice <br /> text with some <br> new lines </p><div> <br> and some html</div>";
 
     @UITextField(position = 20, label = "Tooltip")
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)
@@ -38,7 +39,6 @@ public class BindTooltipPmo {
     public String getTooltipTextTooltip() {
         return tooltipText;
     }
-
 
     @UITextField(position = 21, label = "Html Tooltip")
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)

@@ -1,22 +1,19 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util.reflection.accessor;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import org.linkki.util.ExceptionSupplier;
-import org.linkki.util.reflection.LookupProvider;
-
+import static org.linkki.util.Objects.requireNonNull;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.LambdaConversionException;
@@ -29,7 +26,10 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
-import static org.linkki.util.Objects.requireNonNull;
+import org.linkki.util.ExceptionSupplier;
+import org.linkki.util.reflection.LookupProvider;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Base class for method wrappers. Allows the wrapped {@link Method java.lang.reflect.Method} to be
@@ -50,8 +50,8 @@ abstract sealed class AbstractMethod<T, I> permits ReadMethod, WriteMethod, Invo
     private I methodAsFunction;
 
     AbstractMethod(Class<? extends T> boundClass,
-                             String propertyName,
-                             Supplier<Optional<Method>> methodSupplier) {
+            String propertyName,
+            Supplier<Optional<Method>> methodSupplier) {
         this.boundClass = requireNonNull(boundClass, "boundClass must not be null");
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
         this.methodSupplier = requireNonNull(methodSupplier, "methodSupplier must not be null");
@@ -94,11 +94,12 @@ abstract sealed class AbstractMethod<T, I> permits ReadMethod, WriteMethod, Invo
      * Uses {@link LambdaMetafactory} to create an implementation of the functional interface that
      * references the method found via reflection.
      * <p>
-     * If the method handle cannot be used due to multiple classloaders in play, {@link #fallbackReflectionCall(Method)}
-     * is called instead.
+     * If the method handle cannot be used due to multiple classloaders in play,
+     * {@link #fallbackReflectionCall(Method)} is called instead.
      * <p>
-     * The created function throws an {@link IllegalStateException} if any error occurs during invocation.
-     * This makes sure that the behavior is consistent with {@link #fallbackReflectionCall(Method)}.
+     * The created function throws an {@link IllegalStateException} if any error occurs during
+     * invocation. This makes sure that the behavior is consistent with
+     * {@link #fallbackReflectionCall(Method)}.
      *
      * @throws IllegalArgumentException if the method cannot be found
      */
@@ -120,8 +121,8 @@ abstract sealed class AbstractMethod<T, I> permits ReadMethod, WriteMethod, Invo
     }
 
     /**
-     * Handles the exception that may be thrown when calling the method using method handle.
-     * Any exceptions that occur should be wrapped in {@link #errorCallingMethod(Throwable)}.
+     * Handles the exception that may be thrown when calling the method using method handle. Any
+     * exceptions that occur should be wrapped in {@link #errorCallingMethod(Throwable)}.
      */
     protected abstract I handleExceptionForMethodHandle(I methodAsFunction);
 
@@ -170,10 +171,9 @@ abstract sealed class AbstractMethod<T, I> permits ReadMethod, WriteMethod, Invo
         LOGGER.fine(() -> "Cannot call method using method handle: " + exception.getMessage());
     }
 
-
     /**
-     * Creates a function that should call the method by using reflection API.
-     * Any exceptions that occur should be wrapped in {@link #errorCallingMethod(Throwable)}.
+     * Creates a function that should call the method by using reflection API. Any exceptions that
+     * occur should be wrapped in {@link #errorCallingMethod(Throwable)}.
      */
     protected abstract I fallbackReflectionCall(Method method);
 }

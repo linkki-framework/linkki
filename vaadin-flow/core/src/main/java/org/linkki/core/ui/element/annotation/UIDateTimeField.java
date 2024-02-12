@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -98,9 +98,9 @@ public @interface UIDateTimeField {
     String modelAttribute() default "";
 
     /**
-     * Defines the time interval (in minutes) between the items displayed in the time picker overlay. It
-     * also specifies the amount by which the time increases/decreases using the Up/Down arrow keys
-     * (when the overlays are disabled).
+     * Defines the time interval (in minutes) between the items displayed in the time picker
+     * overlay. It also specifies the amount by which the time increases/decreases using the Up/Down
+     * arrow keys (when the overlays are disabled).
      * 
      * @see TimePicker#setStep(Duration)
      */
@@ -112,13 +112,15 @@ public @interface UIDateTimeField {
         public LinkkiAspectDefinition create(UIDateTimeField annotation) {
             ValueAspectDefinition dateTimeFieldValueAspectDefinition = new ValueAspectDefinition() {
 
-                private final TwoDigitYearLocalDateTimeConverter twoDigitYearConverter = new TwoDigitYearLocalDateTimeConverter();
+                private final TwoDigitYearLocalDateTimeConverter twoDigitYearConverter =
+                        new TwoDigitYearLocalDateTimeConverter();
 
                 @Override
                 protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
                     @SuppressWarnings("unchecked")
-                    Converter<LocalDateTime, ?> superConverter = (Converter<LocalDateTime, ?>)super.getConverter(presentationType,
-                                                                                                                 modelType);
+                    Converter<LocalDateTime, ?> superConverter =
+                            (Converter<LocalDateTime, ?>)super.getConverter(presentationType,
+                                                                            modelType);
                     return twoDigitYearConverter.chain(superConverter);
                 }
             };

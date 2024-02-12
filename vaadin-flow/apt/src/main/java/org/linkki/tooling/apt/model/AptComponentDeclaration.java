@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.tooling.apt.model;
@@ -30,7 +30,6 @@ import org.linkki.tooling.apt.util.MethodNameUtils;
 import org.linkki.tooling.apt.util.PositionUtil;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-
 
 /**
  * A representation of the {@code @UI-Annotation} that declares a component.
@@ -107,9 +106,10 @@ public class AptComponentDeclaration implements AptAspectSubject {
     }
 
     /**
-     * Returns whether the annotation uses the standard names for the {@value Constants#MODEL_OBJECT}
-     * and {@value Constants#MODEL_ATTRIBUTE} annotation attributes. Only then can we validate their
-     * values, because we can't instantiate the {@link BoundPropertyCreator}.
+     * Returns whether the annotation uses the standard names for the
+     * {@value Constants#MODEL_OBJECT} and {@value Constants#MODEL_ATTRIBUTE} annotation attributes.
+     * Only then can we validate their values, because we can't instantiate the
+     * {@link BoundPropertyCreator}.
      */
     public boolean isUsingStandardModelBindingAttributes() {
         return AptAttribute.findByName(getAttributes(), Constants.MODEL_OBJECT).isPresent() &&

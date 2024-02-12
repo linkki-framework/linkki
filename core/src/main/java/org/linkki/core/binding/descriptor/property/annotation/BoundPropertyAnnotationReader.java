@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding.descriptor.property.annotation;
@@ -36,12 +36,12 @@ public final class BoundPropertyAnnotationReader {
     }
 
     /**
-     * Returns <code>true</code> if the annotated element (mostly a field or method) has an annotation
-     * that describes a {@link BoundProperty}. This is done via the meta annotation
+     * Returns <code>true</code> if the annotated element (mostly a field or method) has an
+     * annotation that describes a {@link BoundProperty}. This is done via the meta annotation
      * {@link LinkkiBoundProperty @LinkkiBoundProperty}.
      * 
-     * @param annotatedElement the annotated element which might have an annotation that is annotated
-     *            with {@link LinkkiBoundProperty @LinkkiBoundProperty}
+     * @param annotatedElement the annotated element which might have an annotation that is
+     *            annotated with {@link LinkkiBoundProperty @LinkkiBoundProperty}
      * @return <code>true</code> if there is a {@link LinkkiBoundProperty @LinkkiBoundProperty}
      *         annotation, <code>false</code> if not
      */
@@ -50,10 +50,11 @@ public final class BoundPropertyAnnotationReader {
     }
 
     /**
-     * Returns the {@link BoundProperty} which is instantiated using the {@link BoundPropertyCreator}
-     * from the {@link LinkkiBoundProperty @LinkkiBoundProperty} annotation found at any annotation of
-     * the {@code annotatedElement}. Before calling this method it is useful to check whether there is
-     * such an annotation using {@link #isBoundPropertyPresent(AnnotatedElement)}.
+     * Returns the {@link BoundProperty} which is instantiated using the
+     * {@link BoundPropertyCreator} from the {@link LinkkiBoundProperty @LinkkiBoundProperty}
+     * annotation found at any annotation of the {@code annotatedElement}. Before calling this
+     * method it is useful to check whether there is such an annotation using
+     * {@link #isBoundPropertyPresent(AnnotatedElement)}.
      * 
      * @param annotatedElement the element which describes the {@link BoundProperty}
      * @return the {@link BoundProperty} described by the annotated element
@@ -78,9 +79,9 @@ public final class BoundPropertyAnnotationReader {
     }
 
     /**
-     * Returns the {@link BoundProperty} which is instantiated using the {@link BoundPropertyCreator}
-     * from the {@link LinkkiBoundProperty @LinkkiBoundProperty} annotation found at any annotation of
-     * the {@code annotatedElement} if any.
+     * Returns the {@link BoundProperty} which is instantiated using the
+     * {@link BoundPropertyCreator} from the {@link LinkkiBoundProperty @LinkkiBoundProperty}
+     * annotation found at any annotation of the {@code annotatedElement} if any.
      * 
      * @param annotatedElement the element which describes the {@link BoundProperty}
      * @return the {@link BoundProperty} described by the annotated element
@@ -122,6 +123,5 @@ public final class BoundPropertyAnnotationReader {
             }
         };
     }
-
 
 }

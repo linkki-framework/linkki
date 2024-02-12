@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding;
@@ -20,10 +20,10 @@ import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.handler.Handler;
 
 /**
- * A container binding represents a {@link Binding} that is itself a {@link BindingContext}. That means
- * it acts as a {@link Binding} within another {@link BindingContext} but also handles other bindings
- * that are included in the corresponding UI container. It gives the ability to structure the bindings
- * in the same hierarchy as the UI is structured.
+ * A container binding represents a {@link Binding} that is itself a {@link BindingContext}. That
+ * means it acts as a {@link Binding} within another {@link BindingContext} but also handles other
+ * bindings that are included in the corresponding UI container. It gives the ability to structure
+ * the bindings in the same hierarchy as the UI is structured.
  * <p>
  * For example a table has bindings for the whole table like the items or the page length. These are
  * aspects that are managed within a {@link ContainerBinding}. The table on the other hand includes
@@ -77,7 +77,6 @@ public class ContainerBinding extends BindingContext implements Binding {
             super.updateBindings();
         }
     }
-
 
     @Override
     public Object getBoundComponent() {

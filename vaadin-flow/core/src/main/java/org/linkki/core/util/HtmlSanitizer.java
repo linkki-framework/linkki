@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.util;
@@ -39,11 +39,11 @@ public class HtmlSanitizer {
      * basic styling tags as well as 'img'.
      * <p>
      * Additionally, the 'style' attribute is whitelisted for the tags 'b', 'i', 'strong', 'em',
-     * 'u','span' and 'p'. The attributes 'style', 'class' and 'id' are whitelisted for 'div'. 'img' can
-     * be used with a relative or absolute image source.
+     * 'u','span' and 'p'. The attributes 'style', 'class' and 'id' are whitelisted for 'div'. 'img'
+     * can be used with a relative or absolute image source.
      * <p>
-     * The 'vaadin-icon' tag is also whitelisted together with the attributes 'id', 'class', 'width',
-     * 'height', 'style' and 'icon'.
+     * The 'vaadin-icon' tag is also whitelisted together with the attributes 'id', 'class',
+     * 'width', 'height', 'style' and 'icon'.
      * 
      * @param htmlText the HTML text to be sanitized, may be {@code null}
      * @return the sanitized content, or {@code null} if the input is {@code null}
@@ -61,8 +61,8 @@ public class HtmlSanitizer {
     }
 
     /**
-     * Escapes HTML characters ({@literal & < > " '}) in the given text, in order to make the text safe
-     * for inclusion in HTML content.
+     * Escapes HTML characters ({@literal & < > " '}) in the given text, in order to make the text
+     * safe for inclusion in HTML content.
      *
      * @param text the text to be escaped, may be {@code null}
      * @return the escaped content, or {@code null} if the input is {@code null}

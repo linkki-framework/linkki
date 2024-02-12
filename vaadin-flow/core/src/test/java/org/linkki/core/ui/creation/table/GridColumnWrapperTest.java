@@ -1,12 +1,13 @@
 package org.linkki.core.ui.creation.table;
 
-import com.vaadin.flow.component.ComponentUtil;
-import com.vaadin.flow.component.grid.Grid;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.grid.Grid;
 
 class GridColumnWrapperTest {
 

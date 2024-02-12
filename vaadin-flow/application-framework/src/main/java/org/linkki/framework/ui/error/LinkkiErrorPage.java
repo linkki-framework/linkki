@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.framework.ui.error;
 
@@ -48,12 +48,12 @@ import com.vaadin.flow.server.VaadinService;
  * <p>
  * By definition, an error message is shown together with the timestamp. Furthermore, a button is
  * offered to navigate to the start view. In development mode, the exception stacktrace is shown. In
- * general, no critical technical details will be shown to the end user. The described components can be
- * overwritten individually while the page layout is fixed. Use {@link ParentLayout} in a subclass to
- * adjust this page to the general application layout.
+ * general, no critical technical details will be shown to the end user. The described components
+ * can be overwritten individually while the page layout is fixed. Use {@link ParentLayout} in a
+ * subclass to adjust this page to the general application layout.
  * <p>
- * To use this page, it must be found by the Vaadin or the Spring Boot package scan. To use the Spring
- * Boot scan, a subclass must be annotated with {@code @Component}.
+ * To use this page, it must be found by the Vaadin or the Spring Boot package scan. To use the
+ * Spring Boot scan, a subclass must be annotated with {@code @Component}.
  */
 @CssImport("./styles/error-page.css")
 @DefaultErrorHandler
@@ -95,8 +95,8 @@ public class LinkkiErrorPage extends VerticalLayout
     }
 
     /**
-     * Processes the given error parameter and updates the content of the error page to display relevant
-     * details about the occurred exception.
+     * Processes the given error parameter and updates the content of the error page to display
+     * relevant details about the occurred exception.
      * <p>
      * By default, the error page consists of the following elements in the described order:
      * <ul>
@@ -143,8 +143,8 @@ public class LinkkiErrorPage extends VerticalLayout
      * @apiNote Override this method to customize logging.
      * 
      * @implSpec The default implementation logs exceptions as {@link Level#SEVERE}.
-     *           {@code MessageExceptions} {@link MessageException#MessageException(String) without a
-     *           cause} are purely informational, and therefore not logged.
+     *           {@code MessageExceptions} {@link MessageException#MessageException(String) without
+     *           a cause} are purely informational, and therefore not logged.
      */
     protected void logException(ErrorParameter<Exception> parameter) {
         var exception = parameter.getCaughtException();
@@ -193,9 +193,9 @@ public class LinkkiErrorPage extends VerticalLayout
     }
 
     /**
-     * Creates component that displays error details. By default, it consists of the timestamp of when
-     * the error occurred and the type of the {@link Exception}. The timestamp is formatted in the
-     * "yyyy-MM-dd HH:mm:ss" pattern.
+     * Creates component that displays error details. By default, it consists of the timestamp of
+     * when the error occurred and the type of the {@link Exception}. The timestamp is formatted in
+     * the "yyyy-MM-dd HH:mm:ss" pattern.
      *
      * @param parameter The {@link ErrorParameter} containing {@link Exception} details
      *
@@ -217,7 +217,8 @@ public class LinkkiErrorPage extends VerticalLayout
      * 
      * @apiNote Override this method to customize the navigation button.
      * 
-     * @implSpec The default implementation creates a button that navigates to the default start view.
+     * @implSpec The default implementation creates a button that navigates to the default start
+     *           view.
      */
     protected Button createNavigationButton() {
         var goToStartViewButton = new Button(localize());
@@ -235,8 +236,8 @@ public class LinkkiErrorPage extends VerticalLayout
     /**
      * Returns whether the application runs in development mode.
      * <p>
-     * A return value of {@code true} results in internal information (e.g. detailed error messages and
-     * stack traces) being shown on the page.
+     * A return value of {@code true} results in internal information (e.g. detailed error messages
+     * and stack traces) being shown on the page.
      * 
      * @apiNote It should not be necessary to override this method.
      */

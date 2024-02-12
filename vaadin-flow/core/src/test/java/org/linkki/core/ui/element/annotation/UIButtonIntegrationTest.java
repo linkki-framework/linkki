@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -57,7 +57,8 @@ class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button,
 
     @Test
     void testCreateButtonShortcut() {
-        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
+        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator =
+                new UIButton.ButtonComponentDefinitionCreator();
 
         Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("value"));
 
@@ -68,7 +69,8 @@ class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button,
 
     @Test
     void testCreateButtonShortcut_NoKeys() {
-        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
+        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator =
+                new UIButton.ButtonComponentDefinitionCreator();
 
         Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("doFoo"));
 
@@ -77,7 +79,8 @@ class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button,
 
     @Test
     void testCreateButtonShortcut_MultipleKeys() {
-        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
+        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator =
+                new UIButton.ButtonComponentDefinitionCreator();
 
         Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("staticValue"));
 
@@ -149,7 +152,13 @@ class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button,
             super(modelObject);
         }
 
-        @UIButton(position = 10, visible = VisibleType.DYNAMIC, captionType = CaptionType.DYNAMIC, icon = VaadinIcon.ADJUST, showIcon = true, enabled = EnabledType.DYNAMIC, shortcutKeyCode = KeyCode.ENTER)
+        @UIButton(position = 10,
+                visible = VisibleType.DYNAMIC,
+                captionType = CaptionType.DYNAMIC,
+                icon = VaadinIcon.ADJUST,
+                showIcon = true,
+                enabled = EnabledType.DYNAMIC,
+                shortcutKeyCode = KeyCode.ENTER)
         @Override
         public void value() {
             clicked = true;
@@ -164,8 +173,13 @@ class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button,
         }
 
         @Override
-        @UIButton(position = 20, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = "static", enabled = EnabledType.DISABLED, shortcutKeyCode = {
-                "KeyA", "KeyB", "KeyC" })
+        @UIButton(position = 20,
+                label = TEST_LABEL,
+                visible = VisibleType.INVISIBLE,
+                caption = "static",
+                enabled = EnabledType.DISABLED,
+                shortcutKeyCode = {
+                        "KeyA", "KeyB", "KeyC" })
         public void staticValue() {
             // does nothing
         }

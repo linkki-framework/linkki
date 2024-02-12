@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding.descriptor.messagehandler.annotation;
@@ -39,8 +39,8 @@ public class MessageHandlerAnnotationReader {
      * Searches for an annotation on the specified annotated element that is annotated with
      * {@link LinkkiMessages}.
      * <p>
-     * There must be at most one configured message handler. If there is no configured message handler,
-     * the {@link DefaultMessageHandler} is used instead.
+     * There must be at most one configured message handler. If there is no configured message
+     * handler, the {@link DefaultMessageHandler} is used instead.
      *
      * @param annotatedElement The annotated element which configures the message handler
      * @return The configured message handler
@@ -54,10 +54,10 @@ public class MessageHandlerAnnotationReader {
     }
 
     private static <A extends Annotation> LinkkiMessageHandler createHandler(A annotation,
-                                                                             AnnotatedElement annotatedElement) {
+            AnnotatedElement annotatedElement) {
         @SuppressWarnings("unchecked")
-        var creatorClass = (Class<? extends MessageHandlerCreator<A>>)
-                annotation.annotationType().getAnnotation(LinkkiMessages.class).value();
+        var creatorClass = (Class<? extends MessageHandlerCreator<A>>)annotation.annotationType()
+                .getAnnotation(LinkkiMessages.class).value();
         return Classes.instantiate(creatorClass).create(annotation, annotatedElement);
     }
 

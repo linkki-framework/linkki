@@ -1,25 +1,24 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util.reflection.accessor;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.util.reflection.TestInterface;
 import org.linkki.util.reflection.TestObject;
-import org.linkki.util.reflection.accessor.PropertyAccessDescriptor;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class PropertyAccessDescriptorTest {
 
@@ -142,23 +141,27 @@ class PropertyAccessDescriptorTest {
 
     @Test
     void testCreateReadWriteMethod_ReadOnlyProperty() {
-        var accessDescriptor = new PropertyAccessDescriptor<TestObject, Long>(TestObject.class, TestObject.PROPERTY_READ_ONLY_LONG);
+        var accessDescriptor = new PropertyAccessDescriptor<TestObject, Long>(TestObject.class,
+                TestObject.PROPERTY_READ_ONLY_LONG);
 
         var readMethod = accessDescriptor.createReadMethod();
         assertThat(readMethod).isNotNull();
         assertThat(readMethod.isPresent()).isTrue();
-        assertThat(readMethod.toString()).as("Class and property should be correctly passed to the read method").contains(TestObject.class.getSimpleName()).contains(TestObject.PROPERTY_READ_ONLY_LONG);
+        assertThat(readMethod.toString()).as("Class and property should be correctly passed to the read method")
+                .contains(TestObject.class.getSimpleName()).contains(TestObject.PROPERTY_READ_ONLY_LONG);
 
         var writeMethod = accessDescriptor.createWriteMethod();
         assertThat(writeMethod).isNotNull();
         assertThat(writeMethod.isPresent()).isFalse();
-        assertThat(readMethod.toString()).as("Class and property should be correctly passed to the write method").contains(TestObject.class.getSimpleName()).contains(TestObject.PROPERTY_READ_ONLY_LONG);
+        assertThat(readMethod.toString()).as("Class and property should be correctly passed to the write method")
+                .contains(TestObject.class.getSimpleName()).contains(TestObject.PROPERTY_READ_ONLY_LONG);
     }
 
     @Test
     void testCreateReadWriteMethod_DefaultMethodFromInterface() {
         TestInterface testLambda = System.out::println;
-        PropertyAccessDescriptor<TestInterface, Boolean> accessDescriptor = new PropertyAccessDescriptor<>(testLambda.getClass(), TestInterface.PROPERTY_RO_DEFAULT_BOOLEAN);
+        PropertyAccessDescriptor<TestInterface, Boolean> accessDescriptor = new PropertyAccessDescriptor<>(
+                testLambda.getClass(), TestInterface.PROPERTY_RO_DEFAULT_BOOLEAN);
 
         var writeMethod = accessDescriptor.createWriteMethod();
         assertThat(writeMethod).isNotNull();
@@ -180,13 +183,15 @@ class PropertyAccessDescriptorTest {
 
         assertThat(invokeMethod).isNotNull();
         assertThat(invokeMethod.isPresent()).isTrue();
-        assertThat(invokeMethod.toString()).as("Class and property should be correctly passed to the write method").contains(TestObject.class.getSimpleName()).contains(TestObject.PROPERTY_DO_SOMETHING);
+        assertThat(invokeMethod.toString()).as("Class and property should be correctly passed to the write method")
+                .contains(TestObject.class.getSimpleName()).contains(TestObject.PROPERTY_DO_SOMETHING);
     }
 
     @Test
     void testToString() {
         var accessDescriptor = new PropertyAccessDescriptor<>(TestObject.class, TestObject.PROPERTY_DO_SOMETHING);
 
-        assertThat(accessDescriptor.toString()).contains(TestObject.class.getSimpleName()).contains(TestObject.PROPERTY_DO_SOMETHING);
+        assertThat(accessDescriptor.toString()).contains(TestObject.class.getSimpleName())
+                .contains(TestObject.PROPERTY_DO_SOMETHING);
     }
 }

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.vaadin.component;
 
@@ -77,7 +77,8 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a new {@link TextField} with an unlimited maximal character count and an undefined width.
+     * Creates a new {@link TextField} with an unlimited maximal character count and an undefined
+     * width.
      */
     public static TextField newTextField() {
         TextField textField = new TextField();
@@ -90,8 +91,8 @@ public class ComponentFactory {
      * <p>
      * If the given maxLength is less than or equal to 0, the maximal character count is unlimited.
      * <p>
-     * If the given width is not specified and maxLength is greater than 0, the width of the field is inferred by
-     * maxLength.
+     * If the given width is not specified and maxLength is greater than 0, the width of the field
+     * is inferred by maxLength.
      */
     public static TextField newTextField(int maxLength, String width) {
         TextField field = newTextField();
@@ -125,9 +126,9 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a new {@link TextField} to display numbers with the specified formatting pattern. The pattern is
-     * converted to a regex by using it to format a test number and checking the result to see which characters are
-     * allowed.
+     * Creates a new {@link TextField} to display numbers with the specified formatting pattern. The
+     * pattern is converted to a regex by using it to format a test number and checking the result
+     * to see which characters are allowed.
      */
     public static TextField newNumberFieldWithFormattingPattern(int maxLength, String width, String pattern) {
         if (UiFramework.getLocale() == null) {
@@ -156,10 +157,11 @@ public class ComponentFactory {
      * <p>
      * If the given maxLength is less than or equal to 0, the maximal character count is unlimited.
      * <p>
-     * If the given width is an empty String and maxLength is greater than 0, the width of the field is inferred by
-     * maxLength.
+     * If the given width is an empty String and maxLength is greater than 0, the width of the field
+     * is inferred by maxLength.
      * <p>
-     * The height is only set if the given String is not {@link StringUtils#isEmpty(CharSequence) empty}.
+     * The height is only set if the given String is not {@link StringUtils#isEmpty(CharSequence)
+     * empty}.
      */
     public static TextArea newTextArea(int maxLength, String width, String height) {
         var textArea = newTextArea();
@@ -204,7 +206,8 @@ public class ComponentFactory {
      * Creates a {@link DatePicker} with the given options
      *
      * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
-     * @param autoselect If <code>true</code>, the date value will be selected when the field is focused.
+     * @param autoselect If <code>true</code>, the date value will be selected when the field is
+     *            focused.
      */
     public static DatePicker newDateField(boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
@@ -222,10 +225,12 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a new default {@link DateTimePicker} with the given step, {@link DateTimePicker#setAutoOpen(boolean)} set
-     * to <code>false</code> and the autoselect feature to <code>true</code>
+     * Creates a new default {@link DateTimePicker} with the given step,
+     * {@link DateTimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect
+     * feature to <code>true</code>
      *
-     * @param step the time interval, in minutes, between the items displayed in the time picker overlay
+     * @param step the time interval, in minutes, between the items displayed in the time picker
+     *            overlay
      */
     public static DateTimePicker newDateTimeField(long step) {
         return newDateTimeField(step, false, true);
@@ -234,9 +239,11 @@ public class ComponentFactory {
     /**
      * Creates a {@link DateTimePicker} with the given options
      *
-     * @param step The time interval, in minutes, between the items displayed in the time picker overlay
+     * @param step The time interval, in minutes, between the items displayed in the time picker
+     *            overlay
      * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
-     * @param autoselect If <code>true</code>, the date value will be selected when the field is focused.
+     * @param autoselect If <code>true</code>, the date value will be selected when the field is
+     *            focused.
      */
     public static DateTimePicker newDateTimeField(long step, boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
@@ -255,11 +262,12 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a new default {@link TimePicker} with the given step, {@link TimePicker#setAutoOpen(boolean)} set to
-     * <code>false</code> and the autoselect feature to
-     * <code>true</code>.
+     * Creates a new default {@link TimePicker} with the given step,
+     * {@link TimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect feature
+     * to <code>true</code>.
      *
-     * @param step the {@link Duration time interval} between the items displayed in the time picker overlay
+     * @param step the {@link Duration time interval} between the items displayed in the time picker
+     *            overlay
      * @param precision the precision of the interval (e.g., minutes or seconds)
      */
     public static TimePicker newTimeField(long step, ChronoUnit precision) {
@@ -269,10 +277,12 @@ public class ComponentFactory {
     /**
      * Creates a {@link TimePicker} with the given options.
      *
-     * @param step The {@link Duration time interval} between the items displayed in the time picker overlay
+     * @param step The {@link Duration time interval} between the items displayed in the time picker
+     *            overlay
      * @param precision the precision of the interval (e.g., minutes or seconds)
      * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
-     * @param autoselect If <code>true</code>, the time value will be selected when the field is focused.
+     * @param autoselect If <code>true</code>, the time value will be selected when the field is
+     *            focused.
      */
     public static TimePicker newTimeField(long step, ChronoUnit precision, boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.samples.playground.uitest;
 
@@ -53,11 +53,12 @@ import com.vaadin.testbench.TestBenchTestCase;
 
 /**
  * Helper class facilitates to use various Testbench functionality for UI testing. It helps to get
- * required web driver to launch the application on specific browser. UI test is done in this browser by
- * accessing various elements within the opened web page and by accessing their properties. SetUp method
- * must be called at the beginning of the test.
+ * required web driver to launch the application on specific browser. UI test is done in this
+ * browser by accessing various elements within the opened web page and by accessing their
+ * properties. SetUp method must be called at the beginning of the test.
  * <p>
- * Various browser configuration options are available using the {@link UITestConfiguration} annotation.
+ * Various browser configuration options are available using the {@link UITestConfiguration}
+ * annotation.
  */
 @TestMethodOrder(OrderAnnotation.class)
 public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
@@ -96,7 +97,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     /**
      * Find {@link ComboBox} based on the given ID then select the item with the given value.
      *
-     * @param id    ID of the {@link ComboBox}
+     * @param id ID of the {@link ComboBox}
      * @param value Value to be selected
      */
     public void selectCombobox(String id, String value) {
@@ -116,7 +117,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     /**
      * Type the given text into the {@link TextField} with the given ID.
      *
-     * @param id    ID of the {@link TextField}
+     * @param id ID of the {@link TextField}
      * @param value input value
      */
     public void typeInTextBox(String id, String value) {
@@ -187,7 +188,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     /**
      * Clicks the button in the section header with the given index
      *
-     * @param cls         class name of the section
+     * @param cls class name of the section
      * @param buttonIndex index of the button
      */
     public void clickSectionHeaderButton(Class<?> cls, int buttonIndex) {
@@ -197,10 +198,11 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
     /**
      * Returns the value of the web element as String.
      * <p>
-     * As {@link com.vaadin.flow.component.checkbox.Checkbox}es always have the value "on", the property "checked" is used instead.
+     * As {@link com.vaadin.flow.component.checkbox.Checkbox}es always have the value "on", the
+     * property "checked" is used instead.
      * <p>
-     * As {@link com.vaadin.flow.component.combobox.MultiSelectComboBox} does not define the property value,
-     * "_inputElementValue" is used instead.
+     * As {@link com.vaadin.flow.component.combobox.MultiSelectComboBox} does not define the
+     * property value, "_inputElementValue" is used instead.
      */
     public String getValueString(TestBenchElement webElement) {
         // checkbox value is mapped to the property checked
@@ -264,7 +266,6 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
         gridElement.scrollIntoView();
         return gridElement;
     }
-
 
     /**
      * Searches for a dialog with the given title

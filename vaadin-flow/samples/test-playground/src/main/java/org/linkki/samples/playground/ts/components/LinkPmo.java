@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.ts.components;
@@ -79,15 +79,21 @@ public class LinkPmo {
         return "Links with icons:";
     }
 
-    @UILink(position = 20, target = "_blank", label = "Link with an icon on the left",
-            iconPosition = IconPosition.LEFT, caption = "Link with an icon on the left")
+    @UILink(position = 20,
+            target = "_blank",
+            label = "Link with an icon on the left",
+            iconPosition = IconPosition.LEFT,
+            caption = "Link with an icon on the left")
     @BindIcon(value = VaadinIcon.EXTERNAL_LINK, iconType = IconType.STATIC)
     public String getLinkIconLeft() {
         return LINKKI_URL;
     }
 
-    @UILink(position = 21, target = "_blank", label = "Link with an icon on the right",
-            iconPosition = IconPosition.RIGHT, caption = "Link with an icon on the right")
+    @UILink(position = 21,
+            target = "_blank",
+            label = "Link with an icon on the right",
+            iconPosition = IconPosition.RIGHT,
+            caption = "Link with an icon on the right")
     @BindIcon(value = VaadinIcon.EXTERNAL_LINK, iconType = IconType.STATIC)
     public String getLinkIconRight() {
         return LINKKI_URL;

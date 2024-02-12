@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.uicreation;
 
@@ -39,8 +39,8 @@ import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.uiframework.UiFramework;
 
 /**
- * A utility class that creates UI components from presentation model objects (PMOs). These PMOs must be
- * annotated with annotations which are themselves annotated with the meta-annotation
+ * A utility class that creates UI components from presentation model objects (PMOs). These PMOs
+ * must be annotated with annotations which are themselves annotated with the meta-annotation
  * {@link LinkkiComponent @LinkkiComponent}.
  * <p>
  * There are two options:
@@ -48,11 +48,12 @@ import org.linkki.core.uiframework.UiFramework;
  * <li>Creating all components from method-level annotations (such as {@code @UITextField}) with
  * {@link #createUiElements(Object, BindingContext, Function)}</li>
  * <li>Creating a component from a class-level annotation (such as {@code @UISection}) with
- * {@link #createComponent(Object, BindingContext)}. Depending on a {@link LinkkiLayout @LinkkiLayout}
- * annotation accompanying the {@link LinkkiComponent @LinkkiComponent}</li>
+ * {@link #createComponent(Object, BindingContext)}. Depending on a
+ * {@link LinkkiLayout @LinkkiLayout} annotation accompanying the
+ * {@link LinkkiComponent @LinkkiComponent}</li>
  * </ol>
- * Normally the first method is called from a {@link LinkkiLayoutDefinition} when populating the layout
- * with components.
+ * Normally the first method is called from a {@link LinkkiLayoutDefinition} when populating the
+ * layout with components.
  */
 public class UiCreator {
 
@@ -69,11 +70,11 @@ public class UiCreator {
      * annotation.
      * <p>
      * The created UI components are not added to any parent. You can do that in the
-     * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the components from their
-     * {@link ComponentWrapper#getComponent() ComponentWrappers}.
+     * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the components from
+     * their {@link ComponentWrapper#getComponent() ComponentWrappers}.
      * <p>
-     * If the given {@link AnnotatedElement} provides a {@link LinkkiLayout @LinkkiLayout} annotation,
-     * its layout definition will be called. This might create further child elements.
+     * If the given {@link AnnotatedElement} provides a {@link LinkkiLayout @LinkkiLayout}
+     * annotation, its layout definition will be called. This might create further child elements.
      *
      * @param <C> the UI component class created by
      *            {@link LinkkiLayoutDefinition#createChildren(Object, Object, BindingContext)} and
@@ -99,11 +100,11 @@ public class UiCreator {
      * annotation.
      * <p>
      * The created UI component is not added to any parent. You can do that in the
-     * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the component from its
-     * {@link ComponentWrapper#getComponent() ComponentWrapper}.
+     * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the component from
+     * its {@link ComponentWrapper#getComponent() ComponentWrapper}.
      *
-     * If the given {@link Method} provides a {@link LinkkiLayout @LinkkiLayout} annotation, its layout
-     * definition will be called. This might create further child elements.
+     * If the given {@link Method} provides a {@link LinkkiLayout @LinkkiLayout} annotation, its
+     * layout definition will be called. This might create further child elements.
      *
      * @param <C> the UI component class created by
      *            {@link LinkkiLayoutDefinition#createChildren(Object, Object, BindingContext)} and
@@ -135,16 +136,16 @@ public class UiCreator {
     }
 
     /**
-     * Creates and binds a UI element for the given {@link AnnotatedElement}, which will usually be a
-     * method or a class. It must provide a {@link LinkkiBoundProperty @LinkkiBoundProperty} and
+     * Creates and binds a UI element for the given {@link AnnotatedElement}, which will usually be
+     * a method or a class. It must provide a {@link LinkkiBoundProperty @LinkkiBoundProperty} and
      * {@link LinkkiComponent @LinkkiComponent} annotation.
      * <p>
      * The created UI component is not added to any parent. You can do that in the
-     * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the component from its
-     * {@link ComponentWrapper#getComponent() ComponentWrapper}.
+     * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the component from
+     * its {@link ComponentWrapper#getComponent() ComponentWrapper}.
      * <p>
-     * If the given {@link AnnotatedElement} provides a {@link LinkkiLayout @LinkkiLayout} annotation,
-     * its layout definition will be called. This might create further child elements.
+     * If the given {@link AnnotatedElement} provides a {@link LinkkiLayout @LinkkiLayout}
+     * annotation, its layout definition will be called. This might create further child elements.
      *
      * @param <C> the UI component class created by
      *            {@link LinkkiLayoutDefinition#createChildren(Object, Object, BindingContext)} and
@@ -158,9 +159,9 @@ public class UiCreator {
      *            {@link ComponentWrapper} for the binding
      * @return the created {@link ComponentWrapper}
      * 
-     * @deprecated Use {@link #createUiElement(Method, Object, BindingContext, Function)} instead. In
-     *             case you require a type other than {@link Method}, please open an issue describing
-     *             your use-case.
+     * @deprecated Use {@link #createUiElement(Method, Object, BindingContext, Function)} instead.
+     *             In case you require a type other than {@link Method}, please open an issue
+     *             describing your use-case.
      */
     @Deprecated(since = "2.3.0")
     public static <C, W extends ComponentWrapper> W createUiElement(AnnotatedElement annotatedElement,
@@ -185,8 +186,8 @@ public class UiCreator {
 
     /**
      * Creates a UI component via the {@link LinkkiComponent @LinkkiComponent} annotated
-     * {@link Annotation} on the given presentation model object. The {@link LinkkiLayout @LinkkiLayout}
-     * is then used to create all children for the component.
+     * {@link Annotation} on the given presentation model object. The
+     * {@link LinkkiLayout @LinkkiLayout} is then used to create all children for the component.
      *
      * @param pmo a presentation model object annotated with annotations annotated with
      *            {@link LinkkiComponent @LinkkiComponent} and {@link LinkkiLayout @LinkkiLayout}
@@ -206,10 +207,10 @@ public class UiCreator {
     }
 
     /**
-     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the PMO class by way of
-     * the {@code componentDefinition}. The optional {@link LinkkiLayoutDefinition} is then used to
-     * create all children for the component if it exists. Otherwise a component binding without
-     * children is created.
+     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the PMO class by
+     * way of the {@code componentDefinition}. The optional {@link LinkkiLayoutDefinition} is then
+     * used to create all children for the component if it exists. Otherwise a component binding
+     * without children is created.
      *
      * @param pmo a presentation model object
      * @param bindingContext used to bind the component and its children
@@ -234,10 +235,10 @@ public class UiCreator {
     }
 
     /**
-     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the PMO class by way of
-     * the {@code componentDefinition}. The optional {@link LinkkiLayoutDefinition} is then used to
-     * create all children for the component if it exists. Otherwise a component binding without
-     * children is created.
+     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the PMO class by
+     * way of the {@code componentDefinition}. The optional {@link LinkkiLayoutDefinition} is then
+     * used to create all children for the component if it exists. Otherwise a component binding
+     * without children is created.
      *
      * @param pmo a presentation model object
      * @param bindingContext used to bind the component and its children
@@ -271,10 +272,10 @@ public class UiCreator {
      *
      * @param pmo a presentation model object
      * @param bindingContext used to bind the component and its children
-     * @param componentDefinition {@link LinkkiComponentDefinition} that should be used to create the
-     *            component
-     * @param optionalLayoutDefinitionFinder a function to extract a {@link LinkkiLayoutDefinition} from
-     *            an {@link AnnotatedElement}, for example
+     * @param componentDefinition {@link LinkkiComponentDefinition} that should be used to create
+     *            the component
+     * @param optionalLayoutDefinitionFinder a function to extract a {@link LinkkiLayoutDefinition}
+     *            from an {@link AnnotatedElement}, for example
      *            {@link LayoutAnnotationReader#findLayoutDefinition(AnnotatedElement)}
      * @return a {@link ComponentWrapper} containing the created UI component
      * 

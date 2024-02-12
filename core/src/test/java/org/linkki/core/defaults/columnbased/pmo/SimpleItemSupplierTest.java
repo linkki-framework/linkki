@@ -1,25 +1,25 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.defaults.columnbased.pmo;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.util.Arrays;
@@ -42,8 +42,8 @@ public class SimpleItemSupplierTest {
             mo -> new SimplePmo(mo));
 
     /**
-     * The purpose of this test is not really that the itemSupplier has the specified value but that the
-     * item supplier could be created using a Supplier without <code>? extends</code>
+     * The purpose of this test is not really that the itemSupplier has the specified value but that
+     * the item supplier could be created using a Supplier without <code>? extends</code>
      */
     @Test
     public void testCreateItemSupplierWithoutUnknownType() {
@@ -114,9 +114,8 @@ public class SimpleItemSupplierTest {
         return modelObjects;
     }
 
-
     private Matcher<SimpleItemSupplier<SimplePmo, Integer>> hasPmosForModelobjects(Object... expectedModelObjects) {
-        return new TypeSafeMatcher<SimpleItemSupplier<SimplePmo, Integer>>() {
+        return new TypeSafeMatcher<>() {
 
             private Matcher<Iterable<? extends SimplePmo>> pmosMatcher = contains(Arrays.stream(expectedModelObjects)
                     .map(ModelObjectValueMatcher::new).toArray(ModelObjectValueMatcher[]::new));
@@ -155,7 +154,6 @@ public class SimpleItemSupplierTest {
         }
 
     }
-
 
     private static final class ModelObjectValueMatcher extends TypeSafeMatcher<SimplePmo> {
 

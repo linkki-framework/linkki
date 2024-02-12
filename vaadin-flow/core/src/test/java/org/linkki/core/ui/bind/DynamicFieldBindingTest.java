@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.bind;
 
@@ -87,7 +87,6 @@ class DynamicFieldBindingTest {
                    contains(pmo.getPaymentMethodAvailableValues().toArray()));
         assertThat(cb.getValue(), is(value));
 
-
         String newValue = "annual";
         TestUiUtil.setUserOriginatedValue(cb, newValue);
         assertThat(pmo.model.paymentMethod, is(newValue));
@@ -142,7 +141,6 @@ class DynamicFieldBindingTest {
             TestUiUtil.createFirstComponentOf(new PmoWithInconsistentLabelText());
         });
     }
-
 
     public static class Model {
 
@@ -205,7 +203,11 @@ class DynamicFieldBindingTest {
         }
 
         @UITextField(position = POS, label = "", modelAttribute = "paymentMethod")
-        @UIComboBox(position = POS, label = "", modelAttribute = "paymentMethod", content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
+        @UIComboBox(position = POS,
+                label = "",
+                modelAttribute = "paymentMethod",
+                content = AvailableValuesType.DYNAMIC,
+                itemCaptionProvider = ToStringCaptionProvider.class)
         public void paymentMethod() {
             // model binding
         }

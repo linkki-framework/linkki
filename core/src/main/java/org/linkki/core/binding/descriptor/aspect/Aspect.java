@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding.descriptor.aspect;
@@ -24,19 +24,19 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * The linkki binding in general defines a synchronization link between a UI component and a
- * corresponding property in the presentation model. More precisely, the binding does not only handle
- * the value of the property but may also handle other information like visible, enabled, read-only,
- * required, etc. Every single kind of information is called an aspect of the binding.
+ * corresponding property in the presentation model. More precisely, the binding does not only
+ * handle the value of the property but may also handle other information like visible, enabled,
+ * read-only, required, etc. Every single kind of information is called an aspect of the binding.
  * <p>
  * Every aspect has a unique name. First this name identifies the aspect (the kind of needed
- * information) and second the name could be used to retrieve the information from the model. For more
- * information see {@link #getName()}.
+ * information) and second the name could be used to retrieve the information from the model. For
+ * more information see {@link #getName()}.
  * <p>
  * In addition to the name an {@link Aspect} could have a value. A value might be something that is
- * configured statically for example in the UI field annotation. Although the value is present it might
- * be overruled by a {@link PropertyDispatcher}. Keep in mind that the existence of a value does not
- * mean that the value is not <code>null</code>. In some cases the aspect might define a value that is
- * the <code>null</code> value.
+ * configured statically for example in the UI field annotation. Although the value is present it
+ * might be overruled by a {@link PropertyDispatcher}. Keep in mind that the existence of a value
+ * does not mean that the value is not <code>null</code>. In some cases the aspect might define a
+ * value that is the <code>null</code> value.
  * 
  * @param <V> the class for values updated with this {@link Aspect}
  */
@@ -53,11 +53,11 @@ public class Aspect<V> {
 
     /**
      * Every aspect has a unique name. First this name identifies the aspect (the kind of needed
-     * information) and second the name could be used to retrieve the information from the model. For
-     * example the aspect whether a field is visible or not is called "visible". If a
-     * {@link PropertyDispatcher} want to handle the visible-Aspect in any special case it could rely on
-     * this name. An other {@link PropertyDispatcher} may want to call a method that is suffixed with
-     * the name "visible".
+     * information) and second the name could be used to retrieve the information from the model.
+     * For example the aspect whether a field is visible or not is called "visible". If a
+     * {@link PropertyDispatcher} want to handle the visible-Aspect in any special case it could
+     * rely on this name. An other {@link PropertyDispatcher} may want to call a method that is
+     * suffixed with the name "visible".
      * <p>
      * E.g. in order to get the visibility of the property "address", the aspect would have the name
      * "visible". A {@link PropertyDispatcher} would call a method called "isAddressVisible()" to
@@ -69,10 +69,9 @@ public class Aspect<V> {
         return name;
     }
 
-
     /**
-     * Returns the value of the aspect if there is any. A value might be a value that is derived from
-     * the UI field annotation. It is up to the dispatcher whether this value is used or not.
+     * Returns the value of the aspect if there is any. A value might be a value that is derived
+     * from the UI field annotation. It is up to the dispatcher whether this value is used or not.
      * 
      * @return the value of this aspect. The value might be <code>null</code>
      * 
@@ -149,8 +148,8 @@ public class Aspect<V> {
     }
 
     /**
-     * Wraps a value if there is any. This is similar to {@link Optional} but the value may also be null
-     * although it is marked as being present.
+     * Wraps a value if there is any. This is similar to {@link Optional} but the value may also be
+     * null although it is marked as being present.
      */
     private static class Value<T> {
 

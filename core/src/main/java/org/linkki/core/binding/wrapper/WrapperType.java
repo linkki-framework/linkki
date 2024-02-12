@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding.wrapper;
@@ -22,9 +22,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * A wrapper type helps to distinguish different kinds of component wrappers. It is used to describe
  * aspects that only support specific kinds of components.
  * <p>
- * The {@link WrapperType} is hierarchical, which means every {@link WrapperType} (expect of the root)
- * has a parent {@link WrapperType}. When a {@link ComponentWrapper} is responsible for a specific
- * wrapper type it is also responsible for every sub-component-type.
+ * The {@link WrapperType} is hierarchical, which means every {@link WrapperType} (expect of the
+ * root) has a parent {@link WrapperType}. When a {@link ComponentWrapper} is responsible for a
+ * specific wrapper type it is also responsible for every sub-component-type.
  * 
  * @see ComponentWrapper#getType()
  * @see LinkkiAspectDefinition#supports(WrapperType)
@@ -82,8 +82,8 @@ public class WrapperType {
     }
 
     /**
-     * Returns the parent of this {@link WrapperType}. It is only <code>null</code> if this is the root
-     * type
+     * Returns the parent of this {@link WrapperType}. It is only <code>null</code> if this is the
+     * root type
      * 
      * @return the parent {@link WrapperType} of this type
      * @see #isRoot()
@@ -107,7 +107,8 @@ public class WrapperType {
      * parents of type. In other words: the given type is the same or a subtype of this.
      * 
      * @param type another {@link WrapperType} that should be the same or a subtype of this
-     * @return {@code true} if the given type is the same or a subtype of this, otherwise {@code false}
+     * @return {@code true} if the given type is the same or a subtype of this, otherwise
+     *         {@code false}
      */
     public boolean isAssignableFrom(@CheckForNull WrapperType type) {
         return this.equals(type) || (type != null && isAssignableFrom(type.getParent()));
@@ -129,10 +130,7 @@ public class WrapperType {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
         WrapperType other = (WrapperType)obj;
@@ -153,6 +151,5 @@ public class WrapperType {
     public String toString() {
         return "WrapperType [" + name + ", parent=" + parent + "]";
     }
-
 
 }

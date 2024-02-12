@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.layout.annotation;
@@ -37,8 +37,9 @@ import com.vaadin.flow.component.html.Div;
 
 // TODO LIN-2060
 /***
- * Marks a group of components in a {@link Div}. It provides a simple DOM structure, which can be freely
- * styled by CSS. There is no predefined layouting information. Notable differences to other layouts are
+ * Marks a group of components in a {@link Div}. It provides a simple DOM structure, which can be
+ * freely styled by CSS. There is no predefined layouting information. Notable differences to other
+ * layouts are
  * <ul>
  * <li>Simpler DOM structure.
  * <li>Full developer control without the restriction of templates.
@@ -46,13 +47,13 @@ import com.vaadin.flow.component.html.Div;
  * <li>Relative size calculations may differ in some situations
  * <li>Faster rendering in some situations
  * </ul>
- * To use this, annotate a class with {@link UICssLayout UICssLayout} that includes regular UI element
- * annotations like {@link UITextField @UITextField} on its methods. Call
+ * To use this, annotate a class with {@link UICssLayout UICssLayout} that includes regular UI
+ * element annotations like {@link UITextField @UITextField} on its methods. Call
  * {@link VaadinUiCreator#createComponent(Object, org.linkki.core.binding.BindingContext)} with an
  * instance of that class to create the {@link UICssLayout} and its children.
  * <p>
- * Use the {@link #styleNames()} attribute to designate one or more css classes for this component. If
- * no names are given, the Vaadin default CSS class name is "csslayout".
+ * Use the {@link #styleNames()} attribute to designate one or more css classes for this component.
+ * If no names are given, the Vaadin default CSS class name is "csslayout".
  * 
  * @implNote Uses {@link HasStyle#setClassName(String)} to set the style class.
  */
@@ -65,8 +66,8 @@ public @interface UICssLayout {
 
     /**
      * It is recommended that you declare a CSS class in order to style this and contained elements.
-     * These style names are statically applied to the layout. In order to get dynamic style names use
-     * the functionality of {@link BindStyleNames @BindStyleNames}.
+     * These style names are statically applied to the layout. In order to get dynamic style names
+     * use the functionality of {@link BindStyleNames @BindStyleNames}.
      */
     String[] styleNames() default {};
 

@@ -36,5 +36,4 @@ public class TC008UIRadioButtonsTest extends PlaygroundUiTest {
         Assertions.assertThat(allRadioButons).hasSize(5);
     }
 
-
 }

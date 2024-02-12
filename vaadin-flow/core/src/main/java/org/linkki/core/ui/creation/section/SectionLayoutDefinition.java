@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.creation.section;
@@ -48,14 +48,14 @@ import com.vaadin.flow.component.html.NativeLabel;
 public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
     /**
-     * Uses {@link FormItemComponentWrapper FormItemComponentWrappers} for section content. Labels are
-     * shown aside of the components.
+     * Uses {@link FormItemComponentWrapper FormItemComponentWrappers} for section content. Labels
+     * are shown aside of the components.
      */
     DEFAULT {
         @Override
-        protected VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section, 
-                                                                                        NativeLabel label,
-                                                                                        Component component) {
+        protected VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
+                NativeLabel label,
+                Component component) {
             LabelComponentFormItem formItem = new LabelComponentFormItem(component, label);
             FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
             section.addContent(formItem);
@@ -69,8 +69,8 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     LABEL_ON_TOP {
         @Override
         protected VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
-                                                                                        NativeLabel label, 
-                                                                                        Component component) {
+                NativeLabel label,
+                Component component) {
             VaadinComponentWrapper componentWrapper = new LabelComponentWrapper(component, WrapperType.FIELD);
             section.addContent(componentWrapper.getComponent());
             return componentWrapper;
@@ -136,18 +136,19 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     }
 
     /**
-     * Creates the component wrapper for the given {@link NativeLabel} and {@link Component} and adds it to
-     * the given {@link BaseSection}.
+     * Creates the component wrapper for the given {@link NativeLabel} and {@link Component} and
+     * adds it to the given {@link BaseSection}.
      * <p>
-     * Note that it is necessary to add the component directly to the section in this method. In case of
-     * a {@link FormItemComponentWrapper}, the {@link LabelComponentFormItem} has to be added to the
-     * section, and not the given {@link Component} itself. However, it is not possible to retrieve the
-     * created {@link LabelComponentFormItem} from the {@link FormItemComponentWrapper} after creation.
-     * Thus, the {@link LabelComponentFormItem} has to be added to the section before it is returned.
+     * Note that it is necessary to add the component directly to the section in this method. In
+     * case of a {@link FormItemComponentWrapper}, the {@link LabelComponentFormItem} has to be
+     * added to the section, and not the given {@link Component} itself. However, it is not possible
+     * to retrieve the created {@link LabelComponentFormItem} from the
+     * {@link FormItemComponentWrapper} after creation. Thus, the {@link LabelComponentFormItem} has
+     * to be added to the section before it is returned.
      */
     protected abstract VaadinComponentWrapper createComponentWrapperAndAddComponentToSection(BaseSection section,
-                                                                                             NativeLabel label, 
-                                                                                             Component component);
+            NativeLabel label,
+            Component component);
 
     private void createTable(Object parentComponent, Object pmo, BindingContext bindingContext) {
         GridSection section = (GridSection)parentComponent;

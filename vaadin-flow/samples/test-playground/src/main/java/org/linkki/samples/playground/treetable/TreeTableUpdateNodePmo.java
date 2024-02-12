@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.treetable;
@@ -69,8 +69,7 @@ public class TreeTableUpdateNodePmo implements ContainerPmo<SimpleTreeNodeRowPmo
             return true;
         }
 
-        @UIButton(position = 30, icon = VaadinIcon.MINUS_CIRCLE_O, showIcon = true,
-                visible = VisibleType.DYNAMIC)
+        @UIButton(position = 30, icon = VaadinIcon.MINUS_CIRCLE_O, showIcon = true, visible = VisibleType.DYNAMIC)
         public void remove() {
             remove.accept(this);
         }

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -101,13 +101,15 @@ public @interface UIDateField {
         public LinkkiAspectDefinition create(UIDateField annotation) {
             ValueAspectDefinition dateFieldValueAspectCreator = new ValueAspectDefinition() {
 
-                private final TwoDigitYearLocalDateConverter twoDigitYearConverter = new TwoDigitYearLocalDateConverter();
+                private final TwoDigitYearLocalDateConverter twoDigitYearConverter =
+                        new TwoDigitYearLocalDateConverter();
 
                 @Override
                 protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
                     @SuppressWarnings("unchecked")
-                    Converter<LocalDate, ?> superConverter = (Converter<LocalDate, ?>)super.getConverter(presentationType,
-                                                                                                         modelType);
+                    Converter<LocalDate, ?> superConverter =
+                            (Converter<LocalDate, ?>)super.getConverter(presentationType,
+                                                                        modelType);
                     return twoDigitYearConverter.chain(superConverter);
                 }
             };

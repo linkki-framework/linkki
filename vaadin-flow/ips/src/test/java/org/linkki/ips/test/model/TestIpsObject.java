@@ -14,11 +14,11 @@ import org.faktorips.runtime.model.annotation.IpsAttribute;
 import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
 import org.faktorips.runtime.model.annotation.IpsAttributes;
 import org.faktorips.runtime.model.annotation.IpsDefaultValue;
-import org.faktorips.valueset.DerivedValueSet;
 import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
 import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
+import org.faktorips.valueset.DerivedValueSet;
 import org.faktorips.valueset.DoubleRange;
 import org.faktorips.valueset.IntegerRange;
 import org.faktorips.valueset.OrderedValueSet;
@@ -37,14 +37,12 @@ import org.w3c.dom.Element;
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
 public class TestIpsObject extends AbstractModelObject {
 
-
     /**
      * The name of the property foo.
      *
      * @generated
      */
     public static final String PROPERTY_FOO = "foo";
-
 
     /**
      * Max allowed values for property foo.
@@ -54,7 +52,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsAllowedValues("foo")
     public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_FOO = new UnrestrictedValueSet<>(true);
 
-
     /**
      * The default value for foo.
      *
@@ -63,14 +60,12 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsDefaultValue("foo")
     public static final String DEFAULT_VALUE_FOR_FOO = null;
 
-
     /**
      * The name of the property valueSetInclNull.
      *
      * @generated
      */
     public static final String PROPERTY_VALUESETINCLNULL = "valueSetInclNull";
-
 
     /**
      * Max allowed values for property valueSetInclNull.
@@ -80,7 +75,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsAllowedValues("valueSetInclNull")
     public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_VALUE_SET_INCL_NULL = new UnrestrictedValueSet<>(true);
 
-
     /**
      * The default value for valueSetInclNull.
      *
@@ -89,14 +83,12 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsDefaultValue("valueSetInclNull")
     public static final Boolean DEFAULT_VALUE_FOR_VALUE_SET_INCL_NULL = null;
 
-
     /**
      * The name of the property valueSetExclNull.
      *
      * @generated
      */
     public static final String PROPERTY_VALUESETEXCLNULL = "valueSetExclNull";
-
 
     /**
      * Max allowed values for property valueSetExclNull.
@@ -106,7 +98,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsAllowedValues("valueSetExclNull")
     public static final ValueSet<Boolean> MAX_ALLOWED_VALUES_FOR_VALUE_SET_EXCL_NULL = new DerivedValueSet<>();
 
-
     /**
      * The default value for valueSetExclNull.
      *
@@ -115,7 +106,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsDefaultValue("valueSetExclNull")
     public static final boolean DEFAULT_VALUE_FOR_VALUE_SET_EXCL_NULL = true;
 
-
     /**
      * The name of the property emptyValueSet.
      *
@@ -123,16 +113,14 @@ public class TestIpsObject extends AbstractModelObject {
      */
     public static final String PROPERTY_EMPTYVALUESET = "emptyValueSet";
 
-
     /**
      * Max allowed values for property emptyValueSet.
      *
      * @generated
      */
     @IpsAllowedValues("emptyValueSet")
-    public static final OrderedValueSet<MonthDay> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<>(false,
-            null);
-
+    public static final OrderedValueSet<MonthDay> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET =
+            new OrderedValueSet<>(false, null);
 
     /**
      * The default value for emptyValueSet.
@@ -142,7 +130,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsDefaultValue("emptyValueSet")
     public static final MonthDay DEFAULT_VALUE_FOR_EMPTY_VALUE_SET = null;
 
-
     /**
      * The name of the property valueSetRangeOfIntInclNull.
      *
@@ -150,16 +137,14 @@ public class TestIpsObject extends AbstractModelObject {
      */
     public static final String PROPERTY_VALUESETRANGEOFINTINCLNULL = "valueSetRangeOfIntInclNull";
 
-
     /**
      * Max allowed range for the property valueSetRangeOfIntInclNull.
      *
      * @generated
      */
     @IpsAllowedValues("valueSetRangeOfIntInclNull")
-    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL = IntegerRange
-            .valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), true);
-
+    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL =
+            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), true);
 
     /**
      * The default value for valueSetRangeOfIntInclNull.
@@ -169,7 +154,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsDefaultValue("valueSetRangeOfIntInclNull")
     public static final Integer DEFAULT_VALUE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL = null;
 
-
     /**
      * The name of the property valueSetRangeOfIntExclNull.
      *
@@ -177,16 +161,14 @@ public class TestIpsObject extends AbstractModelObject {
      */
     public static final String PROPERTY_VALUESETRANGEOFINTEXCLNULL = "valueSetRangeOfIntExclNull";
 
-
     /**
      * Max allowed range for the property valueSetRangeOfIntExclNull.
      *
      * @generated
      */
     @IpsAllowedValues("valueSetRangeOfIntExclNull")
-    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL = IntegerRange
-            .valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), false);
-
+    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL =
+            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), false);
 
     /**
      * The default value for valueSetRangeOfIntExclNull.
@@ -196,7 +178,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsDefaultValue("valueSetRangeOfIntExclNull")
     public static final Integer DEFAULT_VALUE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL = null;
 
-
     /**
      * The name of the property valueSetIntUnrestricted.
      *
@@ -204,16 +185,14 @@ public class TestIpsObject extends AbstractModelObject {
      */
     public static final String PROPERTY_VALUESETINTUNRESTRICTED = "valueSetIntUnrestricted";
 
-
     /**
      * Max allowed values for property valueSetIntUnrestricted.
      *
      * @generated
      */
     @IpsAllowedValues("valueSetIntUnrestricted")
-    public static final ValueSet<Integer> MAX_ALLOWED_VALUES_FOR_VALUE_SET_INT_UNRESTRICTED = new UnrestrictedValueSet<>(
-            true);
-
+    public static final ValueSet<Integer> MAX_ALLOWED_VALUES_FOR_VALUE_SET_INT_UNRESTRICTED =
+            new UnrestrictedValueSet<>(true);
 
     /**
      * The default value for valueSetIntUnrestricted.
@@ -223,7 +202,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsDefaultValue("valueSetIntUnrestricted")
     public static final Integer DEFAULT_VALUE_FOR_VALUE_SET_INT_UNRESTRICTED = null;
 
-
     /**
      * The name of the property valueSetNotDiscrete.
      *
@@ -231,16 +209,14 @@ public class TestIpsObject extends AbstractModelObject {
      */
     public static final String PROPERTY_VALUESETNOTDISCRETE = "valueSetNotDiscrete";
 
-
     /**
      * Max allowed range for the property valueSetNotDiscrete.
      *
      * @generated
      */
     @IpsAllowedValues("valueSetNotDiscrete")
-    public static final DoubleRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_NOT_DISCRETE = DoubleRange
-            .valueOf(Double.valueOf(1), Double.valueOf(100), (Double)null, false);
-
+    public static final DoubleRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_NOT_DISCRETE =
+            DoubleRange.valueOf(Double.valueOf(1), Double.valueOf(100), (Double)null, false);
 
     /**
      * The default value for valueSetNotDiscrete.
@@ -250,14 +226,12 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsDefaultValue("valueSetNotDiscrete")
     public static final Double DEFAULT_VALUE_FOR_VALUE_SET_NOT_DISCRETE = null;
 
-
     /**
      * Member variable for foo.
      *
      * @generated
      */
     private String foo = DEFAULT_VALUE_FOR_FOO;
-
 
     /**
      * Member variable for valueSetInclNull.
@@ -266,14 +240,12 @@ public class TestIpsObject extends AbstractModelObject {
      */
     private Boolean valueSetInclNull = DEFAULT_VALUE_FOR_VALUE_SET_INCL_NULL;
 
-
     /**
      * Member variable for valueSetExclNull.
      *
      * @generated
      */
     private boolean valueSetExclNull = DEFAULT_VALUE_FOR_VALUE_SET_EXCL_NULL;
-
 
     /**
      * Member variable for emptyValueSet.
@@ -282,14 +254,12 @@ public class TestIpsObject extends AbstractModelObject {
      */
     private MonthDay emptyValueSet = DEFAULT_VALUE_FOR_EMPTY_VALUE_SET;
 
-
     /**
      * Member variable for valueSetRangeOfIntInclNull.
      *
      * @generated
      */
     private Integer valueSetRangeOfIntInclNull = DEFAULT_VALUE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL;
-
 
     /**
      * Member variable for valueSetRangeOfIntExclNull.
@@ -298,7 +268,6 @@ public class TestIpsObject extends AbstractModelObject {
      */
     private Integer valueSetRangeOfIntExclNull = DEFAULT_VALUE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL;
 
-
     /**
      * Member variable for valueSetIntUnrestricted.
      *
@@ -306,14 +275,12 @@ public class TestIpsObject extends AbstractModelObject {
      */
     private Integer valueSetIntUnrestricted = DEFAULT_VALUE_FOR_VALUE_SET_INT_UNRESTRICTED;
 
-
     /**
      * Member variable for valueSetNotDiscrete.
      *
      * @generated
      */
     private Double valueSetNotDiscrete = DEFAULT_VALUE_FOR_VALUE_SET_NOT_DISCRETE;
-
 
     /**
      * Creates a new TestIpsObject.
@@ -325,7 +292,6 @@ public class TestIpsObject extends AbstractModelObject {
         super();
     }
 
-
     /**
      * Returns the set of allowed values for the property foo.
      *
@@ -336,7 +302,6 @@ public class TestIpsObject extends AbstractModelObject {
     public ValueSet<String> getAllowedValuesForFoo() {
         return MAX_ALLOWED_VALUES_FOR_FOO;
     }
-
 
     /**
      * Returns the foo.
@@ -360,7 +325,6 @@ public class TestIpsObject extends AbstractModelObject {
         this.foo = newValue;
     }
 
-
     /**
      * Returns the set of allowed values for the property valueSetInclNull.
      *
@@ -371,7 +335,6 @@ public class TestIpsObject extends AbstractModelObject {
     public ValueSet<Boolean> getAllowedValuesForValueSetInclNull() {
         return MAX_ALLOWED_VALUES_FOR_VALUE_SET_INCL_NULL;
     }
-
 
     /**
      * Returns the valueSetInclNull.
@@ -384,7 +347,6 @@ public class TestIpsObject extends AbstractModelObject {
         return valueSetInclNull;
     }
 
-
     /**
      * Sets the value of attribute valueSetInclNull.
      *
@@ -395,7 +357,6 @@ public class TestIpsObject extends AbstractModelObject {
     public void setValueSetInclNull(Boolean newValue) {
         this.valueSetInclNull = newValue;
     }
-
 
     /**
      * Returns the set of allowed values for the property valueSetExclNull.
@@ -422,7 +383,6 @@ public class TestIpsObject extends AbstractModelObject {
         return valueSetExclNull;
     }
 
-
     /**
      * Sets the value of attribute valueSetExclNull.
      *
@@ -433,7 +393,6 @@ public class TestIpsObject extends AbstractModelObject {
     public void setValueSetExclNull(boolean newValue) {
         this.valueSetExclNull = newValue;
     }
-
 
     /**
      * Returns the set of allowed values for the property emptyValueSet.
@@ -446,7 +405,6 @@ public class TestIpsObject extends AbstractModelObject {
         return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
     }
 
-
     /**
      * Returns the emptyValueSet.
      *
@@ -457,7 +415,6 @@ public class TestIpsObject extends AbstractModelObject {
     public MonthDay getEmptyValueSet() {
         return emptyValueSet;
     }
-
 
     /**
      * Sets the value of attribute emptyValueSet.
@@ -470,7 +427,6 @@ public class TestIpsObject extends AbstractModelObject {
         this.emptyValueSet = newValue;
     }
 
-
     /**
      * Returns the range of allowed values for the property valueSetRangeOfIntInclNull.
      *
@@ -481,7 +437,6 @@ public class TestIpsObject extends AbstractModelObject {
     public ValueSet<Integer> getAllowedValuesForValueSetRangeOfIntInclNull() {
         return MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL;
     }
-
 
     /**
      * Returns the valueSetRangeOfIntInclNull.
@@ -495,7 +450,6 @@ public class TestIpsObject extends AbstractModelObject {
         return valueSetRangeOfIntInclNull;
     }
 
-
     /**
      * Sets the value of attribute valueSetRangeOfIntInclNull.
      *
@@ -507,7 +461,6 @@ public class TestIpsObject extends AbstractModelObject {
         this.valueSetRangeOfIntInclNull = newValue;
     }
 
-
     /**
      * Returns the range of allowed values for the property valueSetRangeOfIntExclNull.
      *
@@ -518,7 +471,6 @@ public class TestIpsObject extends AbstractModelObject {
     public ValueSet<Integer> getAllowedValuesForValueSetRangeOfIntExclNull() {
         return MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL;
     }
-
 
     /**
      * Returns the valueSetRangeOfIntExclNull.
@@ -532,7 +484,6 @@ public class TestIpsObject extends AbstractModelObject {
         return valueSetRangeOfIntExclNull;
     }
 
-
     /**
      * Sets the value of attribute valueSetRangeOfIntExclNull.
      *
@@ -544,7 +495,6 @@ public class TestIpsObject extends AbstractModelObject {
         this.valueSetRangeOfIntExclNull = newValue;
     }
 
-
     /**
      * Returns the set of allowed values for the property valueSetIntUnrestricted.
      *
@@ -555,7 +505,6 @@ public class TestIpsObject extends AbstractModelObject {
     public ValueSet<Integer> getAllowedValuesForValueSetIntUnrestricted() {
         return MAX_ALLOWED_VALUES_FOR_VALUE_SET_INT_UNRESTRICTED;
     }
-
 
     /**
      * Returns the valueSetIntUnrestricted.
@@ -569,7 +518,6 @@ public class TestIpsObject extends AbstractModelObject {
         return valueSetIntUnrestricted;
     }
 
-
     /**
      * Sets the value of attribute valueSetIntUnrestricted.
      *
@@ -580,7 +528,6 @@ public class TestIpsObject extends AbstractModelObject {
     public void setValueSetIntUnrestricted(Integer newValue) {
         this.valueSetIntUnrestricted = newValue;
     }
-
 
     /**
      * Returns the range of allowed values for the property valueSetNotDiscrete.
@@ -593,7 +540,6 @@ public class TestIpsObject extends AbstractModelObject {
         return MAX_ALLOWED_RANGE_FOR_VALUE_SET_NOT_DISCRETE;
     }
 
-
     /**
      * Returns the valueSetNotDiscrete.
      *
@@ -604,7 +550,6 @@ public class TestIpsObject extends AbstractModelObject {
     public Double getValueSetNotDiscrete() {
         return valueSetNotDiscrete;
     }
-
 
     /**
      * Sets the value of attribute valueSetNotDiscrete.
@@ -617,7 +562,6 @@ public class TestIpsObject extends AbstractModelObject {
         this.valueSetNotDiscrete = newValue;
     }
 
-
     /**
      * Initializes the object with the configured defaults.
      *
@@ -628,7 +572,6 @@ public class TestIpsObject extends AbstractModelObject {
         // begin-user-code
         // end-user-code
     }
-
 
     /**
      * {@inheritDoc}
@@ -670,7 +613,6 @@ public class TestIpsObject extends AbstractModelObject {
         }
     }
 
-
     /**
      * @generated
      */
@@ -680,7 +622,6 @@ public class TestIpsObject extends AbstractModelObject {
             this.valueSetExclNull = Boolean.valueOf(propMap.get(PROPERTY_VALUESETEXCLNULL)).booleanValue();
         }
     }
-
 
     /**
      * @generated
@@ -693,19 +634,17 @@ public class TestIpsObject extends AbstractModelObject {
         }
     }
 
-
     /**
      * @generated
      */
     @IpsGenerated
     private void doInitValueSetRangeOfIntInclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_VALUESETRANGEOFINTINCLNULL)) {
-            this.valueSetRangeOfIntInclNull = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETRANGEOFINTINCLNULL))
-                    ? null
-                    : Integer.valueOf(propMap.get(PROPERTY_VALUESETRANGEOFINTINCLNULL));
+            this.valueSetRangeOfIntInclNull =
+                    IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETRANGEOFINTINCLNULL)) ? null
+                            : Integer.valueOf(propMap.get(PROPERTY_VALUESETRANGEOFINTINCLNULL));
         }
     }
-
 
     /**
      * @generated
@@ -713,12 +652,11 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsGenerated
     private void doInitValueSetRangeOfIntExclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_VALUESETRANGEOFINTEXCLNULL)) {
-            this.valueSetRangeOfIntExclNull = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETRANGEOFINTEXCLNULL))
-                    ? null
-                    : Integer.valueOf(propMap.get(PROPERTY_VALUESETRANGEOFINTEXCLNULL));
+            this.valueSetRangeOfIntExclNull =
+                    IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETRANGEOFINTEXCLNULL)) ? null
+                            : Integer.valueOf(propMap.get(PROPERTY_VALUESETRANGEOFINTEXCLNULL));
         }
     }
-
 
     /**
      * @generated
@@ -731,7 +669,6 @@ public class TestIpsObject extends AbstractModelObject {
         }
     }
 
-
     /**
      * @generated
      */
@@ -742,7 +679,6 @@ public class TestIpsObject extends AbstractModelObject {
                     : Double.valueOf(propMap.get(PROPERTY_VALUESETNOTDISCRETE));
         }
     }
-
 
     /**
      * {@inheritDoc}
@@ -758,7 +694,6 @@ public class TestIpsObject extends AbstractModelObject {
         }
         return null;
     }
-
 
     /**
      * Validates the object (but not its children). Returns <code>true</code> if this object should
@@ -785,6 +720,5 @@ public class TestIpsObject extends AbstractModelObject {
     public void validateDependants(MessageList ml, IValidationContext context) {
         super.validateDependants(ml, context);
     }
-
 
 }

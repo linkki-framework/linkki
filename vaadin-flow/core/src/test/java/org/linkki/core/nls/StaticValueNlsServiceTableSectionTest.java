@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.nls;
 
@@ -38,7 +38,6 @@ public class StaticValueNlsServiceTableSectionTest {
 
     private final BindingContext bindingContext = new BindingContext();
 
-
     private String translatedLabel;
 
     private String translatedCaption;
@@ -46,7 +45,8 @@ public class StaticValueNlsServiceTableSectionTest {
     @BeforeEach
     public void setUp() {
         // test nls setup
-        translatedCaption = StaticValueNlsService.getInstance().getString(NlsTablePmo.class,"","caption", NlsTablePmo.TABLE_CAPTION);
+        translatedCaption = StaticValueNlsService.getInstance().getString(NlsTablePmo.class, "", "caption",
+                                                                          NlsTablePmo.TABLE_CAPTION);
         assertThat(translatedCaption, is(not(NlsTablePmo.TABLE_CAPTION)));
         translatedLabel = getTranslatedLabel(NlsTableRowPmo.PROPERTY_VALUE1);
         assertThat(translatedLabel, is(not(NlsTableRowPmo.PMO_LABEL)));
@@ -56,7 +56,8 @@ public class StaticValueNlsServiceTableSectionTest {
     }
 
     private String getTranslatedLabel(String property) {
-        return StaticValueNlsService.getInstance().getString(NlsTableRowPmo.class, property, "label", NlsTableRowPmo.PMO_LABEL);
+        return StaticValueNlsService.getInstance().getString(NlsTableRowPmo.class, property, "label",
+                                                             NlsTableRowPmo.PMO_LABEL);
     }
 
     @Test
@@ -78,13 +79,11 @@ public class StaticValueNlsServiceTableSectionTest {
         assertThat(createAndGetTableSectionCaption(new NoNlsTablePmo()), is(NoNlsTablePmo.CAPTION));
     }
 
-
     private String createAndGetTableSectionCaption(ContainerPmo<NlsTableRowPmo> containerPmo) {
         PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
         LinkkiSection tableSection = factory.createSection(containerPmo, bindingContext);
         return tableSection.getCaption();
     }
-
 
 }

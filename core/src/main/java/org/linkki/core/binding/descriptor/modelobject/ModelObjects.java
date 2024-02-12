@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding.descriptor.modelobject;
@@ -35,8 +35,9 @@ import org.linkki.util.reflection.accessor.MemberAccessors;
  * Utility class to access the model object of a PMO.
  * <p>
  * A model object in a PMO is defined by a field or method that is annotated with the annotation
- * {@link ModelObject}. The value may change during the lifetime of a PMO - that's why only a supplier
- * for the model object is returned. The supplier should be called whenever a model object is required.
+ * {@link ModelObject}. The value may change during the lifetime of a PMO - that's why only a
+ * supplier for the model object is returned. The supplier should be called whenever a model object
+ * is required.
  */
 public class ModelObjects {
 
@@ -98,19 +99,19 @@ public class ModelObjects {
     /**
      * Reads the given presentation model object's class to find a method or field annotated with
      * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
-     * given model object name. Returns a supplier that supplies a model object by invoking that method
-     * or retrieving the field value.
+     * given model object name. Returns a supplier that supplies a model object by invoking that
+     * method or retrieving the field value.
      *
      * @param pmo a presentation model object
-     * @param modelObjectName the name of the model object as provided by a method/field annotated with
-     *            {@link ModelObject @ModelObject}
+     * @param modelObjectName the name of the model object as provided by a method/field annotated
+     *            with {@link ModelObject @ModelObject}
      *
-     * @return a supplier that supplies a model object by invoking the annotated method or retrieving
-     *         the field value
+     * @return a supplier that supplies a model object by invoking the annotated method or
+     *         retrieving the field value
      *
-     * @throws ModelObjectAnnotationException if no matching method or field is found, the method has no
-     *             return value, the field has the type {@link Void} or multiple annotations for the
-     *             same model object name are present.
+     * @throws ModelObjectAnnotationException if no matching method or field is found, the method
+     *             has no return value, the field has the type {@link Void} or multiple annotations
+     *             for the same model object name are present.
      */
     public static Supplier<Object> supplierFor(Object pmo, String modelObjectName) {
         Member accessMember = getModelObjectAccessMember(pmo, modelObjectName)
@@ -121,19 +122,20 @@ public class ModelObjects {
     /**
      * Reads the given presentation model object's class to find a method or field annotated with
      * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
-     * given model object name. Returns a supplier that supplies the model objects declared class. Note
-     * that only the method or field is inspected, not the actual model object's class at runtime.
+     * given model object name. Returns a supplier that supplies the model objects declared class.
+     * Note that only the method or field is inspected, not the actual model object's class at
+     * runtime.
      *
      * @param pmo a presentation model object
-     * @param modelObjectName the name of the model object as provided by a method/field annotated with
-     *            {@link ModelObject @ModelObject}
+     * @param modelObjectName the name of the model object as provided by a method/field annotated
+     *            with {@link ModelObject @ModelObject}
      *
-     * @return a supplier that supplies the model objects declared class or {@code null} if the access
-     *         member is not a field or method
+     * @return a supplier that supplies the model objects declared class or {@code null} if the
+     *         access member is not a field or method
      *
-     * @throws ModelObjectAnnotationException if no matching method or field is found, the method has no
-     *             return value, the field has the type {@link Void} or multiple annotations for the
-     *             same model object name are present.
+     * @throws ModelObjectAnnotationException if no matching method or field is found, the method
+     *             has no return value, the field has the type {@link Void} or multiple annotations
+     *             for the same model object name are present.
      */
     public static Supplier<Class<?>> classSupplierFor(Object pmo, String modelObjectName) {
         Member accessMember = getModelObjectAccessMember(pmo, modelObjectName)
@@ -156,8 +158,8 @@ public class ModelObjects {
      * @param pmo an object used for a presentation model
      * @param modelObjectName the name of the model object
      *
-     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using the
-     *         given name
+     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
+     *         the given name
      * @throws ModelObjectAnnotationException if multiple annotations for the model object name are
      *             present
      */
@@ -166,8 +168,8 @@ public class ModelObjects {
     }
 
     /**
-     * Returns the accessible method or field that is annotated with {@link ModelObject @ModelObject}
-     * using the given name if there is any.
+     * Returns the accessible method or field that is annotated with
+     * {@link ModelObject @ModelObject} using the given name if there is any.
      *
      * @param pmo an object used for a presentation model
      * @param modelObjectName the name of the model object
@@ -254,10 +256,7 @@ public class ModelObjects {
             if (this == obj) {
                 return true;
             }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
+            if ((obj == null) || (getClass() != obj.getClass())) {
                 return false;
             }
             Key other = (Key)obj;

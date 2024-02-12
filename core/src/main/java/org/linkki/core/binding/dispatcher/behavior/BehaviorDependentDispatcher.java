@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding.dispatcher.behavior;
 
@@ -28,15 +28,16 @@ import org.linkki.util.function.TriPredicate;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * {@link AbstractPropertyDispatcherDecorator DispatcherDecorator} that lets {@link PropertyBehavior}
- * instances influence the data as well as the data flow from/to the wrapped dispatcher.
+ * {@link AbstractPropertyDispatcherDecorator DispatcherDecorator} that lets
+ * {@link PropertyBehavior} instances influence the data as well as the data flow from/to the
+ * wrapped dispatcher.
  * <p>
  * Boolean return values are evaluated with a logical AND.
  * <p>
  * An example. To decide whether a property is visible, this dispatcher calls
- * {@link PropertyBehavior#isVisible(Object, String)} for all behaviors. The field is visible only if
- * all behaviors return <code>true</code>. If at least one returns <code>false</code>, the property is
- * hidden.
+ * {@link PropertyBehavior#isVisible(Object, String)} for all behaviors. The field is visible only
+ * if all behaviors return <code>true</code>. If at least one returns <code>false</code>, the
+ * property is hidden.
  * <p>
  * In other words behaviors normally return <code>true</code>, but can veto an aspect, by returning
  * <code>false</code>, if they desire to change the behavior.
@@ -53,8 +54,8 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
 
     /**
      * Checks whether the given property shows validation messages (as defined by the
-     * {@link PropertyBehavior behaviors}). If it shows messages, returns the messages returned by the
-     * wrapped dispatcher. If it hides messages, returns an empty message list.
+     * {@link PropertyBehavior behaviors}). If it shows messages, returns the messages returned by
+     * the wrapped dispatcher. If it hides messages, returns an empty message list.
      */
     @Override
     public MessageList getMessages(MessageList messageList) {
@@ -65,7 +66,8 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
         }
     }
 
-    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "that's why we use requireNonNull")
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "that's why we use requireNonNull")
     private Predicate<PropertyBehavior> forBoundObjectAndProperty(
             TriPredicate<PropertyBehavior, Object, String> triPredicate) {
         Object boundObject = requireNonNull(getBoundObject(), "boundObject must not be null");
@@ -74,8 +76,9 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     /**
-     * Returns <code>true</code> if all behaviors return <code>true</code> for the given aspect (e.g.
-     * isVisible()), <code>false</code> if at least one returns <code>false</code> (logical AND).
+     * Returns <code>true</code> if all behaviors return <code>true</code> for the given aspect
+     * (e.g. isVisible()), <code>false</code> if at least one returns <code>false</code> (logical
+     * AND).
      * <p>
      * Returns <code>true</code> if there are no registered behaviors.
      */
@@ -89,10 +92,10 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     /**
      * {@inheritDoc}
      * <p>
-     * Delegates to the wrapped dispatcher except for boolean valued aspect. In case of boolean valued
-     * aspects, this dispatcher only delegates to the wrapped dispatcher if all {@link PropertyBehavior
-     * PropertyBehaviors} return <code>true</code> for the aspect. Otherwise this method returns
-     * <code>false</code>.
+     * Delegates to the wrapped dispatcher except for boolean valued aspect. In case of boolean
+     * valued aspects, this dispatcher only delegates to the wrapped dispatcher if all
+     * {@link PropertyBehavior PropertyBehaviors} return <code>true</code> for the aspect. Otherwise
+     * this method returns <code>false</code>.
      */
     @SuppressWarnings("unchecked")
     @Override

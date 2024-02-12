@@ -1,16 +1,17 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
+
 package org.linkki.core.binding.descriptor;
 
 import static java.util.Objects.requireNonNull;
@@ -34,8 +35,8 @@ import org.linkki.core.binding.validation.handler.DefaultMessageHandler;
 import org.linkki.core.pmo.ModelObject;
 
 /**
- * Describes how to bind a specific component to a specific model. Neither the component nor the model
- * are part of the descriptor, it only consists of the binding information.
+ * Describes how to bind a specific component to a specific model. Neither the component nor the
+ * model are part of the descriptor, it only consists of the binding information.
  */
 public final class BindingDescriptor {
 
@@ -79,8 +80,8 @@ public final class BindingDescriptor {
 
     /**
      * Returns the name of the property that the bound UI element displays. For an UI element that
-     * accesses the field of a model/PMO class, this is the name of that field. For an UI element that
-     * invokes a method (i.e. a button) this is the name of the method.
+     * accesses the field of a model/PMO class, this is the name of that field. For an UI element
+     * that invokes a method (i.e. a button) this is the name of the method.
      * 
      * @deprecated Call {@link BoundProperty#getModelAttribute()} on the object returned by
      *             {@link #getBoundProperty()} instead.
@@ -91,10 +92,10 @@ public final class BindingDescriptor {
     }
 
     /**
-     * Returns the name of the model object containing the {@link #getModelAttributeName() property} if
-     * the bound PMO itself does not contain the property. The PMO has to have a
-     * {@link ModelObject @ModelObject} annotation with that name on the method that returns the model
-     * object.
+     * Returns the name of the model object containing the {@link #getModelAttributeName() property}
+     * if the bound PMO itself does not contain the property. The PMO has to have a
+     * {@link ModelObject @ModelObject} annotation with that name on the method that returns the
+     * model object.
      * 
      * @deprecated Call {@link BoundProperty#getModelObject()} on the object returned by
      *             {@link #getBoundProperty()} instead.
@@ -151,9 +152,9 @@ public final class BindingDescriptor {
     }
 
     /**
-     * Creates a {@link BindingDescriptor} for the given method. The method is allowed to have multiple
-     * component annotations describing a bound property, the annotation from which to derive the bound
-     * property must be passed as a parameter.
+     * Creates a {@link BindingDescriptor} for the given method. The method is allowed to have
+     * multiple component annotations describing a bound property, the annotation from which to
+     * derive the bound property must be passed as a parameter.
      */
     public static BindingDescriptor forMethod(Method method, Annotation annotation) {
         return new BindingDescriptor(BoundPropertyAnnotationReader
@@ -164,8 +165,8 @@ public final class BindingDescriptor {
     }
 
     /**
-     * Creates a {@link BindingDescriptor} for the given field. The field must be annotated with exactly
-     * one component annotation that describes the bound property.
+     * Creates a {@link BindingDescriptor} for the given field. The field must be annotated with
+     * exactly one component annotation that describes the bound property.
      */
     public static BindingDescriptor forField(Field field) {
         return forAnnotatedElement(field);

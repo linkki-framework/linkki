@@ -6,6 +6,14 @@
 
 package org.linkki.core.binding.validation.annotation;
 
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+
 import org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler;
 import org.linkki.core.binding.descriptor.messagehandler.annotation.LinkkiMessages;
 import org.linkki.core.binding.descriptor.messagehandler.annotation.MessageHandlerCreator;
@@ -15,24 +23,16 @@ import org.linkki.core.binding.validation.annotation.BindMessages.BindMessagesHa
 import org.linkki.core.binding.validation.handler.BindValidationMessagesHandler;
 import org.linkki.core.binding.validation.message.MessageList;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
-
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 /**
  * When a PMO property method is annotated with this annotation, a method named
  * <b>get[PropertyName]Messages(MessageList)</b> is called when the binding processes the validation
- * messages. The {@link MessageList} passed as a parameter to this method contains all messages from the
- * {@link ValidationService}. The method must select the messages that are relevant to the bound
+ * messages. The {@link MessageList} passed as a parameter to this method contains all messages from
+ * the {@link ValidationService}. The method must select the messages that are relevant to the bound
  * selecting messages about the bound object and the property will be overridden.
  * <p>
- * It is not recommended to return other messages which are not part of the input messages because they
- * will not be recognized by other message handlers. Consider changing your validation service instead
- * or create a feature request with your use case.
+ * It is not recommended to return other messages which are not part of the input messages because
+ * they will not be recognized by other message handlers. Consider changing your validation service
+ * instead or create a feature request with your use case.
  */
 @Retention(RUNTIME)
 @Target(METHOD)

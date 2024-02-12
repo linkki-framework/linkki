@@ -92,10 +92,10 @@ public class TestCompiler {
     }
 
     /**
-     * Compiles the given list of source files using the specified Processor. The sources are compiled
-     * twice: The first run compiles all source files to classes - including the annotations. The
-     * annotation processor is not used in this step. In the second compilation run, the annotation
-     * processor is used and can properly analyze the compiled sources.
+     * Compiles the given list of source files using the specified Processor. The sources are
+     * compiled twice: The first run compiles all source files to classes - including the
+     * annotations. The annotation processor is not used in this step. In the second compilation
+     * run, the annotation processor is used and can properly analyze the compiled sources.
      */
     public boolean compile(Processor processor, List<SourceFile> sourceFiles) throws IOException {
         return runCompilation(null, sourceFiles, compilerOptions) &&

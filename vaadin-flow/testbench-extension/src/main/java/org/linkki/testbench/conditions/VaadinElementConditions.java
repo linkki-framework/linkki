@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.testbench.conditions;
@@ -39,7 +39,8 @@ public class VaadinElementConditions {
 
     /**
      * An expectation for checking that a query matches at least one
-     * {@link TestBenchElement#isDisplayed() displayed} element. The first matching element is returned.
+     * {@link TestBenchElement#isDisplayed() displayed} element. The first matching element is
+     * returned.
      *
      * @param query the query used to find the element
      */
@@ -49,13 +50,14 @@ public class VaadinElementConditions {
 
     /**
      * An expectation for checking that a query matches at least one
-     * {@link TestBenchElement#isDisplayed() displayed} element. The first matching element is returned.
+     * {@link TestBenchElement#isDisplayed() displayed} element. The first matching element is
+     * returned.
      *
      * @param query the query used to find the element
      */
     public static <T extends TestBenchElement> ExpectedCondition<T> elementDisplayed(ElementQuery<T> query,
             Predicate<T> filter) {
-        return new ExpectedCondition<T>() {
+        return new ExpectedCondition<>() {
             @Override
             public T apply(WebDriver driver) {
                 return findFirst(query, filter.and(TestBenchElement::isDisplayed));
@@ -69,7 +71,7 @@ public class VaadinElementConditions {
     }
 
     public static ExpectedCondition<NotificationElement> notificationDisplayed(String title) {
-        return new ExpectedCondition<NotificationElement>() {
+        return new ExpectedCondition<>() {
             @Override
             public NotificationElement apply(WebDriver driver) {
                 ElementQuery<NotificationElement> query = new ElementQuery<>(NotificationElement.class).context(driver);
@@ -90,7 +92,7 @@ public class VaadinElementConditions {
     }
 
     public static ExpectedCondition<DialogElement> dialogDisplayed(String title) {
-        return new ExpectedCondition<DialogElement>() {
+        return new ExpectedCondition<>() {
             @Override
             public DialogElement apply(WebDriver driver) {
                 ElementQuery<DialogElement> query = new ElementQuery<>(DialogElement.class).context(driver);

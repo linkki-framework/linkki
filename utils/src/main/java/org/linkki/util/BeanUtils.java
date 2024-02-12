@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util;
 
@@ -66,9 +66,9 @@ public class BeanUtils {
     }
 
     /**
-     * Returns an optional containing the class' method matching the given predicate (empty optional if
-     * none matches). If you expect more than one match, {@link #getMethods(Class, Predicate)} might be
-     * what you're looking for.
+     * Returns an optional containing the class' method matching the given predicate (empty optional
+     * if none matches). If you expect more than one match, {@link #getMethods(Class, Predicate)}
+     * might be what you're looking for.
      * 
      * @throws IllegalStateException If more than one method matches the predicate.
      */
@@ -105,8 +105,8 @@ public class BeanUtils {
 
     /**
      * Returns the class' field with the given name. In contrast to
-     * {@link #getDeclaredField(Class, String)} this method searches the type's hierarchy (if the class
-     * extends a super class)
+     * {@link #getDeclaredField(Class, String)} this method searches the type's hierarchy (if the
+     * class extends a super class)
      * 
      * @throws RuntimeException wrapping a NoSuchFieldException if no such field exists.
      * 
@@ -170,7 +170,6 @@ public class BeanUtils {
     public static String getPropertyName(Method method) {
         return getPropertyName(method.getReturnType(), method.getName());
     }
-
 
     /**
      * Returns the property name from the given method name:

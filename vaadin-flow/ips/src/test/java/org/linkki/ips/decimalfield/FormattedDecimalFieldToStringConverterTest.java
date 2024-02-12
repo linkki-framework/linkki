@@ -20,7 +20,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.vaadin.flow.data.binder.ValueContext;
 
-
 public class FormattedDecimalFieldToStringConverterTest {
 
     private FormattedDecimalFieldToStringConverter converter = new FormattedDecimalFieldToStringConverter("#,##0.00##");

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.table.column.annotation;
 
@@ -34,13 +34,12 @@ import org.linkki.core.ui.table.column.aspects.ColumnWidthAspectDefinition;
 
 import com.vaadin.flow.component.grid.Grid.Column;
 
-
 /**
- * Annotation that allows to customize the column for a PMO's field/method that is rendered in a table
- * column.
+ * Annotation that allows to customize the column for a PMO's field/method that is rendered in a
+ * table column.
  * 
- * @implNote This annotation is <em>not</em> required for a field/method to be rendered in a column. All
- *           fields/methods with one of the {@code @UI...} annotations
+ * @implNote This annotation is <em>not</em> required for a field/method to be rendered in a column.
+ *           All fields/methods with one of the {@code @UI...} annotations
  *           ({@link UITextField @UITextField}, {@link UICheckBox @UICheckBox} etc.) are rendered
  *           automatically. This annotation allows optional customization and can be omitted if no
  *           customization is needed.
@@ -65,8 +64,8 @@ public @interface UITableColumn {
     /**
      * Configures the flex grow ratio for the column.
      * 
-     * @implSpec The flex grow ratio defines what part of excess available space the layout allots to
-     *           this column. If not set, the column has flex grow of 1.
+     * @implSpec The flex grow ratio defines what part of excess available space the layout allots
+     *           to this column. If not set, the column has flex grow of 1.
      *           <p>
      *           If {@link #width()} is set, {@link #flexGrow()} will take effect in additional to
      *           {@link #width()}.
@@ -78,8 +77,9 @@ public @interface UITableColumn {
     /**
      * Configures whether a column can be collapsed and whether it initially is.
      * <p>
-     * If there are any collapsible columns in a table, a right aligned header menu is displayed in the
-     * corresponding section with which the user can toggle the visibility of a collapsible column.
+     * If there are any collapsible columns in a table, a right aligned header menu is displayed in
+     * the corresponding section with which the user can toggle the visibility of a collapsible
+     * column.
      * <p>
      * A column can only be collapsible if the table is created inside of a section.
      * 
@@ -143,7 +143,8 @@ public @interface UITableColumn {
         public LinkkiAspectDefinition create(UITableColumn annotation) {
             int flexGrow = annotation.flexGrow();
             int width = annotation.width();
-            // flexGrow needs to be set before width is set, as the width aspect should set the flexGrow
+            // flexGrow needs to be set before width is set, as the width aspect should set the
+            // flexGrow
             // to 0 if the flexGrow is undefined in the annotation.
             return new CompositeAspectDefinition(
                     new ColumnCollapseAspectDefinition(annotation.collapsible()),

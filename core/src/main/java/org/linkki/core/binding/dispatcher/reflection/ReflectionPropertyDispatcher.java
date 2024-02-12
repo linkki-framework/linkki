@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding.dispatcher.reflection;
 
@@ -24,16 +24,16 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
-import org.linkki.util.reflection.accessor.PropertyAccessor;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.util.reflection.accessor.PropertyAccessor;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * {@link PropertyDispatcher} that reads properties from an arbitrary object via reflection. Falls back
- * to another dispatcher if no property/method is available in the accessed object.
+ * {@link PropertyDispatcher} that reads properties from an arbitrary object via reflection. Falls
+ * back to another dispatcher if no property/method is available in the accessed object.
  */
 public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
@@ -47,8 +47,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     /**
      * @param boundObjectSupplier a supplier to get the object accessed via reflection. Must not be
      *            {@code null}. The object is provided via a supplier because it may change.
-     * @param property the name of the property of the bound object that this {@link PropertyDispatcher}
-     *            will handle
+     * @param property the name of the property of the bound object that this
+     *            {@link PropertyDispatcher} will handle
      * @param fallbackDispatcher the dispatcher accessed in case a value cannot be read or written
      *            (because no getters/setters exist) from the accessed object property. Must not be
      *            {@code null}.
@@ -213,8 +213,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     /**
      * Returns the messages stating the {@link #getBoundObject() bound object} as
-     * {@link org.linkki.core.binding.validation.message.Message#getInvalidObjectProperties() invalid}
-     * and those the {@code fallbackDispatcher} returns.
+     * {@link org.linkki.core.binding.validation.message.Message#getInvalidObjectProperties()
+     * invalid} and those the {@code fallbackDispatcher} returns.
      */
     @Override
     public MessageList getMessages(MessageList messageList) {

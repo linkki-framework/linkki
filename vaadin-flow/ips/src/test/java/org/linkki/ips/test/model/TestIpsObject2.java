@@ -1,12 +1,12 @@
 package org.linkki.ips.test.model;
 
-import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
-import org.faktorips.runtime.model.annotation.IpsDocumented;
-import org.faktorips.runtime.internal.AbstractModelObject;
-import org.w3c.dom.Element;
-import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.IValidationContext;
+import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.annotation.IpsGenerated;
+import org.faktorips.runtime.internal.AbstractModelObject;
+import org.faktorips.runtime.model.annotation.IpsDocumented;
+import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
+import org.w3c.dom.Element;
 
 /**
  * Implementation for TestIpsObject2.
@@ -17,7 +17,6 @@ import org.faktorips.runtime.annotation.IpsGenerated;
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
 public class TestIpsObject2 extends TestIpsObject {
 
-
     /**
      * Creates a new TestIpsObject2.
      *
@@ -27,7 +26,6 @@ public class TestIpsObject2 extends TestIpsObject {
     public TestIpsObject2() {
         super();
     }
-
 
     /**
      * Initializes the object with the configured defaults.
@@ -41,7 +39,6 @@ public class TestIpsObject2 extends TestIpsObject {
         // begin-user-code
         // end-user-code
     }
-
 
     /**
      * {@inheritDoc}
@@ -57,7 +54,6 @@ public class TestIpsObject2 extends TestIpsObject {
         }
         return null;
     }
-
 
     /**
      * Validates the object (but not its children). Returns <code>true</code> if this object should
@@ -84,6 +80,5 @@ public class TestIpsObject2 extends TestIpsObject {
     public void validateDependants(MessageList ml, IValidationContext context) {
         super.validateDependants(ml, context);
     }
-
 
 }

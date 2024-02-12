@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.uicreation;
@@ -38,14 +38,14 @@ public class PositionAnnotationReader {
     }
 
     /**
-     * Returns the position of the {@link AnnotatedElement}. There must be at least one annotation that
-     * is marked with {@link LinkkiPositioned @LinkkiPositioned}. If there is more than one annotation,
-     * all positioned annotations must define the same position.
+     * Returns the position of the {@link AnnotatedElement}. There must be at least one annotation
+     * that is marked with {@link LinkkiPositioned @LinkkiPositioned}. If there is more than one
+     * annotation, all positioned annotations must define the same position.
      * 
      * @param element The annotated element from which the position should be retrieved
      * @return the position of the element
-     * @throws IllegalArgumentException if no position was found or multiple different positions were
-     *             defined.
+     * @throws IllegalArgumentException if no position was found or multiple different positions
+     *             were defined.
      * @throws RuntimeException if there was an exception while accessing the position property.
      * @throws ClassCastException if the position property is not of type {@link Integer#TYPE int}
      */
@@ -106,8 +106,8 @@ public class PositionAnnotationReader {
     }
 
     /**
-     * Returns a {@link Comparator} for {@link AnnotatedElement AnnotatedElements} with annotations that
-     * are {@link LinkkiPositioned}.
+     * Returns a {@link Comparator} for {@link AnnotatedElement AnnotatedElements} with annotations
+     * that are {@link LinkkiPositioned}.
      * 
      * @param pmoClass the presentation model class containing the {@link AnnotatedElement
      *            AnnotatedElements}; used for error handling only

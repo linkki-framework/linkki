@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.defaults.columnbased.pmo;
 
@@ -25,17 +25,16 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-
 /**
- * A supplier for item PMOs based on a list of underlying model objects. The PMOs are created from the
- * model objects via a mapping function. The simple item supplier recreates the list of item PMOs it
- * supplies only, if the underlying model object list changes.
+ * A supplier for item PMOs based on a list of underlying model objects. The PMOs are created from
+ * the model objects via a mapping function. The simple item supplier recreates the list of item
+ * PMOs it supplies only, if the underlying model object list changes.
  * <p>
  * You can use this supplier as follows:
  * <p>
  * In your ContainerPMO write a method that returns the list of model objects, e.g.
- * <code>List&lt;Foo&gt; getFoos()</code>. Assuming you can create a fooItem based on a foo object just
- * with <code>new FooItem(foo)</code>, you can create the supplier as follows:
+ * <code>List&lt;Foo&gt; getFoos()</code>. Assuming you can create a fooItem based on a foo object
+ * just with <code>new FooItem(foo)</code>, you can create the supplier as follows:
  * 
  * <pre>
  * private SimpleItemSupplier&lt;FooItem, Foo&gt; itemSupplier = new SimpleItemSupplier&lt;&gt;(this::getFoos, FooItem::new);

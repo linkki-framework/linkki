@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -81,8 +81,8 @@ public @interface UILabel {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Specifies the {@link IconPosition position} of the icon, whether it is displayed on the left or
-     * on the right side of the label.
+     * Specifies the {@link IconPosition position} of the icon, whether it is displayed on the left
+     * or on the right side of the label.
      */
     IconPosition iconPosition() default IconPosition.LEFT;
 
@@ -105,11 +105,12 @@ public @interface UILabel {
     String[] styleNames() default {};
 
     /**
-     * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain text.
-     * The HTML content is automatically {@link HtmlSanitizer#sanitizeText(String) sanitized}. <br>
+     * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain
+     * text. The HTML content is automatically {@link HtmlSanitizer#sanitizeText(String) sanitized}.
+     * <br>
      * Note that <b>user-supplied strings have to be {@link HtmlSanitizer#escapeText(String)
-     * escaped}</b> when including them in the HTML content. Otherwise, they will also be interpreted as
-     * HTML.
+     * escaped}</b> when including them in the HTML content. Otherwise, they will also be
+     * interpreted as HTML.
      * <p>
      * HTML content is not compatible with some annotations that manipulate the resulting component,
      * like {@link BindIcon}.
@@ -119,9 +120,9 @@ public @interface UILabel {
     @Deprecated(since = "2.5.0")
     boolean htmlContent() default false;
 
-
     /**
-     * Specifies which {@link ItemCaptionProvider} should be used to convert the value into a String.
+     * Specifies which {@link ItemCaptionProvider} should be used to convert the value into a
+     * String.
      * <p>
      * For enum values, getName method is used if the enum class provides such a method.
      *

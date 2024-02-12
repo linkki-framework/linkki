@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.aspects;
@@ -72,9 +72,10 @@ class AvailableValuesAspectDefinitionTest {
     @Test
     void testGetValuesDerivedFromDatatype_NonEnumDatatype_Null() {
 
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC,
-                NOP);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.DYNAMIC,
+                        NOP);
 
         List<?> availableValues = availableValuesAspectDefinition.getValuesDerivedFromDatatype(String.class);
 
@@ -83,8 +84,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testGetValuesDerivedFromDatatype() {
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, NOP);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.DYNAMIC, NOP);
 
         assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(TestEnum.class),
                    contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, TestEnum.EMPTY));
@@ -98,8 +100,9 @@ class AvailableValuesAspectDefinitionTest {
     void testSetDataProvider() {
         @SuppressWarnings("unchecked")
         BiConsumer<HasListDataView<Object, ?>, List<Object>> dataProviderSetter = mock(BiConsumer.class);
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, dataProviderSetter);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.DYNAMIC, dataProviderSetter);
 
         List<Object> data = new ArrayList<>();
         ComboBox<Object> component = new ComboBox<>();
@@ -110,8 +113,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testHandleNullItems() {
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, NOP);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.DYNAMIC, NOP);
 
         @SuppressWarnings("unchecked")
         List<Object> items = mock(List.class);
@@ -120,7 +124,8 @@ class AvailableValuesAspectDefinitionTest {
         availableValuesAspectDefinition
                 .handleNullItems(new NoLabelComponentWrapper(component, WrapperType.FIELD), items);
 
-        // is called by VaadinComponentWrapper#workaroundVaadinClientValidation, must be removed when
+        // is called by VaadinComponentWrapper#workaroundVaadinClientValidation, must be removed
+        // when
         // workaround is fixed
         verify(component).addClientValidatedEventListener(any());
         verifyNoMoreInteractions(component, items);
@@ -128,8 +133,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testCreateAspect_Dynamic() {
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, NOP);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.DYNAMIC, NOP);
 
         Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect(TestEnum.class);
 
@@ -139,8 +145,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testCreateAspect_NoValues() {
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.NO_VALUES, NOP);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.NO_VALUES, NOP);
 
         Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect(TestEnum.class);
 
@@ -151,8 +158,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testCreateAspect_EnumValuesExclNull() {
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.ENUM_VALUES_EXCL_NULL, NOP);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.ENUM_VALUES_EXCL_NULL, NOP);
 
         Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect(TestEnum.class);
 
@@ -163,8 +171,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testCreateAspect_EnumValuesInclNull() {
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.ENUM_VALUES_INCL_NULL, NOP);
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.ENUM_VALUES_INCL_NULL, NOP);
 
         Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect(TestEnum.class);
 
@@ -176,8 +185,9 @@ class AvailableValuesAspectDefinitionTest {
     @SuppressWarnings("unchecked")
     @Test
     void testUiUpdater() {
-        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, DataComponent<Object>::setItems);
+        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.DYNAMIC, DataComponent<Object>::setItems);
         DataComponent<TestEnum> component = spy(new DataComponent<>());
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
         when(propertyDispatcher.pull(any())).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.TWO));
@@ -204,8 +214,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testUiUpdater_NullOnPull_WhenDynamic_NullPointerException() {
-        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, DataComponent<Object>::setItems);
+        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.DYNAMIC, DataComponent<Object>::setItems);
         DataComponent<?> component = spy(new DataComponent<>());
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
         when(propertyDispatcher.pull(any())).thenReturn(null);
@@ -220,8 +231,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testUiUpdater_NullOnPull_WhenNotDynamic_IllegalStateException() {
-        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.ENUM_VALUES_INCL_NULL, DataComponent<Object>::setItems);
+        AvailableValuesAspectDefinition<DataComponent<Object>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.ENUM_VALUES_INCL_NULL, DataComponent<Object>::setItems);
         DataComponent<?> component = spy(new DataComponent<>());
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
         when(propertyDispatcher.pull(any())).thenReturn(null);
@@ -235,8 +247,9 @@ class AvailableValuesAspectDefinitionTest {
 
     @Test
     void testUiUpdater_SetComboBoxValueBeforeUiUpdate() {
-        AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
-                AvailableValuesType.DYNAMIC, ComboBox::setItems);
+        AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.DYNAMIC, ComboBox::setItems);
         ComboBox<TestEnum> component = new ComboBox<>();
 
         availableValuesAspectDefinition.createUiUpdater(mock(PropertyDispatcher.class),

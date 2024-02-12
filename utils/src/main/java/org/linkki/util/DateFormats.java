@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util;
 
@@ -23,8 +23,8 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * A registry for date format patterns that changes some rather unsuitable default patterns provided by
- * {@link DateFormat#getDateInstance(int, Locale)} such as the German "dd.MM.yyyy" instead of
+ * A registry for date format patterns that changes some rather unsuitable default patterns provided
+ * by {@link DateFormat#getDateInstance(int, Locale)} such as the German "dd.MM.yyyy" instead of
  * "dd.MM.yy".
  * <p>
  * The date pattern for a given locale is determined using the following order:
@@ -60,8 +60,8 @@ public final class DateFormats {
     }
 
     /**
-     * Registers the given pattern for the given language. The language pattern is used as a fallback if
-     * no pattern has been explicitly defined for a locale.
+     * Registers the given pattern for the given language. The language pattern is used as a
+     * fallback if no pattern has been explicitly defined for a locale.
      * <p>
      * To register a pattern for a specific locale use {@link #register(Locale, String)}.
      * 

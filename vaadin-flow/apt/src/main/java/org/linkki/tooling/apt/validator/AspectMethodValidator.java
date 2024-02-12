@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.tooling.apt.validator;
@@ -43,14 +43,13 @@ import org.linkki.tooling.apt.util.MethodNameUtils;
  * A {@link Validator} to ensure the presence of methods that are required on runtime because
  * {@link LinkkiAspectDefinition LinkkiAspectDefinitions} of a UI-Annotation demand them.
  *
- * E.g. by setting the property enabled of a UI-Annotation to {@link EnabledType#DYNAMIC} a method with
- * the name is[PropertyName]Enabled() is required.
+ * E.g. by setting the property enabled of a UI-Annotation to {@link EnabledType#DYNAMIC} a method
+ * with the name is[PropertyName]Enabled() is required.
  */
 @MessageCodes({ AspectMethodValidator.MISSING_METHOD_ABSTRACT_TYPE, AspectMethodValidator.MISSING_METHOD })
 public class AspectMethodValidator implements Validator {
     public static final String MISSING_METHOD = "MISSING_METHOD";
     public static final String MISSING_METHOD_ABSTRACT_TYPE = "MISSING_METHOD_ABSTRACT_TYPE";
-
 
     private final Kind missingAspectMethodSeverity;
     private final Kind missingAspectMethodAbstractTypeSeverity;
@@ -66,11 +65,8 @@ public class AspectMethodValidator implements Validator {
     @Override
     public void validate(AptPmo pmo, Messager messager) {
         if (pmo.isAbstractType()) {
-            if (missingAspectMethodAbstractTypeSeverity == Kind.OTHER) {
-                return;
-            }
-
-            if (isSuppressed(pmo.getElement(), missingAspectMethodAbstractTypeSeverity)) {
+            if ((missingAspectMethodAbstractTypeSeverity == Kind.OTHER)
+                    || isSuppressed(pmo.getElement(), missingAspectMethodAbstractTypeSeverity)) {
                 return;
             }
 
@@ -79,11 +75,8 @@ public class AspectMethodValidator implements Validator {
                           missingAspectMethodAbstractTypeSeverity,
                           MISSING_METHOD_ABSTRACT_TYPE);
         } else {
-            if (missingAspectMethodSeverity == Kind.OTHER) {
-                return;
-            }
-
-            if (isSuppressed(pmo.getElement(), missingAspectMethodSeverity)) {
+            if ((missingAspectMethodSeverity == Kind.OTHER)
+                    || isSuppressed(pmo.getElement(), missingAspectMethodSeverity)) {
                 return;
             }
 

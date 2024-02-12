@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding.manager;
 
@@ -44,8 +44,8 @@ public abstract class BindingManager {
     }
 
     /**
-     * Creates a new {@link BindingContext} and assigns it to this manager. The class' qualified name is
-     * used as context name.
+     * Creates a new {@link BindingContext} and assigns it to this manager. The class' qualified
+     * name is used as context name.
      * <p>
      * The {@link BindingContext} can then be retrieved via {@link #getContext(Class)}.
      * 
@@ -122,9 +122,9 @@ public abstract class BindingManager {
      * {@link PropertyBehaviorProvider}. It is up to the implementation to decide which
      * {@link PropertyBehaviorProvider} should be used.
      * 
-     * @implNote Implementations have to ensure that the context calls {@link #afterUpdateUi()} if this
-     *           manager should be notified of UI updates inside the context. This can be achieved by
-     *           passing {@code this::afterUpdateUI} as a
+     * @implNote Implementations have to ensure that the context calls {@link #afterUpdateUi()} if
+     *           this manager should be notified of UI updates inside the context. This can be
+     *           achieved by passing {@code this::afterUpdateUI} as a
      *           {@link BindingContextBuilder#afterUpdateHandler(org.linkki.util.handler.Handler)
      *           afterUpdateHandler}.
      * 
@@ -136,9 +136,9 @@ public abstract class BindingManager {
      * Creates a new {@link BindingContext} with the given name and the given
      * {@link PropertyBehaviorProvider}.
      * 
-     * @implNote Implementations have to ensure that the context calls {@link #afterUpdateUi()} if this
-     *           manager should be notified of UI updates inside the context. This can be achieved by
-     *           passing {@code this::afterUpdateUI} as a
+     * @implNote Implementations have to ensure that the context calls {@link #afterUpdateUi()} if
+     *           this manager should be notified of UI updates inside the context. This can be
+     *           achieved by passing {@code this::afterUpdateUI} as a
      *           {@link BindingContextBuilder#afterUpdateHandler(org.linkki.util.handler.Handler)
      *           afterUpdateHandler}.
      * 
@@ -147,12 +147,12 @@ public abstract class BindingManager {
     protected abstract BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider);
 
     /**
-     * Returns the {@link BindingContext} for the given class' name, creating it if it does not already
-     * exist.
+     * Returns the {@link BindingContext} for the given class' name, creating it if it does not
+     * already exist.
      * <p>
-     * If you need a custom {@link PropertyBehaviorProvider}, you can start the {@link BindingContext}
-     * with {@link #createContext(Class, PropertyBehaviorProvider)} and access it with this method
-     * afterwards.
+     * If you need a custom {@link PropertyBehaviorProvider}, you can start the
+     * {@link BindingContext} with {@link #createContext(Class, PropertyBehaviorProvider)} and
+     * access it with this method afterwards.
      */
     public BindingContext getContext(Class<?> clazz) {
         requireNonNull(clazz, "clazz must not be null");
@@ -160,11 +160,12 @@ public abstract class BindingManager {
     }
 
     /**
-     * Returns the {@link BindingContext} for the given name, creating it if it does not already exist.
+     * Returns the {@link BindingContext} for the given name, creating it if it does not already
+     * exist.
      * <p>
-     * If you need a custom {@link PropertyBehaviorProvider}, you can start the {@link BindingContext}
-     * with {@link #createContext(String, PropertyBehaviorProvider)} and access it with this method
-     * afterwards.
+     * If you need a custom {@link PropertyBehaviorProvider}, you can start the
+     * {@link BindingContext} with {@link #createContext(String, PropertyBehaviorProvider)} and
+     * access it with this method afterwards.
      */
     public BindingContext getContext(String name) {
         requireNonNull(name, "name must not be null");
@@ -196,14 +197,14 @@ public abstract class BindingManager {
     }
 
     /**
-     * After a {@link BindingContext} updated the UI this method is called to trigger necessary updates.
-     * This includes the update of registered {@link UiUpdateObserver update observers} as well as the
-     * update of all validation messages in all {@link BindingContext binding contexts}.
+     * After a {@link BindingContext} updated the UI this method is called to trigger necessary
+     * updates. This includes the update of registered {@link UiUpdateObserver update observers} as
+     * well as the update of all validation messages in all {@link BindingContext binding contexts}.
      * <p>
      * The {@link UiUpdateObserver}s are then notified by {@link #notifyUiUpdateObservers()}.
      * <p>
-     * Current messages are retrieved from the validation service and are forwarded to all registered
-     * binding contexts using {@link #updateMessages(MessageList)}.
+     * Current messages are retrieved from the validation service and are forwarded to all
+     * registered binding contexts using {@link #updateMessages(MessageList)}.
      * <p>
      * All overriding methods should call {@link #notifyUiUpdateObservers()} to notify registered
      * {@link UiUpdateObserver}s properly.

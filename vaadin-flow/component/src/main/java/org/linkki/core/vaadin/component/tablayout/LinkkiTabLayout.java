@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.vaadin.component.tablayout;
 
@@ -47,10 +47,10 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * The component can be created with a vertical or horizontal tab bar layout.
  * <p>
  * The {@link LinkkiTabSheet tab sheets} added to it can be selected with the
- * {@link #setSelectedIndex(int)} or {@link #setSelectedTabSheet(String)} methods. The first added sheet
- * will be automatically selected, firing a {@link SelectedChangeEvent}.
- * {@link #removeTabSheet(LinkkiTabSheet) Removing} the selected sheet from the component changes the
- * selection to the next available tab sheet.
+ * {@link #setSelectedIndex(int)} or {@link #setSelectedTabSheet(String)} methods. The first added
+ * sheet will be automatically selected, firing a {@link SelectedChangeEvent}.
+ * {@link #removeTabSheet(LinkkiTabSheet) Removing} the selected sheet from the component changes
+ * the selection to the next available tab sheet.
  */
 @Tag("linkki-tab-layout")
 @JsModule("./src/linkki-tab-layout.ts")
@@ -225,8 +225,8 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
     }
 
     /**
-     * Selects the tab sheet with the given ID. The content of the tab sheet will be created is this is
-     * the first time the tab sheet is selected.
+     * Selects the tab sheet with the given ID. The content of the tab sheet will be created is this
+     * is the first time the tab sheet is selected.
      *
      * @param id the ID of the tab sheet to select
      * @throws IllegalArgumentException if none of the tab sheets has the given ID
@@ -240,8 +240,8 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
      * Gets the currently selected tab sheet.
      *
      * @return the selected tab sheet
-     * @throws NoSuchElementException if there is no selected tab. This can only happen if no tab sheet
-     *             as been added yet, or all tab sheets was deleted/unselected.
+     * @throws NoSuchElementException if there is no selected tab. This can only happen if no tab
+     *             sheet as been added yet, or all tab sheets was deleted/unselected.
      */
     public LinkkiTabSheet getSelectedTabSheet() {
         return Optional.ofNullable(tabsComponent.getSelectedTab()).map(tabSheets::get)
@@ -252,8 +252,8 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
      * Gets the tab sheet with the given ID
      * 
      * @param id ID of the tab sheet
-     * @return tab sheet with the given id or {@link Optional#empty()} if none of the tab sheets has the
-     *         given ID.
+     * @return tab sheet with the given id or {@link Optional#empty()} if none of the tab sheets has
+     *         the given ID.
      */
     public Optional<LinkkiTabSheet> getTabSheet(String id) {
         return tabSheets.keySet().stream()

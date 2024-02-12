@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.samples.playground.ips.model;
@@ -33,6 +33,7 @@ import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
 import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
 import org.faktorips.runtime.model.annotation.IpsAttributes;
+import org.faktorips.runtime.model.annotation.IpsDefaultValue;
 import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
 import org.faktorips.runtime.model.annotation.IpsValidationRule;
@@ -41,10 +42,9 @@ import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.runtime.util.MessagesHelper;
 import org.faktorips.values.Decimal;
-import org.faktorips.runtime.model.annotation.IpsDefaultValue;
 import org.faktorips.valueset.DecimalRange;
-import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.IntegerRange;
+import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
@@ -99,7 +99,6 @@ public class IpsModelObject extends AbstractModelObject {
      */
     // tag::PROPERTY_STRING[]
     public static final String PROPERTY_STRING = "string";
-
 
     /**
      * Max allowed values for property string.
@@ -225,9 +224,10 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("integerEnumerationValueSet")
-    public static final OrderedValueSet<Integer> MAX_ALLOWED_VALUES_FOR_INTEGER_ENUMERATION_VALUE_SET = new OrderedValueSet<>(
-            true, null, Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4),
-            Integer.valueOf(5), null);
+    public static final OrderedValueSet<Integer> MAX_ALLOWED_VALUES_FOR_INTEGER_ENUMERATION_VALUE_SET =
+            new OrderedValueSet<>(
+                    true, null, Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4),
+                    Integer.valueOf(5), null);
 
     /**
      * The default value for integerEnumerationValueSet.
@@ -323,7 +323,6 @@ public class IpsModelObject extends AbstractModelObject {
      */
     private String string = DEFAULT_VALUE_FOR_STRING;
 
-
     /**
      * Member variable for unrestrictedInclNull.
      *
@@ -344,7 +343,6 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     private Marker emptyValueSet = DEFAULT_VALUE_FOR_EMPTY_VALUE_SET;
-
 
     /**
      * Member variable for enumerationValueSet.
@@ -391,7 +389,6 @@ public class IpsModelObject extends AbstractModelObject {
         super();
     }
 
-
     /**
      * Returns the range of allowed values for the property decimal.
      *
@@ -402,7 +399,6 @@ public class IpsModelObject extends AbstractModelObject {
     public ValueSet<Decimal> getAllowedValuesForDecimal() {
         return MAX_ALLOWED_RANGE_FOR_DECIMAL;
     }
-
 
     /**
      * Returns the decimal.
@@ -437,7 +433,6 @@ public class IpsModelObject extends AbstractModelObject {
         return MAX_ALLOWED_VALUES_FOR_STRING;
     }
 
-
     /**
      * Returns the string.
      *
@@ -462,7 +457,6 @@ public class IpsModelObject extends AbstractModelObject {
         this.string = newValue;
     }
 
-
     /**
      * Returns the set of allowed values for the property unrestrictedInclNull.
      *
@@ -473,7 +467,6 @@ public class IpsModelObject extends AbstractModelObject {
     public ValueSet<String> getAllowedValuesForUnrestrictedInclNull() {
         return MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_INCL_NULL;
     }
-
 
     /**
      * Returns the unrestrictedInclNull.
@@ -486,7 +479,6 @@ public class IpsModelObject extends AbstractModelObject {
         return unrestrictedInclNull;
     }
 
-
     /**
      * Sets the value of attribute unrestrictedInclNull.
      *
@@ -497,7 +489,6 @@ public class IpsModelObject extends AbstractModelObject {
     public void setUnrestrictedInclNull(String newValue) {
         this.unrestrictedInclNull = newValue;
     }
-
 
     /**
      * Returns the set of allowed values for the property unrestrictedExclNull.
@@ -510,7 +501,6 @@ public class IpsModelObject extends AbstractModelObject {
         return MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL;
     }
 
-
     /**
      * Returns the unrestrictedExclNull.
      *
@@ -521,7 +511,6 @@ public class IpsModelObject extends AbstractModelObject {
     public String getUnrestrictedExclNull() {
         return unrestrictedExclNull;
     }
-
 
     /**
      * Sets the value of attribute unrestrictedExclNull.
@@ -534,7 +523,6 @@ public class IpsModelObject extends AbstractModelObject {
         this.unrestrictedExclNull = newValue;
     }
 
-
     /**
      * Returns the set of allowed values for the property emptyValueSet.
      *
@@ -545,7 +533,6 @@ public class IpsModelObject extends AbstractModelObject {
     public ValueSet<Marker> getAllowedValuesForEmptyValueSet() {
         return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
     }
-
 
     /**
      * Returns the emptyValueSet.
@@ -558,7 +545,6 @@ public class IpsModelObject extends AbstractModelObject {
         return emptyValueSet;
     }
 
-
     /**
      * Sets the value of attribute emptyValueSet.
      *
@@ -569,7 +555,6 @@ public class IpsModelObject extends AbstractModelObject {
     public void setEmptyValueSet(Marker newValue) {
         this.emptyValueSet = newValue;
     }
-
 
     /**
      * Returns the set of allowed values for the property enumerationValueSet.
@@ -582,7 +567,6 @@ public class IpsModelObject extends AbstractModelObject {
         return MAX_ALLOWED_VALUES_FOR_ENUMERATION_VALUE_SET;
     }
 
-
     /**
      * Returns the enumerationValueSet.
      *
@@ -593,7 +577,6 @@ public class IpsModelObject extends AbstractModelObject {
     public Marker getEnumerationValueSet() {
         return enumerationValueSet;
     }
-
 
     /**
      * Sets the value of attribute enumerationValueSet.
@@ -606,7 +589,6 @@ public class IpsModelObject extends AbstractModelObject {
         this.enumerationValueSet = newValue;
     }
 
-
     /**
      * Returns the set of allowed values for the property integerEnumerationValueSet.
      *
@@ -618,19 +600,18 @@ public class IpsModelObject extends AbstractModelObject {
         return MAX_ALLOWED_VALUES_FOR_INTEGER_ENUMERATION_VALUE_SET;
     }
 
-
     /**
      * Returns the integerEnumerationValueSet.
      *
      * @generated
      */
-    @IpsAttribute(name = "integerEnumerationValueSet", kind = AttributeKind.CHANGEABLE,
+    @IpsAttribute(name = "integerEnumerationValueSet",
+            kind = AttributeKind.CHANGEABLE,
             valueSetKind = ValueSetKind.Enum)
     @IpsGenerated
     public Integer getIntegerEnumerationValueSet() {
         return integerEnumerationValueSet;
     }
-
 
     /**
      * Sets the value of attribute integerEnumerationValueSet.
@@ -643,7 +624,6 @@ public class IpsModelObject extends AbstractModelObject {
         this.integerEnumerationValueSet = newValue;
     }
 
-
     /**
      * Returns the range of allowed values for the property integerRangeValueSet.
      *
@@ -654,7 +634,6 @@ public class IpsModelObject extends AbstractModelObject {
     public ValueSet<Integer> getAllowedValuesForIntegerRangeValueSet() {
         return MAX_ALLOWED_RANGE_FOR_INTEGER_RANGE_VALUE_SET;
     }
-
 
     /**
      * Returns the integerRangeValueSet.
@@ -667,7 +646,6 @@ public class IpsModelObject extends AbstractModelObject {
         return integerRangeValueSet;
     }
 
-
     /**
      * Sets the value of attribute integerRangeValueSet.
      *
@@ -678,7 +656,6 @@ public class IpsModelObject extends AbstractModelObject {
     public void setIntegerRangeValueSet(Integer newValue) {
         this.integerRangeValueSet = newValue;
     }
-
 
     /**
      * Returns the set of allowed values for the property booleanValueSet.
@@ -691,7 +668,6 @@ public class IpsModelObject extends AbstractModelObject {
         return MAX_ALLOWED_VALUES_FOR_BOOLEAN_VALUE_SET;
     }
 
-
     /**
      * Returns the booleanValueSet.
      *
@@ -702,7 +678,6 @@ public class IpsModelObject extends AbstractModelObject {
     public Boolean getBooleanValueSet() {
         return booleanValueSet;
     }
-
 
     /**
      * Sets the value of attribute booleanValueSet.
@@ -715,7 +690,6 @@ public class IpsModelObject extends AbstractModelObject {
         this.booleanValueSet = newValue;
     }
 
-
     /**
      * Returns the set of allowed values for the property emptyStringValueSet.
      *
@@ -726,7 +700,6 @@ public class IpsModelObject extends AbstractModelObject {
     public ValueSet<String> getAllowedValuesForEmptyStringValueSet() {
         return MAX_ALLOWED_VALUES_FOR_EMPTY_STRING_VALUE_SET;
     }
-
 
     /**
      * Returns the emptyStringValueSet.
@@ -739,7 +712,6 @@ public class IpsModelObject extends AbstractModelObject {
         return emptyStringValueSet;
     }
 
-
     /**
      * Sets the value of attribute emptyStringValueSet.
      *
@@ -751,7 +723,6 @@ public class IpsModelObject extends AbstractModelObject {
         this.emptyStringValueSet = newValue;
     }
 
-
     /**
      * Initializes the object with the configured defaults.
      *
@@ -762,7 +733,6 @@ public class IpsModelObject extends AbstractModelObject {
         // begin-user-code
         // end-user-code
     }
-
 
     /**
      * {@inheritDoc}
@@ -815,7 +785,6 @@ public class IpsModelObject extends AbstractModelObject {
         }
     }
 
-
     /**
      * @generated
      */
@@ -825,7 +794,6 @@ public class IpsModelObject extends AbstractModelObject {
             this.unrestrictedExclNull = propMap.get(PROPERTY_UNRESTRICTEDEXCLNULL);
         }
     }
-
 
     /**
      * @generated
@@ -838,7 +806,6 @@ public class IpsModelObject extends AbstractModelObject {
         }
     }
 
-
     /**
      * @generated
      */
@@ -849,7 +816,6 @@ public class IpsModelObject extends AbstractModelObject {
                     : Marker.getValueById(propMap.get(PROPERTY_ENUMERATIONVALUESET));
         }
     }
-
 
     /**
      * @generated
@@ -863,7 +829,6 @@ public class IpsModelObject extends AbstractModelObject {
         }
     }
 
-
     /**
      * @generated
      */
@@ -874,7 +839,6 @@ public class IpsModelObject extends AbstractModelObject {
                     : Integer.valueOf(propMap.get(PROPERTY_INTEGERRANGEVALUESET));
         }
     }
-
 
     /**
      * @generated
@@ -887,7 +851,6 @@ public class IpsModelObject extends AbstractModelObject {
         }
     }
 
-
     /**
      * @generated
      */
@@ -897,7 +860,6 @@ public class IpsModelObject extends AbstractModelObject {
             this.emptyStringValueSet = propMap.get(PROPERTY_EMPTYSTRINGVALUESET);
         }
     }
-
 
     /**
      * {@inheritDoc}
@@ -914,7 +876,6 @@ public class IpsModelObject extends AbstractModelObject {
         return null;
     }
 
-
     /**
      * Validates the object (but not its children). Returns <code>true</code> if this object should
      * continue validating, <code>false</code> otherwise.
@@ -924,10 +885,7 @@ public class IpsModelObject extends AbstractModelObject {
     @Override
     @IpsGenerated
     public boolean validateSelf(MessageList ml, IValidationContext context) {
-        if (!super.validateSelf(ml, context)) {
-            return STOP_VALIDATION;
-        }
-        if (!checkDecimal(ml, context)) {
+        if (!super.validateSelf(ml, context) || !checkDecimal(ml, context)) {
             return STOP_VALIDATION;
         }
         return CONTINUE_VALIDATION;
@@ -944,15 +902,14 @@ public class IpsModelObject extends AbstractModelObject {
         super.validateDependants(ml, context);
     }
 
-
     /**
      *
      * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
      *
      * @param ml list to which validation errors are added
      * @param context the validation context
-     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should
-     *         be stopped after processing this rule.
+     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it
+     *         should be stopped after processing this rule.
      *
      * @restrainedmodifiable
      */

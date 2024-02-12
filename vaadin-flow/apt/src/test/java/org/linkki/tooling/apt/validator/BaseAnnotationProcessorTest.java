@@ -1,17 +1,16 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
-
 
 package org.linkki.tooling.apt.validator;
 
@@ -53,8 +52,8 @@ import org.mockito.Mockito;
 public abstract class BaseAnnotationProcessorTest {
 
     /**
-     * Useful for local debugging, set <code>true</code> for more console output like compiler errors or
-     * APT findings
+     * Useful for local debugging, set <code>true</code> for more console output like compiler
+     * errors or APT findings
      */
     public static final Boolean DEBUG_TO_CONSOLE = false;
 
@@ -152,7 +151,6 @@ public abstract class BaseAnnotationProcessorTest {
         verify(getMessager(), never()).printMessage(eq(kind), any(), any());
     }
 
-
     protected static boolean isOfKind(String log, Kind kind) {
         return log.contains("kind=" + kind.toString());
     }
@@ -162,7 +160,7 @@ public abstract class BaseAnnotationProcessorTest {
     }
 
     public static Matcher<List<String>> contains(Kind kind) {
-        return new TypeSafeMatcher<List<String>>() {
+        return new TypeSafeMatcher<>() {
 
             @Override
             public void describeTo(Description description) {
@@ -182,7 +180,7 @@ public abstract class BaseAnnotationProcessorTest {
     }
 
     public static Matcher<List<String>> hasMessage(String msg) {
-        return new TypeSafeMatcher<List<String>>() {
+        return new TypeSafeMatcher<>() {
 
             @Override
             public void describeTo(Description description) {
@@ -201,8 +199,8 @@ public abstract class BaseAnnotationProcessorTest {
     }
 
     /**
-     * Some tests use annotations that have just been compiled. In this case the compiler output path
-     * must be made known to the APT.
+     * Some tests use annotations that have just been compiled. In this case the compiler output
+     * path must be made known to the APT.
      */
     protected final void addOutputToAptClasspath() {
         getCompiler().addOutputToAptClasspath();
@@ -238,4 +236,3 @@ public abstract class BaseAnnotationProcessorTest {
     }
 
 }
-

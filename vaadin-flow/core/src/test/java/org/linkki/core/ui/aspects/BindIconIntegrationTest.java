@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.aspects;
@@ -139,8 +139,11 @@ class BindIconIntegrationTest {
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
 
         assertThrows(LinkkiBindingException.class,
-                () -> UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component) c)).toList());
+                     () -> UiCreator
+                             .createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
+                             .toList());
     }
+
     private List<Component> createUiElements(Object pmo) {
 
         return UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
@@ -264,7 +267,6 @@ class BindIconIntegrationTest {
         public VaadinIcon getLinkPropertyIcon() {
             return getPropertyIcon();
         }
-
 
         @BindIcon(iconType = IconType.DYNAMIC)
         @UILabel(label = "Some label with an icon", position = 4)

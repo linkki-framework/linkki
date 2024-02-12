@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.framework.ui.dialogs;
@@ -81,7 +81,8 @@ public class ErrorDialogConfiguration {
     }
 
     /**
-     * Customizes the dialog caption. The default is a localized version of 'Error in the Application'.
+     * Customizes the dialog caption. The default is a localized version of 'Error in the
+     * Application'.
      */
     public ErrorDialogConfiguration withCaption(String dialogCaption) {
         this.caption = dialogCaption;
@@ -89,8 +90,8 @@ public class ErrorDialogConfiguration {
     }
 
     /**
-     * Customizes the dialog error message. The default is a localized version of 'An unexpected error
-     * occurred.'.
+     * Customizes the dialog error message. The default is a localized version of 'An unexpected
+     * error occurred.'.
      */
     public ErrorDialogConfiguration withErrorMessage(String message) {
         this.errorMessage = message;
@@ -116,8 +117,8 @@ public class ErrorDialogConfiguration {
     }
 
     /**
-     * Shows the exception stacktrace within the dialog. By default, the stacktrace is only shown if the
-     * application does not run in the production mode.
+     * Shows the exception stacktrace within the dialog. By default, the stacktrace is only shown if
+     * the application does not run in the production mode.
      */
     public ErrorDialogConfiguration showExceptionStacktrace() {
         this.showExceptionStacktrace = true;
@@ -125,8 +126,8 @@ public class ErrorDialogConfiguration {
     }
 
     /**
-     * Hides the exception stacktrace within the dialog. By default, the stacktrace is only shown if the
-     * application does not run in the production mode.
+     * Hides the exception stacktrace within the dialog. By default, the stacktrace is only shown if
+     * the application does not run in the production mode.
      */
     public ErrorDialogConfiguration hideExceptionStacktrace() {
         this.showExceptionStacktrace = false;

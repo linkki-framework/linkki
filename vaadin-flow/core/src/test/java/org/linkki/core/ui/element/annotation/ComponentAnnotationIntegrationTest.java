@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.element.annotation;
@@ -114,8 +114,8 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     }
 
     /**
-     * Tests a dynamic boolean binding. Assumes that the {@link #getStaticComponent() static component}
-     * is annotated with the non default boolean value.
+     * Tests a dynamic boolean binding. Assumes that the {@link #getStaticComponent() static
+     * component} is annotated with the non default boolean value.
      *
      * @param predicate value of the boolean property
      * @param setter setter for the property in pmo
@@ -131,8 +131,8 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
      * Tests that
      * <ul>
      * <li>the {@link #getStaticComponent()} has the <code>testValue</code></li>
-     * <li>the {@link #getDynamicComponent()} has the <code>testValue</code> initially and changes its
-     * value to <code>defaultValue</code> after using the <code>setter</code>
+     * <li>the {@link #getDynamicComponent()} has the <code>testValue</code> initially and changes
+     * its value to <code>defaultValue</code> after using the <code>setter</code>
      * </ul>
      *
      * @param componentValueGetter getter of the property in component
@@ -188,7 +188,6 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     protected C getStaticComponent() {
         return getComponentById(PROPERTY_STATIC_VALUE);
     }
-
 
     protected P newPmo(Object modelObject) {
         return pmoCreator.apply(modelObject);

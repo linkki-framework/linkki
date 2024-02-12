@@ -1,6 +1,7 @@
 autoEnabled=true
+bindingSuggestionsDisabled=false
 eclipse.preferences.version=1
-idePrefixKey=
+idePrefixKey=src/test/java/org/linkki/samples/playground/uitestnew/ts/aspects
 projectKey=linkki
 serverId=sonarqube.faktorzehn.de
-sqPrefixKey=vaadin-flow/samples/test-playground/uitest
+sqPrefixKey=vaadin-flow/core/src/test/java/org/linkki/core/ui/aspects/annotation

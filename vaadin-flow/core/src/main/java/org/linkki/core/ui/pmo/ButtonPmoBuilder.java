@@ -1,18 +1,17 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.pmo;
-
 
 import static java.util.Objects.requireNonNull;
 
@@ -50,10 +49,10 @@ public class ButtonPmoBuilder {
      * 
      * @param onClickAction the action that is applied when the button is clicked
      * 
-     * @implSpec If used directly in getter methods, like in {@link ContainerPmo#getAddItemButtonPmo()},
-     *           this component's context can't be removed by
-     *           {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided by always
-     *           returning the same instance of {@link ButtonPmo}.
+     * @implSpec If used directly in getter methods, like in
+     *           {@link ContainerPmo#getAddItemButtonPmo()}, this component's context can't be
+     *           removed by {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided
+     *           by always returning the same instance of {@link ButtonPmo}.
      */
     public static ButtonPmo newEditButton(Handler onClickAction) {
         return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcon.PENCIL).get();
@@ -64,10 +63,10 @@ public class ButtonPmoBuilder {
      * 
      * @param onClickAction the action that is applied when the button is clicked
      * 
-     * @implSpec If used directly in getter methods, like in {@link ContainerPmo#getAddItemButtonPmo()},
-     *           this component's context can't be removed by
-     *           {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided by always
-     *           returning the same instance of {@link ButtonPmo}.
+     * @implSpec If used directly in getter methods, like in
+     *           {@link ContainerPmo#getAddItemButtonPmo()}, this component's context can't be
+     *           removed by {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided
+     *           by always returning the same instance of {@link ButtonPmo}.
      */
     public static ButtonPmo newAddButton(Handler onClickAction) {
         return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcon.PLUS).get();
@@ -78,10 +77,10 @@ public class ButtonPmoBuilder {
      * 
      * @param onClickAction the action that is applied when the button is clicked
      * 
-     * @implSpec If used directly in getter methods, like in {@link ContainerPmo#getAddItemButtonPmo()},
-     *           this component's context can't be removed by
-     *           {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided by always
-     *           returning the same instance of {@link ButtonPmo}.
+     * @implSpec If used directly in getter methods, like in
+     *           {@link ContainerPmo#getAddItemButtonPmo()}, this component's context can't be
+     *           removed by {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided
+     *           by always returning the same instance of {@link ButtonPmo}.
      */
     public static ButtonPmo newDeleteButton(Handler onClickAction) {
         return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcon.TRASH).get();
@@ -130,4 +129,3 @@ public class ButtonPmoBuilder {
     }
 
 }
-

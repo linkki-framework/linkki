@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.framework.ui.notifications;
@@ -45,10 +45,10 @@ public class NotificationUtil {
     }
 
     /**
-     * Sets the duration in milliseconds for info notifications created using this class. The default is
-     * 3 seconds.
-     * If the duration is less than/equal to 0, info notifications will not close automatically.
-     * Instead, each one will have a close button and will not close until this button is clicked.
+     * Sets the duration in milliseconds for info notifications created using this class. The
+     * default is 3 seconds. If the duration is less than/equal to 0, info notifications will not
+     * close automatically. Instead, each one will have a close button and will not close until this
+     * button is clicked.
      * 
      * @see Notification#setDuration(int)
      */
@@ -57,10 +57,10 @@ public class NotificationUtil {
     }
 
     /**
-     * Sets the duration in milliseconds for warning notifications created using this class. The default
-     * is 3 seconds.
-     * If the duration is less than/equal to 0, warning notifications will not close automatically.
-     * Instead, each one will have a close button and will not close until this button is clicked.
+     * Sets the duration in milliseconds for warning notifications created using this class. The
+     * default is 3 seconds. If the duration is less than/equal to 0, warning notifications will not
+     * close automatically. Instead, each one will have a close button and will not close until this
+     * button is clicked.
      * 
      * @see Notification#setDuration(int)
      */
@@ -90,9 +90,10 @@ public class NotificationUtil {
 
     /**
      * Creates and opens an info notification. Info notifications close automatically after the
-     * {@link #setInfoDuration(int) specified duration} unless this duration is less than/equal to 0.
-     * In that case, each one has a close button and does not close until this button is clicked.
-     * The description supports HTML content, which will be {@link HtmlSanitizer#sanitizeText(String) sanitized}.
+     * {@link #setInfoDuration(int) specified duration} unless this duration is less than/equal to
+     * 0. In that case, each one has a close button and does not close until this button is clicked.
+     * The description supports HTML content, which will be
+     * {@link HtmlSanitizer#sanitizeText(String) sanitized}.
      * 
      * @return the shown notification
      */
@@ -104,9 +105,10 @@ public class NotificationUtil {
 
     /**
      * Creates and opens a warning notification. Warning notifications close automatically after the
-     * {@link #setWarningDuration(int) specified duration} unless this duration is less than/equal to 0.
-     * In that case, each one has a close button and does not close until this button is clicked.
-     * The description supports HTML content, which will be {@link HtmlSanitizer#sanitizeText(String) sanitized}.
+     * {@link #setWarningDuration(int) specified duration} unless this duration is less than/equal
+     * to 0. In that case, each one has a close button and does not close until this button is
+     * clicked. The description supports HTML content, which will be
+     * {@link HtmlSanitizer#sanitizeText(String) sanitized}.
      * 
      * @return the shown notification
      */

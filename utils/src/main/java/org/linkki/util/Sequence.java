@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.util;
 
@@ -92,8 +92,8 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     }
 
     /**
-     * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is not
-     * affected.
+     * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is
+     * not affected.
      *
      * @param elements the new elements that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
@@ -107,10 +107,11 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     }
 
     /**
-     * Returns a new {@link Sequence} concatenated with those of the given elements that are not already
-     * contained in this {@link Sequence}. This {@link Sequence} is not affected.
+     * Returns a new {@link Sequence} concatenated with those of the given elements that are not
+     * already contained in this {@link Sequence}. This {@link Sequence} is not affected.
      *
-     * @param elements the new elements that should be concatenated if they are not already contained
+     * @param elements the new elements that should be concatenated if they are not already
+     *            contained
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements
      */
@@ -129,8 +130,8 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     }
 
     /**
-     * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is not
-     * affected.
+     * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is
+     * not affected.
      *
      * @param newElements the new elements that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
@@ -195,7 +196,8 @@ public record Sequence<T>(List<T> list) implements Iterable<T>, Serializable {
     }
 
     /**
-     * Creates a {@link Collector} that collects a {@link Stream}'s elements into a {@link Sequence}.
+     * Creates a {@link Collector} that collects a {@link Stream}'s elements into a
+     * {@link Sequence}.
      */
     public static <T> Collector<T, ?, Sequence<T>> collect() {
         return new SequenceCollector<>();

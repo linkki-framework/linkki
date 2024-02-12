@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.framework.ui.dialogs;
 
@@ -31,8 +31,9 @@ import com.vaadin.flow.server.ErrorHandler;
  * An {@link ErrorHandler} that shows a {@link OkCancelDialog} with some exception details when an
  * exception occurs.
  * <p>
- * The displayed error dialog is created as configured in the given {@link ErrorDialogConfiguration}.
- * Use different options in the configuration to customize the error dialog.
+ * The displayed error dialog is created as configured in the given
+ * {@link ErrorDialogConfiguration}. Use different options in the configuration to customize the
+ * error dialog.
  */
 public class DialogErrorHandler implements ErrorHandler {
 
@@ -49,9 +50,10 @@ public class DialogErrorHandler implements ErrorHandler {
     private final transient Function<ErrorEvent, ? extends OkCancelDialog> dialogCreator;
 
     /**
-     * @deprecated use {@link DialogErrorHandler#DialogErrorHandler(ErrorDialogConfiguration)} instead.
-     *             To use a custom dialog, create an own implementation of {@link ErrorHandler} instead
-     *             of using {@link DialogErrorHandler} in {@link ApplicationConfig#getErrorHandler()}.
+     * @deprecated use {@link DialogErrorHandler#DialogErrorHandler(ErrorDialogConfiguration)}
+     *             instead. To use a custom dialog, create an own implementation of
+     *             {@link ErrorHandler} instead of using {@link DialogErrorHandler} in
+     *             {@link ApplicationConfig#getErrorHandler()}.
      */
     @Deprecated(since = "2.4.0")
     public DialogErrorHandler(BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator) {
@@ -59,11 +61,11 @@ public class DialogErrorHandler implements ErrorHandler {
     }
 
     /**
-     * @deprecated use {@link DialogErrorHandler#DialogErrorHandler(ErrorDialogConfiguration)} instead.
-     *             The view to be shown on confirmation can be defined by
+     * @deprecated use {@link DialogErrorHandler#DialogErrorHandler(ErrorDialogConfiguration)}
+     *             instead. The view to be shown on confirmation can be defined by
      *             {@link ErrorDialogConfiguration#createWithHandlerNavigatingTo(String)}. To use a
-     *             custom dialog, create an own implementation of {@link ErrorHandler} instead of using
-     *             {@link DialogErrorHandler} in {@link ApplicationConfig#getErrorHandler()}.
+     *             custom dialog, create an own implementation of {@link ErrorHandler} instead of
+     *             using {@link DialogErrorHandler} in {@link ApplicationConfig#getErrorHandler()}.
      */
     @Deprecated(since = "2.4.0")
     public DialogErrorHandler(BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator,
@@ -74,8 +76,8 @@ public class DialogErrorHandler implements ErrorHandler {
     }
 
     /**
-     * Creates a {@link DialogErrorHandler} which uses an {@link ErrorDialogConfiguration} that can be
-     * used to create an error dialog.
+     * Creates a {@link DialogErrorHandler} which uses an {@link ErrorDialogConfiguration} that can
+     * be used to create an error dialog.
      * 
      * @param errorDialogConfiguration configuration for the error dialog
      */

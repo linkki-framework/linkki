@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding.validation.message;
 
@@ -29,20 +29,20 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
- * A human readable text message with a {@link Severity} and an optional code that identifies the origin
- * of the message.
+ * A human readable text message with a {@link Severity} and an optional code that identifies the
+ * origin of the message.
  * <p>
- * In addition, a message provides access to the objects and their properties the message relates to.
- * For example, if a message says that "insured person's age must be at least 18" than the invalid
- * object that the message relates to is the insured person, and the invalid property is its age. This
- * information can be used to define which controls should display the message.
+ * In addition, a message provides access to the objects and their properties the message relates
+ * to. For example, if a message says that "insured person's age must be at least 18" than the
+ * invalid object that the message relates to is the insured person, and the invalid property is its
+ * age. This information can be used to define which controls should display the message.
  * <p>
  * You can store additional information about the message by providing {@link ValidationMarker
- * validation markers} to the message. The exact use of the marker then depends on the implementation of
- * the {@link ValidationMarker}.
+ * validation markers} to the message. The exact use of the marker then depends on the
+ * implementation of the {@link ValidationMarker}.
  * <p>
- * Message is an immutable value object. Two message objects are considered equal if they have the same
- * severity, code, text, invalid properties and {@link ValidationMarker markers}.
+ * Message is an immutable value object. Two message objects are considered equal if they have the
+ * same severity, code, text, invalid properties and {@link ValidationMarker markers}.
  */
 public class Message implements Serializable {
 
@@ -62,7 +62,6 @@ public class Message implements Serializable {
      * A set of {@link ValidationMarker} containing additional information about the message.
      */
     private final Set<ValidationMarker> markers;
-
 
     /**
      * Creates a new message with an optional code, a text content and a {@link Severity}.
@@ -209,16 +208,8 @@ public class Message implements Serializable {
             return false;
         }
         Message other = (Message)o;
-        if (!Objects.equals(code, other.code)) {
-            return false;
-        }
-        if (!Objects.equals(text, other.text)) {
-            return false;
-        }
-        if (severity != other.severity) {
-            return false;
-        }
-        if (!Objects.equals(invalidProperties, other.invalidProperties)) {
+        if (!Objects.equals(code, other.code) || !Objects.equals(text, other.text) || (severity != other.severity)
+                || !Objects.equals(invalidProperties, other.invalidProperties)) {
             return false;
         }
         if (!Objects.equals(markers, other.markers)) {
@@ -253,14 +244,15 @@ public class Message implements Serializable {
     }
 
     /**
-     * A builder for the {@link Message} class. This builder has been designed due to heavy constructor
-     * overloading with many parameters. It helps instantiating global variables of {@link Message}.
+     * A builder for the {@link Message} class. This builder has been designed due to heavy
+     * constructor overloading with many parameters. It helps instantiating global variables of
+     * {@link Message}.
      * <p>
      * To use the builder simply create an instance by calling the
-     * {@link Message#builder(String, Severity)}. Afterwards add needed information to the builder for
-     * example call {@link #invalidObjectWithProperties(Object object, String... properties)} to provide
-     * some invalid object properties. When the builder has every information that is needed to create a
-     * proper message call {@link #create()}.
+     * {@link Message#builder(String, Severity)}. Afterwards add needed information to the builder
+     * for example call {@link #invalidObjectWithProperties(Object object, String... properties)} to
+     * provide some invalid object properties. When the builder has every information that is needed
+     * to create a proper message call {@link #create()}.
      */
     @SuppressWarnings("hiding")
     public static class Builder {
@@ -275,7 +267,6 @@ public class Message implements Serializable {
 
         @CheckForNull
         private String code;
-
 
         /**
          * Creates a new builder that is able to create a proper {@link Message} with all needed

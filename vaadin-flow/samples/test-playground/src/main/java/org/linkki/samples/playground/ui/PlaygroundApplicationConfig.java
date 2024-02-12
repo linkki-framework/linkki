@@ -1,22 +1,21 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.samples.playground.ui;
 
 import java.time.LocalDate;
 import java.util.Locale;
 
-import com.vaadin.flow.server.ErrorHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.framework.ui.application.ApplicationConfig;
@@ -37,6 +36,8 @@ import org.linkki.samples.playground.products.ProductsSampleView;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.util.DateFormats;
 import org.linkki.util.Sequence;
+
+import com.vaadin.flow.server.ErrorHandler;
 
 /**
  * An {@link ApplicationConfig} using the default {@link ApplicationHeader application header} and
@@ -84,7 +85,7 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
                 .withErrorMessage("Custom error message");
         return new DialogErrorHandler(config);
     }
-    
+
     @Override
     public LinkkiConverterRegistry getConverterRegistry() {
         return ApplicationConfig.super.getConverterRegistry()

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.framework.ui.error;
@@ -86,7 +86,6 @@ class LinkkiErrorPageTest {
         assertErrorMessage(testWrapper.getMessage(), TEST_MESSAGE_WITH_HTML);
     }
 
-
     @Test
     void testLinkkiErrorPage_DevelopmentMode_CustomMessageShown() {
         setupVaadin(false);
@@ -134,8 +133,8 @@ class LinkkiErrorPageTest {
     }
 
     /**
-     * This method executes and tests the navigation event triggered by the passed button. After calling
-     * this method, the error page is not opened anymore.
+     * This method executes and tests the navigation event triggered by the passed button. After
+     * calling this method, the error page is not opened anymore.
      */
     private void assertNavigationButton(Component navigationButton) {
         assertThat(navigationButton).isInstanceOf(Button.class);
@@ -157,7 +156,6 @@ class LinkkiErrorPageTest {
                        CustomMessageErrorPageView.class),
                 Collections.emptySet(), true));
     }
-
 
     @Route("")
     public static class StartView extends Div {

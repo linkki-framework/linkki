@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.util.reflection;
@@ -44,13 +44,14 @@ public class MetaAnnotation<META extends Annotation> {
     }
 
     /**
-     * Creates a new {@link MetaAnnotation MetaAnnotation&lt;META&gt;} from the given {@link Annotation}
-     * class.
+     * Creates a new {@link MetaAnnotation MetaAnnotation&lt;META&gt;} from the given
+     * {@link Annotation} class.
      * 
      * @param <META> the meta-annotation class
      * @param metaAnnotationClass the meta-annotation class
      * @return a {@link MetaAnnotation} for the {@code metaAnnotationClass}
-     * @throws IllegalArgumentException if the given {@link Annotation} class is not a meta-annotation
+     * @throws IllegalArgumentException if the given {@link Annotation} class is not a
+     *             meta-annotation
      */
     public static <META extends Annotation> MetaAnnotation<META> of(Class<META> metaAnnotationClass) {
         Target target = metaAnnotationClass.getAnnotation(Target.class);
@@ -90,8 +91,8 @@ public class MetaAnnotation<META extends Annotation> {
     }
 
     /**
-     * Returns {@code true} if the meta-annotation is present on the given {@link Annotation}, otherwise
-     * {@code false};
+     * Returns {@code true} if the meta-annotation is present on the given {@link Annotation},
+     * otherwise {@code false};
      * 
      * @param annotation an {@link Annotation} to be checked for the meta-annotation
      * @return whether the meta-annotation is present on the given {@link Annotation}
@@ -115,7 +116,8 @@ public class MetaAnnotation<META extends Annotation> {
      * 
      * @param annotation an {@link Annotation}
      * @return the meta-annotation instance, if the annotation is annotated with it
-     * @throws IllegalArgumentException if the meta-annotation is repeatable and present multiple times.
+     * @throws IllegalArgumentException if the meta-annotation is repeatable and present multiple
+     *             times.
      * @see #findAllOn(Annotation) findAllOn(Annotation) for repeatable annotations
      */
     public Optional<META> findOn(Annotation annotation) {
@@ -138,14 +140,15 @@ public class MetaAnnotation<META extends Annotation> {
     }
 
     /**
-     * Finds all {@link Annotation Annotations} on the given {@link AnnotatedElement} that are annotated
-     * with the meta-annotation.
+     * Finds all {@link Annotation Annotations} on the given {@link AnnotatedElement} that are
+     * annotated with the meta-annotation.
      * 
-     * @see #onlyOneOn(AnnotatedElement) use {@code reduce(onlyOneOn(annotatedElement))} if you expect
-     *      there to be no more than one such annotation.
+     * @see #onlyOneOn(AnnotatedElement) use {@code reduce(onlyOneOn(annotatedElement))} if you
+     *      expect there to be no more than one such annotation.
      * 
      * @param annotatedElement an {@link AnnotatedElement}
-     * @return a {@link Stream} of the {@link Annotation Annotations} annotated with the meta-annotation
+     * @return a {@link Stream} of the {@link Annotation Annotations} annotated with the
+     *         meta-annotation
      */
     public Stream<Annotation> findAnnotatedAnnotationsOn(AnnotatedElement annotatedElement) {
         return Arrays.stream(annotatedElement.getAnnotations())
@@ -153,15 +156,16 @@ public class MetaAnnotation<META extends Annotation> {
     }
 
     /**
-     * Creates a {@link BinaryOperator} usable for a {@link Stream#reduce(BinaryOperator)} operation on
-     * a stream of annotations as returned by {@link #findAnnotatedAnnotationsOn(AnnotatedElement)} that
-     * throws an {@link IllegalArgumentException} if there is more than one annotation in the stream.
+     * Creates a {@link BinaryOperator} usable for a {@link Stream#reduce(BinaryOperator)} operation
+     * on a stream of annotations as returned by
+     * {@link #findAnnotatedAnnotationsOn(AnnotatedElement)} that throws an
+     * {@link IllegalArgumentException} if there is more than one annotation in the stream.
      * 
      * @param annotatedElement the {@link AnnotatedElement} that was passed to
      *            {@link #findAnnotatedAnnotationsOn(AnnotatedElement)}; will be included in the
      *            exception message
-     * @return a {@link BinaryOperator} usable for a {@link Stream#reduce(BinaryOperator)} operation on
-     *         a stream of annotations as returned by
+     * @return a {@link BinaryOperator} usable for a {@link Stream#reduce(BinaryOperator)} operation
+     *         on a stream of annotations as returned by
      *         {@link #findAnnotatedAnnotationsOn(AnnotatedElement)}
      */
     public <A extends Annotation> BinaryOperator<A> onlyOneOn(AnnotatedElement annotatedElement) {
@@ -173,8 +177,8 @@ public class MetaAnnotation<META extends Annotation> {
 
     /**
      * Creates a {@link Supplier} for an {@link IllegalArgumentException} that names the given
-     * {@link Annotation} on the {@link AnnotatedElement} as not having the meta-annotation and suggests
-     * using the {@code checkerMethod} to safeguard against this exception.
+     * {@link Annotation} on the {@link AnnotatedElement} as not having the meta-annotation and
+     * suggests using the {@code checkerMethod} to safeguard against this exception.
      * 
      * @param annotation an {@link Annotation} on the {@link AnnotatedElement}
      * @param annotatedElement an {@link AnnotatedElement}

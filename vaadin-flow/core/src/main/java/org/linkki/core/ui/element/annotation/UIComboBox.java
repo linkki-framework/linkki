@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -139,18 +139,18 @@ public @interface UIComboBox {
      * Specifies which {@link ItemCaptionProvider} should be used to convert {@link #content()} into
      * String captions.
      * <p>
-     * Default value assumes that the value class has a method "getName" and uses this method for the
-     * String representation.
+     * Default value assumes that the value class has a method "getName" and uses this method for
+     * the String representation.
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
     /**
      * The alignment of the text. Use {@link TextAlignment#RIGHT} for numeric value.
      * <p>
-     * Text alignment is set for both the selected value and the values in the drop down list. When used
-     * in combination with {@link BindComboBoxItemStyleAspectDefinition} the style for the drop down
-     * list is overwritten by the bind annotation. Therefore it may be necessary to set the style class
-     * "text-left", "text-center" or "text-right" manually.
+     * Text alignment is set for both the selected value and the values in the drop down list. When
+     * used in combination with {@link BindComboBoxItemStyleAspectDefinition} the style for the drop
+     * down list is overwritten by the bind annotation. Therefore it may be necessary to set the
+     * style class "text-left", "text-center" or "text-right" manually.
      */
     TextAlignment textAlign() default TextAlignment.DEFAULT;
 
@@ -287,7 +287,8 @@ public @interface UIComboBox {
 
             private ComboBoxVariant getVariant(TextAlignment alignment) {
                 switch (alignment) {
-                    // Vaadin names the variants LEFT/CENTER/RIGHT but uses css value start/center/end
+                    // Vaadin names the variants LEFT/CENTER/RIGHT but uses css value
+                    // start/center/end
                     case LEFT:
                         return ComboBoxVariant.LUMO_ALIGN_LEFT;
                     case CENTER:

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.util;
@@ -54,7 +54,8 @@ public final class Objects {
      * @return {@code obj} if not {@code null}
      * @throws NullPointerException if {@code obj} is {@code null}
      */
-    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE", justification = "that's the trick of this method")
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE",
+            justification = "that's the trick of this method")
     @NonNull
     public static <T> T requireNonNull(@CheckForNull T obj, @NonNull String message) {
         return java.util.Objects.requireNonNull(obj, message);
@@ -66,10 +67,10 @@ public final class Objects {
      *
      * <p>
      * Unlike the method {@link #requireNonNull(Object, String)}, this method allows creation of the
-     * message to be deferred until after the null check is made. While this may confer a performance
-     * advantage in the non-null case, when deciding to call this method care should be taken that the
-     * costs of creating the message supplier are less than the cost of just creating the string message
-     * directly.
+     * message to be deferred until after the null check is made. While this may confer a
+     * performance advantage in the non-null case, when deciding to call this method care should be
+     * taken that the costs of creating the message supplier are less than the cost of just creating
+     * the string message directly.
      *
      * Wrapper for {@link java.util.Objects#requireNonNull(Object, Supplier)} that is annotated with
      * SpotBugs annotations to correctly handle the null case.
@@ -83,7 +84,8 @@ public final class Objects {
      * @return {@code obj} if not {@code null}
      * @throws NullPointerException if {@code obj} is {@code null}
      */
-    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE", justification = "that's the trick of this method")
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE",
+            justification = "that's the trick of this method")
     @NonNull
     public static <T> T requireNonNull(@CheckForNull T obj, @NonNull Supplier<String> messageSupplier) {
         return java.util.Objects.requireNonNull(obj, messageSupplier);

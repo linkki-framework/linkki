@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.element.annotation;
 
@@ -99,12 +99,10 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
         assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2)).isEqualTo("Foo");
     }
 
-
     @Override
     protected UITimeFieldIntegrationTest.TestModelObjectWithLocalTime getDefaultModelObject() {
         return (UITimeFieldIntegrationTest.TestModelObjectWithLocalTime)super.getDefaultModelObject();
     }
-
 
     @UISection
     protected static class TimeFieldTestPmo extends AnnotationTestPmo {
@@ -115,16 +113,21 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UITimeField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC,
+        @UITimeField(position = 1,
+                label = "",
+                enabled = EnabledType.DYNAMIC,
+                required = RequiredType.DYNAMIC,
                 visible = VisibleType.DYNAMIC)
         public void value() {
             // model binding
         }
 
-
         @Override
         @BindTooltip(TEST_TOOLTIP)
-        @UITimeField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED,
+        @UITimeField(position = 2,
+                label = TEST_LABEL,
+                enabled = EnabledType.DISABLED,
+                required = RequiredType.REQUIRED,
                 visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
@@ -139,7 +142,6 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
         public void valueSeconds() {
             // model binding
         }
-
 
         @UITimeField(position = 5, step = 30, precision = ChronoUnit.MINUTES)
         public void valueMinutes() {
@@ -157,7 +159,6 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
 
         @CheckForNull
         private LocalTime valueMinutes = null;
-
 
         @CheckForNull
         public LocalTime getStaticValue() {
@@ -188,7 +189,6 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
         public void setValueMinutes(LocalTime valueMinutes) {
             this.valueMinutes = valueMinutes;
         }
-
 
     }
 }

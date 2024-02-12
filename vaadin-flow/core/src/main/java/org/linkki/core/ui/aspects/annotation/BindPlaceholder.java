@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.aspects.annotation;
@@ -33,18 +33,17 @@ import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 
-
 /**
- * This aspect can be used to add a placeholder text to UI elements that can display a placeholder, such
- * as: {@link UITextArea} {@link UIIntegerField}, {@link UITextField} and {@link UIComboBox}. The
- * placeholder is shown when the UI field would be empty.
+ * This aspect can be used to add a placeholder text to UI elements that can display a placeholder,
+ * such as: {@link UITextArea} {@link UIIntegerField}, {@link UITextField} and {@link UIComboBox}.
+ * The placeholder is shown when the UI field would be empty.
  * <p>
- * {@code BindPlaceholder} can also be applied to a {@link ContainerPmo} at class level. In such cases,
- * it provides a placeholder text that is displayed when the table contains no items. Moreover, the
- * table header and footer are concealed when no items are present.
+ * {@code BindPlaceholder} can also be applied to a {@link ContainerPmo} at class level. In such
+ * cases, it provides a placeholder text that is displayed when the table contains no items.
+ * Moreover, the table header and footer are concealed when no items are present.
  * <p>
- * When annotated at the class level, the placeholder text is inheritable, which means that subclasses
- * will default to using the defined placeholder.
+ * When annotated at the class level, the placeholder text is inheritable, which means that
+ * subclasses will default to using the defined placeholder.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
