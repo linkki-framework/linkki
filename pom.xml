@@ -35,6 +35,7 @@
         <module>utils</module>
         <module>core</module>
         <module>vaadin-flow</module>
+        <module>bom</module>
     </modules>
 
     <properties>
@@ -485,6 +486,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.linkki-framework</groupId>
+                <artifactId>linkki-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest</artifactId>

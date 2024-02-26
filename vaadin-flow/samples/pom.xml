@@ -17,7 +17,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <vaadin.version>24.3.5</vaadin.version>
         <spotbugs.version>4.8.3</spotbugs.version>
         <spring-boot.version>3.2.2</spring-boot.version>
         <checkstyle.version>10.13.0</checkstyle.version>
@@ -56,11 +55,11 @@
             </dependency>
 
             <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-bom</artifactId>
+                <groupId>org.linkki-framework</groupId>
+                <artifactId>linkki-bom</artifactId>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-                <version>${vaadin.version}</version>
             </dependency>
 
             <dependency>
@@ -289,7 +288,6 @@
                 <plugin>
                     <groupId>com.vaadin</groupId>
                     <artifactId>vaadin-maven-plugin</artifactId>
-                    <version>${vaadin.version}</version>
                     <configuration>
                         <optimizeBundle>false</optimizeBundle>
                     </configuration>

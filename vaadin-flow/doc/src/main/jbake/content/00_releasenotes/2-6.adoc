@@ -19,8 +19,14 @@ The following versions have been updated:
 | Spring Boot               | 3.2.2
 |===
 
+//https://jira.convista.com/browse/LIN-1803
+===== Added a BOM for dependency management
+* All internal modules in linkki except samples and archetype are added in the dependency management.
+* BOM module is referenced by the root pom.
+
+//https://jira.convista.com/browse/LIN-3293
 [role="api-change"]
-===== Added `INVISIBLE_IF_EMPTY` to `VisibleType` (https://jira.convista.com/browse/LIN-3293[LIN-3293])
+===== Added `INVISIBLE_IF_EMPTY` to `VisibleType`
 A new enum value, `INVISIBLE_IF_EMPTY`, is now available in `VisibleType`. When used, the `VisibleAspectDefinition` evaluates the linked method's output. Components linked to this method will be hidden if the result is `null` or an empty `String`, enhancing UI cleanliness.
 Further details can be found here <<visible>>.
 
