@@ -30,6 +30,15 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Vaadin BOM -->
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
+                <version>${vaadin.version}</version>
+            </dependency>
+            <!-- linkki dependencies -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core</artifactId>
@@ -100,13 +109,7 @@
                 <artifactId>linkki-vaadin-flow-testbench-extension</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-bom</artifactId>
-                <type>pom</type>
-                <scope>import</scope>
-                <version>${vaadin.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>
