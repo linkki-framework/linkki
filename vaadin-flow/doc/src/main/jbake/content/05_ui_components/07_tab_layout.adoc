@@ -7,7 +7,10 @@
 :sample-source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
 
 
+[[linkkitablayout]]
 === LinkkiTabLayout
+
+NOTE: Dependency <<_linkki_vaadin_flow_component, `linkki-vaadin-flow-component`>> or <<_linkki_application_framework, `linkki-application-framework`>> is needed.
 
 The `LinkkiTabLayout` is a UI component that gives access to several different views and that allows switching between different contents, using either a horizontal or vertical layout. Only a single tab can be active at a time.
 

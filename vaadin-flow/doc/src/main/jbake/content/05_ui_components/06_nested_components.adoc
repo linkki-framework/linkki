@@ -6,6 +6,8 @@
 [[nested-pmos]]
 === Nested Components
 
+NOTE: Dependency <<_linkki_application_framework, `linkki-application-framework`>> or <<_linkki_core_nestedcomponent_vaadin_flow, `linkki-core-nestedcomponent-vaadin-flow`>> is needed.
+
 Methods annotated with `@UINestedComponent` can return a PMO, which is then included in the page. The resulting component has the same indentation as other components in the section and can be labeled. However, this causes fields inside nested PMOs to be indented further than fields in the nested PMO's parent.
 
 An example for this feature is pictured below, including relevant code snippets of the two classes.

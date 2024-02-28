@@ -7,6 +7,8 @@
 [[dialogs]]
 === Dialogs
 
+NOTE: Dependency <<_linkki_application_framework, `linkki-application-framework`>> is needed.
+
 ==== Creating dialogs with PMOs using layout annotation
 Dialogs can be created with PMOs annotated with any <<layout, layout annotation>> when using `PmoBasedDialogFactory`.
 Instances of `PmoBasedDialogFactory` with a pre-configured `IpsPropertyDispatcherFactory` can be created using

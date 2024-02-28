@@ -54,6 +54,7 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- tag::linkki-bom[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-bom</artifactId>
@@ -61,6 +62,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- end::linkki-bom[] -->
 
             <dependency>
                 <groupId>jakarta.servlet</groupId>
@@ -68,33 +70,6 @@
                 <version>${jakarta.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
-
-            <!-- tag::linkki-core[] -->
-            <dependency>
-                <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-core-vaadin-flow</artifactId>
-                <version>2.6.0-SNAPSHOT</version>
-            </dependency>
-            <!-- end::linkki-core[] -->
-            <dependency>
-                <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-ips-vaadin-flow</artifactId>
-                <version>2.6.0-SNAPSHOT</version>
-            </dependency>
-            <!-- tag::linkki-vaadin-flow-component[] -->
-            <dependency>
-                <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-vaadin-flow-component</artifactId>
-                <version>2.6.0-SNAPSHOT</version>
-            </dependency>
-            <!-- end::linkki-vaadin-flow-component[] -->
-            <!-- tag::linkki-application-framework[] -->
-            <dependency>
-                <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-application-framework-vaadin-flow</artifactId>
-                <version>2.6.0-SNAPSHOT</version>
-            </dependency>
-            <!-- end::linkki-application-framework[] -->
 
             <dependency>
                 <groupId>com.github.spotbugs</groupId>

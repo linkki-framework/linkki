@@ -25,11 +25,12 @@
             <artifactId>vaadin-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- tag::linkki-core[] -->
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin-flow</artifactId>
         </dependency>
-
+        <!-- end::linkki-core[] -->
     </dependencies>
 
     <build>

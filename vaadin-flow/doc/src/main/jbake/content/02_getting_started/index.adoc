@@ -14,36 +14,69 @@ You can either add the required dependencies to an existing project or use one o
 
 === Maven dependencies
 
-To create a *linkki* project, you need one of the following dependencies depending on the feature set you need:
+==== linkki-bom
 
-.linkki-core
+The linkki BOM in `linkki-bom` groups all dependency versions that are known to be valid and tested to work together for linkki projects. This will reduce the developers’ pain of having to test the compatibility of different versions and reduce the chances to have version mismatches.
+
+To create a *linkki* project, just add this linkki BOM and any of the following dependencies depending on the feature set you need.
+
+[source, xml]
+----
+include::{sample-parent-dir}/pom.xml[tags=linkki-bom]
+----
+
+==== linkki-core
+
 [source,xml]
 ----
-include::{sample-parent-dir}/pom.xml[tags=linkki-core]
+include::{sample-parent-dir}/getting-started/pom.xml[tags=linkki-core]
 ----
 
-.linkki-vaadin-flow-component
-[source,xml]
-----
-include::{sample-parent-dir}/pom.xml[tags=linkki-vaadin-flow-component]
-----
+==== linkki-vaadin-flow-component
 
 `linkki-vaadin-flow-component` contains the following additional features:
 
-* Sidebar layout
+* <<linkkitablayout, Sidebar layout>>
 
-.linkki-application-framework
 [source,xml]
 ----
-include::{sample-parent-dir}/pom.xml[tags=linkki-application-framework]
+include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-vaadin-flow-component]
 ----
+
+==== linkki-application-framework
 
 `linkki-application-framework` contains the following additional features:
 
-* Dialogs
+* <<dialogs, Dialogs>>
 * `LinkkiUi` with `ApplicationLayout` and `ApplicationConfig` as well as an adjusted theme
 * UI Components to display validation messages
 
+[source,xml]
+----
+include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-application-framework]
+----
+
+==== linkki-core-nestedcomponent-vaadin-flow
+
+`linkki-core-nestedcomponent-vaadin-flow` contains the following additional features:
+
+* <<nested-pmos, Nested component>>
+
+[source,xml]
+----
+include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-core-nestedcomponent-vaadin-flow]
+----
+
+==== linkki-ips-vaadin-flow
+
+`linkki-ips-vaadin-flow` contains the following additional features:
+
+* <<fips-extension, Faktor-IPS extension>>
+
+[source,xml]
+----
+include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-ips-vaadin-flow]
+----
 
 In addition to the *linkki* dependency, a *linkki* application with Vaadin may require a Vaadin Spring Boot starter.
 

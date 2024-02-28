@@ -8,6 +8,8 @@
 [[fips-extension]]
 === Faktor-IPS Extension
 
+NOTE: Dependency <<_linkki_ips_vaadin_flow, `linkki-ips-vaadin-flow`>> is needed.
+
 *linkki* is often used in conjunction with https://www.faktorzehn.org/de[Faktor-IPS]. The module `linkki-ips-vaadin-flow` provides some useful functionalities for this combination.
 
 To use the extension simply include the following Maven dependency:
