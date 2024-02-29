@@ -82,8 +82,8 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("decimal")
-    public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL = DecimalRange
-            .valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false);
+    public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL =
+            DecimalRange.valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false);
     /**
      * The default value for decimal.
      *
@@ -129,8 +129,8 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("unrestrictedInclNull")
-    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_INCL_NULL = new UnrestrictedValueSet<>(
-            true);
+    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_INCL_NULL =
+            new UnrestrictedValueSet<>(true);
 
     /**
      * The default value for unrestrictedInclNull.
@@ -153,8 +153,8 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("unrestrictedExclNull")
-    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL = new UnrestrictedValueSet<>(
-            false);
+    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL =
+            new UnrestrictedValueSet<>(false);
 
     /**
      * The default value for unrestrictedExclNull.
@@ -177,8 +177,8 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("emptyValueSet")
-    public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<>(false,
-            null);
+    public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET =
+            new OrderedValueSet<>(false, null);
     /**
      * The default value for emptyValueSet.
      *
@@ -225,9 +225,8 @@ public class IpsModelObject extends AbstractModelObject {
      */
     @IpsAllowedValues("integerEnumerationValueSet")
     public static final OrderedValueSet<Integer> MAX_ALLOWED_VALUES_FOR_INTEGER_ENUMERATION_VALUE_SET =
-            new OrderedValueSet<>(
-                    true, null, Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4),
-                    Integer.valueOf(5), null);
+            new OrderedValueSet<>(true, null, Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3),
+                    Integer.valueOf(4), Integer.valueOf(5), null);
 
     /**
      * The default value for integerEnumerationValueSet.
@@ -250,8 +249,8 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("integerRangeValueSet")
-    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_INTEGER_RANGE_VALUE_SET = IntegerRange
-            .valueOf(Integer.valueOf("0"), Integer.valueOf(100), Integer.valueOf(5), true);
+    public static final IntegerRange MAX_ALLOWED_RANGE_FOR_INTEGER_RANGE_VALUE_SET =
+            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(100), Integer.valueOf(5), true);
 
     /**
      * The default value for integerRangeValueSet.
@@ -297,8 +296,8 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("emptyStringValueSet")
-    public static final OrderedValueSet<String> MAX_ALLOWED_VALUES_FOR_EMPTY_STRING_VALUE_SET = new OrderedValueSet<>(
-            false, null);
+    public static final OrderedValueSet<String> MAX_ALLOWED_VALUES_FOR_EMPTY_STRING_VALUE_SET =
+            new OrderedValueSet<>(false, null);
 
     /**
      * The default value for emptyStringValueSet.
@@ -605,8 +604,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
-    @IpsAttribute(name = "integerEnumerationValueSet",
-            kind = AttributeKind.CHANGEABLE,
+    @IpsAttribute(name = "integerEnumerationValueSet", kind = AttributeKind.CHANGEABLE,
             valueSetKind = ValueSetKind.Enum)
     @IpsGenerated
     public Integer getIntegerEnumerationValueSet() {
@@ -823,9 +821,9 @@ public class IpsModelObject extends AbstractModelObject {
     @IpsGenerated
     private void doInitIntegerEnumerationValueSet(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_INTEGERENUMERATIONVALUESET)) {
-            this.integerEnumerationValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_INTEGERENUMERATIONVALUESET))
-                    ? null
-                    : Integer.valueOf(propMap.get(PROPERTY_INTEGERENUMERATIONVALUESET));
+            this.integerEnumerationValueSet =
+                    IpsStringUtils.isEmpty(propMap.get(PROPERTY_INTEGERENUMERATIONVALUESET)) ? null
+                            : Integer.valueOf(propMap.get(PROPERTY_INTEGERENUMERATIONVALUESET));
         }
     }
 
@@ -885,7 +883,10 @@ public class IpsModelObject extends AbstractModelObject {
     @Override
     @IpsGenerated
     public boolean validateSelf(MessageList ml, IValidationContext context) {
-        if (!super.validateSelf(ml, context) || !checkDecimal(ml, context)) {
+        if (!super.validateSelf(ml, context)) {
+            return STOP_VALIDATION;
+        }
+        if (!checkDecimal(ml, context)) {
             return STOP_VALIDATION;
         }
         return CONTINUE_VALIDATION;
