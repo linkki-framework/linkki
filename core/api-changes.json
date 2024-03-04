@@ -50,6 +50,12 @@
                         "old": "class org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition",
                         "new": "class org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition",
                         "justification": "LIN-3293/LIN-3695 :: Add new VisibleType.INVISIBLE_IF_EMPTY and VisibleAspectDefinition sets the component invisible if the value is null or an empty string"
+                    },
+                    {
+                        "code": "java.method.numberOfParametersChanged",
+                        "old": "method java.util.List<java.lang.Boolean> org.linkki.core.defaults.ui.element.AvailableValuesProvider::booleanWrapperToValues()",
+                        "new": "method java.util.List<java.lang.Boolean> org.linkki.core.defaults.ui.element.AvailableValuesProvider::booleanWrapperToValues(boolean)",
+                        "justification": "LIN-3358"
                     }
                 ]
             }

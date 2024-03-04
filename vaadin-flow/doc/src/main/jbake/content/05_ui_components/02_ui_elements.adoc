@@ -207,8 +207,8 @@ The attribute `content` defines which values are available:
 [cols="4,11"]
 .AvailableValuesType
 |===
-|`ENUM_VALUES_INCL_NULL` |the values of the combobox correspond to the values of the enum data type of the property, extended by the value `null` (*default*)
-|`ENUM_VALUES_EXCL_NULL` |the values of the combobox correspond to the values of the enum data type of the property
+|`ENUM_VALUES_INCL_NULL` |the values of the combobox correspond to the values of the enum data type of the property, extended by the value `null` (*default*). It can also be used for boolean.
+|`ENUM_VALUES_EXCL_NULL` |the values of the combobox correspond to the values of the enum data type of the property. It can also be used for boolean.
 |`DYNAMIC`               |the values of the combobox are defined dynamically through the method `Collection<T> get<PropertyName>AvailableValues()`
 |`NO_VALUES`             |this combobox has no selectable values
 |===
@@ -219,7 +219,7 @@ The property `width` can be used to define the width of the combobox using CSS s
 
 [[itemCaptionProvider]]
 ItemCaptionProvider::
-A `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used to display the individual values in the combobox. By default, it is a `DefaultCaptionProvider` which determines the caption by trying to call the methods `getName(Locale)`, `getName`, `toString` in that order.
+A `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used to display the individual values in the combobox. By default, it is a `DefaultCaptionProvider` which determines the caption by trying to call the methods `getName(Locale)`, `getName`, `toString` in that order. Boolean values are translated to German or English depending on the locale of the UI.
 +
 An alternative implementation class can be specified via the property `itemCaptionProvider`. *linkki* offers two additional ones:
 +
@@ -243,17 +243,20 @@ In contrast to a combobox, the values of the multi select box are *always* defin
 
 [[ui-yesnocombobox]]
 ==== UIYesNoComboBox
+
+WARNING: This annotation is deprecated since 2.6.0. Use <<ui-combobox,`UIComboBox`>> directly instead.
+
 The annotation `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list like a <<ui-combobox, `UIComboBox`>>. The difference is that the values are not a generic enumeration or list but the well known boolean values `true` and `false` (and for `Boolean`, the option `null`). It has two properties known from the <<ui-combobox, `UIComboBox`>>:
 
 * <<ui-combobox-width,`width: String`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `BooleanCaptionProvider` that uses common names in the current locale like "Yes"/"No" or "Ja"/"Nein".
 
-[[ui-radiobutton]]
+[[ui-radiobuttons]]
 ==== UIRadioButtons
 The annotation https://vaadin.com/docs/latest/components/radio-button[`@UIRadioButtons`] allows selection of a single value using a group of buttons and corresponds to `com.vaadin.flow.component.radiobutton.RadioButtonGroup`. Multiple values cannot be selected at the same time.
 
 * <<ui-combobox-content,`content: AvailableValuesType`>>
-* <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `DefaultCaptionProvider` that delegates to `getName` or `toString`
+* <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `RadioButtonsCaptionProvider` that delegates to `getName` or `toString`. In addition, boolean values are translated to German or English depending on the locale of the UI.
 * `buttonAlignment: AlignmentType`
 
 [[ui-customfield]]

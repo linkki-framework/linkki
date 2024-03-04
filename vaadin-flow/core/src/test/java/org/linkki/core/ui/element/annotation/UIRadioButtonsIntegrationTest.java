@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -54,7 +53,7 @@ class UIRadioButtonsIntegrationTest
     @Test
     void testContent_Dynamic() {
         RadioButtonGroup<String> radioButtons = getDynamicComponent();
-        List<?> items = radioButtons.getListDataView().getItems().collect(Collectors.toList());
+        List<?> items = radioButtons.getListDataView().getItems().toList();
 
         assertThat(items, contains("value1", "value2"));
     }
@@ -62,7 +61,7 @@ class UIRadioButtonsIntegrationTest
     @Test
     void testContent_Enum() {
         RadioButtonGroup<?> radioButtons = getComponentById("enumValue");
-        List<?> items = radioButtons.getListDataView().getItems().collect(Collectors.toList());
+        List<?> items = radioButtons.getListDataView().getItems().toList();
         assertThat(items, contains(TestEnum.ENUM_VALUE1, TestEnum.ENUM_VALUE2));
     }
 

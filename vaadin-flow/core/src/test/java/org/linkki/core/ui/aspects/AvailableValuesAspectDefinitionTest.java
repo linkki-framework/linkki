@@ -83,15 +83,29 @@ class AvailableValuesAspectDefinitionTest {
     }
 
     @Test
-    void testGetValuesDerivedFromDatatype() {
+    void testGetValuesDerivedFromDatatype_InclNull() {
         AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
                 new AvailableValuesAspectDefinition<>(
-                        AvailableValuesType.DYNAMIC, NOP);
+                        AvailableValuesType.ENUM_VALUES_INCL_NULL, NOP);
+
+        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(TestEnum.class),
+                   contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, TestEnum.EMPTY, null));
+        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(Boolean.class),
+                   contains(true, false, null));
+        assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(boolean.class),
+                   contains(true, false));
+    }
+
+    @Test
+    void testGetValuesDerivedFromDatatype_NoNull() {
+        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
+                new AvailableValuesAspectDefinition<>(
+                        AvailableValuesType.ENUM_VALUES_EXCL_NULL, NOP);
 
         assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(TestEnum.class),
                    contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, TestEnum.EMPTY));
         assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(Boolean.class),
-                   contains(null, true, false));
+                   contains(true, false));
         assertThat(availableValuesAspectDefinition.getValuesDerivedFromDatatype(boolean.class),
                    contains(true, false));
     }
@@ -179,7 +193,7 @@ class AvailableValuesAspectDefinitionTest {
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
-        assertThat(aspect.getValue(), contains(null, TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, TestEnum.EMPTY));
+        assertThat(aspect.getValue(), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, TestEnum.EMPTY, null));
     }
 
     @SuppressWarnings("unchecked")

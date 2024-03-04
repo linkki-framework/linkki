@@ -64,7 +64,10 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A combo box for boolean or Boolean values.
+ *
+ * @deprecated as the functionality is supported by {@link UIComboBox}. Use @{@link UIComboBox} instead.
  */
+@Deprecated(since = "2.6.0")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBoundProperty
@@ -85,7 +88,7 @@ public @interface UIYesNoComboBox {
     String label() default DERIVED_BY_LINKKI;
 
     /**
-     * Defines if an UI-Component is editable, using values of {@link EnabledType}
+     * Defines if a UI-Component is editable, using values of {@link EnabledType}
      */
     EnabledType enabled() default ENABLED;
 
@@ -143,7 +146,7 @@ public @interface UIYesNoComboBox {
                         @Override
                         protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
                             boolean hasNullItem = items.removeIf(Objects::isNull);
-                            ((ComboBox<Object>)componentWrapper.getComponent())
+                            ((ComboBox<Object>) componentWrapper.getComponent())
                                     .setClearButtonVisible(hasNullItem);
                         }
 
@@ -169,7 +172,7 @@ public @interface UIYesNoComboBox {
 
         @Override
         protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
-            if (modelType instanceof Class<?> && ((Class<?>)modelType).isPrimitive()) {
+            if (modelType instanceof Class<?> && ((Class<?>) modelType).isPrimitive()) {
                 return new NullHandlingConverterWrapper<>(super.getConverter(presentationType, modelType));
             } else {
                 return super.getConverter(presentationType, modelType);
@@ -201,17 +204,21 @@ public @interface UIYesNoComboBox {
         }
     }
 
+    /**
+     * @deprecated Use {@link DefaultCaptionProvider} instead.
+     */
+    @Deprecated(since = "2.6.0")
     class BooleanCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
         @NonNull
         public String getCaption(Object o) {
-            return (o instanceof Boolean) ? booleanToCaption((Boolean)o) : ""; // $NON-NLS-1$
+            return (o instanceof Boolean) ? booleanToCaption((Boolean) o) : ""; // $NON-NLS-1$
         }
 
         private String booleanToCaption(Boolean bool) {
-            return bool ? NlsText.getString("BooleanCaptionProvider.True") // $NON-NLS-1$
-                    : NlsText.getString("BooleanCaptionProvider.False"); // $NON-NLS-1$
+            return bool ? NlsText.getString("DefaultCaptionProvider.True") // $NON-NLS-1$
+                    : NlsText.getString("DefaultCaptionProvider.False"); // $NON-NLS-1$
         }
     }
 }

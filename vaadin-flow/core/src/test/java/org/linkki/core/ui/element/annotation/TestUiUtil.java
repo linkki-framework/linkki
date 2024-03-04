@@ -14,19 +14,6 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Objects;
-
-import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
-import org.linkki.core.uicreation.UiCreator;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
-
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.AbstractSinglePropertyField;
 import com.vaadin.flow.component.Component;
@@ -38,6 +25,19 @@ import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.internal.AbstractFieldSupport;
 import com.vaadin.flow.data.provider.HasListDataView;
 import com.vaadin.flow.data.provider.ListDataView;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.wrapper.WrapperType;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.core.uicreation.UiCreator;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Objects;
 
 public final class TestUiUtil {
 
@@ -45,7 +45,7 @@ public final class TestUiUtil {
      * Creates the first component defined in a given PMO.
      * <p>
      * Note that this method only returns the first control Ui so the label is not accessible.
-     * 
+     *
      * @param pmo the PMO to which the component is bound is bound
      * @return a {@code Component} that is bound to the model object
      */
@@ -64,7 +64,7 @@ public final class TestUiUtil {
 
     /**
      * Creates the section defined in the given pmo.
-     * 
+     *
      * @param pmo the PMO to which the component is bound is bound
      * @return a {@code Component} that is bound to the model object
      */
@@ -98,7 +98,7 @@ public final class TestUiUtil {
         return ((NativeLabel)formItem.getChildren().toList().get(1)).getText();
     }
 
-    public static <T> void setUserOriginatedValue(AbstractSinglePropertyField<?, T> field, T value) {
+    public static <T> void setUserOriginatedValue(AbstractSinglePropertyField<?, T> field, @CheckForNull T value) {
         try {
             Field fieldSupportField = AbstractField.class.getDeclaredField("fieldSupport");
             fieldSupportField.setAccessible(true);

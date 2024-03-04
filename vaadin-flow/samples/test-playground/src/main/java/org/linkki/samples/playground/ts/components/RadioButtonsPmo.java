@@ -15,8 +15,10 @@
 package org.linkki.samples.playground.ts.components;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UIRadioButtons;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -25,6 +27,8 @@ public class RadioButtonsPmo {
 
     private Direction directionWithoutNull;
     private Direction directionWithNull;
+    @ModelObject
+    private final BooleanModelObject modelObject = new BooleanModelObject();
 
     @UIRadioButtons(position = 0,
             label = "Without null",
@@ -50,6 +54,37 @@ public class RadioButtonsPmo {
         this.directionWithNull = directionWithNull;
     }
 
+    @UIRadioButtons(position = 20,
+            label = "Primitive boolean",
+            modelAttribute = BooleanModelObject.PRIMITIVE_BOOLEAN)
+    public void primitiveBoolean() {
+        // model binding
+    }
+
+    @UIRadioButtons(position = 30,
+            label = "Object Boolean",
+            content = AvailableValuesType.ENUM_VALUES_INCL_NULL,
+            modelAttribute = BooleanModelObject.OBJECT_BOOLEAN)
+    public void objectBoolean() {
+        // model binding
+    }
+
+    @UIRadioButtons(position = 40,
+            label = "Horizontal",
+            buttonAlignment = AlignmentType.HORIZONTAL,
+            content = AvailableValuesType.ENUM_VALUES_INCL_NULL,
+            modelAttribute = BooleanModelObject.OBJECT_BOOLEAN)
+    public void horizontal() {
+        // model binding
+    }
+
+    @UIRadioButtons(position = 50,
+            label = "Object Boolean Exclusive Null",
+            modelAttribute = BooleanModelObject.OBJECT_BOOLEAN)
+    public void withoutNull() {
+        // model binding
+    }
+
     public enum Direction {
         UP,
         DOWN,
@@ -69,6 +104,30 @@ public class RadioButtonsPmo {
             return "None";
         }
 
+    }
+
+    public static class BooleanModelObject {
+        public static final String PRIMITIVE_BOOLEAN = "primitiveBoolean";
+        public static final String OBJECT_BOOLEAN = "objectBoolean";
+
+        private boolean primitiveBoolean;
+        private Boolean objectBoolean;
+
+        public boolean isPrimitiveBoolean() {
+            return primitiveBoolean;
+        }
+
+        public void setPrimitiveBoolean(boolean primitiveBoolean) {
+            this.primitiveBoolean = primitiveBoolean;
+        }
+
+        public Boolean getObjectBoolean() {
+            return objectBoolean;
+        }
+
+        public void setObjectBoolean(Boolean objectBoolean) {
+            this.objectBoolean = objectBoolean;
+        }
     }
 
 }

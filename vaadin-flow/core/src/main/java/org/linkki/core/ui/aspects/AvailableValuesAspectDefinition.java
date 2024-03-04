@@ -117,17 +117,17 @@ public class AvailableValuesAspectDefinition<C> implements LinkkiAspectDefinitio
 
     @CheckForNull
     protected <T extends Enum<T>> List<?> getValuesDerivedFromDatatype(Class<?> valueClass) {
+        var inclNull = getAvailableValuesType() == AvailableValuesType.ENUM_VALUES_INCL_NULL;
         if (valueClass.isEnum()) {
             @SuppressWarnings("unchecked")
             Class<T> enumType = (Class<T>)valueClass;
-            return AvailableValuesProvider.enumToValues(enumType,
-                                                        getAvailableValuesType() == AvailableValuesType.ENUM_VALUES_INCL_NULL);
+            return AvailableValuesProvider.enumToValues(enumType, inclNull);
         }
         if (valueClass == Boolean.TYPE) {
             return AvailableValuesProvider.booleanPrimitiveToValues();
         }
         if (valueClass == Boolean.class) {
-            return AvailableValuesProvider.booleanWrapperToValues();
+            return AvailableValuesProvider.booleanWrapperToValues(inclNull);
         } else {
             return null;
         }

@@ -54,6 +54,11 @@ public class ComboBoxPmo {
         return new NonNullEmptyValuePmo();
     }
 
+    @UINestedComponent(position = 50)
+    public BooleanValuePmo getBooleanValuePmo() {
+        return new BooleanValuePmo();
+    }
+
     public enum Direction {
         UP,
         DOWN,
@@ -197,7 +202,7 @@ public class ComboBoxPmo {
     }
 
     @UISection(caption = "Null value")
-    public class NullValuePmo {
+    public static class NullValuePmo {
 
         private Direction directionWithoutNull = Direction.DOWN;
         private Direction directionWithNull;
@@ -220,6 +225,30 @@ public class ComboBoxPmo {
             this.directionWithNull = directionWithNull;
         }
 
+    }
+
+    @UISection(caption = "Boolean value")
+    public static class BooleanValuePmo {
+        private boolean primitiveBoolean;
+        private Boolean objectBoolean;
+
+        @UIComboBox(position = 0, label = "Primitive boolean")
+        public boolean getPrimitiveBoolean() {
+            return primitiveBoolean;
+        }
+
+        public void setPrimitiveBoolean(boolean primitiveBoolean) {
+            this.primitiveBoolean = primitiveBoolean;
+        }
+
+        @UIComboBox(position = 10, label = "Object Boolean")
+        public Boolean getObjectBoolean() {
+            return objectBoolean;
+        }
+
+        public void setObjectBoolean(Boolean objectBoolean) {
+            this.objectBoolean = objectBoolean;
+        }
     }
 
 }

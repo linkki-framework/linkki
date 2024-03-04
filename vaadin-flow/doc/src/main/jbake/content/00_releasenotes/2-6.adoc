@@ -40,15 +40,26 @@ Any version and scope configurations of linkki dependencies can then be removed.
 //https://jira.convista.com/browse/LIN-3293
 [role="api-change"]
 ===== Added `INVISIBLE_IF_EMPTY` to `VisibleType`
+
 A new enum value, `INVISIBLE_IF_EMPTY`, is now available in `VisibleType`. When used, the `VisibleAspectDefinition` evaluates the linked method's output. Components linked to this method will be hidden if the result is `null` or an empty `String`, enhancing UI cleanliness.
-Further details can be found here <<visible>>.
+Further details can be found <<visible, in the documentation>>.
 
 //https://jira.convista.com/browse/LIN-3561
 ===== Introduce Multi-Selection in tables
+
 * The `BindTableSelection` now includes a new attribute called `selectionMode`. Its default value is `Grid.SelectionMode.SINGLE`.
 * A new interface `MultiSelectableTablePmo` has been added.
 While `SelectableTablePmo` defines the necessary Methods when the `selectionMode` is `Grid.SelectionMode.SINGLE`,
 so does the interface `MultiSelectableTablePmo` for when `selectionMode` is `Grid.SelectionMode.MULTI`.
+
+Further information can be found in the <<ui-selectable-table,documentation>>.
+
+//https://jira.convista.com/browse/LIN-3358
+[role="api-change"]
+===== Boolean support for `UIComboBox` and `UIRadioButtons`
+
+* Booleans in `UIComboBox` and `UIRadioButtons` are now displayed with user-friendly text. No additional caption provider needs to be set. For more details, see documentation for <<ui-combobox, UIComboBox>> and <<ui-radiobuttons, UIRadioButtons>>.
+* `UIYesNoComboBox` is deprecated and can be replaced with `UIComboBox`.
 
 ===== Other
 //https://jira.convista.com/browse/LIN-3671

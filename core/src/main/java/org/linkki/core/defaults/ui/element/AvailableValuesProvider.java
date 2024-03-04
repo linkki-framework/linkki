@@ -31,17 +31,19 @@ public class AvailableValuesProvider {
     public static <T extends Enum<T>> List<T> enumToValues(Class<T> valueClass, boolean inclNull) {
         List<T> values = Arrays.asList(valueClass.getEnumConstants());
         if (inclNull) {
-            ArrayList<T> result = new ArrayList<>();
+            ArrayList<T> result = new ArrayList<>(values);
             result.add(null);
-            result.addAll(values);
             return Collections.unmodifiableList(result);
         } else {
             return values;
         }
     }
 
-    public static List<Boolean> booleanWrapperToValues() {
-        return Arrays.asList(null, Boolean.TRUE, Boolean.FALSE);
+    public static List<Boolean> booleanWrapperToValues(boolean inclNull) {
+        if (inclNull) {
+            return Collections.unmodifiableList(Arrays.asList(Boolean.TRUE, Boolean.FALSE, null));
+        }
+        return List.of(Boolean.TRUE, Boolean.FALSE);
     }
 
     public static List<Object> booleanPrimitiveToValues() {

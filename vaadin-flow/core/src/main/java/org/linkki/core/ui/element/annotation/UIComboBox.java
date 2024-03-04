@@ -101,7 +101,7 @@ public @interface UIComboBox {
     AvailableValuesType content() default AvailableValuesType.ENUM_VALUES_INCL_NULL;
 
     /**
-     * Defines if an UI-Component is editable, using values of {@link EnabledType}
+     * Defines if a UI-Component is editable, using values of {@link EnabledType}
      */
     EnabledType enabled() default ENABLED;
 
@@ -147,10 +147,10 @@ public @interface UIComboBox {
     /**
      * The alignment of the text. Use {@link TextAlignment#RIGHT} for numeric value.
      * <p>
-     * Text alignment is set for both the selected value and the values in the drop down list. When
-     * used in combination with {@link BindComboBoxItemStyleAspectDefinition} the style for the drop
-     * down list is overwritten by the bind annotation. Therefore it may be necessary to set the
-     * style class "text-left", "text-center" or "text-right" manually.
+     * Text alignment is set for both the selected value and the values in the drop-down list. When
+     * used in combination with {@link BindComboBoxItemStyleAspectDefinition} the style for the
+     * drop-down list is overwritten by the bind annotation. Therefore, it may be necessary to set
+     * the style class "text-left", "text-center" or "text-right" manually.
      */
     TextAlignment textAlign() default TextAlignment.DEFAULT;
 

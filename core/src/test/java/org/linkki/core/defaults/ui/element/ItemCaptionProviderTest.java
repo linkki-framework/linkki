@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
+import org.linkki.core.uiframework.TestUiFramework;
 import org.linkki.core.uiframework.UiFramework;
 
 class ItemCaptionProviderTest {
@@ -81,6 +82,19 @@ class ItemCaptionProviderTest {
                 instantiate(() -> ItemCaptionProvider.ToStringCaptionProvider.class);
 
         assertThat(itemCaptionProvider).isInstanceOf(ItemCaptionProvider.ToStringCaptionProvider.class);
+    }
+
+    @Test
+    void testDefaultCaptionProvider_WithBoolean() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
+
+        assertThat(provider.getCaption(true)).isEqualTo("Ja");
+        assertThat(provider.getCaption(false)).isEqualTo("Nein");
+
+        TestUiFramework.get().setUiLocale(Locale.ENGLISH);
+
+        assertThat(provider.getCaption(true)).isEqualTo("Yes");
+        assertThat(provider.getCaption(false)).isEqualTo("No");
     }
 
     enum LocalizedEnum {

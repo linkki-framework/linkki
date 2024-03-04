@@ -27,20 +27,27 @@ import com.vaadin.flow.data.converter.Converter;
  * primitive class.
  */
 public class PrimitiveAwareValueAspectDefinition extends ValueAspectDefinition {
+    /**
+     * Parameterless constructor for a primitive value without giving a fixed converter
+     */
+    public PrimitiveAwareValueAspectDefinition() {
+        super();
+    }
 
-    private final Converter<?, ?> primitiveConverter;
-
+    /**
+     * Constructor for a primitive value with a fixed converter
+     */
     public PrimitiveAwareValueAspectDefinition(Converter<?, ?> converter) {
         super(requireNonNull(converter));
-        this.primitiveConverter = new NullHandlingConverterWrapper<>(converter);
     }
 
     @Override
     protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
+        var converterFromRegistry = super.getConverter(presentationType, modelType);
         if (modelType instanceof Class<?> && ((Class<?>)modelType).isPrimitive()) {
-            return primitiveConverter;
+            return new NullHandlingConverterWrapper<>(converterFromRegistry);
         } else {
-            return super.getConverter(presentationType, modelType);
+            return converterFromRegistry;
         }
     }
 

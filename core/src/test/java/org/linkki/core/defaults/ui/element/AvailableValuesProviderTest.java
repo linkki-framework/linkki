@@ -28,7 +28,8 @@ public class AvailableValuesProviderTest {
 
     @Test
     public void testBooleanToValues() {
-        assertThat(AvailableValuesProvider.booleanWrapperToValues().size(), is(3));
+        assertThat(AvailableValuesProvider.booleanWrapperToValues(true).size(), is(3));
+        assertThat(AvailableValuesProvider.booleanWrapperToValues(false).size(), is(2));
     }
 
     @SuppressWarnings("unchecked")
@@ -36,7 +37,7 @@ public class AvailableValuesProviderTest {
     public void testEnumToValues() {
         assertThat(AvailableValuesProvider.enumToValues(TestEnum.class, false).size(), is(3));
         assertThat(AvailableValuesProvider.enumToValues(TestEnum.class, true).size(), is(4));
-        assertThat(AvailableValuesProvider.enumToValues(TestEnum.class, true).get(0), is(nullValue()));
+        assertThat(AvailableValuesProvider.enumToValues(TestEnum.class, true).get(3), is(nullValue()));
 
         assertThat(AvailableValuesProvider.enumToValues(TestEnum.VALUE1.getClass().asSubclass(Enum.class), false)
                 .size(), is(3));

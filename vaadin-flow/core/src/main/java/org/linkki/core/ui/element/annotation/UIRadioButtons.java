@@ -31,6 +31,7 @@ import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.nls.NlsText;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
@@ -39,7 +40,6 @@ import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
@@ -101,7 +101,7 @@ public @interface UIRadioButtons {
      * Default value assumes that the value class has a method "getName" and uses this method for
      * the String representation.
      */
-    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
+    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default RadioButtonsCaptionProvider.class;
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model
@@ -169,6 +169,16 @@ public @interface UIRadioButtons {
                 }
                 return radioButtons;
             };
+        }
+    }
+
+    /**
+     * Caption provider that displays <code>null</code> with user-friendly text.
+     */
+    class RadioButtonsCaptionProvider extends ItemCaptionProvider.DefaultCaptionProvider {
+        @Override
+        public String getNullCaption() {
+            return NlsText.getString("RadioButtonsCaptionProvider.Null"); // $NON-NLS-1$
         }
     }
 }

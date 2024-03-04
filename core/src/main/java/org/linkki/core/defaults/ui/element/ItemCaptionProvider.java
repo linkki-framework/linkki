@@ -24,6 +24,7 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.LinkkiBindingException;
+import org.linkki.core.defaults.nls.NlsText;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.reflection.Classes;
 
@@ -134,6 +135,9 @@ public interface ItemCaptionProvider<T> {
 
         @Override
         public String getCaption(Object o) {
+            if (o instanceof Boolean b) {
+                return booleanToCaption(b);
+            }
             String name = CACHE.computeIfAbsent(o.getClass(), DefaultCaptionProvider::getNameFunction).apply(o);
             return StringUtils.defaultString(name);
         }
@@ -174,6 +178,11 @@ public interface ItemCaptionProvider<T> {
                                       value, e.getMessage()),
                         e);
             }
+        }
+
+        private String booleanToCaption(boolean bool) {
+            return bool ? NlsText.getString("DefaultCaptionProvider.True") // $NON-NLS-1$
+                    : NlsText.getString("DefaultCaptionProvider.False"); // $NON-NLS-1$
         }
     }
 

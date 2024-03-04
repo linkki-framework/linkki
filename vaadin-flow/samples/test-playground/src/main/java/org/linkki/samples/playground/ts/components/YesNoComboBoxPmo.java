@@ -23,7 +23,7 @@ public class YesNoComboBoxPmo {
     private boolean primitiveBoolean;
     private Boolean wrappedBoolean;
 
-    @UIYesNoComboBox(position = 0, label = "Without null")
+    @UIYesNoComboBox(position = 0, label = "Primitive boolean")
     public boolean getPrimitiveBoolean() {
         return primitiveBoolean;
     }
@@ -32,7 +32,7 @@ public class YesNoComboBoxPmo {
         this.primitiveBoolean = primitiveBoolean;
     }
 
-    @UIYesNoComboBox(position = 10, label = "With null")
+    @UIYesNoComboBox(position = 10, label = "Object Boolean")
     public Boolean getWrappedBoolean() {
         return wrappedBoolean;
     }

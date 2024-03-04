@@ -112,6 +112,14 @@
                         "oldSuperType": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<java.lang.annotation.Annotation>",
                         "newSuperType": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<org.linkki.core.ui.table.aspects.annotation.BindTableSelection>",
                         "justification": "LIN-3147"
+                    },
+                    {
+                        "code": "java.method.defaultValueChanged",
+                        "old": "method java.lang.Class<? extends org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>> org.linkki.core.ui.element.annotation.UIRadioButtons::itemCaptionProvider()",
+                        "new": "method java.lang.Class<? extends org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>> org.linkki.core.ui.element.annotation.UIRadioButtons::itemCaptionProvider()",
+                        "oldValue": "org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider.class",
+                        "newValue": "org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsCaptionProvider.class",
+                        "justification": "LIN-3358"
                     }
                 ]
             }

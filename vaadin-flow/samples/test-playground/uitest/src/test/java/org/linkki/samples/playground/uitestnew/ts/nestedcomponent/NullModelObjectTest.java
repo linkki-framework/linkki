@@ -42,7 +42,7 @@ class NullModelObjectTest extends PlaygroundUiTest {
                 .filter(e -> !"vaadin-checkbox".equals(e.getTagName()))
                 .toList();
         assertThat(inputElementsWithValue).size()
-                .as("Verify that the selector for components with value property is correct").isEqualTo(12);
+                .as("Verify that the selector for components with value property is correct").isEqualTo(13);
         assertThat(inputElementsWithValue)
                 .map(this::getValueString)
                 .as("Input elements do not have a value")

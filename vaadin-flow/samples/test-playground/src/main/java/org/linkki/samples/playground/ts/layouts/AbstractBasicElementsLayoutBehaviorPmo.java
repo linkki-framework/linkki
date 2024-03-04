@@ -464,6 +464,33 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIRadioButtons(position = 67,
+            label = "Radio Buttons with boolean", //
+            modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_BOOLEANVALUE, //
+            required = RequiredType.DYNAMIC,
+            visible = VisibleType.DYNAMIC,
+            enabled = EnabledType.DYNAMIC)
+    public void enumValueRadioButtonsBoolean() {
+        // model binding
+    }
+
+    public boolean isEnumValueRadioButtonsBooleanRequired() {
+        return isAllElementsRequired();
+    }
+
+    public boolean isEnumValueRadioButtonsBooleanReadOnly() {
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isEnumValueRadioButtonsBooleanVisible() {
+        return isAllElementsVisible();
+    }
+
+    public boolean isEnumValueRadioButtonsBooleanEnabled() {
+        return isAllElementsEnabled();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICheckBox(position = 70,
             caption = "I am a CheckBox",
             label = "Checkbox", //
