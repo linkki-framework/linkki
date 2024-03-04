@@ -24,6 +24,10 @@ The following versions have been updated:
 * All internal modules in linkki except samples and archetype are added in the dependency management.
 * BOM module is referenced by the root pom.
 
+//https://jira.convista.com/browse/LIN-3710
+===== Updated to `vaadin-testbench-junit5` in the testbench extension
+The dependency to `vaadin-testbench` was replaced with `vaadin-testbench-junit5` in `linkki-vaadin-flow-testbench-extension`.
+
 //https://jira.convista.com/browse/LIN-3293
 [role="api-change"]
 ===== Added `INVISIBLE_IF_EMPTY` to `VisibleType`
