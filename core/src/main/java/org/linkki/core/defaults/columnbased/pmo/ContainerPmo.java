@@ -72,7 +72,7 @@ public interface ContainerPmo<ROW> {
      *           The container MUST return a list with identical items if the rows to be displayed
      *           haven't changed. This is not given if you create a new list with new item PMOs on
      *           each call of the {@link #getItems()} method. If you don't adhere to this rule, the
-     *           contents of the table will be replaces each time you leave a cell after you have
+     *           contents of the table will be replaced each time you leave a cell after you have
      *           changed a value. This results in poor performance and the focus gets lost each time
      *           you leave a cell (after changing the value).
      *           <p>

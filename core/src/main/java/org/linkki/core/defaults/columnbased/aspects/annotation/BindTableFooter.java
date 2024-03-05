@@ -25,10 +25,12 @@ import org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.defaults.columnbased.aspects.ColumnBasedComponentFooterAspectDefinition;
 import org.linkki.core.defaults.columnbased.aspects.annotation.BindTableFooter.TableFooterAspectDefinitionCreator;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 
 /**
- * Binds the {@link TableFooterPmo} for a table dynamically.
+ * Binds the {@link TableFooterPmo} for a table dynamically. This annotation is primarily intended
+ * for internal usage by {@link ContainerPmo#getFooterPmo()}.
  */
 @InheritedAspect
 @LinkkiAspect(TableFooterAspectDefinitionCreator.class)
