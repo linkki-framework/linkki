@@ -7,7 +7,6 @@
 
 *linkki* calls `setErrorMessage(String)` and `setInvalid(boolean)` on all fields that support input validation when they are bound to properties for which a message with the matching <<object-properties,ObjectProperty>> exists. *linkki* then sets different CSS style classes depending on the `ErrorLevel` of the <<message, message>>, derived from its `Severity`.
 
-For example, a text field with a `WARNING` will have the attribute `severity` set to `warning` while a text field with an `ERROR` will have the attribute `severity` set to `error`. 
+For example, a text field with a `WARNING` will have the attribute `severity` set to `warning` while a text field with an `ERROR` will have the attribute `severity` set to `error`.
 
-// TODO LIN-2932
-// These `ErrorLevel` specific attributes result in setting different <<style classes, Styles>>.
+When a message is set on the field, the field is color-coded. Additionally, the message appears below the field in the corresponding color. The fields and messages are styled using colors that are defined by the <<linkki-theme-colors, linkki theme>>. The color that is used depends on the severity of the message.

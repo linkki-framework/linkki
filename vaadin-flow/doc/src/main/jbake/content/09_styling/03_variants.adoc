@@ -9,11 +9,27 @@
 
 ==== Variants 
 
-Card section pages ("card-section-pages"):: Sections inside of all `AbstractPage` components have a card like design.
+Card section pages ("card-section-pages"):: Sections inside all `AbstractPage` components have a card like design.
 
 Compact ("compact"):: Smaller spaces for a more compact look.
 
 The variant names are also available as constants in the class `LinkkiTheme`.
+
+.CSS properties in theme compact
+|===
+| Functionality | Property | Default Value
+
+| Extra large size | --lumo-size-xl | 3rem
+| Large size | --lumo-size-l | 2.5rem
+| Medium size | --lumo-size-m | 2rem
+| Small size | --lumo-size-s | 1.75rem
+| Extra small size | --lumo-size-xs | 1.5rem
+| Extra large space | --lumo-space-xl | 2rem
+| Large space | --lumo-space-l | 1.375rem
+| Medium space | --lumo-space-m | 0.7rem
+| Small space | --lumo-space-s | 0.35rem
+| Extra small space | --lumo-space-xs | 0.2rem
+|===
 
 ==== Applying a variant
 

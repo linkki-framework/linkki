@@ -44,3 +44,97 @@ In both cases, the `theme.json` file must include the following configuration:
 
 The `styles.css` file contains the CSS customizations one wants to make in the theme. For most simple changes, adjusting some of the Lumo CSS properties should suffice. The Lumo Theme Editor is a useful tool to visualize the possibilities.
 
+[[css-custom-properties-linkki-theme]]
+==== CSS Custom Properties in Linkki Theme
+
+Linkki theme defines CSS custom properties which is the easiest way to customize the UI. These CSS custom properties representing colors, fonts, sizes and other styles, which are used in various components.
+The style properties can be modified to change the styling either globally, or in a certain scope. https://vaadin.com/docs/latest/styling/styling-components#styling-components-with-style-properties[Vaadin documentation] provides some examples on how to customize the style properties. As linkki theme is based on the Lumo theme, all https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties#lists-of-lumo-style-properties[Lumo style properties] are also available.
+
+[[linkki-theme-colors]]
+===== Colors
+
+====== Input Fields
+
+The following style properties define the appearance of all input fields.
+
+.Input Field Properties
+|===
+| Function | Property | Default Value
+
+| Background | --linkki-input-background | --lumo-contrast-10pct
+| Background on hover | --linkki-input-background-hover | --lumo-contrast-20pct
+| Border color for readonly | --linkki-input-border-color-readonly | --lumo-contrast-20pct
+| Text color for readonly | --linkki-readonly-text-color | --lumo-body-text-color
+|===
+
+====== Info
+
+Info colors are used to display information that should be visually highlighted, but does not have a great impact.
+
+.Info Properties
+|===
+| Function | Property | Default Value
+
+| Info color | --linkki-info-color | hsl(213, 80%, 50%)
+| Info color with 10% opacity | --linkki-info-color-10pct | hsla(213, 80%, 49%, 0.1)
+| Info color with 50% opacity | --linkki-info-color-50pct | hsla(213, 80%, 49%, 0.5)
+| Info text color | --linkki-info-text-color | hsl(213, 80%, 50%)
+|===
+
+====== Warning
+
+Warning colors are used to display information that should raise caution.
+
+.Warning Properties
+|===
+| Function | Property | Default Value
+
+| Warning color | --linkki-warning-color | --lumo-warning-color
+| Warning color 10% opacity | --linkki-warning-color-10pct | hsla(45, 100%, 60%, 0.3)
+| Warning color with 50% opacity | --linkki-warning-color-50pct | hsla(45, 100%, 60%, 0.5)
+| Warning text color | --linkki-warning-text-color | --lumo-warning-text-color
+|===
+
+====== Success
+
+Success colors are used to display result messages of an successful operation, or messages that indicate that a process can be continued. They are used to display validation messages, e.g. on fields or in notifications.
+
+.Success Properties
+|===
+| Function | Property | Default Value
+
+| Success color | --linkki-success-color | --lumo-success-color
+| Success color with 10% opacity | --linkki-success-color-10pct | --lumo-success-color-10pct
+| Success color with 50% opacity | --linkki-success-color-50pct | --lumo-success-color-50pct
+| Success text color | --linkki-success-text-color | --lumo-success-text-color
+|===
+
+====== Error
+
+Error color indicates that a process cannot be started or continued. They are used to display validation messages,e.g. on fields or in notifications
+
+.Error Properties
+|===
+| Function | Property | Default Value
+
+| Error color | --linkki-error-color | --lumo-error-color
+| Error color with 10% opacity | --linkki-error-color-10pct | --lumo-error-color-10pct
+| Error color with 50% opacity | --linkki-error-color-50pct | --lumo-error-color-50pct
+| Error text color | --linkki-error-text-color | --lumo-error-text-color
+|===
+
+===== Fonts
+
+https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties/typography#lumo-font-family[Lumo default font family] is modified to make sure that Segoe UI as system font is preferred over Robot font.
+
+===== Interaction
+
+This CSS property is useful for adjusting the way how the application signals clickable elements to users of pointer devices.
+Linkki follows the web approach and uses the pointer (i.e., hand) cursor for clickable items by default.
+
+.Cursor
+|===
+| Function | Property | Default value
+
+| Clickable cursor | --lumo-clickable-cursor | pointer
+|===
