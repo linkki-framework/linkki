@@ -20,13 +20,22 @@ The following versions have been updated:
 |===
 
 //https://jira.convista.com/browse/LIN-1803
-===== Added a BOM for dependency management
-* All internal modules in linkki except samples and archetype are added in the dependency management.
-* BOM module is referenced by the root pom.
+===== New BOM module for dependency management
 
-//https://jira.convista.com/browse/LIN-3710
-===== Updated to `vaadin-testbench-junit5` in the testbench extension
-The dependency to `vaadin-testbench` was replaced with `vaadin-testbench-junit5` in `linkki-vaadin-flow-testbench-extension`.
+The new linkki BOM module manages the versions and scopes of all linkki dependencies. 
+
+To use the BOM module, simply import the BOM dependency in the dependency management of your project.
+Any version and scope configurations of linkki dependencies can then be removed.
+
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-bom</artifactId>
+    <version>2.6.0</version>
+    <type>pom</type>
+    <scope>import</scope>
+</dependency>
+----
 
 //https://jira.convista.com/browse/LIN-3293
 [role="api-change"]

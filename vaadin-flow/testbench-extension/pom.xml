@@ -17,17 +17,6 @@
         <vaadin.testbench.version>${vaadin.version}</vaadin.testbench.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-testbench-junit5</artifactId>
-                <version>${vaadin.testbench.version}</version>
-                <scope>compile</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.linkki-framework</groupId>
