@@ -1,0 +1,66 @@
+:jbake-title: UI Testing
+:jbake-type: section
+:jbake-status: published
+
+[[ui-testing]]
+=== UI Testing with linkki Extension for Vaadin TestBench
+UI Testing of linkki components is based on the https://vaadin.com/testbench[Vaadin TestBench] that uses Selenium.
+
+IMPORTANT: A Vaadin TestBench license is needed to run linkki UI tests!
+
+`linkki-vaadin-flow-TestBench-extension` is an extension to the Vaadin TestBench that brings page objects for linkki components like `LinkkiSectionElement` and `LinkkiTextElement`.
+
+==== Maven Dependency
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-vaadin-flow-TestBench-extension</artifactId>
+</dependency>
+----
+
+==== Example Usage
+This example tests the text of a `LinkkiText` component on a website at /app/home.
+
+[source,java]
+----
+public class LinkkiUiTest extends TestBenchTestCase {
+
+    public static final String DEFAULT_CONTEXT_PATH = "app";
+
+    @RegisterExtension
+    protected static WebDriverExtension driverExtension = new WebDriverExtension(DEFAULT_CONTEXT_PATH);
+
+    @BeforeEach
+    public void setUp() {
+        setDriver(driverExtension.getDriver());
+    }
+
+    @Test
+    void testLinkkiText() {
+        goToView("home");
+
+        LinkkiTextElement linkkiText = $(LinkkiTextElement.class).id("linkki-text-id");
+
+        assertThat(linkkiText.getText()).isEqualTo("linkki text element content");
+    }
+
+    private void goToView(String viewName) {
+        getDriver().navigate().to(DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, viewName));
+    }
+
+}
+----
+
+==== `DriverProperties`
+`DriverProperties` can be used to build the URI for the application to be tested and uses the following system properties:
+
+|===
+| *Property*        | *Description*                     | *Default*
+| test.protocol     | Protocol                          | http
+| test.hostname     | Hostname                          | localhost
+| test.port         | Port                              | 8080
+| test.path         | Path                              | -
+| test.headless     | Run browser in headless mode      | false
+|===

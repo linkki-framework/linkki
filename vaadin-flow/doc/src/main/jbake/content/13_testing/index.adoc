@@ -1,32 +1,11 @@
-:jbake-title: Testing with Karibu
+:jbake-title: Testing
 :jbake-type: chapter
 :jbake-status: published
 :jbake-order: 1000
 
-[[karibu-testing]]
-== Testing with Karibu-Testing
+== Testing
 
-*linkki* offers the option to write browserless server-side JUnit Tests using https://github.com/mvysny/karibu-testing[Karibu-Testing]. Karibu allows for calling things like `UI.getCurrent()` in a regular JUnit test by mocking `VaadinSession`, `CurrentRequest` and others. 
-To use this functionality simply include the Maven dependency for the module `linkki-vaadin-flow-test` like this:
+When creating user interface with linkki, most of the UI logic is written in PMOs that can be easily tested by unit tests. However, these unit tests cannot cover parts that use Vaadin components, or any routing logic.
 
-[source,xml]
-----
-<dependency>
-    <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-vaadin-flow-test</artifactId>
-</dependency>
-----
-No other dependencies are required.
+For these purposes, there are two frameworks that can be used for automated testing: https://github.com/mvysny/karibu-testing[Karibu Testing] and https://vaadin.com/testbench[Vaadin TestBench]. linkki provides extensions for these framework to further simplify testing for common usages.
 
-==== Using Karibu-Testing
-
-The following classes are provided to use Karibu-Testing:
-
-KaribuUIExtension::
-The simple way of using this module is by just annotating a test class with `@ExtendWith(KaribuUIExtension.class)`. That will provide the basic Karibu funtionality. 
-To register and use custom classes as routes in Vaadin UI tests, a `KaribuUIExtension` can be configured via the method `withConfiguration` and then added using `@RegisterExtension`.
-Additionally, a test using `KaribuUIExtension` can be annotated with `@WithLocale` to define the UI's locale, defaulting to german.
-
-
-KaribuUtils::
-The module also contains the utility class `KaribuUtils` to provides several useful utility methods. These include methods for handling `Notification`-components or for printing out the classnames of all Components. 

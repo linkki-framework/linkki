@@ -1,0 +1,60 @@
+:jbake-title: Unit Testing
+:jbake-type: section
+:jbake-status: published
+
+[[karibu-testing]]
+=== Unit testing with Karibu-Testing
+
+https://github.com/mvysny/karibu-testing[Karibu-Testing] provides functionality to write browserless server-side JUnit Tests for Vaadin applications.
+This allows calls such as `UI.getCurrent()` in a regular JUnit test by mocking `VaadinSession`, `CurrentRequest` and others.
+
+Linkki provides an extension of Karibu Testing.
+
+==== Maven Dependency
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-vaadin-flow-test</artifactId>
+</dependency>
+----
+
+==== Functionalities
+
+Linkki Karibut Extension provides following functionalities:
+
+KaribuUIExtension::
+The easiest way of using this module is by just annotating a test class with `@ExtendWith(KaribuUIExtension.class)`. That will provide the basic Karibu funtionality.
+To register and use custom classes as routes or instances in Vaadin UI tests, a `KaribuUIExtension` can be configured via the method `withConfiguration` and then added using `@RegisterExtension`.
+Additionally, a test using `KaribuUIExtension` can be annotated with `@WithLocale` to define the UI's locale, defaulting to german.
++
+.Example Usage
+[source,java]
+----
+@ExtendWith(KaribuUIExtension.class)
+class SimpleTestClassWithDefaultLocale {
+
+    @Test
+    void testLocale() {
+        assertThat(UI.getCurrent()).isNotNull();
+        assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.GERMAN);
+    }
+
+}
+
+@WithLocale("en")
+@ExtendWith(KaribuUIExtension.class)
+class SimpleTestClassWithLocaleEn {
+
+    @Test
+    void testLocale() {
+        assertThat(UI.getCurrent()).isNotNull();
+        assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
+    }
+
+}
+----
+
+KaribuUtils::
+The module also contains the utility class `KaribuUtils` to provides several useful utility methods. These include methods for handling `Notification`-components or for printing out the classnames of all components.
