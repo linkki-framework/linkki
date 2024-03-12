@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire.directory>surefire-reports</surefire.directory>
         
-        <vaadin.version>23.3.31</vaadin.version>
+        <vaadin.version>23.3.33</vaadin.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         
         <spotbugs.version>4.6.0</spotbugs.version>
