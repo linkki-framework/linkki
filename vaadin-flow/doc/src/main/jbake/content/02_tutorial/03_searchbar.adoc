@@ -1,0 +1,157 @@
+:jbake-title: Step 1: Search Bar
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 03
+
+:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+
+[[tutorial-step-1]]
+=== Step 1: Implementing the search bar
+
+[NOTE]
+This step introduces the concept of a *linkki PMO*. You will learn how to create a so-called *section* with such a PMO and the annotation `@UISection`. Along with that, you will also be introduced to the first component annotations `@UITextField` and `@UIButton`.
+
+The linkki archetype already provides the fundamental setup for your `BusinessPartnerView`. In this step, you will create an input field in the view where the user can enter a search term and trigger the search.
+
+.Search bar and button
+image::{images}99_tutorial/search_bar.png[]
+
+==== Creating the section to enter search criteria
+
+[NOTE]
+In *linkki*, each layout element is represented by a <<databinding, *Presentation Model Object* (PMO)>> that is annotated with a <<layout, layout annotation>>. The most commonly used layout is the section (<<layout-section, `@UISection`>>).
+
+To start with the first layout, create a class with the name `SearchSectionPmo` and annotate it with <<layout-section, `@UISection`>>.
+
+To implement the text field for search term input, follow the following steps:
+
+. Create a new field `searchText` that stores the user's input.
+. Create and implement the getter method for the property `searchText` with the signature `String getSearchText()`.
+. Annotate the getter method with <<ui-textfield, `@UITextField`>>. The annotation requires a value `position` which can set to an arbitrary positive integer value, e.g. 10.
+. Create and implement the setter method for the property `searchText`. This method should have the signature `public void setSearchText(String)`.
+
+The finished implementation looks like this:
+
+.SearchSectionPmo.java
+[source,java, indent=0]
+----
+include::{source-dir}/pmo/section/SearchSectionPmo.java[tags=searchfield]
+----
+
+[NOTE]
+Just like layouts, input components are also represented by annotations. The <<ui-element, built-in annotations>> cover the components that are most commonly used in a form. It is also possible to create <<custom-ui-element-annotation, your annotations>> for custom components.
+
+The UI element `UITextField` is declared via the annotation `@UITextField`. It is followed by two properties: `position` and `label`.
+
+[NOTE]
+The attribute <<position, `position`>> defines the display order of the components inside a layout.
+
+[NOTE]
+====
+The getter method that is annotated with <<ui-element, UI element annotation>> determines what is displayed in the field. The setter method defines what happens with the user input. The mechanism of a PMO is further explained in <<databinding, the documentation>>.
+
+In summary, whenever the user input changes, the `setSearchText` method will be called, including the actual user's input as argument. Subsequently, the text field will display the return value from the `getSearchText` method. 
+
+The following image illustrates the data binding for the property `searchText`:
+
+.Data binding
+image::{images}99_tutorial/data_binding.png[]
+====
+
+[[tutoria-search-button]]
+To additionally display a button to trigger the search, follow the following steps:
+
+. Create a new field `searchConsumer` of type `Consumer<String>`.
+. Create a constructor with the signature `SearchSectionPmo(Consumer<String>)` which assigns the argument to the field `searchConsumer`.
+. Create a new method `search` with the signature `public void search()`
+. Implement the method with `searchConsumer.accept(searchText)`
+. Annotate the method with `@UIButton`. 
+.. The `position` should be higher than the position of `@UITextField`, e.g. 20.
+.. The `caption` should be set to "Start Search".
+
+The finished implementation should look like this:
+
+.SearchSectionPmo.java
+[source,java, indent=0]
+----
+include::{source-dir}/pmo/section/SearchSectionPmo.java[tags=searchButton]
+----
+[NOTE]
+As a button do not store any values, the annotation is not added to a getter method, but a void method. Whenever the user clicks on the button, the method `search()` is invoked. The corresponding PMO property is called `search`.
+
+The search action itself is a functionality that should not be directly implemented in the PMO as it requires interaction with external systems. Thus it should be passed to the PMO as a constructor argument.
+
+[TIP]
+In your application, you will often use the _functional interfaces_ `org.linkki.util.handler.Handler` and `Consumer<T>` in order to separate a button's execution logic from its definition within the Presentation Model Object (PMO) classes. The `Handler` is a representation of a method *without arguments and without a return value*.
+
+[[tutorial-search-page]]
+==== Creating and showing `SearchSectionPmo` on a `Page`
+
+Now that you have the search input section, follow the following steps to create and display the section represented by `SearchSectionPmo`:
+
+. Create a Class `SearchPage` that extends `AbstractPage`.
+. Create a field `bindingManager` of type <<binding-basics, BindingManager>> and initialize it with `new DefaultBindingManager()`.
+. Implement the method `getBindingManager()` which returns the field `bindingManager`.
+. Define a new method `public void search(String)` with no implementation yet.
+. Implement the method createContent with `addSection(new SearchSectionPmo(this::search))`.
+
+The finished implementation should look like this:
+
+.SearchPage.java
+[source,java, indent=0]
+----
+include::{source-dir}/page/SearchPage.java[tags=searchPageInit]
+
+    public void search(String searchText) {
+        // will be implemented later
+    }
+}
+----
+
+<1> `AbstractPage` is an implementation of `Page` by *linkki* in which sections can be conveniently created and added by providing the corresponding PMOs.
+
+Next, implement the search functionality as follows:
+
+. Create a new field `foundPartners` with the type `List<BusinessPartner>` to store the search results.
+. Initialize the field `foundPartners` with `new ArrayList<>()`.
+. Extend the constructor of `SearchPage` with an additional argument of type `org.linkki.samples.appsample.model.BusinessPartnerRepository`. This type is provided by the dependency `sample-model` and implements the search functionality.
+. Store the constructor argument in a new field `partnerRepository`.
+. Implement the method `search`: Execute the method `findBusinessPartner` from `partnerRepository` with the method argument and store the result in the field `foundPartners`.
+
+The finished implementation should look like this:
+
+.SearchPage.java
+[source, java, indent=0]
+----
+include::{source-dir}/page/SearchPage.java[tags=search]
+----
+
+[[tutorial-search-page-init]]
+==== Showing `SearchPage` in `BusinessPartnerView`
+
+The `SearchPage` is still not displayed yet. To create and display the page, go to the class `BusinessPartnerView` and modify the class as followed:
+
+. Extend the constructor with an argument of type `BusinessPartnerRepository`.
+. Annotate the constructor with https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-autowired-annotation[`@Autowired`].
+. Create a new `Headline` using the constructor and the argument `"Partner Search"`  and add it to the view with `add`.
+. Create a new `SearchPage` using the constructor.
+. Call the `init()` method of the created `SearchPage` to create the content of the page and add the created `SearchPage` to the view with `add`.
+
+The finished implementation should look like this:
+
+.BusinessPartnerView.java
+[source, java, indent=0]
+----
+include::{source-dir}/view/BusinessPartnerView.java[tags=businessPartnerViewConstructor]
+----
+
+The method `AbstractPage.init()` takes care of creating the page _after_ the constructor has been called.
+
+==== Viewing the result in the application
+
+If you run your application now, you should be able to see the `SearchSectionPmo`. The view begins with the title "Partner Search" and is followed by a search bar and a search button called "Start Search".
+
+.Search bar and button
+image::{images}99_tutorial/search_bar.png[]
+
+For now, clicking the search button does not affect the UI. The <<tutorial-step-2, next step>> extends the UI to display the search result.

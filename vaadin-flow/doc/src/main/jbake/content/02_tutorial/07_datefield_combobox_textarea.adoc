@@ -1,0 +1,76 @@
+:jbake-title: Step 5: UIDateField, UIComboBox & UITextArea
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 07
+
+:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+
+[[tutorial-step-5]]
+=== Step 5: UIDateField, UIComboBox & UITextArea
+
+[NOTE]
+This step introduces you to the UI elements `UIDateField`, `UIComboBox` and `UITextArea`.
+
+Next, you will create and fill out a page to display general information of a business partner, such as the name and date of birth.
+
+.BasicDataPage
+image::{images}99_tutorial/detail.png[]
+
+==== Implementing a new PMO
+
+The page should contain a section to display partner details. Therefore, create a new class `PartnerDetailsSectionPmo` and annotate it with `@UISection`. Its caption should be set to "Partner Details".
+
+`PartnerDetailsSectionPmo` should define UI Elements for the name and date of birth of the partner as well as their status and some notes. You need a `UITextField`, a <<ui-datefield, `UIDateField`>>, a <<ui-combobox, `UIComboBox`>> and a <<ui-textarea, `UITextArea`>>. Implement them as follows:
+
+. Pass a `BusinessPartner` to the constructor and assign it to the field `partner`. 
+. Create and implement the getter method for the property `name` and annotate it with `@UITextField`.
+.. Get the name by calling the getter method on the partner.
+.. The label should be set to "Name".
+. Create and implement the setter method for the property `name`. Set the name by calling the setter method on the partner.
+. Create and implement the getter method for the property `dateOfBirth` with the signature `LocalDate getDateOfBirth()` the same way as in 2i.
+. Annotate the getter with <<ui-datefield, `@UIDateField`>>. The label should be set to `Date of Birth`.
+. Create and implement the setter method for the property `dateOfBirth` the same way as in 3.
+. Create and implement the getter method for the property `status` with the signature `Status getStatus()`.
+. Annotate the getter with <<ui-combobox, `@UIComboBox`>>. The label should be set to "Status".
+. Create and implement the setter method for the property `status`.
+. Create and implement the getter method for the property `note` with the signature `String getNote()`.
+. Annotate the getter with <<ui-textarea, `@UITextArea`>>. The label should be set to "Note".
+. Create and implement the setter method for the property `note`.
+
+The finished implementation should look like this:
+
+.PartnerDetailsSectionPmo.java
+[source, java, indent=0]
+----
+include::{source-dir}/pmo/section/PartnerDetailsSectionPmo.java[tags=partnerdetails]
+----
+
+==== Creating the basic data page
+
+Now that the section is done, create a new `AbstractPage` called `BasicDataPage`, initialize it as you did in <<tutorial-search-page, step 1>> and add the `PartnerDetailsSectionPmo` in the `createContent` method.
+
+[[tutorial-basic-data-page]]
+=== Updating `PartnerDetailsView`
+
+Since you have created the `BasicDataPage`, you need to update `PartnerDetailsView`. If you remember what was said in the <<tutorial-search-page-init,first step>> of this tutorial, you know you have to call `BasicDataPage.init()` after calling the constructor, otherwise the content of the page won't be created.
+
+Therefore, update the method `createBasicDataPage` as follows:
+
+. Create a new instance of `BasicDataPage`.
+. Call the `init()` method.
+. Return the created `BasicDataPage`.
+
+The finished implementation should look like this:
+
+.PartnerDetailsView.java
+[source, java, indent=0]
+----
+include::{source-dir}/view/PartnerDetailsView.java[tags=createBasicDataPage]
+----
+
+You should now be able to see a `BasicDataPage` with the personal information of a partner. For John Doe, you should only be able to see their name and date of birth (27/08/1978).
+
+.BasicDataPage
+image::{images}99_tutorial/detail.png[]
+
+The <<tutorial-step-6, next step>> extends the UI to display all addresses of a partner.

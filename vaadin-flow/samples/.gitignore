@@ -1,0 +1,7 @@
+**/.npmrc
+**/pnpmfile.js
+**/webpack.generated.js
+**/vite.generated.ts
+
+**/node_modules/
+**/frontend/generated/

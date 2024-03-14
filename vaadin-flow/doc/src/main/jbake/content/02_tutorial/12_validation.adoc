@@ -1,0 +1,96 @@
+:jbake-title: Step 10: Validation
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 12
+
+:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+
+[[tutorial-step-10]]
+=== Step 10: Validation in dialogs
+
+[NOTE]
+This step shows you how to validate user input in dialogs.
+
+As you may have noticed, you can add an empty address to the addresses table. This can be considered invalid, and it can be avoided by using <<validation, Validation>>, which is a way to tell the user whether the input fits the domain model logic.
+
+.Add Address dialog with validation rules
+image::{images}99_tutorial/dialog_validation.png[]
+
+==== Marking input fields as required
+
+To inform the user which fields have to be filled in, the fields can be visually marked as required. Set the property `required` to `RequiredType.REQUIRED` for _all_ fields in `AddressPmo`.
+
+[NOTE]
+Specifying the `RequiredType` will only display a blue point. It does *not* prevent the user from leaving the field empty, nor will it display the validation rule that is violated by doing so.
+
+The finished implementation should look like this:
+
+.AddressPmo.java
+[source, java, indent=0]
+----
+@UITextField(..., required = RequiredType.REQUIRED)
+public void street() {
+...
+
+@UITextField(..., required = RequiredType.REQUIRED)
+public void streetNumber() {
+...
+
+@UITextField(..., required = RequiredType.REQUIRED)
+public void postalCode() {
+...
+
+@UITextField(..., required = RequiredType.REQUIRED)
+public void city() {
+...
+
+@UITextField(..., required = RequiredType.REQUIRED)
+public void country() {
+...
+----
+
+If you run your application, you should see a blue point next to the label of each field:
+
+.Add Address dialog with blue points at required fields
+image::{images}99_tutorial/dialog.png[]
+
+==== Validating the input fields
+
+Validations typically have a justification in the domain model. If for example an attribute is mandatory, this information should be handled by the implementation in the domain model so that all applications that use the same model follow the same logic.
+
+In this case, the domain model class `Address` implements a method `validate()`. This method returns a list of validation messages that contain the justification as well as which attributes of which objects they refer to. The only thing left for you to do is to transfer these messages to the fields in the UI.
+
+In *linkki*, displaying and distributing validation messages are handled by so-called <<validation-service, `ValidationServices`>>. Whenever a dialog is created with the help of a `PmoBasedDialogFactory`, it is possible to pass a `ValidationService` that is used in all dialogs created by that factory.
+
+Implement the validation in the method `AddressPage.createNewAddress`:
+
+. Assign a lambda expression, in which `address.validate()` is passed to `org.linkki.ips.messages.MessageConverter.convert()`, to a variable `validationService` of type `ValidationService` .
+. Assign a new instance of `PmoBasedDialogFactory`, with `validationService` passed as the argument, to a variable `dialogFactory` of type `PmoBasedDialogFactory`.
+. Use `dialogFactory` when creating the `OkCancelDialog`.
+
+To be able to use the `MessageConverter` you need to add the following dependency:
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-ips-vaadin-flow</artifactId>
+    <version>${linkki.version}</version>
+</dependency>
+----
+
+The finished implementation should look like this:
+
+.AddressPage.java
+[source,java, indent=0]
+----
+    public void createNewAddress() {
+        ...
+include::{source-dir}/page/AddressPage.java[tags=validation]
+        ...
+    }
+----
+
+If you run your application and try to add an address without filling in all the fields, you should get an error saying e.g. "The field Street must not be empty.".
+
+.Add Address dialog with validation rules
+image::{images}99_tutorial/dialog_validation.png[]

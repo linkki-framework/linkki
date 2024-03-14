@@ -1,0 +1,54 @@
+:jbake-title: Step 8: @SectionHeader
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 10
+
+:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+
+[[tutorial-step-8]]
+=== Step 8: Adding a button to a header
+
+[NOTE]
+This step teaches you how to add a button to the header of a page. You will also learn how to show notifications using `NotificationUtil`.
+
+Now that the user can delete addresses, you will add a button to create new ones. 
+
+.Address table with add button in table header
+image::{images}99_tutorial/address.png[]
+
+==== Adding a button in `AddressTablePmo`
+
+To have the button next to the caption "Addresses", do the following in `AddressTablePmo`:
+
+. Create a void method `add` and annotate it with `@UIButton`.
+. The attribute `variants` should be set to `{ButtonVariant.LUMO_CONTRAST}` and `icon` to `VaadinIcon.PLUS`.
+. Annotate the method with `@SectionHeader`. This puts the button in the header of the section, next to the caption.
+
+The finished implementation should look like this:
+
+.AddressTablePmo.java
+[source, java]
+----
+include::{source-dir}/pmo/table/AddressTablePmo.java[tags=addButton]
+----
+
+==== Showing a notification
+
+To make sure the button works correctly, you will display a notification when clicking on it. To do so, implement the `add` method with `NotificationUtil.showInfo("New Address", "This button adds an address")`. The first argument is the title of the notification, the second is the content.
+
+The finished implementation should look like this:
+
+.AddressTablePmo.java
+[source, java]
+----
+public void add() {
+    NotificationUtil.showInfo("New Address", "This button adds an address");
+}
+----
+
+If you run your application now, you should see a plus icon next to the title "Addresses". When you click on it, a notification box should pop up with the title "New Address" and its content should be "This button adds an address".
+
+.Add notification
+image::{images}99_tutorial/address_add_notification.png[]
+
+The <<tutorial-step-9,next step>> extends the UI so that the plus button adds a new address.

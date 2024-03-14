@@ -1,0 +1,101 @@
+:jbake-title: Step 2: Search results table
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 04
+
+:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+
+[[tutorial-step-2]]
+=== Step 2: Displaying the search result in a table
+
+[NOTE]
+This step teaches you how to implement a table using `SimpleTablePmo`. Additionally, you will be introduced to the UI elements `UILabel` and `UILink`.
+
+To display the search results, matching business partners should be shown in a table below the search bar. The user should only be able to gather brief information about the business partner for now.
+
+.Search result table
+image::{images}99_tutorial/search_result_table.png[]
+
+To build a <<ui-tables, table>> in *linkki*, you need two PMO classes:
+
+* A row PMO that defines the structure of one row of the table.
+* A `ContainerPmo` that builds the table out of the rows.
+
+[[tutorial-row-pmo]]
+==== Implementing the Row PMO
+
+Create a new class `SearchResultRowPmo` as the row PMO of the table. 
+
+[NOTE]
+Unlike a `ContainerPmo`, a row PMO is not a section and therefore doesn't need the `@UISection` annotation.
+
+Every row consists of three elements:
+
+* a <<ui-label, UILabel>> that displays the name of a given partner
+* a <<ui-label, UILabel>> that displays the first address of a given partner
+* a <<ui-link, UILink>> that will lead you to another view, which you can implement in the xref:05_linkkitablayout.adoc[next step].
+
+To implement the `SearchResultRowPmo`, do the following:
+
+. Create a constructor with the signature `SearchResultRowPmo(BusinessPartner partner)` which assigns the argument to a field `partner`.
+. Create and implement the getter method for the property `name`.
+. Annotate the getter method with `@UILabel`. The `label` attribute will be the column name. It should be set to "Name".
+. Create and implement the getter method for the property `firstAddress`.
+. Annotate this getter method with `@UILabel` as well. The label should be set to "First Address".
+. Create the getter method for the property `details`. This method should return a URL as a String, but let it return an empty String for now.
+. Annotate the method with `@UILink`. The attribute `caption` should be set to "Show Details".
+
+The finished implementation should look like this:
+
+.SearchResultRowPmo.java
+[source, java, indent=0]
+----
+include::{source-dir}/pmo/table/SearchResultRowPmo.java[tags=searchRow]
+        return "";
+include::{source-dir}/pmo/table/SearchResultRowPmo.java[tags=searchRow2]
+----
+
+[[tutorial-container-pmo]]
+==== Implementing the Container PMO
+
+Create a new class `SearchResultTablePmo`, which will be the `ContainerPmo` of the table and implement it as follows:
+
+. Use `SimpleTablePmo<BusinessPartner, SearchResultRowPmo>` as super class.
+. Annotate the class with `@UISection` and set the attribute `caption` to "Search Results". This is the caption of the section that contains the table.
+. Implement the constructor with the signature `SearchResultTablePmo(Supplier<List<? extends BusinessPartner>> modelObjectsSupplier)` by passing the argument to the super class.
+. Implement the method `createRow` which returns a new instance of `SearchResultRowPmo`.
+
+The finished implementation should look like this:
+
+.SearchResultTablePmo.java
+[source, java, indent=0]
+----
+include::{source-dir}/pmo/table/SearchResultTablePmo.java[tags=searchTable]
+---- 
+
+[NOTE]
+The `SimpleTablePmo` deals with the creation of the table and calls the method `SearchResultTablePmo.createRow` for each partner in the `BusinessPartner` list.
+
+==== Adding the table to `SearchPage`
+
+To display the defined table in the search page, you need to do the following:
+
+* In the method `createContent()`:
+
+.. Create a new instance of `SearchResultTablePmo` and pass the list `foundPartners` as a lambda expression.
+.. Add a section with the created `SearchResultTablePmo` the same way as the section <<tutorial-search-page, `SearchSectionPmo`>>.
+
+The finished implementation should look like this:
+
+.SearchPage.java
+[source,java, indent=0]
+----
+include::{source-dir}/page/SearchPage.java[tags=addTable]
+----
+
+If you start the application now, you can search for an arbitrary name and see all the matching business partners in the result table below the search bar. For example, when searching for "doe", you should get a table with four results: John Doe, Jane Doe, Average Doe and OneAddress Doe. Only John Doe and OneAddress Doe have a first address.
+
+.Search result table
+image::{images}99_tutorial/search_result_table.png[]
+
+For now, the `UILink` is not clickable. It will be made clickable in the <<tutorial-step-3, next step>>, which deals with the navigation between views.

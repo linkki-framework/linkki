@@ -1,0 +1,53 @@
+:jbake-title: Step 7: Modify UI behavior
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 09
+
+:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+
+[[tutorial-step-7]]
+=== Step 7: Setting fields to read-only behavior
+
+[NOTE]
+This step shows you how to make input fields read-only, so that they cannot be edited.
+
+You may have noticed that the fields in the `AddressPage` are all editable. Even though the domain model that we have bound to our PMOs allows modification of the partner data, we want to change this behavior, so we can control when and where the user can change data.
+
+==== Making the input fields read-only
+
+To solve this problem, you can make use of *linkki*'s <<cross-sectional-binding, `PropertyBehaviors`>>. Everywhere a `DefaultBindingManager` is created, we can additionally pass read-only `PropertyBehaviors` to the constructor. Technically, we need to pass through a `PropertyBehaviorProvider` that contains only one read-only `PropertyBehavior`.
+
+In `AddressPage`, assign the following to the field `bindingManager`: `new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE, PropertyBehaviorProvider.with(PropertyBehavior.readOnly()))`.
+
+The finished implementation should look like this:
+
+.AddressPage.java
+[source, java, indent=0]
+----
+include::{source-dir}/page/AddressPage.java[tags=binding]
+----
+
+==== Changing the behavior of buttons
+
+By default, buttons are active regardless of the defined `PropertyBehavior`. To change the behavior of UI elements in read-only mode, you can use the annotation <<bind-read-only-behavior, `@BindReadOnlyBehavior`>>.
+
+Annotate the delete button in `AddressRowPmo` with `@BindReadOnlyBehavior` and set the attribute `value` to `ReadOnlyBehaviorType.WRITABLE`.
+
+The finished implementation should look like this:
+
+.AddressRowPmo.java
+[source, java, indent=0]
+----
+@BindReadOnlyBehavior(value = ReadOnlyBehaviorType.WRITABLE)
+@UITableColumn(...)
+@UIButton(...)
+...
+----
+
+If you run your application now, you should still be able to delete addresses, but you should not be able to edit the other columns anymore.
+
+.AddressPage
+image::{images}99_tutorial/address_read_only.png[]
+
+The <<tutorial-step-8,next step>> extends the UI to add a button to the header of `AddressPage`.
+

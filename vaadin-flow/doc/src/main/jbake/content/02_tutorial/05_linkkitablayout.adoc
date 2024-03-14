@@ -1,0 +1,198 @@
+:jbake-title: Step 3: Implementing a new View with LinkkiTabLayout
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 05
+
+:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+
+[[tutorial-step-3]]
+=== Step 3: Implementing a new View with LinkkiTabLayout
+
+[NOTE]
+This step introduces you to the navigation between views using *Vaadin*. You will also learn how to use the layout type `LinkkiTabLayout`.
+
+To display more detailed information of a business partner, you will create a new view that will display two pages as tabs: `BasicDataPage` and `AddressPage`. Each page will correspond to a tab sheet. For now, the pages will stay empty.
+
+.BasicDataPage
+image::{images}99_tutorial/detail_empty.png[]
+
+==== Creating View to display partner details
+
+[NOTE]
+If you look at the implementation of `BusinessPartnerView`, you will notice the https://vaadin.com/docs/latest/routing/route[`@Route`] annotation. This is a *Vaadin* annotation and it is required for navigating between views. Note that the `value` attribute represents the URL. If `value` is "example", you can access this view using the URL "localhost:8080/example".
+
+Create the new view by creating a class called `PartnerDetailsView`, annotating it with `@Route` and doing the following steps:
+
+. Set the attribute `value` to "PartnerDetails".
+. As with `BusinessPartnerView`, use the `layout` `BusinessPartnerLayout`, otherwise you will not have the navigation bar at the top of the view.
+. Extend `PartnerDetailsView` to `Div`, otherwise you will get an error when accessing this view.
+
+The finished implementation should look like this:
+
+.PartnerDetailsView.java
+[source, java, indent=0]
+----
+@Route(value = "PartnerDetails", layout = BusinessPartnerLayout.class)
+public class PartnerDetailsView extends Div {
+
+}
+----
+
+==== Transforming `PartnerDetailsView` to a `LinkkiTabLayout`
+
+Overall, `PartnerDetailsView` should show a tab layout with the two pages as tab sheets. To do this:
+
+. Use <<linkkitablayout, `LinkkiTabLayout`>> as the super class of `PartnerDetailsView` instead of `Div`.
+. To have the tabs on the left of the view, use the vertical orientation of `LinkkiTabLayout` by calling the super constructor with `Orientation.VERTICAL` as an argument.
+. If you want, you can change the background of the tab bar by adding `THEME_VARIANT_SOLID` to the list of the view themes in the constructor with `this.getElement().getThemeList().add(THEME_VARIANT_SOLID);`.
+
+.PartnerDetailsView.java
+[source, java, indent=0]
+----
+public class PartnerDetailsView extends LinkkiTabLayout {
+
+    public PartnerDetailsView() {
+        super(Orientation.VERTICAL);
+        this.getElement().getThemeList().add(THEME_VARIANT_SOLID);
+    }
+}
+----
+
+You can now run your application and access your new view via "localhost:8080/PartnerDetails".
+
+==== Accessing `PartnerDetailsView` for a given partner
+
+The URL currently doesn't allow you to show the information of a specific partner. Therefore, you need to add a https://vaadin.com/docs/latest/routing/route-parameters[parameter] to the URL.
+
+One way to achieve this is to have the view implement the interface https://vaadin.com/docs/latest/routing/route-parameters/#defining-route-parameters[`HasUrlParameter<String>`] and override the method `setParameter(BeforeEvent event, @OptionalParameter String parameter)`. You will implement this method later.
+
+.PartnerDetailsView.java
+[source, java, indent=0]
+----
+include::{source-dir}/view/PartnerDetailsView.java[tags=hasUrlParameter]
+        // will be implemented later
+    }
+}
+----
+
+You are now ready to add the URL to the `UILink` that you implemented in the <<tutorial-row-pmo,previous step>>.
+
+Go back to the `SearchResultRowPmo` and let the method `getDetails` return the URL of `PartnerDetailsView`, which is `"PartnerDetails/" + partner.getUuid().toString()`, with the parameter being the UUID of the partner.
+
+.SearchResultRowPmo.java
+[source, java, indent=0]
+----
+include::{source-dir}/pmo/table/SearchResultRowPmo.java[tags=url]
+----
+
+If you run your application now, you should be able to click on the "Show Details" link and navigate to the empty `PartnerDetailsView`.
+
+[TIP]
+If you take a look at the URL, you should be able to see the ID of a partner. For John Doe, the parameter is ac54f2f9-7b82-4bc8-ab69-554cac5926f1.
+
+.BusinessPartnerView
+image::{images}99_tutorial/search_result_table_link.png[]
+
+==== Retrieving the correct `BusinessPartner`
+
+Now that the "ID" of a `BusinessPartner` is passed to the URL of the `PartnerDetailsView`, you need to retrieve it, otherwise you won't know which partner you want to display information for. 
+
+To retrieve the correct `BusinessPartner`, do the following:
+
+. Create a field `partnerRepository` of type `BusinessPartnerRepository`.
+. Create a field `currentPartner` of type `Optional<BusinessPartner>`.
+. Pass a `BusinessPartnerRepository` to the constructor and annotate the constructor with `@Autowired`, as you did for `BusinessPartnerView`.
+. Assign the constructor argument to the field `partnerRepositiory`.
+. Initialize the field `currentPartner` with `Optional.empty()`.
+. In the method `setParameter`, assign `Optional.ofNullable(parameter).map(UUID::fromString).map(partnerRepository::getBusinessPartner)` to the field `currentPartner`.
+
+The finished implementation should look like this:
+
+.PartnerDetailsView.java
+[source, java, indent=0]
+----
+include::{source-dir}/view/PartnerDetailsView.java[tags=retrievePartner1]
+        ...
+include::{source-dir}/view/PartnerDetailsView.java[tags=retrievePartner2]
+----
+
+==== Adding tab sheets to `PartnerDetailsView`
+
+Now that you have the correct `BusinessPartner`, you can add the two tab sheets that will display detailed information about the partner and their addresses. However, at the moment you can access the view whether the UUID of a `BusinessPartner` is correct or not. 
+
+Therefore, you will an additional tab sheet to handle error cases: If the UUID is missing or incorrect, the first tab will be shown and the other two will be hidden. Otherwise, the first tab will be hidden and the other two will display detailed information on the `BusinessPartner`.
+
+Before adding the tab sheets, you need to create the component the tab sheets will display. Do the following:
+
+. Create a method `createErrorLayout` with the signature `Component createErrorLayout()`.
+. Let the method return `new Div(new Text("No partner ID was provided or no partner could be found with the given ID"))`.
+. Create a method `createBasicDataPage` with the signature `Component createBasicDataPage(BusinessPartner partner)`.
+. Let the method return `new Div(new Text("Basic Data Page for partner " + partner.getUuid()))`.
+. Create a method `createAddressPage` with the signature `Component createAddressPage(BusinessPartner partner)`.
+. Let the method return `new Div(new Text("Address Page for partner " + partner.getUuid()))`.
+
+The finished implementation should look like this:
+
+.PartnerDetailsView.java
+[source, java, indent=0]
+----
+include::{source-dir}/view/PartnerDetailsView.java[tags=createComponentError]
+
+    private Component createBasicDataPage(BusinessPartner partner) {
+        return new Div(new Text("Basic Data Page for partner " + partner.getUuid()))
+    }
+
+    private Component createAddressPage(BusinessPartner partner) {
+        return new Div(new Text("Address Page for partner " + partner.getUuid()))
+    }
+----
+
+
+To add the tab sheets, use the method `addTabSheets`. The method takes a list of <<linkkitablayout, `LinkkiTabSheet`>> as the argument. Create the three `LinkkiTabSheet` as follows:
+
+. Use a builder with `LinkkiTabSheet.builder()`, which takes the ID of the tab sheet as a String argument:
+.. Use "error" as the ID for the first tab sheet.
+.. Use "basic-data" as the ID for the second tab sheet.
+.. Use "address" as the ID for the third tab sheet.
+. Add a caption to the tab sheet using `.caption()` which will be displayed on the tab element. In this case, you will display icons:
+.. Use `VaadinIcon.WARNING.create()` as the caption for the first tab sheet.
+.. Use `VaadinIcon.USER.create()` as the caption for the second tab sheet.
+.. Use `VaadinIcon.HOME.create()` as the caption for the third tab sheet.
+. Set the content of the tab sheet using `.content()`, which takes a `Supplier<Component>` as the argument, where `Component` is a *Vaadin* Component:
+.. Use `this::createErrorLayout` as the argument for the first tab sheet.
+.. Use `this::createBasicDataPage` as the argument for the second tab sheet.
+.. Use `this::createAddressPage` as the argument for the third tab sheet.
+. Set the visibilty of the tab sheet using `.visibleWhen()`:
+.. Use `() -> currentPartner.isEmpty()` as the argument for the first tab sheet.
+.. Use `() -> currentPartner.isPresent()` as the argument for the second tab sheet.
+.. Use `() -> currentPartner.isPresent()` as the argument for the third tab sheet.
+. Build the tab sheet with `.build()`.
+
+The finished implementation should look like this:
+
+.PartnerDetailsView.java
+[source, java, indent=0]
+----
+include::{source-dir}/view/PartnerDetailsView.java[tags=addTabSheets1]
+        ...
+include::{source-dir}/view/PartnerDetailsView.java[tags=addTabSheets2]
+----
+
+If you run your application, you should be able to access the new view from `BusinessPartnerView` and navigate to the two empty pages via the tabs on the left.
+
+The first tab should have a user icon and display for e.g. John Doe "Basic Data Page for partner ac54f2f9-7b82-4bc8-ab69-554cac5926f1".
+
+.BasicDataPage
+image::{images}99_tutorial/detail_empty.png[]
+
+The second tab should have a home icon and display for e.g. John Doe "Address Page for partner ac54f2f9-7b82-4bc8-ab69-554cac5926f1".
+
+.AddressPage
+image::{images}99_tutorial/address_empty.png[]
+
+If you remove the UUID from the URL, you should get only one tab. This tab should have a warning icon and display "No partner ID was provided or no partner could be found with the given ID".
+
+.Error
+image::{images}99_tutorial/error.png[]
+
+The <<tutorial-step-4, next step>> extends the UI by adding a menu item in order to navigate back to `BusinessPartnerView`.

@@ -1,0 +1,137 @@
+:jbake-title: Step 9: Dialogs
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 11
+
+:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+
+[[tutorial-step-9]]
+=== Step 9: Implementing dialogs
+
+[NOTE]
+This step teaches you how to implement dialogs. You will also learn how to reuse an existing PMO.
+
+Now we will implement the actual functionality of the add button, to add new addresses. When the user clicks on the add button, they will be prompted to enter the address data in a dialog. The entry will be added when the user finishes editing by clicking on the OK button.
+
+.Add Address dialog
+image::{images}99_tutorial/dialog_initial.png[]
+
+==== Reusing a PMO
+
+The content of the dialog should be the same as `AddressRowPmo` without the delete button. To avoid writing the same PMO twice, reuse it as follows:
+
+. Extract a super class from `AddressRowPmo` such that it contains everything except the delete button and the consumer and call it `AddressPmo`.
+. Annotate `AddressPmo` and make sure the constructor has an `Address` argument that is assigned to the field `address`.
+
+The finished implementations of `AddressRowPmo` and `AddressPmo` should look like this:
+
+.AddressRowPmo.java
+[source, java, indent=0]
+----
+include::{source-dir}/pmo/table/AddressRowPmo.java[tags=rowAfterExtraction]
+----
+
+.AddressPmo.java
+[source, java, indent=0]
+----
+include::{source-dir}/pmo/dialog/AddressPmo.java[tags=addressPmo1]
+    @UITextField(position = 10, label = "Street", modelAttribute = "street")
+    public void street() {
+        // model binding
+    }
+
+    @UITextField(position = 20, label = "Number", modelAttribute = "streetNumber")
+    public void streetNumber() {
+        // model binding
+    }
+
+    @UITextField(position = 30, label = "Postal Code", modelAttribute = "postalCode")
+    public void postalCode() {
+        // model binding
+    }
+
+    @UITextField(position = 40, label = "City", modelAttribute = "city")
+    public void city() {
+        // model binding
+    }
+
+    @UITextField(position = 50, label = "Country", modelAttribute = "country")
+    public void country() {
+        // model binding
+    }
+include::{source-dir}/pmo/dialog/AddressPmo.java[tags=addressPmo2]
+----
+
+==== Implementing the dialog
+
+Now switch to the `AddressPage` to implement the <<dialogs, dialog>>.
+
+First, create a void method called `updateUI()` and implement it with `getBindingContext().uiUpdated()`. 
+
+Then, create a new method called `createNewAddress` with the signature `void createNewAddress()` and implement it as follows:
+
+. Create a new `Address` instance and assign it to a variable `address`.
+. Create a new `AddressPmo` instance with `address` as the argument and store it in a variable `dialogPmo`.
+. Assign a lambda expression, where `address` is added to the `partner` using the method `addAddress`, to a variable `addHandler` of type `Handler`. 
+. Assign a lambda expression, where `partner` is saved in the `partnerRepository`, to a variable `saveHandler` of type `Handler`.
+. Assign `addHandler.andThen(saveHandler).andThen(this::updateUI)` to a variable `okHandler` of type `Handler`.
+. Assign a new instance of `OkCancelDialog` to a variable `addressDialog` by calling the method `PmoBasedDialogFactory.newOkCancelDialog`, which takes a String, a Handler and a PMO as arguments:
+.. The String is the title of the dialog and should be set to "Add Address".
+.. The Handler should be `okHandler` and the PMO `dialogPmo`.
+. Set the width of `addressDialog` to "25em" using the method `OkCancelDialog.setWidth`.
+. Open `addressDialog` by calling the method `OkCancelDialog.open`.
+
+The finished implementation should look like this:
+
+.AddressPage.java
+[source, java, indent=0]
+----
+include::{source-dir}/page/AddressPage.java[tags=dialog1]
+                new PmoBasedDialogFactory()
+include::{source-dir}/page/AddressPage.java[tags=dialog2]
+----
+
+==== Updating the functionality of the add button
+
+Now that the dialog is implemented, you need to update the content of the method `add()` in `AddressTablePmo` such that it calls `createNewAddress`. Implement it as follows:
+
+. Add a new argument of type `Handler` to the constructor of `AddressTablePmo` and assign it to a field `createHandler`.
+. Call `createHandler.apply` in the method `add()`.
+. Remove the notification.
+
+The finished implementation should look like this:
+
+.AddressTablePmo.java
+[source, java, indent=0]
+----
+include::{source-dir}/pmo/table/AddressTablePmo.java[tags=createHandler]
+
+    @SectionHeader
+    @UIButton(...)
+    public void add() {
+        createHandler.apply();
+    }
+----
+
+Now, pass `createNewAddress` to the instance of `AddressTablePmo` in the method `createContent` in `AddressPage`.
+
+The finished implementation should look like this:
+
+.AddressPage.java
+[source, java, indent=0]
+----
+@Override
+public void createContent() {
+    addSection(new AddressTablePmo(partner::getAddresses, this::deleteAddress, this::createNewAddress));
+}
+----
+
+If you run your application and click on the add button, you should see a dialog with the same fields as the addresses table. If you click on the button "OK", you should now see a new address in the table with the information provided in the dialog.
+
+.Add Address dialog
+image::{images}99_tutorial/dialog_initial.png[]
+
+.New Address added
+image::{images}99_tutorial/address_new_line.png[]
+
+The <<tutorial-step-10,next step>> extends the UI such that an address cannot be added if a field is empty.

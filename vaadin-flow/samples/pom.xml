@@ -39,6 +39,8 @@
     </properties>
 
     <modules>
+        <module>model</module>
+        <module>tutorial</module>
         <module>getting-started</module>
         <module>test-playground</module>
     </modules>
