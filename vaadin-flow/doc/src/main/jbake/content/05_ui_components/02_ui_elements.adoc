@@ -25,7 +25,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-combobox,`UIComboBox`>> |Dropdown field with predefined options
 |<<ui-multiselect,`UIMultiSelect`>> |Dropdown field with predefined options for selecting multiple options
 |<<ui-yesnocombobox,`UIYesNoCombobox`>> |Dropdown field for boolean choices
-|<<ui-radiobutton,`UIRadioButtons`>> |Radio buttons for selecting a single choice
+|<<ui-radiobuttons,`UIRadioButtons`>> |Radio buttons for selecting a single choice
 |===
 
 [[ui-buttons]]
