@@ -16,6 +16,7 @@ package org.linkki.samples.playground.ts.ips;
 
 import org.faktorips.values.Decimal;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.ips.decimalfield.UIDecimalField;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
@@ -23,40 +24,41 @@ import org.linkki.samples.playground.ips.model.IpsModelObject;
 @UISection
 public class DecimalFieldPmo {
 
-    private Decimal decimal = Decimal.ZERO;
+    @ModelObject
+    private final IpsModelObject modelObject = new IpsModelObject();
 
     @UIDecimalField(position = 0, label = "Default Format")
     public Decimal getDecimal() {
-        return decimal;
+        return modelObject.getDecimal();
     }
 
     public void setDecimal(Decimal decimal) {
-        this.decimal = decimal;
+        modelObject.setDecimal(decimal);
     }
 
     @UIDecimalField(position = 10, format = "#,##0", label = "No Decimal Places Allowed")
     public Decimal getDecimalWithNoDecimalPlaces() {
-        return decimal;
+        return getDecimal();
     }
 
     public void setDecimalWithNoDecimalPlaces(Decimal decimal) {
-        this.decimal = decimal;
+        setDecimal(decimal);
     }
 
     @UIDecimalField(position = 20, format = "#,#0.00##", label = "Thousands Separator")
     public Decimal getDecimalWithThousandsSeparator() {
-        return decimal;
+        return getDecimal();
     }
 
     public void setDecimalWithThousandsSeparator(Decimal decimal) {
-        this.decimal = decimal;
+        setDecimal(decimal);
     }
 
     @UIDecimalField(position = 30,
             label = "Value Must be in Range [0..100/0.5]",
             required = RequiredType.REQUIRED,
             modelAttribute = IpsModelObject.PROPERTY_DECIMAL)
-    public void decimal() {
+    public void decimalWithModelBinding() {
         // model binding
     }
 }

@@ -14,9 +14,9 @@
 The following versions have been updated:
 [cols="a,a"]
 |===
-| Faktor-IPS                | 24.7.0.rc01
-| Vaadin                    | 24.3.10
-| Spring Boot               | 3.2.5
+| Faktor-IPS                | 24.7.0
+| Vaadin                    | 24.4.0
+| Spring Boot               | 3.3.0
 |===
 
 //https://jira.convista.com/browse/LIN-1803

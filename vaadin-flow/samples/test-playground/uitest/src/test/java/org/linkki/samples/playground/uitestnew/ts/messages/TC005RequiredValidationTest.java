@@ -70,7 +70,7 @@ class TC005RequiredValidationTest extends PlaygroundUiTest {
     }
 
     private TextFieldElement getTextFieldElementByLabel(String label) {
-        return $(TextFieldElement.class).attribute("id", "textField")
+        return $(TextFieldElement.class).withAttribute("id", "textField")
                 .all()
                 .stream()
                 .filter(tf -> label.equals(tf.getLabel()))
@@ -81,7 +81,7 @@ class TC005RequiredValidationTest extends PlaygroundUiTest {
     private void verifyNoErrorMessage(TestBenchElement element) {
         assertThat(element.hasAttribute("invalid")).isFalse();
         DivElement validationMessage = element.$(DivElement.class)
-                .attribute("slot", "error-message").first();
+                .withAttribute("slot", "error-message").first();
 
         assertThat(validationMessage.isDisplayed()).isFalse();
     }
@@ -91,7 +91,8 @@ class TC005RequiredValidationTest extends PlaygroundUiTest {
         assertThat(element.hasAttribute("invalid")).isTrue();
         // investigate all error-message slots since in case of combined input fields like date time
         // picker, there might be multiple hidden error-message slots
-        Optional<DivElement> validationMessage = element.$(DivElement.class).attribute("slot", "error-message").all()
+        Optional<DivElement> validationMessage =
+                element.$(DivElement.class).withAttribute("slot", "error-message").all()
                 .stream().filter(e -> !e.hasAttribute("hidden"))
                 .findFirst();
 

@@ -10,7 +10,7 @@
     <description>BOM for Linkki dependencies</description>
 
     <properties>
-        <vaadin.version>24.3.10</vaadin.version>
+        <vaadin.version>24.4.0.beta5</vaadin.version>
     </properties>
 
     <distributionManagement>

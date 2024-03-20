@@ -26,8 +26,10 @@ import com.vaadin.testbench.ElementQuery;
 
 public class OkCancelDialogElement extends DialogElement {
 
+    public static final String ATTR_CLASS = "class";
+
     public boolean isMessageAreaPresent(Severity severity) {
-        return queryMessageArea().attributeContains("class", severity.name()).exists();
+        return queryMessageArea().withAttributeContaining(ATTR_CLASS, severity.name()).exists();
     }
 
     public boolean isMessageAreaPresent() {
@@ -39,16 +41,18 @@ public class OkCancelDialogElement extends DialogElement {
     }
 
     private ElementQuery<DivElement> queryMessageArea() {
-        return $(DivElement.class).attributeContains("class", OkCancelDialog.CLASS_NAME_MESSAGE_AREA);
+        return $(DivElement.class).withAttributeContaining(ATTR_CLASS, OkCancelDialog.CLASS_NAME_MESSAGE_AREA);
     }
 
     public VerticalLayoutElement getContentArea() {
-        return $(VerticalLayoutElement.class).attributeContains("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
+        return $(VerticalLayoutElement.class)
+                .withAttributeContaining(ATTR_CLASS, OkCancelDialog.CLASS_NAME_CONTENT_AREA)
                 .first();
     }
 
     public VerticalLayoutElement getDialogLayout() {
-        return $(VerticalLayoutElement.class).attributeContains("class", OkCancelDialog.CLASS_NAME_DIALOG_LAYOUT)
+        return $(VerticalLayoutElement.class)
+                .withAttributeContaining(ATTR_CLASS, OkCancelDialog.CLASS_NAME_DIALOG_LAYOUT)
                 .first();
     }
 

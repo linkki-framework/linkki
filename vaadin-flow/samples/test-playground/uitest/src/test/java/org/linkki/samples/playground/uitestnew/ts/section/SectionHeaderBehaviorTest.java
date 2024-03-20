@@ -49,7 +49,7 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
         LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
         DivElement content = section.getContent();
 
-        content.$(TextFieldElement.class).id("caption").setValue("");
+        content.$(TextFieldElement.class).withId("caption").first().setValue("");
         content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(false);
         content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(false);
 
@@ -61,7 +61,7 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
         LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
         DivElement content = section.getContent();
 
-        content.$(TextFieldElement.class).id("caption").setValue("FooBaa");
+        content.$(TextFieldElement.class).withId("caption").first().setValue("FooBaa");
         content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(true);
         content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(true);
 
@@ -78,13 +78,13 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
         LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
         DivElement content = section.getContent();
 
-        content.$(TextFieldElement.class).id("caption").setValue("Foobaa");
+        content.$(TextFieldElement.class).withId("caption").first().setValue("Foobaa");
         content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(true);
         content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(true);
 
         int size = section.getHeader().getSize().getHeight();
 
-        content.$(TextFieldElement.class).id("caption").setValue("");
+        content.$(TextFieldElement.class).withId("caption").first().setValue("");
 
         assertThat(section.getHeader().getSize().getHeight()).isEqualTo(size);
     }

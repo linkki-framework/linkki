@@ -27,17 +27,24 @@
         <module>testbench-extension</module>
     </modules>
 
+    <repositories>
+        <repository>
+            <id>vaadin-prereleases</id>
+            <url>https://maven.vaadin.com/vaadin-prereleases/</url>
+        </repository>
+    </repositories>
+
     <properties>
         <!-- this property must also be updated in samples-vaadin-flow -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            24.3.10
+            24.4.0.beta5
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <!-- this property must also be updated in samples-vaadin-flow -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
-            3.2.5
+            3.3.0
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
         <karibu.version>2.1.5</karibu.version>

@@ -43,7 +43,7 @@ class TC003AfterTabSelectedObserverTest extends PlaygroundUiTest {
         testCaseComponent.$(TabElement.class).id("sheet-with-observer").click();
         assertThat(getComponentWithObserver().$(LinkkiTextElement.class).id("value").getText()).isEqualTo(value);
         testCaseComponent.$(TabElement.class).id("sheet-without-observer").click();
-        $(ButtonElement.class).id("changeValue").click();
+        $(ButtonElement.class).withId("changeValue").first().click();
         String changedValue = getComponentWithoutObserver().$(LinkkiTextElement.class).id("value").getText();
 
         testCaseComponent.$(TabElement.class).id("sheet-with-observer").click();

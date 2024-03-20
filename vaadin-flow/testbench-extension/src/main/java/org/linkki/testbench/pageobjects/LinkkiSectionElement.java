@@ -38,7 +38,7 @@ public class LinkkiSectionElement extends TestBenchElement {
     }
 
     public DivElement getContent() {
-        return $(DivElement.class).attribute("slot", "content").first();
+        return $(DivElement.class).withAttribute("slot", "content").first();
     }
 
     /**
@@ -56,7 +56,7 @@ public class LinkkiSectionElement extends TestBenchElement {
     }
 
     public ElementQuery<ButtonElement> getCloseToggle() {
-        return $(ButtonElement.class).attribute("slot", "close-toggle");
+        return $(ButtonElement.class).withAttribute("slot", "close-toggle");
     }
 
     public ElementQuery<TestBenchElement> getHeaderComponents() {
@@ -64,11 +64,11 @@ public class LinkkiSectionElement extends TestBenchElement {
     }
 
     public <T extends TestBenchElement> ElementQuery<T> getHeaderComponents(Class<T> clazz) {
-        return $(clazz).attribute("slot", "header-components");
+        return $(clazz).withAttribute("slot", "header-components");
     }
 
     public DivElement getHeader() {
-        return $(DivElement.class).attribute("class", "linkki-section-header").first();
+        return $(DivElement.class).withAttribute("class", "linkki-section-header").first();
     }
 
 }

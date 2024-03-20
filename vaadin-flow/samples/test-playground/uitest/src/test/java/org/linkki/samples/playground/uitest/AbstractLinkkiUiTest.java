@@ -75,7 +75,7 @@ public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
 
     public void goToView(String viewName) {
         getDriver().navigate().to(DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, viewName));
-        $(TestBenchElement.class).attributeContains("class", "linkki-main-area").waitForFirst();
+        $(TestBenchElement.class).withAttributeContaining("class", "linkki-main-area").waitForFirst();
     }
 
     /**

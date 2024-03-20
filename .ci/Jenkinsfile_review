@@ -61,7 +61,9 @@ pipeline {
                     steps {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                             withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                                sh 'mvn -T 6 -pl "!linkki-codeanalysis" validate org.revapi:revapi-maven-plugin:check'
+                                sh 'mvn -T 6 \
+                                    -pl "!linkki-codeanalysis" \
+                                    validate org.revapi:revapi-maven-plugin:check'
                             }
                         }
                     }
@@ -70,7 +72,10 @@ pipeline {
                 stage('Faktor-IPS build') {
                     steps {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin-flow -Dmaven.repo.local="${MAVEN_REPOSITORY}" faktorips:faktorips-clean faktorips:faktorips-build'
+                            sh 'mvn \
+                                -pl org.linkki-framework:linkki-ips-vaadin-flow \
+                                -Dmaven.repo.local="${MAVEN_REPOSITORY}" \
+                                faktorips:faktorips-clean faktorips:faktorips-build'
                         }
                     }
                 }
@@ -99,8 +104,11 @@ pipeline {
                         stage('UI Test') {
                             steps {
                                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                                        -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                                    sh 'mvn \
+                                        -f vaadin-flow/samples/test-playground/uitest/pom.xml \
+                                        test \
+                                        -Dmaven.test.failure.ignore=true \
+                                        -Dsurefire.rerunFailingTestsCount=3'
                                 }
 
                                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
@@ -124,7 +132,8 @@ pipeline {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     withSonarQubeEnv('SonarQube') {
                                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                                            sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
+                                            sh 'mvn \
+                                                    -Dsonar.projectName=${PROJECT_NAME} \
                                                     -Dsonar.projectKey=${PROJECT_NAME} \
                                                     -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \
                                                     -Dsonar.pullrequest.branch=${GERRIT_REFSPEC} \

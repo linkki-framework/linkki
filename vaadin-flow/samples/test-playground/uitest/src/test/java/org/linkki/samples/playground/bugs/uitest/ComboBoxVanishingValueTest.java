@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
 import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 
@@ -34,7 +35,8 @@ public class ComboBoxVanishingValueTest extends AbstractLinkkiUiTest {
         goToView(BugCollectionView.ROUTE);
         openTab(ComboBoxVanishingValuePmo.CAPTION);
 
-        ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxVanishingValuePmo.PROPERTY_CHOICE);
+        ComboBoxElement comboBox = $(LinkkiSectionElement.class).id("ComboBoxVanishingValuePmo")
+                .$(ComboBoxElement.class).id(ComboBoxVanishingValuePmo.PROPERTY_CHOICE);
         assertThat(comboBox.getSelectedText(), is(not(nullValue())));
 
         clickButton(ComboBoxVanishingValuePmo.PROPERTY_CHANGE_CHOICES);

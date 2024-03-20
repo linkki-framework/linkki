@@ -14,6 +14,7 @@
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.junit.jupiter.api.AfterAll;
@@ -28,6 +29,7 @@ import org.linkki.core.ui.test.WithLocale;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.i18n.I18NProvider;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
@@ -61,8 +63,20 @@ public class KaribuUIExtensionTest {
         private static final MyRoute myRoute = new MyRoute();
         @RegisterExtension
         static KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(karibuConfiguration -> karibuConfiguration
-                        .addRoute(MyRoute.class, () -> myRoute));
+                .withConfiguration(conf -> {
+                    conf.addRoute(MyRoute.class, () -> myRoute);
+                    conf.addInstance(I18NProvider.class, () -> new I18NProvider() {
+                        @Override
+                        public List<Locale> getProvidedLocales() {
+                            return List.of();
+                        }
+
+                        @Override
+                        public String getTranslation(String s, Locale locale, Object... objects) {
+                            return "";
+                        }
+                    });
+                });
 
         @Test
         void testAddRoute() {

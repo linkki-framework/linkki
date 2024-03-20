@@ -38,7 +38,8 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_HtmlContent() {
-        LinkkiTextElement label = $(LinkkiTextElement.class).id("htmlContentLabel");
+        LinkkiTextElement label =
+                $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class).id("htmlContentLabel");
 
         assertThat(label.getLabel()).isEqualTo("Label with HTML Content");
 
@@ -51,7 +52,8 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_SanitizeHtmlContent() {
-        LinkkiTextElement label = $(LinkkiTextElement.class).id("sanitizedHtmlContentLabel");
+        LinkkiTextElement label =
+                $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class).id("sanitizedHtmlContentLabel");
         assertThat(label.getLabel()).isEqualTo("Label with sanitized HTML content");
         assertThat(label.findElements(By.tagName("iframe"))).isEmpty();
         assertThat(label.findElements(By.tagName("b"))).hasSize(1);
@@ -63,7 +65,8 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_SanitizedHtmlContentWithIcon() {
-        LinkkiTextElement label = $(LinkkiTextElement.class).id("sanitizedHtmlContentWithIconLabel");
+        LinkkiTextElement label = $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class)
+                .id("sanitizedHtmlContentWithIconLabel");
         assertThat(label.getLabel()).isEqualTo("Sanitized HTML content containing a Vaadin icon");
         assertThat(label.findElements(By.tagName("vaadin-icon"))).hasSize(1);
         assertThat(label.getHTMLContent()).startsWith("This text should end with a red plus icon " +
@@ -72,7 +75,8 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_NotHtmlContent() {
-        LinkkiTextElement label = $(LinkkiTextElement.class).id("notHtmlContentLabel");
+        LinkkiTextElement label =
+                $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class).id("notHtmlContentLabel");
 
         assertThat(label.getText()).isEqualTo("<b>NOT</b> HTML Content");
         assertThat(label.findElements(By.tagName("b"))).isEmpty();
@@ -89,7 +93,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_CustomStyle_RightAligned() {
-        var label = $(LinkkiTextElement.class).id("rightAlignedLabel");
+        var label = $(LinkkiTextElement.class).withId("rightAlignedLabel").first();
 
         assertThat(label.getCssValue("text-align")).isEqualTo("right");
         assertThat(label.getCssValue("color")).isEqualTo("rgba(128, 0, 128, 1)");

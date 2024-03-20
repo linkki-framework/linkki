@@ -87,7 +87,7 @@ class DialogTest extends AbstractLinkkiUiTest {
 
         DialogElement dialog = findDialog("Awesome dialog");
 
-        assertThat(dialog.$(VerticalLayoutElement.class).attribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
+        assertThat(dialog.$(VerticalLayoutElement.class).withAttribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
                 .first().getText(),
                    is("This is awesome!"));
         assertThat(dialog.$(ButtonElement.class).id(OK_BUTTON).getText(), is("Hell yeah"));
@@ -175,7 +175,7 @@ class DialogTest extends AbstractLinkkiUiTest {
         waitUntil(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver webDriver) {
-                return $(NotificationElement.class).all().size() == 0;
+                return $(NotificationElement.class).all().isEmpty();
             }
         });
     }

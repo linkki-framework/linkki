@@ -57,7 +57,7 @@ class TC004ConverterErrorTest extends PlaygroundUiTest {
     private void verifyNoErrorMessage(TestBenchElement element) {
         assertThat(element.hasAttribute("invalid")).isFalse();
         DivElement validationMessage = element.$(DivElement.class)
-                .attribute("slot", "error-message").first();
+                .withAttribute("slot", "error-message").first();
 
         assertThat(validationMessage.isDisplayed()).isFalse();
     }
@@ -67,7 +67,8 @@ class TC004ConverterErrorTest extends PlaygroundUiTest {
         assertThat(element.hasAttribute("invalid")).isTrue();
         // investigate all error-message slots since in case of combined input fields like date time
         // picker, there might be multiple hidden error-message slots
-        Optional<DivElement> validationMessage = element.$(DivElement.class).attribute("slot", "error-message").all()
+        Optional<DivElement> validationMessage =
+                element.$(DivElement.class).withAttribute("slot", "error-message").all()
                 .stream().filter(e -> !e.hasAttribute("hidden"))
                 .findFirst();
 

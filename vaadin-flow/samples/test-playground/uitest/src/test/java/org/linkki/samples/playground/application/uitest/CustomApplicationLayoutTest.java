@@ -37,14 +37,14 @@ class CustomApplicationLayoutTest extends AbstractLinkkiUiTest {
     @Test
     void testApplicationLayout_HeaderExists() {
         ElementQuery<HorizontalLayoutElement> appHeader = $(HorizontalLayoutElement.class)
-                .attribute("class", LinkkiApplicationTheme.APPLICATION_HEADER);
+                .withAttribute("class", LinkkiApplicationTheme.APPLICATION_HEADER);
         assertThat(appHeader.first().isDisplayed(), is(true));
     }
 
     @Test
     void testApplicationLayout_FooterExists() {
         ElementQuery<HorizontalLayoutElement> appHeader = $(HorizontalLayoutElement.class)
-                .attribute("class", LinkkiApplicationTheme.APPLICATION_FOOTER);
+                .withAttribute("class", LinkkiApplicationTheme.APPLICATION_FOOTER);
         assertThat(appHeader.first().isDisplayed(), is(true));
     }
 

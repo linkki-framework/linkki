@@ -38,7 +38,7 @@ public abstract class PlaygroundUiTest extends AbstractLinkkiUiTest {
 
         return waitUntil(VaadinElementConditions
                 .elementDisplayed($(TestCaseComponentElement.class)
-                        .attribute("id", TestCaseComponent.getTestId(testScenarioId, testCaseId))));
+                        .withAttribute("id", TestCaseComponent.getTestId(testScenarioId, testCaseId))));
     }
 
 }
