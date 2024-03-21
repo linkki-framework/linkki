@@ -32,7 +32,7 @@ Note that you still need to write a method and annotate it with e.g. `@UIDateFie
 
 ==== Model Binding Practice
 
-You can now apply the theory by using model binding in the `AddressRowPmo`. Take a look at the <<../01_domain_model/index.adoc#,domain model>> and implement it as follows:
+You can now apply the theory by using model binding in the `AddressRowPmo`. Take a look at the <<tutorial-domain-model>> and implement it as follows:
 
 . Create and implement a getter method for the property `address` with the signature `Address getAddress()`.
 . Annotate it with `@ModelObject`. 
