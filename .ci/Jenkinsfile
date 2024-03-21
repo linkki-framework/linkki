@@ -107,6 +107,16 @@ pipeline {
             }
         }
 
+        stage('External Link Tests') {
+            steps {
+                retry(3) {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                        sh 'mvn -U -pl "vaadin-flow/doc" jade:test-external-links'
+                    }
+                }
+            }
+        }
+
         stage('Check Git Diffs') {
             steps {
                 verifyNoChangedFiles()

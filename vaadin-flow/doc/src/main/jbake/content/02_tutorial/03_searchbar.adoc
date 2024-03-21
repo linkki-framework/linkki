@@ -58,7 +58,7 @@ The following image illustrates the data binding for the property `searchText`:
 image::{images}99_tutorial/data_binding.png[]
 ====
 
-[[tutoria-search-button]]
+[[tutorial-search-button]]
 To additionally display a button to trigger the search, follow the following steps:
 
 . Create a new field `searchConsumer` of type `Consumer<String>`.
