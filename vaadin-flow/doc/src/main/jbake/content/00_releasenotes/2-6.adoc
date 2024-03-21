@@ -61,6 +61,13 @@ Further information can be found in the <<ui-selectable-table,documentation>>.
 * Booleans in `UIComboBox` and `UIRadioButtons` are now displayed with user-friendly text. No additional caption provider needs to be set. For more details, see documentation for <<ui-combobox, UIComboBox>> and <<ui-radiobuttons, UIRadioButtons>>.
 * `UIYesNoComboBox` is deprecated and can be replaced with `UIComboBox`.
 
+//https://jira.convista.com/browse/LIN-2932
+===== New documentation for CSS custom properties in the linkki Theme
+
+linkki theme defines CSS custom properties which is the easiest way to customize the UI. These are now documented in chapter 
+<<css-custom-properties-linkki-theme, "Styling">>.
+
+
 ===== Other
 //https://jira.convista.com/browse/LIN-3671
 * `BindVariantNames` now applies to all Vaadin components, expanding its functionality beyond its previous limitation to components that implemented HasTheme.

@@ -45,9 +45,9 @@ In both cases, the `theme.json` file must include the following configuration:
 The `styles.css` file contains the CSS customizations one wants to make in the theme. For most simple changes, adjusting some of the Lumo CSS properties should suffice. The Lumo Theme Editor is a useful tool to visualize the possibilities.
 
 [[css-custom-properties-linkki-theme]]
-==== CSS Custom Properties in Linkki Theme
+==== CSS Custom Properties in linkki Theme
 
-Linkki theme defines CSS custom properties which is the easiest way to customize the UI. These CSS custom properties representing colors, fonts, sizes and other styles, which are used in various components.
+linkki theme defines CSS custom properties which is the easiest way to customize the UI. These CSS custom properties representing colors, fonts, sizes and other styles, which are used in various components.
 The style properties can be modified to change the styling either globally, or in a certain scope. https://vaadin.com/docs/latest/styling/styling-components#styling-components-with-style-properties[Vaadin documentation] provides some examples on how to customize the style properties. As linkki theme is based on the Lumo theme, all https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties#lists-of-lumo-style-properties[Lumo style properties] are also available.
 
 [[linkki-theme-colors]]
@@ -130,7 +130,7 @@ https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties/typography#lum
 ===== Interaction
 
 This CSS property is useful for adjusting the way how the application signals clickable elements to users of pointer devices.
-Linkki follows the web approach and uses the pointer (i.e., hand) cursor for clickable items by default.
+linkki follows the web approach and uses the pointer (i.e., hand) cursor for clickable items by default.
 
 .Cursor
 |===

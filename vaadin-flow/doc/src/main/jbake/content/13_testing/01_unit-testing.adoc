@@ -8,7 +8,7 @@
 https://github.com/mvysny/karibu-testing[Karibu-Testing] provides functionality to write browserless server-side JUnit Tests for Vaadin applications.
 This allows calls such as `UI.getCurrent()` in a regular JUnit test by mocking `VaadinSession`, `CurrentRequest` and others.
 
-Linkki provides an extension of Karibu Testing.
+linkki provides an extension of Karibu Testing.
 
 ==== Maven Dependency
 
@@ -22,7 +22,7 @@ Linkki provides an extension of Karibu Testing.
 
 ==== Functionalities
 
-Linkki Karibut Extension provides following functionalities:
+linkki Karibut Extension provides following functionalities:
 
 KaribuUIExtension::
 The easiest way of using this module is by just annotating a test class with `@ExtendWith(KaribuUIExtension.class)`. That will provide the basic Karibu funtionality.
