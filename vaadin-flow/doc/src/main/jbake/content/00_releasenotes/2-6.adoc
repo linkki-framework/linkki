@@ -67,6 +67,10 @@ Further information can be found in the <<ui-selectable-table,documentation>>.
 linkki theme defines CSS custom properties which is the easiest way to customize the UI. These are now documented in chapter 
 <<css-custom-properties-linkki-theme, "Styling">>.
 
+//https://jira.convista.com/browse/LIN-3682
+===== linkki tutorial
+The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tutorial>>).
+
 
 ===== Other
 //https://jira.convista.com/browse/LIN-3671

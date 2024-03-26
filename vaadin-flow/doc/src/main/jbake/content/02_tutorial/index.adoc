@@ -5,6 +5,7 @@
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
 
+[[linkki-tutorial]]
 == linkki Tutorial
 
 This is a step-by-step tutorial to implement a simple https://linkki-framework.org/index.html[linkki] application with https://spring.io/projects/spring-boot[Spring Boot].
