@@ -78,6 +78,16 @@ In the example above the annotation of `firstNameInsuredPerson()` defines that t
 
 If the annotation contains no property `modelObject`, the method annotated with `@ModelObject` (without name) is called. Correspondingly the model object for `firstNamePolicyHolder()` is determined via `getPolicyHolder()`.
 
+[[null-model-object]]
 ==== `null` Model Object
 
-For situations where a method annotated with `@ModelObject` returns `null`, the fields are treated as read only as long as no model object exists. As soon as one is available, methods from model object are called accordingly.
+When using model binding, linkki would throw an exception if the model object is `null` upon creation or update until now. With this change, linkki would gracefully handle the `null` value.
+
+How the `null` value is handled depends on the respective aspect definition.
+Aspect definitions that are provided by linkki are adjusted accordingly. In case of the value aspect, the field value is cleared if the model object is `null`. Boolean valued aspects such as enabled or visible are set to `false`.
+
+Custom aspect definition may need to be adjusted to be able to handle `null` value. If model object is `null` upon update, `PropertyDispatcher#pull` now returns `null` instead of throwing an exception. This can then be handled in the UI updater created in `LinkkiApsectDefinition#createUiupdater`.
+
+When using `ModelToUiAspectDefinition`, a new method `#handleNullItem` has been introduced which can be overridden to define the `null` handling. The behavior defaults to calling the component value setter created by `#createComponentValueSetter` with `null`.
+
+To be able to handle `null` values for generic model objects properly when using the `PropertyDispatcherFactory`, `MemberAccessors#getType(Member)` has been deprecated and replaced by `MemberAccessors#getType(Member, Type)`, where `Type` is the concrete PMO class.
