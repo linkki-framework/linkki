@@ -19,7 +19,7 @@ pipeline {
         stage('Prepare Release') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
+                    prepareRelease()
                 }
             }
         }
@@ -72,6 +72,7 @@ pipeline {
 
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DnewVersion=${params.RELEASE_VERSION} -DgenerateBackupPoms=false -f vaadin-flow/samples/test-playground/uitest"
                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                 }
