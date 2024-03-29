@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.is;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.aspects.annotation.BindVisible;
@@ -45,8 +46,7 @@ public class UINestedComponentIntegrationTest {
     public void testCreateNestedComponent() {
         BaseSection component = (BaseSection)VaadinUiCreator.createComponent(new NestedComponentPmo(),
                                                                              new BindingContext());
-        List<FormItem> childComponents = component.getContentWrapper().getChildren().map(FormItem.class::cast)
-                .collect(Collectors.toList());
+        List<FormItem> childComponents = component.getContentWrapper().getChildren().map(FormItem.class::cast).toList();
         assertThat(childComponents.stream().map(i -> getChild(i, 0)).collect(Collectors.toList()),
                    contains(instanceOf(TextField.class), instanceOf(Div.class)));
 
@@ -59,13 +59,13 @@ public class UINestedComponentIntegrationTest {
 
         Component nestedComponent = getChild(nestedComponentWrapper, 0);
         assertThat(nestedComponent, instanceOf(HorizontalLayout.class));
-        assertThat(((HorizontalLayout)nestedComponent).getWidth(), is("100px"));
+        assertThat(((HorizontalLayout)nestedComponent).getWidth(), is("100%"));
 
         assertThat(getChild(nestedComponent, 0), instanceOf(TextField.class));
     }
 
     @Test
-    public void testApsectOnNestedComponent() {
+    public void testAspectOnNestedComponent() {
         NestedComponentPmo pmo = new NestedComponentPmo();
         BindingContext bindingContext = new BindingContext();
         BaseSection component = (BaseSection)VaadinUiCreator.createComponent(pmo,
@@ -80,8 +80,23 @@ public class UINestedComponentIntegrationTest {
         assertThat(nestedComponent.isVisible(), is(false));
     }
 
+    @Test
+    public void testNestedComponent_DefaultWidth() {
+        NestedComponentWidthDefaultWidthPmo pmo = new NestedComponentWidthDefaultWidthPmo();
+        BindingContext bindingContext = new BindingContext();
+        BaseSection section = (BaseSection)VaadinUiCreator.createComponent(pmo, bindingContext);
+        LabelComponentFormItem wrapper = (LabelComponentFormItem)getChild(section.getContentWrapper(), 0);
+
+        Div nestedComponentWrapper = (Div)getChild(wrapper, 0);
+        Assertions.assertThat(nestedComponentWrapper.getWidth()).isEmpty();
+
+        Component nestedComponent = getChild(nestedComponentWrapper, 0);
+        Assertions.assertThat(nestedComponent).isInstanceOf(HorizontalLayout.class);
+        Assertions.assertThat(((HorizontalLayout)nestedComponent).getWidth()).isNull();
+    }
+
     private static Component getChild(Component parent, int i) {
-        return parent.getChildren().collect(Collectors.toList()).get(i);
+        return parent.getChildren().toList().get(i);
     }
 
     @UISection
@@ -108,19 +123,30 @@ public class UINestedComponentIntegrationTest {
             this.visible = visible;
         }
 
-        @UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
-        public static class NamePmo {
+    }
 
-            private String name;
+    @UISection
+    public static class NestedComponentWidthDefaultWidthPmo {
 
-            @UITextField(position = 10, label = "")
-            public String getName() {
-                return name;
-            }
+        @UINestedComponent(position = 20, label = "Name", width = "")
+        public NamePmo getNameLayout() {
+            return new NamePmo();
+        }
 
-            public void setName(String name) {
-                this.name = name;
-            }
+    }
+
+    @UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
+    public static class NamePmo {
+
+        private String name;
+
+        @UITextField(position = 10, label = "")
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 }
