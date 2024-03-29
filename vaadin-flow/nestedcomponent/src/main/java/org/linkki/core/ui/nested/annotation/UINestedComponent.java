@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -106,8 +107,8 @@ public @interface UINestedComponent {
                 Object nestedPmo = MemberAccessors.getValue(pmo, (Member)annotatedElement);
 
                 Component component = VaadinUiCreator.createComponent(nestedPmo, bindingContext);
-                if (component instanceof HasSize) {
-                    ((HasSize)component).setWidth(annotation.width());
+                if (component instanceof HasSize && StringUtils.isNotBlank(annotation.width())) {
+                    ((HasSize)component).setWidth("100%");
                 }
                 wrapper.add(component);
             };

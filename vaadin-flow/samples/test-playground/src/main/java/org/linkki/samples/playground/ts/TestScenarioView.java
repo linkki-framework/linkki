@@ -118,6 +118,7 @@ import org.linkki.samples.playground.ts.messages.ConverterErrorPmo;
 import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.messages.RequiredValidationPmo;
+import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentWidthPmo;
 import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentPmo;
 import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
@@ -374,6 +375,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS016)
                                        .testCase(TC001, new NestedComponentPmo())
                                        .testCase(TC002, new NullableModelObjectInInvisibleNestedPmo())
+                                       .testCase(TC003, new NestedComponentWidthPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS017)
                                        .testCase(TC001, () -> {

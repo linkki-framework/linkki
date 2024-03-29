@@ -20,6 +20,37 @@ The following versions have been updated:
 |Karibu             |2.1.5
 |===
 
+==== Bugfixes
+
+//https://jira.convista.com/browse/LIN-3512
+===== Width of nested components
+The width of nested components was fixed. Any value that is set as `width` on `@UINestedComponent` is now only applied to the layout element. The nested component itself gets a width of 100%.
+
+In the following example the wrapping element of the `@UIVerticalLayout` gets a width of 50% but the `@UIVerticalLayout` itself has full width.
+
+[source,java]
+----
+@UINestedComponent(position = 10, width = "50%")
+public PersonPmo getPerson() {
+    return new PersonPmo();
+}
+
+@UIVerticalLayout
+class PersonPmo  {
+
+    @UITextField(position = 10, label = "Firstname")
+    public String getFirstname() {
+        return "Max";
+    }
+
+    @UITextField(position = 20, label = "Lastname")
+    public String getLastname() {
+        return "Mustermann";
+    }
+
+}
+----
+
 
 === Version 2.5.1
 
