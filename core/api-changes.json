@@ -1,38 +1,4 @@
 {
-    "2.5.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.method.addedToInterface",
-                        "new": "method boolean org.linkki.core.uiframework.UiFrameworkExtension::isVisible(java.lang.Object)",
-                        "justification": "LIN-3144/LIN-3488 :: Skip binding of invisible pmos"
-                    },
-                    {
-                        "code": "java.class.removed",
-                        "package": "org.linkki.core.binding.dispatcher.reflection.accessor",
-                        "justification": "LIN-3406/LIN-3524 :: Move reflection utils to internal package"
-                    },
-                    {
-                        "code": "java.method.visibilityIncreased",
-                        "classSimpleName": "ModelObjects",
-                        "methodName": "getModelObjectAccessMember",
-                        "oldVisibility": "private",
-                        "newVisibility": "public",
-                        "justification": "LIN-3144/LIN-3490 :: Evaluate converter during binding initialisation"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatcher::<init>(java.util.function.Supplier<?>, java.lang.String, org.linkki.core.binding.dispatcher.PropertyDispatcher)",
-                        "new": "method void org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatcher::<init>(java.util.function.Supplier<?>, java.lang.Class<?>, java.lang.String, org.linkki.core.binding.dispatcher.PropertyDispatcher)",
-                        "justification": "LIN-3144/LIN-3490 :: Evaluate converter during binding initialisation"
-                    }
-                ]
-            }
-        }
-    ],
     "2.6.0": [
         {
             "extension": "revapi.differences",
@@ -56,6 +22,14 @@
                         "old": "method java.util.List<java.lang.Boolean> org.linkki.core.defaults.ui.element.AvailableValuesProvider::booleanWrapperToValues()",
                         "new": "method java.util.List<java.lang.Boolean> org.linkki.core.defaults.ui.element.AvailableValuesProvider::booleanWrapperToValues(boolean)",
                         "justification": "LIN-3358"
+                    },
+                    {
+                        "code": "java.field.constantValueChanged",
+                        "old": "field org.linkki.core.defaults.style.LinkkiTheme.VARIANT_CARD_SECTION_PAGES",
+                        "new": "field org.linkki.core.defaults.style.LinkkiTheme.VARIANT_CARD_SECTION_PAGES",
+                        "oldValue": "card-section-pages",
+                        "newValue": "boxed-sections",
+                        "justification": "LIN-3540"
                     }
                 ]
             }

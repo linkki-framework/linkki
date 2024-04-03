@@ -27,8 +27,6 @@ html {
     --linkki-error-color-50pct: var(--lumo-error-color-50pct);
     --linkki-error-text-color: var(--lumo-error-text-color);
     
-    --linkki-section-gap: var(--lumo-space-l);
-    
     /* lumo properties */
     --lumo-clickable-cursor: pointer;
     

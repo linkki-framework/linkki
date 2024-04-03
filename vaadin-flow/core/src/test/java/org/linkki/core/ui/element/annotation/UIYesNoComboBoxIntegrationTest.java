@@ -41,6 +41,7 @@ import com.vaadin.flow.data.provider.Query;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
+@SuppressWarnings("deprecation")
 class UIYesNoComboBoxIntegrationTest
         extends ComponentAnnotationIntegrationTest<ComboBox<Boolean>, YesNoComboBoxTestPmo> {
 

@@ -31,7 +31,7 @@ public class ThemeVariantToggleMenuItemDefinition extends ApplicationMenuItemDef
     public static final ThemeVariantToggleMenuItemDefinition LUMO_DARK = new ThemeVariantToggleMenuItemDefinition(
             "Dark Theme", "appmenu-theme-dark", Lumo.DARK);
     public static final ThemeVariantToggleMenuItemDefinition LINKKI_CARD = new ThemeVariantToggleMenuItemDefinition(
-            "Card Theme", "appmenu-theme-card", LinkkiTheme.VARIANT_CARD_SECTION_PAGES);
+            "Card Theme", "appmenu-theme-card", LinkkiTheme.VARIANT_CARD_SECTIONS);
     public static final ThemeVariantToggleMenuItemDefinition LINKKI_COMPACT = new ThemeVariantToggleMenuItemDefinition(
             "Compact Theme", "appmenu-theme-compact", LinkkiTheme.VARIANT_COMPACT);
 

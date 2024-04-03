@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import {css, html, LitElement} from 'lit';
 
 class LinkkiSection extends LitElement {
 
@@ -8,9 +8,11 @@ class LinkkiSection extends LitElement {
       flex-direction: column;
       box-sizing: border-box;
       width: 100%;
-      --linkki-section-content-gap: var(--lumo-space-m);
       --lumo-header-text-color: var(--linkki-section-caption-header-color, var(--lumo-contrast-80pct));
       --linkki-grid-background: var(--linkki-section-background, var(--lumo-base-color));
+      background: var(--linkki-section-background, transparent);
+      padding: var(--linkki-section-padding, 0);
+      border-radius: var(--linkki-section-border-radius, var(--lumo-border-radius-m));
     }
 
     ::slotted([slot="content"]) {
@@ -23,10 +25,7 @@ class LinkkiSection extends LitElement {
       overflow: auto;
       box-sizing: border-box;
       width: 100%;
-      gap: var(--linkki-section-content-gap);
-      background: var(--linkki-section-background, transparent);
-      padding: var(--linkki-section-padding, 0);
-      border-radius: var(--linkki-section-border-radius, var(--lumo-border-radius-m));
+      gap: var(--linkki-section-content-gap, var(--lumo-space-m));
     }
 
     :host([theme~="horizontal"]) > ::slotted([slot="content"]) {

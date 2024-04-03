@@ -30,13 +30,12 @@ public class LinkkiTheme {
     public static final String LINKKI_THEME = "linkki";
 
     /**
-     * Applies a card style to all LinkkiSections inside of AbstractPages.
+     * Applies {@link org.linkki.core.vaadin.component.section.LinkkiSection#THEME_VARIANT_CARD} to
+     * all contained sections.
      */
-    public static final String VARIANT_CARD_SECTION_PAGES = "card-section-pages";
+    public static final String VARIANT_CARD_SECTIONS = "card-sections";
 
-    /**
-     * A theme variant for smaller input fields and less space.
-     */
+    /** A theme variant for smaller input fields and less space. */
     public static final String VARIANT_COMPACT = "compact";
 
     /** Style for the caption of a section. */
@@ -53,7 +52,7 @@ public class LinkkiTheme {
 
     /**
      * A component that contains an icon
-     * 
+     *
      * @deprecated the style class is not used by linkki anymore and will be removed.
      **/
     @Deprecated(since = "2.1.1")
@@ -61,7 +60,7 @@ public class LinkkiTheme {
 
     /**
      * Style class for labels that should look like placeholders in table sections.
-     * 
+     *
      * @deprecated Use {@link Text#TEXT_PLACEHOLDER} instead.
      **/
     @Deprecated(since = "2.5.0")
@@ -74,7 +73,7 @@ public class LinkkiTheme {
     /**
      * Style classes for {@link LinkkiText labels}. Additional text styles can be found in
      * {@link LumoUtility.TextColor}.
-     * 
+     *
      * @implNote The purpose of this utility class is to consolidate styling constants for the
      *           {@link LinkkiText} component. Future enhancements or modifications related to
      *           {@link LinkkiText} styling should also be added here.

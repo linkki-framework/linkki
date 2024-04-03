@@ -109,7 +109,7 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormS
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionComponent;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
-import org.linkki.samples.playground.ts.linkkipage.CardSectionPageComponent;
+import org.linkki.samples.playground.ts.linkkipage.AbstractPageComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiAnchorComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
@@ -123,10 +123,12 @@ import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentWidthPmo;
 import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
+import org.linkki.samples.playground.ts.section.CardSectionComponent;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
 import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
+import org.linkki.samples.playground.ts.section.SectionThemeVariantPmo;
 import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
 import org.linkki.samples.playground.ts.tablayout.AfterTabSelectedComponent;
@@ -233,6 +235,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                                  .createSectionWithRightComponent()))
                                        .testCase(TC005, new UiFormSectionMultiColumnComponentsPmo())
                                        .testCase(TC006, new SectionsWithPlaceholder())
+                                       .testCase(TC007, new SectionThemeVariantPmo())
+                                       .testCase(TC008, CardSectionComponent::create)
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())
@@ -370,7 +374,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC004, TreeTableSection::createTreeTableWithPlaceholderSection)
                                        .createTabSheet(),
                                TestScenario.id(TS015)
-                                       .testCase(TC001, CardSectionPageComponent::create)
+                                       .testCase(TC001, AbstractPageComponent::create)
                                        .createTabSheet(),
                                TestScenario.id(TS016)
                                        .testCase(TC001, new NestedComponentPmo())

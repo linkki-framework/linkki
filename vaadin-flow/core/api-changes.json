@@ -120,6 +120,16 @@
                         "oldValue": "org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider.class",
                         "newValue": "org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsCaptionProvider.class",
                         "justification": "LIN-3358"
+                    },
+                    {
+                        "code": "java.field.removedWithConstant",
+                        "old": "field org.linkki.core.ui.theme.LinkkiTheme.VARIANT_CARD_SECTION_PAGES",
+                        "justification": "LIN-3540"
+                    },
+                    {
+                        "code": "java.field.removedWithConstant",
+                        "old": "field org.linkki.core.vaadin.component.section.LinkkiSection.CLASS_SECTION_STYLE_CARD",
+                        "justification": "LIN-3540"
                     }
                 ]
             }

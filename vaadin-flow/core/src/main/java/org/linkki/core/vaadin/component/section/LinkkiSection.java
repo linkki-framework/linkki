@@ -47,16 +47,16 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public class LinkkiSection extends HtmlComponent implements HasCaption {
 
     /**
-     * CSS class that can be applied to arbitrary layout to make all contained sections card-like.
-     */
-    public static final String CLASS_SECTION_STYLE_CARD = "section-style-card";
-    /**
      * CSS class that can be applied to arbitrary component to make all contained sections captions
      * less prominent.
      */
     public static final String CLASS_SECTION_SECONDARY_CAPTION = "section-style-secondary-caption";
     public static final String THEME_VARIANT_HORIZONTAL = "horizontal";
     public static final String THEME_VARIANT_FORM = "form";
+    /**
+     * A theme variant that makes the section card like, i.e. surrounded by a background.
+     */
+    public static final String THEME_VARIANT_CARD = "card";
 
     static final String SLOT_HEADER_COMPONENTS = "header-components";
     static final String SLOT_CLOSE_TOGGLE = "close-toggle";
@@ -74,7 +74,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
     /**
      * Creates a new section with the given caption that cannot be closed. If {@code caption} is
      * {@code null} or empty, no caption will be shown.
-     * 
+     *
      * @param caption the caption to display for this section
      */
     public LinkkiSection(@CheckForNull String caption) {
@@ -84,7 +84,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
     /**
      * Creates a new section with the given caption. If {@code caption} is {@code null} or empty, no
      * caption will be shown.
-     * 
+     *
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param columns number of columns in which the content components are displayed
@@ -125,7 +125,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
     /**
      * Updates the caption of this section. If there is no caption, a new one will be added. If the
      * new caption is {@code null} or empty, any existing caption label will be removed.
-     * 
+     *
      * @param caption the caption text
      */
     @Override
@@ -166,7 +166,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
 
     /**
      * Configures a {@link Component} before adding the {@link Component}.
-     * 
+     *
      * @param component the {@link Component} to add
      * @param slot the Slot to insert the {@link Component}
      * @param insertLeft if <code>true</code>, the {@link Component} is inserted at the most left,
@@ -186,7 +186,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
 
     /**
      * Returns all components in the header, not including the caption.
-     * 
+     *
      * @since 2.0.0
      */
     public List<Component> getHeaderComponents() {
@@ -235,11 +235,10 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
     }
 
     /**
+     * @return the content of this section
      * @implSpec Implementations of this method have to return the section's content, which is the
      *           {@link Component} added to the section. The section's header is not part of the
      *           content and has to be excluded.
-     * 
-     * @return the content of this section
      * @deprecated use {@link #getContentWrapper()} instead.
      */
     @Deprecated(since = "2.0.0")
@@ -249,7 +248,7 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
 
     /**
      * Returns the section's content. The section's header is not part of the content.
-     * 
+     *
      * @return the content of this section
      * @since 2.0.0
      */

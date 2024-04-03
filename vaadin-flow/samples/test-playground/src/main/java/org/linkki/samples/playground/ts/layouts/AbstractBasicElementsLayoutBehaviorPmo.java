@@ -352,6 +352,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsEnabled();
     }
 
+    @SuppressWarnings("deprecation")
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIComboBox(position = 60,
             label = "ComboBox", //
@@ -379,6 +380,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsEnabled();
     }
 
+    @SuppressWarnings("deprecation")
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIYesNoComboBox(position = 61,
             label = "YesNoComboBox", //

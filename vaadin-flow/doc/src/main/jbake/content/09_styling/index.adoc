@@ -6,6 +6,7 @@
 [[styling]]
 == Styling
 
-The theming mechanism is provided by Vaadin. *Linkki* extends the default Lumo theme for additional functionalities of *linkki* components. Thus, the *linkki* theme must be applied to make sure the *linkki* components work correctly.
+The theming mechanism is provided by Vaadin. *linkki* extends the default Lumo theme for additional functionalities of *linkki* components.
+Thus, the *linkki* theme must be applied to make sure the *linkki* components work correctly.
 
 This chapter focuses on the application and customization of the *linkki* theme. More in-depth information on the theming mechanism can be found in the https://vaadin.com/docs/latest/styling/application-theme[Vaadin documentation on themes].

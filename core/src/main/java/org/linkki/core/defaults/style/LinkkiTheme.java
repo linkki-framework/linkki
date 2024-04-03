@@ -23,14 +23,14 @@ package org.linkki.core.defaults.style;
 public class LinkkiTheme {
 
     /**
-     * Applies a card style to all LinkkiSections inside of AbstractPages.
+     * Applies a card style to all LinkkiSections inside AbstractPages.
      */
-    public static final String VARIANT_CARD_SECTION_PAGES = "card-section-pages";
+    public static final String VARIANT_CARD_SECTION_PAGES = "boxed-sections";
 
     /**
      * Style for a horizontal spacer
      * 
-     * @deprecated as the class is does not have an effect anymore.
+     * @deprecated as the class has no effect anymore.
      */
     @Deprecated(since = "2.0.0")
     public static final String HORIZONTAL_SPACER = "linkki-horizontal-spacer";

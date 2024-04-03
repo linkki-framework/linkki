@@ -46,7 +46,7 @@ public enum SectionLayout {
      * components.
      * <p>
      * <em>Consider using {@link UIFormSection} instead.</em>
-     * 
+     *
      * @deprecated Use {@link #FORM} instead
      **/
     @Deprecated(since = "2.0.0")

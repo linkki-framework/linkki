@@ -1,21 +1,11 @@
-.linkki-page {
-    gap: var(--lumo-space-xl);
-}
-
+.linkki-page,
 .linkki-page vaadin-horizontal-layout[theme~="spacing"] {
     gap: var(--lumo-space-xl);
 }
 
-[theme~="card-section-pages"] .linkki-page {
+.linkki-page[theme~="card-sections"],
+.linkki-page[theme~="card-sections"] vaadin-horizontal-layout[theme~="spacing"],
+[theme~="card-sections"] .linkki-page,
+[theme~="card-sections"] .linkki-page vaadin-horizontal-layout[theme~="spacing"] {
     gap: var(--lumo-space-m);
-}
-
-[theme~="card-section-pages"] .linkki-page vaadin-horizontal-layout[theme~="spacing"] {
-    gap: var(--lumo-space-m);
-}
-
-[theme~="card-section-pages"] .linkki-page linkki-section {
-    --linkki-section-background: linear-gradient(var(--lumo-contrast-5pct), var(--lumo-contrast-5pct)), linear-gradient(var(--lumo-base-color), var(--lumo-base-color));
-    --linkki-section-padding: var(--lumo-space-m);
-    --linkki-readonly-text-color: var(--lumo-body-text-color);
 }

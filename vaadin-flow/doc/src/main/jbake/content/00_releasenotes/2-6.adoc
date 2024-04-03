@@ -71,6 +71,38 @@ linkki theme defines CSS custom properties which is the easiest way to customize
 ===== linkki tutorial
 The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tutorial>>).
 
+[role="api-change"]
+//https://jira.convista.com/browse/LIN-3540
+===== New visual for card like sections
+
+*linkki* provides a theme `card-like-pages` that can make all contained sections have a card alike appearance by giving the content of sections a background color.
+This theme makes `AbstractPage` component that contain sections appear more structured.
+
+.card-like-pages theme in previous version
+image::{images}{images-folder-name}/2-6_card-section_before.png[]
+
+This theme has been reworked:
+
+.Notable Changes
+[IMPORTANT]
+====
+* The theme `card-section-pages` has been changed to `card-sections`.
+* `card-sections` does not only apply to `AbstractPage` components, but to all components.
+* The background of the theme does not only cover the content components, but the whole section.
++
+.card-like-sections theme now
+image::{images}{images-folder-name}/2-6_card-section_after.png[]
+====
+
+To reflect the changes, following constants have been renamed:
+
+|====
+| Class         | Old name  | New name
+| LinkkiTheme   | VARIANT_CARD_SECTION_PAGES    | VARIANT_CARD_SECTIONS
+| LinkkiSection     | CLASS_SECTION_STYLE_CARD  | THEME_VARIANT_CARD
+|====
+
+See <<section-theme-variants, section "Theme Variants">> for more details on how to use the theme variant.
 
 ===== Other
 //https://jira.convista.com/browse/LIN-3671
@@ -89,7 +121,6 @@ For better message handling in the `LinkkiErrorPage` a new `MessageException` wa
 ** In production mode: only a generic error message is shown to the user to hide any sensitive information.
 
 Additionally logging for the thrown exception has been added. `MessageExceptions` are only logged if they contain a cause. All other exceptions are logged anyways.
-
 
 //https://jira.convista.com/browse/LIN-3512
 ===== Width of nested components

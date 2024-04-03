@@ -1,5 +1,5 @@
 linkki-section {
-    --section-item-width: calc((100% - (var(--columns, 1) - 1) * var(--linkki-section-gap)) / var(--columns, 1));
+    --section-item-width: calc((100% - (var(--columns, 1) - 1) * var(--linkki-section-content-gap, var(--lumo-space-m))) / var(--columns, 1));
 }
 
 linkki-section > div[slot="content"] > * {
@@ -28,4 +28,10 @@ linkki-section > div[slot="content"] > vaadin-form-item {
 linkki-section vaadin-form-item .placeholder-label {
   position: relative;
   left: calc(-1 * var(--linkki-form-item-label-width, 8em));
+}
+
+[theme~="card-sections"] linkki-section,
+linkki-section[theme~="card"] {
+    --linkki-section-background: linear-gradient(var(--lumo-contrast-5pct), var(--lumo-contrast-5pct)), linear-gradient(var(--lumo-base-color), var(--lumo-base-color));
+    --linkki-section-padding: var(--lumo-space-m);
 }

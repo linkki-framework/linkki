@@ -9,7 +9,7 @@
 
 ==== Variants 
 
-Card section pages ("card-section-pages"):: Sections inside all `AbstractPage` components have a card like design.
+Card sections ("card-sections"):: <<section-theme-variants, Card like>> design for linkki sections.
 
 Compact ("compact"):: Smaller spaces for a more compact look.
 

@@ -12,8 +12,9 @@
  * the License.
  */
 
-package org.linkki.samples.playground.ts.linkkipage;
+package org.linkki.samples.playground.ts.section;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
@@ -32,15 +33,16 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionHorizontalPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionVerticalPmo;
-import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ThemeList;
 
-public class CardSectionPageComponent {
+public class CardSectionComponent {
 
     private static final String FORM = SectionLayout.FORM.name();
     private static final String HORIZONTAL = SectionLayout.HORIZONTAL.name();
@@ -48,50 +50,54 @@ public class CardSectionPageComponent {
 
     private static final String DESCRIPTION = "@UISection with SectionLayout.";
 
-    private CardSectionPageComponent() {
+    private CardSectionComponent() {
         throw new IllegalStateException("Utility class");
     }
 
     public static Component create() {
         Component tabLayoutWithCardLikeSections = createTabLayoutWithCardLikeSections();
-        return new VerticalLayout(VaadinUiCreator.createComponent(new SimpleSectionPmo(), new BindingContext()),
+        return new VerticalLayout(VaadinUiCreator.createComponent(new NoPageSectionPmo(), new BindingContext()),
                 tabLayoutWithCardLikeSections);
     }
 
     private static Component createTabLayoutWithCardLikeSections() {
-        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        var tabLayout = new LinkkiTabLayout();
         tabLayout.setWidthFull();
 
-        tabLayout.addTabSheet(LinkkiTabSheet.builder(FORM)
-                .description(DESCRIPTION + FORM)
-                .content(() -> new SimpleSectionsPage(new BasicElementsLayoutBehaviorUiSectionPmo(),
-                        new GridSectionPlusPmo()))
-                .build());
-        tabLayout.addTabSheet(LinkkiTabSheet.builder(HORIZONTAL)
-                .description(DESCRIPTION + HORIZONTAL)
-                .content(() -> new SimpleSectionsPage(new BasicElementsLayoutBehaviorUiSectionHorizontalPmo(),
-                        new GridSectionPlusPmo()))
-                .build());
-        tabLayout.addTabSheet(LinkkiTabSheet.builder(VERTICAL)
-                .description(DESCRIPTION + VERTICAL)
-                .content(() -> new SimpleSectionsPage(new BasicElementsLayoutBehaviorUiSectionVerticalPmo(),
-                        new GridSectionPlusPmo()))
-                .build());
+        tabLayout.addTabSheets(
+                               LinkkiTabSheet.builder(FORM)
+                                       .description(DESCRIPTION + FORM)
+                                       .content(() -> new SimpleSectionsPage(
+                                               new BasicElementsLayoutBehaviorUiSectionPmo(),
+                                               new GridSectionPlusPmo()))
+                                       .build(),
+                               LinkkiTabSheet.builder(HORIZONTAL)
+                                       .description(DESCRIPTION + HORIZONTAL)
+                                       .content(() -> new SimpleSectionsPage(
+                                               new BasicElementsLayoutBehaviorUiSectionHorizontalPmo(),
+                                               new GridSectionPlusPmo()))
+                                       .build(),
+                               LinkkiTabSheet.builder(VERTICAL)
+                                       .description(DESCRIPTION + VERTICAL)
+                                       .content(() -> new SimpleSectionsPage(
+                                               new BasicElementsLayoutBehaviorUiSectionVerticalPmo(),
+                                               new GridSectionPlusPmo()))
+                                       .build());
         return tabLayout;
     }
 
     @UISection(caption = "Section not in LinkkkiPage")
-    public static class SimpleSectionPmo {
+    public static class NoPageSectionPmo {
 
         private String value;
 
         @UIButton(position = 0, caption = "Toggle card theme globally")
         public void toggleTheme() {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
-            if (themeList.contains(LinkkiTheme.VARIANT_CARD_SECTION_PAGES)) {
-                themeList.remove(LinkkiTheme.VARIANT_CARD_SECTION_PAGES);
+            if (themeList.contains(LinkkiTheme.VARIANT_CARD_SECTIONS)) {
+                themeList.remove(LinkkiTheme.VARIANT_CARD_SECTIONS);
             } else {
-                themeList.add(LinkkiTheme.VARIANT_CARD_SECTION_PAGES);
+                themeList.add(LinkkiTheme.VARIANT_CARD_SECTIONS);
             }
         }
 
@@ -117,11 +123,20 @@ public class CardSectionPageComponent {
 
     private static class SimpleSectionsPage extends AbstractPage {
 
+        @Serial
         private static final long serialVersionUID = 1L;
         private final BindingManager bindingManager;
 
         public SimpleSectionsPage(Object... pmos) {
             bindingManager = new DefaultBindingManager();
+            add(new H4("Page"));
+            add(new Button("Toggle " + LinkkiTheme.VARIANT_CARD_SECTIONS + " in page",
+                    e -> {
+                        var themePresent = getElement().getThemeList().remove(LinkkiTheme.VARIANT_CARD_SECTIONS);
+                        if (!themePresent) {
+                            getElement().getThemeList().add(LinkkiTheme.VARIANT_CARD_SECTIONS);
+                        }
+                    }));
             List.of(pmos).forEach(this::addSection);
         }
 
