@@ -35,7 +35,6 @@
         <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
-        <tomee-maven-plugin.version>9.1.2</tomee-maven-plugin.version>
     </properties>
 
     <modules>
@@ -254,11 +253,6 @@
                     <reportsDirectory>${project.build.directory}/${surefire.directory}</reportsDirectory>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.tomee.maven</groupId>
-                <artifactId>tomee-maven-plugin</artifactId>
-            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -321,11 +315,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
                     <version>${maven-war-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.tomee.maven</groupId>
-                    <artifactId>tomee-maven-plugin</artifactId>
-                    <version>${tomee-maven-plugin.version}</version> <!-- TomEE 8 uses Java EE 8 -->
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
