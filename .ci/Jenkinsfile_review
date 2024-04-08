@@ -128,7 +128,7 @@ pipeline {
                                                     -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \
                                                     -Dsonar.pullrequest.branch=${GERRIT_REFSPEC} \
                                                     -Dsonar.pullrequest.base=origin/${BRANCH_NAME} \
-                                                    -Dsonar.login=$SONAR_LOGIN \
+                                                    -Dsonar.token=$SONAR_LOGIN \
                                                     sonar:sonar'
                                         }
                                     }
@@ -160,7 +160,7 @@ pipeline {
         stage('Collect Results') {
             steps {
                 junit '**/target/surefire-reports/*.xml'
-                recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
+                recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle(), sonarQube()]
                 jacoco sourceInclusionPattern: '**/*.java'
 
                 archiveArtifacts 'vaadin-flow/doc/target/doc/**'

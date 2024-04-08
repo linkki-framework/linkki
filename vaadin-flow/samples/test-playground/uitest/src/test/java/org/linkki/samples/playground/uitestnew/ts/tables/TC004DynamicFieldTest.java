@@ -15,9 +15,7 @@
 package org.linkki.samples.playground.uitestnew.ts.tables;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

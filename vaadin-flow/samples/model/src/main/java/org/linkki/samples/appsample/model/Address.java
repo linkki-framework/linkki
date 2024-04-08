@@ -1,17 +1,16 @@
 /*
- * Copyright Faktor Zehn AG.
+ * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
-
 package org.linkki.samples.appsample.model;
 
 import org.faktorips.runtime.MessageList;
@@ -20,12 +19,6 @@ import org.faktorips.runtime.MessageList;
  * An object to hold information concerning the business partner's address
  */
 public class Address {
-
-    private static final String PROPERTY_STREET = "street";
-    private static final String PROPERTY_STREET_NUMBER = "streetNumber";
-    private static final String PROPERTY_POSTAL_CODE = "postalCode";
-    private static final String PROPERTY_CITY = "city";
-    private static final String PROPERTY_COUNTRY = "country";
 
     public static final String MSG_TEXT_STREET = //
             "The field Street must not be empty.";
@@ -39,6 +32,12 @@ public class Address {
     public static final String MSG_CODE_CITY = "error.checkCity";
     public static final String MSG_TEXT_COUNTRY = "The field Country must not be empty.";
     public static final String MSG_CODE_COUNTRY = "error.checkCountry";
+
+    private static final String PROPERTY_STREET = "street";
+    private static final String PROPERTY_STREET_NUMBER = "streetNumber";
+    private static final String PROPERTY_POSTAL_CODE = "postalCode";
+    private static final String PROPERTY_CITY = "city";
+    private static final String PROPERTY_COUNTRY = "country";
 
     private String street;
     private String streetNumber;

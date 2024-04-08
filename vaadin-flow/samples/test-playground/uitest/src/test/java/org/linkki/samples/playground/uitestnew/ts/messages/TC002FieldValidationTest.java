@@ -16,13 +16,7 @@
 package org.linkki.samples.playground.uitestnew.ts.messages;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_COMBOBOX;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_DATE_TIME_FIELD;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_FIELDS_READ_ONLY;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_MULTISELECT;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_ONLY_ERRORS_FIELD;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_SEVERITY;
-import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.PROPERTY_TEXT_FIELD;
+import static org.linkki.samples.playground.ts.messages.FieldValidationPmo.*;
 
 import java.util.List;
 import java.util.Optional;

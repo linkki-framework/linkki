@@ -49,6 +49,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.textfield.PasswordField;
 
+@SuppressWarnings("deprecation")
 public abstract class AbstractBasicElementsLayoutBehaviorPmo {
 
     public static final String TEXT_FIELD_LONG_LABEL = "TextFieldWithALongExtendedLabel toTestLabelOverflowBehavior";

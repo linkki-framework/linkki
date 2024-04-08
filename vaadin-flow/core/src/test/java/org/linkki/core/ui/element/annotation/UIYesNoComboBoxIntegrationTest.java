@@ -14,9 +14,7 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -133,6 +131,8 @@ class UIYesNoComboBoxIntegrationTest
     }
 
     @UISection
+
+    @SuppressWarnings("deprecation")
     protected static class YesNoComboBoxTestPmo extends AnnotationTestPmo {
 
         public YesNoComboBoxTestPmo(Object modelObject) {
@@ -200,6 +200,7 @@ class UIYesNoComboBoxIntegrationTest
         }
     }
 
+    @SuppressWarnings("deprecation")
     protected static class NoDefaultConstructorCaptionProviderPmo {
 
         @UIYesNoComboBox(position = 3, itemCaptionProvider = PrivateItemCaptionProvider.class)

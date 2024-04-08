@@ -18,6 +18,7 @@ import org.linkki.core.ui.element.annotation.UIYesNoComboBox;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 @UISection
+@SuppressWarnings("deprecation")
 public class YesNoComboBoxPmo {
 
     private boolean primitiveBoolean;

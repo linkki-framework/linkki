@@ -91,7 +91,7 @@ pipeline {
                                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
                                             -Dsonar.projectKey=${PROJECT_NAME} \
-                                            -Dsonar.login=$SONAR_LOGIN \
+                                            -Dsonar.token=$SONAR_LOGIN \
                                             -Dsonar.branch.name=${BRANCH_NAME} \
                                             sonar:sonar'
                                 }
@@ -141,7 +141,7 @@ pipeline {
     post {
         always {
             junit '**/target/surefire-reports/*.xml'
-            recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
+            recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle(), sonarQube()]
             jacoco sourceInclusionPattern: '**/*.java'
 
             archiveArtifacts 'vaadin-flow/doc/target/doc/**'

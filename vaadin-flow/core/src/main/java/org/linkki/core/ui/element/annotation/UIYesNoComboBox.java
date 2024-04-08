@@ -51,8 +51,6 @@ import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
 import org.linkki.core.ui.converters.NullHandlingConverterWrapper;
-import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxAspectCreator;
-import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
@@ -71,8 +69,8 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBoundProperty
-@LinkkiComponent(YesNoComboBoxComponentDefinitionCreator.class)
-@LinkkiAspect(YesNoComboBoxAspectCreator.class)
+@LinkkiComponent(org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxComponentDefinitionCreator.class)
+@LinkkiAspect(org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxAspectCreator.class)
 @LinkkiPositioned
 public @interface UIYesNoComboBox {
 
@@ -146,7 +144,7 @@ public @interface UIYesNoComboBox {
                         @Override
                         protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
                             boolean hasNullItem = items.removeIf(Objects::isNull);
-                            ((ComboBox<Object>) componentWrapper.getComponent())
+                            ((ComboBox<Object>)componentWrapper.getComponent())
                                     .setClearButtonVisible(hasNullItem);
                         }
 
@@ -172,7 +170,7 @@ public @interface UIYesNoComboBox {
 
         @Override
         protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
-            if (modelType instanceof Class<?> && ((Class<?>) modelType).isPrimitive()) {
+            if (modelType instanceof Class<?> && ((Class<?>)modelType).isPrimitive()) {
                 return new NullHandlingConverterWrapper<>(super.getConverter(presentationType, modelType));
             } else {
                 return super.getConverter(presentationType, modelType);
@@ -213,7 +211,7 @@ public @interface UIYesNoComboBox {
         @Override
         @NonNull
         public String getCaption(Object o) {
-            return (o instanceof Boolean) ? booleanToCaption((Boolean) o) : ""; // $NON-NLS-1$
+            return (o instanceof Boolean) ? booleanToCaption((Boolean)o) : ""; // $NON-NLS-1$
         }
 
         private String booleanToCaption(Boolean bool) {
