@@ -9,5 +9,5 @@ test-case-component > span {
 }
 
 test-case-component > *[part="description"] {
-  background-color: rgba(200,200,200,0.2);
+  background-color: var(--lumo-contrast-5pct);
 }
