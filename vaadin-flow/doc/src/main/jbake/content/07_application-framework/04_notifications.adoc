@@ -12,8 +12,8 @@ Notifications can be created using `NotificationUtil`. It provides three types o
 image::{image-dir}/notifications.png[]
 
 Error notifications stay on the screen until the "Close" button is clicked.
-Info and warning notifications close automatically after the configured duration in milliseconds, which can be set separately for info and warning.
-If the duration is set to 0 or lower, each notification of the respective type will have a "Close" button and will stay on the screen until this button is clicked.
+Info and warning notifications close automatically after the configured duration in milliseconds, which can be set separately for info and warning also.
+Each notification of the respective type has a "Close" button and will remain on the screen until this button is clicked or the set duration expires.
 
 ==== MessageList
 When displaying a `MessageList`, the severity of the notification is equal to the maximum severity in the `MessageList`. Additionally, each message has an icon corresponding to its individual severity.

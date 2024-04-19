@@ -36,9 +36,11 @@ public class NotificationUtil {
     public static final String LINKKI_NOTIFICATION_INFO = "info";
     public static final String LINKKI_NOTIFICATION_WARNING = "warning";
     public static final String LINKKI_NOTIFICATION_ERROR = "error";
+    public static final int DEFAULT_DURATION_INFO = 3000;
+    public static final int DEFAULT_DURATION_WARNING = 6000;
 
-    private static int infoDuration = 3000;
-    private static int warningDuration = 3000;
+    private static int infoDuration = DEFAULT_DURATION_INFO;
+    private static int warningDuration = DEFAULT_DURATION_WARNING;
 
     private NotificationUtil() {
         // prevent instantiation
@@ -46,9 +48,8 @@ public class NotificationUtil {
 
     /**
      * Sets the duration in milliseconds for info notifications created using this class. The
-     * default is 3 seconds. If the duration is less than/equal to 0, info notifications will not
-     * close automatically. Instead, each one will have a close button and will not close until this
-     * button is clicked.
+     * default is {@value DEFAULT_DURATION_INFO}. If the duration is less than/equal to 0, info
+     * notifications will not close automatically.
      * 
      * @see Notification#setDuration(int)
      */
@@ -58,9 +59,8 @@ public class NotificationUtil {
 
     /**
      * Sets the duration in milliseconds for warning notifications created using this class. The
-     * default is 3 seconds. If the duration is less than/equal to 0, warning notifications will not
-     * close automatically. Instead, each one will have a close button and will not close until this
-     * button is clicked.
+     * default is {@value DEFAULT_DURATION_WARNING}. If the duration is less than/equal to 0,
+     * warning notifications will not close automatically.
      * 
      * @see Notification#setDuration(int)
      */
@@ -91,8 +91,7 @@ public class NotificationUtil {
     /**
      * Creates and opens an info notification. Info notifications close automatically after the
      * {@link #setInfoDuration(int) specified duration} unless this duration is less than/equal to
-     * 0. In that case, each one has a close button and does not close until this button is clicked.
-     * The description supports HTML content, which will be
+     * 0. The description supports HTML content, which will be
      * {@link HtmlSanitizer#sanitizeText(String) sanitized}.
      * 
      * @return the shown notification
@@ -106,8 +105,7 @@ public class NotificationUtil {
     /**
      * Creates and opens a warning notification. Warning notifications close automatically after the
      * {@link #setWarningDuration(int) specified duration} unless this duration is less than/equal
-     * to 0. In that case, each one has a close button and does not close until this button is
-     * clicked. The description supports HTML content, which will be
+     * to 0. The description supports HTML content, which will be
      * {@link HtmlSanitizer#sanitizeText(String) sanitized}.
      * 
      * @return the shown notification
@@ -159,11 +157,9 @@ public class NotificationUtil {
         notification.addThemeName(themeName);
         notification.setPosition(Position.TOP_CENTER);
 
-        if (duration <= 0) {
-            Button closeButton = new Button(NlsText.getString("NotificationUtil.CloseButtonCaption"),
-                    e -> notification.close());
-            notification.add(closeButton);
-        }
+        Button closeButton = new Button(NlsText.getString("NotificationUtil.CloseButtonCaption"),
+                e -> notification.close());
+        notification.add(closeButton);
     }
 
     private static Div createContent(String description) {

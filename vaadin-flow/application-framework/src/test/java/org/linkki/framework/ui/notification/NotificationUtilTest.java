@@ -55,7 +55,7 @@ class NotificationUtilTest {
 
         Notification notification = NotificationUtil.createNotification(Severity.INFO, "title", new Div());
         assertThat(notification.getDuration(), is(3600));
-        assertThat(hasCloseButton(notification), is(false));
+        assertThat(hasCloseButton(notification), is(true));
     }
 
     @Test
@@ -64,7 +64,7 @@ class NotificationUtilTest {
 
         Notification notification = NotificationUtil.createNotification(Severity.WARNING, "title", new Div());
         assertThat(notification.getDuration(), is(1800));
-        assertThat(hasCloseButton(notification), is(false));
+        assertThat(hasCloseButton(notification), is(true));
     }
 
     @Test
