@@ -26,6 +26,18 @@ pipeline {
             }
         }
 
+        stage('Run tests with JDK21') {
+            steps {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                    sh 'mvn -U -T 6 \
+                        verify \
+                        -pl "!vaadin-flow/doc" \
+                        -Dmaven.test.failure.ignore=true \
+                        -Drevapi.skip'
+                }
+            }
+        }
+
         stage('Upload Documentation') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
@@ -36,7 +48,7 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
+                sh 'bash -x .ci/docker_setup-j21.sh ${BUILD_NAME}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Test Playground</h3>
@@ -56,7 +68,7 @@ pipeline {
 
         stage('UI Test') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                 }
