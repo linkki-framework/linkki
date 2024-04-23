@@ -1,7 +1,7 @@
 html {
-    
+
     --lumo-warning-text-color: hsl(52, 100%, 37%);
-    
+
     --linkki-input-background: var(--lumo-contrast-10pct);
     --linkki-input-background-hover: var(--lumo-contrast-20pct);
     --linkki-input-border-color-readonly: var(--lumo-contrast-20pct);
@@ -26,11 +26,11 @@ html {
     --linkki-error-color-10pct: var(--lumo-error-color-10pct);
     --linkki-error-color-50pct: var(--lumo-error-color-50pct);
     --linkki-error-text-color: var(--lumo-error-text-color);
-    
+
     /* lumo properties */
     --lumo-clickable-cursor: pointer;
-    
-    /* prefer 'Segoe UI' over Roboto */ 
+
+    /* prefer 'Segoe UI' over Roboto */
     --lumo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
@@ -40,11 +40,16 @@ a:not([href]) {
     pointer-events: none;
 }
 
+.v-loading-indicator {
+    top: auto !important;
+    bottom: 0;
+}
+
 
 /******************************************************************************
  * THEME: DARK
  ******************************************************************************/
- 
+
 [theme~="dark"] {
     /* needs to be set again to respect the dark lumo values */
     --linkki-input-background: var(--lumo-contrast-10pct);
@@ -61,7 +66,7 @@ a:not([href]) {
 /******************************************************************************
  * THEME: COMPACT
  ******************************************************************************/
- 
+
 [theme~="compact"] {
   --lumo-size-xl: 3rem;
   --lumo-size-l: 2.5rem;
@@ -73,7 +78,7 @@ a:not([href]) {
   --lumo-space-m: 0.7rem;
   --lumo-space-s: 0.35rem;
   --lumo-space-xs: 0.2rem;
-} 
+}
 
 
 /******************************************************************************
@@ -115,7 +120,7 @@ a:not([href]) {
  * these font-faces set the font-weight settings for Segoe UI
  * as they are interpreted in Chrome on Windows.
  */
- 
+
 @font-face {
   font-family: 'Segoe UI';
   font-weight: 1 199;
@@ -151,7 +156,7 @@ a:not([href]) {
 /******************************************************************************
  * UTILITY CLASSES
  ******************************************************************************/
- 
+
 .text-placeholder {
    font-style: italic;
    opacity: 0.7;
@@ -181,7 +186,7 @@ linkki-section vaadin-form-item .text-placeholder {
 /*************************************
  * ICON COLORS
  *************************************/
- 
+
 .icon-success > .linkki-text-icon {
   color: var(--linkki-success-color);
 }
@@ -198,7 +203,7 @@ linkki-section vaadin-form-item .text-placeholder {
 /*************************************
  * TEXT COLORS
  *************************************/
- 
+
 /* Similar to LumoUtility#TextColor */
 .text-info {
   color: var(--linkki-info-text-color);

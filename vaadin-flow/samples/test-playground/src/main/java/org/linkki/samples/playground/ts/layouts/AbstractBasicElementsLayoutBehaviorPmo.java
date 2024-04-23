@@ -552,4 +552,20 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsEnabled();
     }
 
+    @UIButton(position = 175,
+            caption = "Wait Button",
+            label = "Loading Indicator",
+            visible = VisibleType.DYNAMIC,
+            enabled = EnabledType.DYNAMIC)
+    public void waitButton() throws InterruptedException {
+        Thread.sleep(5000);
+    }
+
+    public boolean isWaitButtonVisible() {
+        return isAllElementsVisible();
+    }
+
+    public boolean isWaitButtonEnabled() {
+        return isAllElementsEnabled();
+    }
 }

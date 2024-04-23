@@ -83,7 +83,8 @@
         <!-- Sonarqube properties -->
         <sonar.host.url>https://sonarqube.faktorzehn.de</sonar.host.url>
         <sonar.exclusions>
-            **/VAADIN/themes/**/*.*
+            **/VAADIN/themes/**/*.*,
+            **/org/linkki/samples/playground/ts/layouts/AbstractBasicElementsLayoutBehaviorPmo.java
         </sonar.exclusions>
         <sonar.coverage.exclusions>
             **/org/linkki/samples/**/*.java,

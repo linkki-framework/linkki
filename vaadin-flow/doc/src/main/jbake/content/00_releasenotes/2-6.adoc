@@ -156,3 +156,7 @@ class PersonPmo  {
 
 }
 ----
+
+//https://jira.convista.com/browse/LIN-3701
+===== Fixing the position of the loading indicator
+The loading indicator has been moved to the bottom of the page because it was invisible at the top due to its color being the same as the header.
