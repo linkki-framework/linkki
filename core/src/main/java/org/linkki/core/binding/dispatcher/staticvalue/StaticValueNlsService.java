@@ -61,7 +61,7 @@ public class StaticValueNlsService {
     /**
      * @return Singleton instance of {@link StaticValueNlsService}
      */
-    public static StaticValueNlsService getInstance() {
+    public static synchronized StaticValueNlsService getInstance() {
         return INSTANCE;
     }
 
