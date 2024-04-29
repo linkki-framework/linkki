@@ -31,6 +31,7 @@ pipeline {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
                         verify \
+                        -Pproduction \
                         -pl "!vaadin-flow/doc" \
                         -Dmaven.test.failure.ignore=true \
                         -Drevapi.skip'
