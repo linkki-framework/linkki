@@ -138,3 +138,34 @@ linkki follows the web approach and uses the pointer (i.e., hand) cursor for cli
 
 | Clickable cursor | --lumo-clickable-cursor | pointer
 |===
+
+[[loading-indicator]]
+===== Loading indicator
+
+The position of the loading indicator can be configured with the following css properties:
+
+.Loading indicator
+|===
+| Function  | Property  | Default value
+| Top position  | --linkki-loading-indicator-top    | auto
+| Bottom position   | --linkki-loading-indicator-bottom | 0
+|===
+
+[NOTE]
+In de _linkki_ theme the loading indicator is configured to be displayed at the bottom of the page by default.
+
+====== Examples
+
+.loading indicator at the *bottom* of the page
+[source,css]
+----
+--linkki-loading-indicator-top: auto
+--linkki-loading-indicator-bottom: 0
+----
+
+.loading indicator at the *top* of the page
+[source,css]
+----
+--linkki-loading-indicator-top: 0
+--linkki-loading-indicator-bottom: auto
+----

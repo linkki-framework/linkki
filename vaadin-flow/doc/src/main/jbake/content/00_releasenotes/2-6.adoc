@@ -104,6 +104,24 @@ To reflect the changes, following constants have been renamed:
 
 See <<section-theme-variants, section "Theme Variants">> for more details on how to use the theme variant.
 
+
+//https://jira.convista.com/browse/LIN-3701
+[role="api-change"]
+===== Customizable position of the loading indicator
+
+When using application header, the loading indicator has the same color as the header, making it effectively invisible.
+To mitigate this problem, the loading indicator was moved to the bottom of the page by default.
+
+The position of the loading indicator can be configured with two new css properties in the _linkki_ theme:
+
+* --linkki-loading-indicator-top
+* --linkki-loading-indicator-bottom
+
+[IMPORTANT]
+In de _linkki_ theme the loading indicator is configured to be displayed at the bottom of the page by default.
+
+For more details see <<loading-indicator, loading indicator>>.
+
 ===== Other
 //https://jira.convista.com/browse/LIN-3671
 * `BindVariantNames` now applies to all Vaadin components, expanding its functionality beyond its previous limitation to components that implemented HasTheme.
@@ -156,7 +174,3 @@ class PersonPmo  {
 
 }
 ----
-
-//https://jira.convista.com/browse/LIN-3701
-===== Fixing the position of the loading indicator
-The loading indicator has been moved to the bottom of the page because it was invisible at the top due to its color being the same as the header.

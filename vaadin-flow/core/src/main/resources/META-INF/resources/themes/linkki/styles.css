@@ -27,22 +27,22 @@ html {
     --linkki-error-color-50pct: var(--lumo-error-color-50pct);
     --linkki-error-text-color: var(--lumo-error-text-color);
 
+    /* loading indicator on the bottom of the page */
+    --linkki-loading-indicator-top: auto;
+    --linkki-loading-indicator-bottom: 0;
+
     /* lumo properties */
     --lumo-clickable-cursor: pointer;
 
     /* prefer 'Segoe UI' over Roboto */
     --lumo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
 }
 
 a:not([href]) {
     color: inherit;
     text-decoration: none;
     pointer-events: none;
-}
-
-.v-loading-indicator {
-    top: auto !important;
-    bottom: 0;
 }
 
 
@@ -182,6 +182,13 @@ linkki-section vaadin-form-item .text-placeholder {
   --linkki-footer-text-shadow: 0 .1px 0 currentColor;
 }
 
+/*************************************
+ * LOADING INDICATOR
+ *************************************/
+.v-loading-indicator {
+    top: var(--linkki-loading-indicator-top, 0) !important;
+    bottom: var(--linkki-loading-indicator-bottom, auto) !important;
+}
 
 /*************************************
  * ICON COLORS
