@@ -9,6 +9,7 @@ pipeline {
         // make sure that the build name does not contain '_' because this will lead to unexpected Docker failures
         DOCKER_BUILD_NAME = "${BRANCH_NAME.replaceAll('_', '-')}"
         CONTAINER_RETENTION = 'permanent-on'
+        BASE_IMAGE = 'spring:24.7'
     }
 
     stages {
@@ -30,7 +31,7 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh 'bash -x .ci/docker_setup.sh ${DOCKER_BUILD_NAME}'
+                sh 'bash -x .ci/docker_setup.sh ${DOCKER_BUILD_NAME} ${BASE_IMAGE}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Test Playground</h3>

@@ -11,6 +11,7 @@ pipeline {
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
+        BASE_IMAGE = 'spring:24.7'
     }
 
     stages {
@@ -78,7 +79,7 @@ pipeline {
                     stages {
                         stage('Docker Deployment') {
                             steps {
-                                sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
+                                sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME} ${BASE_IMAGE}'
 
                                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                                     <h3>Test Playground</h3>

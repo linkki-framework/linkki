@@ -1,5 +1,6 @@
 #!/bin/bash
 BUILD_NAME=$1
+BASE_IMAGE=$2
 
 # Create user-defined bridge
 NETWORK_NAME="network-linkki-$BUILD_NAME"
@@ -21,7 +22,7 @@ docker create \
         --label "entry-path=linkki-sample-test-playground-vaadin-flow" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
         -e "JAVA_TOOL_OPTIONS=-Xms250m -Xmx750m" \
-        harbor.faktorzehn.de/suite-base/spring:24.7
+        harbor.faktorzehn.de/suite-base/$BASE_IMAGE
 
 # Copy war to container
 WAR_FILE="vaadin-flow/samples/test-playground/target/linkki-sample-test-playground-vaadin-flow.war"
