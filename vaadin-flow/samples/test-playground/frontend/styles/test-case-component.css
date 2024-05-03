@@ -1,6 +1,9 @@
 test-case-component {
   padding: var(--lumo-space-m);
-  display: block;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 test-case-component > span {
@@ -10,4 +13,8 @@ test-case-component > span {
 
 test-case-component > *[part="description"] {
   background-color: var(--lumo-contrast-5pct);
+}
+
+test-case-component #content-wrapper {
+  flex-grow: 1;
 }

@@ -53,9 +53,6 @@ NOTE: In our example the elements of the table shall be presented as read-only. 
 
 The table can then be created using `GridComponentCreator`.
 
-[source,java]
-----
-include::{source-dir-doc}/org/linkki/doc/UiCreatorSample.java[tags=createTable]
-----
+
 
 If the table PMO is annotated with <<layout-section, `@UISection`>>, `UiCreator` can also be used to create a section containing the table.

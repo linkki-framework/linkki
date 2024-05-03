@@ -12,6 +12,7 @@
 ===== Dependency Updates
 
 The following versions have been updated:
+
 [cols="a,a"]
 |===
 | Faktor-IPS                | 24.7.0
@@ -22,7 +23,7 @@ The following versions have been updated:
 //https://jira.convista.com/browse/LIN-1803
 ===== New BOM module for dependency management
 
-The new linkki BOM module manages the versions and scopes of all linkki dependencies. 
+The new linkki BOM module manages the versions and scopes of all linkki dependencies.
 
 To use the BOM module, simply import the BOM dependency in the dependency management of your project.
 Any version and scope configurations of linkki dependencies can then be removed.
@@ -37,39 +38,108 @@ Any version and scope configurations of linkki dependencies can then be removed.
 </dependency>
 ----
 
-//https://jira.convista.com/browse/LIN-3293
-[role="api-change"]
-===== New VisibleType `INVISIBLE_IF_EMPTY`
+// TABLES
 
-A new enum value, `INVISIBLE_IF_EMPTY`, is now available in `VisibleType`. When used, the `VisibleAspectDefinition` evaluates the linked method's output. Components linked to this method will be hidden if the result is `null` or an empty `String`, enhancing UI cleanliness.
-Further details can be found <<visible, in the documentation>>.
+//https://jira.convista.com/browse/LIN-3541
+===== New annotation for tables: @UITableComponent
+
+A new UI component `@UITableComponent` is now available, providing a new way to create tables directly on a method instead of a class.
+
+.Example usage of @UITableComponent
+[source,java]
+----
+    @BindStyleNames(LumoUtility.Height.FULL)
+    @BindPlaceholder("There are no rows available.")
+    @UITableComponent(position = 0, rowPmoClass = PersonRowPmo.class)
+    public List<PersonRowPmo> getRows() {
+        return itemSupplier.get();
+    }
+----
+
+This new annotation has several advantages comparing to the definition of tables using `ContainerPmo`/`SimpleTablePmo`:
+
+* No PMO class is required to create a table.
+This makes it easier to combine tables with other components in a layout.
+* If link:https://vaadin.com/docs/latest/advanced/server-push[server push] is enabled, the rows of the table are fetched asynchronously. This is particularly useful if the rows of the table must be retrieved form external systems.
+* It is easy to style the table itself. When using `ContainerPmo`, it is only possible to add style names to the section. If the table itself has to be modified, the created component has to be cast to `GridSection` to retrieve the `Grid` component. With `@UITableComponent`, styles names can be directly applied to the table by using `BindStyleNames`.
+
+Further details can be found <<ui-table-component, in the documentation>>.
+
+[NOTE]
+====
+`@UITableComponent` does not work with selection yet.
+====
 
 //https://jira.convista.com/browse/LIN-3561
 ===== Multi-selection in tables
 
-* The `BindTableSelection` now includes a new attribute called `selectionMode`. Its default value is `Grid.SelectionMode.SINGLE`.
+* The `BindTableSelection` now includes a new attribute called `selectionMode`.
+Its default value is `Grid.SelectionMode.SINGLE`.
 * A new interface `MultiSelectableTablePmo` has been added.
-While `SelectableTablePmo` defines the necessary Methods when the `selectionMode` is `Grid.SelectionMode.SINGLE`,
-so does the interface `MultiSelectableTablePmo` for when `selectionMode` is `Grid.SelectionMode.MULTI`.
+While `SelectableTablePmo` defines the necessary methods when the `selectionMode` is `Grid.SelectionMode.SINGLE`, so does the interface `MultiSelectableTablePmo` for when `selectionMode` is `Grid.SelectionMode.MULTI`.
 
 Further information can be found in the <<ui-selectable-table,documentation>>.
+
+// CONVERTERS
 
 //https://jira.convista.com/browse/LIN-3358
 [role="api-change"]
 ===== Boolean support for `UIComboBox` and `UIRadioButtons`
 
-* Booleans in `UIComboBox` and `UIRadioButtons` are now displayed with user-friendly text. No additional caption provider needs to be set. For more details, see documentation for <<ui-combobox, UIComboBox>> and <<ui-radiobuttons, UIRadioButtons>>.
+* Booleans in `UIComboBox` and `UIRadioButtons` are now displayed with user-friendly text.
+No additional caption provider needs to be set.
+For more details, see documentation for <<ui-combobox, UIComboBox>> and <<ui-radiobuttons, UIRadioButtons>>.
 * `UIYesNoComboBox` is deprecated and can be replaced with `UIComboBox`.
 
-//https://jira.convista.com/browse/LIN-2932
-===== New documentation for CSS custom properties in the linkki Theme
+[role="api-change"]
+===== Improvements in datatype conversion
 
-linkki theme defines CSS custom properties which is the easiest way to customize the UI. These are now documented in chapter 
-<<css-custom-properties-linkki-theme, "Styling">>.
+//https://jira.convista.com/browse/LIN-3726
+New converters for `GregorianCalendar` and `Money`::
+Converters have been added for `GregorianCalendar` and `Money` that make them usable with `String`-valued UI components such as `@UITextField`. +
+The `StringToGregorianCalendarConverter` is integrated into the <<linkki-converter-registry, LinkkiConverterRegistry>> and can be used with `@UITextField` or `@UILabel` directly. +
+`StringToMoneyConverter` has be added in the Faktor-IPS extension.
+Its functionality is documented <<ips-converters, here>>.
+This converter is not applied by default, thus have to be added to the converter registry if needed.
 
-//https://jira.convista.com/browse/LIN-3682
-===== linkki tutorial in the documentation
-The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tutorial>>).
+//https://jira.convista.com/browse/LIN-3726
+Changed String format for `Date`:: In the previous version, `Date` values has been converted to String using the converter provided by Vaadin format, which displays a date as `Jan 12, 1952` in the English locale.
+This behavior is not consistent with the presentation in `UIDateField`.
+Thus, a new `StringToDateConverter` has been introduced which presents a date as `01/01/1952` in English, and `01.01.1952` in German.
+
+//https://jira.convista.com/browse/LIN-3680
+Improved behavior with overflowing integers::
+Input values in a `@UIIntegerField` that exceed the maximum allowed integer do not overflow anymore.
+Instead, an error is displayed and the field is reset to its previous valid input.
+
+//https://jira.convista.com/browse/LIN-3680
+Consistent naming for number converters::
+The number converters have been deprecated and replaced with new ones that match the correct naming schema, using the presentation type first.
++
+|===
+| *Old class* | *New class*
+| `FormattedNumberToStringConverter` | `FormattedStringToNumberConverter`
+| `FormattedIntegerToStringConverter` | `FormattedStringToIntegerConverter`
+| `FormattedDoubleToStringConverter` | `FormattedStringToDoubleConverter`
+| `FormattedDecimalFieldToStringConverter` | `FormattedStringToDecimalConverter`
+|===
++
+[NOTE]
+The converters are used by the corresponding UI annotations by default.
+Changes are only necessary if `FormattedNumberToStringConverter` was extended.
+
+// ASPECTS
+
+//https://jira.convista.com/browse/LIN-3293
+[role="api-change"]
+===== New VisibleType `INVISIBLE_IF_EMPTY`
+
+A new enum value, `INVISIBLE_IF_EMPTY`, is now available in `VisibleType`.
+When used, the `VisibleAspectDefinition` evaluates the linked method's output.
+Components linked to this method will be hidden if the result is `null` or an empty `String`, enhancing UI cleanliness.
+Further details can be found <<visible, in the documentation>>.
+
+// STYLE
 
 [role="api-change"]
 //https://jira.convista.com/browse/LIN-3540
@@ -121,43 +191,34 @@ In de _linkki_ theme the loading indicator is configured to be displayed at the 
 
 For more details see <<loading-indicator, loading indicator>>.
 
-[role="api-change"]
-===== Improved in datatype conversion
+// OTHERS
 
-//https://jira.convista.com/browse/LIN-3726
-New converters for `GregorianCalendar` and `Money`::
-Converters have been added for `GregorianCalendar` and `Money` that make them usable with `String`-valued UI components such as `@UITextField`. +
-The `StringToGregorianCalendarConverter` is integrated into the <<linkki-converter-registry, LinkkiConverterRegistry>> and can be used with `@UITextField` or `@UILabel` directly. +
-`StringToMoneyConverter` has be added in the Faktor-IPS extension. Its functionality is documented <<ips-converters, here>>. This converter is not applied by default, thus have to be added to the converter registry if needed.
+// https://jira.convista.com/browse/LIN-3541
+===== Improvements for Karibu support
 
-//https://jira.convista.com/browse/LIN-3726
-Changed String format for `Date`:: In the previous version, `Date` values has been converted to String using the converter provided by Vaadin format, which displays a date as `Jan 12, 1952` in the English locale. This behavior is not consistent with the presentation in `UIDateField`. Thus, a new `StringToDateConverter` has been introduced which presents a date as `01/01/1952` in English, and `01.01.1952` in German.
+`KaribuUtils` has been extended to provide better support for push functionalities.
 
-//https://jira.convista.com/browse/LIN-3680
-Improved behavior with overflowing integers::
-Input values in a `@UIIntegerField` that exceed the maximum allowed integer do not overflow anymore. Instead, an error is displayed and the field is reset to its previous valid input.
+As the push functionality is provided by Atmosphere thus does not work out of the box with Karibu, the method `push()` and `push(UI)` can be used to flush the command queue manually.
 
-//https://jira.convista.com/browse/LIN-3680
-Consistent naming for number converters::
-The number converters have been deprecated and replaced with new ones that match the correct naming schema, using the presentation type first.
-+
-|===
-| *Old class* | *New class*
-| `FormattedNumberToStringConverter` | `FormattedStringToNumberConverter`
-| `FormattedIntegerToStringConverter` | `FormattedStringToIntegerConverter`
-| `FormattedDoubleToStringConverter` | `FormattedStringToDoubleConverter`
-| `FormattedDecimalFieldToStringConverter` | `FormattedStringToDecimalConverter`
-|===
-+
-[NOTE]
-The converters are used by the corresponding UI annotations by default. Changes are only necessary if `FormattedNumberToStringConverter` was extended.
+//https://jira.convista.com/browse/LIN-2932
+===== New documentation for CSS custom properties in the linkki Theme
+
+linkki theme defines CSS custom properties which is the easiest way to customize the UI.
+These are now documented in chapter
+<<css-custom-properties-linkki-theme, "Styling">>.
+
+//https://jira.convista.com/browse/LIN-3682
+===== linkki tutorial in the documentation
+
+The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tutorial>>).
 
 ===== Other
 //https://jira.convista.com/browse/LIN-3671
 * `BindVariantNames` now applies to all Vaadin components, expanding its functionality beyond its previous limitation to components that implemented HasTheme.
 
 //https://jira.convista.com/browse/LIN-3567
-* All Notifications (`info`, `warning` and `error`) now include a close button. Additionally, the default duration for warning notifications has been increased to `6000 ms`.
+* All Notifications (`info`, `warning` and `error`) now include a close button.
+Additionally, the default duration for warning notifications has been increased to `6000 ms`.
 
 ==== Bugfixes
 
@@ -171,7 +232,8 @@ For better message handling in the `LinkkiErrorPage` a new `MessageException` wa
 ** In development mode: a custom message or the exception message is shown to the user.
 ** In production mode: only a generic error message is shown to the user to hide any sensitive information.
 
-Additionally logging for the thrown exception has been added. `MessageExceptions` are only logged if they contain a cause. All other exceptions are logged anyways.
+Additionally logging for the thrown exception has been added. `MessageExceptions` are only logged if they contain a cause.
+All other exceptions are logged anyways.
 
 //https://jira.convista.com/browse/LIN-3512
 ===== Width of nested components

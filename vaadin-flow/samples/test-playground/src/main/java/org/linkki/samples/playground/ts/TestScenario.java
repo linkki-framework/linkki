@@ -17,19 +17,23 @@ package org.linkki.samples.playground.ts;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
 public class TestScenario {
 
-    private String scenarioId;
-    private List<LinkkiTabSheet> tabSheets = new ArrayList<>();
+    private final String scenarioId;
+    private final List<LinkkiTabSheet> tabSheets = new ArrayList<>();
 
     private TestScenario(String scenarioId) {
         this.scenarioId = scenarioId;
@@ -41,6 +45,16 @@ public class TestScenario {
                 .content(() -> new TestCaseComponent(scenarioId, testCaseId, pmo))
                 .build());
         return this;
+    }
+
+    public TestScenario testCase(String testCaseId, Object... pmos) {
+        Supplier<Component> componentSupplier = () -> {
+            var parent = new VerticalLayout();
+            Stream.of(pmos).map(o -> VaadinUiCreator.createComponent(o, new BindingContext()))
+                    .forEach(parent::add);
+            return parent;
+        };
+        return testCase(testCaseId, componentSupplier);
     }
 
     public TestScenario testCase(String testCaseId, Supplier<Component> componentSupplier) {

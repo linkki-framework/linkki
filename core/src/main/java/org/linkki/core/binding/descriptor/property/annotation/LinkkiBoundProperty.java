@@ -29,7 +29,7 @@ import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreat
  * meta-annotation that means it is applied on another annotation which should be used in client
  * code.
  * <p>
- * For example a {@code @UIField} annotation might be be annotated with this annotation. The defined
+ * For example a {@code @UIField} annotation might be annotated with this annotation. The defined
  * {@link BoundPropertyCreator} could read the {@code @UIField} annotation to create a
  * {@link BoundProperty} with the value of the appropriate properties of the {@code @UIField}
  * annotation.

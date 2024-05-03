@@ -33,8 +33,7 @@ public class GridComponentDefinition implements LinkkiComponentDefinition {
 
     @Override
     public Object createComponent(Object pmo) {
-        ContainerPmo<?> containerPmo = (ContainerPmo<?>)pmo;
-        if (containerPmo.isHierarchical()) {
+        if (pmo instanceof ContainerPmo<?> containerPmo && containerPmo.isHierarchical()) {
             TreeGrid<?> grid = new TreeGrid<>();
             grid.setSelectionMode(SelectionMode.NONE);
             grid.addClassName("tree-table");

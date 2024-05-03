@@ -2,61 +2,94 @@
 :jbake-type: section
 :jbake-status: published
 :source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+:source-dir-doc: ../../../../src/main/java
 
 :images-folder-name: 05_ui_components
 
 [[ui-tables]]
 === Tables
 
-The basics of table creation were already mentioned in the chapter <<binding-table, binding of a table>>. This section details the <<ui-row-pmo,definition of table structure>> and the <<ui-container-pmo, Container PMO>>.
+There are two ways to create a table:
+
+. Using a class that implements <<ui-container-pmo, `ContainerPmo`>>
+. Using the annotation <<ui-table-component, `@UITableComponent`>> on a method providing the rows in a <<layout, layout>>
+
+In both cases, the columns of the table are defined in a <<ui-row-pmo, row PMO>>.
 
 [[ui-row-pmo]]
-==== Definition of the Table Structure with a Row PMO
+==== Definition of the table structure with a row PMO
 The structure of the table is defined in a PMO class, whose instances represent rows in the table. Thus, these classes are called "row PMOs".
 
-Row PMO classes are standard PMOs, which do not represent sections and thus shouldn't be annotated with `@UISection`.
+Row PMO classes are just like other PMOs, but is not annotated with a layout annotation such as `@UISection`.
+Each <<ui-element,UI element>> in the row PMO defines a column in the table.
 
-Here, the annotation <<ui-element,UI element>> defines the column in the table. A column showing the name of a contact, for instance, can be setup as follows:
-
+.Example implementation of a row PMO
 [source, java]
 ----
 include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
-That means every property that was found in the row PMO class provided by the `ContainerPmo` is set up as a column. Every defined property specifies the setup of the column as well as the concrete field inside the table's cell. Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
+Every PMO property specifies the setup of the column as well as the concrete field inside the table's cell. Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
 
-IMPORTANT: The properties of a table column are described using the properties in the row PMO. But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are multiple rows). Hence all bindings are directed to the row PMO class. That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the row PMO.
+IMPORTANT: The properties of a table column are described using the properties in the row PMO. But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are multiple rows). Hence, all bindings are directed to the row PMO class. That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the row PMO.
 
 [[ui-table-column]]
-===== @UITableColumn
+===== Column configuration using @UITableColumn
 
-By design all properties of a PMO are presented in the table. With the annotation `@UITableColumn` additional properties of a table column could be bound.
+The annotation `@UITableColumn`  can be used on annotated methods to customize additions aspects of a table column.
 
-Column size::
+Column width::
 You can use the properties `width` (in pixels) and `flexGrow` to modify the column size. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
 
 [[collapsible-columns]]
 Collapsible columns::
-The property `collapsible` can make a column collapsible, i.e. the user can toggle the visibility of a column. It also defines if a collapsible column should be initally collapsed.
+The property `collapsible` can make a column collapsible, i.e. the user can toggle the visibility of a column. It also defines if a collapsible column should be initially collapsed.
 +
-This feature only works if the table is created inside of a <<layout-section, section>>. If there are any collapsible columns in the table, a right aligned header menu is displayed in the created section with which the user can toggle the visibility of a collapsible column.
-
-NOTE: Setting the visibility of a column programmatically after the `GridSection` has already been created, should be done using `GridSection#setColumnVisible(String columnKey, boolean visible)` instead of `Grid#getColumnByKey()` to make sure, the checked state of its `MenuItem` is set correctly!
+WARNING: This feature only works if the table is created inside a <<layout-section, section>>. If there are any collapsible columns in the table, a right aligned header menu is displayed in the created section with which the user can toggle the visibility of a collapsible column.
++
+NOTE: Setting the visibility of a column programmatically after the `GridSection` has already been created should be done using `GridSection#setColumnVisible(String columnKey, boolean visible)` instead of `Grid#getColumnByKey()` to make sure that the checked state of its `MenuItem` is set correctly!
 
 [[sortable-columns]]
 Sortable columns::
-The property `sortable` allows the column to be sorted. The type of the column value must implement `Comparable`, which defines the order in which the values are sorted.
+The property `sortable` allows the column to be sorted. The data type of the column value must implement `Comparable`, which defines the order in which the values are sorted.
 +
 WARNING: Model bindings (`modelAttribute`) can not be used with sortable columns, a getter method must be used.
-
 
 Text alignment::
 It is possible to customize text alignment inside of individual columns by setting the `textAlign` value of the `@UITableColumn` annotation. The alignment also applies to the header and footer of the column.
 
 [[ui-container-pmo]]
-==== Container PMO
+==== Defining a table with Container PMO
 
-In addition to a row PMO, a container PMO is needed to provide the row PMOs that should be rendered in the table. The container PMO can be optionally annotated with `@UISection` to display the table in a `TableSection`. For most cases, the standard implementation <<ui-simple-table-pmo,`SimpleTablePmo`>> can be used as super class.
+The interface `ContainerPMO` can be used to define a table. A container PMO defines the row PMOs that should be rendered in the table, as well as additional table properties such as the table height and table selection behavior.
+
+A table component can be created from a container PMO by using `GridComponentCreator`.
+
+.Creating a table using ContainerPMO and GridComponentCreator
+[source,java]
+----
+include::{source-dir-doc}/org/linkki/doc/UiCreatorSample.java[tags=createTable]
+----
+
+Alternatively, the container PMO can be annotated with `@UISection` to display the table in a `TableSection`. The section caption then functions as a caption for the table.
+
+[[ui-container-pmo-interface]]
+===== ContainerPmo Interface
+
+In general, a container PMO has to implement the interface `ContainerPmo<ROW>`. The type parameter `ROW` is the row PMO class that defines the table structure.
+
+The method `List<ROW> getItems()` is called by the `ContainerBinding` to add the elements to the table. It should always return the same instance of `List<ROW>` as long as the items do not change. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
+
+By overriding the default method `int getPageLength()` the number of rows shown can be controlled. By default, 15 rows are shown. It is a common practice to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
+
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=page-length]
+----
+
+The column structure of the table is determined by the <<ui-row-pmo, row PMO>> class, which is returned by the method `Class<? extends ROW> getItemPmoClass`. In the default implementation the class of the generic parameter `ROW` is returned. To support tables which are configured with other components for the cells, the method can be overwritten and return a subclass of `ROW`.
+
+If the table should support the adding of items, the `default` method `Optional<ButtonPmo> getAddItemButtonPmo` must be overwritten. How a `ButtonPmo` is created is described in the chapter <<button-pmo, ButtonPmo>>.
 
 [[ui-simple-table-pmo]]
 ===== SimpleTablePmo
@@ -70,26 +103,33 @@ include::{source-dir}/org/linkki/samples/playground/binding/pmo/SimpleContactTab
 
 The `SimpleTablePmo` is an abstract convenience implementation of the `ContainerPmo<ROW>` interface.
 
-[[ui-container-pmo-interface]]
-===== ContainerPmo Interface
+[[ui-table-component]]
+==== Creating a table using @UITableComponent
 
-In general, a container PMO have to implement the interface `ContainerPmo<ROW>`. The type parameter `ROW` is the row PMO class that defines the table structure.
+A table component can be defined inside a <<layout, layout>> by using the annotation `@UITableComponent`. The annotated method provides the row PMOs that are displayed in the table.
 
-The method `List<ROW> getItems()` is called by the `ContainerBinding` to add the elements to the table. It should always return the same instance of `List<ROW>` as long as the items do not change. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
+As the generic type of the return type is erased at runtime, the row PMO class needs to be provided to the annotation.
 
-By overriding the default method `int getPageLength()` the number of rows shown can be controlled. By default 15 rows are shown. It is a common practice to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
-
-[source, java]
+.Defining a table with @UITableComponent
+[source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=page-length]
+    @BindStyleNames(LumoUtility.Height.FULL)
+    @BindPlaceholder("There are no person to be shown.")
+    @UITableComponent(position = 0, rowPmoClass = PersonRowPmo.class)
+    public List<PersonRowPmo> getRows() {
+        return itemSupplier.get();
+    }
 ----
 
-The column structure of the table is determined by the <<ui-row-pmo, row PMO>> class, which is returned by the method `Class<? extends ROW> getItemPmoClass`. In the default implementation the class of the generic parameter `ROW` is returned. To support tables which are configured with other components for the cells, the method can be overwritten and return a subclass of `ROW`.
+If link:https://vaadin.com/docs/latest/advanced/server-push[server push] is enabled, the rows of the table are fetched asynchronously. This is particularly useful if the rows of the table are being retrieved form external systems.
 
-If the table should support the adding of items, the `default` method `Optional<ButtonPmo> getAddItemButtonPmo` must be overwritten. How a `ButtonPmo` is created is described in the chapter <<button-pmo, ButtonPmo>>.
+[NOTE]
+====
+`@UITableComponent` does not work with `@BindTableSelection` yet.
+====
 
 [[ui-simple-item-supplier]]
-===== SimpleItemSupplier
+==== SimpleItemSupplier
 
 The `SimpleItemSupplier<PMO, MO>` is used to only create a new `List<PMO>`, if a row was changed. When using `ContainerPmo` interface directly, `SimpleItemSupplier` should be used if the displayed rows may change dynamically.
 
@@ -127,7 +167,7 @@ include::{source-dir}/org/linkki/samples/playground/treetable/dynamic/CategoryRo
 ----
 
 [[ui-selectable-table]]
-==== Row selection in Tables
+==== Row selection in tables
 
 By default, table rows are not selectable. If table row selection should be possible,
 the `ContainerPmo` implementation should implement either the `SelectableTablePmo` interface for single selection or the `MultiSelectableTablePmo` interface for multiple selections.
@@ -190,4 +230,4 @@ To make the column right aligned use the `textAlign` property of `@UITableColumn
 
 [[button-pmo]]
 ==== ButtonPmo
-Currently the <<ui-container-pmo, `ContainerPmo`>> provides a method `getAddItemButtonPmo()`, by which a plus button can be added besides the name of the table.
+The interface <<ui-container-pmo, `ContainerPmo`>> provides a method `getAddItemButtonPmo()`, by which a plus button can be added besides the name of the table.

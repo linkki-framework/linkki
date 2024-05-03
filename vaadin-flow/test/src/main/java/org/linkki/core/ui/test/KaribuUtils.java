@@ -14,13 +14,16 @@
 
 package org.linkki.core.ui.test;
 
+import static java.util.Objects.requireNonNull;
+import static org.awaitility.Awaitility.await;
+
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import com.github.mvysny.kaributesting.v10.NotificationsKt;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasOrderedComponents;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 
@@ -73,7 +76,7 @@ public class KaribuUtils {
      * Returns the root component. If it is not of the given type, a test failure is caused.
      */
     public static <T extends Component> T getRootComponent(Class<T> type) {
-        List<Component> components = UI.getCurrent().getChildren()
+        List<Component> components = com.vaadin.flow.component.UI.getCurrent().getChildren()
                 .filter(c -> !(c instanceof Notification))
                 .toList();
 
@@ -92,11 +95,11 @@ public class KaribuUtils {
     }
 
     /**
-     * Prints out all {@link Component component}-classnames in {@link UI#getCurrent()} in
-     * hierarchical order
+     * Prints out all {@link Component component}-classnames in
+     * {@link com.vaadin.flow.component.UI#getCurrent()} in hierarchical order
      */
     public static void printComponentTree() {
-        printComponentTree(UI.getCurrent(), 0);
+        printComponentTree(com.vaadin.flow.component.UI.getCurrent(), 0);
     }
 
     private static void printComponentTree(Component component, int level) {
@@ -105,4 +108,33 @@ public class KaribuUtils {
         component.getChildren().forEach(c -> printComponentTree(c, level + 2));
     }
 
+    /**
+     * Utilities for the {@link com.vaadin.flow.component.UI} class.
+     */
+    public static class UI {
+
+        private UI() {
+            // utility class
+        }
+
+        /**
+         * Pushes the current UI
+         * 
+         * @see #push()
+         */
+        public static void push() {
+            push(com.vaadin.flow.component.UI.getCurrent());
+        }
+
+        /**
+         * Manually executes the UI access as atmosphere is not present with the Karibu setup.
+         * <p>
+         * Waits until the UI.access call has reached the session, then manually executes the
+         * command.
+         */
+        public static void push(com.vaadin.flow.component.UI ui) {
+            await().atMost(1, TimeUnit.SECONDS).until(() -> ui.getSession().getPendingAccessQueue().size() == 1);
+            requireNonNull(ui.getSession().getPendingAccessQueue().poll()).run();
+        }
+    }
 }

@@ -55,6 +55,5 @@
             <groupId>com.github.mvysny.kaributesting</groupId>
             <artifactId>karibu-testing-v24</artifactId>
         </dependency>
-
     </dependencies>
 </project>
