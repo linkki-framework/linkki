@@ -16,21 +16,21 @@ package org.linkki.core.ui.converters;
 import java.io.Serial;
 import java.text.DecimalFormat;
 
+import com.vaadin.flow.data.binder.Result;
+
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Converts {@link Double} to {@link String} while taking a given format into account.
  * 
  * @see DecimalFormat
- * @deprecated use {@link FormattedStringToDoubleConverter} instead
  */
-@Deprecated(since = "2.6.0")
-public class FormattedDoubleToStringConverter extends FormattedNumberToStringConverter<Double> {
+public class FormattedStringToDoubleConverter extends FormattedStringToNumberConverter<Double> {
 
     @Serial
     private static final long serialVersionUID = 6756969882235490962L;
 
-    public FormattedDoubleToStringConverter(String format) {
+    public FormattedStringToDoubleConverter(String format) {
         super(format);
     }
 
@@ -41,8 +41,8 @@ public class FormattedDoubleToStringConverter extends FormattedNumberToStringCon
     }
 
     @Override
-    protected Double convertToModel(Number value) {
-        return value.doubleValue();
+    protected Result<Double> convertToModel(Number value) {
+        return Result.ok(value.doubleValue());
     }
 
 }

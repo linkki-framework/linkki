@@ -21,7 +21,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.linkki.core.ui.converters.FormattedIntegerToStringConverter;
+import org.linkki.core.ui.converters.FormattedStringToIntegerConverter;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.test.KaribuUIExtension;
 
@@ -58,7 +58,7 @@ class PrimitiveAwareValueAspectDefinitionTest {
 
     @Test
     void testNonPrimitiveType_FixedConverter() {
-        var aspectDefinition = new PrimitiveAwareValueAspectDefinition(new FormattedIntegerToStringConverter(""));
+        var aspectDefinition = new PrimitiveAwareValueAspectDefinition(new FormattedStringToIntegerConverter(""));
 
         @SuppressWarnings("unchecked")
         var converter = (Converter<String, Integer>)aspectDefinition.getConverter(String.class, Integer.class);
@@ -86,7 +86,7 @@ class PrimitiveAwareValueAspectDefinitionTest {
 
     @Test
     void testPrimitiveType_FixedConverter() {
-        var aspectDefinition = new PrimitiveAwareValueAspectDefinition(new FormattedIntegerToStringConverter(""));
+        var aspectDefinition = new PrimitiveAwareValueAspectDefinition(new FormattedStringToIntegerConverter(""));
 
         @SuppressWarnings("unchecked")
         var converter = (Converter<String, Integer>)aspectDefinition.getConverter(String.class, Integer.TYPE);

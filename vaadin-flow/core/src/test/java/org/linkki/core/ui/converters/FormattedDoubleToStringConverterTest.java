@@ -24,33 +24,34 @@ import org.junit.jupiter.api.Test;
 
 import com.vaadin.flow.data.binder.ValueContext;
 
-public class FormattedDoubleToStringConverterTest {
+@Deprecated(since = "2.6.0")
+class FormattedDoubleToStringConverterTest {
 
     @Test
-    public void testConvertToPresentation() {
+    void testConvertToPresentation() {
         FormattedDoubleToStringConverter converter = new FormattedDoubleToStringConverter("0.00");
         ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToPresentation(0.2, context), is("0,20"));
     }
 
     @Test
-    public void testConvertToPresentation_Null() {
+    void testConvertToPresentation_Null() {
         FormattedDoubleToStringConverter converter = new FormattedDoubleToStringConverter("0.00");
         ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToPresentation(null, context), is(""));
     }
 
     @Test
-    public void testConvertToModel() {
+    void testConvertToModel() {
         FormattedDoubleToStringConverter converter = new FormattedDoubleToStringConverter("0.00");
         ValueContext context = new ValueContext(Locale.GERMAN);
-        assertThat(converter.convertToModel("1,23", context).getOrThrow(s -> new AssertionError(s)), is(1.23));
+        assertThat(converter.convertToModel("1,23", context).getOrThrow(AssertionError::new), is(1.23));
     }
 
     @Test
-    public void testConvertToModel_Null() {
+    void testConvertToModel_Null() {
         FormattedDoubleToStringConverter converter = new FormattedDoubleToStringConverter("0.00");
         ValueContext context = new ValueContext(Locale.GERMAN);
-        assertThat(converter.convertToModel("", context).getOrThrow(s -> new AssertionError(s)), is(nullValue()));
+        assertThat(converter.convertToModel("", context).getOrThrow(AssertionError::new), is(nullValue()));
     }
 }

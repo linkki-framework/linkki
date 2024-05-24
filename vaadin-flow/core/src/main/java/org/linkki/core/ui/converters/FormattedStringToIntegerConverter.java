@@ -14,35 +14,47 @@
 package org.linkki.core.ui.converters;
 
 import java.io.Serial;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
+
+import com.vaadin.flow.data.binder.Result;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Converts {@link Double} to {@link String} while taking a given format into account.
+ * Converts {@link Integer} to {@link String} while taking a given format into account.
  * 
  * @see DecimalFormat
- * @deprecated use {@link FormattedStringToDoubleConverter} instead
  */
-@Deprecated(since = "2.6.0")
-public class FormattedDoubleToStringConverter extends FormattedNumberToStringConverter<Double> {
+public class FormattedStringToIntegerConverter extends FormattedStringToNumberConverter<Integer> {
 
     @Serial
     private static final long serialVersionUID = 6756969882235490962L;
 
-    public FormattedDoubleToStringConverter(String format) {
+    /**
+     * Creates a new converter with a given format
+     *
+     * @param format number format according to {@link DecimalFormat}
+     */
+    public FormattedStringToIntegerConverter(String format) {
         super(format);
     }
 
     @Override
     @CheckForNull
-    protected Double getNullValue() {
+    protected Integer getNullValue() {
         return null;
     }
 
     @Override
-    protected Double convertToModel(Number value) {
-        return value.doubleValue();
+    @CheckForNull
+    protected Result<Integer> convertToModel(Number value) {
+        var bigInt = BigDecimal.valueOf(value.doubleValue());
+        if (bigInt.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE)) > 0) {
+            return Result.error("The value is too big");
+        } else {
+            return Result.ok(value.intValue());
+        }
     }
 
 }

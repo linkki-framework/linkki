@@ -14,11 +14,10 @@
 package org.linkki.core.ui.converters;
 
 import static java.util.Objects.requireNonNull;
-import static org.linkki.core.ui.converters.FormattedStringToNumberConverter.getLocale;
-import static org.linkki.core.ui.converters.FormattedStringToNumberConverter.getNumberFormat;
 
 import java.io.Serial;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -26,7 +25,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.uiframework.UiFramework;
 
+import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
@@ -37,10 +38,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * Converter for {@link Number numbers} that takes a format into count while converting.
  * 
  * @see DecimalFormat
- * @deprecated use {@link FormattedStringToNumberConverter} instead
  */
-@Deprecated(since = "2.6.0")
-public abstract class FormattedNumberToStringConverter<T extends Number> implements Converter<String, T> {
+public abstract class FormattedStringToNumberConverter<T extends Number> implements Converter<String, T> {
 
     @Serial
     private static final long serialVersionUID = -872944068146887949L;
@@ -48,7 +47,7 @@ public abstract class FormattedNumberToStringConverter<T extends Number> impleme
     private final String format;
     private final Map<Locale, NumberFormat> formats = new HashMap<>();
 
-    public FormattedNumberToStringConverter(String format) {
+    protected FormattedStringToNumberConverter(String format) {
         this.format = requireNonNull(format, "format must not be null");
     }
 
@@ -58,8 +57,7 @@ public abstract class FormattedNumberToStringConverter<T extends Number> impleme
             return Result.ok(getNullValue());
         }
         try {
-            return Result
-                    .ok(convertToModel(getNumberFormat(formats, format, getLocale(context)).parse(value)));
+            return convertToModel(getNumberFormat(formats, format, getLocale(context)).parse(value));
         } catch (ParseException e) {
             return Result.error("Cannot parse '" + value + "' to format '" + format + "')");
         }
@@ -68,7 +66,7 @@ public abstract class FormattedNumberToStringConverter<T extends Number> impleme
     @CheckForNull
     protected abstract T getNullValue();
 
-    protected abstract T convertToModel(Number value);
+    protected abstract Result<T> convertToModel(Number value);
 
     @Override
     public String convertToPresentation(@CheckForNull T value, ValueContext context) {
@@ -79,8 +77,23 @@ public abstract class FormattedNumberToStringConverter<T extends Number> impleme
         }
     }
 
-    protected String getEmptyPresentation(ValueContext context) {
-        return FormattedStringToNumberConverter.getEmptyPresentation(context);
+    public static String getEmptyPresentation(ValueContext context) {
+        return context.getHasValue().map(HasValue::getEmptyValue).map(Object::toString).orElse("");
     }
 
+    public static NumberFormat getNumberFormat(Map<Locale, NumberFormat> formats, String format, Locale locale) {
+        return formats.computeIfAbsent(locale, l -> {
+            if (StringUtils.isEmpty(format)) {
+                return NumberFormat.getIntegerInstance(l);
+            } else {
+                var df = new DecimalFormat(format, DecimalFormatSymbols.getInstance(l));
+                df.setParseBigDecimal(true);
+                return df;
+            }
+        });
+    }
+
+    public static Locale getLocale(ValueContext context) {
+        return context.getLocale().orElse(UiFramework.getLocale());
+    }
 }

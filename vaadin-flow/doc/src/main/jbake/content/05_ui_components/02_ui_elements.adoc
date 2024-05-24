@@ -74,7 +74,7 @@ The annotation `@UILabel` generates an independent UI element displaying `String
 
 The annotated method must return a value that is convertable to `String`. This can either be achieved by a registered converter at `LinkkiConverterRegistry`, or by a `ItemCaptionProvider` that can be provided to the `UILabel` annotation.
 
-If the Faktor-IPS *linkki* extension is used, the `FormattedDecimalFieldToStringConverter` should be registered to `LinkkiConverterRegistry` in order to display Faktor-IPS Decimal values property.
+If the Faktor-IPS *linkki* extension is used, the `FormattedStringToDecimalConverter` should be registered to `LinkkiConverterRegistry` in order to display Faktor-IPS Decimal values property.
 
 TIP: A `@UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside or on top of the `UILabel`. +
 When used in a table, the `label` is used as the column name while the `caption` is displayed in the table cell. 

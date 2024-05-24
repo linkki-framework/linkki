@@ -42,7 +42,7 @@ import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.PrimitiveAwareValueAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
-import org.linkki.core.ui.converters.FormattedDoubleToStringConverter;
+import org.linkki.core.ui.converters.FormattedStringToDoubleConverter;
 import org.linkki.core.ui.element.annotation.UIDoubleField.DoubleFieldAspectCreator;
 import org.linkki.core.ui.element.annotation.UIDoubleField.DoubleFieldComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -129,7 +129,7 @@ public @interface UIDoubleField {
                     requiredAspectDefinition,
                     new VisibleAspectDefinition(annotation.visible()),
                     new PrimitiveAwareValueAspectDefinition(
-                            new FormattedDoubleToStringConverter(annotation.format())),
+                            new FormattedStringToDoubleConverter(annotation.format())),
                     new DerivedReadOnlyAspectDefinition());
         }
 

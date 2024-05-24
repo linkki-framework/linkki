@@ -26,7 +26,7 @@ import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 import org.linkki.framework.ui.dialogs.ErrorDialogConfiguration;
 import org.linkki.ips.converters.StringToMoneyConverter;
-import org.linkki.ips.decimalfield.FormattedDecimalFieldToStringConverter;
+import org.linkki.ips.decimalfield.FormattedStringToDecimalConverter;
 import org.linkki.samples.playground.application.SampleView;
 import org.linkki.samples.playground.application.custom.CustomView;
 import org.linkki.samples.playground.binding.BindingSampleView;
@@ -90,7 +90,7 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
     @Override
     public LinkkiConverterRegistry getConverterRegistry() {
         return ApplicationConfig.super.getConverterRegistry()
-                .with(new FormattedDecimalFieldToStringConverter())
+                .with(new FormattedStringToDecimalConverter())
                 .with(new StringToMoneyConverter());
     }
 

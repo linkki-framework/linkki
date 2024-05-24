@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
 
 import org.faktorips.values.Decimal;
 import org.faktorips.values.NullObject;
-import org.linkki.core.ui.converters.FormattedNumberToStringConverter;
+import org.linkki.core.ui.converters.FormattedStringToNumberConverter;
 
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
@@ -31,28 +31,29 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * pattern into account.
  * 
  * @see DecimalFormat
- * @deprecated use {@link FormattedStringToDecimalConverter} instead
  */
-@Deprecated(since = "2.6.0")
-public class FormattedDecimalFieldToStringConverter
-        extends FormattedNumberToStringConverter<Decimal> {
+public class FormattedStringToDecimalConverter
+        extends FormattedStringToNumberConverter<Decimal> {
 
     public static final String DEFAULT_FORMAT = "#,##0.00##";
 
     @Serial
     private static final long serialVersionUID = 2694562525960273214L;
 
-    public FormattedDecimalFieldToStringConverter() {
+    public FormattedStringToDecimalConverter() {
         this(DEFAULT_FORMAT);
     }
 
-    public FormattedDecimalFieldToStringConverter(String format) {
+    public FormattedStringToDecimalConverter(String format) {
         super(format);
     }
 
     @Override
-    protected Decimal convertToModel(Number value) {
-        return Decimal.valueOf(value.doubleValue());
+    protected Result<Decimal> convertToModel(Number value) {
+        if (value instanceof Decimal d) {
+            return Result.ok(d);
+        }
+        return Result.ok(Decimal.valueOf(value.doubleValue()));
     }
 
     @Override
@@ -62,16 +63,11 @@ public class FormattedDecimalFieldToStringConverter
     }
 
     @Override
-    public Result<Decimal> convertToModel(@CheckForNull String value, ValueContext context) {
-        return super.convertToModel(value, context);
-    }
-
-    @Override
     public String convertToPresentation(@CheckForNull Decimal value, ValueContext context) {
         if (value == null || value.isNull()) {
-            return getEmptyPresentation(context);
-        } else {
-            return super.convertToPresentation(value, context);
+            return super.convertToPresentation(null, context);
         }
+        return super.convertToPresentation(value, context);
     }
+
 }

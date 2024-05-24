@@ -24,33 +24,34 @@ import org.junit.jupiter.api.Test;
 
 import com.vaadin.flow.data.binder.ValueContext;
 
-public class FormattedIntegerToStringConverterTest {
+@Deprecated(since = "2.6.0")
+class FormattedIntegerToStringConverterTest {
 
     @Test
-    public void testConvertToPresentation() {
+    void testConvertToPresentation() {
         FormattedIntegerToStringConverter converter = new FormattedIntegerToStringConverter("#,##0");
         ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToPresentation(12345, context), is("12.345"));
     }
 
     @Test
-    public void testConvertToPresentation_Null() {
+    void testConvertToPresentation_Null() {
         FormattedIntegerToStringConverter converter = new FormattedIntegerToStringConverter("#,##0");
         ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToPresentation(null, context), is(""));
     }
 
     @Test
-    public void testConvertToModel() {
+    void testConvertToModel() {
         FormattedIntegerToStringConverter converter = new FormattedIntegerToStringConverter("#,##0");
         ValueContext context = new ValueContext(Locale.GERMAN);
-        assertThat(converter.convertToModel("1.234", context).getOrThrow(s -> new AssertionError(s)), is(1234));
+        assertThat(converter.convertToModel("1.234", context).getOrThrow(AssertionError::new), is(1234));
     }
 
     @Test
-    public void testConvertToModel_Null() {
+    void testConvertToModel_Null() {
         FormattedIntegerToStringConverter converter = new FormattedIntegerToStringConverter("#,##0");
         ValueContext context = new ValueContext(Locale.GERMAN);
-        assertThat(converter.convertToModel("", context).getOrThrow(s -> new AssertionError(s)), is(nullValue()));
+        assertThat(converter.convertToModel("", context).getOrThrow(AssertionError::new), is(nullValue()));
     }
 }

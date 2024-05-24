@@ -27,7 +27,7 @@ import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
-import org.linkki.ips.decimalfield.FormattedDecimalFieldToStringConverter;
+import org.linkki.ips.decimalfield.FormattedStringToDecimalConverter;
 
 import com.vaadin.flow.data.binder.ValueContext;
 
@@ -176,8 +176,8 @@ public class ComboBoxPmo {
 
         public static class DecimalCaptionProvider implements ItemCaptionProvider<Decimal> {
 
-            private static final FormattedDecimalFieldToStringConverter CONVERTER =
-                    new FormattedDecimalFieldToStringConverter();
+            private static final FormattedStringToDecimalConverter CONVERTER =
+                    new FormattedStringToDecimalConverter();
 
             @Override
             public String getCaption(Decimal value) {

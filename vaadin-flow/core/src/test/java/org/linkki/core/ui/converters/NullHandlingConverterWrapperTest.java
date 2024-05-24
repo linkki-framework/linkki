@@ -29,7 +29,7 @@ public class NullHandlingConverterWrapperTest {
 
     @Test
     public void testConvertToModel_NullValue() {
-        FormattedIntegerToStringConverter converter = new FormattedIntegerToStringConverter("#,##0");
+        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
         NullHandlingConverterWrapper<String, Integer> wrapper = new NullHandlingConverterWrapper<>(converter);
         ValueContext context = new ValueContext(Locale.GERMAN);
 
@@ -44,7 +44,7 @@ public class NullHandlingConverterWrapperTest {
 
     @Test
     public void testConvertToModel_NonnullValue() {
-        FormattedIntegerToStringConverter converter = new FormattedIntegerToStringConverter("#,##0");
+        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
         NullHandlingConverterWrapper<String, Integer> wrapper = new NullHandlingConverterWrapper<>(converter);
         ValueContext context = new ValueContext(Locale.GERMAN);
 
@@ -60,7 +60,7 @@ public class NullHandlingConverterWrapperTest {
 
     @Test
     public void testConvertToModel_Error() {
-        FormattedIntegerToStringConverter converter = new FormattedIntegerToStringConverter("#,##0");
+        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
         NullHandlingConverterWrapper<String, Integer> wrapper = new NullHandlingConverterWrapper<>(converter);
         ValueContext context = new ValueContext(Locale.GERMAN);
 

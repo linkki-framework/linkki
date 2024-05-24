@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 import org.faktorips.values.Money;
 import org.jsoup.internal.StringUtil;
-import org.linkki.ips.decimalfield.FormattedDecimalFieldToStringConverter;
+import org.linkki.ips.decimalfield.FormattedStringToDecimalConverter;
 
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
@@ -30,16 +30,16 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Converts {@link Money} to {@link String}. It leverages a
- * {@link FormattedDecimalFieldToStringConverter} for converting decimal values to and from their
- * string representations.
+ * {@link FormattedStringToDecimalConverter} for converting decimal values to and from their string
+ * representations.
  *
- * @see FormattedDecimalFieldToStringConverter
+ * @see FormattedStringToDecimalConverter
  */
 public class StringToMoneyConverter implements Converter<String, Money> {
 
     @Serial
     private static final long serialVersionUID = 1L;
-    private final FormattedDecimalFieldToStringConverter stringToDecimalConverter = new FormattedDecimalFieldToStringConverter();
+    private final FormattedStringToDecimalConverter stringToDecimalConverter = new FormattedStringToDecimalConverter();
 
     @Override
     public Result<Money> convertToModel(@CheckForNull String value, ValueContext context) {

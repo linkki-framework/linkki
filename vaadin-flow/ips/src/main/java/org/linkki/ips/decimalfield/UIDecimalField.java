@@ -102,7 +102,7 @@ public @interface UIDecimalField {
      * 
      * @see DecimalFormat See {@link DecimalFormat} for the documentation of the pattern.
      */
-    String format() default FormattedDecimalFieldToStringConverter.DEFAULT_FORMAT;
+    String format() default FormattedStringToDecimalConverter.DEFAULT_FORMAT;
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model
@@ -131,7 +131,7 @@ public @interface UIDecimalField {
                     enabledAspectDefinition,
                     requiredAspectDefinition,
                     new VisibleAspectDefinition(annotation.visible()),
-                    new ValueAspectDefinition(new FormattedDecimalFieldToStringConverter(annotation.format())),
+                    new ValueAspectDefinition(new FormattedStringToDecimalConverter(annotation.format())),
                     new DerivedReadOnlyAspectDefinition());
         }
 

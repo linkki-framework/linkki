@@ -121,7 +121,6 @@ In de _linkki_ theme the loading indicator is configured to be displayed at the 
 
 For more details see <<loading-indicator, loading indicator>>.
 
-//https://jira.convista.com/browse/LIN-3627
 ===== New converters for GregorianCalendar and Money
 
 New converters have been added to convert `GregorianCalendar` and `Money` to `String`.
@@ -129,6 +128,24 @@ New converters have been added to convert `GregorianCalendar` and `Money` to `St
 The `StringToGregorianCalendarConverter` is integrated into the <<linkki-converter-registry, LinkkiConverterRegistry>> and can be used with `@UITextField` or `@UILabel` directly.
 
 In the Faktor-IPS extension, a new converter for `Money` has been added which can be used for `String`-valued fields such as `@UITextField`. Its functionality is documented <<ips-converters, here>>. This converter is not applied by default, thus have to be added to the converter registry if needed.
+
+
+//https://jira.convista.com/browse/LIN-3680
+===== New FormattedStringToNumberConverters
+
+The old `FormattedNumberToStringConverter`s have been deprecated and replaced with new ones that match the correct naming schema.
+
+|===
+| *Old class* | *New class*
+| `FormattedNumberToStringConverter` | `FormattedStringToNumberConverter`
+| `FormattedIntegerToStringConverter` | `FormattedStringToIntegerConverter`
+| `FormattedDoubleToStringConverter` | `FormattedStringToDoubleConverter`
+| `FormattedDecimalFieldToStringConverter` | `FormattedStringToDecimalConverter`
+|===
+
+The new converters now also check if the input value is too large and return an error if that's the case.
+
+The linkki UI components now use the new converters by default.
 
 ===== Other
 //https://jira.convista.com/browse/LIN-3671

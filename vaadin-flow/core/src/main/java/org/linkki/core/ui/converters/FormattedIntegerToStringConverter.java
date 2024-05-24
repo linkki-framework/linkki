@@ -22,7 +22,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * Converts {@link Integer} to {@link String} while taking a given format into account.
  * 
  * @see DecimalFormat
+ * @deprecated use {@link FormattedStringToIntegerConverter} instead
  */
+@Deprecated(since = "2.6.0")
 public class FormattedIntegerToStringConverter extends FormattedNumberToStringConverter<Integer> {
 
     @Serial

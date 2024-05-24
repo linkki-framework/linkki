@@ -42,7 +42,7 @@ import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.PrimitiveAwareValueAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
-import org.linkki.core.ui.converters.FormattedIntegerToStringConverter;
+import org.linkki.core.ui.converters.FormattedStringToIntegerConverter;
 import org.linkki.core.ui.element.annotation.UIIntegerField.IntegerFieldAspectCreator;
 import org.linkki.core.ui.element.annotation.UIIntegerField.IntegerFieldComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -129,7 +129,7 @@ public @interface UIIntegerField {
                     requiredAspectDefinition,
                     new VisibleAspectDefinition(annotation.visible()),
                     new PrimitiveAwareValueAspectDefinition(
-                            new FormattedIntegerToStringConverter(annotation.format())),
+                            new FormattedStringToIntegerConverter(annotation.format())),
                     new DerivedReadOnlyAspectDefinition());
         }
 
