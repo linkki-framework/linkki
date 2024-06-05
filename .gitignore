@@ -14,6 +14,7 @@
 **/.npmrc
 **/webpack.generated.js
 **/vite.generated.ts
+**/dev-bundle
 
 # Mac
 **/*.DS_Store

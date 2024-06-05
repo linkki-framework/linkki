@@ -121,20 +121,26 @@ In de _linkki_ theme the loading indicator is configured to be displayed at the 
 
 For more details see <<loading-indicator, loading indicator>>.
 
-===== New converters for GregorianCalendar and Money
+[role="api-change"]
+===== Improved in datatype conversion
 
-New converters have been added to convert `GregorianCalendar` and `Money` to `String`.
+//https://jira.convista.com/browse/LIN-3726
+New converters for `GregorianCalendar` and `Money`::
+Converters have been added for `GregorianCalendar` and `Money` that make them usable with `String`-valued UI components such as `@UITextField`. +
+The `StringToGregorianCalendarConverter` is integrated into the <<linkki-converter-registry, LinkkiConverterRegistry>> and can be used with `@UITextField` or `@UILabel` directly. +
+`StringToMoneyConverter` has be added in the Faktor-IPS extension. Its functionality is documented <<ips-converters, here>>. This converter is not applied by default, thus have to be added to the converter registry if needed.
 
-The `StringToGregorianCalendarConverter` is integrated into the <<linkki-converter-registry, LinkkiConverterRegistry>> and can be used with `@UITextField` or `@UILabel` directly.
-
-In the Faktor-IPS extension, a new converter for `Money` has been added which can be used for `String`-valued fields such as `@UITextField`. Its functionality is documented <<ips-converters, here>>. This converter is not applied by default, thus have to be added to the converter registry if needed.
-
+//https://jira.convista.com/browse/LIN-3726
+Changed String format for `Date`:: In the previous version, `Date` values has been converted to String using the converter provided by Vaadin format, which displays a date as `Jan 12, 1952` in the English locale. This behavior is not consistent with the presentation in `UIDateField`. Thus, a new `StringToDateConverter` has been introduced which presents a date as `01/01/1952` in English, and `01.01.1952` in German.
 
 //https://jira.convista.com/browse/LIN-3680
-===== New FormattedStringToNumberConverters
+Improved behavior with overflowing integers::
+Input values in a `@UIIntegerField` that exceed the maximum allowed integer do not overflow anymore. Instead, an error is displayed and the field is reset to its previous valid input.
 
-The old `FormattedNumberToStringConverter`s have been deprecated and replaced with new ones that match the correct naming schema.
-
+//https://jira.convista.com/browse/LIN-3680
+Consistent naming for number converters::
+The number converters have been deprecated and replaced with new ones that match the correct naming schema, using the presentation type first.
++
 |===
 | *Old class* | *New class*
 | `FormattedNumberToStringConverter` | `FormattedStringToNumberConverter`
@@ -142,10 +148,9 @@ The old `FormattedNumberToStringConverter`s have been deprecated and replaced wi
 | `FormattedDoubleToStringConverter` | `FormattedStringToDoubleConverter`
 | `FormattedDecimalFieldToStringConverter` | `FormattedStringToDecimalConverter`
 |===
-
-The new converters now also check if the input value is too large and return an error if that's the case.
-
-The linkki UI components now use the new converters by default.
++
+[NOTE]
+The converters are used by the corresponding UI annotations by default. Changes are only necessary if `FormattedNumberToStringConverter` was extended.
 
 ===== Other
 //https://jira.convista.com/browse/LIN-3671
