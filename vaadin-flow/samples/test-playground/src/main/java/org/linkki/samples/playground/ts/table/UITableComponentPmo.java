@@ -14,8 +14,8 @@
 
 package org.linkki.samples.playground.ts.table;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 import org.linkki.core.ui.aspects.annotation.BindPlaceholder;
@@ -33,12 +33,13 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 @UISection(layout = SectionLayout.VERTICAL)
 public class UITableComponentPmo {
 
-    private List<Person> data;
+    private final List<Person> data;
     private final SimpleItemSupplier<PersonRowPmo, Person> itemSupplier;
 
     public UITableComponentPmo() {
-        data = List.of(createNewPerson());
-        itemSupplier = new SimpleItemSupplier<>(() -> data, PersonRowPmo::new);
+        data = new ArrayList<>();
+        itemSupplier = new SimpleItemSupplier<>(() -> data, m -> new PersonRowPmo(m, () -> data.remove(m)));
+        addPerson();
     }
 
     private Person createNewPerson() {
@@ -49,7 +50,7 @@ public class UITableComponentPmo {
     @SectionHeader
     @UIButton(position = -1, caption = "Add a new person")
     public void addPerson() {
-        data = Stream.concat(data.stream(), Stream.of(createNewPerson())).toList();
+        data.add(createNewPerson());
     }
 
     @BindStyleNames(LumoUtility.Height.FULL)

@@ -18,13 +18,16 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.util.handler.Handler;
 
 public class PersonRowPmo {
 
     private final Person person;
+    private final Handler removeHandler;
 
-    public PersonRowPmo(Person person) {
+    public PersonRowPmo(Person person, Handler removeHandler) {
         this.person = person;
+        this.removeHandler = removeHandler;
     }
 
     @ModelObject
@@ -50,6 +53,11 @@ public class PersonRowPmo {
     @UIButton(position = 100, label = "Like")
     public void like() {
         person.like();
+    }
+
+    @UIButton(position = 150, label = "Remove")
+    public void remove() {
+        removeHandler.apply();
     }
 
 }

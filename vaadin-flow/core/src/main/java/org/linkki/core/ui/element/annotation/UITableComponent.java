@@ -85,7 +85,8 @@ public @interface UITableComponent {
     GridVariant[] variants() default {
             GridVariant.LUMO_WRAP_CELL_CONTENT,
             GridVariant.LUMO_COMPACT,
-            GridVariant.LUMO_NO_BORDER };
+            GridVariant.LUMO_NO_BORDER
+    };
 
     class UITableComponentDefinitionCreator implements ComponentDefinitionCreator<UITableComponent> {
 
@@ -106,6 +107,8 @@ public @interface UITableComponent {
     class GridItemsDefinition implements LinkkiAspectDefinition {
 
         private static final String NAME = LinkkiAspectDefinition.VALUE_ASPECT_NAME;
+        private static final String ATTR_LOADING = "items-loading";
+        private static final String ATTR_HAS_ITEMS = "has-items";
 
         @Override
         public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
@@ -113,9 +116,15 @@ public @interface UITableComponent {
             var grid = (Grid<Object>)componentWrapper.getComponent();
             var ui = UI.getCurrent();
             if (ui.getPushConfiguration().getPushMode().isEnabled()) {
-                return () -> CompletableFuture
-                        .supplyAsync(() -> getAspectValue(propertyDispatcher))
-                        .whenComplete((items, throwable) -> ui.access(() -> setItems(grid, items)));
+                return () -> {
+                    grid.getElement().setAttribute(ATTR_LOADING, true);
+                    CompletableFuture
+                            .supplyAsync(() -> getAspectValue(propertyDispatcher))
+                            .whenComplete((items, throwable) -> ui.access(() -> {
+                                setItems(grid, items);
+                                grid.getElement().removeAttribute(ATTR_LOADING);
+                            }));
+                };
             } else {
                 return () -> setItems(grid, getAspectValue(propertyDispatcher));
             }
@@ -128,7 +137,7 @@ public @interface UITableComponent {
 
         private void setItems(Grid<Object> grid, List<Object> newItems) {
             grid.setItems(newItems);
-            grid.getElement().setAttribute("has-items", !newItems.isEmpty());
+            grid.getElement().setAttribute(ATTR_HAS_ITEMS, !newItems.isEmpty());
         }
     }
 

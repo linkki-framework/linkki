@@ -33,3 +33,8 @@
 [part~="cell"] {
   background: var(--linkki-grid-background, var(--lumo-base-color));
 }
+
+/* hide placeholder if content is still being loaded */
+:host([has-placeholder][items-loading])::after {
+  content: "Loading...";
+}
