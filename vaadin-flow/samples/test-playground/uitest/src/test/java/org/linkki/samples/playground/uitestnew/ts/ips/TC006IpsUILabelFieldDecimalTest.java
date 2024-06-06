@@ -33,7 +33,6 @@ class TC006IpsUILabelFieldDecimalTest extends PlaygroundUiTest {
 
     @BeforeEach
     void setup() {
-        super.setUp();
         testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC006);
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }

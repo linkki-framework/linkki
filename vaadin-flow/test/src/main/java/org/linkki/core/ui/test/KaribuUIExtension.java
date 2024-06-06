@@ -42,10 +42,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 /**
  * Extension using {@link MockVaadin} to instantiate a Vaadin {@link UI} for a test and sets its
- * {@link Locale}. To set up routes, use {@link KaribuUIExtension} with
- * {@link KaribuUIExtension#withConfiguration} .
- * <p>
- * For tests that only use basic Vaadin features, {@link VaadinUIExtension} can be used instead.
+ * {@link Locale}. To set up routes, use {@link #withConfiguration(Consumer)}.
  */
 public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback {
 

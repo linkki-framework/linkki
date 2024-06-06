@@ -120,8 +120,8 @@ class TC009UILinkTest extends PlaygroundUiTest {
         uriBuilder.appendPathSegments("non-existent");
         address.setValue(uriBuilder.toString());
 
-        String originalWindow = driver.getWindowHandle();
-        assertThat(driver.getWindowHandles().size()).isOne();
+        String originalWindow = getDriver().getWindowHandle();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
 
         target.selectByText(UILink.LinkTarget.BLANK);
 
@@ -130,17 +130,17 @@ class TC009UILinkTest extends PlaygroundUiTest {
         waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
 
         // Loop through until we find a new window handle
-        for (String windowHandle : driver.getWindowHandles()) {
+        for (String windowHandle : getDriver().getWindowHandles()) {
             if (!originalWindow.contentEquals(windowHandle)) {
-                driver.switchTo().window(windowHandle);
+                getDriver().switchTo().window(windowHandle);
                 break;
             }
         }
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
-        driver.close();
-        driver.switchTo().window(originalWindow);
+        getDriver().close();
+        getDriver().switchTo().window(originalWindow);
 
         assertThat(title).contains("Unerwarteter Fehler");
     }
@@ -161,13 +161,13 @@ class TC009UILinkTest extends PlaygroundUiTest {
         target.selectByText(UILink.LinkTarget.SELF);
         link.click();
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
         // we need to go back to the application
-        driver.navigate().back();
+        getDriver().navigate().back();
 
         assertThat(title).contains("Unerwarteter Fehler");
-        assertThat(driver.getWindowHandles().size()).isOne();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
     }
 
     @Test
@@ -186,13 +186,13 @@ class TC009UILinkTest extends PlaygroundUiTest {
         target.selectByText(UILink.LinkTarget.PARENT);
         link.click();
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
         // we need to go back to the application
-        driver.navigate().back();
+        getDriver().navigate().back();
 
         assertThat(title).contains("Unerwarteter Fehler");
-        assertThat(driver.getWindowHandles().size()).isOne();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
     }
 
     @Test
@@ -207,8 +207,8 @@ class TC009UILinkTest extends PlaygroundUiTest {
         uriBuilder.setPathSegmentsRootless("non-existent");
         address.setValue(uriBuilder.toString());
 
-        String originalWindow = driver.getWindowHandle();
-        assertThat(driver.getWindowHandles().size()).isOne();
+        String originalWindow = getDriver().getWindowHandle();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
 
         target.selectByText(UILink.LinkTarget.BLANK);
 
@@ -217,17 +217,17 @@ class TC009UILinkTest extends PlaygroundUiTest {
         waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
 
         // Loop through until we find a new window handle
-        for (String windowHandle : driver.getWindowHandles()) {
+        for (String windowHandle : getDriver().getWindowHandles()) {
             if (!originalWindow.contentEquals(windowHandle)) {
-                driver.switchTo().window(windowHandle);
+                getDriver().switchTo().window(windowHandle);
                 break;
             }
         }
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
-        driver.close();
-        driver.switchTo().window(originalWindow);
+        getDriver().close();
+        getDriver().switchTo().window(originalWindow);
 
         assertThat(title).contains("404");
     }
@@ -247,13 +247,13 @@ class TC009UILinkTest extends PlaygroundUiTest {
         target.selectByText(UILink.LinkTarget.SELF);
         link.click();
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
         // we need to go back to the application
-        driver.navigate().back();
+        getDriver().navigate().back();
 
         assertThat(title).contains("404");
-        assertThat(driver.getWindowHandles().size()).isOne();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
     }
 
     @Test
@@ -271,13 +271,13 @@ class TC009UILinkTest extends PlaygroundUiTest {
         target.selectByText(UILink.LinkTarget.PARENT);
         link.click();
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
         // we need to go back to the application
-        driver.navigate().back();
+        getDriver().navigate().back();
 
         assertThat(title).contains("404");
-        assertThat(driver.getWindowHandles().size()).isOne();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
     }
 
     @Test
@@ -289,8 +289,8 @@ class TC009UILinkTest extends PlaygroundUiTest {
 
         address.setValue("non-existent");
 
-        String originalWindow = driver.getWindowHandle();
-        assertThat(driver.getWindowHandles().size()).isOne();
+        String originalWindow = getDriver().getWindowHandle();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
 
         target.selectByText(UILink.LinkTarget.BLANK);
 
@@ -299,17 +299,17 @@ class TC009UILinkTest extends PlaygroundUiTest {
         waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
 
         // Loop through until we find a new window handle
-        for (String windowHandle : driver.getWindowHandles()) {
+        for (String windowHandle : getDriver().getWindowHandles()) {
             if (!originalWindow.contentEquals(windowHandle)) {
-                driver.switchTo().window(windowHandle);
+                getDriver().switchTo().window(windowHandle);
                 break;
             }
         }
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
-        driver.close();
-        driver.switchTo().window(originalWindow);
+        getDriver().close();
+        getDriver().switchTo().window(originalWindow);
 
         assertThat(title).contains("Unerwarteter Fehler");
     }
@@ -326,13 +326,13 @@ class TC009UILinkTest extends PlaygroundUiTest {
         target.selectByText(UILink.LinkTarget.SELF);
         link.click();
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
         // we need to go back to the application
-        driver.navigate().back();
+        getDriver().navigate().back();
 
         assertThat(title).contains("Unerwarteter Fehler");
-        assertThat(driver.getWindowHandles().size()).isOne();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
     }
 
     @Test
@@ -347,12 +347,12 @@ class TC009UILinkTest extends PlaygroundUiTest {
         target.selectByText(UILink.LinkTarget.PARENT);
         link.click();
 
-        var title = driver.getTitle();
+        var title = getDriver().getTitle();
 
         // we need to go back to the application
-        driver.navigate().back();
+        getDriver().navigate().back();
 
         assertThat(title).contains("Unerwarteter Fehler");
-        assertThat(driver.getWindowHandles().size()).isOne();
+        assertThat(getDriver().getWindowHandles().size()).isOne();
     }
 }

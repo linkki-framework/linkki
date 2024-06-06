@@ -36,9 +36,7 @@ class BindLabelTest extends PlaygroundUiTest {
     private static final String DYNAMIC_LABEL_TEXT = "DynamicLabelTest";
 
     @BeforeEach
-    @Override
-    public void setUp() {
-        super.setUp();
+    void setup() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC015);
         setDynamicLabelText();
     }

@@ -52,7 +52,6 @@ public class SectionLayoutComponentWidthTest {
 
         @BeforeEach
         void setup() {
-            super.setUp();
             testCaseSection = goToTestCase(TestScenarioView.TS002, TestScenarioView.TC003);
         }
 

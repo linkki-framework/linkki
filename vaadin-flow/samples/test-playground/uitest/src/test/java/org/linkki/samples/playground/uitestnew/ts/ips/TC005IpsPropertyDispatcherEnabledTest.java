@@ -38,7 +38,6 @@ public class TC005IpsPropertyDispatcherEnabledTest extends PlaygroundUiTest {
 
     @BeforeEach
     void setup() {
-        super.setUp();
         testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC005);
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }

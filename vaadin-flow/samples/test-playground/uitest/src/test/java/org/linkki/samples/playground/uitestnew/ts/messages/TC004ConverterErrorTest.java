@@ -37,7 +37,6 @@ class TC004ConverterErrorTest extends PlaygroundUiTest {
 
     @BeforeEach
     void setup() {
-        super.setUp();
         goToTestCase(TestScenarioView.TS013, TestScenarioView.TC004);
     }
 
@@ -69,8 +68,8 @@ class TC004ConverterErrorTest extends PlaygroundUiTest {
         // picker, there might be multiple hidden error-message slots
         Optional<DivElement> validationMessage =
                 element.$(DivElement.class).withAttribute("slot", "error-message").all()
-                .stream().filter(e -> !e.hasAttribute("hidden"))
-                .findFirst();
+                        .stream().filter(e -> !e.hasAttribute("hidden"))
+                        .findFirst();
 
         assertThat(validationMessage).isPresent();
     }

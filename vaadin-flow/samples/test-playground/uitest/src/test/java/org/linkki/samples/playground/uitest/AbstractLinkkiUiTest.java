@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -31,6 +30,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.Button;
@@ -48,8 +48,8 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
+import com.vaadin.testbench.AbstractBrowserTestBase;
 import com.vaadin.testbench.TestBenchElement;
-import com.vaadin.testbench.TestBenchTestCase;
 
 /**
  * Helper class facilitates to use various Testbench functionality for UI testing. It helps to get
@@ -61,16 +61,16 @@ import com.vaadin.testbench.TestBenchTestCase;
  * annotation.
  */
 @TestMethodOrder(OrderAnnotation.class)
-public abstract class AbstractLinkkiUiTest extends TestBenchTestCase {
+public abstract class AbstractLinkkiUiTest extends AbstractBrowserTestBase {
 
     public static final String DEFAULT_CONTEXT_PATH = "linkki-sample-test-playground-vaadin-flow";
 
     @RegisterExtension
     protected static WebDriverExtension driverExtension = new WebDriverExtension(DEFAULT_CONTEXT_PATH);
 
-    @BeforeEach
-    public void setUp() {
-        setDriver(driverExtension.getDriver());
+    @Override
+    public WebDriver getDriver() {
+        return driverExtension.getDriver();
     }
 
     public void goToView(String viewName) {

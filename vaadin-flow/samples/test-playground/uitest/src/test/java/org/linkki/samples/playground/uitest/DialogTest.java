@@ -149,7 +149,7 @@ class DialogTest extends AbstractLinkkiUiTest {
         section.$(ButtonElement.class).id("showDialog").click();
         DialogElement dialog = findDialog("Sample Dialog");
 
-        driver.navigate().back();
+        getDriver().navigate().back();
 
         // dialog should close on its own
         waitUntil(VaadinElementConditions.isClosed(dialog));

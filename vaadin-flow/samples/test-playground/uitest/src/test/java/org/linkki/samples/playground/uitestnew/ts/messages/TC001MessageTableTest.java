@@ -34,7 +34,6 @@ class TC001MessageTableTest extends PlaygroundUiTest {
 
     @BeforeEach
     void setup() {
-        super.setUp();
         goToTestCase(TestScenarioView.TS013, TestScenarioView.TC001);
     }
 

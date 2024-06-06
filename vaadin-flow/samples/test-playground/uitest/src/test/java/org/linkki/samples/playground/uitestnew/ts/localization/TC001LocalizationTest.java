@@ -67,7 +67,6 @@ class TC001LocalizationTest {
 
         @BeforeEach
         void setup() {
-            super.setUp();
             testCaseSection = goToTestCase(TestScenarioView.TS003, TestScenarioView.TC001);
 
             section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();

@@ -37,7 +37,6 @@ public class UISectionHeaderTest extends PlaygroundUiTest {
 
     @BeforeEach
     void setup() {
-        super.setUp();
         testCaseSection = goToTestCase(TestScenarioView.TS002, TestScenarioView.TC001);
 
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
@@ -63,7 +62,7 @@ public class UISectionHeaderTest extends PlaygroundUiTest {
 
     @Test
     void testSectionHeaderButtonsPosition_SameY() {
-        driver.manage().window().setSize(new Dimension(1920, 1080));
+        getDriver().manage().window().setSize(new Dimension(1920, 1080));
 
         assertThat(section.getHeaderComponents().get(1).getLocation().getY())
                 .describedAs("Button 1 and Button 2 should have the same y position")
@@ -72,7 +71,7 @@ public class UISectionHeaderTest extends PlaygroundUiTest {
 
     @Test
     void testSectionHeaderButtonsPosition_Order() {
-        driver.manage().window().setSize(new Dimension(1920, 1080));
+        getDriver().manage().window().setSize(new Dimension(1920, 1080));
 
         assertThat(section.getHeaderComponents().get(1).getLocation().getX())
                 .describedAs("Button 1 should be left of Button 2")

@@ -35,7 +35,6 @@ class TC007IpsPropertyDispatcherAvailableValuesTest extends PlaygroundUiTest {
 
     @BeforeEach
     void setup() {
-        super.setUp();
         testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC007);
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }

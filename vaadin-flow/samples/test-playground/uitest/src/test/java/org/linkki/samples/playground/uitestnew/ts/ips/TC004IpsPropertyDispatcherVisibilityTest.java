@@ -16,7 +16,9 @@ package org.linkki.samples.playground.uitestnew.ts.ips;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +40,6 @@ public class TC004IpsPropertyDispatcherVisibilityTest extends PlaygroundUiTest {
 
     @BeforeEach
     void setup() {
-        super.setUp();
         testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC004);
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }
