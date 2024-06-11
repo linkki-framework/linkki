@@ -15,10 +15,12 @@ package org.linkki.core.ui.test;
 
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
+import java.io.Serial;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +37,7 @@ import com.github.mvysny.kaributesting.v10.Routes;
 import com.github.mvysny.kaributesting.v10.mock.MockedUI;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.i18n.I18NProvider;
 import com.vaadin.flow.server.VaadinSession;
 
 /**
@@ -60,6 +63,9 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
             @Override
             protected UI setUpUI() {
                 var configuration = new KaribuConfiguration();
+
+                configuration.setI18NProvider(getDummyI18NProvider());
+
                 configurator.accept(configuration);
 
                 var routes = new Routes(configuration.routeComponents, Collections.emptySet(), true);
@@ -88,6 +94,23 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
                 .map(WithLocale::value)
                 .map(Locale::forLanguageTag)
                 .orElse(Locale.ROOT);
+    }
+
+    private static @NotNull I18NProvider getDummyI18NProvider() {
+        return new I18NProvider() {
+            @Serial
+            private static final long serialVersionUID = -7750056021083896353L;
+
+            @Override
+            public List<Locale> getProvidedLocales() {
+                return List.of();
+            }
+
+            @Override
+            public String getTranslation(String s, Locale locale, Object... objects) {
+                return "";
+            }
+        };
     }
 
     /**
@@ -120,6 +143,14 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
          */
         public <T> void addInstance(Class<T> type, Supplier<? extends T> value) {
             instances.put(new ClassKey(type), value);
+        }
+
+        /**
+         * Adds a {@link I18NProvider} to the instances that should be used for injections in
+         * Vaadin.
+         */
+        public void setI18NProvider(I18NProvider provider) {
+            addInstance(I18NProvider.class, () -> provider);
         }
 
         public record ClassKey(Class<?> clazz) implements Comparable<ClassKey> {

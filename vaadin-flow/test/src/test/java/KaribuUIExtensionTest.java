@@ -14,9 +14,11 @@
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Locale;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -63,20 +65,7 @@ public class KaribuUIExtensionTest {
         private static final MyRoute myRoute = new MyRoute();
         @RegisterExtension
         static KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(conf -> {
-                    conf.addRoute(MyRoute.class, () -> myRoute);
-                    conf.addInstance(I18NProvider.class, () -> new I18NProvider() {
-                        @Override
-                        public List<Locale> getProvidedLocales() {
-                            return List.of();
-                        }
-
-                        @Override
-                        public String getTranslation(String s, Locale locale, Object... objects) {
-                            return "";
-                        }
-                    });
-                });
+                .withConfiguration(conf -> conf.addRoute(MyRoute.class, () -> myRoute));
 
         @Test
         void testAddRoute() {
@@ -85,8 +74,64 @@ public class KaribuUIExtensionTest {
             assertThat(KaribuUtils.getRootComponent(MyRoute.class)).isEqualTo(myRoute);
         }
 
+        @Test
+        void testDefaultI18NProvider() {
+            assertThat(UI.getCurrent().getTranslation("testKey")).isEmpty();
+        }
+
         @Route
         private static class MyRoute extends VerticalLayout {
+            @Serial
+            private static final long serialVersionUID = 2000472994321994678L;
         }
+    }
+
+    @Nested
+    class RegisterExtensionWithCustomI18NProvider {
+
+        @RegisterExtension
+        static KaribuUIExtension extension = KaribuUIExtension
+                .withConfiguration(conf -> conf.setI18NProvider(getCustomI18NProvider()));
+
+        @Test
+        void testI18NProvider() {
+            assertThat(UI.getCurrent().getTranslation("testKey")).isEqualTo("testValue");
+        }
+    }
+
+    @WithLocale("en")
+    @Nested
+    class RegisterExtensionWithLocale {
+
+        private static final RegisterExtensionWithConfig.MyRoute myRoute = new RegisterExtensionWithConfig.MyRoute();
+
+        @RegisterExtension
+        static KaribuUIExtension extension = KaribuUIExtension
+                .withConfiguration(conf -> conf.addRoute(RegisterExtensionWithConfig.MyRoute.class, () -> myRoute));
+
+        @Test
+        void testLocale() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
+        }
+    }
+
+    private static @NotNull I18NProvider getCustomI18NProvider() {
+        return new I18NProvider() {
+            @Serial
+            private static final long serialVersionUID = 1892694711393253904L;
+
+            @Override
+            public List<Locale> getProvidedLocales() {
+                return List.of();
+            }
+
+            @Override
+            public String getTranslation(String key, Locale locale, Object... objects) {
+                if (key.equals("testKey")) {
+                    return "testValue";
+                }
+                return "";
+            }
+        };
     }
 }

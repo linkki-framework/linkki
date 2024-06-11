@@ -38,7 +38,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.dom.Element;
 
-@WithLocale("en_US")
+@WithLocale("en")
 @ExtendWith(KaribuUIExtension.class)
 class NotificationUtilTest {
 
