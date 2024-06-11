@@ -14,6 +14,9 @@
 
 package org.linkki.samples.playground.ts.components;
 
+import java.util.List;
+
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.types.IconPosition;
@@ -33,8 +36,9 @@ public class LinkPmo {
     private String caption = "linkki-framework.org";
     private String href = LINKKI_URL;
     private VaadinIcon icon = VaadinIcon.EXTERNAL_LINK;
+    private String linkTarget = UILink.LinkTarget.BLANK;
 
-    @UILink(position = 0, target = "_blank", label = "Link")
+    @UILink(position = 0, target = UILink.LinkTarget.DYNAMIC, label = "Link")
     public String getLink() {
         return href;
     }
@@ -65,7 +69,21 @@ public class LinkPmo {
         this.href = href;
     }
 
-    @UIComboBox(position = 12, label = "Link Icon")
+    @UIComboBox(position = 12, label = "Link Target", content = AvailableValuesType.DYNAMIC)
+    public String getLinkTarget() {
+        return linkTarget;
+    }
+
+    public void setLinkTarget(String linkTarget) {
+        this.linkTarget = linkTarget;
+    }
+
+    public List<String> getLinkTargetAvailableValues() {
+        return List.of(UILink.LinkTarget.BLANK, UILink.LinkTarget.SELF, UILink.LinkTarget.TOP,
+                       UILink.LinkTarget.PARENT);
+    }
+
+    @UIComboBox(position = 13, label = "Link Icon")
     public VaadinIcon getIcon() {
         return icon;
     }

@@ -17,14 +17,20 @@ package org.linkki.samples.playground.uitestnew.ts.components;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.samples.playground.uitestnew.ts.components.util.IconTestUtil.verifyIconPosition;
 
+import java.net.URISyntaxException;
+
+import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.aspects.types.IconPosition;
+import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.components.LinkPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class TC009UILinkTest extends PlaygroundUiTest {
@@ -99,5 +105,254 @@ class TC009UILinkTest extends PlaygroundUiTest {
         LinkkiTextElement link = $(LinkkiTextElement.class).id("linkIconRight");
 
         verifyIconPosition(link, IconPosition.RIGHT);
+    }
+
+    @Test
+    void testLink_absoluteURLWithSameContextButWrongPathAndTargetBlank_RouteErrorPage() throws URISyntaxException {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        var currentUrl = getDriver().getCurrentUrl();
+        URIBuilder uriBuilder = new URIBuilder(currentUrl);
+        uriBuilder.setPathSegmentsRootless(uriBuilder.getPathSegments().get(0));
+        uriBuilder.appendPathSegments("non-existent");
+        address.setValue(uriBuilder.toString());
+
+        String originalWindow = driver.getWindowHandle();
+        assertThat(driver.getWindowHandles().size()).isOne();
+
+        target.selectByText(UILink.LinkTarget.BLANK);
+
+        link.click();
+
+        waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
+
+        // Loop through until we find a new window handle
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        var title = driver.getTitle();
+
+        driver.close();
+        driver.switchTo().window(originalWindow);
+
+        assertThat(title).contains("Unerwarteter Fehler");
+    }
+
+    @Test
+    void testLink_absoluteURLWithSameContextButWrongPathAndTargetSelf_RouteErrorPage() throws URISyntaxException {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        var currentUrl = getDriver().getCurrentUrl();
+        URIBuilder uriBuilder = new URIBuilder(currentUrl);
+        uriBuilder.setPathSegmentsRootless(uriBuilder.getPathSegments().get(0));
+        uriBuilder.appendPathSegments("non-existent");
+        address.setValue(uriBuilder.toString());
+
+        target.selectByText(UILink.LinkTarget.SELF);
+        link.click();
+
+        var title = driver.getTitle();
+
+        // we need to go back to the application
+        driver.navigate().back();
+
+        assertThat(title).contains("Unerwarteter Fehler");
+        assertThat(driver.getWindowHandles().size()).isOne();
+    }
+
+    @Test
+    void testLink_absoluteURLWithSameContextButWrongPathAndTargetParent_RouteErrorPage() throws URISyntaxException {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        var currentUrl = getDriver().getCurrentUrl();
+        URIBuilder uriBuilder = new URIBuilder(currentUrl);
+        uriBuilder.setPathSegmentsRootless(uriBuilder.getPathSegments().get(0));
+        uriBuilder.appendPathSegments("non-existent");
+        address.setValue(uriBuilder.toString());
+
+        target.selectByText(UILink.LinkTarget.PARENT);
+        link.click();
+
+        var title = driver.getTitle();
+
+        // we need to go back to the application
+        driver.navigate().back();
+
+        assertThat(title).contains("Unerwarteter Fehler");
+        assertThat(driver.getWindowHandles().size()).isOne();
+    }
+
+    @Test
+    void testLink_absoluteURLWithOtherContextAndTargetBlank_404() throws URISyntaxException {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        var currentUrl = getDriver().getCurrentUrl();
+        URIBuilder uriBuilder = new URIBuilder(currentUrl);
+        uriBuilder.setPathSegmentsRootless("non-existent");
+        address.setValue(uriBuilder.toString());
+
+        String originalWindow = driver.getWindowHandle();
+        assertThat(driver.getWindowHandles().size()).isOne();
+
+        target.selectByText(UILink.LinkTarget.BLANK);
+
+        link.click();
+
+        waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
+
+        // Loop through until we find a new window handle
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        var title = driver.getTitle();
+
+        driver.close();
+        driver.switchTo().window(originalWindow);
+
+        assertThat(title).contains("404");
+    }
+
+    @Test
+    void testLink_absoluteURLWithOtherContextAndTargetSelf_404() throws URISyntaxException {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        var currentUrl = getDriver().getCurrentUrl();
+        URIBuilder uriBuilder = new URIBuilder(currentUrl);
+        uriBuilder.setPathSegmentsRootless("non-existent");
+        address.setValue(uriBuilder.toString());
+
+        target.selectByText(UILink.LinkTarget.SELF);
+        link.click();
+
+        var title = driver.getTitle();
+
+        // we need to go back to the application
+        driver.navigate().back();
+
+        assertThat(title).contains("404");
+        assertThat(driver.getWindowHandles().size()).isOne();
+    }
+
+    @Test
+    void testLink_absoluteURLWithOtherContextAndTargetParent_404() throws URISyntaxException {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        var currentUrl = getDriver().getCurrentUrl();
+        URIBuilder uriBuilder = new URIBuilder(currentUrl);
+        uriBuilder.setPathSegmentsRootless("non-existent");
+        address.setValue(uriBuilder.toString());
+
+        target.selectByText(UILink.LinkTarget.PARENT);
+        link.click();
+
+        var title = driver.getTitle();
+
+        // we need to go back to the application
+        driver.navigate().back();
+
+        assertThat(title).contains("404");
+        assertThat(driver.getWindowHandles().size()).isOne();
+    }
+
+    @Test
+    void testLink_relativeURLWithWrongPathAndTargetBlank_RouteErrorPage() {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        address.setValue("non-existent");
+
+        String originalWindow = driver.getWindowHandle();
+        assertThat(driver.getWindowHandles().size()).isOne();
+
+        target.selectByText(UILink.LinkTarget.BLANK);
+
+        link.click();
+
+        waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
+
+        // Loop through until we find a new window handle
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        var title = driver.getTitle();
+
+        driver.close();
+        driver.switchTo().window(originalWindow);
+
+        assertThat(title).contains("Unerwarteter Fehler");
+    }
+
+    @Test
+    void testLink_relativeURLWithWrongPathAndTargetSelf_RouteErrorPage() {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        address.setValue("non-existent");
+
+        target.selectByText(UILink.LinkTarget.SELF);
+        link.click();
+
+        var title = driver.getTitle();
+
+        // we need to go back to the application
+        driver.navigate().back();
+
+        assertThat(title).contains("Unerwarteter Fehler");
+        assertThat(driver.getWindowHandles().size()).isOne();
+    }
+
+    @Test
+    void testLink_relativeURLWithWrongPathAndTargetParent_RouteErrorPage() {
+        var section = getSection(LinkPmo.class);
+        var address = section.$(TextFieldElement.class).id("href");
+        var target = section.$(ComboBoxElement.class).id("linkTarget");
+        var link = section.$(LinkkiTextElement.class).id("link").getContent();
+
+        address.setValue("non-existent");
+
+        target.selectByText(UILink.LinkTarget.PARENT);
+        link.click();
+
+        var title = driver.getTitle();
+
+        // we need to go back to the application
+        driver.navigate().back();
+
+        assertThat(title).contains("Unerwarteter Fehler");
+        assertThat(driver.getWindowHandles().size()).isOne();
     }
 }
