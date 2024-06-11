@@ -39,6 +39,12 @@ Existing non generated content in `/frontend` should be moved to the new locatio
 The `.gitignore` file may need to be adjusted too to accommodate the changes. To make it easier to maintain the `.gitignore` in the future, a <<gitignore, new documentation>> is added which provides template for linkki projects.
 ====
 
+// https://jira.convista.com/browse/LIN-3816
+Breaking Change in Vaadin Testbench::
+The method `ElementQuery.id(...)` will now throw an exception if multiple elements with the same id are present, instead of returning the first matching item.
+To switch back to the old behavior, you have to change the id(...) call to withId(...).first().
+A better approach would be to first narrow the scope to ensure that the requested element only exists once within this scope.
+
 Open tab in dev mode less often::
 When Vaadin application is started in dev mode, it always opens a new tab in browser. This quickly leads to many tabs opened in browser. This behavior is now changed: a new tab is only opened if the server is restarted again after 30 minutes. Otherwise, the browser tab is reused. This duration can be modified, see https://vaadin.com/docs/latest/flow/integrations/spring/configuration#launch-browser-in-development-mode[Vaadin documentation].
 
@@ -243,6 +249,8 @@ The new method `Fields.setValue` can be now used to mitigate this problem.
 
 ===== Improvements of the documentation
 
+
+
 //https://jira.convista.com/browse/LIN-2932
 New documentation for CSS custom properties in the linkki Theme::
 linkki theme defines CSS custom properties which is the easiest way to customize the UI.
@@ -263,8 +271,6 @@ The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tu
 //https://jira.convista.com/browse/LIN-3567
 * All Notifications (`info`, `warning` and `error`) now include a close button.
 Additionally, the default duration for warning notifications has been increased to `6000 ms`.
-
-
 
 ==== Bugfixes
 
