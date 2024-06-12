@@ -22,7 +22,7 @@ linkki provides an extension of Karibu Testing.
 
 ==== Functionalities
 
-linkki Karibut Extension provides following functionalities:
+linkki Karibu Extension provides following functionalities:
 
 KaribuUIExtension::
 The easiest way of using this module is by just annotating a test class with `@ExtendWith(KaribuUIExtension.class)`. That will provide the basic Karibu funtionality.
@@ -57,4 +57,8 @@ class SimpleTestClassWithLocaleEn {
 ----
 
 KaribuUtils::
-The module also contains the utility class `KaribuUtils` to provides several useful utility methods. These include methods for handling `Notification`-components or for printing out the classnames of all components.
+The module also contains the utility class `KaribuUtils` that makes it even easier to write Karibu tests, such as +
+* methods for handling `Notification` components that are created with `NotificationUtil`
+* methods for handling `OkCancelDialog`
+* support for push UI
+* methods for printing out the classnames of all components

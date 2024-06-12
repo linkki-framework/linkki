@@ -13,6 +13,7 @@
  */
 package org.linkki.framework.ui.dialogs;
 
+import static com.github.mvysny.kaributesting.v10.LocatorJ._find;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
@@ -34,11 +35,13 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.ui.test.KaribuUIExtension;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 
@@ -50,8 +53,8 @@ class OkCancelDialogTest {
         OkCancelDialog dialog = OkCancelDialog.builder("caption").build();
 
         assertThat(dialog.getCaption(), is("caption"));
-        assertThat(DialogTestUtil.getContents(dialog), hasSize(0));
-        assertThat(DialogTestUtil.getButtons(dialog), hasSize(2));
+        assertThat(KaribuUtils.Dialogs.getContents(dialog), hasSize(0));
+        assertThat(_find(dialog.getContent(), Button.class), hasSize(2));
 
         // should not throw exception
         dialog.ok();
@@ -62,8 +65,8 @@ class OkCancelDialogTest {
         OkCancelDialog dialog = OkCancelDialog.builder("caption").build();
 
         assertThat(dialog.getCaption(), is("caption"));
-        assertThat(DialogTestUtil.getContents(dialog), hasSize(0));
-        assertThat(DialogTestUtil.getButtons(dialog), hasSize(2));
+        assertThat(KaribuUtils.Dialogs.getContents(dialog), hasSize(0));
+        assertThat(_find(dialog.getContent(), Button.class), hasSize(2));
 
         // should not throw exception
         dialog.cancel();
@@ -74,7 +77,7 @@ class OkCancelDialogTest {
         OkCancelDialog dialog = OkCancelDialog.builder("caption").okCaption("confirm it").build();
 
         assertThat(dialog.getOkCaption(), is("confirm it"));
-        assertThat(DialogTestUtil.getButtons(dialog).get(0).getText(), is("confirm it"));
+        assertThat(KaribuUtils.Dialogs.getOkButton(dialog).getText(), is("confirm it"));
     }
 
     @Test
@@ -82,7 +85,7 @@ class OkCancelDialogTest {
         OkCancelDialog dialog = OkCancelDialog.builder("").cancelCaption("cancel it").build();
 
         assertThat(dialog.getCancelCaption(), is("cancel it"));
-        assertThat(DialogTestUtil.getButtons(dialog).get(1).getText(), is("cancel it"));
+        assertThat(KaribuUtils.Dialogs.getCancelButton(dialog).getText(), is("cancel it"));
     }
 
     @Test
@@ -104,11 +107,11 @@ class OkCancelDialogTest {
     @Test
     void testSetContent() {
         OkCancelDialog dialog = OkCancelDialog.builder("").build();
-        assertThat(DialogTestUtil.getContents(dialog).size(), is(0));
+        assertThat(KaribuUtils.Dialogs.getContents(dialog).size(), is(0));
 
         dialog.addContent(new Div());
 
-        assertThat(DialogTestUtil.getContents(dialog), hasSize(1));
+        assertThat(KaribuUtils.Dialogs.getContents(dialog), hasSize(1));
         assertThat(dialog, is(showingEnabledOkButton()));
     }
 
@@ -124,7 +127,7 @@ class OkCancelDialogTest {
         dialog.open();
         assertThat(dialog.getContent().isOpened(), is(true));
 
-        DialogTestUtil.clickOkButton(dialog);
+        KaribuUtils.Dialogs.clickOkButton();
 
         verify(okHandler).apply();
         verify(cancelHandler, never()).apply();
@@ -144,7 +147,7 @@ class OkCancelDialogTest {
         dialog.open();
         assertThat(dialog.getContent().isOpened(), is(true));
 
-        DialogTestUtil.clickCancelButton(dialog);
+        KaribuUtils.Dialogs.clickCancelButton();
 
         verify(okHandler, never()).apply();
         verify(cancelHandler).apply();
@@ -178,7 +181,7 @@ class OkCancelDialogTest {
         dialog.setOkCaption("confirm it");
 
         assertThat(dialog.getOkCaption(), is("confirm it"));
-        assertThat(DialogTestUtil.getButtons(dialog).get(0).getText(), is("confirm it"));
+        assertThat(KaribuUtils.Dialogs.getOkButton(dialog).getText(), is("confirm it"));
     }
 
     @Test
@@ -188,7 +191,7 @@ class OkCancelDialogTest {
         dialog.setCancelCaption("cancel it");
 
         assertThat(dialog.getCancelCaption(), is("cancel it"));
-        assertThat(DialogTestUtil.getButtons(dialog).get(1).getText(), is("cancel it"));
+        assertThat(KaribuUtils.Dialogs.getCancelButton(dialog).getText(), is("cancel it"));
     }
 
     @Test
@@ -207,13 +210,13 @@ class OkCancelDialogTest {
                 .content(content1, content2)
                 .build();
 
-        assertThat(DialogTestUtil.getContents(dialog), contains(content1, content2));
+        assertThat(KaribuUtils.Dialogs.getContents(dialog), contains(content1, content2));
     }
 
     @Test
     void testButtonOption() {
         OkCancelDialog dialog = OkCancelDialog.builder("").buttonOption(ButtonOption.OK_ONLY).build();
-        assertThat(DialogTestUtil.getButtons(dialog), hasSize(1));
+        assertThat(_find(dialog.getContent(), Button.class), hasSize(1));
     }
 
     @Test
@@ -276,7 +279,7 @@ class OkCancelDialogTest {
         assertThat(dialog, is(showingEnabledOkButton()));
 
         // mandatory field validations are shown after the first click on the OK button
-        DialogTestUtil.getOkButton(dialog).click();
+        KaribuUtils.Dialogs.getOkButton(dialog).click();
         assertThat(dialog.getValidationDisplayState(), is(ValidationDisplayState.SHOW_ALL));
         dialogMessage = dialog.validate();
         assertThat(dialogMessage, contains(message));
@@ -328,7 +331,7 @@ class OkCancelDialogTest {
 
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
-                return DialogTestUtil.getOkButton(dialog).isEnabled();
+                return KaribuUtils.Dialogs.getOkButton(dialog).isEnabled();
             }
         };
     }

@@ -46,7 +46,7 @@ public final class TestUiUtil {
      * <p>
      * Note that this method only returns the first control Ui so the label is not accessible.
      *
-     * @param pmo the PMO to which the component is bound is bound
+     * @param pmo the PMO to which the component is bound
      * @return a {@code Component} that is bound to the model object
      */
     public static Component createFirstComponentOf(Object pmo) {
@@ -65,7 +65,7 @@ public final class TestUiUtil {
     /**
      * Creates the section defined in the given pmo.
      *
-     * @param pmo the PMO to which the component is bound is bound
+     * @param pmo the PMO to which the component is bound
      * @return a {@code Component} that is bound to the model object
      */
     public static Div createSectionWith(Object pmo) {

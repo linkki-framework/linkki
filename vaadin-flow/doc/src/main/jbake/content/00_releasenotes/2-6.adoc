@@ -60,8 +60,12 @@ This new annotation has several advantages comparing to the definition of tables
 
 * No PMO class is required to create a table.
 This makes it easier to combine tables with other components in a layout.
-* If link:https://vaadin.com/docs/latest/advanced/server-push[server push] is enabled, the rows of the table are fetched asynchronously. This is particularly useful if the rows of the table must be retrieved form external systems.
-* It is easy to style the table itself. When using `ContainerPmo`, it is only possible to add style names to the section. If the table itself has to be modified, the created component has to be cast to `GridSection` to retrieve the `Grid` component. With `@UITableComponent`, styles names can be directly applied to the table by using `BindStyleNames`.
+* If link:https://vaadin.com/docs/latest/advanced/server-push[server push] is enabled, the rows of the table are fetched asynchronously.
+This is particularly useful if the rows of the table must be retrieved form external systems.
+* It is easy to style the table itself.
+When using `ContainerPmo`, it is only possible to add style names to the section.
+If the table itself has to be modified, the created component has to be cast to `GridSection` to retrieve the `Grid` component.
+With `@UITableComponent`, styles names can be directly applied to the table by using `BindStyleNames`.
 
 Further details can be found <<ui-table-component, in the documentation>>.
 
@@ -193,12 +197,25 @@ For more details see <<loading-indicator, loading indicator>>.
 
 // OTHERS
 
+[role="api-change"]
 // https://jira.convista.com/browse/LIN-3541
 ===== Improvements for Karibu support
 
-`KaribuUtils` has been extended to provide better support for push functionalities.
+`KaribuUtils` has been extended to provide better support for unit testing linkki applications:
 
-As the push functionality is provided by Atmosphere thus does not work out of the box with Karibu, the method `push()` and `push(UI)` can be used to flush the command queue manually.
+Support for push UI::
+As the push functionality is provided by Atmosphere thus does not work out of the box with Karibu, the method `KaribuUtils.UI.push()` and `KaribuUtils.UI.push(UI)` can be used to flush the command queue manually.
+
+Support for OkCancelDialog::
+A new inner class `KaribuUtils.Dialogs` has be added to provide methods that makes it easy to interact with `OkCancelDialog`.
+
+Improved support for Notification::
+The methods for `Notification` are moved to an inner class `Notifications`.
+Additionally, methods are added to retrieve the severity, description, and content components in the notification.
+
+Support for fields::
+The method `setValue` of `AbstractField` does not fire value change events, making it difficult to test if the PMO was correctly updated.
+The new method `Fields.setValue` can be now used to mitigate this problem.
 
 //https://jira.convista.com/browse/LIN-2932
 ===== New documentation for CSS custom properties in the linkki Theme

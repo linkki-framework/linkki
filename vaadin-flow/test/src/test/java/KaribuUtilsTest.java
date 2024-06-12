@@ -30,6 +30,7 @@ import com.vaadin.flow.shared.communication.PushMode;
 @ExtendWith(KaribuUIExtension.class)
 class KaribuUtilsTest {
 
+    @SuppressWarnings("deprecation")
     @Test
     void testGetNotification() {
 
@@ -38,11 +39,13 @@ class KaribuUtilsTest {
         assertThat(KaribuUtils.getNotification()).isSameAs(notification);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     void testGetNotification_NoNotifications() {
         assertThrows(AssertionError.class, KaribuUtils::getNotification);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     void testGetNotification_MultipleNotifications() {
         new Notification().open();
@@ -50,10 +53,12 @@ class KaribuUtilsTest {
         assertThrows(AssertionError.class, KaribuUtils::getNotification);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     void testGetNotificationTitle() {
-        var notification = new Notification(new Div(new H3("notification title")));
-
+        var content = new Div(new H3("notification title"));
+        content.getClassNames().add("linkki-notification-content");
+        var notification = new Notification(content);
         notification.open();
 
         assertThat(KaribuUtils.getNotificationTitle(notification)).isEqualTo("notification title");
@@ -79,6 +84,19 @@ class KaribuUtilsTest {
         verifyNoInteractions(command);
 
         KaribuUtils.UI.push(ui);
+
+        verify(command, times(1)).execute();
+    }
+
+    @Test
+    void testPush_CurrentUI() {
+        var ui = UI.getCurrent();
+        ui.getPushConfiguration().setPushMode(PushMode.AUTOMATIC);
+        var command = mock(Command.class);
+        ui.access(command);
+        verifyNoInteractions(command);
+
+        KaribuUtils.UI.push();
 
         verify(command, times(1)).execute();
     }

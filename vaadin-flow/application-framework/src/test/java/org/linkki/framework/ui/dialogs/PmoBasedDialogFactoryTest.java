@@ -6,6 +6,7 @@
 
 package org.linkki.framework.ui.dialogs;
 
+import static com.github.mvysny.kaributesting.v10.LocatorJ._find;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.github.mvysny.kaributesting.v10.LocatorJ;
+import com.vaadin.flow.component.button.Button;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
@@ -36,6 +39,7 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
@@ -67,15 +71,15 @@ class PmoBasedDialogFactoryTest {
         verify(cancelHandler).apply();
         verify(okHandler, never()).apply();
 
-        assertThat(DialogTestUtil.getButtons(dialog), hasSize(2));
-        assertThat(DialogTestUtil.getContents(dialog), hasSize(1));
+        assertThat(_find(dialog.getContent(), Button.class), hasSize(2));
+        assertThat(KaribuUtils.Dialogs.getContents(dialog), hasSize(1));
     }
 
     @Test
     void testNewOkCancelDialog_CreationOfDialog_NoPmo() {
         OkCancelDialog dialog = new PmoBasedDialogFactory()
                 .newOkCancelDialog("test", Handler.NOP_HANDLER, Handler.NOP_HANDLER, ButtonOption.OK_CANCEL);
-        assertThat(DialogTestUtil.getContents(dialog), hasSize(0));
+        assertThat(KaribuUtils.Dialogs.getContents(dialog), hasSize(0));
     }
 
     @Test
@@ -83,7 +87,7 @@ class PmoBasedDialogFactoryTest {
         OkCancelDialog dialog = new PmoBasedDialogFactory()
                 .newOkCancelDialog("test", Handler.NOP_HANDLER, Handler.NOP_HANDLER, ButtonOption.OK_CANCEL,
                                    new TestPmoSection(), new TestPmoSection());
-        assertThat(DialogTestUtil.getContents(dialog), hasSize(2));
+        assertThat(KaribuUtils.Dialogs.getContents(dialog), hasSize(2));
     }
 
     @Test
@@ -196,7 +200,7 @@ class PmoBasedDialogFactoryTest {
     }
 
     private static List<AbstractField<?, ?>> getAllFields(OkCancelDialog dialog) {
-        return DialogTestUtil.getContents(dialog)
+        return KaribuUtils.Dialogs.getContents(dialog)
                 .stream()
                 .flatMap(c -> getAllFields(c).stream())
                 .collect(Collectors.toList());

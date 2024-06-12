@@ -40,6 +40,12 @@
           },
           {
             "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "package": "org\\.linkki\\.core.*",
+            "justification": "linkki core API"
+          },
+          {
+            "regex": true,
             "code": "java.annotation.attributeValueChanged",
             "new": ".*org\\.junit\\.jupiter\\.api\\..*",
             "justification": "FCOM-2037"
