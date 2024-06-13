@@ -101,11 +101,13 @@
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-vaadin-flow-test</artifactId>
                 <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-vaadin-flow-testbench-extension</artifactId>
                 <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
