@@ -20,6 +20,30 @@ The following versions have been updated:
 | Spring Boot               | 3.3.0
 |===
 
+The new Vaadin version brings some notable improvements and changes that affect linkki applications:
+
+Using React components from Flow (link:https://vaadin.com/docs/next/flow/integrations/react[doc])::
+React components can now be easily used in Vaadin Flow applications.
+
+Improvements for Checkbox::
+Checkboxes can now display validation messages also display required indicator in layouts other than `@UISection`. For more information, check out the https://vaadin.com/docs/latest/components/checkbox[Vaadin documentation for checkbox].
+
+Relocation of `/frontend` and renaming of generated bundles::
+Vaadin 24.4.1 uses `src/main/frontend/` directory as a default location of frontend resources, which is more natural for Maven projects.
+Additionally, the generated bundles are now renamed from `dev-bundle` to `dev.bundle`.
++
+[IMPORTANT]
+====
+Existing non generated content in `/frontend` should be moved to the new location.
+
+The `.gitignore` file may need to be adjusted too to accommodate the changes. To make it easier to maintain the `.gitignore` in the future, a <<gitignore, new documentation>> is added which provides template for linkki projects.
+====
+
+Open tab in dev mode less often::
+When Vaadin application is started in dev mode, it always opens a new tab in browser. This quickly leads to many tabs opened in browser. This behavior is now changed: a new tab is only opened if the server is restarted again after 30 minutes. Otherwise, the browser tab is reused. This duration can be modified, see https://vaadin.com/docs/latest/flow/integrations/spring/configuration#launch-browser-in-development-mode[Vaadin documentation].
+
+Details on all changes can be found in the https://github.com/vaadin/platform/releases/tag/24.4.1[Vaadin 24.4.1 release notes].
+
 //https://jira.convista.com/browse/LIN-1803
 ===== New BOM module for dependency management
 
@@ -217,17 +241,20 @@ Support for fields::
 The method `setValue` of `AbstractField` does not fire value change events, making it difficult to test if the PMO was correctly updated.
 The new method `Fields.setValue` can be now used to mitigate this problem.
 
-//https://jira.convista.com/browse/LIN-2932
-===== New documentation for CSS custom properties in the linkki Theme
+===== Improvements of the documentation
 
+//https://jira.convista.com/browse/LIN-2932
+New documentation for CSS custom properties in the linkki Theme::
 linkki theme defines CSS custom properties which is the easiest way to customize the UI.
-These are now documented in chapter
-<<css-custom-properties-linkki-theme, "Styling">>.
+These are now documented in chapter <<css-custom-properties-linkki-theme, "Styling">>.
+
+//https://jira.convista.com/browse/LIN-3824
+New documentation for `.gitignore`::
+A template `.gitignore` file is provided for linkki projects, making it more clear which Vaadin resources should not be included in Git.
 
 //https://jira.convista.com/browse/LIN-3682
-===== linkki tutorial in the documentation
-
-The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tutorial>>).
+linkki tutorial in the documentation::
+The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tutorial>>), making it easier to find.
 
 ===== Other
 //https://jira.convista.com/browse/LIN-3671
@@ -236,6 +263,8 @@ The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tu
 //https://jira.convista.com/browse/LIN-3567
 * All Notifications (`info`, `warning` and `error`) now include a close button.
 Additionally, the default duration for warning notifications has been increased to `6000 ms`.
+
+
 
 ==== Bugfixes
 

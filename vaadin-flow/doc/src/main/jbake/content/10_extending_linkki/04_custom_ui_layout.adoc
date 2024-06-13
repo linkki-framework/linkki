@@ -2,14 +2,16 @@
 :jbake-type: section
 :jbake-status: published
 :source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main
-:source-dir-playground-frontend: ../../../../../../vaadin-flow/samples/test-playground/frontend
+:source-dir-playground-frontend: {source-dir}/frontend
 :image-dir: {images}09_extending_linkki
 
 
 [[custom-ui-layout-annotation]]
 === User-created layout annotation type
 
-*linkki* offers some <<layout,standard layout annotations>> which are sufficient for the majority of use cases. Sometimes, a UI requires a particular layout. For this purpose one can either <<manual-section-creation,work with Vaadin layouts directly>> or create a new layout annotation type that can be used like `@UISection`.
+*linkki* offers some <<layout,standard layout annotations>> which are sufficient for the majority of use cases.
+Sometimes, a UI requires a particular layout.
+For this purpose one can either work with Vaadin layouts directly or create a new layout annotation type that can be used like `@UISection`.
 
 This chapter shows the steps of creating the custom annotation type `@UIHorizontalLayout`, which differs from a `@UISection` with <<horizontal-section-layout,Horizontal Layout>> because it does not contain a section header and positions the labels above the fields.
 

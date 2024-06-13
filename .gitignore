@@ -9,13 +9,14 @@
 
 # The following files are generated/updated by vaadin-maven-plugin or vaadin-gradle-plugin
 **/node_modules/
-**/frontend/generated/
+**/src/main/frontend/generated/
 **/pnpmfile.js
 **/.npmrc
 **/webpack.generated.js
 **/vite.generated.ts
-**/dev.bundle
-**/prod.bundle
+
+# pre-compiled frontend files and resources
+**/src/main/bundles/
 
 # Mac
 **/*.DS_Store
