@@ -132,22 +132,39 @@ public interface ItemCaptionProvider<T> {
     class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
 
         private static final Map<Class<?>, Function<Object, String>> CACHE = new ConcurrentHashMap<>();
+        private final Locale locale;
+
+        /**
+         * Default constructor that uses the default locale value provided by
+         * {@link UiFramework#getLocale()}
+         */
+        public DefaultCaptionProvider() {
+            this(UiFramework.getLocale());
+        }
+
+        /**
+         * Constructor to set the local value manually
+         * 
+         * @param locale the locale to be set as the locale value for this class.
+         */
+        public DefaultCaptionProvider(Locale locale) {
+            this.locale = locale;
+        }
 
         @Override
         public String getCaption(Object o) {
             if (o instanceof Boolean b) {
                 return booleanToCaption(b);
             }
-            String name = CACHE.computeIfAbsent(o.getClass(), DefaultCaptionProvider::getNameFunction).apply(o);
+            String name = CACHE.computeIfAbsent(o.getClass(), this::getNameFunction).apply(o);
             return StringUtils.defaultString(name);
         }
 
-        @CheckForNull
-        private static Function<Object, String> getNameFunction(Class<?> type) {
+        private Function<Object, String> getNameFunction(Class<?> type) {
             Optional<Method> getLocalizedNameMethod = getMethod(type, "getName", Locale.class);
             if (getLocalizedNameMethod.isPresent()) {
                 Method m = getLocalizedNameMethod.get();
-                return o -> invokeStringMethod(m, o, UiFramework.getLocale());
+                return o -> invokeStringMethod(m, o, locale);
             }
 
             Optional<Method> getNameMethod = getMethod(type, "getName");

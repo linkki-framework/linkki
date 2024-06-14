@@ -225,8 +225,6 @@ In de _linkki_ theme the loading indicator is configured to be displayed at the 
 
 For more details see <<loading-indicator, loading indicator>>.
 
-// OTHERS
-
 [role="api-change"]
 // https://jira.convista.com/browse/LIN-3541
 ===== Improvements for Karibu support
@@ -271,6 +269,9 @@ The linkki tutorial is now part of this documentation (see <<linkki-tutorial, Tu
 //https://jira.convista.com/browse/LIN-3567
 * All Notifications (`info`, `warning` and `error`) now include a close button.
 Additionally, the default duration for warning notifications has been increased to `6000 ms`.
+
+//https://jira.convista.com/browse/LIN-3823
+* A new constructor has been added to the `DefaultCaptionProvider` class that accepts a `Locale` parameter.
 
 ==== Bugfixes
 
