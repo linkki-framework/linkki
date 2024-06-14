@@ -72,6 +72,7 @@
                         <showSubheadersInMenu>true</showSubheadersInMenu>
                     </properties>
                     <excludeLinks>
+                        <excludeLink>.*localhost.*</excludeLink>
                         <excludeLink>https://www.faktorzehn.com/de/impressum</excludeLink>
                         <!-- permanent redirect to Spring Boot docs -->
                         <excludeLink>https://spring.io/projects/spring-boot</excludeLink>
