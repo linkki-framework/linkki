@@ -1,3 +1,6 @@
+@import "vaadin-checkbox.css";
+@import "vaadin-radio-button.css";
+
 html {
 
     --lumo-warning-text-color: hsl(52, 100%, 37%);
@@ -37,6 +40,7 @@ html {
     /* prefer 'Segoe UI' over Roboto */
     --lumo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
+    --vaadin-input-field-readonly-border: 1px solid var(--linkki-input-border-color-readonly);
 }
 
 a:not([href]) {
@@ -44,7 +48,6 @@ a:not([href]) {
     text-decoration: none;
     pointer-events: none;
 }
-
 
 /******************************************************************************
  * THEME: DARK

@@ -13,8 +13,6 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
@@ -30,7 +28,6 @@ import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.element.annotation.UICheckBoxIntegrationTest.TestCheckBoxPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.vaadin.component.base.LinkkiCheckBox;
 
 import com.vaadin.flow.component.checkbox.Checkbox;
 
@@ -137,25 +134,6 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
     @Override
     protected TestModelObjectWithObjectBoolean getDefaultModelObject() {
         return (TestModelObjectWithObjectBoolean)super.getDefaultModelObject();
-    }
-
-    @Test
-    void testSetReadOnly() {
-        Checkbox checkBox = getComponentById("dynamicReadonlyCheckBox");
-
-        assertThat(checkBox, is(instanceOf(LinkkiCheckBox.class)));
-        assertThat(checkBox.isReadOnly()).isFalse();
-        assertThat(checkBox.isEnabled()).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("disabled")).isFalse();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
-
-        getDefaultPmo().setDynamicReadonlyCheckBoxReadOnly(true);
-        modelChanged();
-
-        assertThat(checkBox.isReadOnly()).isTrue();
-        assertThat(checkBox.isEnabled()).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("disabled")).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
     }
 
     @UISection

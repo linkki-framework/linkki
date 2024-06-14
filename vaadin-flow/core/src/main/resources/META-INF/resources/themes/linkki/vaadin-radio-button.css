@@ -1,0 +1,4 @@
+vaadin-radio-button:not([disabled]):not([readonly]),
+vaadin-radio-button:not([disabled]):not([readonly]) label {
+    cursor: var(--lumo-clickable-cursor);
+}

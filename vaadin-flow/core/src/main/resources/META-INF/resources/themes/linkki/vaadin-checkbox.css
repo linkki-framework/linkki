@@ -1,0 +1,22 @@
+html {
+    --vaadin-checkbox-background-hover: var(--linkki-input-background-hover);
+    --vaadin-checkbox-readonly-checked-background: transparent;
+}
+
+vaadin-checkbox[readonly] {
+    --vaadin-checkbox-checkmark-color: var(--lumo-primary-color);
+}
+
+vaadin-checkbox:not([disabled]):not([readonly]),
+vaadin-checkbox:not([disabled]):not([readonly]) label {
+    cursor: var(--lumo-clickable-cursor);
+}
+
+vaadin-form-item[required] > vaadin-checkbox::part(required-indicator) {
+    opacity: 0;
+}
+
+vaadin-checkbox::part(required-indicator) {
+    font-size: var(--lumo-font-size-s);
+    top: var(--lumo-space-s);
+}

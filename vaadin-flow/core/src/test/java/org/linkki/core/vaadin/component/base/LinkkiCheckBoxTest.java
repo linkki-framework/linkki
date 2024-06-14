@@ -17,13 +17,13 @@ package org.linkki.core.vaadin.component.base;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.core.vaadin.component.ComponentFactory;
 
+@SuppressWarnings("deprecation")
 class LinkkiCheckBoxTest {
 
     @Test
     void testSetReadOnly_WhenWritable_ThenEnabled() {
-        LinkkiCheckBox checkBox = ComponentFactory.newCheckbox();
+        LinkkiCheckBox checkBox = new LinkkiCheckBox();
 
         checkBox.setReadOnly(false);
 
@@ -34,91 +34,91 @@ class LinkkiCheckBoxTest {
 
     @Test
     void testSetReadOnly_WhenReadOnly_ThenDisabled() {
-        LinkkiCheckBox checkBox = ComponentFactory.newCheckbox();
+        LinkkiCheckBox checkBox = new LinkkiCheckBox();
 
-        checkBox.setReadOnly(true);
+     checkBox.setReadOnly(true);
 
-        assertThat(checkBox.isEnabled()).isTrue();
-        assertThat(isDisabledAttribute(checkBox)).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
-    }
+     assertThat(checkBox.isEnabled()).isTrue();
+     assertThat(isDisabledAttribute(checkBox)).isTrue();
+     assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
+ }
 
-    @Test
-    void testSetReadOnly_WhenReadOnlyAndDisabled_ThenDisabled() {
-        LinkkiCheckBox checkBox = ComponentFactory.newCheckbox();
+     @Test
+     void testSetReadOnly_WhenReadOnlyAndDisabled_ThenDisabled() {
+         LinkkiCheckBox checkBox = new LinkkiCheckBox();
 
-        checkBox.setEnabled(false);
-        checkBox.setReadOnly(true);
+     checkBox.setEnabled(false);
+     checkBox.setReadOnly(true);
 
-        assertThat(checkBox.isEnabled()).isFalse();
-        assertThat(isDisabledAttribute(checkBox)).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
-    }
+     assertThat(checkBox.isEnabled()).isFalse();
+     assertThat(isDisabledAttribute(checkBox)).isTrue();
+     assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
+ }
 
-    @Test
-    void testSetReadOnly_WhenReadOnlyAndEnabled_ThenDisabled() {
-        LinkkiCheckBox checkBox = ComponentFactory.newCheckbox();
+     @Test
+     void testSetReadOnly_WhenReadOnlyAndEnabled_ThenDisabled() {
+         LinkkiCheckBox checkBox = new LinkkiCheckBox();
 
-        checkBox.setEnabled(true);
-        checkBox.setReadOnly(true);
+     checkBox.setEnabled(true);
+     checkBox.setReadOnly(true);
 
-        assertThat(checkBox.isEnabled()).isTrue();
-        assertThat(isDisabledAttribute(checkBox)).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
-    }
+     assertThat(checkBox.isEnabled()).isTrue();
+     assertThat(isDisabledAttribute(checkBox)).isTrue();
+     assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
+ }
 
-    @Test
-    void testSetReadOnly_WhenWritableAndDisabled_ThenDisabled() {
-        LinkkiCheckBox checkBox = ComponentFactory.newCheckbox();
+     @Test
+     void testSetReadOnly_WhenWritableAndDisabled_ThenDisabled() {
+         LinkkiCheckBox checkBox = new LinkkiCheckBox();
 
-        checkBox.setEnabled(false);
-        checkBox.setReadOnly(false);
+     checkBox.setEnabled(false);
+     checkBox.setReadOnly(false);
 
-        assertThat(checkBox.isEnabled()).isFalse();
-        assertThat(isDisabledAttribute(checkBox)).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
-    }
+     assertThat(checkBox.isEnabled()).isFalse();
+     assertThat(isDisabledAttribute(checkBox)).isTrue();
+     assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
+ }
 
-    @Test
-    void testSetReadOnly_WhenWritableAndEnabled_ThenEnabled() {
-        LinkkiCheckBox checkBox = ComponentFactory.newCheckbox();
+     @Test
+     void testSetReadOnly_WhenWritableAndEnabled_ThenEnabled() {
+         LinkkiCheckBox checkBox = new LinkkiCheckBox();
 
-        checkBox.setEnabled(true);
-        checkBox.setReadOnly(false);
+     checkBox.setEnabled(true);
+     checkBox.setReadOnly(false);
 
-        assertThat(checkBox.isEnabled()).isTrue();
-        assertThat(isDisabledAttribute(checkBox)).isFalse();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
-    }
+     assertThat(checkBox.isEnabled()).isTrue();
+     assertThat(isDisabledAttribute(checkBox)).isFalse();
+     assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
+ }
 
-    @Test
-    void testSetReadOnly_DisabledReadOnlyThenEnable_ThenDisabled() {
-        LinkkiCheckBox checkBox = ComponentFactory.newCheckbox();
+     @Test
+     void testSetReadOnly_DisabledReadOnlyThenEnable_ThenDisabled() {
+         LinkkiCheckBox checkBox = new LinkkiCheckBox();
 
-        checkBox.setEnabled(false);
-        checkBox.setReadOnly(true);
-        checkBox.setEnabled(true);
+     checkBox.setEnabled(false);
+     checkBox.setReadOnly(true);
+     checkBox.setEnabled(true);
 
-        assertThat(checkBox.isEnabled()).isTrue();
-        assertThat(isDisabledAttribute(checkBox)).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
-    }
+     assertThat(checkBox.isEnabled()).isTrue();
+     assertThat(isDisabledAttribute(checkBox)).isTrue();
+     assertThat(checkBox.getElement().hasAttribute("readonly")).isTrue();
+ }
 
-    @Test
-    void testSetReadOnly_EnabledWritableThenDisable_ThenDisabled() {
-        LinkkiCheckBox checkBox = ComponentFactory.newCheckbox();
+     @Test
+     void testSetReadOnly_EnabledWritableThenDisable_ThenDisabled() {
+         LinkkiCheckBox checkBox = new LinkkiCheckBox();
 
-        checkBox.setEnabled(true);
-        checkBox.setReadOnly(false);
-        checkBox.setEnabled(false);
+     checkBox.setEnabled(true);
+     checkBox.setReadOnly(false);
+     checkBox.setEnabled(false);
 
-        assertThat(checkBox.isEnabled()).isFalse();
-        assertThat(isDisabledAttribute(checkBox)).isTrue();
-        assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
-    }
+     assertThat(checkBox.isEnabled()).isFalse();
+     assertThat(isDisabledAttribute(checkBox)).isTrue();
+     assertThat(checkBox.getElement().hasAttribute("readonly")).isFalse();
+ }
 
-    private boolean isDisabledAttribute(LinkkiCheckBox checkBox) {
-        return checkBox.getElement().hasAttribute("disabled");
-    }
+     private boolean isDisabledAttribute(LinkkiCheckBox checkBox) {
+         return checkBox.getElement().hasAttribute("disabled");
+     }
 
 }

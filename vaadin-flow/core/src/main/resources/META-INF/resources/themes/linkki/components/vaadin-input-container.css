@@ -10,7 +10,3 @@
 :host([disabled][readonly]) {
     background: transparent;
 }
-
-:host([readonly])::after {
-    border: 1px solid var(--linkki-input-border-color-readonly);
-}

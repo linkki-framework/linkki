@@ -130,6 +130,12 @@
                         "code": "java.field.removedWithConstant",
                         "old": "field org.linkki.core.vaadin.component.section.LinkkiSection.CLASS_SECTION_STYLE_CARD",
                         "justification": "LIN-3540"
+                    },
+                    {
+                        "ignore": true,
+                        "code": "java.method.removed",
+                        "old": "method org.linkki.core.vaadin.component.base.LinkkiCheckBox org.linkki.core.vaadin.component.ComponentFactory::newCheckbox()",
+                        "justification": "LIN-3830/LIN-3832 Deprecate LinkkiCheckBox and use Vaadins Checkbox instead"
                     }
                 ]
             }

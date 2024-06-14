@@ -14,14 +14,20 @@
 
 package org.linkki.core.vaadin.component.base;
 
+import java.io.Serial;
+
 import com.vaadin.flow.component.checkbox.Checkbox;
 
 /**
  * {@link LinkkiCheckBox} extending vaadin {@link Checkbox} for read only enhancements
+ * 
+ * @deprecated use {@link Checkbox} instead
  */
+@Deprecated(since = "2.6.0")
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LinkkiCheckBox extends Checkbox {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override

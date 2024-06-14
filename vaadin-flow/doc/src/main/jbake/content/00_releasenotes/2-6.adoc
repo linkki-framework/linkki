@@ -247,8 +247,6 @@ The new method `Fields.setValue` can be now used to mitigate this problem.
 
 ===== Improvements of the documentation
 
-
-
 //https://jira.convista.com/browse/LIN-2932
 New documentation for CSS custom properties in the linkki Theme::
 linkki theme defines CSS custom properties which is the easiest way to customize the UI.

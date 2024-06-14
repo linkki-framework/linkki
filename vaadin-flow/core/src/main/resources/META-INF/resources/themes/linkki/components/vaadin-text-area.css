@@ -4,5 +4,5 @@
 @import "input-field-validation.css";
 
 :host([readonly]) [part='input-field'] {
-    border: 1px solid var(--linkki-input-border-color-readonly);
+    border: var(--vaadin-input-field-readonly-border);
 }
