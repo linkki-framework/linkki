@@ -31,6 +31,7 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIDateTimeFieldIntegrationTest.DateTimeFieldTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.util.TwoDigitYearUtil;
 
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
@@ -53,7 +54,7 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         Date date = cal.getTime();
         LocalDateTime dateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
 
-        TestUiUtil.setUserOriginatedValue(dateTimeField, dateTime);
+        KaribuUtils.Fields.setValue(dateTimeField, dateTime);
         assertThat(modelObject.getValue(), is(date));
 
         date.setTime(0);
@@ -62,7 +63,7 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         // Value for time depends on locale/time zone, so only check date
         assertThat(dateTimeField.getValue().toLocalDate(), is(LocalDate.ofEpochDay(0)));
 
-        TestUiUtil.setUserOriginatedValue(dateTimeField, null);
+        KaribuUtils.Fields.setValue(dateTimeField, null);
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
@@ -75,7 +76,7 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
 
         LocalDateTime localDateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
 
-        TestUiUtil.setUserOriginatedValue(dateTimeField, localDateTime);
+        KaribuUtils.Fields.setValue(dateTimeField, localDateTime);
         assertThat(modelObject.getValue(), is(localDateTime));
 
         localDateTime = LocalDateTime.of(1990, 5, 1, 0, 0);
@@ -84,7 +85,7 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         getBindingContext().modelChanged();
         assertThat(dateTimeField.getValue(), is(localDateTime));
 
-        TestUiUtil.setUserOriginatedValue(dateTimeField, null);
+        KaribuUtils.Fields.setValue(dateTimeField, null);
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
@@ -97,7 +98,7 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
 
         LocalDateTime expectedConvertedLocalDateTime = TwoDigitYearUtil.convert(LocalDateTime.of(19, 5, 1, 0, 0));
 
-        TestUiUtil.setUserOriginatedValue(dateTimeField, LocalDateTime.of(19, 5, 1, 0, 0));
+        KaribuUtils.Fields.setValue(dateTimeField, LocalDateTime.of(19, 5, 1, 0, 0));
         assertThat(modelObject.getValue(), is(expectedConvertedLocalDateTime));
 
         LocalDateTime localDateTime = LocalDateTime.of(90, 1, 1, 0, 0);
@@ -105,7 +106,7 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         getBindingContext().modelChanged();
         assertThat(dateTimeField.getValue(), is(localDateTime));
 
-        TestUiUtil.setUserOriginatedValue(dateTimeField, null);
+        KaribuUtils.Fields.setValue(dateTimeField, null);
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
@@ -121,10 +122,10 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         Calendar cal = new GregorianCalendar(2009, 4, 1);
         Date date = cal.getTime();
 
-        TestUiUtil.setUserOriginatedValue(dateTimeField, localDateTime);
+        KaribuUtils.Fields.setValue(dateTimeField, localDateTime);
         assertThat(getDefaultModelObject().getValue(), is(date));
 
-        TestUiUtil.setUserOriginatedValue(dateTimeField, null);
+        KaribuUtils.Fields.setValue(dateTimeField, null);
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 

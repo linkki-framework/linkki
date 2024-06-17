@@ -29,6 +29,7 @@ import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -83,7 +84,9 @@ class UICustomFieldTest {
         RadioButtonGroup<TestValue> optionGroup = createCustomField();
 
         TestValue newValue = new TestValue("b");
-        TestUiUtil.setUserOriginatedValue(optionGroup, newValue);
+        optionGroup.setVisible(true);
+        optionGroup.setEnabled(true);
+        KaribuUtils.Fields.setValue(optionGroup, newValue);
 
         assertThat(modelObject.getProperty(), is(newValue));
     }

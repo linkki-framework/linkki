@@ -30,6 +30,7 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIDateFieldIntegrationTest.DateFieldTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.util.TwoDigitYearUtil;
 
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -52,7 +53,7 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
         Calendar cal = new GregorianCalendar(2009, 4, 1);
         Date date = cal.getTime();
 
-        TestUiUtil.setUserOriginatedValue(dateField, LocalDate.of(2009, 5, 1));
+        KaribuUtils.Fields.setValue(dateField, LocalDate.of(2009, 5, 1));
         assertThat(modelObject.getValue(), is(date));
 
         date.setTime(0);
@@ -60,7 +61,7 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
         getBindingContext().modelChanged();
         assertThat(dateField.getValue(), is(LocalDate.ofEpochDay(0)));
 
-        TestUiUtil.setUserOriginatedValue(dateField, null);
+        KaribuUtils.Fields.setValue(dateField, null);
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
@@ -73,7 +74,7 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
 
         LocalDate localDate = LocalDate.of(2009, 5, 1);
 
-        TestUiUtil.setUserOriginatedValue(dateField, localDate);
+        KaribuUtils.Fields.setValue(dateField, localDate);
         assertThat(modelObject.getValue(), is(localDate));
 
         localDate = LocalDate.of(1990, 1, 1);
@@ -82,7 +83,7 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
         getBindingContext().modelChanged();
         assertThat(dateField.getValue(), is(localDate));
 
-        TestUiUtil.setUserOriginatedValue(dateField, null);
+        KaribuUtils.Fields.setValue(dateField, null);
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
@@ -96,7 +97,7 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
         LocalDate localDate = LocalDate.of(19, 5, 1);
         LocalDate expectedConvertedLocalDate = TwoDigitYearUtil.convert(localDate);
 
-        TestUiUtil.setUserOriginatedValue(dateField, localDate);
+        KaribuUtils.Fields.setValue(dateField, localDate);
         assertThat(modelObject.getValue(), is(expectedConvertedLocalDate));
 
         localDate = LocalDate.of(90, 1, 1);
@@ -105,7 +106,7 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
         getBindingContext().modelChanged();
         assertThat(dateField.getValue(), is(localDate));
 
-        TestUiUtil.setUserOriginatedValue(dateField, null);
+        KaribuUtils.Fields.setValue(dateField, null);
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
@@ -121,10 +122,10 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
         Calendar cal = new GregorianCalendar(2009, 4, 1);
         Date date = cal.getTime();
 
-        TestUiUtil.setUserOriginatedValue(dateField, localDate);
+        KaribuUtils.Fields.setValue(dateField, localDate);
         assertThat(getDefaultModelObject().getValue(), is(date));
 
-        TestUiUtil.setUserOriginatedValue(dateField, null);
+        KaribuUtils.Fields.setValue(dateField, null);
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 

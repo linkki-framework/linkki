@@ -24,6 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.test.KaribuUIExtension;
+import org.linkki.core.ui.test.KaribuUtils;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.textfield.TextField;
@@ -37,7 +38,7 @@ class UIIntegerFieldTest {
     void testSetValue_WithPrimitiveIntegerInModelObject() {
         TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
         Assertions.assertDoesNotThrow(() -> {
-            TestUiUtil.setUserOriginatedValue(textField, "0");
+            KaribuUtils.Fields.setValue(textField, "0");
         });
     }
 
@@ -46,8 +47,8 @@ class UIIntegerFieldTest {
         TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
 
         Assertions.assertDoesNotThrow(() -> {
-            TestUiUtil.setUserOriginatedValue(textField, "");
-            TestUiUtil.setUserOriginatedValue(textField, "0");
+            KaribuUtils.Fields.setValue(textField, "");
+            KaribuUtils.Fields.setValue(textField, "0");
         });
     }
 
@@ -56,7 +57,7 @@ class UIIntegerFieldTest {
         UI.getCurrent().setLocale(Locale.GERMAN);
         TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
 
-        TestUiUtil.setUserOriginatedValue(textField, "98765432");
+        KaribuUtils.Fields.setValue(textField, "98765432");
 
         assertThat(textField.getValue(), is("98.765.432"));
     }
@@ -66,7 +67,7 @@ class UIIntegerFieldTest {
         UI.getCurrent().setLocale(Locale.ENGLISH);
         TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
 
-        TestUiUtil.setUserOriginatedValue(textField, "98765432");
+        KaribuUtils.Fields.setValue(textField, "98765432");
 
         assertThat(textField.getValue(), is("98,765,432"));
     }
@@ -76,7 +77,7 @@ class UIIntegerFieldTest {
         UI.getCurrent().setLocale(Locale.GERMAN);
         TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
 
-        TestUiUtil.setUserOriginatedValue(textField, "123456");
+        KaribuUtils.Fields.setValue(textField, "123456");
 
         assertThat(textField.getValue(), is("123.456"));
     }
@@ -86,7 +87,7 @@ class UIIntegerFieldTest {
         UI.getCurrent().setLocale(Locale.ENGLISH);
         TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
 
-        TestUiUtil.setUserOriginatedValue(textField, "123456");
+        KaribuUtils.Fields.setValue(textField, "123456");
 
         assertThat(textField.getValue(), is("123,456"));
     }

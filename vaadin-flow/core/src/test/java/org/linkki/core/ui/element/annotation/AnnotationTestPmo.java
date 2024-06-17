@@ -32,9 +32,9 @@ public abstract class AnnotationTestPmo {
     protected static final String DEFAULT_TOOLTIP = "defaultTooltip";
 
     private final Object modelObject;
-    private boolean enabled;
+    private boolean enabled = true;
     private boolean required;
-    private boolean visible;
+    private boolean visible = true;
     private String tooltip = DEFAULT_TOOLTIP;
 
     /**

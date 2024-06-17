@@ -14,7 +14,9 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -32,6 +34,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBoxIntegrationTest.YesNoComboBoxTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
@@ -53,10 +56,10 @@ class UIYesNoComboBoxIntegrationTest
     void testNullSelection() {
         ComboBox<Boolean> comboBox = getDynamicComponent();
 
-        TestUiUtil.setUserOriginatedValue(comboBox, (Boolean)null);
+        KaribuUtils.Fields.setValue(comboBox, (Boolean)null);
         assertThat(getDefaultModelObject().value, is(nullValue()));
 
-        TestUiUtil.setUserOriginatedValue(comboBox, false);
+        KaribuUtils.Fields.setValue(comboBox, false);
 
         getDefaultModelObject().value = true;
         modelChanged();
@@ -98,7 +101,7 @@ class UIYesNoComboBoxIntegrationTest
         modelChanged();
         assertThat(comboBox.getValue(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(comboBox, false);
+        KaribuUtils.Fields.setValue(comboBox, false);
         assertThat(getDefaultModelObject().getValue(), is(false));
     }
 
@@ -109,10 +112,10 @@ class UIYesNoComboBoxIntegrationTest
         modelChanged();
         assertThat(comboBox.isRequiredIndicatorVisible(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(comboBox, true);
+        KaribuUtils.Fields.setValue(comboBox, true);
         assertThat(getDefaultModelObject().getValue(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(comboBox, (Boolean)null);
+        KaribuUtils.Fields.setValue(comboBox, (Boolean)null);
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 

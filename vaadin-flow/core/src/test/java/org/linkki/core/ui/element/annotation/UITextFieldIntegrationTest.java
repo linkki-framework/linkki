@@ -25,6 +25,7 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UITextFieldIntegrationTest.TextFieldTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 
 import com.vaadin.flow.component.textfield.TextField;
 
@@ -48,7 +49,7 @@ class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextFiel
         assertThat(textField.getWidth(), is("42em"));
         assertThat(textField.getValue(), is(""));
 
-        TestUiUtil.setUserOriginatedValue(textField, "asdf");
+        KaribuUtils.Fields.setValue(textField, "asdf");
         assertThat(modelObject.getValue(), is("asdf"));
 
         modelObject.setValue("fdsa");
@@ -56,7 +57,7 @@ class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextFiel
         assertThat(textField.getValue(), is("fdsa"));
 
         // clearing textfield results in ""
-        TestUiUtil.setUserOriginatedValue(textField, textField.getEmptyValue());
+        KaribuUtils.Fields.setValue(textField, textField.getEmptyValue());
         assertThat(modelObject.getValue(), is(emptyString()));
     }
 
@@ -68,11 +69,11 @@ class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextFiel
         modelChanged();
         assertThat(textField.isRequiredIndicatorVisible(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(textField, "something");
+        KaribuUtils.Fields.setValue(textField, "something");
         assertThat(getDefaultModelObject().getValue(), is("something"));
 
         // clearing textfield results in ""
-        TestUiUtil.setUserOriginatedValue(textField, textField.getEmptyValue());
+        KaribuUtils.Fields.setValue(textField, textField.getEmptyValue());
         assertThat(getDefaultModelObject().getValue(), is(emptyString()));
     }
 

@@ -37,7 +37,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  */
 public class CompositeAspectDefinition implements LinkkiAspectDefinition {
 
-    private List<LinkkiAspectDefinition> aspectDefinitions;
+    private final List<LinkkiAspectDefinition> aspectDefinitions;
 
     /**
      * Creates a new {@link CompositeAspectDefinition} consisting of given aspect definitions.

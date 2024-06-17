@@ -30,6 +30,7 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIDoubleFieldIntegrationTest.DoubleFieldTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.flow.component.textfield.TextField;
@@ -57,7 +58,7 @@ class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextFi
         assertThat(textField.getMaxLength(), is(MAX_LENGTH));
         assertThat(textField.getValue(), is(formatter.format(0.0)));
 
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
+        KaribuUtils.Fields.setValue(textField, formatter.format(1.0));
         assertThat(modelObject.getValue(), is(1.0));
 
         modelObject.setValue(2.0);
@@ -68,10 +69,10 @@ class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextFi
     @Test
     void testSetValue_WithPrimitiveDoubleInModelObject_RevertsForNull() {
         TextField textField = createFirstComponent(new TestModelObjectWithPrimitiveDouble());
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
+        KaribuUtils.Fields.setValue(textField, formatter.format(1.0));
         assertThat(textField.getValue(), is(formatter.format(1.0)));
 
-        TestUiUtil.setUserOriginatedValue(textField, "");
+        KaribuUtils.Fields.setValue(textField, "");
 
         // field reverts to last valid value
         assertThat(textField.getValue(), is(formatter.format(1.0)));
@@ -84,14 +85,14 @@ class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextFi
 
         assertThat(textField.getValue(), is(emptyString()));
 
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
+        KaribuUtils.Fields.setValue(textField, formatter.format(1.0));
         assertThat(modelObject.getValue(), is(1.0));
 
         modelObject.setValue(2.0);
         getBindingContext().modelChanged();
         assertThat(textField.getValue(), is(formatter.format(2.0)));
 
-        TestUiUtil.setUserOriginatedValue(textField, textField.getEmptyValue());
+        KaribuUtils.Fields.setValue(textField, textField.getEmptyValue());
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
@@ -103,10 +104,10 @@ class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextFi
         modelChanged();
         assertThat(doubleField.isRequiredIndicatorVisible(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(doubleField, formatter.format(1.0));
+        KaribuUtils.Fields.setValue(doubleField, formatter.format(1.0));
         assertThat(getDefaultModelObject().getValue(), is(1.0));
 
-        TestUiUtil.setUserOriginatedValue(doubleField, doubleField.getEmptyValue());
+        KaribuUtils.Fields.setValue(doubleField, doubleField.getEmptyValue());
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 

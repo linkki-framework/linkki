@@ -35,7 +35,7 @@ import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.bind.annotation.Bind;
-import org.linkki.core.ui.element.annotation.TestUiUtil;
+import org.linkki.core.ui.test.KaribuUtils;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -93,8 +93,10 @@ class BinderIntegrationTest {
         assertTrue(view.listSelect.getListDataView().contains("c"));
 
         // Binding view -> pmo
-        TestUiUtil.setUserOriginatedValue(view.numberField, "42");
-        TestUiUtil.setUserOriginatedValue(view.textField, "bar");
+        view.numberField.setEnabled(true);
+        view.textField.setEnabled(true);
+        KaribuUtils.Fields.setValue(view.numberField, "42");
+        KaribuUtils.Fields.setValue(view.textField, "bar");
         view.button.click();
         view.button.click();
         assertThat(pmo.getNumber(), is(42));

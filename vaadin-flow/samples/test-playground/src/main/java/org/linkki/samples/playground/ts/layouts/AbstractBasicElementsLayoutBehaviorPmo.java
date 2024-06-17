@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.ts.layouts;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
@@ -27,6 +28,7 @@ import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
+import org.linkki.core.ui.element.annotation.UICheckboxes;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UICustomField;
 import org.linkki.core.ui.element.annotation.UIDateField;
@@ -54,7 +56,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
 
     public static final String TEXT_FIELD_LONG_LABEL = "TextFieldWithALongExtendedLabel toTestLabelOverflowBehavior";
 
-    private Supplier<BasicElementsLayoutBehaviorModelObject> modelObject;
+    private final Supplier<BasicElementsLayoutBehaviorModelObject> modelObject;
 
     // behaviors to be tested
     private boolean readOnly;
@@ -519,6 +521,37 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
 
     public boolean isBooleanValueEnabled() {
         return isAllElementsEnabled();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UICheckboxes(position = 75,
+            label = "Checkboxes", //
+            modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_ENUMVALUES, //
+            required = RequiredType.DYNAMIC,
+            visible = VisibleType.DYNAMIC,
+            enabled = EnabledType.DYNAMIC)
+    public void enumValuesCheckboxes() {
+        // model binding
+    }
+
+    public boolean isEnumValuesCheckboxesRequired() {
+        return isAllElementsRequired();
+    }
+
+    public boolean isEnumValuesCheckboxesReadOnly() {
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isEnumValuesCheckboxesVisible() {
+        return isAllElementsVisible();
+    }
+
+    public boolean isEnumValuesCheckboxesEnabled() {
+        return isAllElementsEnabled();
+    }
+
+    public Set<SampleEnum> getEnumValuesCheckboxesAvailableValues() {
+        return Set.of(SampleEnum.values());
     }
 
     @BindIcon(iconType = IconType.DYNAMIC)

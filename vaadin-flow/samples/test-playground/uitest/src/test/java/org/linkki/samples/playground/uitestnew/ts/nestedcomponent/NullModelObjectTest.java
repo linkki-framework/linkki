@@ -14,7 +14,6 @@ import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 
@@ -32,14 +31,11 @@ class NullModelObjectTest extends PlaygroundUiTest {
     void testInitialState() {
         var section = testCaseComponent.$(LinkkiSectionElement.class)
                 .id(BasicElementsLayoutBehaviorUiSectionPmo.class.getSimpleName());
-        var checkbox = new Checkbox();
-        assertThat(checkbox.getValue()).isFalse();
-        checkbox.clear();
-        assertThat(checkbox.getValue()).isFalse();
         var inputElementsWithValue = section.getContentComponents().stream()
                 .filter(this::hasValue)
                 // checkboxes have the value false when cleared
                 .filter(e -> !"vaadin-checkbox".equals(e.getTagName()))
+                .filter(e -> !"vaadin-checkbox-group".equals(e.getTagName()))
                 .toList();
         assertThat(inputElementsWithValue).size()
                 .as("Verify that the selector for components with value property is correct").isEqualTo(13);
@@ -47,6 +43,7 @@ class NullModelObjectTest extends PlaygroundUiTest {
                 .map(this::getValueString)
                 .as("Input elements do not have a value")
                 .allMatch(String::isEmpty);
+        assertThat(section.getContent().$(CheckboxElement.class).all()).hasSize(5);
         assertThat(section.getContent().$(CheckboxElement.class).all()).extracting(CheckboxElement::isChecked)
                 .allMatch(Boolean.FALSE::equals);
 

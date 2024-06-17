@@ -37,6 +37,7 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -61,7 +62,7 @@ class DynamicFieldBindingTest {
         assertThat(txt.getValue(), is(value));
 
         String newValue = "new value";
-        TestUiUtil.setUserOriginatedValue(txt, newValue);
+        KaribuUtils.Fields.setValue(txt, newValue);
         assertThat(pmo.model.paymentMethod, is(newValue));
 
         pmo.model.paymentMethod = null;
@@ -88,7 +89,7 @@ class DynamicFieldBindingTest {
         assertThat(cb.getValue(), is(value));
 
         String newValue = "annual";
-        TestUiUtil.setUserOriginatedValue(cb, newValue);
+        KaribuUtils.Fields.setValue(cb, newValue);
         assertThat(pmo.model.paymentMethod, is(newValue));
 
         pmo.model.paymentMethod = null;

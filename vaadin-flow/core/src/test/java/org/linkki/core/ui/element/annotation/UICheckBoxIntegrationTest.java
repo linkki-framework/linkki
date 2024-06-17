@@ -28,6 +28,7 @@ import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.element.annotation.UICheckBoxIntegrationTest.TestCheckBoxPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 
 import com.vaadin.flow.component.checkbox.Checkbox;
 
@@ -46,16 +47,16 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
 
         assertThat(modelObject.getValue(), is(false));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, Boolean.TRUE);
+        KaribuUtils.Fields.setValue(checkBox, Boolean.TRUE);
         assertThat(modelObject.getValue(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, Boolean.FALSE);
+        KaribuUtils.Fields.setValue(checkBox, Boolean.FALSE);
         assertThat(modelObject.getValue(), is(false));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, true);
+        KaribuUtils.Fields.setValue(checkBox, true);
         assertThat(modelObject.getValue(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, false);
+        KaribuUtils.Fields.setValue(checkBox, false);
         assertThat(modelObject.getValue(), is(false));
 
         modelObject.setValue(true);
@@ -74,16 +75,16 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
 
         assertThat(modelObject.getValue(), is(nullValue()));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, Boolean.TRUE);
+        KaribuUtils.Fields.setValue(checkBox, Boolean.TRUE);
         assertThat(modelObject.getValue(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, Boolean.FALSE);
+        KaribuUtils.Fields.setValue(checkBox, Boolean.FALSE);
         assertThat(modelObject.getValue(), is(false));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, true);
+        KaribuUtils.Fields.setValue(checkBox, true);
         assertThat(modelObject.getValue(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, false);
+        KaribuUtils.Fields.setValue(checkBox, false);
         assertThat(modelObject.getValue(), is(false));
 
         modelObject.setValue(Boolean.TRUE);
@@ -98,7 +99,7 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
         getBindingContext().modelChanged();
         assertThat(checkBox.getValue(), is(false));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, true);
+        KaribuUtils.Fields.setValue(checkBox, true);
         modelObject.setValue(null);
         getBindingContext().modelChanged();
         assertThat(checkBox.getValue(), is(false));
@@ -124,10 +125,10 @@ class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Checkbox,
         modelChanged();
         assertThat(checkBox.isRequiredIndicatorVisible(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, true);
+        KaribuUtils.Fields.setValue(checkBox, true);
         assertThat(getDefaultModelObject().getValue(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(checkBox, false);
+        KaribuUtils.Fields.setValue(checkBox, false);
         assertThat(getDefaultModelObject().getValue(), is(false));
     }
 

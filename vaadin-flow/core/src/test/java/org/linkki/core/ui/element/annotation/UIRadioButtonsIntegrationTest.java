@@ -34,6 +34,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UIRadioButtonsIntegrationTest.RadioButtonTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
@@ -123,7 +124,7 @@ class UIRadioButtonsIntegrationTest
         TestModelObjectWithString modelObject = (TestModelObjectWithString)getDefaultModelObject();
         RadioButtonGroup<String> radioButtons = getDynamicComponent();
 
-        TestUiUtil.setUserOriginatedValue(radioButtons, "value2");
+        KaribuUtils.Fields.setValue(radioButtons, "value2");
 
         assertThat(modelObject.getValue(), is("value2"));
     }

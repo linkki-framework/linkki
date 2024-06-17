@@ -66,6 +66,7 @@ import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVaria
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoWithoutVariant;
 import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
 import org.linkki.samples.playground.ts.components.ButtonPmo;
+import org.linkki.samples.playground.ts.components.CheckboxesPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxPmo;
 import org.linkki.samples.playground.ts.components.CustomFieldPmo;
@@ -190,6 +191,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC014 = "TC014";
     public static final String TC015 = "TC015";
     public static final String TC016 = "TC016";
+    public static final String TC017 = "TC017";
 
     static final String ROUTE = "playground";
 
@@ -263,6 +265,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC014, new YesNoComboBoxPmo())
                                        .testCase(TC015, new MultiSelectPmo())
                                        .testCase(TC016, new TimeFieldPmo())
+                                       .testCase(TC017, new CheckboxesPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, LinkkiTextComponent::new)

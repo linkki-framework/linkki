@@ -30,6 +30,7 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIIntegerFieldIntegrationTest.IntegerFieldTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.flow.component.textfield.TextField;
@@ -57,7 +58,7 @@ class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextF
         assertThat(textField.getMaxLength(), is(MAX_LENGTH));
         assertThat(textField.getValue(), is(formatter.format(0)));
 
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
+        KaribuUtils.Fields.setValue(textField, formatter.format(1));
         assertThat(modelObject.getValue(), is(1));
 
         modelObject.setValue(2000);
@@ -68,10 +69,10 @@ class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextF
     @Test
     void testSetValue_WithPrimitiveIntegerInModelObject_RevertsForNull() {
         TextField textField = createFirstComponent(new TestModelObjectWithPrimitiveInteger());
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
+        KaribuUtils.Fields.setValue(textField, formatter.format(1));
         assertThat(textField.getValue(), is(formatter.format(1)));
 
-        TestUiUtil.setUserOriginatedValue(textField, "");
+        KaribuUtils.Fields.setValue(textField, "");
 
         // field reverts to last valid value
         assertThat(textField.getValue(), is(formatter.format(1)));
@@ -84,14 +85,14 @@ class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextF
 
         assertThat(textField.getValue(), is(emptyString()));
 
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
+        KaribuUtils.Fields.setValue(textField, formatter.format(1));
         assertThat(modelObject.getValue(), is(1));
 
         modelObject.setValue(2);
         getBindingContext().modelChanged();
         assertThat(textField.getValue(), is(formatter.format(2)));
 
-        TestUiUtil.setUserOriginatedValue(textField, textField.getEmptyValue());
+        KaribuUtils.Fields.setValue(textField, textField.getEmptyValue());
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
@@ -103,10 +104,10 @@ class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextF
         modelChanged();
         assertThat(textField.isRequiredIndicatorVisible(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
+        KaribuUtils.Fields.setValue(textField, formatter.format(1));
         assertThat(getDefaultModelObject().getValue(), is(1));
 
-        TestUiUtil.setUserOriginatedValue(textField, textField.getEmptyValue());
+        KaribuUtils.Fields.setValue(textField, textField.getEmptyValue());
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 

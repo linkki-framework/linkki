@@ -14,7 +14,10 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
@@ -22,13 +25,12 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.test.KaribuUIExtension;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 
 @ExtendWith(KaribuUIExtension.class)
 class UIRadioButtonsWithBooleanIntegrationTest {
@@ -43,12 +45,12 @@ class UIRadioButtonsWithBooleanIntegrationTest {
         List<Boolean> items = radioButtons.getListDataView().getItems().toList();
         assertThat(items).containsExactly(Boolean.TRUE, Boolean.FALSE, null);
 
-        TestUiUtil.setUserOriginatedValue(radioButtons, true);
+        KaribuUtils.Fields.setValue(radioButtons, true);
 
         assertThat(radioButtons.getValue()).isEqualTo(true);
         assertThat(modelObject.getValue()).isTrue();
 
-        TestUiUtil.setUserOriginatedValue(radioButtons, null);
+        KaribuUtils.Fields.setValue(radioButtons, null);
 
         assertThat(radioButtons.getValue()).isNull();
         assertThat(modelObject.getValue()).isNull();
@@ -64,12 +66,12 @@ class UIRadioButtonsWithBooleanIntegrationTest {
         List<Boolean> items = radioButtons.getListDataView().getItems().toList();
         assertThat(items).containsExactly(Boolean.TRUE, Boolean.FALSE);
 
-        TestUiUtil.setUserOriginatedValue(radioButtons, true);
+        KaribuUtils.Fields.setValue(radioButtons, true);
 
         assertThat(radioButtons.getValue()).isEqualTo(true);
         assertThat(modelObject.getValue()).isTrue();
 
-        TestUiUtil.setUserOriginatedValue(radioButtons, false);
+        KaribuUtils.Fields.setValue(radioButtons, false);
 
         assertThat(radioButtons.getValue()).isFalse();
         assertThat(modelObject.getValue()).isFalse();
@@ -99,10 +101,11 @@ class UIRadioButtonsWithBooleanIntegrationTest {
 
     @SuppressWarnings("unchecked")
     private static RadioButtonGroup<Boolean> getRadioButtonsComponentAt(int position,
-                                                                        BooleanRadioButtonsTestPmo pmo,
-                                                                        BindingContext bindingContext) {
-        return (RadioButtonGroup<Boolean>) UiCreator.<RadioButtonGroup<Boolean>, NoLabelComponentWrapper>createUiElements(pmo, bindingContext,
-                        NoLabelComponentWrapper::new)
+            BooleanRadioButtonsTestPmo pmo,
+            BindingContext bindingContext) {
+        return (RadioButtonGroup<Boolean>)UiCreator
+                .<RadioButtonGroup<Boolean>, NoLabelComponentWrapper> createUiElements(pmo, bindingContext,
+                                                                                       NoLabelComponentWrapper::new)
                 .map(VaadinComponentWrapper::getComponent)
                 .toList()
                 .get(position);

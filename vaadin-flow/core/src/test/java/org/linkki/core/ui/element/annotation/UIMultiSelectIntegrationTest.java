@@ -38,6 +38,7 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionPr
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UIMultiSelectIntegrationTest.MultiSelectTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uiframework.UiFramework;
@@ -158,10 +159,10 @@ class UIMultiSelectIntegrationTest
         modelChanged();
         assertThat(multiselect.isRequiredIndicatorVisible()).isTrue();
 
-        TestUiUtil.setUserOriginatedValue(multiselect, Collections.singleton(TestEnum.ONE));
+        KaribuUtils.Fields.setValue(multiselect, Collections.singleton(TestEnum.ONE));
         assertThat(getDefaultModelObject().getValue()).containsExactly(TestEnum.ONE);
 
-        TestUiUtil.setUserOriginatedValue(multiselect, null);
+        KaribuUtils.Fields.setValue(multiselect, null);
         assertThat(getDefaultModelObject().getValue()).isEmpty();
     }
 
@@ -198,8 +199,8 @@ class UIMultiSelectIntegrationTest
         return (MultiSelectTestModelObject)super.getDefaultModelObject();
     }
 
-    private static List<TestEnum> getAllowedValues(MultiSelectComboBox<TestEnum> MultiSelectComboBox) {
-        return MultiSelectComboBox.getDataProvider().fetch(new Query<>())
+    private static List<TestEnum> getAllowedValues(MultiSelectComboBox<TestEnum> multiSelectComboBox) {
+        return multiSelectComboBox.getDataProvider().fetch(new Query<>())
                 .collect(Collectors.toList());
     }
 

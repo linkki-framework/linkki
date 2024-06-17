@@ -44,6 +44,7 @@ import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UIComboBoxIntegrationTest.ComboBoxTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uiframework.UiFramework;
@@ -148,7 +149,7 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         modelChanged();
         assertThat(comboBox.getValue(), is(TestEnum.TWO));
 
-        TestUiUtil.setUserOriginatedValue(comboBox, TestEnum.ONE);
+        KaribuUtils.Fields.setValue(comboBox, TestEnum.ONE);
         assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
 
         getDefaultModelObject().setValue(TestEnum.EMPTY);
@@ -189,20 +190,20 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         modelChanged();
         assertThat(comboBox.isRequiredIndicatorVisible(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(comboBox, TestEnum.ONE);
+        KaribuUtils.Fields.setValue(comboBox, TestEnum.ONE);
         assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
 
-        TestUiUtil.setUserOriginatedValue(comboBox, null);
+        KaribuUtils.Fields.setValue(comboBox, null);
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
     @Test
     void testNullInput_AvailableValuesDoesNotContainNull() {
         assertThat(getDefaultPmo().getValueAvailableValues(), not(contains(nullValue())));
-        TestUiUtil.setUserOriginatedValue(getDynamicComponent(), TestEnum.ONE);
+        KaribuUtils.Fields.setValue(getDynamicComponent(), TestEnum.ONE);
         assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
 
-        TestUiUtil.setUserOriginatedValue(getDynamicComponent(), null);
+        KaribuUtils.Fields.setValue(getDynamicComponent(), null);
 
         assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
     }

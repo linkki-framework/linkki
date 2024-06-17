@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.playground.uitest;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -204,12 +205,15 @@ public abstract class AbstractLinkkiUiTest extends AbstractBrowserTestBase {
      * As {@link com.vaadin.flow.component.combobox.MultiSelectComboBox} does not define the
      * property value, "_inputElementValue" is used instead.
      */
+    @SuppressWarnings("unchecked")
     public String getValueString(TestBenchElement webElement) {
         // checkbox value is mapped to the property checked
         if ("vaadin-checkbox".equals(webElement.getTagName())) {
             return webElement.getPropertyString("checked");
         } else if ("vaadin-multi-select-combo-box".equals(webElement.getTagName())) {
             return String.join(", ", webElement.getPropertyString("_inputElementValue"));
+        } else if ("vaadin-checkbox-group".equals(webElement.getTagName())) {
+            return String.join(",", (ArrayList<String>)webElement.getProperty("value"));
         } else {
             return webElement.getPropertyString("value");
         }
@@ -252,7 +256,7 @@ public abstract class AbstractLinkkiUiTest extends AbstractBrowserTestBase {
 
     /**
      * Only works when the tested Component implements {@link HasSuffix} in Vaadin-flow
-     * 
+     *
      * @param element the {@link WebElement} to select the suffix from
      * @return WebElement which contains Suffix
      */

@@ -38,6 +38,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UICustomFieldIntegrationTest.ComponentAnnotationTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
@@ -78,10 +79,10 @@ class UICustomFieldIntegrationTest
         modelChanged();
         assertThat(component.isRequiredIndicatorVisible(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(component, TestEnum.ONE);
+        KaribuUtils.Fields.setValue(component, TestEnum.ONE);
         assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
 
-        TestUiUtil.setUserOriginatedValue(component, (TestEnum)null);
+        KaribuUtils.Fields.setValue(component, (TestEnum)null);
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
