@@ -11,7 +11,7 @@ This feature expands the capabilities of UI components to support a broader rang
 
 ==== Default Converters in LinkkiConverterRegistry
 
-Following converters are used by default:
+Following converters are registered by default in the `LinkkiConverterRegistry`:
 
 [[default-converters]]
 [cols = "2, 6"]
@@ -36,8 +36,25 @@ Following converters are used by default:
 | `StringToGregorianCalendarConverter` | Converts `GregorianCalendar` to `String` and vice versa, taking locale-specific date formats into account. Makes it possible to use `GregorianCalendar` in `String`-valued components such as `@UILabel`.
 |===
 
-==== Configuration
+==== Custom date formats
 
-The converter registry is defined in the <<application-config, Application Configuration>>. 
+Custom date formats for a specific `Locale` or language code can be registered with `DateFormats#register(...)`.
+All converters that come with linkki respect these formats.
+It is recommended to also respect these date formats in custom converters.
 
-The registry can be instantiated with additional converters which would be set before the default converters. If the registry is initiated with a custom converter which has the same types as an existing one, the custom converter is used with higher priority.
+==== Custom converters
+
+It possible to use custom converters in linkki, e.g. for data types that are not handled by default, or to change the conversion of a certain data type.
+
+===== Implementing custom converters
+
+All converters must implement the interface `Converter<Presentation, Model>`. `PRESENTATION` is the type needed by the UI component and `MODEL` is the type in the PMO. This interface defines two methods to converter between the two types.
+
+When converting to model, it is possible to check the validity of the input before the value is pushed to the PMO. This can be achieved by returning an error in the result of `convertToModel`. In this case, an error message is shown in the UI indicating that the input is not valid. The value of the UI component is restored to its previous value.
+
+===== Registering custom converters
+
+The converter registry is defined in the <<application-config, Application Configuration>>.
+
+By implementing `ApplicationConfig#getConverterRegistry()` additional custom converters can be registered.
+If the registry is initiated with a custom converter which has the same types as an existing one, the custom converter is used with higher priority.
