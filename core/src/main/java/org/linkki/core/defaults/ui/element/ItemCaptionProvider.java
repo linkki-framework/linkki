@@ -132,6 +132,8 @@ public interface ItemCaptionProvider<T> {
     class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
 
         private static final Map<Class<?>, Function<Object, String>> CACHE = new ConcurrentHashMap<>();
+
+        @CheckForNull
         private final Locale locale;
 
         /**
@@ -139,7 +141,7 @@ public interface ItemCaptionProvider<T> {
          * {@link UiFramework#getLocale()}
          */
         public DefaultCaptionProvider() {
-            this(UiFramework.getLocale());
+            this.locale = null;
         }
 
         /**
@@ -164,7 +166,7 @@ public interface ItemCaptionProvider<T> {
             Optional<Method> getLocalizedNameMethod = getMethod(type, "getName", Locale.class);
             if (getLocalizedNameMethod.isPresent()) {
                 Method m = getLocalizedNameMethod.get();
-                return o -> invokeStringMethod(m, o, locale);
+                return o -> invokeStringMethod(m, o, locale != null ? locale : UiFramework.getLocale());
             }
 
             Optional<Method> getNameMethod = getMethod(type, "getName");
