@@ -15,8 +15,8 @@ The following versions have been updated:
 
 [cols="a,a"]
 |===
-| Faktor-IPS                | 24.7.0.release
-| Vaadin                    | 24.4.1
+| Faktor-IPS                | 24.7.1.release
+| Vaadin                    | 24.4.2
 | Spring Boot               | 3.3.0
 |===
 
@@ -29,7 +29,7 @@ Improvements for Checkbox::
 Checkboxes can now display validation messages also display required indicator in layouts other than `@UISection`. For more information, check out the https://vaadin.com/docs/latest/components/checkbox[Vaadin documentation for checkbox].
 
 Relocation of `/frontend` and renaming of generated bundles::
-Vaadin 24.4.1 uses `src/main/frontend/` directory as a default location of frontend resources, which is more natural for Maven projects.
+Vaadin 24.4.2 uses `src/main/frontend/` directory as a default location of frontend resources, which is more natural for Maven projects.
 Additionally, the generated bundles are now renamed from `dev-bundle` to `dev.bundle`.
 +
 [IMPORTANT]
@@ -48,7 +48,7 @@ A better approach would be to first narrow the scope to ensure that the requeste
 Open tab in dev mode less often::
 When Vaadin application is started in dev mode, it always opens a new tab in browser. This quickly leads to many tabs opened in browser. This behavior is now changed: a new tab is only opened if the server is restarted again after 30 minutes. Otherwise, the browser tab is reused. This duration can be modified, see https://vaadin.com/docs/latest/flow/integrations/spring/configuration#launch-browser-in-development-mode[Vaadin documentation].
 
-Details on all changes can be found in the https://github.com/vaadin/platform/releases/tag/24.4.1[Vaadin 24.4.1 release notes].
+Details on all changes can be found in the https://github.com/vaadin/platform/releases/tag/24.4.2[Vaadin 24.4.2 release notes].
 
 //https://jira.convista.com/browse/LIN-1803
 ===== New BOM module for dependency management

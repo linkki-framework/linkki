@@ -149,10 +149,6 @@
     <profiles>
         <profile>
             <id>production</id>
-            <properties>
-                <vaadin.productionMode>true</vaadin.productionMode>
-            </properties>
-
             <build>
                 <plugins>
                     <plugin>
