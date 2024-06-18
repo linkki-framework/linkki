@@ -396,14 +396,17 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
         if (!parameter.isEmpty()) {
             var location = new Location(parameter);
             tabLayout.setSelectedTabSheet(location.getFirstSegment());
-            location.getSubLocation().ifPresent(l -> selectTc(l.getFirstSegment()));
+            location.getSubLocation()
+                    .ifPresentOrElse(l -> getTestCaseTabLayout().setSelectedTabSheet(l.getFirstSegment()),
+                                     () -> getTestCaseTabLayout().setSelectedIndex(0));
         } else {
             tabLayout.setSelectedIndex(0);
+            getTestCaseTabLayout().setSelectedIndex(0);
         }
     }
 
-    private void selectTc(String tc) {
-        ((LinkkiTabLayout)tabLayout.getSelectedTabSheet().getContent()).setSelectedTabSheet(tc);
+    private LinkkiTabLayout getTestCaseTabLayout() {
+        return ((LinkkiTabLayout)tabLayout.getSelectedTabSheet().getContent());
     }
 
     private LinkkiTabSheet addIpsTabSheet() {
