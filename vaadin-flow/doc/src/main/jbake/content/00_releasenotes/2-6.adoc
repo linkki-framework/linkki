@@ -48,6 +48,16 @@ A better approach would be to first narrow the scope to ensure that the requeste
 Open tab in dev mode less often::
 When Vaadin application is started in dev mode, it always opens a new tab in browser. This quickly leads to many tabs opened in browser. This behavior is now changed: a new tab is only opened if the server is restarted again after 30 minutes. Otherwise, the browser tab is reused. This duration can be modified, see https://vaadin.com/docs/latest/flow/integrations/spring/configuration#launch-browser-in-development-mode[Vaadin documentation].
 
+Misleading warning during Maven build::
+If there are no Hilla dependencies on the classpath, e.g. in JEE projects, the following warning may occur during the maven build:
++
+[source,shell]
+----
+[WARNING] The 'configure' goal is only meant to be used in Hilla projects with endpoints.
+----
++
+This warning is a false positive because of a bug in Vaadin (https://github.com/vaadin/hilla/issues/2440) and can be ignored.
+
 Details on all changes can be found in the https://github.com/vaadin/platform/releases/tag/24.4.3[Vaadin 24.4.3 release notes].
 
 //https://jira.convista.com/browse/LIN-1803
