@@ -67,9 +67,35 @@ pipeline {
             parallel {
                 stage('UI Test') {
                     steps {
+                        // check handles on chrome BEVOR ui tests
+                        script {
+                            def status = sh(returnStatus: true, script: 'pgrep chrome')
+                            if (status == 0) {
+                                def ret = sh(returnStdout: true, script: 'pgrep chrome')
+                                echo "Es sind ${ret} handles auf Chrome vorhanden"
+                            } else if(status == 1) {
+                                echo "Keine handles auf Chrome vorhanden"
+                            } else {
+                                echo "Fehler beim Aufruf!"
+                            }
+                        }
+
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                                 -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                        }
+
+                        // check handles on chrome AFTER ui tests
+                        script {
+                            def status = sh(returnStatus: true, script: 'pgrep chrome')
+                            if (status == 0) {
+                                def ret = sh(returnStdout: true, script: 'pgrep chrome')
+                                echo "Es sind ${ret} handles auf Chrome vorhanden"
+                            } else if(status == 1) {
+                                echo "Keine handles auf Chrome vorhanden"
+                            } else {
+                                echo "Fehler beim Aufruf!"
+                            }
                         }
 
                         archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
