@@ -40,12 +40,12 @@ public class PersonRowPmo {
         return person.getName() + " (" + person.getAge() + ")";
     }
 
-    @UIIntegerField(position = 10)
+    @UIIntegerField(position = 10, modelAttribute = "age")
     public void age() {
         // model binding
     }
 
-    @UILabel(position = 20)
+    @UILabel(position = 20, modelAttribute = "likes")
     public void likes() {
         // model binding
     }

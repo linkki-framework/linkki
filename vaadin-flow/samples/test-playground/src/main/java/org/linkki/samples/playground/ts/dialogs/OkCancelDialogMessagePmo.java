@@ -14,10 +14,7 @@
 
 package org.linkki.samples.playground.ts.dialogs;
 
-import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIButton;
-import org.linkki.core.ui.element.annotation.UICheckBox;
-import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
@@ -35,27 +32,4 @@ public class OkCancelDialogMessagePmo {
         dialog.setWidth("600px");
     }
 
-    public static class OkCancelDialogValidationPmo extends FieldValidationPmo {
-
-        private boolean showTextArea;
-
-        @UICheckBox(position = 20, caption = "Show text area to test overflow with messages")
-        public boolean isShowTextArea() {
-            return showTextArea;
-        }
-
-        public void setShowTextArea(boolean showTextArea) {
-            this.showTextArea = showTextArea;
-        }
-
-        @UITextArea(position = 30, label = "Text Area", visible = VisibleType.DYNAMIC, height = "100em")
-        public String getTextAreaValue() {
-            return "A very high text area to test scrolling behavior of messages in dialog";
-        }
-
-        public boolean isTextAreaValueVisible() {
-            return showTextArea;
-        }
-
-    }
 }

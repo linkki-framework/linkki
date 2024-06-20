@@ -72,10 +72,6 @@ public class BindLabelPmo implements PresentationModelObject {
     @BindReadOnly
     @BindLabel(labelType = LabelType.DYNAMIC)
     @UITextField(position = 40, label = "Do not display")
-    public void dynamicTextField() {
-        // text field
-    }
-
     public String getDynamicTextField() {
         return "DynamicTextField";
     }
