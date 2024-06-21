@@ -21,7 +21,7 @@
         
         <vaadin.version>24.1.16</vaadin.version>
         <spotbugs.version>4.6.0</spotbugs.version>
-        <spring-boot.version>3.1.7</spring-boot.version>
+        <spring-boot.version>3.1.12</spring-boot.version>
         <checkstyle.version>10.11.0</checkstyle.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         
@@ -32,7 +32,7 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
         <spotbugs-maven-plugin.version>4.5.3.0</spotbugs-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <tomee-maven-plugin.version>7.1.4</tomee-maven-plugin.version>
