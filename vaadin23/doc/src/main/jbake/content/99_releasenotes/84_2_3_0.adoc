@@ -5,6 +5,13 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.3.11
+
+Dependency versions are updated:
+
+* Vaadin 23.3.35
+* Faktor-IPS 22.12.21.release
+
 === Version 2.3.10
 
 Dependency versions are updated:

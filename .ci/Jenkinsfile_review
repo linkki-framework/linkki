@@ -122,7 +122,7 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     withSonarQubeEnv('SonarQube') {
-                                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                             sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
                                                     -Dsonar.projectKey=${PROJECT_NAME} \
                                                     -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \

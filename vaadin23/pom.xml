@@ -31,7 +31,7 @@
         <!-- this property must also be updated in samples-vaadin23 -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            23.3.33
+            23.3.35
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <!-- this property must also be updated in samples-vaadin23 -->

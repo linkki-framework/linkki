@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire.directory>surefire-reports</surefire.directory>
         
-        <vaadin.version>23.3.33</vaadin.version>
+        <vaadin.version>23.3.35</vaadin.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         
         <spotbugs.version>4.6.0</spotbugs.version>
@@ -29,12 +29,12 @@
         
         <!-- Maven Plugin Versions -->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-        <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+        <maven-deploy-plugin.version>3.1.2</maven-deploy-plugin.version>
         <maven-checkstyle-plugin.version>3.2.2</maven-checkstyle-plugin.version>
         <spotbugs-maven-plugin.version>4.5.3.0</spotbugs-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <tomee-maven-plugin.version>7.1.4</tomee-maven-plugin.version>
