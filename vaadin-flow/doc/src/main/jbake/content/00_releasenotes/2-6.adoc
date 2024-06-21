@@ -22,31 +22,43 @@ The following versions have been updated:
 
 The new Vaadin version brings some notable improvements and changes that affect linkki applications:
 
-Using React components from Flow (link:https://vaadin.com/docs/next/flow/integrations/react[doc])::
-React components can now be easily used in Vaadin Flow applications.
+Using React components from Flow::
+React components can now be easily used in Vaadin Flow applications. Details are described in the link:https://vaadin.com/docs/next/flow/integrations/react[Vaadin documentation].
 
 Improvements for Checkbox::
-Checkboxes can now display validation messages also display required indicator in layouts other than `@UISection`. For more information, check out the https://vaadin.com/docs/latest/components/checkbox[Vaadin documentation for checkbox].
+Checkboxes can now display validation messages also display required indicator in layouts other than `@UISection`.
+For more information, check out the https://vaadin.com/docs/latest/components/checkbox[Vaadin documentation for checkbox].
+
+// https://jira.convista.com/browse/LIN-3816
+Breaking Change in Vaadin Testbench::
+The method `ElementQuery.id(...)` will now throw an exception if multiple elements with the same id are present, instead of returning the first matching item.
++
+.Migration
+[IMPORTANT]
+====
+To switch back to the old behavior, you have to change the id(...) call to withId(...).first().
+A better approach would be to first narrow the scope to ensure that the requested element only exists once within this scope.
+====
+
+Open tab in dev mode less often::
+When Vaadin application is started in dev mode, it always opens a new tab in browser.
+This quickly leads to many tabs opened in browser.
+This behavior is now changed: a new tab is only opened if the server is restarted again after 30 minutes.
+Otherwise, the browser tab is reused.
+This duration can be modified, see https://vaadin.com/docs/latest/flow/integrations/spring/configuration#launch-browser-in-development-mode[Vaadin documentation].
 
 Relocation of `/frontend` and renaming of generated bundles::
 Vaadin 24.4.3 uses `src/main/frontend/` directory as a default location of frontend resources, which is more natural for Maven projects.
 Additionally, the generated bundles are now renamed from `dev-bundle` to `dev.bundle`.
 +
+.Migration
 [IMPORTANT]
 ====
 Existing non generated content in `/frontend` should be moved to the new location.
 
-The `.gitignore` file may need to be adjusted too to accommodate the changes. To make it easier to maintain the `.gitignore` in the future, a <<gitignore, new documentation>> is added which provides template for linkki projects.
+The `.gitignore` file may need to be adjusted too to accommodate the changes.
+To make it easier to maintain the `.gitignore` in the future, a <<gitignore, new documentation>> is added which provides template for linkki projects.
 ====
-
-// https://jira.convista.com/browse/LIN-3816
-Breaking Change in Vaadin Testbench::
-The method `ElementQuery.id(...)` will now throw an exception if multiple elements with the same id are present, instead of returning the first matching item.
-To switch back to the old behavior, you have to change the id(...) call to withId(...).first().
-A better approach would be to first narrow the scope to ensure that the requested element only exists once within this scope.
-
-Open tab in dev mode less often::
-When Vaadin application is started in dev mode, it always opens a new tab in browser. This quickly leads to many tabs opened in browser. This behavior is now changed: a new tab is only opened if the server is restarted again after 30 minutes. Otherwise, the browser tab is reused. This duration can be modified, see https://vaadin.com/docs/latest/flow/integrations/spring/configuration#launch-browser-in-development-mode[Vaadin documentation].
 
 Misleading warning during Maven build::
 If there are no Hilla dependencies on the classpath, e.g. in JEE projects, the following warning may occur during the maven build:
@@ -56,7 +68,17 @@ If there are no Hilla dependencies on the classpath, e.g. in JEE projects, the f
 [WARNING] The 'configure' goal is only meant to be used in Hilla projects with endpoints.
 ----
 +
-This warning is a false positive because of a bug in Vaadin (https://github.com/vaadin/hilla/issues/2440) and can be ignored.
+This warning is a false positive because of a bug in Vaadin (https://github.com/vaadin/hilla/issues/2440[details]) and can be ignored.
+
+Product build failure when using Spring Data JPA::
+When using Spring Data JPA, exception may occur during the Maven production build using `build-frontend`, caused by a `ClassNotFoundException` for example for the class `ApplicationPublisherAware`. This occurs particularly if the `@EnableJpaRepositories` annotation is on the same class as `@Theme` (https://github.com/vaadin/flow/issues/19616[details]).
++
+.Migration
+[IMPORTANT]
+====
+One possible workaround is to move the implementation of the `AppShellConfigurator` into a different class.
+Alternatively, the annotation for Spring Data JPA such as `@EnabledJpaRepositories` can be moved to a separate configuration class.
+====
 
 Details on all changes can be found in the https://github.com/vaadin/platform/releases/tag/24.4.3[Vaadin 24.4.3 release notes].
 
