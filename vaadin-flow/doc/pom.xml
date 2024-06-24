@@ -67,6 +67,7 @@
                         <vspotbugs>${spotbugs.version}</vspotbugs>
                         <vcommonslang>${commons-lang3.version}</vcommonslang>
                         <vlinkki>${project.version}</vlinkki>
+                        <vvaadin>${vaadin.version}</vvaadin>
                         <homelink>https://doc.linkki-framework.org</homelink>
                         <logo>https://doc.linkki-framework.org/linkki.png</logo>
                         <showSubheadersInMenu>true</showSubheadersInMenu>
