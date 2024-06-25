@@ -8,7 +8,7 @@
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-samples-vaadin-flow</artifactId>
-    <version>2.4.8-SNAPSHOT</version>
+    <version>2.4.8</version>
 
     <packaging>pom</packaging>
 
@@ -74,26 +74,26 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core-vaadin-flow</artifactId>
-                <version>2.4.8-SNAPSHOT</version>
+                <version>2.4.8</version>
             </dependency>
             <!-- end::linkki-core[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-ips-vaadin-flow</artifactId>
-                <version>2.4.8-SNAPSHOT</version>
+                <version>2.4.8</version>
             </dependency>
             <!-- tag::linkki-vaadin-flow-component[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-vaadin-flow-component</artifactId>
-                <version>2.4.8-SNAPSHOT</version>
+                <version>2.4.8</version>
             </dependency>
             <!-- end::linkki-vaadin-flow-component[] -->
             <!-- tag::linkki-application-framework[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework-vaadin-flow</artifactId>
-                <version>2.4.8-SNAPSHOT</version>
+                <version>2.4.8</version>
             </dependency>
             <!-- end::linkki-application-framework[] -->
 
