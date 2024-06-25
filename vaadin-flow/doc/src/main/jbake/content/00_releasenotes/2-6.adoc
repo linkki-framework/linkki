@@ -70,7 +70,7 @@ If there are no Hilla dependencies on the classpath, e.g. in JEE projects, the f
 +
 This warning is a false positive because of a bug in Vaadin (https://github.com/vaadin/hilla/issues/2440[details]) and can be ignored.
 
-Product build failure when using Spring Data JPA::
+Production build failure when using Spring Data JPA::
 When using Spring Data JPA, exception may occur during the Maven production build using `build-frontend`, caused by a `ClassNotFoundException` for example for the class `ApplicationPublisherAware`. This occurs particularly if the `@EnableJpaRepositories` annotation is on the same class as `@Theme` (https://github.com/vaadin/flow/issues/19616[details]).
 +
 .Migration
