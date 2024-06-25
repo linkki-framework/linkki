@@ -48,7 +48,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -59,12 +58,11 @@
                         <annotationProcessorPath>
                             <groupId>org.linkki-framework.tooling</groupId>
                             <artifactId>linkki-apt</artifactId>
-                            <version>${linkki.version}</version>
+                            <version>${project.version}</version>
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            -->
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -113,10 +111,6 @@
                                 <phase>compile</phase>
                             </execution>
                         </executions>
-                        <configuration>
-                            <productionMode>true</productionMode>
-                            <pnpmEnable>true</pnpmEnable>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
