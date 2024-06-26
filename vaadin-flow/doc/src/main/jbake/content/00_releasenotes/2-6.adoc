@@ -23,6 +23,10 @@ The following versions have been updated:
 // https://jira.convista.com/browse/LIN-3880
 * Card sections theme now only applies to dialogs if the theme is explicitly set on the dialog itself or a child layout.
 
+// https://jira.convista.com/browse/LIN-3034
+Disabled and readonly style for radio button and checkbox::
+The disabled and readonly style of radio buttons and checkboxes has been harmonised to follow the linkki style guidelines.
+
 // https://jira.convista.com/browse/LIN-3868
 `DefaultCaptionProvider` uses the provided `Locale`::
 If the provided `Locale` is `null`, it defaults to `UiFramework.getLocale()`.

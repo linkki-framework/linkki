@@ -1,4 +1,32 @@
-vaadin-radio-button:not([disabled]):not([readonly]),
-vaadin-radio-button:not([disabled]):not([readonly]) label {
+html {
+    --vaadin-radio-button-background: var(--linkki-input-background);
+}
+
+vaadin-radio-group:not([readonly]) vaadin-radio-button:not([disabled]),
+vaadin-radio-group:not([readonly]) vaadin-radio-button:not([disabled]) label {
     cursor: var(--lumo-clickable-cursor);
+}
+
+vaadin-radio-group[readonly] vaadin-radio-button[active][checked]::part(radio) {
+    transform: none;
+}
+
+vaadin-radio-group[readonly]:not([disabled]) vaadin-radio-button[checked] {
+    color: var(--linkki-readonly-text-color);
+}
+vaadin-radio-group[readonly]:not([disabled]) vaadin-radio-button:not([checked]) {
+    color: var(--lumo-secondary-text-color);
+}
+
+vaadin-radio-group[readonly] vaadin-radio-button::part(radio) {
+    background-color: transparent;
+}
+
+vaadin-radio-group[readonly] vaadin-radio-button:not([checked])::part(radio) {
+    --_input-border-width: var(--linkki-input-border-width-readonly);
+}
+
+vaadin-radio-group[readonly]:not([disabled]) vaadin-radio-button[checked]::part(radio) {
+    --vaadin-radio-button-dot-color: var(--lumo-primary-color);
+    --vaadin-input-field-border-color: var(--lumo-primary-color);
 }

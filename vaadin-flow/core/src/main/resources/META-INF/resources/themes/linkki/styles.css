@@ -8,6 +8,7 @@ html {
     --linkki-input-background: var(--lumo-contrast-10pct);
     --linkki-input-background-hover: var(--lumo-contrast-20pct);
     --linkki-input-border-color-readonly: var(--lumo-contrast-20pct);
+    --linkki-input-border-width-readonly: 1px;
     --linkki-readonly-text-color: var(--lumo-body-text-color);
 
     --linkki-info-color: hsl(213, 80%, 50%);
@@ -40,7 +41,7 @@ html {
     /* prefer 'Segoe UI' over Roboto */
     --lumo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
-    --vaadin-input-field-readonly-border: 1px solid var(--linkki-input-border-color-readonly);
+    --vaadin-input-field-readonly-border: var(--linkki-input-border-width-readonly) solid var(--linkki-input-border-color-readonly);
 }
 
 a:not([href]) {
