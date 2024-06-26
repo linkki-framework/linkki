@@ -12,10 +12,8 @@
  * the License.
  */
 package org.linkki.samples.playground.ts;
-
 import java.io.Serial;
 import java.util.Optional;
-
 import org.apache.commons.lang3.StringUtils;
 import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.BindingContext;
@@ -77,6 +75,7 @@ import org.linkki.samples.playground.ts.components.DynamicComponentPage;
 import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
 import org.linkki.samples.playground.ts.components.LabelPmo;
 import org.linkki.samples.playground.ts.components.LinkPmo;
+import org.linkki.samples.playground.ts.components.LongFieldPmo;
 import org.linkki.samples.playground.ts.components.MultiSelectPmo;
 import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
 import org.linkki.samples.playground.ts.components.TextAreaPmo;
@@ -140,7 +139,6 @@ import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import org.linkki.samples.playground.ts.table.UITableComponentPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
-
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
@@ -192,6 +190,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC015 = "TC015";
     public static final String TC016 = "TC016";
     public static final String TC017 = "TC017";
+    public static final String TC018 = "TC018";
 
     static final String ROUTE = "playground";
 
@@ -266,6 +265,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC015, new MultiSelectPmo())
                                        .testCase(TC016, new TimeFieldPmo())
                                        .testCase(TC017, new CheckboxesPmo())
+                                       .testCase(TC018, new LongFieldPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, LinkkiTextComponent::new)

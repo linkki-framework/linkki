@@ -60,6 +60,8 @@ public abstract class FormattedStringToNumberConverter<T extends Number> impleme
             return convertToModel(getNumberFormat(formats, format, getLocale(context)).parse(value));
         } catch (ParseException e) {
             return Result.error("Cannot parse '" + value + "' to format '" + format + "')");
+        } catch (NumberFormatException numberFormatException) {
+            return Result.error("Number is too large");
         }
     }
 

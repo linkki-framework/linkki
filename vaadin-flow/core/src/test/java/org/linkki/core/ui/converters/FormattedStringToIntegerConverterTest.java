@@ -18,53 +18,67 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Locale;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.vaadin.flow.data.binder.ValueContext;
 
 class FormattedStringToIntegerConverterTest {
 
+    private FormattedStringToIntegerConverter converter;
+    private ValueContext context;
+
+    @BeforeEach
+    void setup() {
+        converter = new FormattedStringToIntegerConverter("#,##0");
+        context = new ValueContext(Locale.GERMAN);
+    }
+
     @Test
     void testConvertToPresentation() {
-        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
-        ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToPresentation(12345, context)).isEqualTo("12.345");
     }
 
     @Test
     void testConvertToPresentation_Null() {
-        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
-        ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToPresentation(null, context)).isEmpty();
     }
 
     @Test
     void testConvertToModel() {
-        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
-        ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToModel("1.234", context).getOrThrow(AssertionError::new)).isEqualTo(1234);
     }
 
     @Test
     void testConvertToModel_Null() {
-        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
-        ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToModel("", context).getOrThrow(AssertionError::new)).isNull();
     }
 
     @Test
     void testConvertToModel_Overflow() {
-        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
-        ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToModel(String.valueOf((double)Integer.MAX_VALUE + 1), context).isError()).isTrue();
     }
 
     @Test
-    void testConvertToModel_OverflowWithVeryLargeNumberAndCustomFormat() {
-        FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("###");
-        ValueContext context = new ValueContext(Locale.GERMAN);
-        assertThat(converter.convertToModel("4325654138592074895617348926748392789", context).isError())
+    void testConvertToModel_NumberFormattedExceptionWithVeryLargeNumber() {
+        assertThat(converter.convertToModel(
+                  "4325654138592074895617348926748392789" +
+                        "4325654138592074895617348926748392789" +
+                        "4325654138592074895617348926748392789" +
+                        "4325654138592074895617348926748392789" +
+                        "4325654138592074895617348926748392789" +
+                        "4325654138592074895617348926748392789" +
+                        "4325654138592074895617348926748392789" +
+                        "4325654138592074895617348926748392789" +
+                        "4325654138592074895617348926748392789",
+                context)
+                .isError())
                 .isTrue();
+    }
+
+    @Test
+    void testConvertToModel_ParseExceptionWithVeryLargeNumber() {
+        assertThat(converter.convertToModel("no-number-input", context).isError()).isTrue();
     }
 
 }
