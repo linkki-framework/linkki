@@ -1,0 +1,27 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 00_releasenotes
+
+=== Version 2.7.0
+
+==== New features and improvements
+
+// ===== Dependency Updates
+//
+// The following versions have been updated:
+//
+// [cols="a,a"]
+// |===
+// | Faktor-IPS                | 24.7.1.release
+// | Vaadin                    | 24.4.3
+// | Spring Boot               | 3.3.1
+// |===
+
+// https://jira.convista.com/browse/LIN-3417
+===== New annotation for Checkbox Group: `@UICheckboxes`
+A new UI component, `@UICheckboxes`, is now available, providing a way to create a checkbox group for related binary choices. For more information, see <<ui-checkboxes, here>>.
+
+// ==== Bugfixes

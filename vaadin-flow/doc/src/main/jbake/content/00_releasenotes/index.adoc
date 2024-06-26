@@ -8,4 +8,4 @@
 
 == Release Notes
 
-include::2-6.adoc[]
+include::2-7.adoc[]

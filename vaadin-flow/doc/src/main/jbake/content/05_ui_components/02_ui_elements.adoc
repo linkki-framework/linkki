@@ -19,6 +19,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-textarea,`UITextArea`>> |Area for multiline text entry
 |<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>> |Field for numbers
 |<<ui-checkbox,`UICheckbox`>> |Control for boolean input
+|<<ui-checkboxes, `UICheckboxes`>> |Checkboxes for selecting multiple choices
 |<<ui-datefield,`UIDateField`>> |Field for date entry with date picker
 |<<ui-timefield,`UITimeField`>> |Field for time entry with time picker
 |<<ui-datetimefield,`UIDateTimeField`>> |Field for date and time entry with date time picker
@@ -35,7 +36,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-button,`UIButton`>> |A button that triggers an action when clicked
 |===
 
-The type of a field can be determined dynamically. This mechanism is called <<dynamicfield, dynamic field>>.
+The type of field can be determined dynamically. This mechanism is called <<dynamicfield, dynamic field>>.
 
 Annotations for fields and buttons must exist on methods in a PMO class. The main difference between fields and buttons is that fields are used for displaying and editing of values and thus are bound to a value via data binding. Therefore annotations for fields must exist on a getter method of a <<databinding, PMO property>>. Only if <<domain-model-binding, domain model binding>> is used the method can be named differently.
 
@@ -129,6 +130,21 @@ Instead of a label on the left side of the UI element, checkboxes usually have a
 
 TIP: The usual `label` property is still available if any display text is needed on the left side additionally. +
 When used in a table, the `label` is used as the column name while the `caption` is displayed next to the checkbox in the table cell.
+
+[[ui-checkboxes]]
+==== UICheckboxes
+
+The annotation `@UICheckboxes` creates a https://vaadin.com/docs/latest/components/checkbox[`com.vaadin.flow.component.checkbox.CheckboxGroup`], which is a group of related binary choices.
+
+Just like <<ui-checkbox, UICheckbox>>, the checkbox group has captions that need to be provided by an <<itemCaptionProvider, `ItemCaptionProvider`>>, which defaults to `DefaultCaptionProvider`.
+
+Note that the available values of `@UICheckboxes` are always determined dynamically. This means a method `get[PropertyName]AvailableValues` is needed.
+
+.Example usage of @UICheckboxes
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/components/CheckboxesPmo.java[tags=checkboxes]
+----
 
 [[ui-textfield]]
 ==== UITextField

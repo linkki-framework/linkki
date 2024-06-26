@@ -31,9 +31,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 @UISection
 public class CheckboxesPmo {
-
     private Set<CheckboxesValues> checkboxesValues;
 
+    // tag::checkboxes[]
     @UICheckboxes(position = 0, label = "Enabled Checkboxes",
             itemCaptionProvider = CaptionProvider.class)
     public Set<CheckboxesValues> getCheckboxesValues() {
@@ -47,6 +47,7 @@ public class CheckboxesPmo {
     public Set<CheckboxesValues> getCheckboxesValuesAvailableValues() {
         return Set.of(CheckboxesValues.values());
     }
+    // end::checkboxes[]
 
     @UICheckboxes(position = 10, label = "Disabled Checkboxes", enabled = EnabledType.DISABLED,
             itemCaptionProvider = CaptionProvider.class)
