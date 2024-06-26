@@ -1,10 +1,13 @@
 html {
-    --vaadin-checkbox-background-hover: var(--linkki-input-background-hover);
-    --vaadin-checkbox-readonly-checked-background: transparent;
+    --vaadin-checkbox-background: var(--linkki-input-background);
 }
 
-vaadin-checkbox[readonly] {
-    --vaadin-checkbox-checkmark-color: var(--lumo-primary-color);
+vaadin-form-item[required] > vaadin-checkbox::part(required-indicator) {
+    opacity: 0;
+}
+vaadin-checkbox::part(required-indicator) {
+    font-size: var(--lumo-font-size-s);
+    top: var(--lumo-space-s);
 }
 
 vaadin-checkbox:not([disabled]):not([readonly]),
@@ -12,11 +15,17 @@ vaadin-checkbox:not([disabled]):not([readonly]) label {
     cursor: var(--lumo-clickable-cursor);
 }
 
-vaadin-form-item[required] > vaadin-checkbox::part(required-indicator) {
-    opacity: 0;
+vaadin-checkbox[readonly][checked] {
+    --vaadin-checkbox-checkmark-color: var(--lumo-primary-color);
 }
 
-vaadin-checkbox::part(required-indicator) {
-    font-size: var(--lumo-font-size-s);
-    top: var(--lumo-space-s);
+/* Transparent background if readonly. Extra complex selectors to increase specificity. */
+vaadin-checkbox[readonly]:not([checked])::part(checkbox),
+vaadin-checkbox[readonly][checked]:not([disabled])::part(checkbox),
+vaadin-checkbox[readonly][checked][disabled]::part(checkbox) {
+    background-color: transparent;
+}
+
+vaadin-checkbox[readonly]:not([checked])::part(checkbox)::after {
+    border: var(--vaadin-input-field-readonly-border);
 }
