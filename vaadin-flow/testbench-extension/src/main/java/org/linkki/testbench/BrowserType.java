@@ -84,7 +84,7 @@ public enum BrowserType {
             File driver = getDriverForCurrentOS();
             if (!driver.exists()) {
                 LOGGER.severe("Driver not present: " + driver.getAbsolutePath() +
-                        " - Download the chromedriver binary from https://chromedriver.chromium.org/downloads");
+                        " - Download the chromedriver binary from https://googlechromelabs.github.io/chrome-for-testing/#stable and make sure you have chrome installed.");
                 throw new IllegalStateException("Driver not present: " + driver.getAbsolutePath());
             }
 
