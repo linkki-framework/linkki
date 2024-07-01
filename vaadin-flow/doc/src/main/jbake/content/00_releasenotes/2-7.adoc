@@ -24,4 +24,7 @@
 ===== New annotation for Checkbox Group: `@UICheckboxes`
 A new UI component, `@UICheckboxes`, is now available, providing a way to create a checkbox group for related binary choices. For more information, see <<ui-checkboxes, here>>.
 
-// ==== Bugfixes
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-3880
+* Card sections theme now only applies to dialogs if the theme is explicitly set on the dialog itself or a child layout.
