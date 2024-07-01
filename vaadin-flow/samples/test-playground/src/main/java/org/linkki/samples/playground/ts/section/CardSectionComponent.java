@@ -30,14 +30,15 @@ import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
+import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionHorizontalPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionVerticalPmo;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ThemeList;
@@ -55,9 +56,20 @@ public class CardSectionComponent {
     }
 
     public static Component create() {
-        Component tabLayoutWithCardLikeSections = createTabLayoutWithCardLikeSections();
-        return new VerticalLayout(VaadinUiCreator.createComponent(new NoPageSectionPmo(), new BindingContext()),
-                tabLayoutWithCardLikeSections);
+        return new VerticalLayout(
+                VaadinUiCreator.createComponent(new NoPageSectionPmo(), new BindingContext()),
+                new Button("Open dialog with section",
+                        e -> new PmoBasedDialogFactory()
+                                .openOkCancelDialog("Dialog", Handler.NOP_HANDLER,
+                                                    new BasicElementsLayoutBehaviorUiSectionPmo())),
+                new Button("Open dialog with section and card theme",
+                        e -> {
+                            var dialog = new PmoBasedDialogFactory()
+                                    .openOkCancelDialog("Dialog", Handler.NOP_HANDLER,
+                                                        new BasicElementsLayoutBehaviorUiSectionPmo());
+                            dialog.getElement().getThemeList().add(LinkkiTheme.VARIANT_CARD_SECTIONS);
+                        }),
+                createTabLayoutWithCardLikeSections());
     }
 
     private static Component createTabLayoutWithCardLikeSections() {
@@ -65,19 +77,19 @@ public class CardSectionComponent {
         tabLayout.setWidthFull();
 
         tabLayout.addTabSheets(
-                               LinkkiTabSheet.builder(FORM)
+                               LinkkiTabSheet.builder("Page with FORM section")
                                        .description(DESCRIPTION + FORM)
                                        .content(() -> new SimpleSectionsPage(
                                                new BasicElementsLayoutBehaviorUiSectionPmo(),
                                                new GridSectionPlusPmo()))
                                        .build(),
-                               LinkkiTabSheet.builder(HORIZONTAL)
+                               LinkkiTabSheet.builder("Page with HORIZONTAL section")
                                        .description(DESCRIPTION + HORIZONTAL)
                                        .content(() -> new SimpleSectionsPage(
                                                new BasicElementsLayoutBehaviorUiSectionHorizontalPmo(),
                                                new GridSectionPlusPmo()))
                                        .build(),
-                               LinkkiTabSheet.builder(VERTICAL)
+                               LinkkiTabSheet.builder("Page with VERTICAL section")
                                        .description(DESCRIPTION + VERTICAL)
                                        .content(() -> new SimpleSectionsPage(
                                                new BasicElementsLayoutBehaviorUiSectionVerticalPmo(),
@@ -89,8 +101,6 @@ public class CardSectionComponent {
     @UISection(caption = "Section not in LinkkkiPage")
     public static class NoPageSectionPmo {
 
-        private String value;
-
         @UIButton(position = 0, caption = "Toggle card theme globally")
         public void toggleTheme() {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
@@ -101,14 +111,11 @@ public class CardSectionComponent {
             }
         }
 
-        @UITextField(position = 10)
-        public String getValue() {
-            return value;
+        @UITextField(position = 10, label = "Global variants")
+        public String getGlobalVariants() {
+            return String.join(", ", UI.getCurrent().getElement().getThemeList());
         }
 
-        public void setValue(String value) {
-            this.value = value;
-        }
     }
 
     @UISection(caption = "Grid section plus")
@@ -129,7 +136,6 @@ public class CardSectionComponent {
 
         public SimpleSectionsPage(Object... pmos) {
             bindingManager = new DefaultBindingManager();
-            add(new H4("Page"));
             add(new Button("Toggle " + LinkkiTheme.VARIANT_CARD_SECTIONS + " in page",
                     e -> {
                         var themePresent = getElement().getThemeList().remove(LinkkiTheme.VARIANT_CARD_SECTIONS);

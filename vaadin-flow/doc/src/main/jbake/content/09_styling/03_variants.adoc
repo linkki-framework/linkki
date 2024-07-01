@@ -9,7 +9,7 @@
 
 ==== Variants 
 
-Card sections ("card-sections"):: <<section-theme-variants, Card like>> design for linkki sections.
+Card sections ("card-sections"):: <<section-theme-variants, Card like>> design for all linkki sections. When used as a default variant, sections in dialogs are not affected, except the theme is explicitly set on a dialog or a child layout.
 
 Compact ("compact"):: Smaller spaces for a more compact look.
 

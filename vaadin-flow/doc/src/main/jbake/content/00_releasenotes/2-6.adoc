@@ -5,6 +5,15 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.6.1
+
+//==== New features and improvements
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-3880
+* Card sections theme now only applies to dialogs if the theme is explicitly set on the dialog itself or a child layout.
+
 === Version 2.6.0
 
 ==== New features and improvements
