@@ -84,8 +84,9 @@ class UICustomFieldTest {
         RadioButtonGroup<TestValue> optionGroup = createCustomField();
 
         TestValue newValue = new TestValue("b");
-        optionGroup.setVisible(true);
-        optionGroup.setEnabled(true);
+        pmo.enabled = true;
+        pmo.visible = true;
+        bindingContext.modelChanged();
         KaribuUtils.Fields.setValue(optionGroup, newValue);
 
         assertThat(modelObject.getProperty(), is(newValue));

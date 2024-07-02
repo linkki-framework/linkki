@@ -17,6 +17,7 @@ package org.linkki.core.ui.element.annotation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.core.ui.element.annotation.UICheckboxesIntegrationTest.CheckboxesTestPmo;
 
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,13 +30,16 @@ import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.test.KaribuUtils;
 
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.data.provider.Query;
+
+;
 
 class UICheckboxesIntegrationTest
         extends ComponentAnnotationIntegrationTest<CheckboxGroup<TestEnum>, CheckboxesTestPmo> {
 
-    UICheckboxesIntegrationTest() {
+    private UICheckboxesIntegrationTest() {
         super(CheckboxesTestModelObject::new, CheckboxesTestPmo::new);
     }
 
@@ -67,15 +71,6 @@ class UICheckboxesIntegrationTest
     }
 
     @Test
-    void testStaticAvailableValues() {
-        var availableValuesInPmo = getDefaultPmo().getStaticValueAvailableValues();
-        var checkboxes = getStaticComponent();
-        var allValuesInCheckboxes = checkboxes.getDataProvider().fetch(new Query<>()).collect(Collectors.toSet());
-
-        assertThat(allValuesInCheckboxes).isEqualTo(availableValuesInPmo);
-    }
-
-    @Test
     void testRequired() {
         var checkboxes = getDynamicComponent();
 
@@ -87,9 +82,39 @@ class UICheckboxesIntegrationTest
     }
 
     @Test
-    void testCaptionProvider() {
-        assertThat(getDynamicComponent().getItemLabelGenerator().apply(TestEnum.EMPTY)).isEmpty();
-        assertThat(getDynamicComponent().getItemLabelGenerator().apply(TestEnum.ONE)).isEqualTo("Oans");
+    void testCaptionProvider_CustomCaptionProvider() {
+        var labels = getDynamicComponent().getChildren()
+                .map(this::getLabel)
+                .toList();
+        assertThat(labels)
+                .containsExactlyInAnyOrder(getDefaultPmo().getStaticValueAvailableValues().stream()
+                        .map(Enum::toString).toArray(String[]::new));
+    }
+
+    @Test
+    void testCaptionProvider_DefaultCaptionProvider() {
+        var labels = getStaticComponent().getChildren()
+                .map(this::getLabel)
+                .toList();
+        assertThat(labels)
+                .containsExactlyInAnyOrder(getDefaultPmo().getStaticValueAvailableValues().stream()
+                        .map(e -> e.getName(Locale.GERMAN)).toArray(String[]::new));
+    }
+
+    /**
+     * Returns the label of an item in a {@link CheckboxGroup}. For some reason,
+     * {@link CheckboxGroup#getItemLabelGenerator()} does not work correctly.
+     * {@link Checkbox#getLabel()} also delivers wrong value.
+     */
+    private String getLabel(Object checkboxItem) {
+        var checkbox = (Checkbox)checkboxItem;
+        @SuppressWarnings("removal")
+        var label = checkbox.getChildren()
+                .filter(com.vaadin.flow.component.html.Label.class::isInstance)
+                .map(com.vaadin.flow.component.html.Label.class::cast)
+                .findFirst()
+                .get();
+        return label.getElement().getTextRecursively();
     }
 
     @Test
@@ -99,7 +124,7 @@ class UICheckboxesIntegrationTest
         modelChanged();
         assertThat(getDynamicComponent().getValue()).containsOnly(TestEnum.THREE);
 
-        getDefaultPmo().setValueAvailableValues(Set.of(TestEnum.THREE));
+        getDefaultPmo().setValueAvailableValues(Set.of(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
         modelChanged();
         assertThat(getDynamicComponent().getValue()).containsOnly(TestEnum.THREE);
     }

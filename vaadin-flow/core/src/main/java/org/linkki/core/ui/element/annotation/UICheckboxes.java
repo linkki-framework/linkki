@@ -55,6 +55,11 @@ import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.data.renderer.TextRenderer;
 
+/**
+ * Defines a group of checkboxes for related binary choices using
+ * {@link com.vaadin.flow.component.checkbox.CheckboxGroup}. The getter and setter method must be of
+ * type {@code Set<VALUE_TYPE>}.
+ */
 @Retention(RUNTIME)
 @Target(METHOD)
 @LinkkiPositioned
@@ -84,9 +89,6 @@ public @interface UICheckboxes {
     /**
      * Specifies which {@link ItemCaptionProvider} should be used to convert available values into
      * String captions.
-     * <p>
-     * Default value assumes that the value class has a method "getName" and uses this method for
-     * the String representation.
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
@@ -111,25 +113,30 @@ public @interface UICheckboxes {
     AlignmentType checkboxesAlignment() default AlignmentType.VERTICAL;
 
     /**
-     * Aspect definition creator for the {@link UICheckboxes} annotation.
+     * Creates the aspect definition for the {@link UICheckboxes} annotation. This class defines all
+     * necessary aspects for a checkbox group, such as label, enabled state, required state,
+     * read-only state, visibility, values, and available values.
      */
     class CheckboxesAspectDefinitionCreator implements AspectDefinitionCreator<UICheckboxes> {
 
         @Override
         public LinkkiAspectDefinition create(UICheckboxes annotation) {
-            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
-            RequiredAspectDefinition requiredAspectDefinition =
-                    new RequiredAspectDefinition(annotation.required(), enabledAspectDefinition);
-
-            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()), enabledAspectDefinition,
-                    requiredAspectDefinition, new GenericAvailableValuesAspectDefinition(AvailableValuesType.DYNAMIC),
-                    new ValueAspectDefinition(), new VisibleAspectDefinition(annotation.visible()),
-                    new DerivedReadOnlyAspectDefinition());
+            var enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            var requiredAspectDefinition = new RequiredAspectDefinition(annotation.required(), enabledAspectDefinition);
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    new GenericAvailableValuesAspectDefinition(AvailableValuesType.DYNAMIC),
+                    new ValueAspectDefinition(),
+                    new DerivedReadOnlyAspectDefinition(),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()));
         }
     }
 
     /**
-     * Component definition for the {@link UICheckboxes} annotation.
+     * Component definition for the {@link UICheckboxes} annotation. This class creates a
+     * {@link com.vaadin.flow.component.checkbox.CheckboxGroup} with a
+     * {@link com.vaadin.flow.data.renderer.TextRenderer}.
      */
     class CheckboxesComponentDefinitionCreator implements ComponentDefinitionCreator<UICheckboxes> {
 
