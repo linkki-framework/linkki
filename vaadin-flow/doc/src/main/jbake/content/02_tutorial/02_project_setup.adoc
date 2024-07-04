@@ -52,6 +52,9 @@ Start the wizard by selecting File - New - Project. Select the Maven Archetype G
 .Generate project in IntelliJ
 image::{images}99_tutorial/intellij_maven_project.png[]
 
+[NOTE]
+If you search for linkki in the archetype selection in your IDE, you get multiple results. Since this tutorial's goal is to implement a *linkki* application with *Spring Boot*, we need to use `linkki-archetype-spring-application-vaadin-flow`.
+
 ==== Initial project structure
 
 The created project contains a `HelloPmo` class, a `BusinessPartnerPage`, a `BusinessPartnerView` that you will modify later and fundamental units for your application such as the `BusinessPartnerConfig`, the `BusinessPartnerInfo`, the `BusinessPartnerLayout` and the `BusinessPartner`.

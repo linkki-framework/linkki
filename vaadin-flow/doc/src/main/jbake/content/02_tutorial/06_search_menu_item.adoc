@@ -41,7 +41,7 @@ The `ApplicationMenuItemDefinition` needs three parameters:
 include::{source-dir}/ui/BusinessPartnerConfig.java[tags=searchMenu]
 ----
 
-If you open our application, you should now see a menu item called "Search" on the left of the blue bar, whether you are on `BusinessPartnerView` or `PartnerDetailsView`.
+If you open your application, you should now see a menu item called "Search" on the left of the blue bar, whether you are on `BusinessPartnerView` or `PartnerDetailsView`.
 
 .BusinessPartnerView
 image::{images}99_tutorial/business_partner_view.png[]

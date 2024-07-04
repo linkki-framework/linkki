@@ -11,7 +11,7 @@
 [NOTE]
 This step shows you how to validate user input in dialogs.
 
-As you may have noticed, you can add an empty address to the addresses table. This can be considered invalid, and it can be avoided by using <<validation, Validation>>, which is a way to tell the user whether the input fits the domain model logic.
+As you may have noticed, you can add an empty address to the address table. This can be considered invalid, and it can be avoided by using <<validation, Validation>>, which is a way to tell the user whether the input fits the domain model logic.
 
 .Add Address dialog with validation rules
 image::{images}99_tutorial/dialog_validation.png[]

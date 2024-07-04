@@ -21,7 +21,7 @@ image::{images}99_tutorial/dialog_initial.png[]
 The content of the dialog should be the same as `AddressRowPmo` without the delete button. To avoid writing the same PMO twice, reuse it as follows:
 
 . Extract a super class from `AddressRowPmo` such that it contains everything except the delete button and the consumer and call it `AddressPmo`.
-. Annotate `AddressPmo` and make sure the constructor has an `Address` argument that is assigned to the field `address`.
+. Annotate `AddressPmo` with `@UISection` and make sure the constructor has an `Address` argument that is assigned to the field `address`.
 
 The finished implementations of `AddressRowPmo` and `AddressPmo` should look like this:
 
@@ -126,7 +126,7 @@ public void createContent() {
 }
 ----
 
-If you run your application and click on the add button, you should see a dialog with the same fields as the addresses table. If you click on the button "OK", you should now see a new address in the table with the information provided in the dialog.
+If you run your application and click on the add button, you should see a dialog with the same fields as the address table. If you click on the button "OK", you should now see a new address in the table with the information provided in the dialog.
 
 .Add Address dialog
 image::{images}99_tutorial/dialog_initial.png[]

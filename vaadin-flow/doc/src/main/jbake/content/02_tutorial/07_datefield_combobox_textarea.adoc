@@ -30,7 +30,7 @@ The page should contain a section to display partner details. Therefore, create 
 . Create and implement the getter method for the property `dateOfBirth` with the signature `LocalDate getDateOfBirth()` the same way as in 2i.
 . Annotate the getter with <<ui-datefield, `@UIDateField`>>. The label should be set to `Date of Birth`.
 . Create and implement the setter method for the property `dateOfBirth` the same way as in 3.
-. Create and implement the getter method for the property `status` with the signature `Status getStatus()`.
+. Create and implement the getter method for the property `status` with the signature `Status getStatus()`, where `Status` is an enum provided by the sample model.
 . Annotate the getter with <<ui-combobox, `@UIComboBox`>>. The label should be set to "Status".
 . Create and implement the setter method for the property `status`.
 . Create and implement the getter method for the property `note` with the signature `String getNote()`.

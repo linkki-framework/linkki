@@ -17,7 +17,7 @@ You may have noticed that the fields in the `AddressPage` are all editable. Even
 
 To solve this problem, you can make use of *linkki*'s <<cross-sectional-binding, `PropertyBehaviors`>>. Everywhere a `DefaultBindingManager` is created, we can additionally pass read-only `PropertyBehaviors` to the constructor. Technically, we need to pass through a `PropertyBehaviorProvider` that contains only one read-only `PropertyBehavior`.
 
-In `AddressPage`, assign the following to the field `bindingManager`: `new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE, PropertyBehaviorProvider.with(PropertyBehavior.readOnly()))`.
+In the constructor of `AddressPage`, assign the following to the field `bindingManager`: `new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE, PropertyBehaviorProvider.with(PropertyBehavior.readOnly()))`.
 
 The finished implementation should look like this:
 

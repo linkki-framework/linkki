@@ -38,7 +38,7 @@ Every row consists of three elements:
 To implement the `SearchResultRowPmo`, do the following:
 
 . Create a constructor with the signature `SearchResultRowPmo(BusinessPartner partner)` which assigns the argument to a field `partner`.
-. Create and implement the getter method for the property `name`.
+. Create and implement the getter method for the property `name` by calling the corresponding getter method on `partner`.
 . Annotate the getter method with `@UILabel`. The `label` attribute will be the column name. It should be set to "Name".
 . Create and implement the getter method for the property `firstAddress`.
 . Annotate this getter method with `@UILabel` as well. The label should be set to "First Address".
@@ -75,6 +75,9 @@ include::{source-dir}/pmo/table/SearchResultTablePmo.java[tags=searchTable]
 
 [NOTE]
 The `SimpleTablePmo` deals with the creation of the table and calls the method `SearchResultTablePmo.createRow` for each partner in the `BusinessPartner` list.
+
+[TIP]
+The _functional interface_ `java.util.function.Supplier<T>` represents a method *without arguments and with a return value*.
 
 ==== Adding the table to `SearchPage`
 

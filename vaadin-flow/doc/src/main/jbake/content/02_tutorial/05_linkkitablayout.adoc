@@ -120,7 +120,7 @@ include::{source-dir}/view/PartnerDetailsView.java[tags=retrievePartner2]
 
 Now that you have the correct `BusinessPartner`, you can add the two tab sheets that will display detailed information about the partner and their addresses. However, at the moment you can access the view whether the UUID of a `BusinessPartner` is correct or not. 
 
-Therefore, you will an additional tab sheet to handle error cases: If the UUID is missing or incorrect, the first tab will be shown and the other two will be hidden. Otherwise, the first tab will be hidden and the other two will display detailed information on the `BusinessPartner`.
+Therefore, you will add an additional tab sheet to handle error cases: If the UUID is missing or incorrect, the first tab will be shown and the other two will be hidden. Otherwise, the first tab will be hidden and the other two will display detailed information on the `BusinessPartner`.
 
 Before adding the tab sheets, you need to create the component the tab sheets will display. Do the following:
 

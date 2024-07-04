@@ -20,7 +20,7 @@ First, you need to implement the table. Create the row PMO of the table and call
 
 ==== Model Binding Theory
 
-At this point, you already know how to use getters and setters. However, as you may have seen before, the more UI elements you use, the longer the PMO becomes. Therefore, you will now use a new method called <<domain-model-binding, Model Binding>>.
+At this point, you already know how to use getters and setters. However, as you may have seen before, the more UI elements you use, the longer the PMO becomes, and the methods often only contain a delegation to the corresponding methods in the model object. To simplify the code in this case, linkki provides a mechanism called <<domain-model-binding, Model Binding>>.
 
 [NOTE]
 "Model Binding", shorthand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes. It can be used when the presentation model and the domain model have similar structure and properties.

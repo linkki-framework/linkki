@@ -23,11 +23,11 @@ In *linkki*, each layout element is represented by a <<databinding, *Presentatio
 
 To start with the first layout, create a class with the name `SearchSectionPmo` and annotate it with <<layout-section, `@UISection`>>.
 
-To implement the text field for search term input, follow the following steps:
+To implement the text field for search term input, do the following:
 
 . Create a new field `searchText` that stores the user's input.
 . Create and implement the getter method for the property `searchText` with the signature `String getSearchText()`.
-. Annotate the getter method with <<ui-textfield, `@UITextField`>>. The annotation requires a value `position` which can set to an arbitrary positive integer value, e.g. 10.
+. Annotate the getter method with <<ui-textfield, `@UITextField`>>. The annotation requires a value `position` which can be set to an arbitrary positive integer value, e.g. 10.
 . Create and implement the setter method for the property `searchText`. This method should have the signature `public void setSearchText(String)`.
 
 The finished implementation looks like this:
@@ -39,7 +39,7 @@ include::{source-dir}/pmo/section/SearchSectionPmo.java[tags=searchfield]
 ----
 
 [NOTE]
-Just like layouts, input components are also represented by annotations. The <<ui-element, built-in annotations>> cover the components that are most commonly used in a form. It is also possible to create <<custom-ui-element-annotation, your annotations>> for custom components.
+Just like layouts, input components are also represented by annotations. The <<ui-element, built-in annotations>> cover the components that are most commonly used in a form. It is also possible to create <<custom-ui-element-annotation, custom annotations>> for other UI components.
 
 The UI element `UITextField` is declared via the annotation `@UITextField`. It is followed by two properties: `position` and `label`.
 
@@ -59,14 +59,14 @@ image::{images}99_tutorial/data_binding.png[]
 ====
 
 [[tutorial-search-button]]
-To additionally display a button to trigger the search, follow the following steps:
+To additionally display a button to trigger the search, do the following:
 
 . Create a new field `searchConsumer` of type `Consumer<String>`.
 . Create a constructor with the signature `SearchSectionPmo(Consumer<String>)` which assigns the argument to the field `searchConsumer`.
 . Create a new method `search` with the signature `public void search()`
 . Implement the method with `searchConsumer.accept(searchText)`
 . Annotate the method with `@UIButton`. 
-.. The `position` should be higher than the position of `@UITextField`, e.g. 20.
+.. The `position` should be a higher number than the position of `@UITextField`, e.g. 20.
 .. The `caption` should be set to "Start Search".
 
 The finished implementation should look like this:
@@ -77,17 +77,17 @@ The finished implementation should look like this:
 include::{source-dir}/pmo/section/SearchSectionPmo.java[tags=searchButton]
 ----
 [NOTE]
-As a button do not store any values, the annotation is not added to a getter method, but a void method. Whenever the user clicks on the button, the method `search()` is invoked. The corresponding PMO property is called `search`.
+As a button does not store any values, the annotation is not added to a getter method, but a void method. Whenever the user clicks on the button, the method `search()` is invoked. The corresponding PMO property is called `search`.
 
 The search action itself is a functionality that should not be directly implemented in the PMO as it requires interaction with external systems. Thus it should be passed to the PMO as a constructor argument.
 
 [TIP]
-In your application, you will often use the _functional interfaces_ `org.linkki.util.handler.Handler` and `Consumer<T>` in order to separate a button's execution logic from its definition within the Presentation Model Object (PMO) classes. The `Handler` is a representation of a method *without arguments and without a return value*.
+In your application, you will often use the _functional interfaces_ `org.linkki.util.handler.Handler` and `java.util.function.Consumer<T>` in order to separate a button's execution logic from its definition within the Presentation Model Object (PMO) classes. The `Handler` is a representation of a method *without arguments and without a return value*. The `Consumer<T>` represents a method *with a single input argument and without a return value*.
 
 [[tutorial-search-page]]
 ==== Creating and showing `SearchSectionPmo` on a `Page`
 
-Now that you have the search input section, follow the following steps to create and display the section represented by `SearchSectionPmo`:
+Now that you have the search input section, do as follows to create and display the section represented by `SearchSectionPmo`:
 
 . Create a Class `SearchPage` that extends `AbstractPage`.
 . Create a field `bindingManager` of type <<binding-basics, BindingManager>> and initialize it with `new DefaultBindingManager()`.
@@ -129,7 +129,7 @@ include::{source-dir}/page/SearchPage.java[tags=search]
 [[tutorial-search-page-init]]
 ==== Showing `SearchPage` in `BusinessPartnerView`
 
-The `SearchPage` is still not displayed yet. To create and display the page, go to the class `BusinessPartnerView` and modify the class as followed:
+The `SearchPage` is still not displayed yet. To create and display the page, go to the class `BusinessPartnerView` and modify the constructor as follows:
 
 . Extend the constructor with an argument of type `BusinessPartnerRepository`.
 . Annotate the constructor with https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-autowired-annotation[`@Autowired`].

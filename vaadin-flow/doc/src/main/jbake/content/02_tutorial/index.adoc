@@ -16,7 +16,7 @@ After finishing the tutorial, you will be able to use the application to search 
 
 === The application
 
-The sample application opens with a main view that allows searching for business partners. The user can type in search text and find matching partners by clicking on the search button. The partners found by the search will be listed in a "Search Results" table. Each row shows the name of a partner, their first address, and a link labeled "Show Details".
+The sample application opens with a main view that allows searching for business partners. The user can type in a search term and find matching partners by clicking on the search button. The partners found by the search will be listed in a "Search Results" table. Each row shows the name of a partner, their first address, and a link labeled "Show Details".
 
 .Business Partner View with search result table
 image::{images}99_tutorial/business_partner_view_with_result.png[]
