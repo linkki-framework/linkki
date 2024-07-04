@@ -59,7 +59,7 @@ public interface NlsService {
     }
 
     /**
-     * Gets a String for the given key for for the locale retrieved from
+     * Gets a String for the given key for the locale retrieved from
      * <code> UiUtil.getUiLocale()</code>. The given default will be returned if the resource is
      * missing or the key was not found.
      * 
@@ -98,7 +98,7 @@ public interface NlsService {
     /**
      * @return the {@link NlsService} implementation for the current context.
      */
-    public static NlsService get() {
+    static NlsService get() {
         return new DefaultNlsService();
     }
 

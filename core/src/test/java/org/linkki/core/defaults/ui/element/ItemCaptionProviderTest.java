@@ -97,6 +97,15 @@ class ItemCaptionProviderTest {
         assertThat(provider.getCaption(false)).isEqualTo("No");
     }
 
+    @Test
+    void testDefaultCaptionProvider_getCaption_WithBooleanAndCustomLocale() {
+        var provider = new ItemCaptionProvider.DefaultCaptionProvider(Locale.GERMAN);
+        TestUiFramework.get().setUiLocale(Locale.ENGLISH);
+
+        assertThat(provider.getCaption(true)).isEqualTo("Ja");
+        assertThat(provider.getCaption(false)).isEqualTo("Nein");
+    }
+
     enum LocalizedEnum {
         VALUE;
 

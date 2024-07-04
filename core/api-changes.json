@@ -34,5 +34,20 @@
                 ]
             }
         }
+    ],
+    "2.6.1": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.method.added",
+                        "new": "method java.lang.String org.linkki.core.defaults.nls.NlsText::getString(java.lang.String, java.util.Locale)",
+                        "justification": "LIN-3868"
+                    }
+                ]
+            }
+        }
     ]
 }

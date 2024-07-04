@@ -23,6 +23,11 @@ The following versions have been updated:
 // https://jira.convista.com/browse/LIN-3880
 * Card sections theme now only applies to dialogs if the theme is explicitly set on the dialog itself or a child layout.
 
+// https://jira.convista.com/browse/LIN-3868
+`DefaultCaptionProvider` uses the provided `Locale`::
+If the provided `Locale` is `null`, it defaults to `UiFramework.getLocale()`.
+It does not ignore the provided `Locale` for `Boolean` captions anymore.
+
 === Version 2.6.0
 
 ==== New features and improvements
