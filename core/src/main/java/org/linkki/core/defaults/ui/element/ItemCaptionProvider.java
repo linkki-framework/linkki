@@ -166,7 +166,7 @@ public interface ItemCaptionProvider<T> {
             Optional<Method> getLocalizedNameMethod = getMethod(type, "getName", Locale.class);
             if (getLocalizedNameMethod.isPresent()) {
                 Method m = getLocalizedNameMethod.get();
-                return o -> invokeStringMethod(m, o, locale != null ? locale : UiFramework.getLocale());
+                return o -> invokeStringMethod(m, o, getLocale());
             }
 
             Optional<Method> getNameMethod = getMethod(type, "getName");
@@ -200,8 +200,13 @@ public interface ItemCaptionProvider<T> {
         }
 
         private String booleanToCaption(boolean bool) {
-            return bool ? NlsText.getString("DefaultCaptionProvider.True") // $NON-NLS-1$
-                    : NlsText.getString("DefaultCaptionProvider.False"); // $NON-NLS-1$
+            return bool
+                    ? NlsText.getString("DefaultCaptionProvider.True", getLocale()) // $NON-NLS-1$
+                    : NlsText.getString("DefaultCaptionProvider.False", getLocale()); // $NON-NLS-1$
+        }
+
+        private Locale getLocale() {
+            return locale == null ? UiFramework.getLocale() : locale;
         }
     }
 

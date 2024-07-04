@@ -13,6 +13,8 @@
  */
 package org.linkki.core.ui.nls;
 
+import java.util.Locale;
+
 import org.linkki.core.nls.NlsService;
 
 /**
@@ -27,6 +29,10 @@ public class NlsText {
 
     public static String getString(String key) {
         return NlsService.get().getString(BUNDLE_NAME, key).orElseGet(() -> '!' + key + '!');
+    }
+
+    public static String getString(String key, Locale locale) {
+        return NlsService.get().getString(BUNDLE_NAME, key, locale).orElseGet(() -> '!' + key + '!');
     }
 
 }
