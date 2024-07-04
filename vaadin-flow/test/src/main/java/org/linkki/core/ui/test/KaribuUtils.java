@@ -15,7 +15,6 @@
 package org.linkki.core.ui.test;
 
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
-import static java.util.Objects.requireNonNull;
 import static org.awaitility.Awaitility.await;
 
 import java.util.List;
@@ -279,8 +278,8 @@ public class KaribuUtils {
          * command.
          */
         public static void push(com.vaadin.flow.component.UI ui) {
-            await().atMost(1, TimeUnit.SECONDS).until(() -> ui.getSession().getPendingAccessQueue().size() == 1);
-            requireNonNull(ui.getSession().getPendingAccessQueue().poll()).run();
+            await().atMost(1, TimeUnit.SECONDS).until(() -> !ui.getSession().getPendingAccessQueue().isEmpty());
+            ui.getSession().getService().runPendingAccessTasks(ui.getSession());
         }
     }
 }

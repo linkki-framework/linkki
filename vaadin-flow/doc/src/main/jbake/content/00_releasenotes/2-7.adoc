@@ -28,6 +28,10 @@ A new UI component, `@UICheckboxes`, is now available, providing a way to create
 ===== New annotation for Number Field Group: `@UILongField`
 A new UI component, `@UILongField`, is now available, providing a way to accept a very long number. For more information, see <<ui-numberfield, here>>.
 
+// https://jira.convista.com/browse/LIN-3884
+===== Testbench extension: support for table placeholder
+The new page object `LinkkiGridElement` adds support to retrieve the placeholder text of a table. It can be used instead of `GridElement`, e.g. `$(LinkkiGridElement.class)`.
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-3880

@@ -121,9 +121,16 @@ As the generic type of the return type is erased at runtime, the row PMO class n
     }
 ----
 
-If link:https://vaadin.com/docs/latest/advanced/server-push[server push] is enabled, the rows of the table are fetched asynchronously. This is particularly useful if the rows of the table are being retrieved form external systems.
+If the return type is a `CompletableFuture`, the items of the table are set asynchronously.
+This is particularly useful if the rows of the table are being retrieved form external systems.
+Note that link:https://vaadin.com/docs/latest/advanced/server-push[server push] should be enabled if the changes should be reflected to the UI immediately. Otherwise, the changes are shown with the next server roundtrip.
 
-[NOTE]
+[TIP]
+====
+If any thread local information such as authentication tokens are needed for fetching the items, they must be added to new threads when creating the `CompletableFuture`.
+====
+
+[WARNING]
 ====
 `@UITableComponent` does not work with `@BindTableSelection` yet.
 ====

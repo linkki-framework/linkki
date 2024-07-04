@@ -23,7 +23,9 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
@@ -41,6 +43,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.creation.table.GridColumnWrapper;
 import org.linkki.core.ui.creation.table.GridComponentDefinition;
+import org.linkki.core.ui.nls.NlsText;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -51,6 +54,8 @@ import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.util.BeanUtils;
 import org.linkki.util.handler.Handler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -60,7 +65,8 @@ import com.vaadin.flow.component.grid.GridVariant;
 /**
  * Creates a {@link Grid} component.
  * <p>
- * If {@link UI#getPushConfiguration() push} is enabled, the items are fetch asynchronously.
+ * If the value aspect is of type {@link CompletableFuture}, the items of this table are set
+ * asynchronously when the future is completed. Otherwise, the items are set immediately.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -100,37 +106,74 @@ public @interface UITableComponent {
 
         @Override
         public LinkkiAspectDefinition create(UITableComponent annotation) {
-            return new GridItemsDefinition();
+            return new GridItemsAspectDefinition();
         }
     }
 
-    class GridItemsDefinition implements LinkkiAspectDefinition {
+    class GridItemsAspectDefinition implements LinkkiAspectDefinition {
+
+        private static final Logger LOGGER = LoggerFactory.getLogger(GridItemsAspectDefinition.class);
 
         private static final String NAME = LinkkiAspectDefinition.VALUE_ASPECT_NAME;
-        private static final String ATTR_LOADING = "items-loading";
         private static final String ATTR_HAS_ITEMS = "has-items";
+        private static final String ATTR_LOADING = "items-loading";
+        private static final String ATTR_HAS_ERRORS = "has-errors";
+        private static final String CSS_PROPERTY_ERROR_MESSAGES = "--error-message";
+        private static final String MSG_CODE_ERROR_MESSAGES = "GridItemsAspectDefinition.error";
 
         @Override
         public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
             @SuppressWarnings("unchecked")
             var grid = (Grid<Object>)componentWrapper.getComponent();
             var ui = UI.getCurrent();
-            if (ui.getPushConfiguration().getPushMode().isEnabled()) {
+            if (CompletableFuture.class.isAssignableFrom(propertyDispatcher.getValueClass())) {
+                if (!ui.getPushConfiguration().getPushMode().isEnabled()) {
+                    if (LOGGER.isWarnEnabled()) {
+                        LOGGER.warn(("""
+                                CompletableFuture is used to retrieve table items with %s although server push is not \
+                                enabled.
+
+                                This will cause update to be not reflected in the UI immediately. (%s)""")
+                                .formatted(UITableComponent.class.getSimpleName(),
+                                           Optional.ofNullable(propertyDispatcher.getBoundObject())
+                                                   .map(Object::getClass)
+                                                   .map(Class::getName)
+                                                   .orElse("null") + "#"
+                                                   + propertyDispatcher.getProperty()));
+                    }
+                }
                 return () -> {
                     grid.getElement().setAttribute(ATTR_LOADING, true);
-                    CompletableFuture
-                            .supplyAsync(() -> getAspectValue(propertyDispatcher))
-                            .whenComplete((items, throwable) -> ui.access(() -> {
-                                setItems(grid, items);
-                                grid.getElement().removeAttribute(ATTR_LOADING);
-                            }));
+                    grid.getElement().setAttribute(ATTR_HAS_ERRORS, false);
+                    grid.getElement().getStyle().remove(CSS_PROPERTY_ERROR_MESSAGES);
+                    @SuppressWarnings("unchecked")
+                    var future = (CompletableFuture<List<Object>>)getAspectValue(propertyDispatcher);
+                    future.whenComplete(onFutureComplete(ui, grid));
                 };
             } else {
-                return () -> setItems(grid, getAspectValue(propertyDispatcher));
+                return () -> {
+                    List<Object> items = getAspectValue(propertyDispatcher);
+                    setItems(grid, items);
+                };
             }
         }
 
-        private List<Object> getAspectValue(PropertyDispatcher propertyDispatcher) {
+        private BiConsumer<List<Object>, Throwable> onFutureComplete(UI ui, Grid<Object> grid) {
+            return (items, throwable) -> ui.access(() -> {
+                if (throwable != null) {
+                    LOGGER.error("An error occurred when retrieving table items", throwable);
+                    setItems(grid, List.of());
+                    grid.getElement().setAttribute(ATTR_HAS_ERRORS, true);
+                    grid.getElement().getStyle().set(CSS_PROPERTY_ERROR_MESSAGES,
+                                                     NlsText.getString(MSG_CODE_ERROR_MESSAGES));
+                } else {
+                    setItems(grid, items);
+                }
+                grid.getElement().removeAttribute(ATTR_LOADING);
+            });
+        }
+
+        private <T> T getAspectValue(PropertyDispatcher propertyDispatcher) {
             return requireNonNull(propertyDispatcher
                     .pull(Aspect.of(NAME)), "List of items must not be null");
         }

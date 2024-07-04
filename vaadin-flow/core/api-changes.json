@@ -1,144 +1,59 @@
 {
-    "all-versions": [
-        {
-            "extension": "revapi.filter",
-            "configuration": {
-                "elements": {
-                    "exclude": [
-                        ".* com\\.vaadin\\.flow\\..*"
-                    ]
-                }
-            }
-        },
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.core\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.util\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    }
-                ]
-            }
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".* com\\.vaadin\\.flow\\..*"
+          ]
         }
-    ],
-    "2.6.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.class.nonFinalClassInheritsFromNewClass",
-                        "old": "class org.linkki.util.Sequence<T>",
-                        "new": "class org.linkki.util.Sequence<T>",
-                        "superClass": "java.lang.Record",
-                        "justification": "LIN-3570"
-                    },
-                    {
-                        "code": "java.class.kindChanged",
-                        "old": "class org.linkki.util.Sequence<T>",
-                        "new": "class org.linkki.util.Sequence<T>",
-                        "justification": "LIN-3570 - is now a record instead of class"
-                    },
-                    {
-                        "code": "java.class.nowFinal",
-                        "old": "class org.linkki.util.Sequence<T>",
-                        "new": "class org.linkki.util.Sequence<T>",
-                        "justification": "LIN-3570 - was effectively final before"
-                    },
-                    {
-                        "code": "java.annotation.removed",
-                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(T[])",
-                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(T[])",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                        "justification": "LIN-3570"
-                    },
-                    {
-                        "code": "java.annotation.removed",
-                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(java.util.Collection<T>)",
-                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(java.util.Collection<T>)",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                        "justification": "LIN-3570"
-                    },
-                    {
-                        "code": "java.annotation.removed",
-                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(org.linkki.util.Sequence<T>)",
-                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::with(org.linkki.util.Sequence<T>)",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                        "justification": "LIN-3570"
-                    },
-                    {
-                        "code": "java.annotation.removed",
-                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>)",
-                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>)",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                        "justification": "LIN-3570"
-                    },
-                    {
-                        "code": "java.annotation.removed",
-                        "old": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>[])",
-                        "new": "method org.linkki.util.Sequence<T> org.linkki.util.Sequence<T>::withIf(boolean, java.util.function.Supplier<T>[])",
-                        "annotation": "@edu.umd.cs.findbugs.annotations.CheckReturnValue",
-                        "justification": "LIN-3570"
-                    },
-                    {
-                        "code": "java.method.parameterTypeChanged",
-                        "old": "parameter org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator::create(===java.lang.annotation.Annotation===)",
-                        "new": "parameter org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator::create(===org.linkki.core.ui.table.aspects.annotation.BindTableSelection===)",
-                        "parameterIndex": "0",
-                        "justification": "LIN-3147"
-                    },
-                    {
-                        "code": "java.class.noLongerImplementsInterface",
-                        "old": "class org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator",
-                        "new": "class org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator",
-                        "interface": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<java.lang.annotation.Annotation>",
-                        "justification": "LIN-3147"
-                    },
-                    {
-                        "code": "java.class.superTypeTypeParametersChanged",
-                        "old": "class org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator",
-                        "new": "class org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator",
-                        "oldSuperType": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<java.lang.annotation.Annotation>",
-                        "newSuperType": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<org.linkki.core.ui.table.aspects.annotation.BindTableSelection>",
-                        "justification": "LIN-3147"
-                    },
-                    {
-                        "code": "java.method.defaultValueChanged",
-                        "old": "method java.lang.Class<? extends org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>> org.linkki.core.ui.element.annotation.UIRadioButtons::itemCaptionProvider()",
-                        "new": "method java.lang.Class<? extends org.linkki.core.defaults.ui.element.ItemCaptionProvider<?>> org.linkki.core.ui.element.annotation.UIRadioButtons::itemCaptionProvider()",
-                        "oldValue": "org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider.class",
-                        "newValue": "org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsCaptionProvider.class",
-                        "justification": "LIN-3358"
-                    },
-                    {
-                        "code": "java.field.removedWithConstant",
-                        "old": "field org.linkki.core.ui.theme.LinkkiTheme.VARIANT_CARD_SECTION_PAGES",
-                        "justification": "LIN-3540"
-                    },
-                    {
-                        "code": "java.field.removedWithConstant",
-                        "old": "field org.linkki.core.vaadin.component.section.LinkkiSection.CLASS_SECTION_STYLE_CARD",
-                        "justification": "LIN-3540"
-                    },
-                    {
-                        "ignore": true,
-                        "code": "java.method.removed",
-                        "old": "method org.linkki.core.vaadin.component.base.LinkkiCheckBox org.linkki.core.vaadin.component.ComponentFactory::newCheckbox()",
-                        "justification": "LIN-3830/LIN-3832 Deprecate LinkkiCheckBox and use Vaadins Checkbox instead"
-                    }
-                ]
-            }
-        }
-    ]
+      }
+    },
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.core\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.util\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          }
+        ]
+      }
+    }
+  ],
+  "2.7.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.method.added",
+            "new": "method java.lang.String org.linkki.core.ui.nls.NlsText::getString(java.lang.String, java.util.Locale)",
+            "justification": "LIN-3868"
+          },
+          {
+            "code": "java.class.added",
+            "new": "class org.linkki.core.ui.element.annotation.UITableComponent.GridItemsAspectDefinition",
+            "justification": "LIN-3884"
+          },
+          {
+            "code": "java.class.removed",
+            "old": "class org.linkki.core.ui.element.annotation.UITableComponent.GridItemsDefinition",
+            "justification": "LIN-3884"
+          }
+        ]
+      }
+    }
+  ]
 }
