@@ -10,24 +10,5 @@
         }
       }
     }
-  ],
-  "2.6.0": [
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "code": "java.annotation.attributeValueChanged",
-            "old": "class com.github.mvysny.kaributesting.v10.Routes",
-            "new": "class com.github.mvysny.kaributesting.v10.Routes",
-            "annotationType": "kotlin.jvm.internal.SourceDebugExtension",
-            "attribute": "value",
-            "oldValue": "{\"SMAP\nRoutes.kt\nKotlin\n*S Kotlin\n*F\n+ 1 Routes.kt\ncom\/github\/mvysny\/kaributesting\/v10\/Routes\n+ 2 _Collections.kt\nkotlin\/collections\/CollectionsKt___CollectionsKt\n*L\n1#1,135:1\n1549#2:136\n1620#2,3:137\n1620#2,3:140\n1620#2,3:143\n1747#2,3:146\n*S KotlinDebug\n*F\n+ 1 Routes.kt\ncom\/github\/mvysny\/kaributesting\/v10\/Routes\n*L\n55#1:136\n55#1:137,3\n76#1:140,3\n79#1:143,3\n86#1:146,3\n*E\n\"}",
-            "newValue": "{\"SMAP\nRoutes.kt\nKotlin\n*S Kotlin\n*F\n+ 1 Routes.kt\ncom\/github\/mvysny\/kaributesting\/v10\/Routes\n+ 2 _Collections.kt\nkotlin\/collections\/CollectionsKt___CollectionsKt\n*L\n1#1,135:1\n1557#2:136\n1628#2,3:137\n1628#2,3:140\n1628#2,3:143\n1755#2,3:146\n*S KotlinDebug\n*F\n+ 1 Routes.kt\ncom\/github\/mvysny\/kaributesting\/v10\/Routes\n*L\n55#1:136\n55#1:137,3\n76#1:140,3\n79#1:143,3\n86#1:146,3\n*E\n\"}"
-          }
-        ]
-      }
-    }
   ]
 }

@@ -22,6 +22,8 @@ The following versions have been updated:
 
 // https://jira.convista.com/browse/LIN-3880
 * Card sections theme now only applies to dialogs if the theme is explicitly set on the dialog itself or a child layout.
+// https://jira.convista.com/browse/LIN-3884
+* The items of a table created with `@UITableComponent` are now only fetched asynchronously if the return type is `CompletableFuture`. The <<ui-table-component, documentation>> is updated accordingly.
 
 // https://jira.convista.com/browse/LIN-3034
 Disabled and readonly style for radio button and checkbox::
@@ -145,12 +147,13 @@ A new UI component `@UITableComponent` is now available, providing a new way to 
     }
 ----
 
+If link:https://vaadin.com/docs/latest/advanced/server-push[server push] is enabled and and the return type is a `CompletableFuture`, the items of the table are set asynchronously.
+This is particularly useful if the rows of the table must be retrieved form external systems.
+
 This new annotation has several advantages comparing to the definition of tables using `ContainerPmo`/`SimpleTablePmo`:
 
 * No PMO class is required to create a table.
 This makes it easier to combine tables with other components in a layout.
-* If link:https://vaadin.com/docs/latest/advanced/server-push[server push] is enabled, the rows of the table are fetched asynchronously.
-This is particularly useful if the rows of the table must be retrieved form external systems.
 * It is easy to style the table itself.
 When using `ContainerPmo`, it is only possible to add style names to the section.
 If the table itself has to be modified, the created component has to be cast to `GridSection` to retrieve the `Grid` component.

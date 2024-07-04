@@ -16,11 +16,16 @@ package org.linkki.samples.playground.ts.table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 import org.linkki.core.ui.aspects.annotation.BindPlaceholder;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UITableComponent;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
@@ -35,10 +40,12 @@ public class UITableComponentPmo {
 
     private final List<Person> data;
     private final SimpleItemSupplier<PersonRowPmo, Person> itemSupplier;
+    private boolean exception;
 
     public UITableComponentPmo() {
         data = new ArrayList<>();
         itemSupplier = new SimpleItemSupplier<>(() -> data, m -> new PersonRowPmo(m, () -> data.remove(m)));
+        exception = false;
         addPerson();
     }
 
@@ -48,17 +55,40 @@ public class UITableComponentPmo {
     }
 
     @SectionHeader
-    @UIButton(position = -1, caption = "Add a new person")
+    @UIButton(position = -90, caption = "Add a new person")
     public void addPerson() {
         data.add(createNewPerson());
     }
 
-    @BindStyleNames(LumoUtility.Height.FULL)
-    @BindPlaceholder("There are no person to be shown. Add a new person by clicking on the header button.")
-    @UITableComponent(position = 0, rowPmoClass = PersonRowPmo.class)
-    public List<PersonRowPmo> getRows() throws InterruptedException {
-        Thread.sleep(2000);
-        return itemSupplier.get();
+    @SectionHeader
+    @UICheckBox(position = -80, caption = "Throw exception when getting items")
+    public boolean isException() {
+        return exception;
     }
 
+    public void setException(boolean exception) {
+        this.exception = exception;
+    }
+
+    @BindStyleNames(LumoUtility.Height.FULL)
+    @BindPlaceholder("There are no person to be shown. Add a new person by clicking on the header button.")
+    @UITableComponent(position = 20, rowPmoClass = PersonRowPmo.class)
+    public CompletableFuture<List<PersonRowPmo>> getRows() {
+        return CompletableFuture.supplyAsync(this::getPersonsAsync, Executors.newFixedThreadPool(1));
+    }
+
+    private List<PersonRowPmo> getPersonsAsync() {
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new CompletionException(e);
+        }
+        if (exception) {
+            throw new CompletionException(new RuntimeException("Exception when retrieving table items. " +
+                    "This message should not be displayed for security reasons, but should be logged."));
+        } else {
+            return itemSupplier.get();
+        }
+    }
 }

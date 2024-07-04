@@ -55,5 +55,10 @@
             <groupId>com.github.mvysny.kaributesting</groupId>
             <artifactId>karibu-testing-v24</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

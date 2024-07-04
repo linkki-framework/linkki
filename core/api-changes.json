@@ -1,40 +1,4 @@
 {
-    "2.6.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method org.linkki.core.binding.descriptor.aspect.Aspect<java.lang.Boolean> org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition::createAspect()",
-                        "new": "method org.linkki.core.binding.descriptor.aspect.Aspect<java.lang.Boolean> org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition::createAspect(java.util.function.Supplier<?>)",
-                        "justification": "LIN-3293/LIN-3695 :: Add new VisibleType.INVISIBLE_IF_EMPTY and VisibleAspectDefinition sets the component invisible if the value is null or an empty string"
-                    },
-                    {
-                        "code": "java.class.noLongerInheritsFromClass",
-                        "old": "class org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition",
-                        "new": "class org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition",
-                        "justification": "LIN-3293/LIN-3695 :: Add new VisibleType.INVISIBLE_IF_EMPTY and VisibleAspectDefinition sets the component invisible if the value is null or an empty string"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method java.util.List<java.lang.Boolean> org.linkki.core.defaults.ui.element.AvailableValuesProvider::booleanWrapperToValues()",
-                        "new": "method java.util.List<java.lang.Boolean> org.linkki.core.defaults.ui.element.AvailableValuesProvider::booleanWrapperToValues(boolean)",
-                        "justification": "LIN-3358"
-                    },
-                    {
-                        "code": "java.field.constantValueChanged",
-                        "old": "field org.linkki.core.defaults.style.LinkkiTheme.VARIANT_CARD_SECTION_PAGES",
-                        "new": "field org.linkki.core.defaults.style.LinkkiTheme.VARIANT_CARD_SECTION_PAGES",
-                        "oldValue": "card-section-pages",
-                        "newValue": "boxed-sections",
-                        "justification": "LIN-3540"
-                    }
-                ]
-            }
-        }
-    ],
     "2.6.1": [
         {
             "extension": "revapi.differences",

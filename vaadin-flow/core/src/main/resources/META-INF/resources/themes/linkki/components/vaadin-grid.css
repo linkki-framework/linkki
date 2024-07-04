@@ -1,3 +1,11 @@
+:host {
+  background: var(--linkki-grid-background, var(--lumo-base-color));
+}
+
+[part~="cell"] {
+  background: var(--linkki-grid-background, var(--lumo-base-color));
+}
+
 [part="row"]:only-child [part~="header-cell"] {
   min-height: var(--lumo-size-m);
 }
@@ -15,26 +23,18 @@
   /* override fixed inline height */
   height: unset !important;
 }
-
 :host([has-placeholder]:not([has-items])) #scroller {
   display: none;
 }
-
 :host([has-placeholder]:not([has-items]))::after {
   content: var(--placeholder, "");
   font-style: italic;
   opacity: 0.7;
 }
-
-:host {
-  background: var(--linkki-grid-background, var(--lumo-base-color));
-}
-
-[part~="cell"] {
-  background: var(--linkki-grid-background, var(--lumo-base-color));
-}
-
 /* hide placeholder if content is still being loaded */
 :host([has-placeholder][items-loading])::after {
   content: "Loading...";
+}
+:host([has-placeholder][has-errors])::after {
+  content: var(--error-message);
 }
