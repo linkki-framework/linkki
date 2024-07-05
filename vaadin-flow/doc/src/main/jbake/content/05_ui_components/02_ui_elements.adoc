@@ -17,7 +17,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-link, `UILink`>> |Hyperlink
 |<<ui-textfield,`UITextField`>> |Field for single line text entry
 |<<ui-textarea,`UITextArea`>> |Area for multiline text entry
-|<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>> |Field for numbers
+|<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>>, <<ui-numberfield,`UILongField`>>|Field for numbers
 |<<ui-checkbox,`UICheckbox`>> |Control for boolean input
 |<<ui-checkboxes, `UICheckboxes`>> |Checkboxes for selecting multiple choices
 |<<ui-datefield,`UIDateField`>> |Field for date entry with date picker
@@ -165,12 +165,12 @@ The property `height` defines the height of the `UITextArea`, not how many rows 
 
 
 [[ui-numberfield]]
-==== UIIntegerField and UIDoubleField
-The annotations `@UIIntegerfield` and `@UIDoubleField` are https://vaadin.com/docs/latest/components/text-field[text fields] for displaying formatted numbers. Like <<ui-textfield,`@UITextField`>> these annotations have the property `maxLength`.
+==== UIIntegerField, UIDoubleField and UILongField
+The annotations `@UIIntegerfield`, `@UIDoubleField` and `@UILongField` are https://vaadin.com/docs/latest/components/text-field[text fields] for displaying formatted numbers. Like <<ui-textfield,`@UITextField`>> these annotations have the property `maxLength`.
 
 The format can be defined with the property `format: String`, using the notation from `java.text.NumberFormat`.
 
-If no format is specified for a `UIIntegerField`, *linkki* uses the default Java Integer NumberFormat (`java.text.NumberFormat#getIntegerInstance(java.util.Locale)`). In the case of `UIDoubleField` the format `\#,\##0.00##` is used by default. This format means that at least one digit is displayed before the decimal separator and two after, and the thousands separator is displayed as well. The documentation for the format definition can be looked up in the class `java.text.DecimalFormat`.
+If no format is specified for a `UIIntegerField`, *linkki* uses the default Java Integer NumberFormat (`java.text.NumberFormat#getIntegerInstance(java.util.Locale)`). In the same context, the `UILongField` is similar: the main difference between `UILongField` and `UIIntegerField` is that Long can accommodate larger numbers than Integer. In the case of `UIDoubleField` the format `\#,\##0.00##` is used by default. This format means that at least one digit is displayed before the decimal separator and two after, and the thousands separator is displayed as well. The documentation for the format definition can be looked up in the class `java.text.DecimalFormat`.
 
 [[ui-datefield]]
 ==== UIDateField

@@ -24,6 +24,10 @@ The following versions have been updated:
 ===== New annotation for Checkbox Group: `@UICheckboxes`
 A new UI component, `@UICheckboxes`, is now available, providing a way to create a checkbox group for related binary choices. For more information, see <<ui-checkboxes, here>>.
 
+// https://jira.convista.com/browse/LIN-3629
+===== New annotation for Number Field Group: `@UILongField`
+A new UI component, `@UILongField`, is now available, providing a way to accept a very long number. For more information, see <<ui-numberfield, here>>.
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-3880
