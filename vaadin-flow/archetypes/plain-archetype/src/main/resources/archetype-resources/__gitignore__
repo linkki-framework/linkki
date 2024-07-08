@@ -1,24 +1,3 @@
-:jbake-title: Source Control
-:jbake-type: section
-:jbake-status: published
-
-:vaadin-dir: ../../../../..
-
-[[source-control]]
-=== Source Control
-
-[[gitignore]]
-==== .gitignore
-
-According to https://vaadin.com/docs/latest/flow/configuration/source-control the following `.gitignore` is recommended.
-
-Against the recommendation of Vaadin we also included the pre-compiled frontend files and resource in `src/main/bundles`.
-
-We also prefixed every rule with `**/` to just have on `.gitignore` file in the root of a multi-module maven project.
-
-..gitignore for multi-module maven project
-[source,text]
-----
 **/target
 **/.gradle
 **/build/
@@ -78,4 +57,3 @@ We also prefixed every rule with `**/` to just have on `.gitignore` file in the 
 # Maven wrapper
 **/.mvn/
 **/mvnw
-----

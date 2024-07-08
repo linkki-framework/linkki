@@ -5,7 +5,9 @@
     xmlns="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <requiredProperties>
-        <requiredProperty key="ApplicationName">
+        <requiredProperty key="ApplicationName"></requiredProperty>
+        <requiredProperty key="gitignore">
+            <defaultValue>.gitignore</defaultValue>
         </requiredProperty>
     </requiredProperties>
     <fileSets>
@@ -19,6 +21,12 @@
             <directory>src/main/resources</directory>
             <includes>
                 <include>**/*.properties</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory></directory>
+            <includes>
+                <include>__gitignore__</include>
             </includes>
         </fileSet>
     </fileSets>

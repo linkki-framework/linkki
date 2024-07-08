@@ -38,3 +38,7 @@ The disabled and readonly style of radio buttons and checkboxes has been harmoni
 `DefaultCaptionProvider` uses the provided `Locale`::
 If the provided `Locale` is `null`, it defaults to `UiFramework.getLocale()`.
 It does not ignore the provided `Locale` for `Boolean` captions anymore.
+
+//https://jira.convista.com/browse/LIN-3802
+Add default .gitignore in archetype projects::
+The <<gitignore,recommended .gitignore>> file is now added in generated archetype projects.
