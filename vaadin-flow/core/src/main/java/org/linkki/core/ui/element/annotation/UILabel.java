@@ -72,6 +72,10 @@ public @interface UILabel {
 
     /**
      * Provides a description label next to the UI element
+     * <p>
+     * The default value is an empty string ({@code ""}). This means that internationalization
+     * strings will not be automatically used. If an internationalization string should be used, the
+     * value must be set to {@code LinkkiAspectDefinition.DERIVED_BY_LINKKI}.
      */
     String label() default "";
 
