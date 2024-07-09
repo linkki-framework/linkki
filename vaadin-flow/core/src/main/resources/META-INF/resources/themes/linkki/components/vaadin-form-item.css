@@ -31,7 +31,14 @@
 /************************************************ 
  * REQUIRED INDICATOR
  ************************************************/
- 
+
+[part="required-indicator"] {
+    /*
+     * Ensure that the required indicator is visible even if the label is empty/ blank.
+     * Without setting this min-height a scrollbar on the whole row appears.
+     */
+    min-height: 1em;
+}
 [part="required-indicator"]::after {
     position: absolute;
     height: 0;
