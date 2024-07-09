@@ -31,7 +31,10 @@
 /************************************************ 
  * REQUIRED INDICATOR
  ************************************************/
- 
+
+[part="required-indicator"] {
+    min-height: 1em;
+}
 [part="required-indicator"]::after {
     position: absolute;
     height: 0;
