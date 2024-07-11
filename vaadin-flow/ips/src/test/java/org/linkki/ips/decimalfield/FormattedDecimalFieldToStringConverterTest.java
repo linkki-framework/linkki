@@ -50,7 +50,7 @@ class FormattedDecimalFieldToStringConverterTest {
     void testConvertToModel(Decimal decimalValue, String stringValue) {
         ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToModel(stringValue, context).getOrThrow(AssertionError::new),
-                   is(decimalValue));
+                is(decimalValue));
     }
 
     /**

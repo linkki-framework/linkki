@@ -29,7 +29,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 /**
  * Converts {@link Decimal} to {@link String} while taking a given format and the {@link NullObject}
  * pattern into account.
- * 
+ *
  * @see DecimalFormat
  * @deprecated use {@link FormattedStringToDecimalConverter} instead
  */

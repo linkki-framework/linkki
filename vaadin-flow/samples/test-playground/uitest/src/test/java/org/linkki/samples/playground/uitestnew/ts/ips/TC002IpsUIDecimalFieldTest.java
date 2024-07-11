@@ -87,6 +87,19 @@ public class TC002IpsUIDecimalFieldTest extends PlaygroundUiTest {
     }
 
     @Test
+    void testDecimalField_LargeNumber() {
+        TextFieldElement decimalField = getDecimalField("decimal");
+        decimalField.setValue("");
+        decimalField.sendKeys("123456789012345678901234567890,12345678901234567890");
+
+        assertThat(decimalField.getValue(), is("123456789012345678901234567890,12345678901234567890"));
+
+        // tab out to lose focus
+        decimalField.sendKeys("\t");
+        assertThat(decimalField.getValue(), is("123.456.789.012.345.678.901.234.567.890,1235"));
+    }
+
+    @Test
     void testDecimalField_RejectsInvalidCharacters() {
         TextFieldElement decimalField = getDecimalField("decimal");
         decimalField.setValue("1,00");

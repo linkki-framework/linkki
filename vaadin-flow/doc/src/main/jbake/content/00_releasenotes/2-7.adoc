@@ -55,3 +55,7 @@ The <<gitignore,recommended .gitignore>> file is now added in generated archetyp
 Scrollbar on required components with an empty/ blank label::
 Components within a form layout that are required and have an empty/ blank label do not scroll anymore.
 The required indicator is always visible at the right upper corner of the label.
+
+//https://jira.convista.com/browse/LIN-2152
+Large numbers in `@UIDecimalField`::
+`@UIDecimalField` now handles very large numbers without unwanted rounding.

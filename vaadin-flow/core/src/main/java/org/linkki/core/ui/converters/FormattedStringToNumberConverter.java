@@ -90,6 +90,7 @@ public abstract class FormattedStringToNumberConverter<T extends Number> impleme
             } else {
                 var df = new DecimalFormat(format, DecimalFormatSymbols.getInstance(l));
                 df.setParseBigDecimal(true);
+
                 return df;
             }
         });

@@ -6,8 +6,7 @@
 
 package org.linkki.ips.decimalfield;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,22 +22,64 @@ import com.vaadin.flow.data.binder.ValueContext;
 
 class FormattedStringToDecimalConverterTest {
 
-    private final FormattedStringToDecimalConverter converter = new FormattedStringToDecimalConverter("#,##0.00##");
+    private final FormattedStringToDecimalConverter converter = new FormattedStringToDecimalConverter("#,###0.0000#");
 
-    static Collection<Object[]> data() {
+    static Collection<Object[]> dataStringToDecimal() {
         return Arrays.asList(new Object[][] {
-                { Decimal.valueOf(123888383838888.0), "123.888.383.838.888,00" },
-                { Decimal.valueOf(0), "0,00" },
-                { Decimal.valueOf(123.45), "123,45" },
+                { Decimal.valueOf(123888383838888.0), "123.8883.8383.8888,0000" },
+
+                { Decimal.valueOf(0), "0,0000" },
+
+                { Decimal.valueOf(123.45), "123,4500" },
+
                 { Decimal.NULL, "" },
-                { Decimal.valueOf(17385.89), "17.385,89" },
-                { Decimal.valueOf(123456789012345678901234567890.12345678901234567890),
-                        "123.456.789.012.345.680.000.000.000.000,00" }
+
+                { Decimal.valueOf(17385.89), "1.7385,8900" },
+
+                // input outside the range of double should not lead to precision loss
+                { Decimal.valueOf("12345678901234567890123456789012345678901234567890" +
+                        "1234567890123456789012345678901234567890.12345678901234567890"),
+
+                        "12345678901234567890123456789012345678901234567890" +
+                                "1234567890123456789012345678901234567890,12345678901234567890" },
+
+                { Decimal.valueOf("-12345678901234567890123456789012345678901234567890" +
+                        "1234567890123456789012345678901234567890.12345678901234567890"),
+
+                        "-12345678901234567890123456789012345678901234567890" +
+                                "1234567890123456789012345678901234567890,12345678901234567890" },
+        });
+    }
+
+    static Collection<Object[]> dataDecimalToString() {
+        return Arrays.asList(new Object[][] {
+                { Decimal.valueOf(123888383838888.0), "123.8883.8383.8888,0000" },
+
+                { Decimal.valueOf(0), "0,0000" },
+
+                { Decimal.valueOf(123.45), "123,4500" },
+
+                { Decimal.NULL, "" },
+
+                { Decimal.valueOf(17385.89), "1.7385,8900" },
+
+                // input outside the range of double should not lead to precision loss
+                { Decimal.valueOf("12345678901234567890123456789012345678901234567890" +
+                        "1234567890123456789012345678901234567890.12345678901234567890"),
+
+                        "12.3456.7890.1234.5678.9012.3456.7890.1234.5678.9012.3456.7890" +
+                                ".1234.5678.9012.3456.7890.1234.5678.9012.3456.7890,12346" },
+
+                { Decimal.valueOf("-12345678901234567890123456789012345678901234567890" +
+                        "1234567890123456789012345678901234567890.12345678901234567890"),
+
+                        "-12.3456.7890.1234.5678.9012.3456.7890.1234.5678.9012.3456.7890" +
+                                ".1234.5678.9012.3456.7890.1234.5678.9012.3456.7890,12346" },
         });
     }
 
     @ParameterizedTest
-    @MethodSource("data")
+    @MethodSource("dataDecimalToString")
     void testConvertToPresentation(Decimal decimalValue, String stringValue) {
         ValueContext context = new ValueContext(Locale.GERMAN);
 
@@ -47,11 +88,11 @@ class FormattedStringToDecimalConverterTest {
     }
 
     @ParameterizedTest
-    @MethodSource("data")
+    @MethodSource("dataStringToDecimal")
     void testConvertToModel(Decimal decimalValue, String stringValue) {
         ValueContext context = new ValueContext(Locale.GERMAN);
-        assertThat(converter.convertToModel(stringValue, context).getOrThrow(AssertionError::new),
-                   is(decimalValue));
+        assertThat(converter.convertToModel(stringValue, context).getOrThrow(AssertionError::new))
+                .isEqualTo(decimalValue);
     }
 
     /**
@@ -60,7 +101,7 @@ class FormattedStringToDecimalConverterTest {
     @Test
     void testConvertToModelWithoutSeparators() {
         assertThat(converter.convertToModel("17385,89", new ValueContext(Locale.GERMAN))
-                .getOrThrow(AssertionError::new), is(Decimal.valueOf(17385.89)));
+                .getOrThrow(AssertionError::new)).isEqualTo(Decimal.valueOf(17385.89));
     }
 
     /**
@@ -69,7 +110,7 @@ class FormattedStringToDecimalConverterTest {
     @Test
     void testConvertToModelWithNull() {
         assertThat(converter.convertToModel(null, new ValueContext())
-                .getOrThrow(AssertionError::new), is(Decimal.NULL));
+                .getOrThrow(AssertionError::new)).isEqualTo(Decimal.NULL);
     }
 
     /**
@@ -77,7 +118,19 @@ class FormattedStringToDecimalConverterTest {
      */
     @Test
     void testConvertToPresentationWithNull() {
-        assertThat(converter.convertToPresentation(null, new ValueContext()), is(""));
+        assertThat(converter.convertToPresentation(null, new ValueContext())).isBlank();
+    }
+
+    /**
+     * Test for default converter
+     */
+    @Test
+    void testConvertWithDefaultFormat() {
+        FormattedStringToDecimalConverter defaultConverter = new FormattedStringToDecimalConverter();
+        assertThat(defaultConverter.convertToPresentation(Decimal.valueOf(1234567890), new ValueContext(Locale.GERMAN)))
+                .isEqualTo("1.234.567.890,00");
+        assertThat(defaultConverter.convertToModel("17.385,89", new ValueContext(Locale.GERMAN))
+                .getOrThrow(AssertionError::new)).isEqualTo(Decimal.valueOf(17385.89));
     }
 
 }

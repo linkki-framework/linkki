@@ -17,7 +17,6 @@ import java.io.Serial;
 import java.text.DecimalFormat;
 
 import org.faktorips.values.Decimal;
-import org.faktorips.values.NullObject;
 import org.linkki.core.ui.converters.FormattedStringToNumberConverter;
 
 import com.vaadin.flow.data.binder.Result;
@@ -27,8 +26,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
- * Converts {@link Decimal} to {@link String} while taking a given format and the {@link NullObject}
- * pattern into account.
+ * Converts {@link Decimal} to {@link String} while taking a given format and {@link Decimal#NULL}
+ * into account.
  * 
  * @see DecimalFormat
  */
@@ -40,20 +39,20 @@ public class FormattedStringToDecimalConverter
     @Serial
     private static final long serialVersionUID = 2694562525960273214L;
 
+    private final FormattedStringToBigDecimalConverter bigDecimalConverter;
+
     public FormattedStringToDecimalConverter() {
         this(DEFAULT_FORMAT);
     }
 
     public FormattedStringToDecimalConverter(String format) {
         super(format);
+        this.bigDecimalConverter = new FormattedStringToBigDecimalConverter(format);
     }
 
     @Override
     protected Result<Decimal> convertToModel(Number value) {
-        if (value instanceof Decimal d) {
-            return Result.ok(d);
-        }
-        return Result.ok(Decimal.valueOf(value.doubleValue()));
+        return Result.ok(Decimal.valueOf(value.toString()));
     }
 
     @Override
@@ -64,10 +63,7 @@ public class FormattedStringToDecimalConverter
 
     @Override
     public String convertToPresentation(@CheckForNull Decimal value, ValueContext context) {
-        if (value == null || value.isNull()) {
-            return super.convertToPresentation(null, context);
-        }
-        return super.convertToPresentation(value, context);
+        return bigDecimalConverter.convertToPresentation(value == null ? null : value.bigDecimalValue(), context);
     }
 
 }
