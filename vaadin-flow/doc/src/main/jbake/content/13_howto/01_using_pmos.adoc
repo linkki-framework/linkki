@@ -5,7 +5,6 @@
 :source-dir: ../../../../src/main/java
 
 [[howto-using-pmos-in-layouts]]
-
 === Using PMOs in Layouts
 
 [NOTE]
@@ -16,12 +15,50 @@ This class conveniently integrates with PMOs because it provides a method `addSe
 Yet, if you want to use Vaadin layouts such as `VerticalLayout` or `HorizontalLayout` instead, you can refer to the example code below.
 
 .SearchSectionPmo.java
-[source,java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/org/linkki/doc/PartnerView.java[tags=layoutWithPMO]
 ----
 
-The main difference between using either `AbstractPage` or a Vaadin layout is that for the latter we have to convert the PMOs to Vaadin components ourselves. Therefore, we use <<pmo-create-layout, *VaadinUiCreator*>> to handle the conversion. Finally, we add the component to the layout using the `add` method.
+The main difference between using either `AbstractPage` or a Vaadin layout is that for the latter we have to convert the PMOs to Vaadin components ourselves.
+Therefore, we use <<pmo-create-layout, *VaadinUiCreator*>> to handle the conversion.
+Finally, we add the component to the layout using the `add` method.
 
 [NOTE]
-Remember that an `AbstractPage` had to be initialised by calling `init` or else the component was not visualised at all. The same would hold for our example implementation above if we didn't call the `createContent` method within the constructor. This is the preferred way of initialising UI components that persist throughout the entire life cycle.
+Remember that an `AbstractPage` had to be initialised by calling `init` or else the component was not visualised at all.
+The same would hold for our example implementation above if we didn't call the `createContent` method within the constructor.
+This is the preferred way of initialising UI components that persist throughout the entire life cycle.
+
+[[records]]
+==== Records
+
+In addition to regular classes, it is also possible to use Java records to define sections.
+The main advantage is their concise syntax: components can be declared directly by annotating the parameters of the record's canonical constructor.
+It is also possible to use instances of records as model objects.
+Components binding with a record's property will simply become a read-only field.
+This is the same behavior as with regular POJOs whose properties don't have a setter method.
+
+NOTE: Do not annotate a record constructor parameter with @ModelObject.
+The Java compiler applies the annotation to both the generated field and the generated getter method, which results in a duplicate model object declaration and causes a runtime exception.
+
+.Example
+[source,java]
+----
+public record MyModelObject(String text) {}
+
+@UISection
+public record RecordPmo(MyModelObject modelObject, @UITextField(position = 10) String inputText) {
+
+    @ModelObject
+    @Override
+    public MyModelObject modelObject() {
+        return modelObject;
+    }
+
+    @UILabel(position = 20)
+    public void text() {
+        // model binding
+    }
+
+}
+----

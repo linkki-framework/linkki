@@ -21,6 +21,7 @@ import static org.linkki.util.LazyReference.lazy;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -53,15 +54,24 @@ class PropertyAccessDescriptor<T, V> {
     }
 
     private Optional<Method> findGetter() {
-        Method foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, GET_PREFIX + capitalizedPropertyName);
-        if (foundMethod == null) {
-            foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, IS_PREFIX + capitalizedPropertyName);
+        Method foundMethod;
+        if (boundClass.isRecord() && hasField(boundClass, propertyName)) {
+            foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, propertyName);
+        } else {
+            foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, GET_PREFIX + capitalizedPropertyName);
+            if (foundMethod == null) {
+                foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, IS_PREFIX + capitalizedPropertyName);
+            }
         }
         if (foundMethod != null && Void.TYPE.equals(foundMethod.getReturnType())) {
             return Optional.empty();
         } else {
             return Optional.ofNullable(foundMethod);
         }
+    }
+
+    private boolean hasField(Class<?> clazz, String propertyName) {
+        return Arrays.stream(clazz.getDeclaredFields()).anyMatch(field -> field.getName().equals(propertyName));
     }
 
     private Optional<Method> findSetter() {
