@@ -34,32 +34,7 @@ include::{source-dir}/pmo/table/AddressRowPmo.java[tags=rowAfterExtraction]
 .AddressPmo.java
 [source, java, indent=0]
 ----
-include::{source-dir}/pmo/dialog/AddressPmo.java[tags=addressPmo1]
-    @UITextField(position = 10, label = "Street", modelAttribute = "street")
-    public void street() {
-        // model binding
-    }
-
-    @UITextField(position = 20, label = "Number", modelAttribute = "streetNumber")
-    public void streetNumber() {
-        // model binding
-    }
-
-    @UITextField(position = 30, label = "Postal Code", modelAttribute = "postalCode")
-    public void postalCode() {
-        // model binding
-    }
-
-    @UITextField(position = 40, label = "City", modelAttribute = "city")
-    public void city() {
-        // model binding
-    }
-
-    @UITextField(position = 50, label = "Country", modelAttribute = "country")
-    public void country() {
-        // model binding
-    }
-include::{source-dir}/pmo/dialog/AddressPmo.java[tags=addressPmo2]
+include::{source-dir}/pmo/dialog/AddressPmo.java[tags=addressPmo]
 ----
 
 ==== Implementing the dialog

@@ -52,7 +52,11 @@ The finished implementation should look like this:
 .AddressRowPmo.java
 [source, java, indent=0]
 ----
-include::{source-dir}/pmo/dialog/AddressPmo.java[tags=modelBinding]
+include::{source-dir}/pmo/dialog/AddressPmo.java[tags=modelBinding1]
+    public AddressRowPmo(Address address) {
+        this.address = address;
+    }
+include::{source-dir}/pmo/dialog/AddressPmo.java[tags=modelBinding2]
 ----
 
 ==== Adding a delete button and styling it using `ButtonVariant`
