@@ -51,11 +51,9 @@ import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsAspectDe
 import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.data.provider.HasListDataView;
-import com.vaadin.flow.data.renderer.TextRenderer;
 
 /**
  * Radio buttons for selecting a single value. Creates a
@@ -155,20 +153,10 @@ public @interface UIRadioButtons {
      */
     public static class RadioButtonsComponentDefinitionCreator implements ComponentDefinitionCreator<UIRadioButtons> {
 
-        @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override
         public LinkkiComponentDefinition create(UIRadioButtons annotation, AnnotatedElement annotatedElement) {
-            return pmo -> {
-                RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
-                radioButtons.setRenderer(new TextRenderer(
-                        ItemCaptionProvider.instantiate(annotation::itemCaptionProvider)::getUnsafeCaption));
-                AlignmentType alignment = annotation.buttonAlignment();
-
-                if (alignment.equals(AlignmentType.VERTICAL)) {
-                    radioButtons.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
-                }
-                return radioButtons;
-            };
+            return pmo -> ComponentFactory.newRadioButtonGroup(annotation::itemCaptionProvider,
+                                                               annotation.buttonAlignment());
         }
     }
 

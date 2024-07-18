@@ -50,10 +50,7 @@ import org.linkki.core.ui.element.annotation.UICheckboxes.CheckboxesAspectDefini
 import org.linkki.core.ui.element.annotation.UICheckboxes.CheckboxesComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
-
-import com.vaadin.flow.component.checkbox.CheckboxGroup;
-import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
-import com.vaadin.flow.data.renderer.TextRenderer;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 /**
  * Defines a group of checkboxes for related binary choices using
@@ -142,16 +139,8 @@ public @interface UICheckboxes {
 
         @Override
         public LinkkiComponentDefinition create(UICheckboxes annotation, AnnotatedElement annotatedElement) {
-            return pmo -> {
-                CheckboxGroup<?> checkboxes = new CheckboxGroup<>();
-                checkboxes.setRenderer(new TextRenderer<>(
-                        ItemCaptionProvider.instantiate(annotation::itemCaptionProvider)::getUnsafeCaption));
-                AlignmentType alignmentType = annotation.checkboxesAlignment();
-                if (alignmentType.equals(AlignmentType.VERTICAL)) {
-                    checkboxes.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
-                }
-                return checkboxes;
-            };
+            return pmo -> ComponentFactory.newCheckboxGroup(annotation::itemCaptionProvider,
+                                                            annotation.checkboxesAlignment());
         }
     }
 }

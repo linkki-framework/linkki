@@ -22,8 +22,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.LinkkiComponentUtil;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
@@ -32,6 +35,8 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.checkbox.CheckboxGroup;
+import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -40,11 +45,14 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.component.textfield.Autocomplete;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.component.timepicker.TimePicker;
+import com.vaadin.flow.data.renderer.TextRenderer;
 
 public class ComponentFactory {
 
@@ -188,6 +196,42 @@ public class ComponentFactory {
 
     public static Checkbox newCheckbox() {
         return new Checkbox();
+    }
+
+    /**
+     * Creates a new {@link CheckboxGroup} with the given {@link ItemCaptionProvider} in the given
+     * {@link AlignmentType}.
+     */
+    public static CheckboxGroup<?> newCheckboxGroup(
+            Supplier<Class<? extends ItemCaptionProvider<?>>> itemCaptionsProvider,
+            AlignmentType alignmentType) {
+
+        CheckboxGroup<?> checkboxes = new CheckboxGroup<>();
+        checkboxes.setRenderer(new TextRenderer<>(
+                ItemCaptionProvider.instantiate(itemCaptionsProvider)::getUnsafeCaption));
+
+        if (alignmentType.equals(AlignmentType.VERTICAL)) {
+            checkboxes.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
+        }
+        return checkboxes;
+    }
+
+    /**
+     * Creates a new {@link RadioButtonGroup} with the given {@link ItemCaptionProvider} in the
+     * given {@link AlignmentType}.
+     */
+    public static RadioButtonGroup<?> newRadioButtonGroup(
+            Supplier<Class<? extends ItemCaptionProvider<?>>> itemCaptionsProvider,
+            AlignmentType alignmentType) {
+
+        RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
+        radioButtons.setRenderer(new TextRenderer<>(
+                ItemCaptionProvider.instantiate(itemCaptionsProvider)::getUnsafeCaption));
+
+        if (alignmentType.equals(AlignmentType.VERTICAL)) {
+            radioButtons.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
+        }
+        return radioButtons;
     }
 
     public static Button newButton() {
