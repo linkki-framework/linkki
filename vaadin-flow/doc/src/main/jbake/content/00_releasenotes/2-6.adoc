@@ -116,6 +116,15 @@ Alternatively, the annotation for Spring Data JPA such as `@EnabledJpaRepositori
 
 Details on all changes can be found in the https://github.com/vaadin/platform/releases/tag/24.4.3[Vaadin 24.4.3 release notes].
 
+Additional dependencies in vaadin-spring–boot-starter::
+The Maven dependency `vaadin-spring-boot-starter` now includes the Hilla dependency by default, which introduces several transitive dependencies such as Spring Security or Swagger. Some of these dependencies may cause build issues.
++
+.Migration
+[IMPORTANT]
+====
+Explicitly include the necessary Spring Boot Starters and Vaadin Spring dependency `vaadin-spring` instead. Alternatively, the Hilla dependency `com.vaadin:hilla` can be excluded from the `vaadin-spring-boot-starter` dependency.
+====
+
 //https://jira.convista.com/browse/LIN-1803
 ===== New BOM module for dependency management
 
