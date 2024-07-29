@@ -90,13 +90,11 @@ pipeline {
                 script {
                     uploadRelease() {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                            uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
-
                             // only publish final releases (no rcs & milestones) on maven central
                             if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                                sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease'
+                                sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc'
                             } else {
-                                sh 'mvn javadoc:jar source:jar deploy'
+                                sh 'mvn javadoc:jar source:jar deploy -Ddoc.user=doc'
                             }
                         }
                     }
