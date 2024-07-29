@@ -1,0 +1,213 @@
+<<<<<<< HEAD   (2a0b08 LIN-3749/LIN-3932 Fix nexus repo)
+=======
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.linkki-framework</groupId>
+        <artifactId>linkki-vaadin-flow</artifactId>
+        <version>2.4.9-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <documentation.dtitle>linkki documentation - vaadin-flow</documentation.dtitle>
+        <basedir.parent>${project.parent.basedir}</basedir.parent>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <sonar.skip>true</sonar.skip>
+
+        <jade-maven-plugin.version>1.1.1</jade-maven-plugin.version>
+        <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
+        <wagon-ssh.version>3.4.3</wagon-ssh.version>
+
+        <doc.deployment.url>doc.linkki-framework.org</doc.deployment.url>
+        <doc.deployment.port>2004</doc.deployment.port>
+
+
+    </properties>
+
+    <artifactId>linkki-core-documentation-vaadin-flow</artifactId>
+
+    <name>Linkki Core Documentation - Vaadin Flow</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-core-vaadin-flow</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin-flow-component</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- This is included as a provided dependency to allow the maven 
+            compiler to pick up the current version of the annotation processor in the 
+            build. Using the regular way of including it as annotation processor for 
+            the maven-compiler-plugin depends on the annotation processor being installed 
+            in the Maven repository beforehand and as such fails when increasing the 
+            version number or changing the annotation processor. -->
+        <dependency>
+            <groupId>org.linkki-framework.tooling</groupId>
+            <artifactId>linkki-apt</artifactId>
+            <version>2.4.9-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${java.version}</release>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <compilerArgs>
+                        <arg>-Xmaxwarns</arg>
+                        <arg>500</arg>
+                        <arg>-Xlint</arg>
+                        <!-- Because the eclipse compiler and javac differ: 
+                            https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
+                        <arg>-Xlint:-varargs</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>de.faktorzehn.doc</groupId>
+                <artifactId>jade-maven-plugin</artifactId>
+                <version>${jade-maven-plugin.version}</version>
+                <configuration>
+                    <properties>
+                        <title>${documentation.dtitle}</title>
+                        <readmepath>${basedir.parent}</readmepath>
+                        <vspotbugs>${spotbugs.version}</vspotbugs>
+                        <vcommonslang>${commons-lang3.version}</vcommonslang>
+                        <homelink>https://doc.linkki-framework.org</homelink>
+                        <logo>https://doc.linkki-framework.org/linkki.png</logo>
+                        <showSubheadersInMenu>true</showSubheadersInMenu>
+                    </properties>
+                    <excludeLinks>
+                        <excludeLink>.*localhost.*</excludeLink>
+                        <excludeLink>https://www.faktorzehn.com/de/impressum</excludeLink>
+                    </excludeLinks>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-docs</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate-docs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>${wagon-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>upload-documentation</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>sshexec</goal>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <commands>
+                                <command>rm -vrf \
+                                    /var/www/${doc.deployment.url}/${documented-version}
+                                </command>
+                            </commands>
+                            <serverId>linkkidoc</serverId>
+                            <fromDir>${project.build.directory}/doc/html</fromDir>
+                            <includes>**/*</includes>
+                            <url>scp://${doc.user}@${doc.deployment.url}:${doc.deployment.port}</url>
+                            <toDir>/var/www/${doc.deployment.url}/${documented-version}</toDir>
+                            <displayCommandOutputs>true</displayCommandOutputs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>documented-version</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>documented-version</name>
+                            <value>${project.version}</value>
+                            <regex>(\d+\.\d+)(\.\d+-.+)?(\.\d+)?</regex>
+                            <replacement>$1$2</replacement>
+                            <failIfNoMatch>true</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.revapi</groupId>
+                    <artifactId>revapi-maven-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            de.faktorzehn.doc
+                                        </groupId>
+                                        <artifactId>
+                                            jade-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            1.0
+                                        </versionRange>
+                                        <goals>
+                                            <goal>generate-docs</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>${wagon-ssh.version}</version>
+            </extension>
+        </extensions>
+    </build>
+</project>
+>>>>>>> CHANGE (f43667 LIN-3749/LIN-3932 Use wagon for doc upload)
