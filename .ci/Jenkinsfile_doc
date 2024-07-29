@@ -20,8 +20,7 @@ pipeline {
         stage('Deploy Documentation') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
-                    sh 'mvn -U -pl vaadin-flow/doc clean install'
-                    uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
+                    sh 'mvn -U -pl vaadin-flow/doc clean deploy -Ddoc.user=doc'
                 }
             }
         }

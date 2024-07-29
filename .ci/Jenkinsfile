@@ -45,7 +45,10 @@ pipeline {
         stage('Upload Documentation') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html'
+                    sh 'mvn -U -T 6 \
+                        -pl vaadin-flow/doc \
+                        deploy \
+                        -Ddoc.user=doc'
                 }
             }
         }
