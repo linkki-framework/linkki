@@ -104,13 +104,13 @@
     <distributionManagement>
         <repository>
             <id>releases</id>
-            <name>Commons Public Releases</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/commons-public/</url>
+            <name>linkki Releases</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
-            <name>Commons Public Snapshots</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/commons-public-snapshots/</url>
+            <name>linkki Snapshots</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
