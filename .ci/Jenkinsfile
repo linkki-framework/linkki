@@ -24,7 +24,7 @@ pipeline {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
-                        -pl "!vaadin-flow/doc" \
+                        -pl "!vaadin23/doc" \
                         -Pproduction \
                         clean source:jar javadoc:jar deploy'
                 }
