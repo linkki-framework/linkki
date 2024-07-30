@@ -13,6 +13,7 @@
  */
 package org.linkki.ips.decimalfield;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -31,6 +32,9 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public class FormattedStringToBigDecimalConverter extends FormattedStringToNumberConverter<BigDecimal> {
 
     public static final String DEFAULT_FORMAT = "#,##0.00##";
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public FormattedStringToBigDecimalConverter() {
         this(DEFAULT_FORMAT);

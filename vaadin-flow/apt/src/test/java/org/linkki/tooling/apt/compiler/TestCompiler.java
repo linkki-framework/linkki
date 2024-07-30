@@ -39,7 +39,6 @@ import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.element.annotation.UIYesNoComboBox;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
@@ -192,7 +191,6 @@ public class TestCompiler {
                       BindTooltip.class,
                       BindReadOnly.class,
                       BindVisible.class,
-                      UIYesNoComboBox.class,
                       UITableColumn.class);
     }
 

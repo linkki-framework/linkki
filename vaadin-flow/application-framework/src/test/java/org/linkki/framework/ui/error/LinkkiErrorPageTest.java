@@ -172,6 +172,9 @@ class LinkkiErrorPageTest {
 
     abstract static class TestLinkkiErrorPageView extends Div {
 
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         TestLinkkiErrorPageView(Exception exception, String customMessage) {
             var errorPage = new LinkkiErrorPage();
             var errorParameter = Optional.ofNullable(customMessage)
