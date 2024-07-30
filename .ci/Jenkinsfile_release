@@ -89,13 +89,7 @@ pipeline {
             steps {
                 script {
                     uploadRelease() {
-<<<<<<< HEAD   (2a0b08 LIN-3749/LIN-3932 Fix nexus repo)
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                            uploadDocumentation project: 'linkki', folder: 'vaadin23/doc/target/doc/html'
-
-=======
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
->>>>>>> CHANGE (f43667 LIN-3749/LIN-3932 Use wagon for doc upload)
                             // only publish final releases (no rcs & milestones) on maven central
                             if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
                                 sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc'

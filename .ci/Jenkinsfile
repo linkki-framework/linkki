@@ -22,16 +22,11 @@ pipeline {
 
         stage('Build') {
             steps {
-<<<<<<< HEAD   (2a0b08 LIN-3749/LIN-3932 Fix nexus repo)
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 -Pproduction clean source:jar javadoc:jar deploy'
-=======
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
                         -pl "!vaadin-flow/doc" \
                         -Pproduction \
                         clean source:jar javadoc:jar deploy'
->>>>>>> CHANGE (f43667 LIN-3749/LIN-3932 Use wagon for doc upload)
                 }
             }
         }
@@ -51,16 +46,11 @@ pipeline {
 
         stage('Upload Documentation') {
             steps {
-<<<<<<< HEAD   (2a0b08 LIN-3749/LIN-3932 Fix nexus repo)
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    uploadDocumentation project: 'linkki', folder: 'vaadin23/doc/target/doc/html'
-=======
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
-                        -pl "vaadin-flow/doc" \
+                        -pl "vaadin23/doc" \
                         deploy \
                         -Ddoc.user=doc'
->>>>>>> CHANGE (f43667 LIN-3749/LIN-3932 Use wagon for doc upload)
                 }
             }
         }
