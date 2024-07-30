@@ -107,11 +107,7 @@ pipeline {
 
     post {
         unsuccessful {
-            emailext to: env.TEAM_EMAIL, mimeType: 'text/html', subject: 'Jenkins Release Failure - $JOB_NAME', body: '''
-                <img src="https://jenkins.io/images/logos/fire/fire.png" style="max-width: 300px;" alt="Jenkins is not happy about it ...">
-                <br>
-                $BUILD_URL
-            '''
+            sendFailureEmail()
         }
     }
 }

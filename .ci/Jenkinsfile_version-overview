@@ -29,11 +29,7 @@ pipeline {
 
     post {
         regression {
-            emailext to: '${REGRESSION_EMAIL_LINKKI}', mimeType: 'text/html', subject: 'Jenkins Build Failure - $PROJECT_NAME', body: '''
-                <img src="https://jenkins.io/images/logos/fire/fire.png" style="max-width: 300px;" alt="Jenkins is not happy about it ...">
-                <br>
-                $BUILD_URL
-            '''
+            sendFailureEmail()
         }
     }
 }
