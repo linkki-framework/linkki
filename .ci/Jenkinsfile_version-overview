@@ -18,7 +18,9 @@ pipeline {
             steps {
                 dir('doc-overview') {
                     withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                        uploadDocumentation project: 'linkki-version-overview', folder: 'target/doc/html'
+                        sh 'mvn -U -T 6 \
+                            clean deploy \
+                            -Ddoc.user=doc'
                     }
                 }
             }

@@ -5,6 +5,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <documentation.dtitle>linkki documentation</documentation.dtitle>
+
+        <jade-maven-plugin.version>1.1.1</jade-maven-plugin.version>
+        <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
+        <wagon-ssh.version>3.4.3</wagon-ssh.version>
+
+        <doc.deployment.url>doc.linkki-framework.org</doc.deployment.url>
+        <doc.deployment.port>2004</doc.deployment.port>
+
     </properties>
 
     <groupId>org.linkki-framework</groupId>
@@ -20,7 +28,7 @@
             <plugin>
                 <groupId>de.faktorzehn.doc</groupId>
                 <artifactId>jade-maven-plugin</artifactId>
-                <version>1.1.0</version>
+                <version>${jade-maven-plugin.version}</version>
                 <configuration>
                     <properties>
                         <title>${documentation.dtitle}</title>
@@ -39,6 +47,34 @@
                         <goals>
                             <goal>generate-docs</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>${wagon-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>upload-documentation</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>sshexec</goal>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <commands>
+                                <command>rm -vrf \
+                                    /var/www/${doc.deployment.url}/versions
+                                </command>
+                            </commands>
+                            <serverId>linkkidoc</serverId>
+                            <fromDir>${project.build.directory}/doc/html</fromDir>
+                            <includes>**/*</includes>
+                            <url>scp://${doc.user}@${doc.deployment.url}:${doc.deployment.port}</url>
+                            <toDir>/var/www/${doc.deployment.url}/versions</toDir>
+                            <displayCommandOutputs>true</displayCommandOutputs>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -79,5 +115,26 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>${wagon-ssh.version}</version>
+            </extension>
+        </extensions>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>linkki Releases</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>linkki Snapshots</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
