@@ -47,6 +47,6 @@ public class LinkkiTextElement extends TestBenchElement implements HasLabel {
     }
 
     private ElementQuery<IconElement> getIconQuery() {
-        return $(IconElement.class).hasAttribute("slot");
+        return $(IconElement.class).withAttribute("slot");
     }
 }

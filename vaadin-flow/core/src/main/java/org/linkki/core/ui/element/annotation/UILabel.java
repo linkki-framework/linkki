@@ -155,6 +155,7 @@ public @interface UILabel {
      */
     static class LabelAspectDefinitionCreator implements AspectDefinitionCreator<UILabel> {
 
+        @SuppressWarnings("deprecation")
         @Override
         public LinkkiAspectDefinition create(UILabel annotation) {
             return new CompositeAspectDefinition(
