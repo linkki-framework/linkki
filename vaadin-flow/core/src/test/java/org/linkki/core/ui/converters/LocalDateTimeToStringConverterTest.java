@@ -19,6 +19,8 @@ import java.util.Locale;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledForJreRange;
+import org.junit.jupiter.api.condition.JRE;
 
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
@@ -65,12 +67,33 @@ class LocalDateTimeToStringConverterTest {
                 .isEqualTo("06.05.1234 07:08");
         Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.GERMAN)))
                 .isEqualTo("06.05.1234 07:08");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.ENGLISH)))
-                .isEqualTo("05/06/1234 7:08 AM");
         Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.UK)))
                 .isEqualTo("06/05/1234 07:08");
+    }
+
+    // see https://bugs.openjdk.org/browse/JDK-8304925
+    @EnabledForJreRange(max = JRE.JAVA_19)
+    @Test
+    void testConvertToPresentation_EnglishFormatWithTimePostfix() {
+        LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
+        LocalDateTime dateToConvert = LocalDateTime.of(1234, 5, 6, 7, 8, 9);
+
+        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.ENGLISH)))
+                .isEqualTo("05/06/1234 7:08 AM");
         Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.US)))
                 .isEqualTo("05/06/1234 7:08 AM");
+    }
+
+    @EnabledForJreRange(min = JRE.JAVA_20)
+    @Test
+    void testConvertToPresentation_EnglishFormatWithTimePostfix_J21() {
+        LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
+        LocalDateTime dateToConvert = LocalDateTime.of(1234, 5, 6, 7, 8, 9);
+
+        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.ENGLISH)))
+                .isEqualTo("05/06/1234 7:08 AM");
+        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.US)))
+                .isEqualTo("05/06/1234 7:08 AM");
     }
 
     @Test
