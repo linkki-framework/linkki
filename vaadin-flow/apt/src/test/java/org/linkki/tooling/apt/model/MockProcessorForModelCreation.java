@@ -23,7 +23,6 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 
@@ -32,7 +31,6 @@ import org.linkki.tooling.apt.util.ModelBuilder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
 @SupportedAnnotationTypes("*")
 @SuppressFBWarnings(value = "NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR",
         justification = "Processor needs a zero args constructor, fields are set in init")
@@ -42,7 +40,6 @@ public class MockProcessorForModelCreation extends AbstractProcessor {
     private ElementUtils elementUtils;
     private ModelBuilder modelBuilder;
 
-    @SuppressWarnings("resource")
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
@@ -54,13 +51,17 @@ public class MockProcessorForModelCreation extends AbstractProcessor {
     }
 
     @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latest();
+    }
+
+    @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         if (roundEnv.processingOver()) {
             return false;
         }
 
-        if (!pmo.isPresent()) {
-
+        if (pmo.isEmpty()) {
             pmo = elementUtils.getClassElements(annotations, roundEnv)
                     .findFirst()
                     .map(modelBuilder::convertPmo);

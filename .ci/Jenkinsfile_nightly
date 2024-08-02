@@ -26,6 +26,7 @@ pipeline {
                     sh 'mvn -U -T 6 \
                             -P production \
                             -pl "!vaadin-flow/doc" \
+                            -pl "!vaadin-flow/apt" \
                             clean source:jar javadoc:jar deploy'
                 }
             }
