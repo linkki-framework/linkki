@@ -23,6 +23,7 @@ target
 **/node_modules
 **/.DS_Store
 **/dev-bundle
+**/bundles
 
 # Created by jenkins job
 .repository

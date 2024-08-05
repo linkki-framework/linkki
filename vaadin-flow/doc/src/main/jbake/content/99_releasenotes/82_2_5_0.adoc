@@ -5,6 +5,21 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.5.4
+
+==== New features and improvements
+
+===== Dependency Updates
+
+The following versions have been updated:
+
+[cols="1,1"]
+|===
+|Faktor-IPS         |24.1.12.release
+|Vaadin             |24.3.16
+|Spring Boot        |3.2.8
+|===
+
 === Version 2.5.3
 
 ==== New features and improvements
