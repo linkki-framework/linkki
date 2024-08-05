@@ -1,30 +1,42 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- Must not define ../pom.xml as parent as the bom is used there to manage other modules -->
 
     <groupId>org.linkki-framework</groupId>
     <artifactId>linkki-bom</artifactId>
     <version>2.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Linkki Bom</name>
-    <description>BOM for Linkki dependencies</description>
+
+    <name>linkki Bom</name>
+    <description>BOM for linkki dependencies</description>
+    <url>https://github.com/linkki-framework/linkki</url>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>Faktor Zehn GmbH</name>
+        <url>https://www.faktorzehn.de</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Faktor Zehn</name>
+            <email>info@faktorzehn.de</email>
+            <organization>Faktor Zehn GmbH</organization>
+            <organizationUrl>https://www.faktorzehn.de</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <vaadin.version>24.4.4</vaadin.version>
+        <!-- Should be the same version as in ../pom.xml -->
+        <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>linkki Releases</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>linkki Snapshots</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -112,4 +124,60 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- Must be defined as in ../pom.xml it is not used as parent -->
+    <scm>
+        <connection>scm:git:https://github.com/linkki-framework/linkki.git</connection>
+        <developerConnection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki.git</developerConnection>
+        <url>https://github.com/linkki-framework/linkki/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
+    
+    <!-- Must be defined as in ../pom.xml it is not used as parent -->
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>linkki Releases</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>linkki Snapshots</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!-- Must be defined as in ../pom.xml it is not used as parent -->
+    <profiles>
+        <profile>
+            <id>MavenCentralRelease</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
