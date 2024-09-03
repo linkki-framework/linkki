@@ -1,2 +1,49 @@
 {
+    "all-versions": [
+        {
+            "extension": "revapi.filter",
+            "configuration": {
+                "elements": {
+                    "exclude": [
+                        ".* com\\.vaadin\\.flow\\..*"
+                    ]
+                }
+            }
+        },
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.core\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": ".*org\\.linkki\\.util\\..*",
+                        "justification": "LIN-2651/LIN-2652"
+                    }
+                ]
+            }
+        }
+    ],
+    "2.7.0": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.annotation.added",
+                        "new": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getUnsafeCaption(===java.lang.Object===)",
+                        "justification": "LIN-3879"
+                    }
+                ]
+            }
+        }
+    ]
 }

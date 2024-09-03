@@ -103,7 +103,7 @@ public interface ItemCaptionProvider<T> {
      * @return The caption for the specified value
      */
     @SuppressWarnings("unchecked")
-    default String getUnsafeCaption(Object value) {
+    default String getUnsafeCaption(@CheckForNull Object value) {
         if (value == null) {
             return getNullCaption();
         } else {

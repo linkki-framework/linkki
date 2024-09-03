@@ -13,24 +13,6 @@
  */
 package org.linkki.core.vaadin.component;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.function.Supplier;
-
-import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-import org.linkki.core.ui.LinkkiComponentUtil;
-import org.linkki.core.uiframework.UiFramework;
-import org.linkki.core.vaadin.component.base.LinkkiAnchor;
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -53,6 +35,24 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.renderer.TextRenderer;
+import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.ui.LinkkiComponentUtil;
+import org.linkki.core.uiframework.UiFramework;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class ComponentFactory {
 
@@ -220,13 +220,15 @@ public class ComponentFactory {
      * Creates a new {@link RadioButtonGroup} with the given {@link ItemCaptionProvider} in the
      * given {@link AlignmentType}.
      */
+    @SuppressWarnings("unchecked")
     public static RadioButtonGroup<?> newRadioButtonGroup(
-            Supplier<Class<? extends ItemCaptionProvider<?>>> itemCaptionsProvider,
+            Supplier<Class<? extends ItemCaptionProvider<?>>> itemCaptionProvider,
             AlignmentType alignmentType) {
 
         RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
         radioButtons.setRenderer(new TextRenderer<>(
-                ItemCaptionProvider.instantiate(itemCaptionsProvider)::getUnsafeCaption));
+                v -> ItemCaptionProvider.instantiate(itemCaptionProvider).getUnsafeCaption(((Optional<Object>)v)
+                                .orElse(null))));
 
         if (alignmentType.equals(AlignmentType.VERTICAL)) {
             radioButtons.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
@@ -249,9 +251,9 @@ public class ComponentFactory {
     /**
      * Creates a {@link DatePicker} with the given options
      *
-     * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
+     * @param autoOpen   If <code>true</code>, the dropdown will open when the field is clicked.
      * @param autoselect If <code>true</code>, the date value will be selected when the field is
-     *            focused.
+     *                   focused.
      */
     public static DatePicker newDateField(boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
@@ -274,7 +276,7 @@ public class ComponentFactory {
      * feature to <code>true</code>
      *
      * @param step the time interval, in minutes, between the items displayed in the time picker
-     *            overlay
+     *             overlay
      */
     public static DateTimePicker newDateTimeField(long step) {
         return newDateTimeField(step, false, true);
@@ -283,11 +285,11 @@ public class ComponentFactory {
     /**
      * Creates a {@link DateTimePicker} with the given options
      *
-     * @param step The time interval, in minutes, between the items displayed in the time picker
-     *            overlay
-     * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
+     * @param step       The time interval, in minutes, between the items displayed in the time picker
+     *                   overlay
+     * @param autoOpen   If <code>true</code>, the dropdown will open when the field is clicked.
      * @param autoselect If <code>true</code>, the date value will be selected when the field is
-     *            focused.
+     *                   focused.
      */
     public static DateTimePicker newDateTimeField(long step, boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
@@ -310,8 +312,8 @@ public class ComponentFactory {
      * {@link TimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect feature
      * to <code>true</code>.
      *
-     * @param step the {@link Duration time interval} between the items displayed in the time picker
-     *            overlay
+     * @param step      the {@link Duration time interval} between the items displayed in the time picker
+     *                  overlay
      * @param precision the precision of the interval (e.g., minutes or seconds)
      */
     public static TimePicker newTimeField(long step, ChronoUnit precision) {
@@ -321,12 +323,12 @@ public class ComponentFactory {
     /**
      * Creates a {@link TimePicker} with the given options.
      *
-     * @param step The {@link Duration time interval} between the items displayed in the time picker
-     *            overlay
-     * @param precision the precision of the interval (e.g., minutes or seconds)
-     * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
+     * @param step       The {@link Duration time interval} between the items displayed in the time picker
+     *                   overlay
+     * @param precision  the precision of the interval (e.g., minutes or seconds)
+     * @param autoOpen   If <code>true</code>, the dropdown will open when the field is clicked.
      * @param autoselect If <code>true</code>, the time value will be selected when the field is
-     *            focused.
+     *                   focused.
      */
     public static TimePicker newTimeField(long step, ChronoUnit precision, boolean autoOpen, boolean autoselect) {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
@@ -361,9 +363,8 @@ public class ComponentFactory {
     /**
      * Converts the step and precision to a {@link Duration}.
      *
-     * @param step the step size
+     * @param step      the step size
      * @param precision the precision of the step size
-     *
      * @return the Duration based on the step and precision
      */
     private static Duration getStepDuration(long step, ChronoUnit precision) {

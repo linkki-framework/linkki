@@ -51,6 +51,11 @@
             "code": "java.class.removed",
             "old": "class org.linkki.core.ui.element.annotation.UITableComponent.GridItemsDefinition",
             "justification": "LIN-3884"
+          },
+          {
+            "code": "java.annotation.added",
+            "new": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getUnsafeCaption(===java.lang.Object===)",
+            "justification": "LIN-3879"
           }
         ]
       }

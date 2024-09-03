@@ -130,8 +130,9 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
         Converter<Object, Object> converter = getConverter(propertyDispatcher, field);
         return () -> {
             Object value = propertyDispatcher.pull(Aspect.of(NAME));
-            if (value != null) {
-                field.setValue(converter.convertToPresentation(value, getValueContext(field)));
+            var convertedValue = converter.convertToPresentation(value, getValueContext(field));
+            if (convertedValue != null) {
+                field.setValue(convertedValue);
             } else {
                 field.clear();
             }

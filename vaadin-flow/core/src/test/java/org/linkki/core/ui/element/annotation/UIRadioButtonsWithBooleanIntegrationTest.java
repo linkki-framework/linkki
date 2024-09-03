@@ -14,10 +14,7 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
@@ -30,7 +27,9 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(KaribuUIExtension.class)
 class UIRadioButtonsWithBooleanIntegrationTest {
@@ -42,18 +41,26 @@ class UIRadioButtonsWithBooleanIntegrationTest {
         var bindingContext = new BindingContext();
         var radioButtons = getRadioButtonsComponentAt(0, pmo, bindingContext);
 
-        List<Boolean> items = radioButtons.getListDataView().getItems().toList();
-        assertThat(items).containsExactly(Boolean.TRUE, Boolean.FALSE, null);
+        assertThat(radioButtons.getChildren().filter(c -> c.getElement().getTag().equals("vaadin-radio-button")))
+                .map(c -> c.getElement().getTextRecursively()).containsExactly("Yes", "No", "Not Specified");
+        assertThat(radioButtons.getChildren().map(c -> c.getElement().getProperty("checked")).toList())
+                .containsOnly("false", "false", "true");
+        assertThat(radioButtons.getListDataView().getItems().toList())
+                .containsExactly(Optional.of(true), Optional.of(false), Optional.empty());
 
-        KaribuUtils.Fields.setValue(radioButtons, true);
+        KaribuUtils.Fields.setValue(radioButtons, Optional.of(true));
 
-        assertThat(radioButtons.getValue()).isEqualTo(true);
+        assertThat(radioButtons.getChildren().toList().get(0).getElement().getProperty("checked"))
+                .isEqualTo("true");
+        assertThat(radioButtons.getValue()).hasValue(true);
         assertThat(modelObject.getValue()).isTrue();
 
         KaribuUtils.Fields.setValue(radioButtons, null);
 
-        assertThat(radioButtons.getValue()).isNull();
+        assertThat(radioButtons.getValue()).isEmpty();
         assertThat(modelObject.getValue()).isNull();
+        assertThat(radioButtons.getChildren().toList().get(2).getElement().getProperty("checked"))
+                .isEqualTo("true");
     }
 
     @Test
@@ -63,17 +70,17 @@ class UIRadioButtonsWithBooleanIntegrationTest {
         var bindingContext = new BindingContext();
         var radioButtons = getRadioButtonsComponentAt(0, pmo, bindingContext);
 
-        List<Boolean> items = radioButtons.getListDataView().getItems().toList();
-        assertThat(items).containsExactly(Boolean.TRUE, Boolean.FALSE);
+        assertThat(radioButtons.getListDataView().getItems().toList())
+                .containsExactly(Optional.of(true), Optional.of(false));
 
-        KaribuUtils.Fields.setValue(radioButtons, true);
+        KaribuUtils.Fields.setValue(radioButtons, Optional.of(true));
 
-        assertThat(radioButtons.getValue()).isEqualTo(true);
+        assertThat(radioButtons.getValue()).isEqualTo(Optional.of(true));
         assertThat(modelObject.getValue()).isTrue();
 
-        KaribuUtils.Fields.setValue(radioButtons, false);
+        KaribuUtils.Fields.setValue(radioButtons, Optional.of(false));
 
-        assertThat(radioButtons.getValue()).isFalse();
+        assertThat(radioButtons.getValue()).isEqualTo(Optional.of(false));
         assertThat(modelObject.getValue()).isFalse();
     }
 
@@ -84,8 +91,8 @@ class UIRadioButtonsWithBooleanIntegrationTest {
         var bindingContext = new BindingContext();
         var radioButtons = getRadioButtonsComponentAt(1, pmo, bindingContext);
 
-        List<Boolean> items = radioButtons.getListDataView().getItems().toList();
-        assertThat(items).containsExactly(Boolean.TRUE, Boolean.FALSE);
+        assertThat(radioButtons.getListDataView().getItems().toList())
+                .containsExactly(Optional.of(true), Optional.of(false));
     }
 
     @Test
@@ -95,17 +102,17 @@ class UIRadioButtonsWithBooleanIntegrationTest {
         var bindingContext = new BindingContext();
         var radioButtons = getRadioButtonsComponentAt(1, pmo, bindingContext);
 
-        List<Boolean> items = radioButtons.getListDataView().getItems().toList();
-        assertThat(items).containsExactly(Boolean.TRUE, Boolean.FALSE);
+        assertThat(radioButtons.getListDataView().getItems().toList())
+                .containsExactly(Optional.of(true), Optional.of(false));
     }
 
     @SuppressWarnings("unchecked")
-    private static RadioButtonGroup<Boolean> getRadioButtonsComponentAt(int position,
-            BooleanRadioButtonsTestPmo pmo,
-            BindingContext bindingContext) {
-        return (RadioButtonGroup<Boolean>)UiCreator
-                .<RadioButtonGroup<Boolean>, NoLabelComponentWrapper> createUiElements(pmo, bindingContext,
-                                                                                       NoLabelComponentWrapper::new)
+    private static RadioButtonGroup<Optional<Boolean>> getRadioButtonsComponentAt(int position,
+                                                                                  BooleanRadioButtonsTestPmo pmo,
+                                                                                  BindingContext bindingContext) {
+        return (RadioButtonGroup<Optional<Boolean>>) UiCreator
+                .<RadioButtonGroup<Boolean>, NoLabelComponentWrapper>createUiElements(pmo, bindingContext,
+                        NoLabelComponentWrapper::new)
                 .map(VaadinComponentWrapper::getComponent)
                 .toList()
                 .get(position);
