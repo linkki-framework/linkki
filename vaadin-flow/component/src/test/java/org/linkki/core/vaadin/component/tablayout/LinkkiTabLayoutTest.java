@@ -300,8 +300,12 @@ class LinkkiTabLayoutTest {
     void testSetSelectedIndex_InvalidIndex() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheet(LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build());
+        tabLayout.setSelectedIndex(0);
 
-        assertThrows(IllegalArgumentException.class, () -> tabLayout.setSelectedIndex(1));
+        tabLayout.setSelectedIndex(1);
+
+        assertThat("If an invalid index is selected, the tab layout should revert to the previously selected valid index.",
+                tabLayout.getSelectedIndex(),is(0));
     }
 
     @Test

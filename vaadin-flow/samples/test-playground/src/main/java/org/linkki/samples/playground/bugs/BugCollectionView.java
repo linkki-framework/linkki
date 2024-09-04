@@ -39,6 +39,7 @@ import org.linkki.samples.playground.bugs.lin2867.FocusringBug;
 import org.linkki.samples.playground.bugs.lin2915.OverflowIssues;
 import org.linkki.samples.playground.bugs.lin3497.FrontendDependencyInjectionTestInterface;
 import org.linkki.samples.playground.bugs.lin3531.BindMessagesOnGridColumnsBug;
+import org.linkki.samples.playground.bugs.lin3846.ReactRouterTestView;
 import org.linkki.samples.playground.bugs.lin3884.EmptyLabelComponentsPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
@@ -106,7 +107,11 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                              .caption(createCaptionLink("LIN-3531", "LIN-3531"))
                              .content(BindMessagesOnGridColumnsBug::new)
                              .build(),
-                     createTabSheet(EmptyLabelComponentsPmo::new));
+                     createTabSheet(EmptyLabelComponentsPmo::new),
+                     LinkkiTabSheet.builder("LIN-3846")
+                             .caption(createCaptionLink("LIN-3846", "LIN-3846"))
+                             .content(ReactRouterTestView::new)
+                             .build());
     }
 
     @Override

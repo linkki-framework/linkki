@@ -151,9 +151,6 @@
                         <phase>compile</phase>
                     </execution>
                 </executions>
-                <configuration>
-                    <reactEnable>false</reactEnable>
-                </configuration>
             </plugin>
         </plugins>
     </build>
