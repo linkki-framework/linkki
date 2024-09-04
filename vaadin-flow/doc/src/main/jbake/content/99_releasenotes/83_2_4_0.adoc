@@ -5,6 +5,22 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.4.9
+
+==== New features and improvements
+
+// https://jira.convista.com/browse/LIN-3970
+===== Automatically focus first applicable element in combobox
+
+If a character or word is entered into a combobox and there is only one matching element, then this element gets selected automatically.
+
+Example::
+A combobox has the values UP, DOWN, LEFT, RIGHT.
++
+If the user enters 'u', the entry UP is selected automatically.
++
+If the user enters 't', there are two possible matches (LEFT and RIGHT) and therefore no entry is selected automatically.
+
 === Version 2.4.8
 
 ==== New features and improvements

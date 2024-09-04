@@ -175,7 +175,11 @@ public class ComponentFactory {
     }
 
     public static <T> ComboBox<T> newComboBox() {
-        return new ComboBox<>();
+        ComboBox<T> comboBox = new ComboBox<>();
+        comboBox.setWidth("20em");
+        comboBox.getElement().executeJs("customComboBoxMixinConnector.initLazy($0)", comboBox.getElement());
+        comboBox.getElement().executeJs("customComboBoxScrollerConnector.initLazy($0)", comboBox.getElement());
+        return comboBox;
     }
 
     public static <T> MultiSelectComboBox<T> newMultiSelect() {

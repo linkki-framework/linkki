@@ -18,6 +18,7 @@ import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.ErrorHandler;
@@ -33,6 +34,8 @@ import com.vaadin.flow.server.VaadinSession;
  *           The {@link ErrorHandler} can be customized by overriding the method
  *           {@link ApplicationConfig#getErrorHandler()}.
  */
+@JsModule("./src/focus-first-item-combo-box-mixin.js")
+@JsModule("./src/focus-first-item-combo-box-scroller.js")
 @CssImport(value = "./styles/linkki-application-layout.css")
 @CssImport(value = "./styles/linkki-vaadin-field.css", themeFor = "vaadin-*")
 public abstract class ApplicationLayout extends VerticalLayout implements RouterLayout {
