@@ -41,6 +41,18 @@ A new UI component, `@UILongField`, is now available, providing a way to accept 
 ===== Testbench extension: support for table placeholder
 The new page object `LinkkiGridElement` adds support to retrieve the placeholder text of a table. It can be used instead of `GridElement`, e.g. `$(LinkkiGridElement.class)`.
 
+// https://jira.convista.com/browse/LIN-3970
+===== Automatically focus first applicable element in combobox
+
+If a character or word is entered into a combobox and there is only one matching element, then this element gets selected automatically.
+
+Example::
+A combobox has the values UP, DOWN, LEFT, RIGHT.
++
+If the user enters 'u', the entry UP is selected automatically.
++
+If the user enters 't', there are two possible matches (LEFT and RIGHT) and therefore no entry is selected automatically.
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-3880
