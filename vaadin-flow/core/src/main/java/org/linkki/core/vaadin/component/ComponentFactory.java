@@ -13,6 +13,25 @@
  */
 package org.linkki.core.vaadin.component;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Supplier;
+
+import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.ui.LinkkiComponentUtil;
+import org.linkki.core.uiframework.UiFramework;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -33,24 +52,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.renderer.TextRenderer;
-import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-import org.linkki.core.ui.LinkkiComponentUtil;
-import org.linkki.core.uiframework.UiFramework;
-import org.linkki.core.vaadin.component.base.LinkkiAnchor;
-
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 public class ComponentFactory {
 
@@ -185,7 +186,11 @@ public class ComponentFactory {
     }
 
     public static <T> ComboBox<T> newComboBox() {
-        return new ComboBox<>();
+        ComboBox<T> comboBox = new ComboBox<>();
+        comboBox.setWidth("20em");
+        comboBox.getElement().executeJs("customComboBoxMixinConnector.initLazy($0)", comboBox.getElement());
+        comboBox.getElement().executeJs("customComboBoxScrollerConnector.initLazy($0)", comboBox.getElement());
+        return comboBox;
     }
 
     public static <T> MultiSelectComboBox<T> newMultiSelect() {
