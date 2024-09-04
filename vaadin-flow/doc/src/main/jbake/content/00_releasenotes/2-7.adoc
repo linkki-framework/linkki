@@ -59,3 +59,9 @@ The required indicator is always visible at the right upper corner of the label.
 //https://jira.convista.com/browse/LIN-2152
 Large numbers in `@UIDecimalField`::
 `@UIDecimalField` now handles very large numbers without unwanted rounding.
+
+//https://jira.convista.com/browse/LIN-3879
+Selecting `null` in `@UIRadioButtons`::
+Previously, setting the value to `null` failed to select the appropriate radio button.
+Now selecting `null` correctly selects the "Not specified" radio button, ensuring proper representation
+of the three-state `Boolean` (`true`/`false`/`null`) or an enum extended by `null` in the UI.
