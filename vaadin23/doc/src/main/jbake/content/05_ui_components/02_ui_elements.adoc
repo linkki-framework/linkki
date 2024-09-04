@@ -34,7 +34,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-button,`UIButton`>> |A button that triggers an action when clicked
 |===
 
-The type of a field can be determined dynamically. This mechanism is called <<dynamicfield, dynamic field>>.
+The type of field can be determined dynamically. This mechanism is called <<dynamicfield, dynamic field>>.
 
 Annotations for fields and buttons must exist on methods in a PMO class. The main difference between fields and buttons is that fields are used for displaying and editing of values and thus are bound to a value via data binding. Therefore annotations for fields must exist on a getter method of a <<databinding, PMO property>>. Only if <<domain-model-binding, domain model binding>> is used the method can be named differently.
 
@@ -212,6 +212,20 @@ An alternative implementation class can be specified via the property `itemCapti
 [[ui-combobox-textAlign]]
 TextAlign::
 The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop-down menu. `RIGHT` is recommended for numeric values. If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop-down list. Instead, an https://vaadin.com/docs/latest/styling/lumo/utility-classes#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
+
+[[ui-combobox-focus-first]]
+Automatically focus first applicable item::
+By default, a Vaadin ComboBox only accepts text input that exactly matches an item. For example, in a combo box with the options "aa", "bb", typing in "a" would not select "aa", although it is the only one that matches the input. +
+To improve this behavior, linkki provides Javascripts that can be used to enhance the usability.
+If application framework is used, these scripts are executed automatically. Otherwise, these need to be imported by using `@JsModule`. Ideally on a parent route layout that is used by all routes.
++
+[source, java]
+----
+@JsModule("./src/focus-first-item-combo-box-mixin.js")
+@JsModule("./src/focus-first-item-combo-box-scroller.js")
+@Route("my")
+public class MyView extends Div {}
+----
 
 [[ui-multiselect]]
 ==== UIMultiSelect

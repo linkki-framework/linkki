@@ -73,7 +73,8 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a new {@link TextField} with an unlimited maximal character count and an undefined width.
+     * Creates a new {@link TextField} with an unlimited maximal character count and an undefined
+     * width.
      */
     public static TextField newTextField() {
         TextField textField = new TextField();
@@ -86,8 +87,8 @@ public class ComponentFactory {
      * <p>
      * If the given maxLength is less than or equal to 0, the maximal character count is unlimited.
      * <p>
-     * If the given width is not specified and maxLength is greater than 0, the width of the field is
-     * inferred by maxLength.
+     * If the given width is not specified and maxLength is greater than 0, the width of the field
+     * is inferred by maxLength.
      */
     public static TextField newTextField(int maxLength, String width) {
         TextField field = newTextField();
@@ -122,8 +123,8 @@ public class ComponentFactory {
 
     /**
      * Creates a new {@link TextField} to display numbers with the specified formatting pattern. The
-     * pattern is converted to a regex by using it to format a test number and checking the result to
-     * see which characters are allowed.
+     * pattern is converted to a regex by using it to format a test number and checking the result
+     * to see which characters are allowed.
      * 
      */
     public static TextField newNumberFieldWithFormattingPattern(int maxLength, String width, String pattern) {
@@ -153,8 +154,8 @@ public class ComponentFactory {
      * <p>
      * If the given maxLength is less than or equal to 0, the maximal character count is unlimited.
      * <p>
-     * If the given width is an empty String and maxLength is greater than 0, the width of the field is
-     * inferred by maxLength.
+     * If the given width is an empty String and maxLength is greater than 0, the width of the field
+     * is inferred by maxLength.
      * <p>
      * The height is only set if the given String is not {@link StringUtils#isEmpty(CharSequence)
      * empty}.
@@ -175,7 +176,11 @@ public class ComponentFactory {
     }
 
     public static <T> ComboBox<T> newComboBox() {
-        return new ComboBox<>();
+        ComboBox<T> comboBox = new ComboBox<>();
+        comboBox.setWidth("20em");
+        comboBox.getElement().executeJs("customComboBoxMixinConnector.initLazy($0)", comboBox.getElement());
+        comboBox.getElement().executeJs("customComboBoxScrollerConnector.initLazy($0)", comboBox.getElement());
+        return comboBox;
     }
 
     public static <T> MultiSelectComboBox<T> newMultiSelect() {
@@ -222,10 +227,11 @@ public class ComponentFactory {
 
     /**
      * Creates a new default {@link DateTimePicker} with the given step,
-     * {@link DateTimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect feature
-     * to <code>true</code>
+     * {@link DateTimePicker#setAutoOpen(boolean)} set to <code>false</code> and the autoselect
+     * feature to <code>true</code>
      * 
-     * @param step the time interval, in minutes, between the items displayed in the time picker overlay
+     * @param step the time interval, in minutes, between the items displayed in the time picker
+     *            overlay
      */
     public static DateTimePicker newDateTimeField(long step) {
         return newDateTimeField(step, false, true);
@@ -234,7 +240,8 @@ public class ComponentFactory {
     /**
      * Creates a {@link DateTimePicker} with the given options
      * 
-     * @param step The time interval, in minutes, between the items displayed in the time picker overlay
+     * @param step The time interval, in minutes, between the items displayed in the time picker
+     *            overlay
      * @param autoOpen If <code>true</code>, the dropdown will open when the field is clicked.
      * @param autoselect If <code>true</code>, the date value will be selected when the field is
      *            focused.
@@ -271,6 +278,5 @@ public class ComponentFactory {
         layout.setMargin(false);
         return layout;
     }
-
 
 }

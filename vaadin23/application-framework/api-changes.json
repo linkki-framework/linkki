@@ -57,5 +57,22 @@
                 ]
             }
         }
+    ],
+    "2.3.12": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.annotation.added",
+                        "old": "class org.linkki.framework.ui.application.ApplicationLayout",
+                        "new": "class org.linkki.framework.ui.application.ApplicationLayout",
+                        "annotation": "@com.vaadin.flow.component.dependency.JsModule.Container({@com.vaadin.flow.component.dependency.JsModule(\".\/src\/focus-first-item-combo-box-mixin.js\"), @com.vaadin.flow.component.dependency.JsModule(\".\/src\/focus-first-item-combo-box-scroller.js\")})",
+                        "justification": "LIN-3970 ComboBox: focus option if there is only one applicable"
+                    }
+                ]
+            }
+        }
     ]
 }

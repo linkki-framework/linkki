@@ -20,14 +20,15 @@ import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.ErrorHandler;
 import com.vaadin.flow.server.VaadinSession;
 
 /**
- * Overall router layout for the application. Contains the application header, the main work area, and a
- * footer.
+ * Overall router layout for the application. Contains the application header, the main work area,
+ * and a footer.
  * 
  * @implNote To use this {@link ApplicationLayout} create a subclass to pass the
  *           {@link ApplicationConfig} via constructor.
@@ -35,6 +36,8 @@ import com.vaadin.flow.server.VaadinSession;
  *           The {@link ErrorHandler} can be customized by overriding the method
  *           {@link #getErrorHandler()}.
  */
+@JsModule("./src/focus-first-item-combo-box-mixin.js")
+@JsModule("./src/focus-first-item-combo-box-scroller.js")
 @CssImport(value = "./styles/linkki-application-layout.css")
 @CssImport(value = "./styles/linkki-vaadin-field.css", themeFor = "vaadin-*")
 public abstract class ApplicationLayout extends VerticalLayout implements RouterLayout {
@@ -102,8 +105,8 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
     /**
      * Configures the error handling. Override to use a different {@link ErrorHandler}.
      * 
-     * @implNote linkki uses a {@link DialogErrorHandler} creating a new {@link DefaultErrorDialog} by
-     *           default.
+     * @implNote linkki uses a {@link DialogErrorHandler} creating a new {@link DefaultErrorDialog}
+     *           by default.
      */
     protected ErrorHandler getErrorHandler() {
         return new DialogErrorHandler(DefaultErrorDialog::new);
