@@ -230,6 +230,23 @@ An alternative implementation class can be specified via the property `itemCapti
 TextAlign::
 The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop-down menu. `RIGHT` is recommended for numeric values. If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop-down list. Instead, an https://vaadin.com/docs/latest/styling/lumo/utility-classes#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
 
+[[ui-combobox-focus-first]]
+Automatically focus first applicable item::
+By default, a Vaadin ComboBox only accepts text input that exactly matches an item.
+For example, in a combo box with the options "aa", "bb", typing in "a" would not select "aa", although it is the only one that matches the input. +
+To improve this behavior, linkki provides Javascripts that can be used to enhance the usability.
+If application framework is used, these scripts are executed automatically.
+Otherwise, these need to be imported by using `@JsModule`.
+Ideally on a parent route layout that is used by all routes.
++
+[source,java]
+----
+@JsModule("./src/focus-first-item-combo-box-mixin.js")
+@JsModule("./src/focus-first-item-combo-box-scroller.js")
+@Route("my")
+public class MyView extends Div {}
+----
+
 [[ui-multiselect]]
 ==== UIMultiSelect
 The annotation https://vaadin.com/docs/latest/components/multi-select-combo-box[`@UIMultiSelect`] allows selection of multiple values from a list and corresponds to `com.vaadin.flow.component.combobox.MultiSelectComboBox`. It has two properties known from the <<ui-combobox, `UIComboBox`>>:
