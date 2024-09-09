@@ -13,17 +13,10 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
@@ -34,17 +27,23 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UIRadioButtonsIntegrationTest.RadioButtonTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UIRadioButtonsIntegrationTest
-        extends ComponentAnnotationIntegrationTest<RadioButtonGroup<String>, RadioButtonTestPmo> {
+        extends ComponentAnnotationIntegrationTest<RadioButtonGroup<Optional<String>>, RadioButtonTestPmo> {
 
     UIRadioButtonsIntegrationTest() {
         super(TestModelObjectWithString::new, RadioButtonTestPmo::new);
@@ -52,45 +51,45 @@ class UIRadioButtonsIntegrationTest
 
     @Test
     void testContent_Dynamic() {
-        RadioButtonGroup<String> radioButtons = getDynamicComponent();
+        RadioButtonGroup<Optional<String>> radioButtons = getDynamicComponent();
         List<?> items = radioButtons.getListDataView().getItems().toList();
 
-        assertThat(items, contains("value1", "value2"));
+        assertThat(items, contains(Optional.of("value1"), Optional.of("value2")));
     }
 
     @Test
     void testContent_Enum() {
         RadioButtonGroup<?> radioButtons = getComponentById("enumValue");
         List<?> items = radioButtons.getListDataView().getItems().toList();
-        assertThat(items, contains(TestEnum.ENUM_VALUE1, TestEnum.ENUM_VALUE2));
+        assertThat(items, contains(Optional.of(TestEnum.ENUM_VALUE1), Optional.of(TestEnum.ENUM_VALUE2)));
     }
 
     @Test
     void testContent_DefaultSelection() {
         RadioButtonGroup<?> radioButtons = getDynamicComponent();
 
-        assertThat(radioButtons.getOptionalValue(), is(Optional.empty()));
+        assertThat(radioButtons.getOptionalValue(), is(Optional.of(Optional.empty())));
     }
 
     @Test
     void testAlignment_Horizontal() {
-        RadioButtonGroup<String> radioButtons = getComponentById("valueHorizontal");
+        RadioButtonGroup<Optional<String>> radioButtons = getComponentById("valueHorizontal");
 
         assertThat(radioButtons.getThemeNames(), not(contains(RadioGroupVariant.LUMO_VERTICAL.getVariantName())));
     }
 
     @Test
     void testAlignment_Vertical() {
-        RadioButtonGroup<String> radioButtons = getComponentById("valueVertical");
+        RadioButtonGroup<Optional<String>> radioButtons = getComponentById("valueVertical");
 
         assertThat(radioButtons.getThemeNames(), contains(RadioGroupVariant.LUMO_VERTICAL.getVariantName()));
     }
 
     @Test
     void testCaptionProvider() {
-        RadioButtonGroup<TestEnum> radioButtons = TestUiUtil.getComponentById(getDefaultSection(), "enumValue");
+        RadioButtonGroup<Optional<TestEnum>> radioButtons = TestUiUtil.getComponentById(getDefaultSection(), "enumValue");
 
-        String caption = radioButtons.getItemRenderer().createComponent(TestEnum.ENUM_VALUE1).getElement().getText();
+        String caption = radioButtons.getItemRenderer().createComponent(Optional.of(TestEnum.ENUM_VALUE1)).getElement().getText();
 
         assertThat(caption, is("Enum ENUM_VALUE1"));
     }
@@ -100,30 +99,30 @@ class UIRadioButtonsIntegrationTest
         NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
 
         BindingContext bindingContext = new BindingContext();
-        Function<Object, NoLabelComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper((Component)c);
+        Function<Object, NoLabelComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper((Component) c);
 
         assertThrows(LinkkiBindingException.class, () -> UiCreator.createUiElements(pmo, bindingContext,
-                                                                                    wrapperCreator)
+                        wrapperCreator)
                 .count());
     }
 
     @Test
     void testUpdate() {
-        TestModelObjectWithString modelObject = (TestModelObjectWithString)getDefaultModelObject();
-        RadioButtonGroup<String> radioButtons = getDynamicComponent();
+        TestModelObjectWithString modelObject = (TestModelObjectWithString) getDefaultModelObject();
+        RadioButtonGroup<Optional<String>> radioButtons = getDynamicComponent();
 
         modelObject.setValue("value2");
         getBindingContext().modelChanged();
 
-        assertThat(radioButtons.getOptionalValue().get(), is("value2"));
+        assertThat(radioButtons.getOptionalValue().get(), is(Optional.of("value2")));
     }
 
     @Test
     void testSelect() {
-        TestModelObjectWithString modelObject = (TestModelObjectWithString)getDefaultModelObject();
-        RadioButtonGroup<String> radioButtons = getDynamicComponent();
+        TestModelObjectWithString modelObject = (TestModelObjectWithString) getDefaultModelObject();
+        RadioButtonGroup<Optional<String>> radioButtons = getDynamicComponent();
 
-        TestUiUtil.setUserOriginatedValue(radioButtons, "value2");
+        KaribuUtils.Fields.setValue(radioButtons, Optional.of("value2"));
 
         assertThat(modelObject.getValue(), is("value2"));
     }

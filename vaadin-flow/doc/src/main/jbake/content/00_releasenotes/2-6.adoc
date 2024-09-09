@@ -393,3 +393,13 @@ class PersonPmo  {
 
 }
 ----
+
+//https://jira.convista.com/browse/LIN-3879
+===== Selecting `null` in `@UIRadioButtons` unchecks the component visually
+Previously, setting the value to `null` in `@UIRadioButtons` failed to check the appropriate radio button.
+Now, selecting `null` correctly checks the "Not specified" radio button, ensuring proper representation.
+
+[WARNING]
+====
+With this bug fix, the converter must now be able to handle null-valued presentation values. Although this was already part of the `Converter` contract, it can now lead to an exception in `ValueAspectDefinition`.
+====

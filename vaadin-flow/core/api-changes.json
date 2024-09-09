@@ -57,5 +57,25 @@
                 ]
             }
         }
+    ],
+    "2.6.2": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "code": "java.annotation.added",
+                        "new": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getUnsafeCaption(===java.lang.Object===)",
+                        "justification": "LIN-3879"
+                    },
+                    {
+                        "code": "java.class.added",
+                        "new": "class org.linkki.core.ui.element.annotation.UIRadioButtons.OptionalToValueConverter",
+                        "justification": "LIN-3879"
+                    }
+                ]
+            }
+        }
     ]
 }
