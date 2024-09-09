@@ -14,16 +14,11 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import java.lang.reflect.AnnotatedElement;
-
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -43,7 +38,6 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
-import org.linkki.core.ui.aspects.GenericAvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
@@ -53,7 +47,17 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.flow.data.provider.HasListDataView;
+import java.io.Serial;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.util.Optional;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 /**
  * Radio buttons for selecting a single value. Creates a
@@ -67,24 +71,32 @@ import com.vaadin.flow.data.provider.HasListDataView;
 @LinkkiComponent(RadioButtonsComponentDefinitionCreator.class)
 public @interface UIRadioButtons {
 
-    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    /**
+     * Mandatory attribute that defines the order in which UI-Elements are displayed
+     */
     @LinkkiPositioned.Position
     int position();
 
-    /** Provides a description label next to the UI element */
+    /**
+     * Provides a description label next to the UI element
+     */
     String label() default "";
 
     /**
      * Specifies the source of the available values, for each of which a button will be displayed.
-     * 
+     *
      * @see AvailableValuesType
      */
     AvailableValuesType content() default AvailableValuesType.ENUM_VALUES_EXCL_NULL;
 
-    /** Defines whether an UI-Component is editable, using values of {@link EnabledType} */
+    /**
+     * Defines whether an UI-Component is editable, using values of {@link EnabledType}
+     */
     EnabledType enabled() default ENABLED;
 
-    /** Marks mandatory fields visually */
+    /**
+     * Marks mandatory fields visually
+     */
     RequiredType required() default NOT_REQUIRED;
 
     /**
@@ -124,14 +136,19 @@ public @interface UIRadioButtons {
     /**
      * Aspect definition creator for the {@link UIRadioButtons} annotation.
      */
-    static class RadioButtonsAspectDefinitionCreator implements AspectDefinitionCreator<UIRadioButtons> {
+    class RadioButtonsAspectDefinitionCreator implements AspectDefinitionCreator<UIRadioButtons> {
 
         @Override
         public LinkkiAspectDefinition create(UIRadioButtons annotation) {
 
-            AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
-                    new GenericAvailableValuesAspectDefinition(
-                            annotation.content());
+            var converter = new OptionalToValueConverter();
+            var availableValuesAspectDefinition =
+                    new AvailableValuesAspectDefinition<RadioButtonGroup<Optional<Object>>>(
+                            annotation.content(),
+                            (component, values) -> component
+                                    .setItems(values.stream()
+                                            .map(v -> converter.convertToPresentation(v, new ValueContext()))
+                                            .toList()));
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
@@ -142,21 +159,47 @@ public @interface UIRadioButtons {
                     enabledAspectDefinition,
                     requiredAspectDefinition,
                     availableValuesAspectDefinition,
-                    new ValueAspectDefinition(),
+                    new ValueAspectDefinition(converter),
                     new VisibleAspectDefinition(annotation.visible()),
                     new DerivedReadOnlyAspectDefinition());
         }
     }
 
     /**
+     * This converter addresses an issue with Vaadin's {@link RadioButtonGroup} where setting a null value
+     * deselects all buttons, see {@link RadioButtonGroup#setValue}.
+     * By converting the value to {@link Optional}, it ensures that null values are properly handled
+     * in the UI, maintaining the selection state of radio buttons.
+     */
+    class OptionalToValueConverter implements Converter<Optional<Object>, Object> {
+
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * @param value The value to convert. Can be null if the value set by the model is not a
+         *              available value.
+         */
+        @Override
+        public Result<Object> convertToModel(@CheckForNull Optional<Object> value, ValueContext context) {
+            return Result.ok(value == null ? null : value.orElse(null));
+        }
+
+        @Override
+        public Optional<Object> convertToPresentation(@CheckForNull Object value, ValueContext context) {
+            return Optional.ofNullable(value);
+        }
+    }
+
+    /**
      * Component definition for the {@link UIRadioButtons} annotation.
      */
-    public static class RadioButtonsComponentDefinitionCreator implements ComponentDefinitionCreator<UIRadioButtons> {
+    class RadioButtonsComponentDefinitionCreator implements ComponentDefinitionCreator<UIRadioButtons> {
 
         @Override
         public LinkkiComponentDefinition create(UIRadioButtons annotation, AnnotatedElement annotatedElement) {
             return pmo -> ComponentFactory.newRadioButtonGroup(annotation::itemCaptionProvider,
-                                                               annotation.buttonAlignment());
+                    annotation.buttonAlignment());
         }
     }
 
