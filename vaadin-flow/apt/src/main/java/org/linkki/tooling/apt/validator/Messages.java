@@ -26,7 +26,7 @@ public final class Messages {
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
     private Messages() {
-        // util
+        // don't instantiate
     }
 
     public static String getString(String key) {

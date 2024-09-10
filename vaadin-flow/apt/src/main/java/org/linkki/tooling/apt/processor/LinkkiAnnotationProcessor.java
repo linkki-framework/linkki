@@ -139,7 +139,7 @@ public class LinkkiAnnotationProcessor extends AbstractProcessor {
                         }
                     })
                     .filter(Objects::nonNull)
-                    .collect(Collectors.toList())
+                    .toList()
                     .toArray(new URL[0]);
 
             return new URLClassLoader(urls, getClass().getClassLoader());

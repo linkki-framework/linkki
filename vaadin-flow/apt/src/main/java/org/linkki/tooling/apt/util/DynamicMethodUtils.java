@@ -51,7 +51,7 @@ public final class DynamicMethodUtils {
     public static final String ASPECT_CREATION_FAILED = "ASPECT_CREATION_FAILED";
 
     private DynamicMethodUtils() {
-        // util
+        // don't instantiate
     }
 
     /**

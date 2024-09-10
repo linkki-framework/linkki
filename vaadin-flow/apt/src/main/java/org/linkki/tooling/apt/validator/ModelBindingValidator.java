@@ -41,9 +41,9 @@ public class ModelBindingValidator implements Validator {
     public static final String MISSING_MODEL_ATTRIBUTE = "MISSING_MODEL_ATTRIBUTE";
     public static final String MISSING_MODEL_OBJECT = "MISSING_MODEL_OBJECT";
 
-    private Kind missingModelObjectSeverity;
-    private Kind missingModelAttributeSeverity;
-    private Kind implicitModelBindingSeverity;
+    private final Kind missingModelObjectSeverity;
+    private final Kind missingModelAttributeSeverity;
+    private final Kind implicitModelBindingSeverity;
 
     public ModelBindingValidator(Map<String, String> options) {
         missingModelObjectSeverity = Severity.of(options, MISSING_MODEL_OBJECT, Kind.ERROR);
@@ -112,7 +112,7 @@ public class ModelBindingValidator implements Validator {
         }
 
         if (isCreateReport(missingModelAttributeSeverity, pmo, componentDeclaration)
-                && !componentDeclaration.getModelAttribute().isPresent()) {
+                && componentDeclaration.getModelAttribute().isEmpty()) {
             String attributeName = modelAttributeName.isEmpty()
                     // fallback for attribute is propertyName
                     ? componentDeclaration.getPropertyName()

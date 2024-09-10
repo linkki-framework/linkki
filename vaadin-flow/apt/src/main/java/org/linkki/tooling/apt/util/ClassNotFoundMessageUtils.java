@@ -25,7 +25,7 @@ import org.linkki.tooling.apt.validator.Messages;
 public final class ClassNotFoundMessageUtils {
 
     private ClassNotFoundMessageUtils() {
-        // model binding
+        // don't instantiate
     }
 
     public static void printAnnotationNotFoundWarning(

@@ -28,7 +28,7 @@ import org.linkki.util.BeanUtils;
 public class MethodNameUtils {
 
     private MethodNameUtils() {
-        // util
+        // don't instantiate
     }
 
     /**

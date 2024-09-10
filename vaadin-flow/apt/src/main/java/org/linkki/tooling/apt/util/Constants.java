@@ -27,6 +27,6 @@ public final class Constants {
     public static final String MODEL_ATTRIBUTE = "modelAttribute";
 
     private Constants() {
-        // util
+        // don't instantiate
     }
 }

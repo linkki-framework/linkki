@@ -14,24 +14,7 @@
 
 package org.linkki.tooling.apt.util;
 
-import static org.linkki.tooling.apt.util.MethodNameUtils.getPropertyName;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.TypeMirror;
-
+import edu.umd.cs.findbugs.annotations.NonNull;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.pmo.ModelObject;
@@ -43,7 +26,22 @@ import org.linkki.tooling.apt.model.AptModelAttribute;
 import org.linkki.tooling.apt.model.AptModelObject;
 import org.linkki.tooling.apt.model.AptPmo;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeMirror;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.linkki.tooling.apt.util.MethodNameUtils.getPropertyName;
 
 public class ModelBuilder {
 
@@ -59,7 +57,7 @@ public class ModelBuilder {
 
     /**
      * Converts a {@link TypeElement} into a {@link AptPmo}.
-     * 
+     *
      * @param pmoElement the pmo type element
      * @return a pmo
      */
@@ -68,8 +66,8 @@ public class ModelBuilder {
         List<VariableElement> allFields = getAllFields(pmoElement);
 
         List<AptModelObject> modelObjects = Stream.concat(getModelObjectsFromFields(allFields).stream(),
-                                                          getModelObjectsFromMethods(allMethods).stream())
-                .collect(Collectors.toList());
+                        getModelObjectsFromMethods(allMethods).stream())
+                .toList();
 
         List<AptComponent> components = getComponents(modelObjects, allMethods);
 
@@ -81,7 +79,7 @@ public class ModelBuilder {
                 .filter(it -> it.getKind() == ElementKind.METHOD)
                 .filter(ExecutableElement.class::isInstance)
                 .map(ExecutableElement.class::cast)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private List<VariableElement> getAllFields(TypeElement pmoElement) {
@@ -89,39 +87,36 @@ public class ModelBuilder {
                 .filter(it -> it.getKind() == ElementKind.FIELD)
                 .filter(VariableElement.class::isInstance)
                 .map(VariableElement.class::cast)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
-     * 
-     * Extracts all the {@link AptModelObject} in that pmo.
-     * 
-     * @param pmoElement the {@link TypeElement} that represents the pmo.
+     * Extracts all the {@link AptModelObject} on methods in that pmo.
+     *
+     * @param allMethods all methods in the pmo.
      * @return a list of {@link AptModelObject}
      */
     private List<AptModelObject> getModelObjectsFromMethods(List<ExecutableElement> allMethods) {
         return allMethods.stream()
                 .filter(it -> it.getAnnotation(ModelObject.class) != null)
                 .map(this::convertModelObject)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
-     * 
      * Extracts all the {@link AptModelObject} on fields in that pmo.
-     * 
-     * @param allMethods all fields in the pmo.
+     *
+     * @param allFields all fields in the pmo.
      * @return a list of {@link AptModelObject}
      */
     private List<AptModelObject> getModelObjectsFromFields(List<VariableElement> allFields) {
         return allFields.stream()
                 .filter(it -> it.getAnnotation(ModelObject.class) != null)
                 .map(this::convertModelObject)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
-     * 
      * @param executableElement the method that is annotated with {@link ModelObject}.
      * @return an {@link AptModelObject}
      */
@@ -140,7 +135,6 @@ public class ModelBuilder {
     }
 
     /**
-     * 
      * @param variableElement the field that is annotated with {@link ModelObject}.
      * @return an {@link AptModelObject}
      */
@@ -165,7 +159,7 @@ public class ModelBuilder {
         return modelObjectAttributes.stream()
                 .map(method -> new AptModelAttribute(MethodNameUtils.getPropertyName(method),
                         method))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private List<AptComponent> getComponents(
@@ -185,19 +179,18 @@ public class ModelBuilder {
                     List<ExecutableElement> methodsWithAspect = it.getValue();
 
                     List<AptComponentDeclaration> componentDeclarations = getComponentDeclarations(modelObjects,
-                                                                                                   methodsWithAspect);
+                            methodsWithAspect);
                     List<AptAspectBinding> aspectBindings = getAspectBindings(methodsWithAspect);
 
                     return new AptComponent(propertyName, componentDeclarations, aspectBindings);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
-     * 
      * @param methods methods that are part of the same component.
      * @return {@code true} if there is at least one annotation on a method that is annotated with
-     *         {@link LinkkiComponent}, else {@code false}.
+     * {@link LinkkiComponent}, else {@code false}.
      */
     private boolean hasLinkkiComponent(List<ExecutableElement> methods) {
         return methods.stream()
@@ -212,7 +205,7 @@ public class ModelBuilder {
                 .flatMap(method -> method.getAnnotationMirrors().stream()
                         .filter(this::hasLinkkiComponent)
                         .map(annotation -> convertComponentDeclaration(modelObjects, method, annotation)))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private AptComponentDeclaration convertComponentDeclaration(
@@ -227,8 +220,8 @@ public class ModelBuilder {
         Optional<AptModelObject> modelObject = getModelObject(attributes, modelObjects);
         @NonNull
         Optional<AptModelAttribute> modelAttribute = getModelAttribute(attributes,
-                                                                       modelObject,
-                                                                       getPropertyName(method));
+                modelObject,
+                getPropertyName(method));
 
         return new AptComponentDeclaration(attributes, modelObject, modelAttribute, method, annotation);
     }
@@ -236,7 +229,7 @@ public class ModelBuilder {
     private @NonNull List<AptAttribute> getAttributes(AnnotationMirror annotation) {
         List<AptAttribute> customValueAttributes = annotation.getElementValues().entrySet().stream()
                 .map(this::convertAttribute)
-                .collect(Collectors.toList());
+                .toList();
 
         Stream<AptAttribute> defaultValueAttributes = annotation.getAnnotationType().asElement().getEnclosedElements()
                 .stream()
@@ -295,7 +288,7 @@ public class ModelBuilder {
                         .filter(annotation -> !hasLinkkiComponent(annotation))
                         .filter(this::hasAspect)
                         .map(annotation -> convertAspectBinding(method, annotation)))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private AptAspectBinding convertAspectBinding(ExecutableElement method, AnnotationMirror annotation) {

@@ -27,7 +27,7 @@ import org.linkki.tooling.apt.model.AptAttribute;
 public final class PositionUtil {
 
     private PositionUtil() {
-        // util
+        // don't instantiate
     }
 
     /**

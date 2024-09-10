@@ -23,7 +23,7 @@ import java.util.Optional;
 public final class ReflectionUtils {
 
     private ReflectionUtils() {
-        // util
+        // don't instantiate
     }
 
     public static Optional<Method> getMethodByName(List<Method> methods, String name) {

@@ -35,7 +35,7 @@ public final class Severity {
     }
 
     private Severity() {
-        // util
+        // don't instantiate
     }
 
     /**

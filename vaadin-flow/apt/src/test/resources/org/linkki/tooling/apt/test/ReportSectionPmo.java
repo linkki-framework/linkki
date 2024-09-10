@@ -41,6 +41,7 @@ public class ReportSectionPmo {
 
     @UITextArea(position = 10, label = "Description", modelAttribute = "description")
     public void description() {
+        // model binding
     }
 
     @UICheckBox(position = 40, caption = "asdf")

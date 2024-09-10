@@ -14,14 +14,11 @@
 
 package org.linkki.tooling.apt.util;
 
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toSet;
-
-import java.lang.annotation.Annotation;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.apache.commons.lang3.tuple.Pair;
+import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspects;
+import org.linkki.core.pmo.ModelObject;
+import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.AnnotationMirror;
@@ -35,12 +32,14 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+import java.lang.annotation.Annotation;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspects;
-import org.linkki.core.pmo.ModelObject;
-import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toSet;
 
 public final class ElementUtils {
     private final Elements elements;
@@ -77,20 +76,20 @@ public final class ElementUtils {
 
         try {
             return (Class<? extends Annotation>)Class.forName(typeName,
-                                                              true,
-                                                              classLoader);
+                    true,
+                    classLoader);
 
         } catch (LinkageError | ClassNotFoundException e1) {
             try {
                 return (Class<? extends Annotation>)Class.forName(typeName,
-                                                                  true,
-                                                                  LinkkiAnnotationProcessor.class.getClassLoader());
+                        true,
+                        LinkkiAnnotationProcessor.class.getClassLoader());
 
             } catch (LinkageError | ClassNotFoundException e2) {
                 // try again using context class loader
                 return (Class<? extends Annotation>)Class.forName(typeName,
-                                                                  true,
-                                                                  Thread.currentThread().getContextClassLoader());
+                        true,
+                        Thread.currentThread().getContextClassLoader());
             }
         }
     }
@@ -162,8 +161,7 @@ public final class ElementUtils {
                     .stream()
                     .filter(this::isGetter)
                     .collect(Collectors.toSet());
-        } else if (returnElement instanceof TypeParameterElement) {
-            TypeParameterElement parameter = (TypeParameterElement)returnElement;
+        } else if (returnElement instanceof TypeParameterElement parameter) {
 
             return parameter.getBounds().stream()
                     .map(bound -> getAllMethods((TypeElement)types.asElement(bound)))
@@ -212,7 +210,7 @@ public final class ElementUtils {
     }
 
     public Stream<TypeElement> getClassElements(Set<? extends TypeElement> annotations,
-            RoundEnvironment roundEnv) {
+                                                RoundEnvironment roundEnv) {
         return annotations.stream()
                 .filter(this::isLinkkiAssociatedAnnotation)
                 .map(roundEnv::getElementsAnnotatedWith)

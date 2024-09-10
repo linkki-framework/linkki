@@ -50,18 +50,18 @@ public class PublicModifierValidator implements Validator {
 
     public static final String NON_PUBLIC_METHOD = "NON_PUBLIC_METHOD";
 
-    private final Kind nonPulbicMethodSeverity;
+    private final Kind nonPublicMethodSeverity;
 
     private final ElementUtils elementUtils;
 
     public PublicModifierValidator(Map<String, String> options, ElementUtils elementUtils) {
         this.elementUtils = elementUtils;
-        nonPulbicMethodSeverity = Severity.of(options, NON_PUBLIC_METHOD, Kind.ERROR);
+        nonPublicMethodSeverity = Severity.of(options, NON_PUBLIC_METHOD, Kind.ERROR);
     }
 
     @Override
     public void validate(AptPmo pmo, Messager messager) {
-        if ((nonPulbicMethodSeverity == Kind.OTHER) || isSuppressed(pmo.getElement(), nonPulbicMethodSeverity)) {
+        if ((nonPublicMethodSeverity == Kind.OTHER) || isSuppressed(pmo.getElement(), nonPublicMethodSeverity)) {
             return;
         }
 
@@ -149,13 +149,13 @@ public class PublicModifierValidator implements Validator {
 
     private void printMessages(Messager messager, Stream<ExecutableElement> methods) {
         methods.distinct()
-                .filter(it -> !isSuppressed(it, nonPulbicMethodSeverity))
+                .filter(it -> !isSuppressed(it, nonPublicMethodSeverity))
                 .filter(it -> !it.getModifiers().contains(Modifier.PUBLIC))
                 .forEach(method -> printMethodNotPulic(messager, method));
     }
 
     private void printMethodNotPulic(Messager messager, ExecutableElement method) {
         String msg = String.format(Messages.getString(NON_PUBLIC_METHOD), method.getSimpleName(), NON_PUBLIC_METHOD);
-        messager.printMessage(nonPulbicMethodSeverity, msg, method);
+        messager.printMessage(nonPublicMethodSeverity, msg, method);
     }
 }
