@@ -5,6 +5,30 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.6.2
+
+==== New features and improvements
+
+===== Dependency Updates
+
+//The following versions have been updated:
+
+//[cols="a,a"]
+//|===
+//| Vaadin                    | 24.4.4
+//|===
+
+==== Bugfixes
+
+//https://jira.convista.com/browse/LIN-3879
+* Previously, setting the value to `null` in `@UIRadioButtons` failed to check the appropriate radio button.
+Now, selecting `null` correctly checks the "Not specified" radio button, ensuring proper representation.
++
+[WARNING]
+====
+With this bug fix, the converter must now be able to handle null-valued presentation values. Although this was already part of the `Converter` contract, it can now lead to an exception in `ValueAspectDefinition`.
+====
+
 === Version 2.6.1
 
 ==== New features and improvements
@@ -393,13 +417,3 @@ class PersonPmo  {
 
 }
 ----
-
-//https://jira.convista.com/browse/LIN-3879
-===== Selecting `null` in `@UIRadioButtons` unchecks the component visually
-Previously, setting the value to `null` in `@UIRadioButtons` failed to check the appropriate radio button.
-Now, selecting `null` correctly checks the "Not specified" radio button, ensuring proper representation.
-
-[WARNING]
-====
-With this bug fix, the converter must now be able to handle null-valued presentation values. Although this was already part of the `Converter` contract, it can now lead to an exception in `ValueAspectDefinition`.
-====
