@@ -8,7 +8,7 @@
 [[linkki-tutorial]]
 == linkki Tutorial
 
-This is a step-by-step tutorial to implement a simple https://linkki-framework.org/index.html[linkki] application with https://spring.io/projects/spring-boot[Spring Boot].
+This is a step-by-step tutorial to implement a simple linkki application with https://spring.io/projects/spring-boot[Spring Boot].
 
 The goal of this tutorial is to create a simple web application that manages information about business partners. In this context, a business partner is a person interacting with a company in some way.
 
