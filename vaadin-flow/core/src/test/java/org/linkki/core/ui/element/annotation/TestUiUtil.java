@@ -43,15 +43,16 @@ public final class TestUiUtil {
      * @param pmo the PMO to which the component is bound
      * @return a {@code Component} that is bound to the model object
      */
-    public static Component createFirstComponentOf(Object pmo) {
+    public static <T extends Component> T createFirstComponentOf(Object pmo) {
         BindingContext bindingContext = new BindingContext();
         return createFirstComponentOf(pmo, bindingContext);
     }
 
-    public static Component createFirstComponentOf(Object pmo, BindingContext bindingContext) {
-        return UiCreator
-                .createUiElements(pmo, bindingContext,
-                                  c -> new NoLabelComponentWrapper((Component)c, WrapperType.FIELD))
+    @SuppressWarnings("unchecked")
+    public static <T extends Component> T createFirstComponentOf(Object pmo, BindingContext bindingContext) {
+        return (T)UiCreator
+                .<T, NoLabelComponentWrapper> createUiElements(pmo, bindingContext,
+                                                               c -> new NoLabelComponentWrapper(c, WrapperType.FIELD))
                 .findFirst()
                 .get().getComponent();
     }
