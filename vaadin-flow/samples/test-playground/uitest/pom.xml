@@ -14,13 +14,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        
-        <surefire.version>3.2.2</surefire.version>
+
         <junit.version>5.10.2</junit.version>
-        <commons-lang3.version>3.14.0</commons-lang3.version>
-        <assertj.version>3.25.3</assertj.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <assertj.version>3.26.3</assertj.version>
         <selenium.version>4.14.0</selenium.version>
         <httpclient5.version>5.3.1</httpclient5.version>
+        <maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -126,7 +126,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.version}</version>
+                    <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <systemPropertyVariables>
                             <test.port>${test.port}</test.port>

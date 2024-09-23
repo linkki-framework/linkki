@@ -53,5 +53,52 @@
         ]
       }
     }
+  ],
+  "2.7.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.annotation.attributeValueChanged",
+            "old": "class com.github.mvysny.kaributesting.v10.Routes",
+            "new": "class com.github.mvysny.kaributesting.v10.Routes",
+            "annotationType": "kotlin.Metadata",
+            "attribute": "mv",
+            "justification": "LIN-3995/LIN-3996 Dependency Update"
+          },
+          {
+            "code": "java.annotation.attributeValueChanged",
+            "old": "class com.github.mvysny.kaributesting.v10.Routes",
+            "new": "class com.github.mvysny.kaributesting.v10.Routes",
+            "annotationType": "kotlin.Metadata",
+            "attribute": "d1",
+            "justification": "LIN-3995/LIN-3996 Dependency Update"
+          },
+          {
+            "code": "java.annotation.attributeValueChanged",
+            "old": "class com.github.mvysny.kaributesting.v10.Routes",
+            "new": "class com.github.mvysny.kaributesting.v10.Routes",
+            "annotationType": "kotlin.Metadata",
+            "attribute": "d2",
+            "justification": "LIN-3995/LIN-3996 Dependency Update"
+          },
+          {
+            "code": "java.annotation.attributeValueChanged",
+            "old": "class com.github.mvysny.kaributesting.v10.Routes",
+            "new": "class com.github.mvysny.kaributesting.v10.Routes",
+            "annotationType": "kotlin.jvm.internal.SourceDebugExtension",
+            "attribute": "value",
+            "justification": "LIN-3995/LIN-3996 Dependency Update"
+          },
+          {
+            "code": "java.method.addedToInterface",
+            "new": "method void jakarta.servlet.http.HttpServletResponse::sendRedirect(java.lang.String, int, boolean) throws java.io.IOException",
+            "justification": "LIN-3995/LIN-3996 Dependency Update"
+          }
+        ]
+      }
+    }
   ]
 }

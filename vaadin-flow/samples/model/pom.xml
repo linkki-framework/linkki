@@ -16,7 +16,7 @@
 
     <properties>
         <revapi.skip>true</revapi.skip>
-        <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+        <maven-gpg-plugin.version>3.2.6</maven-gpg-plugin.version>
     </properties>
 
     <dependencies>
