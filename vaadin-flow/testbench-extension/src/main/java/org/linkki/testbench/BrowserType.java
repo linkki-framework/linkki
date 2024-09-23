@@ -40,6 +40,7 @@ public enum BrowserType {
         public WebDriver getWebdriver(Locale locale) {
             setChromeDriverSystemProperty();
             ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-search-engine-choice-screen");
 
             Map<String, Object> prefs = new HashMap<>();
             prefs.put("intl.accept_languages", locale.getLanguage());
@@ -59,6 +60,7 @@ public enum BrowserType {
         public WebDriver getWebdriver(Locale locale) {
             setChromeDriverSystemProperty();
             ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-search-engine-choice-screen");
             options.addArguments("--headless=new");
             // supposed to solve "Time out receiving message from renderer: 600.000"
             options.addArguments("--disable-gpu");
