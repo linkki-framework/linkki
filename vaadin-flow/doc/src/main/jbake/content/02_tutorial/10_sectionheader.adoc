@@ -4,6 +4,7 @@
 :jbake-order: 10
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:images-folder-name: 02_tutorial
 
 [[tutorial-step-8]]
 === Step 8: Adding a button to a header
@@ -14,7 +15,7 @@ This step teaches you how to add a button to the header of a page. You will also
 Now that the user can delete addresses, you will add a button to create new ones. 
 
 .Address table with add button in table header
-image::{images}99_tutorial/address.png[]
+image::{images}{images-folder-name}/address.png[]
 
 ==== Adding a button in `AddressTablePmo`
 
@@ -49,6 +50,6 @@ public void add() {
 If you run your application now, you should see a plus icon next to the title "Addresses". When you click on it, a notification box should pop up with the title "New Address" and its content should be "This button adds an address".
 
 .Add notification
-image::{images}99_tutorial/address_add_notification.png[]
+image::{images}{images-folder-name}/address_add_notification.png[]
 
 The <<tutorial-step-9,next step>> extends the UI so that the plus button adds a new address.

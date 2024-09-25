@@ -4,6 +4,7 @@
 :jbake-order: 09
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:images-folder-name: 02_tutorial
 
 [[tutorial-step-7]]
 === Step 7: Setting fields to read-only behavior
@@ -47,7 +48,7 @@ The finished implementation should look like this:
 If you run your application now, you should still be able to delete addresses, but you should not be able to edit the other columns anymore.
 
 .AddressPage
-image::{images}99_tutorial/address_read_only.png[]
+image::{images}{images-folder-name}/address_read_only.png[]
 
 The <<tutorial-step-8,next step>> extends the UI to add a button to the header of `AddressPage`.
 

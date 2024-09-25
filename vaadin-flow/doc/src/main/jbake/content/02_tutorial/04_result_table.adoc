@@ -4,6 +4,7 @@
 :jbake-order: 04
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:images-folder-name: 02_tutorial
 
 [[tutorial-step-2]]
 === Step 2: Displaying the search result in a table
@@ -14,7 +15,7 @@ This step teaches you how to implement a table using `SimpleTablePmo`. Additiona
 To display the search results, matching business partners should be shown in a table below the search bar. The user should only be able to gather brief information about the business partner for now.
 
 .Search result table
-image::{images}99_tutorial/search_result_table.png[]
+image::{images}{images-folder-name}/search_result_table.png[]
 
 To build a <<ui-tables, table>> in *linkki*, you need two PMO classes:
 
@@ -99,6 +100,6 @@ include::{source-dir}/page/SearchPage.java[tags=addTable]
 If you start the application now, you can search for an arbitrary name and see all the matching business partners in the result table below the search bar. For example, when searching for "doe", you should get a table with four results: John Doe, Jane Doe, Average Doe and OneAddress Doe. Only John Doe and OneAddress Doe have a first address.
 
 .Search result table
-image::{images}99_tutorial/search_result_table.png[]
+image::{images}{images-folder-name}/search_result_table.png[]
 
 For now, the `UILink` is not clickable. It will be made clickable in the <<tutorial-step-3, next step>>, which deals with the navigation between views.

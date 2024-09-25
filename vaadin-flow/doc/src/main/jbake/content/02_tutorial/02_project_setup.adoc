@@ -4,6 +4,7 @@
 :jbake-order: 02
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:images-folder-name: 02_tutorial
 
 === Project setup
 
@@ -36,12 +37,12 @@ Alternatively, when using Eclipse you can use the wizard for new Maven Projects.
 * Version `{vlinkki}`.
 
 .Selecting the archetype
-image::{images}99_tutorial/eclipse_select_archetype.png[]
+image::{images}{images-folder-name}/eclipse_select_archetype.png[]
 
 In the next step, set the project's group ID, artifact ID, version and package name however you want. The property `ApplicationName` should be set to "BusinessPartner".
 
 .Generate project in Eclipse
-image::{images}99_tutorial/eclipse_maven_project.png[]
+image::{images}{images-folder-name}/eclipse_maven_project.png[]
 
 *3. Generating the project in IntelliJ*
 
@@ -50,7 +51,7 @@ Alternatively, when using IntelliJ you can use the wizard for new Maven Projects
 Start the wizard by selecting File - New - Project. Select the Maven Archetype Generator, give it a name and set the Catalog to Maven Central. In the Archetype select box you can search for linkki and select the appropriate Archetype from the list. Finally, choose the version and set the Property `ApplicationName` to "BusinessPartner".
 
 .Generate project in IntelliJ
-image::{images}99_tutorial/intellij_maven_project.png[]
+image::{images}{images-folder-name}/intellij_maven_project.png[]
 
 [NOTE]
 If you search for linkki in the archetype selection in your IDE, you get multiple results. Since this tutorial's goal is to implement a *linkki* application with *Spring Boot*, we need to use `linkki-archetype-spring-application-vaadin-flow`.
@@ -60,7 +61,7 @@ If you search for linkki in the archetype selection in your IDE, you get multipl
 The created project contains a `HelloPmo` class, a `BusinessPartnerPage`, a `BusinessPartnerView` that you will modify later and fundamental units for your application such as the `BusinessPartnerConfig`, the `BusinessPartnerInfo`, the `BusinessPartnerLayout` and the `BusinessPartner`.
 
 .Structure of the generated project
-image::{images}99_tutorial/initial_project_structure.png[width=426]
+image::{images}{images-folder-name}/initial_project_structure.png[width=426]
 
 `BusinessPartner`:: The `BusinessPartner` contains the main method that runs the application.
 `BusinessPartnerView`:: This view will show the browser window containing the search bar and the search result table you will implement later.
@@ -75,7 +76,7 @@ To get a better understanding of the classes this archetype creates, refer to th
 The project as-is is already a runnable web application. Try starting the `BusinessPartner` as a Java application. Once startup is completed, open the URL http://localhost:8080/ in a browser, and you should see the example application below.
 
 .linkki example application
-image::{images}99_tutorial/example_application.png[]
+image::{images}{images-folder-name}/example_application.png[]
 
 ==== Getting ready
 
@@ -112,6 +113,6 @@ include::{source-dir}/BusinessPartnerApplication.java[tags=createRepository]
 Now the initial project setup is done. If you run the application now, you get an almost empty browser window. All you can see is a blue menu bar on the top of the window with a little question mark on it. This opens a dialog that contains some basic application information that can be configured in the `BusinessPartnerConfig`.
 
 .Empty linkki application
-image::{images}99_tutorial/empty_application.png[]
+image::{images}{images-folder-name}/empty_application.png[]
 
 Let's begin with the step-by-step tutorial.

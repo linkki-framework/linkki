@@ -4,7 +4,7 @@
 
 :base-dir: ../../../../../../vaadin-flow/samples/getting-started
 :source-dir: {base-dir}/src/main/java
-:images-folder-name: 02_getting_started
+:images-folder-name: 01_getting_started
 
 [[linkki-example]]
 === Example project

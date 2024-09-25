@@ -2,6 +2,8 @@
 :jbake-type: section
 :jbake-status: published
 
+:images-folder-name: 01_getting_started
+
 [[maven-archetypes]]
 === Maven Archetypes
 

@@ -4,6 +4,7 @@
 :jbake-order: 07
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:images-folder-name: 02_tutorial
 
 [[tutorial-step-5]]
 === Step 5: UIDateField, UIComboBox & UITextArea
@@ -14,7 +15,7 @@ This step introduces you to the UI elements `UIDateField`, `UIComboBox` and `UIT
 Next, you will create and fill out a page to display general information of a business partner, such as the name and date of birth.
 
 .BasicDataPage
-image::{images}99_tutorial/detail.png[]
+image::{images}{images-folder-name}/detail.png[]
 
 ==== Implementing a new PMO
 
@@ -71,6 +72,6 @@ include::{source-dir}/view/PartnerDetailsView.java[tags=createBasicDataPage]
 You should now be able to see a `BasicDataPage` with the personal information of a partner. For John Doe, you should only be able to see their name and date of birth (27/08/1978).
 
 .BasicDataPage
-image::{images}99_tutorial/detail.png[]
+image::{images}{images-folder-name}/detail.png[]
 
 The <<tutorial-step-6, next step>> extends the UI to display all addresses of a partner.

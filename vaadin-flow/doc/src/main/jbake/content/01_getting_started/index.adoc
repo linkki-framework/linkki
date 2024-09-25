@@ -5,7 +5,7 @@
 
 :sample-parent-dir: ../../../../../../vaadin-flow/samples
 :source-dir: ../../../../src/main/java
-:images-folder-name: 02_getting_started
+:images-folder-name: 01_getting_started
 
 [[getting-started]]
 == Getting Started

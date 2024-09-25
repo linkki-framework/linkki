@@ -4,6 +4,7 @@
 :jbake-order: 08
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:images-folder-name: 02_tutorial
 
 [[tutorial-step-6]]
 === Step 6: Filling the AddressPage with Model Binding
@@ -14,7 +15,7 @@ This step introduces you to the concept of "Model Binding". You will also learn 
 The next step is to create and fill out the page that will display all addresses of a given partner in a table.
 
 .AddressPage
-image::{images}99_tutorial/address_initial.png[]
+image::{images}{images-folder-name}/address_initial.png[]
 
 First, you need to implement the table. Create the row PMO of the table and call it `AddressRowPmo`.
 
@@ -129,7 +130,7 @@ include::{source-dir}/view/PartnerDetailsView.java[tags=createAddressPage]
 If you run your application, you will notice that the button column looks too wide compared to the other columns:
 
 .AddressPage
-image::{images}99_tutorial/address_delete_width_not_changed.png[]
+image::{images}{images-folder-name}/address_delete_width_not_changed.png[]
 
 To resize a column, go to `AddressRowPmo`, use the annotation <<ui-tables, `@UITableColumn`>> in addition to `@UIButton` and set the attribute `width` to e.g. 50.
 
@@ -146,6 +147,6 @@ The finished implementation should look like this:
 Now you should see that the last column is much narrower than before:
 
 .AddressPage
-image::{images}99_tutorial/address_initial.png[]
+image::{images}{images-folder-name}/address_initial.png[]
 
 The <<tutorial-step-7, next step>> extends the UI to make the addresses non-editable.

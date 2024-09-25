@@ -3,10 +3,12 @@
 :jbake-status: published
 :jbake-order: 01
 
+:images-folder-name: 02_tutorial
+
 [[tutorial-domain-model]]
 === Domain model
 
 This application will be built using the pre-made domain model you can see in the UML diagram below.
 
 .UML diagram: Business Partner
-image::{images}99_tutorial/model_umlet.png[]
+image::{images}{images-folder-name}/model_umlet.png[]

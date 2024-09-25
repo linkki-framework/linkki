@@ -4,6 +4,7 @@
 :jbake-order: 05
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:images-folder-name: 02_tutorial
 
 [[tutorial-step-3]]
 === Step 3: Implementing a new View with LinkkiTabLayout
@@ -14,7 +15,7 @@ This step introduces you to the navigation between views using *Vaadin*. You wil
 To display more detailed information of a business partner, you will create a new view that will display two pages as tabs: `BasicDataPage` and `AddressPage`. Each page will correspond to a tab sheet. For now, the pages will stay empty.
 
 .BasicDataPage
-image::{images}99_tutorial/detail_empty.png[]
+image::{images}{images-folder-name}/detail_empty.png[]
 
 ==== Creating View to display partner details
 
@@ -91,7 +92,7 @@ If you run your application now, you should be able to click on the "Show Detail
 If you take a look at the URL, you should be able to see the ID of a partner. For John Doe, the parameter is ac54f2f9-7b82-4bc8-ab69-554cac5926f1.
 
 .BusinessPartnerView
-image::{images}99_tutorial/search_result_table_link.png[]
+image::{images}{images-folder-name}/search_result_table_link.png[]
 
 ==== Retrieving the correct `BusinessPartner`
 
@@ -183,16 +184,16 @@ If you run your application, you should be able to access the new view from `Bus
 The first tab should have a user icon and display for e.g. John Doe "Basic Data Page for partner ac54f2f9-7b82-4bc8-ab69-554cac5926f1".
 
 .BasicDataPage
-image::{images}99_tutorial/detail_empty.png[]
+image::{images}{images-folder-name}/detail_empty.png[]
 
 The second tab should have a home icon and display for e.g. John Doe "Address Page for partner ac54f2f9-7b82-4bc8-ab69-554cac5926f1".
 
 .AddressPage
-image::{images}99_tutorial/address_empty.png[]
+image::{images}{images-folder-name}/address_empty.png[]
 
 If you remove the UUID from the URL, you should get only one tab. This tab should have a warning icon and display "No partner ID was provided or no partner could be found with the given ID".
 
 .Error
-image::{images}99_tutorial/error.png[]
+image::{images}{images-folder-name}/error.png[]
 
 The <<tutorial-step-4, next step>> extends the UI by adding a menu item in order to navigate back to `BusinessPartnerView`.

@@ -3,6 +3,7 @@
 :jbake-status: published
 
 :vaadin-dir: ../../../../..
+:images-folder-name: 01_getting_started
 
 [[source-control]]
 === Source Control

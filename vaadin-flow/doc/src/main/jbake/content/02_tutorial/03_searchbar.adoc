@@ -4,6 +4,7 @@
 :jbake-order: 03
 
 :source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:images-folder-name: 02_tutorial
 
 [[tutorial-step-1]]
 === Step 1: Implementing the search bar
@@ -14,7 +15,7 @@ This step introduces the concept of a *linkki PMO*. You will learn how to create
 The linkki archetype already provides the fundamental setup for your `BusinessPartnerView`. In this step, you will create an input field in the view where the user can enter a search term and trigger the search.
 
 .Search bar and button
-image::{images}99_tutorial/search_bar.png[]
+image::{images}{images-folder-name}/search_bar.png[]
 
 ==== Creating the section to enter search criteria
 
@@ -55,7 +56,7 @@ In summary, whenever the user input changes, the `setSearchText` method will be 
 The following image illustrates the data binding for the property `searchText`:
 
 .Data binding
-image::{images}99_tutorial/data_binding.png[]
+image::{images}{images-folder-name}/data_binding.png[]
 ====
 
 [[tutorial-search-button]]
@@ -152,6 +153,6 @@ The method `AbstractPage.init()` takes care of creating the page _after_ the con
 If you run your application now, you should be able to see the `SearchSectionPmo`. The view begins with the title "Partner Search" and is followed by a search bar and a search button called "Start Search".
 
 .Search bar and button
-image::{images}99_tutorial/search_bar.png[]
+image::{images}{images-folder-name}/search_bar.png[]
 
 For now, clicking the search button does not affect the UI. The <<tutorial-step-2, next step>> extends the UI to display the search result.
