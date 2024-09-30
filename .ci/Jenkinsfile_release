@@ -1,4 +1,4 @@
-library 'f10-jenkins-library@1.0_patches'
+library 'f10-jenkins-library@1.1_patches'
 
 pipeline {
    agent any
@@ -34,6 +34,14 @@ pipeline {
                 junit "**/target/surefire-reports/*.xml"
                 recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
                 jacoco sourceInclusionPattern: '**/*.java'
+            }
+        }
+
+        stage('Dependency-Check') {
+            steps {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    dependencyCheck version: '24.7'
+                }
             }
         }
 
