@@ -1,4 +1,4 @@
-library 'f10-jenkins-library@1.0_patches'
+library 'f10-jenkins-library@1.1_patches'
 
 pipeline {
     agent any
@@ -22,6 +22,14 @@ pipeline {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 -Pproduction clean source:jar javadoc:jar deploy'
+                }
+            }
+        }
+
+        stage('Dependency-Check') {
+            steps {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    dependencyCheck version: '22.12'
                 }
             }
         }

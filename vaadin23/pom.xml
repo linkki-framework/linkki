@@ -52,6 +52,11 @@
                 <version>${vaadin.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>9.42</version><!-- force version 9.42 due to CVE-2023-52428 -->
+            </dependency>
+            <dependency>
                 <!-- prevents transitive version conflict between vaadin__vaadin-mobile-drag-drop and vaadin-dnd.
                 Can lead to non-deterministic build failure when linkki-apt is used in a concurrent maven build -->
                 <groupId>org.webjars.npm</groupId>

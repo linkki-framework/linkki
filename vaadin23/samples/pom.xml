@@ -25,8 +25,14 @@
         <spotbugs.version>4.6.0</spotbugs.version>
         <checkstyle.version>10.3.4</checkstyle.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
-        <snakeyaml.version>1.33</snakeyaml.version>
-        
+        <snakeyaml.version>2.3</snakeyaml.version>
+
+        <!-- force version 1.2.13 because of CVE-2023-6378 and CVE-2023-6481 -->
+        <logback.version>1.2.13</logback.version>
+        <!-- force version 9.42 due to CVE-2023-52428 -->
+        <nimbus-jose-jwt.version>9.42</nimbus-jose-jwt.version>
+
+
         <!-- Maven Plugin Versions -->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
@@ -105,6 +111,11 @@
                 <version>2.3.12-SNAPSHOT</version>
             </dependency>
             <!-- end::linkki-application-framework[] -->
+            <dependency>
+                <groupId>org.linkki-framework</groupId>
+                <artifactId>linkki-core-nestedcomponent-vaadin23</artifactId>
+                <version>2.3.12-SNAPSHOT</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.github.spotbugs</groupId>
@@ -117,6 +128,24 @@
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>${nimbus-jose-jwt.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
