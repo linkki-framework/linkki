@@ -81,6 +81,8 @@
         <sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
         <versions-maven-plugin.version>2.17.1</versions-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.6</maven-gpg-plugin.version>
+        <dependency-check-plugin.version>9.1.0</dependency-check-plugin.version>
+        <dependency-check-postgres.version>42.7.3</dependency-check-postgres.version>
 
         <!-- Sonarqube properties -->
         <sonar.host.url>https://sonarqube.faktorzehn.de</sonar.host.url>
@@ -627,6 +629,43 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>DependencyCheck</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>${dependency-check-plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>${dependency-check-postgres.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>commons-collections</groupId>
+                                <artifactId>commons-collections</artifactId>
+                                <version>3.2.2</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.commons</groupId>
+                                <artifactId>commons-pool2</artifactId>
+                                <version>2.12.0</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <databaseDriverName>org.postgresql.Driver</databaseDriverName>
+                            <!-- DB config must be set via parameters  -->
+                            <autoUpdate>false</autoUpdate>
+                            <nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
+                            <nodeAuditAnalyzerEnabled>false</nodeAuditAnalyzerEnabled>
+                            <retireJsAnalyzerEnabled>false</retireJsAnalyzerEnabled>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
