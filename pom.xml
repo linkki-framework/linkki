@@ -52,11 +52,13 @@
         <assertj.version>3.24.2</assertj.version>
         <hamcrest.version>2.2</hamcrest.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
-        <commons-io.version>2.12.0</commons-io.version>
+        <commons-io.version>2.17.0</commons-io.version>
+        <commons-compress.version>1.27.1</commons-compress.version>
         <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <spotbugs.version>4.7.3</spotbugs.version>
         <checkstyle.version>10.11.0</checkstyle.version>
+        <jackson.version>2.16.2</jackson.version>
 
         <revapi-maven-plugin.version>0.15.0</revapi-maven-plugin.version>
         <revapi-java.version>0.28.1</revapi-java.version>
@@ -77,6 +79,8 @@
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
         <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+        <dependency-check-plugin.version>9.1.0</dependency-check-plugin.version>
+        <dependency-check-postgres.version>42.7.3</dependency-check-postgres.version>
 
         <!-- Sonarqube properties -->
         <sonar.host.url>https://sonarqube.faktorzehn.de</sonar.host.url>
@@ -506,6 +510,11 @@
                 <version>${commons-io.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons-compress.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
                 <version>${jakarta.servlet-api.version}</version>
@@ -517,6 +526,17 @@
                 <version>${jakarta.annotation-api.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -595,6 +615,43 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>DependencyCheck</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>${dependency-check-plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>${dependency-check-postgres.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>commons-collections</groupId>
+                                <artifactId>commons-collections</artifactId>
+                                <version>3.2.2</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.commons</groupId>
+                                <artifactId>commons-pool2</artifactId>
+                                <version>2.12.0</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <databaseDriverName>org.postgresql.Driver</databaseDriverName>
+                            <!-- DB config must be set via parameters  -->
+                            <autoUpdate>false</autoUpdate>
+                            <nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
+                            <nodeAuditAnalyzerEnabled>false</nodeAuditAnalyzerEnabled>
+                            <retireJsAnalyzerEnabled>false</retireJsAnalyzerEnabled>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

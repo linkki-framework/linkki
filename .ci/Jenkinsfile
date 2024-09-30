@@ -1,4 +1,4 @@
-library 'f10-jenkins-library@1.0_patches'
+library 'f10-jenkins-library@1.1_patches'
 
 pipeline {
     agent any
@@ -107,6 +107,13 @@ pipeline {
                                 <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}' target='_blank'>SonarQube Analysis</a>
                             """
                         }
+                    }
+                }
+
+            stage('Dependency-Check') {
+                steps {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        dependencyCheck version: '23.6'
                     }
                 }
             }

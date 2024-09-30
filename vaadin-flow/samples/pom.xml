@@ -24,6 +24,10 @@
         <spring-boot.version>3.1.12</spring-boot.version>
         <checkstyle.version>10.11.0</checkstyle.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+        <commons-io.version>2.17.0</commons-io.version>
+        <commons-compress.version>1.27.1</commons-compress.version>
+        <jackson.version>2.16.2</jackson.version>
+        <snakeyaml.version>2.3</snakeyaml.version>
         
         <!-- Maven plugin versions -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -103,6 +107,30 @@
                 <version>${spotbugs.version}</version>
                 <scope>provided</scope>
             </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons-compress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -125,6 +153,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
         </dependency>
 
     </dependencies>
