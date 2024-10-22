@@ -40,7 +40,7 @@
             3.1.12
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
-        <karibu.version>2.1.6</karibu.version>
+        <karibu.version>2.1.6</karibu.version><!-- PIN: Karibu 2.1.7 does not work with Vaadin 24.1.16 -->
     </properties>
 
     <dependencyManagement>
