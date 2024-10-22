@@ -301,7 +301,7 @@ class LinkkiTabLayoutTest {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheet(LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build());
 
-        assertThrows(IllegalArgumentException.class, () -> tabLayout.setSelectedIndex(1));
+        assertDoesNotThrow(() -> tabLayout.setSelectedIndex(1));
     }
 
     @Test

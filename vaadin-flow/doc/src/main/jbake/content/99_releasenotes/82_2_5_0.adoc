@@ -8,6 +8,17 @@
 
 === Version 2.5.5
 
+===== Dependency Updates
+
+The following versions have been updated:
+
+[cols="1,1"]
+|===
+|Faktor-IPS         |24.1.14.release
+|Vaadin             |24.3.19
+|Spring Boot        |3.2.10
+|===
+
 ==== New features and improvements
 
 // https://jira.convista.com/browse/LIN-3970
