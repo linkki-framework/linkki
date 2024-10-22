@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <documentation.dtitle>linkki documentation - vaadin23</documentation.dtitle>
         <basedir.parent>${project.parent.basedir}</basedir.parent>
-        <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <sonar.skip>true</sonar.skip>
 

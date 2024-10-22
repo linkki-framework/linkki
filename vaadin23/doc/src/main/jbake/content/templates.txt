@@ -22,8 +22,6 @@
 [source,java]
 ----
 public class MyApplicationConfig implements ApplicationConfig {
-  ...
-
   @Override
   public ConverterFactory getConverterFactory() {
       return new LinkkiConverterFactory(this::getConverters);
@@ -39,8 +37,6 @@ public class MyApplicationConfig implements ApplicationConfig {
 [source,java]
 ----
 public class MyApplicationConfig implements ApplicationConfig {
-  ...
-
   @Override
   public ConverterRegistry getConverterRegistry() {
       return LinkkiConverterRegistry.DEFAULT
