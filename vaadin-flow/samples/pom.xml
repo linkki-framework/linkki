@@ -17,9 +17,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <vaadin.version>24.3.19</vaadin.version>
+        <vaadin.version>24.3.20</vaadin.version>
         <spotbugs.version>4.8.6</spotbugs.version>
-        <spring-boot.version>3.2.10</spring-boot.version>
+        <spring-boot.version>3.2.11</spring-boot.version>
         <checkstyle.version>10.12.7</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>

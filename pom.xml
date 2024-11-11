@@ -78,7 +78,9 @@
         <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
         <dependency-check-plugin.version>9.1.0</dependency-check-plugin.version>
-        <dependency-check-postgres.version>42.7.3</dependency-check-postgres.version>
+        <dependency-check-postgres.version>42.7.4</dependency-check-postgres.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <commons-pool2.version>2.12.0</commons-pool2.version>
 
         <!-- Sonarqube properties -->
         <sonar.host.url>https://sonarqube.faktorzehn.de</sonar.host.url>
@@ -622,12 +624,12 @@
                             <dependency>
                                 <groupId>commons-collections</groupId>
                                 <artifactId>commons-collections</artifactId>
-                                <version>3.2.2</version>
+                                <version>${commons-collections.version}</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.apache.commons</groupId>
                                 <artifactId>commons-pool2</artifactId>
-                                <version>2.12.0</version>
+                                <version>${commons-pool2.version}</version>
                             </dependency>
                         </dependencies>
                         <configuration>
