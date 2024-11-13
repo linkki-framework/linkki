@@ -30,20 +30,20 @@ public class SearchPage extends AbstractPage { // <1>
     private static final long serialVersionUID = 1L;
 
     // tag::searchPageInit[]
-    private final BindingManager bindingManager = new DefaultBindingManager();
 
+    private final BindingManager bindingManager = new DefaultBindingManager();
     // end::searchPageInit[]
 
     // tag::search[]
     private final BusinessPartnerRepository partnerRepository;
     private final List<BusinessPartner> foundPartners = new ArrayList<>();
 
-    // end::search[]
-
-    // tag::searchPageInit[]
     public SearchPage(BusinessPartnerRepository partnerRepository) {
         this.partnerRepository = partnerRepository;
     }
+
+    // end::search[]
+    // tag::searchPageInit[]
 
     @Override
     protected BindingManager getBindingManager() {

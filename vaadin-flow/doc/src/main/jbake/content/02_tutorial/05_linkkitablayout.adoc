@@ -102,7 +102,7 @@ To retrieve the correct `BusinessPartner`, do the following:
 
 . Create a field `partnerRepository` of type `BusinessPartnerRepository`.
 . Create a field `currentPartner` of type `Optional<BusinessPartner>`.
-. Pass a `BusinessPartnerRepository` to the constructor and annotate the constructor with `@Autowired`, as you did for `BusinessPartnerView`.
+. Pass a `BusinessPartnerRepository` to the constructor.
 . Assign the constructor argument to the field `partnerRepositiory`.
 . Initialize the field `currentPartner` with `Optional.empty()`.
 . In the method `setParameter`, assign `Optional.ofNullable(parameter).map(UUID::fromString).map(partnerRepository::getBusinessPartner)` to the field `currentPartner`.
@@ -126,7 +126,7 @@ Therefore, you will add an additional tab sheet to handle error cases: If the UU
 Before adding the tab sheets, you need to create the component the tab sheets will display. Do the following:
 
 . Create a method `createErrorLayout` with the signature `Component createErrorLayout()`.
-. Let the method return `new Div(new Text("No partner ID was provided or no partner could be found with the given ID"))`.
+. Let the method return `new Div(new Text("No partner could be found with the given ID"))`.
 . Create a method `createBasicDataPage` with the signature `Component createBasicDataPage(BusinessPartner partner)`.
 . Let the method return `new Div(new Text("Basic Data Page for partner " + partner.getUuid()))`.
 . Create a method `createAddressPage` with the signature `Component createAddressPage(BusinessPartner partner)`.
@@ -140,11 +140,11 @@ The finished implementation should look like this:
 include::{source-dir}/view/PartnerDetailsView.java[tags=createComponentError]
 
     private Component createBasicDataPage(BusinessPartner partner) {
-        return new Div(new Text("Basic Data Page for partner " + partner.getUuid()))
+        return new Div(new Text("Basic Data Page for partner " + partner.getUuid()));
     }
 
     private Component createAddressPage(BusinessPartner partner) {
-        return new Div(new Text("Address Page for partner " + partner.getUuid()))
+        return new Div(new Text("Address Page for partner " + partner.getUuid()));
     }
 ----
 
@@ -191,7 +191,7 @@ The second tab should have a home icon and display for e.g. John Doe "Address Pa
 .AddressPage
 image::{images}{images-folder-name}/address_empty.png[]
 
-If you remove the UUID from the URL, you should get only one tab. This tab should have a warning icon and display "No partner ID was provided or no partner could be found with the given ID".
+If you change the UUID in the URL to some unknown value, for example http://localhost:8080/PartnerDetails/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa, you should get only one tab. This tab should have a warning icon and display "No partner could be found with the given ID".
 
 .Error
 image::{images}{images-folder-name}/error.png[]

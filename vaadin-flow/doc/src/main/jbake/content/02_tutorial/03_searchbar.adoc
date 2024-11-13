@@ -115,7 +115,7 @@ Next, implement the search functionality as follows:
 
 . Create a new field `foundPartners` with the type `List<BusinessPartner>` to store the search results.
 . Initialize the field `foundPartners` with `new ArrayList<>()`.
-. Extend the constructor of `SearchPage` with an additional argument of type `org.linkki.samples.appsample.model.BusinessPartnerRepository`. This type is provided by the dependency `sample-model` and implements the search functionality.
+. Create a constructor in `SearchPage` with an argument of type `org.linkki.samples.appsample.model.BusinessPartnerRepository`. This type is provided by the dependency `sample-model` and implements the search functionality.
 . Store the constructor argument in a new field `partnerRepository`.
 . Implement the method `search`: Execute the method `findBusinessPartner` from `partnerRepository` with the method argument and store the result in the field `foundPartners`.
 
@@ -133,7 +133,6 @@ include::{source-dir}/page/SearchPage.java[tags=search]
 The `SearchPage` is still not displayed yet. To create and display the page, go to the class `BusinessPartnerView` and modify the constructor as follows:
 
 . Extend the constructor with an argument of type `BusinessPartnerRepository`.
-. Annotate the constructor with https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-autowired-annotation[`@Autowired`].
 . Create a new `Headline` using the constructor and the argument `"Partner Search"`  and add it to the view with `add`.
 . Create a new `SearchPage` using the constructor.
 . Call the `init()` method of the created `SearchPage` to create the content of the page and add the created `SearchPage` to the view with `add`.
