@@ -26,33 +26,20 @@
                         "code": "java.class.externalClassExposedInAPI",
                         "new": ".*org\\.linkki\\.util\\..*",
                         "justification": "LIN-2651/LIN-2652"
-                    }
-                ]
-            }
-        }
-    ],
-    "2.6.1": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.method.added",
-                        "new": "method java.lang.String org.linkki.core.ui.nls.NlsText::getString(java.lang.String, java.util.Locale)",
-                        "justification": "LIN-3868"
                     },
                     {
-                        "ignore": true,
-                        "code": "java.class.added",
-                        "new": "class org.linkki.core.ui.element.annotation.UITableComponent.GridItemsAspectDefinition",
-                        "justification": "LIN-3884"
+                        "regex": true,
+                        "code": "java\\.field\\.added.*",
+                        "new": "field .*",
+                        "classQualifiedName": "org\\.linkki\\.core\\.util\\.LumoConstants.*",
+                        "justification": "LumoConstants is just a copy of LumoUtility to avoid API Breaks."
                     },
                     {
-                        "ignore": true,
-                        "code": "java.class.removed",
-                        "old": "class org.linkki.core.ui.element.annotation.UITableComponent.GridItemsDefinition",
-                        "justification": "LIN-3884"
+                        "regex": true,
+                        "code": "java\\.class\\.added.*",
+                        "new": "class .*",
+                        "classQualifiedName": "org\\.linkki\\.core\\.util\\.LumoConstants.*",
+                        "justification": "LumoConstants is just a copy of LumoUtility to avoid API Breaks."
                     }
                 ]
             }

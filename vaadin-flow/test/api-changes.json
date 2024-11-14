@@ -29,6 +29,12 @@
           },
           {
             "regex": true,
+            "code": "java\\.annotation\\.attributeValueChanged",
+            "new": ".* com\\.github\\.mvysny\\.kaributesting\\..*",
+            "justification": "LIN-3470"
+          },
+          {
+            "regex": true,
             "code": "java.class.externalClassExposedInAPI",
             "new": ".* jakarta\\.servlet\\..*",
             "justification": "LIN-3470"

@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EnumType xmlns="http://www.faktorzehn.org" enumContentName="Marker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/23.6/EnumType.xsd" xml:space="preserve">
+<EnumType xmlns="http://www.faktorzehn.org" enumContentName="Marker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/24.7/EnumType.xsd" xml:space="preserve">
  <Description locale="en"/>
  <Description locale="de"/>
- <EnumValue>
-  <Description locale="en"/>
-  <Description locale="de"/>
-  <EnumAttributeValue isNull="false">R</EnumAttributeValue>
-  <EnumAttributeValue isNull="false">Required Information Missing</EnumAttributeValue>
-  <EnumLiteralNameAttributeValue isNull="false">REQUIRED_INFORMATION_MISSING</EnumLiteralNameAttributeValue>
-  <EnumAttributeValue isNull="false">true</EnumAttributeValue>
-  <EnumAttributeValue isNull="false">false</EnumAttributeValue>
- </EnumValue>
- <EnumValue>
-  <Description locale="en"/>
-  <Description locale="de"/>
-  <EnumAttributeValue isNull="false">T</EnumAttributeValue>
-  <EnumAttributeValue isNull="false">Technical Constraint Violated</EnumAttributeValue>
-  <EnumLiteralNameAttributeValue isNull="false">TECHNICAL_CONSTRAINT_VIOLATED</EnumLiteralNameAttributeValue>
-  <EnumAttributeValue isNull="false">false</EnumAttributeValue>
-  <EnumAttributeValue isNull="false">true</EnumAttributeValue>
- </EnumValue>
  <EnumAttribute datatype="String" identifier="true" name="id" unique="true">
   <Label locale="en"/>
   <Label locale="de"/>
@@ -50,4 +32,22 @@
   <Description locale="en"/>
   <Description locale="de"/>
  </EnumAttribute>
+ <EnumValue>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <EnumAttributeValue isNull="false">R</EnumAttributeValue>
+  <EnumAttributeValue isNull="false">Required Information Missing</EnumAttributeValue>
+  <EnumLiteralNameAttributeValue isNull="false">REQUIRED_INFORMATION_MISSING</EnumLiteralNameAttributeValue>
+  <EnumAttributeValue isNull="false">true</EnumAttributeValue>
+  <EnumAttributeValue isNull="false">false</EnumAttributeValue>
+ </EnumValue>
+ <EnumValue>
+  <Description locale="en"/>
+  <Description locale="de"/>
+  <EnumAttributeValue isNull="false">T</EnumAttributeValue>
+  <EnumAttributeValue isNull="false">Technical Constraint Violated</EnumAttributeValue>
+  <EnumLiteralNameAttributeValue isNull="false">TECHNICAL_CONSTRAINT_VIOLATED</EnumLiteralNameAttributeValue>
+  <EnumAttributeValue isNull="false">false</EnumAttributeValue>
+  <EnumAttributeValue isNull="false">true</EnumAttributeValue>
+ </EnumValue>
 </EnumType>

@@ -39,10 +39,10 @@ public final class LumoConstants {
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinHeight */
     public static final class MinHeight {
 
-        /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinHeight#FULL */
-        public static final String FULL = "min-h-full";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinHeight#NONE */
         public static final String NONE = "min-h-0";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinHeight#FULL */
+        public static final String FULL = "min-h-full";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinHeight#SCREEN */
         public static final String SCREEN = "min-h-screen";
 
@@ -162,6 +162,8 @@ public final class LumoConstants {
         public static final String MEDIUM = "rounded-m";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.BorderRadius#LARGE */
         public static final String LARGE = "rounded-l";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BorderRadius#FULL */
+        public static final String FULL = "rounded-full";
 
         private BorderRadius() {
             // prevent instantiation
@@ -259,6 +261,19 @@ public final class LumoConstants {
         }
     }
 
+    /** @see com.vaadin.flow.theme.lumo.LumoUtility.Divide */
+    public static final class Divide {
+
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Divide#X */
+        public static final String X = "divide-x";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Divide#Y */
+        public static final String Y = "divide-y";
+
+        private Divide() {
+            // prevent instantiation
+        }
+    }
+
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.FlexWrap */
     public static final class FlexWrap {
 
@@ -295,6 +310,29 @@ public final class LumoConstants {
         }
     }
 
+    /** @see com.vaadin.flow.theme.lumo.LumoUtility.ZIndex */
+    public static final class ZIndex {
+
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.ZIndex#NONE */
+        public static final String NONE = "z-0";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.ZIndex#XSMALL */
+        public static final String XSMALL = "z-10";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.ZIndex#SMALL */
+        public static final String SMALL = "z-20";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.ZIndex#MEDIUM */
+        public static final String MEDIUM = "z-30";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.ZIndex#LARGE */
+        public static final String LARGE = "z-40";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.ZIndex#XLARGE */
+        public static final String XLARGE = "z-50";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.ZIndex#AUTO */
+        public static final String AUTO = "z-auto";
+
+        private ZIndex() {
+            // prevent instantiation
+        }
+    }
+
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth */
     public static final class MaxWidth {
 
@@ -319,6 +357,8 @@ public final class LumoConstants {
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.BoxShadow */
     public static final class BoxShadow {
 
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BoxShadow#NONE */
+        public static final String NONE = "shadow-none";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.BoxShadow#XSMALL */
         public static final String XSMALL = "shadow-xs";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.BoxShadow#SMALL */
@@ -331,6 +371,31 @@ public final class LumoConstants {
         public static final String XLARGE = "shadow-xl";
 
         private BoxShadow() {
+            // prevent instantiation
+        }
+    }
+
+    /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur */
+    public static final class BackdropBlur {
+
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur#NONE */
+        public static final String NONE = "backdrop-blur-none";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur#SMALL */
+        public static final String SMALL = "backdrop-blur-sm";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur#DEFAULT */
+        public static final String DEFAULT = "backdrop-blur";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur#MEDIUM */
+        public static final String MEDIUM = "backdrop-blur-md";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur#LARGE */
+        public static final String LARGE = "backdrop-blur-lg";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur#XLARGE */
+        public static final String XLARGE = "backdrop-blur-xl";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur#XXLARGE */
+        public static final String XXLARGE = "backdrop-blur-2xl";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.BackdropBlur#XXXLARGE */
+        public static final String XXXLARGE = "backdrop-blur-3xl";
+
+        private BackdropBlur() {
             // prevent instantiation
         }
     }
@@ -376,14 +441,8 @@ public final class LumoConstants {
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height */
     public static final class Height {
 
-        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#AUTO */
-        public static final String AUTO = "h-auto";
-        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#FULL */
-        public static final String FULL = "h-full";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#NONE */
         public static final String NONE = "h-0";
-        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#SCREEN */
-        public static final String SCREEN = "h-screen";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#XSMALL */
         public static final String XSMALL = "h-xs";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#SMALL */
@@ -394,6 +453,12 @@ public final class LumoConstants {
         public static final String LARGE = "h-l";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#XLARGE */
         public static final String XLARGE = "h-xl";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#AUTO */
+        public static final String AUTO = "h-auto";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#FULL */
+        public static final String FULL = "h-full";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Height#SCREEN */
+        public static final String SCREEN = "h-screen";
 
         private Height() {
             // prevent instantiation
@@ -451,10 +516,6 @@ public final class LumoConstants {
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.Width */
     public static final class Width {
 
-        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Width#AUTO */
-        public static final String AUTO = "w-auto";
-        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Width#FULL */
-        public static final String FULL = "w-full";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Width#XSMALL */
         public static final String XSMALL = "w-xs";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Width#SMALL */
@@ -465,6 +526,10 @@ public final class LumoConstants {
         public static final String LARGE = "w-l";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Width#XLARGE */
         public static final String XLARGE = "w-xl";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Width#AUTO */
+        public static final String AUTO = "w-auto";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Width#FULL */
+        public static final String FULL = "w-full";
 
         private Width() {
             // prevent instantiation
@@ -515,6 +580,50 @@ public final class LumoConstants {
         public static final String CONTRAST_10 = "bg-contrast-10";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#CONTRAST_5 */
         public static final String CONTRAST_5 = "bg-contrast-5";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT */
+        public static final String TINT = "bg-tint";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_90 */
+        public static final String TINT_90 = "bg-tint-90";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_80 */
+        public static final String TINT_80 = "bg-tint-80";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_70 */
+        public static final String TINT_70 = "bg-tint-70";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_60 */
+        public static final String TINT_60 = "bg-tint-60";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_50 */
+        public static final String TINT_50 = "bg-tint-50";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_40 */
+        public static final String TINT_40 = "bg-tint-40";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_30 */
+        public static final String TINT_30 = "bg-tint-30";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_20 */
+        public static final String TINT_20 = "bg-tint-20";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_10 */
+        public static final String TINT_10 = "bg-tint-10";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#TINT_5 */
+        public static final String TINT_5 = "bg-tint-5";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE */
+        public static final String SHADE = "bg-shade";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_90 */
+        public static final String SHADE_90 = "bg-shade-90";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_80 */
+        public static final String SHADE_80 = "bg-shade-80";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_70 */
+        public static final String SHADE_70 = "bg-shade-70";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_60 */
+        public static final String SHADE_60 = "bg-shade-60";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_50 */
+        public static final String SHADE_50 = "bg-shade-50";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_40 */
+        public static final String SHADE_40 = "bg-shade-40";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_30 */
+        public static final String SHADE_30 = "bg-shade-30";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_20 */
+        public static final String SHADE_20 = "bg-shade-20";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_10 */
+        public static final String SHADE_10 = "bg-shade-10";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#SHADE_5 */
+        public static final String SHADE_5 = "bg-shade-5";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#PRIMARY */
         public static final String PRIMARY = "bg-primary";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Background#PRIMARY_50 */
@@ -599,12 +708,25 @@ public final class LumoConstants {
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinWidth */
     public static final class MinWidth {
 
-        /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinWidth#FULL */
-        public static final String FULL = "min-w-full";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinWidth#NONE */
         public static final String NONE = "min-w-0";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.MinWidth#FULL */
+        public static final String FULL = "min-w-full";
 
         private MinWidth() {
+            // prevent instantiation
+        }
+    }
+
+    /** @see com.vaadin.flow.theme.lumo.LumoUtility.AspectRatio */
+    public static final class AspectRatio {
+
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.AspectRatio#SQUARE */
+        public static final String SQUARE = "aspect-square";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.AspectRatio#VIDEO */
+        public static final String VIDEO = "aspect-video";
+
+        private AspectRatio() {
             // prevent instantiation
         }
     }
@@ -673,6 +795,8 @@ public final class LumoConstants {
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.Flex */
     public static final class Flex {
 
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Flex#ONE */
+        public static final String ONE = "flex-1";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Flex#AUTO */
         public static final String AUTO = "flex-auto";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Flex#NONE */
@@ -687,6 +811,29 @@ public final class LumoConstants {
         public static final String SHRINK_NONE = "flex-shrink-0";
 
         private Flex() {
+            // prevent instantiation
+        }
+    }
+
+    /** @see com.vaadin.flow.theme.lumo.LumoUtility.Transition */
+    public static final class Transition {
+
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Transition#NONE */
+        public static final String NONE = "transition-none";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Transition#ALL */
+        public static final String ALL = "transition-all";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Transition#DEFAULT */
+        public static final String DEFAULT = "transition";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Transition#COLORS */
+        public static final String COLORS = "transition-colors";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Transition#OPACITY */
+        public static final String OPACITY = "transition-opacity";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Transition#SHADOW */
+        public static final String SHADOW = "transition-shadow";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Transition#TRANSFORM */
+        public static final String TRANSFORM = "transition-transform";
+
+        private Transition() {
             // prevent instantiation
         }
     }
@@ -732,14 +879,22 @@ public final class LumoConstants {
 
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#NONE */
         public static final String NONE = "border-0";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#DASHED */
+        public static final String DASHED = "border-dashed";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#DOTTED */
+        public static final String DOTTED = "border-dotted";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#ALL */
         public static final String ALL = "border";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#BOTTOM */
         public static final String BOTTOM = "border-b";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#END */
+        public static final String END = "border-e";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#LEFT */
         public static final String LEFT = "border-l";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#RIGHT */
         public static final String RIGHT = "border-r";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#START */
+        public static final String START = "border-s";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Border#TOP */
         public static final String TOP = "border-t";
 
@@ -787,8 +942,6 @@ public final class LumoConstants {
     /** @see com.vaadin.flow.theme.lumo.LumoUtility.Margin */
     public static final class Margin {
 
-        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Margin#AUTO */
-        public static final String AUTO = "m-auto";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Margin#NONE */
         public static final String NONE = "m-0";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Margin#XSMALL */
@@ -801,6 +954,8 @@ public final class LumoConstants {
         public static final String LARGE = "m-l";
         /** @see com.vaadin.flow.theme.lumo.LumoUtility.Margin#XLARGE */
         public static final String XLARGE = "m-xl";
+        /** @see com.vaadin.flow.theme.lumo.LumoUtility.Margin#AUTO */
+        public static final String AUTO = "m-auto";
 
         private Margin() {
             // prevent instantiation

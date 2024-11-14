@@ -17,6 +17,7 @@
 
     <properties>
         <revapi.skip>true</revapi.skip>
+        <javafaker.version>1.0.2</javafaker.version>
     </properties>
 
     <dependencies>
@@ -27,6 +28,10 @@
                 <exclusion>
                     <groupId>commons-logging</groupId>
                     <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>copilot</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -63,7 +68,7 @@
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
+            <version>${javafaker.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.yaml</groupId>

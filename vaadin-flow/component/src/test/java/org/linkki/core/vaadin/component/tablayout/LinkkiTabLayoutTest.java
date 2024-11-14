@@ -13,17 +13,10 @@
  */
 package org.linkki.core.vaadin.component.tablayout;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.linkki.test.matcher.Matchers.absent;
-import static org.linkki.test.matcher.Matchers.hasValue;
-import static org.linkki.test.matcher.Matchers.present;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
@@ -37,7 +30,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
@@ -59,16 +52,16 @@ class LinkkiTabLayoutTest {
     void testLinkkiTabLayout_VerticalOrientation() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.VERTICAL);
 
-        assertThat(tabLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
-        assertThat(tabLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is("vertical"));
+        assertThat(tabLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION)).isTrue();
+        assertThat(tabLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION)).isEqualTo("vertical");
     }
 
     @Test
     void testLinkkiTabLayout_HorizontalOrientation() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
-        assertThat(tabLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
-        assertThat(tabLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is("horizontal"));
+        assertThat(tabLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION)).isTrue();
+        assertThat(tabLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION)).isEqualTo("horizontal");
     }
 
     @Test
@@ -80,9 +73,9 @@ class LinkkiTabLayoutTest {
         tabLayout.addTabSheet(tabSheet1);
         tabLayout.addTabSheet(tabSheet2);
 
-        assertThat(tabLayout.getTabsComponent().getComponentCount(), is(2));
-        assertThat(tabLayout.getTabsComponent().getChildren().collect(Collectors.toList()),
-                   Matchers.contains(tabSheet1.getTab(), tabSheet2.getTab()));
+        assertThat(tabLayout.getTabsComponent().getComponentCount()).isEqualTo(2);
+        assertThat(tabLayout.getTabsComponent().getChildren().collect(Collectors.toList()))
+                .contains(tabSheet1.getTab(), tabSheet2.getTab());
     }
 
     @Test
@@ -94,9 +87,9 @@ class LinkkiTabLayoutTest {
         tabLayout.addTabSheet(tabSheet1);
         tabLayout.addTabSheet(tabSheet2, 0);
 
-        assertThat(tabLayout.getTabsComponent().getComponentCount(), is(2));
-        assertThat(tabLayout.getTabsComponent().getChildren().collect(Collectors.toList()),
-                   Matchers.contains(tabSheet2.getTab(), tabSheet1.getTab()));
+        assertThat(tabLayout.getTabsComponent().getComponentCount()).isEqualTo(2);
+        assertThat(tabLayout.getTabsComponent().getChildren().collect(Collectors.toList()))
+                .contains(tabSheet2.getTab(), tabSheet1.getTab());
     }
 
     @Test
@@ -114,10 +107,10 @@ class LinkkiTabLayoutTest {
 
         verify(onSelectionHandler1).apply();
         verify(onSelectionHandler2, never()).apply();
-        assertThat(tabLayout.getTabsComponent().getSelectedTab(), is(tabSheet1.getTab()));
-        assertThat(tabSheet1.getContent().getParent(), is(present()));
-        assertThat(tabSheet1.getContent().isVisible(), is(true));
-        assertThat(tabSheet2.getContent().getParent(), is(absent()));
+        assertThat(tabLayout.getTabsComponent().getSelectedTab()).isEqualTo(tabSheet1.getTab());
+        assertThat(tabSheet1.getContent().getParent()).isNotEmpty();
+        assertThat(tabSheet1.getContent().isVisible()).isTrue();
+        assertThat(tabSheet2.getContent().getParent()).isEmpty();
     }
 
     @Test
@@ -128,7 +121,7 @@ class LinkkiTabLayoutTest {
         tabLayout.addTabSheet(tabSheet1);
         tabLayout.addTabSheet(tabSheet2, 0);
 
-        assertThat(tabLayout.getTabSheets(), contains(tabSheet2, tabSheet1));
+        assertThat(tabLayout.getTabSheets()).contains(tabSheet2, tabSheet1);
     }
 
     @Test
@@ -138,7 +131,7 @@ class LinkkiTabLayoutTest {
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
         tabLayout.addTabSheets(tabSheet2, tabSheet1);
 
-        assertThat(tabLayout.getTabSheets(), contains(tabSheet2, tabSheet1));
+        assertThat(tabLayout.getTabSheets()).contains(tabSheet2, tabSheet1);
     }
 
     @Test
@@ -148,7 +141,7 @@ class LinkkiTabLayoutTest {
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
         tabLayout.addTabSheets(Stream.of(tabSheet2, tabSheet1));
 
-        assertThat(tabLayout.getTabSheets(), contains(tabSheet2, tabSheet1));
+        assertThat(tabLayout.getTabSheets()).contains(tabSheet2, tabSheet1);
     }
 
     @Test
@@ -158,7 +151,7 @@ class LinkkiTabLayoutTest {
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
         tabLayout.addTabSheets(Arrays.asList(tabSheet2, tabSheet1));
 
-        assertThat(tabLayout.getTabSheets(), contains(tabSheet2, tabSheet1));
+        assertThat(tabLayout.getTabSheets()).contains(tabSheet2, tabSheet1);
     }
 
     @Test
@@ -171,9 +164,9 @@ class LinkkiTabLayoutTest {
 
         tabLayout.setSelectedTabSheet(tabSheet2.getId());
 
-        assertThat(tabLayout.getTabsComponent().getSelectedTab(), is(tabSheet2.getTab()));
-        assertThat(tabSheet2.getContent().isVisible(), is(true));
-        assertThat(tabSheet1.getContent().isVisible(), is(false));
+        assertThat(tabLayout.getTabsComponent().getSelectedTab()).isEqualTo(tabSheet2.getTab());
+        assertThat(tabSheet2.getContent().isVisible()).isTrue();
+        assertThat(tabSheet1.getContent().isVisible()).isFalse();
     }
 
     @Test
@@ -204,7 +197,7 @@ class LinkkiTabLayoutTest {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         tabLayout.addTabSheet(tabSheet1);
-        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList()), contains(tabSheet1.getContent()));
+        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList())).contains(tabSheet1.getContent());
 
         Supplier<Component> content2Supplier = spy(new Supplier<Component>() {
 
@@ -217,13 +210,13 @@ class LinkkiTabLayoutTest {
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(content2Supplier).build();
 
         tabLayout.addTabSheet(tabSheet2);
-        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList()), contains(tabSheet1.getContent()));
+        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList())).contains(tabSheet1.getContent());
         Mockito.verifyNoInteractions(content2Supplier);
 
         tabLayout.setSelectedTabSheet("id2");
 
-        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList()),
-                   contains(tabSheet1.getContent(), tabSheet2.getContent()));
+        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList())).contains(tabSheet1.getContent(),
+                                                                                               tabSheet2.getContent());
     }
 
     @Test
@@ -231,7 +224,7 @@ class LinkkiTabLayoutTest {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheet(LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build());
 
-        assertThrows(IllegalArgumentException.class, () -> tabLayout.setSelectedTabSheet("id2"));
+        assertThatThrownBy(() -> tabLayout.setSelectedTabSheet("id2")).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -244,20 +237,20 @@ class LinkkiTabLayoutTest {
 
         LinkkiTabSheet selectedTabSheet = tabLayout.getSelectedTabSheet();
 
-        assertThat(selectedTabSheet, is(tabSheet2));
+        assertThat(selectedTabSheet).isEqualTo(tabSheet2);
     }
 
     @Test
     void testGetSelectedTabSheet_NoneSelected() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
 
-        assertThrows(NoSuchElementException.class, () -> tabLayout.getSelectedTabSheet());
+        assertThatThrownBy(tabLayout::getSelectedTabSheet).isInstanceOf(NoSuchElementException.class);
 
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         tabLayout.addTabSheets(tabSheet1);
         tabLayout.getTabsComponent().setSelectedTab(null);
 
-        assertThrows(NoSuchElementException.class, () -> tabLayout.getSelectedTabSheet());
+        assertThatThrownBy(tabLayout::getSelectedTabSheet).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -269,9 +262,9 @@ class LinkkiTabLayoutTest {
 
         tabLayout.setSelectedIndex(1);
 
-        assertThat(tabLayout.getTabsComponent().getSelectedIndex(), is(1));
-        assertThat(tabSheet2.getContent().isVisible(), is(true));
-        assertThat(tabSheet1.getContent().isVisible(), is(false));
+        assertThat(tabLayout.getTabsComponent().getSelectedIndex()).isEqualTo(1);
+        assertThat(tabSheet2.getContent().isVisible()).isTrue();
+        assertThat(tabSheet1.getContent().isVisible()).isFalse();
     }
 
     @Test
@@ -301,7 +294,10 @@ class LinkkiTabLayoutTest {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheet(LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build());
 
-        assertThrows(IllegalArgumentException.class, () -> tabLayout.setSelectedIndex(1));
+        assertDoesNotThrow(() -> tabLayout.setSelectedIndex(1));
+        assertThat(tabLayout.getSelectedIndex())
+                .as("If an invalid index is selected, the tab layout should revert to the previously selected valid index.")
+                .isEqualTo(0);
     }
 
     @Test
@@ -315,10 +311,10 @@ class LinkkiTabLayoutTest {
 
         tabLayout.setSelectedIndex(-1);
 
-        assertThat(tabLayout.getTabsComponent().getSelectedIndex(), is(-1));
-        assertThat(tabLayout.getTabsComponent().getSelectedTab(), is(nullValue()));
-        assertThat(tabSheet1.getContent().isVisible(), is(false));
-        assertThat(tabSheet2.getContent().isVisible(), is(false));
+        assertThat(tabLayout.getTabsComponent().getSelectedIndex()).isEqualTo(-1);
+        assertThat(tabLayout.getTabsComponent().getSelectedTab()).isNull();
+        assertThat(tabSheet1.getContent().isVisible()).isFalse();
+        assertThat(tabSheet2.getContent().isVisible()).isFalse();
     }
 
     @Test
@@ -330,7 +326,7 @@ class LinkkiTabLayoutTest {
 
         tabLayout.setSelectedIndex(1);
 
-        assertThat(tabLayout.getSelectedIndex(), is(1));
+        assertThat(tabLayout.getSelectedIndex()).isEqualTo(1);
     }
 
     @Test
@@ -343,9 +339,9 @@ class LinkkiTabLayoutTest {
 
         tabLayout.removeTabSheet(tabSheet2);
 
-        assertThat(tabSheet2.getTab().getParent(), is(absent()));
-        assertThat(tabSheet1.getTab().getParent(), is(present()));
-        assertThat(tabSheet3.getTab().getParent(), is(present()));
+        assertThat(tabSheet2.getTab().getParent()).isEmpty();
+        assertThat(tabSheet1.getTab().getParent()).isNotEmpty();
+        assertThat(tabSheet3.getTab().getParent()).isNotEmpty();
     }
 
     @Test
@@ -358,21 +354,21 @@ class LinkkiTabLayoutTest {
 
         tabLayout.removeTabSheet(tabSheet2);
 
-        assertThat(tabSheet2.getTab().getParent(), is(absent()));
-        assertThat(tabSheet1.getTab().getParent(), is(present()));
-        assertThat(tabLayout.getSelectedTabSheet(), is(tabSheet1));
+        assertThat(tabSheet2.getTab().getParent()).isEmpty();
+        assertThat(tabSheet1.getTab().getParent()).isNotEmpty();
+        assertThat(tabLayout.getSelectedTabSheet()).isEqualTo(tabSheet1);
     }
 
     @Test
     void testRemoveTabSheet_DoesNotCreateContent() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
-        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> fail()).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(Assertions::fail).build();
         tabLayout.addTabSheets(tabSheet1, tabSheet2);
 
         tabLayout.removeTabSheet(tabSheet2);
 
-        assertThat(tabLayout.getTabSheets(), contains(tabSheet1));
+        assertThat(tabLayout.getTabSheets()).contains(tabSheet1);
     }
 
     @Test
@@ -386,11 +382,11 @@ class LinkkiTabLayoutTest {
 
         tabLayout.removeAllTabSheets();
 
-        assertThat(tabLayout.getTabsComponent().getChildren().collect(Collectors.toList()), is(empty()));
-        assertThat(tabSheet1.getContent().getParent().isPresent(), is(false));
-        assertThat(tabSheet1.getTab().getParent().isPresent(), is(false));
-        assertThat(tabSheet2.getContent().getParent().isPresent(), is(false));
-        assertThat(tabSheet2.getTab().getParent().isPresent(), is(false));
+        assertThat(tabLayout.getTabsComponent().getChildren().collect(Collectors.toList())).isEmpty();
+        assertThat(tabSheet1.getContent().getParent().isPresent()).isFalse();
+        assertThat(tabSheet1.getTab().getParent().isPresent()).isFalse();
+        assertThat(tabSheet2.getContent().getParent().isPresent()).isFalse();
+        assertThat(tabSheet2.getTab().getParent().isPresent()).isFalse();
     }
 
     @Test
@@ -402,7 +398,7 @@ class LinkkiTabLayoutTest {
 
         tabLayout.removeAllTabSheets();
 
-        assertThat(tabLayout.getTabSheets(), is(empty()));
+        assertThat(tabLayout.getTabSheets()).isEmpty();
     }
 
     @Test
@@ -412,9 +408,9 @@ class LinkkiTabLayoutTest {
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
         tabLayout.addTabSheets(tabSheet1, tabSheet2);
 
-        assertThat(tabLayout.getTabSheet("id1"), is(hasValue(tabSheet1)));
-        assertThat(tabLayout.getTabSheet("id2"), is(hasValue(tabSheet2)));
-        assertThat(tabLayout.getTabSheet("id3"), is(absent()));
+        assertThat(tabLayout.getTabSheet("id1")).hasValue(tabSheet1);
+        assertThat(tabLayout.getTabSheet("id2")).hasValue(tabSheet2);
+        assertThat(tabLayout.getTabSheet("id3")).isEmpty();
     }
 
     @SuppressWarnings("unchecked")
@@ -436,10 +432,9 @@ class LinkkiTabLayoutTest {
     void testNewSidebarLayout() {
         LinkkiTabLayout sidebarLayout = LinkkiTabLayout.newSidebarLayout();
 
-        assertThat(sidebarLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
-        assertThat(sidebarLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is("vertical"));
-        assertThat(sidebarLayout.getElement().getThemeList(),
-                   contains(LinkkiTabLayout.THEME_VARIANT_SOLID));
+        assertThat(sidebarLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION)).isTrue();
+        assertThat(sidebarLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION)).isEqualTo("vertical");
+        assertThat(sidebarLayout.getElement().getThemeList()).contains(LinkkiTabLayout.THEME_VARIANT_SOLID);
     }
 
     @Test
@@ -458,7 +453,7 @@ class LinkkiTabLayoutTest {
         tabLayout.updateSheetVisibility();
 
         // first 2 tabs are invisible
-        assertThat(tabLayout.getSelectedTabSheet(), is(tabSheet3));
+        assertThat(tabLayout.getSelectedTabSheet()).isEqualTo(tabSheet3);
     }
 
     @Test
@@ -477,7 +472,7 @@ class LinkkiTabLayoutTest {
 
         tabLayout.updateSheetVisibility();
 
-        assertThat(tabLayout.getSelectedIndex(), is(-1));
+        assertThat(tabLayout.getSelectedIndex()).isEqualTo(-1);
     }
 
     @Test
@@ -490,7 +485,7 @@ class LinkkiTabLayoutTest {
         tabLayout.addTabSheet(tabSheet1);
         tabLayout.addTabSheet(tabSheet2);
 
-        assertThat(tabLayout.getTabSheet("id1").get().getTab().isVisible(), is(false));
+        assertThat(tabLayout.getTabSheet("id1").get().getTab().isVisible()).isFalse();
     }
 
     @Test
@@ -520,7 +515,7 @@ class LinkkiTabLayoutTest {
 
         tabLayout.afterNavigation(mock(AfterNavigationEvent.class));
 
-        assertThat(tabLayout.getTabSheet("id1").get().getTab().isVisible(), is(false));
+        assertThat(tabLayout.getTabSheet("id1").get().getTab().isVisible()).isFalse();
     }
 
 }

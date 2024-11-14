@@ -14,11 +14,11 @@
 
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -51,9 +51,9 @@ class BindComboBoxItemStyleAspectDefinitionTest {
 
         Aspect<Function<Object, String>> createdAspect = aspectDefinition.createAspect();
 
-        assertThat(createdAspect.getName(), is(BindComboBoxItemStyleAspectDefinition.NAME));
+        assertThat(createdAspect.getName()).isEqualTo(BindComboBoxItemStyleAspectDefinition.NAME);
         // Retrieved dynamically
-        assertThat(createdAspect.isValuePresent(), is(false));
+        assertThat(createdAspect.isValuePresent()).isFalse();
     }
 
     @Test
@@ -62,8 +62,8 @@ class BindComboBoxItemStyleAspectDefinitionTest {
 
         Aspect<Function<Object, String>> createdAspect = aspectDefinition.createAspect();
 
-        assertThat(createdAspect.getName(), is(BindComboBoxItemStyleAspectDefinition.NAME));
-        assertThat(createdAspect.getValue().apply("any object"), is("foo"));
+        assertThat(createdAspect.getName()).isEqualTo(BindComboBoxItemStyleAspectDefinition.NAME);
+        assertThat(createdAspect.getValue().apply("any object")).isEqualTo("foo");
     }
 
     @Test
@@ -73,8 +73,8 @@ class BindComboBoxItemStyleAspectDefinitionTest {
 
         Aspect<Function<Object, String>> createdAspect = aspectDefinition.createAspect();
 
-        assertThat(createdAspect.getName(), is(BindComboBoxItemStyleAspectDefinition.NAME));
-        assertThat(createdAspect.getValue().apply("any object"), is("foo bar"));
+        assertThat(createdAspect.getName()).isEqualTo(BindComboBoxItemStyleAspectDefinition.NAME);
+        assertThat(createdAspect.getValue().apply("any object")).isEqualTo("foo bar");
     }
 
     @Test
@@ -84,6 +84,7 @@ class BindComboBoxItemStyleAspectDefinitionTest {
         String styleName = "bar";
         BindComboBoxItemStyleAspectDefinition aspectDefinition = new BindComboBoxItemStyleAspectDefinition(styleName);
         ComboBox<Object> comboBox = spy(ComponentFactory.newComboBox());
+        comboBox.setId("just-a-test");
         @SuppressWarnings("unchecked")
         ArgumentCaptor<LitRenderer<Object>> argumentCaptor = ArgumentCaptor.forClass(LitRenderer.class);
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(comboBox);
@@ -98,10 +99,20 @@ class BindComboBoxItemStyleAspectDefinitionTest {
         JreJsonObject jsonObject = new JreJsonObject(new JreJsonFactory());
         render.getDataGenerator().get().generateData(EXPECTED_LABEL, jsonObject);
 
-        assertThat(jsonObject.get("lr_0_" + BindComboBoxItemStyleAspectDefinition.LABEL).asString(),
-                   is(EXPECTED_LABEL));
-        assertThat(jsonObject.get("lr_0_" + BindComboBoxItemStyleAspectDefinition.STYLE).asString(),
-                   is(EXPECTED_STYLE));
+        assertThat(jsonObject
+                .get(Arrays.stream(jsonObject.keys())
+                        .filter(c -> c.endsWith("style"))
+                        .findFirst()
+                        .orElseThrow())
+                .asString())
+                        .isEqualTo(EXPECTED_STYLE);
+        assertThat(jsonObject
+                .get(Arrays.stream(jsonObject.keys())
+                        .filter(c -> c.endsWith("label"))
+                        .findFirst()
+                        .orElseThrow())
+                .asString())
+                        .isEqualTo(EXPECTED_LABEL);
 
         MockVaadin.tearDown();
     }

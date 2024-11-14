@@ -9,14 +9,16 @@
 
 ==== New features and improvements
 
-// ===== Dependency Updates
+===== Dependency Updates
 
-//The following versions have been updated:
+The following versions have been updated:
 
-//[cols="a,a"]
-//|===
-//| Vaadin                    | 24.4.4
-//|===
+[cols="a,a"]
+|===
+| Faktor-IPS                | 24.7.5.release
+| Vaadin                    | 24.4.16
+| Spring Boot               | 3.3.5
+|===
 
 // https://jira.convista.com/browse/LIN-3970
 ===== Automatically focus first applicable element in combobox
