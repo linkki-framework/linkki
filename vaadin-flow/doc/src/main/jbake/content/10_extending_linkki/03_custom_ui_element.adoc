@@ -92,7 +92,7 @@ The `UIRadioButtonGroupFieldAspectDefinitionCreator#create()` method gets a refe
 
 .Common LinkkiAspectDefinitions
 |===
-|`AvailableValuesAspectDefinition`| Defines an aspect that updates the set of available values of https://vaadin.com/api/platform/{vvaadin}/com/vaadin/flow/data/provider/HasListDataView.html[HasListDataView].
+|`AvailableValuesAspectDefinition`| Defines an aspect that updates the set of available values of https://vaadin.com/api/platform/latest/com/vaadin/flow/data/provider/HasListDataView.html[HasListDataView].
 |`BindReadOnlyAspectDefinition`| Aspect definition for read-only state.
 |`CaptionAspectDefinition`|Aspect definition for caption binding. Assumes that the `ComponentWrapper` wraps a `Component` by default.
 |`EnabledAspectDefinition`|Aspect definition for {github-linkki}/core/src/main/java/org/linkki/core/defaults/ui/aspects/types/EnabledType.java[EnabledType].
