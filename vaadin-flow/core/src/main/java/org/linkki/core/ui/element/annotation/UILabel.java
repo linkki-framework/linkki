@@ -49,6 +49,7 @@ import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 
@@ -143,7 +144,8 @@ public @interface UILabel {
                     Converter<String, Object> converter = LinkkiConverterRegistry.getCurrent()
                             .findConverter(String.class,
                                            o.getClass());
-                    return converter.convertToPresentation(o, new ValueContext(UiFramework.getLocale()));
+                    return converter.convertToPresentation(o,
+                                                           new ValueContext(new Binder<>(), UiFramework.getLocale()));
                 } catch (IllegalArgumentException e) {
                     // no converter
                     return new DefaultCaptionProvider().getCaption(o);

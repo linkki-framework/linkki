@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 
@@ -31,7 +32,7 @@ public class NullHandlingConverterWrapperTest {
     public void testConvertToModel_NullValue() {
         FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
         NullHandlingConverterWrapper<String, Integer> wrapper = new NullHandlingConverterWrapper<>(converter);
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
 
         Result<Integer> converterResult = converter.convertToModel("", context);
         Result<Integer> wrapperResult = wrapper.convertToModel("", context);
@@ -46,7 +47,7 @@ public class NullHandlingConverterWrapperTest {
     public void testConvertToModel_NonnullValue() {
         FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
         NullHandlingConverterWrapper<String, Integer> wrapper = new NullHandlingConverterWrapper<>(converter);
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
 
         Result<Integer> converterResult = converter.convertToModel("123", context);
         Result<Integer> wrapperResult = wrapper.convertToModel("123", context);
@@ -62,7 +63,7 @@ public class NullHandlingConverterWrapperTest {
     public void testConvertToModel_Error() {
         FormattedStringToIntegerConverter converter = new FormattedStringToIntegerConverter("#,##0");
         NullHandlingConverterWrapper<String, Integer> wrapper = new NullHandlingConverterWrapper<>(converter);
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
 
         Result<Integer> converterResult = converter.convertToModel("xyz", context);
         Result<Integer> wrapperResult = wrapper.convertToModel("xyz", context);

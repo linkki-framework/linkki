@@ -2,11 +2,13 @@ package org.linkki.core.ui.converters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.vaadin.flow.data.binder.ValueContext;
+import java.util.Locale;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Locale;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValueContext;
 
 public class FormattedStringToLongConverterTest {
 
@@ -16,7 +18,7 @@ public class FormattedStringToLongConverterTest {
     @BeforeEach
     void setup() {
         converter = new FormattedStringToLongConverter("#,##0");
-        context = new ValueContext(Locale.GERMAN);
+        context = new ValueContext(new Binder<>(), Locale.GERMAN);
     }
 
     @Test

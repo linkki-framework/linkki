@@ -25,6 +25,7 @@ import org.linkki.core.ui.converters.FormattedStringToIntegerConverter;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.test.KaribuUIExtension;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
@@ -63,10 +64,10 @@ class PrimitiveAwareValueAspectDefinitionTest {
         @SuppressWarnings("unchecked")
         var converter = (Converter<String, Integer>)aspectDefinition.getConverter(String.class, Integer.class);
 
-        assertThat(converter.convertToModel("1", new ValueContext()))
+        assertThat(converter.convertToModel("1", new ValueContext(new Binder<>())))
                 .as("Should ignore converters in the registry")
                 .isNotEqualTo(Result.ok(101));
-        assertThat(converter.convertToModel(null, new ValueContext()))
+        assertThat(converter.convertToModel(null, new ValueContext(new Binder<>())))
                 .isEqualTo(Result.ok(null));
     }
 
@@ -77,10 +78,10 @@ class PrimitiveAwareValueAspectDefinitionTest {
         @SuppressWarnings("unchecked")
         var converter = (Converter<String, Integer>)aspectDefinition.getConverter(String.class, Integer.class);
 
-        assertThat(converter.convertToModel("1", new ValueContext()))
+        assertThat(converter.convertToModel("1", new ValueContext(new Binder<>())))
                 .as("Custom converter from the registry should be used")
                 .isEqualTo(Result.ok(101));
-        assertThat(converter.convertToModel(null, new ValueContext()))
+        assertThat(converter.convertToModel(null, new ValueContext(new Binder<>())))
                 .isEqualTo(Result.ok(null));
     }
 
@@ -91,10 +92,10 @@ class PrimitiveAwareValueAspectDefinitionTest {
         @SuppressWarnings("unchecked")
         var converter = (Converter<String, Integer>)aspectDefinition.getConverter(String.class, Integer.TYPE);
 
-        assertThat(converter.convertToModel("1", new ValueContext()))
+        assertThat(converter.convertToModel("1", new ValueContext(new Binder<>())))
                 .as("Should ignore converters in the registry")
                 .isNotEqualTo(Result.ok(101));
-        assertThat(converter.convertToModel(null, new ValueContext()))
+        assertThat(converter.convertToModel(null, new ValueContext(new Binder<>())))
                 .isEqualTo(Result.error("null value not allowed"));
     }
 
@@ -105,10 +106,10 @@ class PrimitiveAwareValueAspectDefinitionTest {
         @SuppressWarnings("unchecked")
         var converter = (Converter<String, Integer>)aspectDefinition.getConverter(String.class, Integer.TYPE);
 
-        assertThat(converter.convertToModel("1", new ValueContext()))
+        assertThat(converter.convertToModel("1", new ValueContext(new Binder<>())))
                 .as("Custom converter from the registry should be used")
                 .isEqualTo(Result.ok(101));
-        assertThat(converter.convertToModel(null, new ValueContext()))
+        assertThat(converter.convertToModel(null, new ValueContext(new Binder<>())))
                 .isEqualTo(Result.error("null value not allowed"));
     }
 }

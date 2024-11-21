@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValueContext;
 
 class FormattedStringToDoubleConverterTest {
@@ -27,35 +28,35 @@ class FormattedStringToDoubleConverterTest {
     @Test
     void testConvertToPresentation() {
         FormattedStringToDoubleConverter converter = new FormattedStringToDoubleConverter("0.00");
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
         assertThat(converter.convertToPresentation(0.2, context)).isEqualTo("0,20");
     }
 
     @Test
     void testConvertToPresentation_Null() {
         FormattedStringToDoubleConverter converter = new FormattedStringToDoubleConverter("0.00");
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
         assertThat(converter.convertToPresentation(null, context)).isEmpty();
     }
 
     @Test
     void testConvertToModel() {
         FormattedStringToDoubleConverter converter = new FormattedStringToDoubleConverter("0.00");
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
         assertThat(converter.convertToModel("1,23", context).getOrThrow(AssertionError::new)).isEqualTo(1.23);
     }
 
     @Test
     void testConvertToModel_Null() {
         FormattedStringToDoubleConverter converter = new FormattedStringToDoubleConverter("0.00");
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
         assertThat(converter.convertToModel("", context).getOrThrow(AssertionError::new)).isNull();
     }
 
     @Test
     void testConvertToModel_ExtraLargeNumber() {
         FormattedStringToDoubleConverter converter = new FormattedStringToDoubleConverter("0.00");
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
         assertThat(converter
                 .convertToModel("12345678901234567890123456789012345678901234567890123456789012345678901234567890",
                                 context)
@@ -66,7 +67,7 @@ class FormattedStringToDoubleConverterTest {
     @Test
     void testConvertToPresentation_ExtraLargeNumber() {
         FormattedStringToDoubleConverter converter = new FormattedStringToDoubleConverter("0.00");
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
         assertThat(converter
                 .convertToPresentation(12345678901234567890123456789012345678901234567890123456789012345678901234567890d,
                                        context))

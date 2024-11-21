@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 
@@ -32,12 +33,12 @@ class StringToDateConverterTest {
 
     @Test
     void testConvertToModel_Null() {
-        assertThat(converter.convertToModel(null, new ValueContext())).isEqualTo(Result.ok(null));
+        assertThat(converter.convertToModel(null, new ValueContext(new Binder<>()))).isEqualTo(Result.ok(null));
     }
 
     @Test
     void testConvertToModel_DE() {
-        ValueContext context = new ValueContext(Locale.GERMANY);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMANY);
 
         assertThat(converter.convertToModel("24.12.2023", context))
                 .isEqualTo(Result.ok(dateOf(2023, 12, 24)));
@@ -45,7 +46,7 @@ class StringToDateConverterTest {
 
     @Test
     void testConvertToModel_EN_US() {
-        ValueContext context = new ValueContext(Locale.US);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.US);
 
         assertThat(converter.convertToModel("12/24/2023", context))
                 .isEqualTo(Result.ok(dateOf(2023, 12, 24)));
@@ -53,7 +54,7 @@ class StringToDateConverterTest {
 
     @Test
     void testConvertToModel_EN_UK() {
-        ValueContext context = new ValueContext(Locale.UK);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.UK);
 
         assertThat(converter.convertToModel("24/12/2023", context))
                 .isEqualTo(Result.ok(dateOf(2023, 12, 24)));
@@ -61,14 +62,14 @@ class StringToDateConverterTest {
 
     @Test
     void testConvertToPresentation_Null() {
-        ValueContext context = new ValueContext(Locale.GERMANY);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMANY);
 
         assertThat(converter.convertToPresentation(null, context)).isNull();
     }
 
     @Test
     void testConvertToPresentation_DE() {
-        ValueContext context = new ValueContext(Locale.GERMANY);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMANY);
 
         assertThat(converter.convertToPresentation(dateOf(2023, 12, 24), context)).isEqualTo("24.12.2023");
         assertThat(converter.convertToPresentation(dateOf(23, 12, 24), context)).isEqualTo("24.12.0023");
@@ -76,7 +77,7 @@ class StringToDateConverterTest {
 
     @Test
     void testConvertToPresentation_EN_UK() {
-        ValueContext context = new ValueContext(Locale.UK);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.UK);
 
         assertThat(converter.convertToPresentation(dateOf(2023, 12, 24), context)).isEqualTo("24/12/2023");
         assertThat(converter.convertToPresentation(dateOf(23, 12, 24), context)).isEqualTo("24/12/0023");
@@ -84,7 +85,7 @@ class StringToDateConverterTest {
 
     @Test
     void testConvertToPresentation_EN_US() {
-        ValueContext context = new ValueContext(Locale.US);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.US);
 
         assertThat(converter.convertToPresentation(dateOf(2023, 12, 24), context)).isEqualTo("12/24/2023");
         assertThat(converter.convertToPresentation(dateOf(23, 12, 24), context)).isEqualTo("12/24/0023");

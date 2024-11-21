@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledForJreRange;
 import org.junit.jupiter.api.condition.JRE;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 
@@ -32,7 +33,7 @@ class LocalDateTimeToStringConverterTest {
         LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
 
         Result<LocalDateTime> result = converter.convertToModel("01.02.3456 07:08",
-                                                                new ValueContext(Locale.GERMANY));
+                                                                new ValueContext(new Binder<>(), Locale.GERMANY));
 
         Assertions.assertThat(result.isError()).isFalse();
         Assertions.assertThat(result.getOrThrow(m -> new Exception(m)))
@@ -43,7 +44,8 @@ class LocalDateTimeToStringConverterTest {
     void testConvertToModel_IncompatibleLocale() {
         LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
 
-        Result<LocalDateTime> result = converter.convertToModel("01.02.3456 07:08", new ValueContext(Locale.US));
+        Result<LocalDateTime> result =
+                converter.convertToModel("01.02.3456 07:08", new ValueContext(new Binder<>(), Locale.US));
 
         Assertions.assertThat(result.isError()).isTrue();
     }
@@ -52,7 +54,7 @@ class LocalDateTimeToStringConverterTest {
     void testConvertToModel_Null() throws Exception {
         LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
 
-        Result<LocalDateTime> result = converter.convertToModel(null, new ValueContext(Locale.US));
+        Result<LocalDateTime> result = converter.convertToModel(null, new ValueContext(new Binder<>(), Locale.US));
 
         Assertions.assertThat(result.isError()).isFalse();
         Assertions.assertThat(result.getOrThrow(m -> new Exception(m))).isNull();
@@ -63,11 +65,16 @@ class LocalDateTimeToStringConverterTest {
         LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
         LocalDateTime dateToConvert = LocalDateTime.of(1234, 5, 6, 7, 8, 9);
 
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.GERMANY)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert,
+                                                            new ValueContext(new Binder<>(), Locale.GERMANY)))
                 .isEqualTo("06.05.1234 07:08");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.GERMAN)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert,
+                                                            new ValueContext(new Binder<>(), Locale.GERMAN)))
                 .isEqualTo("06.05.1234 07:08");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.UK)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(new Binder<>(), Locale.UK)))
                 .isEqualTo("06/05/1234 07:08");
     }
 
@@ -78,9 +85,12 @@ class LocalDateTimeToStringConverterTest {
         LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
         LocalDateTime dateToConvert = LocalDateTime.of(1234, 5, 6, 7, 8, 9);
 
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.ENGLISH)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert,
+                                                            new ValueContext(new Binder<>(), Locale.ENGLISH)))
                 .isEqualTo("05/06/1234 7:08 AM");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.US)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(new Binder<>(), Locale.US)))
                 .isEqualTo("05/06/1234 7:08 AM");
     }
 
@@ -90,9 +100,12 @@ class LocalDateTimeToStringConverterTest {
         LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
         LocalDateTime dateToConvert = LocalDateTime.of(1234, 5, 6, 7, 8, 9);
 
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.ENGLISH)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert,
+                                                            new ValueContext(new Binder<>(), Locale.ENGLISH)))
                 .isEqualTo("05/06/1234 7:08 AM");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.US)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(new Binder<>(), Locale.US)))
                 .isEqualTo("05/06/1234 7:08 AM");
     }
 
@@ -100,7 +113,7 @@ class LocalDateTimeToStringConverterTest {
     void testConvertToPresentation_Null() {
         LocalDateTimeToStringConverter converter = new LocalDateTimeToStringConverter();
 
-        String string = converter.convertToPresentation(null, new ValueContext(Locale.GERMANY));
+        String string = converter.convertToPresentation(null, new ValueContext(new Binder<>(), Locale.GERMANY));
 
         Assertions.assertThat(string).isNull();
     }

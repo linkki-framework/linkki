@@ -21,6 +21,7 @@ import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValueContext;
 
 class FormattedStringToIntegerConverterTest {
@@ -31,7 +32,7 @@ class FormattedStringToIntegerConverterTest {
     @BeforeEach
     void setup() {
         converter = new FormattedStringToIntegerConverter("#,##0");
-        context = new ValueContext(Locale.GERMAN);
+        context = new ValueContext(new Binder<>(), Locale.GERMAN);
     }
 
     @Test

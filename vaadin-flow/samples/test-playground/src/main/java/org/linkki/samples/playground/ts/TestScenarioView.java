@@ -12,8 +12,10 @@
  * the License.
  */
 package org.linkki.samples.playground.ts;
+
 import java.io.Serial;
 import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.BindingContext;
@@ -139,6 +141,7 @@ import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import org.linkki.samples.playground.ts.table.UITableComponentPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
+
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;

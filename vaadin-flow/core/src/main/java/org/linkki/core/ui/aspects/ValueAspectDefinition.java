@@ -34,6 +34,7 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
@@ -140,7 +141,7 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
     }
 
     protected ValueContext getValueContext(HasValue<?, Object> source) {
-        return new ValueContext((Component)source, source, UiFramework.getLocale());
+        return new ValueContext(new Binder<>(), (Component)source, source, UiFramework.getLocale());
     }
 
     /**

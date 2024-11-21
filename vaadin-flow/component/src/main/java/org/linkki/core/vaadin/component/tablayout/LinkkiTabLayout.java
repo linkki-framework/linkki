@@ -13,6 +13,7 @@
  */
 package org.linkki.core.vaadin.component.tablayout;
 
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -60,6 +61,7 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
     public static final String THEME_VARIANT_SOLID = "solid";
     static final String PROPERTY_ORIENTATION = "orientation";
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final Tabs tabsComponent;
@@ -120,7 +122,7 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
      * Automatically called during {@link #afterNavigation(AfterNavigationEvent)}.
      */
     public void updateSheetVisibility() {
-        tabSheets.entrySet().forEach(e -> e.getKey().setVisible(e.getValue().isVisible()));
+        tabSheets.forEach((key, value) -> key.setVisible(value.isVisible()));
         updateSelectionAfterVisibleChange();
     }
 
@@ -161,7 +163,7 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
      * @param tabSheet the {@link LinkkiTabSheet} to be added
      */
     public void addTabSheet(LinkkiTabSheet tabSheet) {
-        addTabSheet(tabSheet, tabsComponent.getComponentCount());
+        addTabSheet(tabSheet, tabsComponent.getTabCount());
     }
 
     /**

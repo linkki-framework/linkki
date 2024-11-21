@@ -23,12 +23,13 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValueContext;
 
 public class TwoDigitYearLocalDateTimeConverterTest {
 
     private final TwoDigitYearLocalDateTimeConverter converter = new TwoDigitYearLocalDateTimeConverter();
-    private final ValueContext context = new ValueContext(Locale.GERMAN);
+    private final ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
 
     @Test
     public void testConvertToModel_FourDigitYear_NoConversion() {

@@ -14,11 +14,18 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.data.binder.Result;
-import com.vaadin.flow.data.binder.ValueContext;
-import com.vaadin.flow.data.converter.Converter;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
+
+import java.io.Serial;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.util.Optional;
+
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -47,17 +54,13 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import java.io.Serial;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import java.lang.reflect.AnnotatedElement;
-import java.util.Optional;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Radio buttons for selecting a single value. Creates a
@@ -147,7 +150,8 @@ public @interface UIRadioButtons {
                             annotation.content(),
                             (component, values) -> component
                                     .setItems(values.stream()
-                                            .map(v -> converter.convertToPresentation(v, new ValueContext()))
+                                            .map(v -> converter.convertToPresentation(v,
+                                                                                      new ValueContext(new Binder<>())))
                                             .toList()));
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());

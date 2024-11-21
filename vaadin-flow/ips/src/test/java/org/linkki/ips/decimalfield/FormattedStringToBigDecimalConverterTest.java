@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValueContext;
 
 public class FormattedStringToBigDecimalConverterTest {
@@ -87,14 +88,14 @@ public class FormattedStringToBigDecimalConverterTest {
     @ParameterizedTest
     @MethodSource("dataBigDecimalToString")
     void testConvertToPresentation(BigDecimal bigDecimalValue, String stringValue) {
-        assertThat(converter.convertToPresentation(bigDecimalValue, new ValueContext(Locale.GERMAN)))
+        assertThat(converter.convertToPresentation(bigDecimalValue, new ValueContext(new Binder<>(), Locale.GERMAN)))
                 .isEqualTo(stringValue);
     }
 
     @ParameterizedTest
     @MethodSource("dataStringToBigDecimal")
     void testConvertToModel(BigDecimal bigDecimalValue, String stringValue) {
-        assertThat(converter.convertToModel(stringValue, new ValueContext(Locale.GERMAN))
+        assertThat(converter.convertToModel(stringValue, new ValueContext(new Binder<>(), Locale.GERMAN))
                 .getOrThrow(AssertionError::new))
                         .isEqualTo(bigDecimalValue);
     }
@@ -104,7 +105,7 @@ public class FormattedStringToBigDecimalConverterTest {
      */
     @Test
     void testConvertToModelWithNull() {
-        assertThat(converter.convertToModel(null, new ValueContext())
+        assertThat(converter.convertToModel(null, new ValueContext(new Binder<>(), Locale.GERMAN))
                 .getOrThrow(AssertionError::new)).isNull();
     }
 
@@ -113,7 +114,7 @@ public class FormattedStringToBigDecimalConverterTest {
      */
     @Test
     void testConvertToPresentationWithNull() {
-        assertThat(converter.convertToPresentation(null, new ValueContext())).isBlank();
+        assertThat(converter.convertToPresentation(null, new ValueContext(new Binder<>(), Locale.GERMAN))).isBlank();
     }
 
     /**

@@ -7,6 +7,7 @@
 package org.linkki.ips.decimalfield;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValueContext;
 
 class FormattedStringToDecimalConverterTest {
@@ -81,7 +83,7 @@ class FormattedStringToDecimalConverterTest {
     @ParameterizedTest
     @MethodSource("dataDecimalToString")
     void testConvertToPresentation(Decimal decimalValue, String stringValue) {
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
 
         String numberString = converter.convertToPresentation(decimalValue, context);
         Assertions.assertThat(numberString).isEqualTo(stringValue);
@@ -90,7 +92,7 @@ class FormattedStringToDecimalConverterTest {
     @ParameterizedTest
     @MethodSource("dataStringToDecimal")
     void testConvertToModel(Decimal decimalValue, String stringValue) {
-        ValueContext context = new ValueContext(Locale.GERMAN);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMAN);
         assertThat(converter.convertToModel(stringValue, context).getOrThrow(AssertionError::new))
                 .isEqualTo(decimalValue);
     }
@@ -100,7 +102,7 @@ class FormattedStringToDecimalConverterTest {
      */
     @Test
     void testConvertToModelWithoutSeparators() {
-        assertThat(converter.convertToModel("17385,89", new ValueContext(Locale.GERMAN))
+        assertThat(converter.convertToModel("17385,89", new ValueContext(new Binder<>(), Locale.GERMAN))
                 .getOrThrow(AssertionError::new)).isEqualTo(Decimal.valueOf(17385.89));
     }
 
@@ -109,7 +111,7 @@ class FormattedStringToDecimalConverterTest {
      */
     @Test
     void testConvertToModelWithNull() {
-        assertThat(converter.convertToModel(null, new ValueContext())
+        assertThat(converter.convertToModel(null, new ValueContext(mock(Binder.class)))
                 .getOrThrow(AssertionError::new)).isEqualTo(Decimal.NULL);
     }
 
@@ -118,7 +120,7 @@ class FormattedStringToDecimalConverterTest {
      */
     @Test
     void testConvertToPresentationWithNull() {
-        assertThat(converter.convertToPresentation(null, new ValueContext())).isBlank();
+        assertThat(converter.convertToPresentation(null, new ValueContext(mock(Binder.class)))).isBlank();
     }
 
     /**
@@ -127,9 +129,10 @@ class FormattedStringToDecimalConverterTest {
     @Test
     void testConvertWithDefaultFormat() {
         FormattedStringToDecimalConverter defaultConverter = new FormattedStringToDecimalConverter();
-        assertThat(defaultConverter.convertToPresentation(Decimal.valueOf(1234567890), new ValueContext(Locale.GERMAN)))
+        assertThat(defaultConverter.convertToPresentation(Decimal.valueOf(1234567890),
+                                                          new ValueContext(new Binder<>(), Locale.GERMAN)))
                 .isEqualTo("1.234.567.890,00");
-        assertThat(defaultConverter.convertToModel("17.385,89", new ValueContext(Locale.GERMAN))
+        assertThat(defaultConverter.convertToModel("17.385,89", new ValueContext(new Binder<>(), Locale.GERMAN))
                 .getOrThrow(AssertionError::new)).isEqualTo(Decimal.valueOf(17385.89));
     }
 

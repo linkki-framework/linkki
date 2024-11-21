@@ -20,7 +20,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.hasValue;
 import static org.linkki.test.matcher.Matchers.present;
@@ -38,6 +37,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
@@ -80,7 +80,7 @@ class LinkkiTabLayoutTest {
         tabLayout.addTabSheet(tabSheet1);
         tabLayout.addTabSheet(tabSheet2);
 
-        assertThat(tabLayout.getTabsComponent().getComponentCount(), is(2));
+        assertThat(tabLayout.getTabsComponent().getTabCount(), is(2));
         assertThat(tabLayout.getTabsComponent().getChildren().collect(Collectors.toList()),
                    Matchers.contains(tabSheet1.getTab(), tabSheet2.getTab()));
     }
@@ -94,7 +94,7 @@ class LinkkiTabLayoutTest {
         tabLayout.addTabSheet(tabSheet1);
         tabLayout.addTabSheet(tabSheet2, 0);
 
-        assertThat(tabLayout.getTabsComponent().getComponentCount(), is(2));
+        assertThat(tabLayout.getTabsComponent().getTabCount(), is(2));
         assertThat(tabLayout.getTabsComponent().getChildren().collect(Collectors.toList()),
                    Matchers.contains(tabSheet2.getTab(), tabSheet1.getTab()));
     }
@@ -251,13 +251,13 @@ class LinkkiTabLayoutTest {
     void testGetSelectedTabSheet_NoneSelected() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
 
-        assertThrows(NoSuchElementException.class, () -> tabLayout.getSelectedTabSheet());
+        assertThrows(NoSuchElementException.class, tabLayout::getSelectedTabSheet);
 
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
         tabLayout.addTabSheets(tabSheet1);
         tabLayout.getTabsComponent().setSelectedTab(null);
 
-        assertThrows(NoSuchElementException.class, () -> tabLayout.getSelectedTabSheet());
+        assertThrows(NoSuchElementException.class, tabLayout::getSelectedTabSheet);
     }
 
     @Test
@@ -305,7 +305,7 @@ class LinkkiTabLayoutTest {
         tabLayout.setSelectedIndex(1);
 
         assertThat("If an invalid index is selected, the tab layout should revert to the previously selected valid index.",
-                tabLayout.getSelectedIndex(),is(0));
+                   tabLayout.getSelectedIndex(), is(0));
     }
 
     @Test
@@ -371,7 +371,7 @@ class LinkkiTabLayoutTest {
     void testRemoveTabSheet_DoesNotCreateContent() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
-        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> fail()).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(Assertions::fail).build();
         tabLayout.addTabSheets(tabSheet1, tabSheet2);
 
         tabLayout.removeTabSheet(tabSheet2);
@@ -401,7 +401,7 @@ class LinkkiTabLayoutTest {
     void testRemoveAllTabSheets_DoesNotCreateContent() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
-        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> fail()).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(Assertions::fail).build();
         tabLayout.addTabSheets(tabSheet1, tabSheet2);
 
         tabLayout.removeAllTabSheets();

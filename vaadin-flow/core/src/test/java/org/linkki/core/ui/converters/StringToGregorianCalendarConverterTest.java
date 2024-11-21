@@ -22,13 +22,14 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 
 class StringToGregorianCalendarConverterTest {
 
     private final StringToGregorianCalendarConverter converter = new StringToGregorianCalendarConverter();
-    private final ValueContext germanyContext = new ValueContext(Locale.GERMANY);
+    private final ValueContext germanyContext = new ValueContext(new Binder<>(), Locale.GERMANY);
 
     @Test
     void testConvertToModel_Null() {
@@ -53,7 +54,7 @@ class StringToGregorianCalendarConverterTest {
 
     @Test
     void testConvertToModel_en_UK() {
-        ValueContext context = new ValueContext(Locale.UK);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.UK);
 
         var result = converter.convertToModel("24/12/2023", context);
 
@@ -66,7 +67,7 @@ class StringToGregorianCalendarConverterTest {
 
     @Test
     void testConvertToModel_en_US() {
-        ValueContext context = new ValueContext(Locale.US);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.US);
 
         var result = converter.convertToModel("12/24/2023", context);
 
@@ -84,7 +85,7 @@ class StringToGregorianCalendarConverterTest {
 
     @Test
     void testConvertToPresentation_de() {
-        ValueContext context = new ValueContext(Locale.GERMANY);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.GERMANY);
         GregorianCalendar gregorianCalendar = new GregorianCalendar(2023, Calendar.DECEMBER, 24);
 
         assertThat(converter.convertToPresentation(gregorianCalendar, context)).isEqualTo("24.12.2023");
@@ -92,7 +93,7 @@ class StringToGregorianCalendarConverterTest {
 
     @Test
     void testConvertToPresentation_en_UK() {
-        ValueContext context = new ValueContext(Locale.UK);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.UK);
         GregorianCalendar gregorianCalendar = new GregorianCalendar(2023, Calendar.DECEMBER, 24);
 
         assertThat(converter.convertToPresentation(gregorianCalendar, context)).isEqualTo("24/12/2023");
@@ -100,7 +101,7 @@ class StringToGregorianCalendarConverterTest {
 
     @Test
     void testConvertToPresentation_en_US() {
-        ValueContext context = new ValueContext(Locale.US);
+        ValueContext context = new ValueContext(new Binder<>(), Locale.US);
         GregorianCalendar gregorianCalendar = new GregorianCalendar(2023, Calendar.DECEMBER, 24);
 
         assertThat(converter.convertToPresentation(gregorianCalendar, context)).isEqualTo("12/24/2023");

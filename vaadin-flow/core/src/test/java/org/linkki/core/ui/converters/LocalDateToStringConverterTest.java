@@ -20,6 +20,7 @@ import java.util.Locale;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 
@@ -29,7 +30,8 @@ class LocalDateToStringConverterTest {
     void testConvertToModel() throws Exception {
         LocalDateToStringConverter converter = new LocalDateToStringConverter();
 
-        Result<LocalDate> result = converter.convertToModel("01.02.3456", new ValueContext(Locale.GERMANY));
+        Result<LocalDate> result =
+                converter.convertToModel("01.02.3456", new ValueContext(new Binder<>(), Locale.GERMANY));
 
         Assertions.assertThat(result.isError()).isFalse();
         Assertions.assertThat(result.getOrThrow(m -> new Exception(m))).isEqualTo(LocalDate.of(3456, 2, 1));
@@ -39,7 +41,7 @@ class LocalDateToStringConverterTest {
     void testConvertToModel_IncompatibleLocale() {
         LocalDateToStringConverter converter = new LocalDateToStringConverter();
 
-        Result<LocalDate> result = converter.convertToModel("01.02.3456", new ValueContext(Locale.US));
+        Result<LocalDate> result = converter.convertToModel("01.02.3456", new ValueContext(new Binder<>(), Locale.US));
 
         Assertions.assertThat(result.isError()).isTrue();
     }
@@ -48,7 +50,7 @@ class LocalDateToStringConverterTest {
     void testConvertToModel_Null() throws Exception {
         LocalDateToStringConverter converter = new LocalDateToStringConverter();
 
-        Result<LocalDate> result = converter.convertToModel(null, new ValueContext(Locale.US));
+        Result<LocalDate> result = converter.convertToModel(null, new ValueContext(new Binder<>(), Locale.US));
 
         Assertions.assertThat(result.isError()).isFalse();
         Assertions.assertThat(result.getOrThrow(m -> new Exception(m))).isNull();
@@ -59,15 +61,23 @@ class LocalDateToStringConverterTest {
         LocalDateToStringConverter converter = new LocalDateToStringConverter();
         LocalDate dateToConvert = LocalDate.of(1234, 5, 6);
 
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.GERMANY)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert,
+                                                            new ValueContext(new Binder<>(), Locale.GERMANY)))
                 .isEqualTo("06.05.1234");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.GERMAN)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert,
+                                                            new ValueContext(new Binder<>(), Locale.GERMAN)))
                 .isEqualTo("06.05.1234");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.ENGLISH)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert,
+                                                            new ValueContext(new Binder<>(), Locale.ENGLISH)))
                 .isEqualTo("05/06/1234");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.UK)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(new Binder<>(), Locale.UK)))
                 .isEqualTo("06/05/1234");
-        Assertions.assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(Locale.US)))
+        Assertions
+                .assertThat(converter.convertToPresentation(dateToConvert, new ValueContext(new Binder<>(), Locale.US)))
                 .isEqualTo("05/06/1234");
     }
 
@@ -75,7 +85,7 @@ class LocalDateToStringConverterTest {
     void testConvertToPresentation_Null() {
         LocalDateToStringConverter converter = new LocalDateToStringConverter();
 
-        String string = converter.convertToPresentation(null, new ValueContext(Locale.GERMANY));
+        String string = converter.convertToPresentation(null, new ValueContext(new Binder<>(), Locale.GERMANY));
 
         Assertions.assertThat(string).isNull();
     }

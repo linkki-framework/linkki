@@ -23,13 +23,14 @@ import org.faktorips.values.Decimal;
 import org.faktorips.values.Money;
 import org.junit.jupiter.api.Test;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 
 class StringToMoneyConverterTest {
 
     private final StringToMoneyConverter converter = new StringToMoneyConverter();
-    private final ValueContext valueContext = new ValueContext(Locale.GERMANY);
+    private final ValueContext valueContext = new ValueContext(new Binder<>(), Locale.GERMANY);
 
     @Test
     void testConvertToModel() {

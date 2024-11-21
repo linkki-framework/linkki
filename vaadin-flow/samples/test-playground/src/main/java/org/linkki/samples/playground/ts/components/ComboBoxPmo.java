@@ -29,6 +29,7 @@ import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.ips.decimalfield.FormattedStringToDecimalConverter;
 
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValueContext;
 
 @UIVerticalLayout
@@ -181,7 +182,7 @@ public class ComboBoxPmo {
 
             @Override
             public String getCaption(Decimal value) {
-                return CONVERTER.convertToPresentation(value, new ValueContext());
+                return CONVERTER.convertToPresentation(value, new ValueContext(new Binder<>()));
             }
 
         }
