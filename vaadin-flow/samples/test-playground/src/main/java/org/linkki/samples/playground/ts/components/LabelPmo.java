@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
@@ -76,6 +77,31 @@ public class LabelPmo {
     @UILabel(position = 90, label = "Label with a enum with getName() as Value")
     public Marker getNamedEnumLabel() {
         return Marker.REQUIRED_INFORMATION_MISSING;
+    }
+
+    @UILabel(position = 91, label = "UILabel with a CompletableFuture as Value (complete after 5 seconds)")
+    public CompletableFuture<String> getLabelWithFuture() {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            return "I am loaded asynchronously";
+        });
+    }
+
+    @UILabel(position = 92,
+            label = "UILabel with a CompletableFuture as Value (complete after 5 seconds) that throws Exception")
+    public CompletableFuture<String> getLabelWithFutureWithException() {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            throw new RuntimeException("Error retrieving value");
+        });
     }
 
     @BindStyleNames

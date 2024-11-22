@@ -13,43 +13,79 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.concurrent.CompletableFuture;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.test.KaribuUtils;
+import org.linkki.core.ui.test.TestLogAppender;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.base.LinkkiText;
+import org.slf4j.LoggerFactory;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.shared.communication.PushMode;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiText, LabelTestPmo> {
 
     private static final String STYLES = "blabla";
 
+    private final BindingContext bindingContext = new BindingContext();
+    private final TestLogAppender testLogAppender = new TestLogAppender();
+
     UILabelIntegrationTest() {
         super(TestModelObjectWithString::new, LabelTestPmo::new);
+    }
+
+    @BeforeEach
+    void setupLogger() {
+        testLogAppender.setContext((LoggerContext)LoggerFactory.getILoggerFactory());
+        var gridItemsAspectDefinitionLogger = (Logger)LoggerFactory
+                .getLogger(LabelValueAspectDefinition.class);
+        gridItemsAspectDefinitionLogger.setLevel(Level.DEBUG);
+        gridItemsAspectDefinitionLogger.addAppender(testLogAppender);
+
+        // Adds the logs from the error handler as exceptions during UI#access are logged by it.
+        var errorHandlerLogger = (Logger)LoggerFactory
+                .getLogger(UI.getCurrent().getSession().getErrorHandler().getClass());
+        errorHandlerLogger.setLevel(Level.DEBUG);
+        errorHandlerLogger.addAppender(testLogAppender);
+
+        testLogAppender.start();
     }
 
     @Test
     void testLabelFieldValue() {
         LinkkiText label = getDynamicComponent();
 
-        assertThat(label.getClassName(), containsString(STYLES));
-        assertThat(label.getText(), is(""));
+        assertThat(label.getClassName()).contains(STYLES);
+        assertThat(label.getText()).isBlank();
 
         ((TestModelObjectWithString)getDefaultModelObject()).setValue("fdsa");
         modelChanged();
-        assertThat(label.getText(), is("fdsa"));
+        assertThat(label.getText()).isEqualTo("fdsa");
     }
 
     @Test
@@ -57,58 +93,137 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
         setModelObjectSupplier(TestModelObjectWithInteger::new);
         LinkkiText label = getDynamicComponent();
 
-        assertThat(label.getClassName(), containsString(STYLES));
-        assertThat(label.getText(), is(""));
+        assertThat(label.getClassName()).contains(STYLES);
+        assertThat(label.getText()).isBlank();
 
         ((TestModelObjectWithInteger)getDefaultModelObject()).setValue(123456);
         modelChanged();
-        assertThat(label.getText(), is("123.456"));
+        assertThat(label.getText()).isEqualTo("123.456");
     }
 
     @Test
     void testEnabled() {
-        assertThat(getStaticComponent().getElement().isEnabled(), is(true));
-        assertThat(getDynamicComponent().getElement().isEnabled(), is(true));
+        assertThat(getStaticComponent().getElement().isEnabled()).isTrue();
+        assertThat(getDynamicComponent().getElement().isEnabled()).isTrue();
     }
 
     @Test
     void testLocalDateUsesConverter() {
-        assertThat(getComponentById("localDate").getText(), is("06.05.1234"));
+        assertThat(getComponentById("localDate").getText()).isEqualTo("06.05.1234");
     }
 
     @Test
     void testLocalDateTimeUsesConverter() {
-        assertThat(getComponentById("localDateTime").getText(), is("06.05.1234 07:08"));
+        assertThat(getComponentById("localDateTime").getText()).isEqualTo("06.05.1234 07:08");
     }
 
     @Test
     void testUnnamedEnumUsesToString() {
-        assertThat(getComponentById("enum").getText(), is("FLOOR"));
+        assertThat(getComponentById("enum").getText()).isEqualTo("FLOOR");
     }
 
     @Test
     void testNamedEnumUsesGetName() {
-        assertThat(getComponentById("namedEnum").getText(), is("name"));
+        assertThat(getComponentById("namedEnum").getText()).isEqualTo("name");
     }
 
     @Test
     void testNamedObjectUsesGetName() {
-        assertThat(getComponentById("namedObject").getText(), is("name"));
+        assertThat(getComponentById("namedObject").getText()).isEqualTo("name");
     }
 
     @Test
     void testNamedEnumtWithToStringCaptionProviderUsesToString() {
-        assertThat(getComponentById("namedEnumWithToStringCaptionProvider").getText(), is("VALUE"));
+        assertThat(getComponentById("namedEnumWithToStringCaptionProvider").getText()).isEqualTo("VALUE");
     }
 
     @Test
     void testIconPosition() {
-        assertThat(getDynamicComponent().getIconPosition(), is(IconPosition.LEFT));
-        assertThat(getStaticComponent().getIconPosition(), is(IconPosition.RIGHT));
+        assertThat(getDynamicComponent().getIconPosition()).isEqualTo(IconPosition.LEFT);
+        assertThat(getStaticComponent().getIconPosition()).isEqualTo(IconPosition.RIGHT);
+    }
+
+    @EnumSource(PushMode.class)
+    @ParameterizedTest
+    void testLabel_WithCompletableFuture(PushMode pushMode) throws NoSuchMethodException {
+        var pmo = getDefaultPmo();
+        var method = pmo.getClass().getMethod("getValueFromCompletableFuture");
+        var ui = com.vaadin.flow.component.UI.getCurrent();
+        ui.getPushConfiguration().setPushMode(pushMode);
+
+        var wrapper = UiCreator
+                .<Component, NoLabelComponentWrapper> createUiElement(method, pmo, bindingContext,
+                                                                      NoLabelComponentWrapper::new);
+        var label = (LinkkiText)wrapper.getComponent();
+
+        var warningLogs = testLogAppender.getLoggedEvents(Level.WARN);
+        if (!pushMode.isEnabled()) {
+            assertThat(warningLogs).hasSize(1);
+            assertThat(warningLogs).first().asString()
+                    .contains(pmo.getClass().getName())
+                    .contains("valueFromCompletableFuture");
+        } else {
+            assertThat(warningLogs).isEmpty();
+        }
+        assertThat(label.getText())
+                .as("Initially on creation: Text should be updated asynchronously disregarding the push mode")
+                .isBlank();
+        assertThat(label.getElement().hasAttribute("value-loading")).isTrue();
+        assertThat(label.getElement().getClassList().contains("loading")).isTrue();
+        assertThat(label.getElement().hasAttribute("has-errors")).isFalse();
+
+        KaribuUtils.UI.push(ui);
+
+        assertThat(label.getText()).isEqualTo("I am loaded asynchronously");
+        assertThat(label.getElement().hasAttribute("value-loading")).isFalse();
+        assertThat(label.getElement().getClassList().contains("loading")).isFalse();
+    }
+
+    @EnumSource(PushMode.class)
+    @ParameterizedTest
+    void testLabel_WithCompletableFuture_Exception(PushMode pushMode) throws NoSuchMethodException {
+        var pmo = getDefaultPmo();
+        var method = pmo.getClass().getMethod("getValueFromCompletableFuture");
+        var ui = com.vaadin.flow.component.UI.getCurrent();
+        ui.getPushConfiguration().setPushMode(pushMode);
+
+        pmo.setException(true);
+
+        var wrapper = UiCreator
+                .<Component, NoLabelComponentWrapper> createUiElement(method, pmo, bindingContext,
+                                                                      NoLabelComponentWrapper::new);
+        var label = (LinkkiText)wrapper.getComponent();
+
+        var warningLogs = testLogAppender.getLoggedEvents(Level.WARN);
+        if (!pushMode.isEnabled()) {
+            assertThat(warningLogs).hasSize(1);
+            assertThat(warningLogs).first().asString()
+                    .contains(pmo.getClass().getName())
+                    .contains("valueFromCompletableFuture");
+        } else {
+            assertThat(warningLogs).isEmpty();
+        }
+        assertThat(label.getText())
+                .as("Initially on creation: Text should be updated asynchronously disregarding the push mode")
+                .isBlank();
+        assertThat(label.getElement().hasAttribute("value-loading")).isTrue();
+        assertThat(label.getElement().getClassList().contains("loading")).isTrue();
+        assertThat(label.getElement().hasAttribute("has-errors")).isFalse();
+
+        KaribuUtils.UI.push(ui);
+
+        assertThat(label.getText()).isEqualTo(LabelTestPmo.EXCEPTION_MESSAGE);
+        assertThat(label.getElement().hasAttribute("value-loading")).isFalse();
+        assertThat(label.getElement().getClassList().contains("loading")).isFalse();
+        assertThat(label.getElement().hasAttribute("has-errors")).isTrue();
     }
 
     @UISection
     protected static class LabelTestPmo extends AnnotationTestPmo {
+
+        public static final String EXCEPTION_MESSAGE = "Exception message";
+
+        private boolean exception = false;
 
         public LabelTestPmo(Object modelObject) {
             super(modelObject);
@@ -167,6 +282,20 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
         public NamedEnum getNamedEnumWithToStringCaptionProvider() {
             return NamedEnum.VALUE;
         }
+
+        @UILabel(position = 11)
+        public CompletableFuture<String> getValueFromCompletableFuture() {
+            if (!exception) {
+                return CompletableFuture.supplyAsync(() -> "I am loaded asynchronously");
+            } else {
+                return CompletableFuture.failedFuture(new RuntimeException(EXCEPTION_MESSAGE));
+            }
+        }
+
+        public void setException(boolean exception) {
+            this.exception = exception;
+        }
+
     }
 
     protected static class TestModelObjectWithString extends TestModelObject<String> {
