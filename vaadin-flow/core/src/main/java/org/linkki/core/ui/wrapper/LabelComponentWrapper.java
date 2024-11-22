@@ -19,6 +19,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasLabel;
 import com.vaadin.flow.dom.Element;
 
 /**
@@ -35,12 +36,15 @@ public class LabelComponentWrapper extends VaadinComponentWrapper {
 
     @Override
     public void setLabel(String labelText) {
-        Element element = getComponent().getElement();
-
-        if (!StringUtils.isEmpty(labelText)) {
-            element.setProperty("label", labelText);
+        if (getComponent() instanceof HasLabel hasLabel) {
+            hasLabel.setLabel(labelText);
         } else {
-            element.removeProperty("label");
+            Element element = getComponent().getElement();
+            if (!StringUtils.isEmpty(labelText)) {
+                element.setProperty("label", labelText);
+            } else {
+                element.removeProperty("label");
+            }
         }
     }
 

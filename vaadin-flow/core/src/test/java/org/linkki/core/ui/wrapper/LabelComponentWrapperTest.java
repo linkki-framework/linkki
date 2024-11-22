@@ -16,18 +16,32 @@ package org.linkki.core.ui.wrapper;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.wrapper.WrapperType;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class LabelComponentWrapperTest extends BaseComponentWrapperTest {
 
     @Test
+    public void testSetLabel_HasLabel() {
+        TextField component = spy(new TextField());
+        LabelComponentWrapper wrapper = new LabelComponentWrapper(component, WrapperType.FIELD);
+
+        wrapper.setLabel("Label Text");
+
+        verify(component).setLabel("Label Text");
+        assertThat(component.getLabel(), is("Label Text"));
+    }
+
+    @Test
     public void testSetLabel() {
-        TextField component = new TextField();
+        Button component = new Button();
         LabelComponentWrapper wrapper = new LabelComponentWrapper(component, WrapperType.FIELD);
 
         wrapper.setLabel("Label Text");
@@ -37,7 +51,7 @@ public class LabelComponentWrapperTest extends BaseComponentWrapperTest {
 
     @Test
     public void testSetLabel_Null() {
-        TextField component = new TextField();
+        Button component = new Button();
         LabelComponentWrapper wrapper = new LabelComponentWrapper(component, WrapperType.FIELD);
 
         wrapper.setLabel(null);
@@ -47,7 +61,7 @@ public class LabelComponentWrapperTest extends BaseComponentWrapperTest {
 
     @Test
     public void testSetLabel_Empty() {
-        TextField component = new TextField();
+        Button component = new Button();
         LabelComponentWrapper wrapper = new LabelComponentWrapper(component, WrapperType.FIELD);
 
         wrapper.setLabel("");

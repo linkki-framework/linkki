@@ -60,6 +60,9 @@ The <<linkki-tutorial, linkki tutorial>> is now part of this documentation.
 
 ==== Bugfixes
 
+// https://jira.convista.com/browse/LIN-4013
+* `LabelComponentWrapper#setLabel()` now calls `HasLabel#setLabel()` if the component is an instance of `HasLabel` instead of setting the HTML property directly.
++
 // https://jira.convista.com/browse/LIN-3884
 * The items of a table created with `@UITableComponent` are now only fetched asynchronously if the return type is `CompletableFuture`.
 The <<ui-table-component, documentation>> is updated accordingly.
