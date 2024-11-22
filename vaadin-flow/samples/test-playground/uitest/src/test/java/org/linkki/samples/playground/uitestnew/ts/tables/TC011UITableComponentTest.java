@@ -25,8 +25,8 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
 
         assertThat(table.$("table").get(0).getSize().getHeight()).isEqualTo(0);
         assertThat(table.getPlaceholderText(tableId))
-                .as("Shows loading placeholder during initial loading")
-                .hasValue("Loading...");
+                .as("Don't show placeholder during initial loading")
+                .isEmpty();
 
         waitUntil(d -> table.getRowCount() > 0, 10);
         assertThat(table.getPlaceholderText(tableId)).isEmpty();
@@ -34,7 +34,7 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
         $(ButtonElement.class).id("addPerson").click();
 
         assertThat(table.getPlaceholderText(tableId))
-                .as("Shows no loading placeholder if the table has items")
+                .as("Don't show placeholder if the table has items")
                 .isEmpty();
         waitUntil(d -> table.getRowCount() > 1, 10);
 
@@ -44,12 +44,12 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
         waitUntil(d -> table.getRowCount() == 0, 10);
 
         assertThat(table.getPlaceholderText(tableId))
-                .as("Shows really placeholder if no items are present after loading")
+                .as("Show placeholder if no items are present after loading")
                 .isPresent()
-                .hasValueSatisfying(s -> assertThat(s).isNotEqualTo("Loading..."));
+                .hasValue("There are no person to be shown. Add a new person by clicking on the header button.");
 
         $(CheckboxElement.class).id("exception").setChecked(true);
-        waitUntil(d -> !table.getPlaceholderText(tableId).orElse("").equals("Loading..."), 2);
+        waitUntil(d -> !table.getPlaceholderText(tableId).orElse("").isBlank(), 10);
         assertThat(table.getPlaceholderText(tableId))
                 .as("Shows error placeholder if exception occurred during getItems")
                 .hasValue("Tabelleninhalt konnte nicht ermittelt werden.");

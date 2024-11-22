@@ -31,10 +31,6 @@
   font-style: italic;
   opacity: 0.7;
 }
-/* hide placeholder if content is still being loaded */
-:host([has-placeholder]:not([has-items])[items-loading])::after {
-  content: "Loading...";
-}
 :host([has-placeholder]:not([has-items])[has-errors])::after {
   content: var(--error-message);
 }

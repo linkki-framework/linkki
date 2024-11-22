@@ -263,7 +263,8 @@ vaadin-date-time-picker.loading > vaadin-time-picker::part(input-field) {
 .loading::part(group-field)::before,
 vaadin-checkbox.loading::before,
 linkki-text.loading > *:first-child::before,
-vaadin-date-time-picker.loading > vaadin-date-picker::part(input-field)::before {
+vaadin-date-time-picker.loading > vaadin-date-picker::part(input-field)::before,
+vaadin-grid[items-loading]::after {
     --dot-size: 5px;
     visibility: visible;
     display: inline-block;
@@ -275,6 +276,18 @@ vaadin-date-time-picker.loading > vaadin-date-picker::part(input-field)::before 
     aspect-ratio: 1;
     border-radius: 50%;
     animation: loading-dots 1s infinite linear alternate;
+}
+
+/* show loading indicator on top of table if table is empty */
+vaadin-grid:not([has-items])[items-loading]::after {
+    position: absolute;
+    top: 0;
+}
+
+/* show loading indicator on bottom of table if table has entries */
+vaadin-grid[has-items][items-loading]::after {
+    position: absolute;
+    bottom: 0;
 }
 
 @keyframes loading-dots {
