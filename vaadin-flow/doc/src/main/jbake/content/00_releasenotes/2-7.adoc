@@ -59,6 +59,42 @@ If the user enters 't', there are two possible matches (LEFT and RIGHT) and ther
 
 `UILabel` has been enhanced to handle asynchronous value loading using `CompletableFuture` as return type. A loading indicator will be displayed until the value is available. Refer to <<ui-label,UILabel>> documentation for more details.
 
+
+// https://jira.convista.com/browse/LIN-2690
+===== @BindPlaceholder with LinkkiSection
+
+The <<placeholder-linkki-section, @BindPlaceholder>> annotation can now be used on a `@UISection` to set a placeholder text if the section has no child elements or all child elements are invisible.
+
+.@BindPlaceholder on @UISection
+[source,java]
+----
+@BindPlaceholder
+@UISection(caption = "@UISection with @BindPlaceholder")
+public class SectionWithBindPlaceholder {
+
+    public String getPlaceholder() {
+        return "This section is empty";
+    }
+
+}
+----
+
+The old solution using an extra UILabel with the style `LinkkiTheme.Text.TEXT_PLACEHOLDER` is now obsolete and should be replaced.
+
+.Old solution with UILabel and style LinkkiTheme.Text.TEXT_PLACEHOLDER
+[source,java]
+----
+@UISection(caption = "@UISection with placeholder label")
+public class SectionWithPlaceholderLabel {
+
+    @UILabel(position = 10, label = "", styleNames = LinkkiTheme.Text.TEXT_PLACEHOLDER)
+    public String getPlaceholder() {
+        return "This is a placeholder.";
+    }
+
+}
+----
+
 ===== linkki tutorial
 
 The <<linkki-tutorial, linkki tutorial>> is now part of this documentation.

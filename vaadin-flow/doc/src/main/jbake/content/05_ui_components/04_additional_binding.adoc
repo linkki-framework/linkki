@@ -381,6 +381,17 @@ include::{source-dir-playground}/org/linkki/samples/playground/table/SimplePlayg
 
 TIP: `@BindPlaceholder(value = "", placeholderType = PlaceholderType.STATIC)` will hide empty tables without showing any replacement text. When using `@BindPlaceholder` as annotation only, providing mandatory `getPlaceholder()`-Method and returning empty `String` will do the same.
 
+[[placeholder-linkki-section]]
+===== LinkkiSection
+
+The `@BindPlaceholder` annotation can also be used on `@UISection` to show a placeholder text if all child elements of the section are invisible or the section contains no child elements.
+
+.`@BindPlaceholder` on `UISection`
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/ts/section/SectionsWithPlaceholder.java[tags=bindPlaceholder-section]
+----
+
 [[autofocus]]
 ===== AutoFocus
 

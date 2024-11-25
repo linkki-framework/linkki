@@ -7,6 +7,12 @@ linkki-section > div[slot="content"] > * {
     overflow: auto;
 }
 
+linkki-section > div[slot="content"]:not(:has(> :not([hidden="true"])))::after {
+    content: var(--placeholder);
+    font-style: italic;
+    opacity: 0.7;
+}
+
 /* Make multi-column UIFormSection wrap
    UIFormSection only supports label on the left, so selecting vaadin-form-item suffices */
 linkki-section > div[slot="content"] > vaadin-form-item {
@@ -19,7 +25,7 @@ linkki-section > div[slot="content"] > vaadin-form-item {
     font-weight: 400;
 }
 
-/* deprecated. Use .text-placeholder */
+/* deprecated. Use @BindPlaceholder instead */
 .placeholder-label {
    font-style: italic;
    opacity: 0.7;

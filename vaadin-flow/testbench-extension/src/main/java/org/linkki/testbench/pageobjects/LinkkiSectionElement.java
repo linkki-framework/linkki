@@ -71,4 +71,20 @@ public class LinkkiSectionElement extends TestBenchElement {
         return $(DivElement.class).withAttribute("class", "linkki-section-header").first();
     }
 
+    public void close() {
+        if (getCloseToggle().exists() && isOpen()) {
+            getCloseToggle().first().click();
+        }
+    }
+
+    public void open() {
+        if (getCloseToggle().exists() && !isOpen()) {
+            getCloseToggle().first().click();
+        }
+    }
+
+    public boolean isOpen() {
+        return getContent().isDisplayed();
+    }
+
 }

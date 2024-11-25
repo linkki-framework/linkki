@@ -160,6 +160,12 @@ The web component of a section defines several CSS custom properties that can be
 | Padding of the section, relevant when using <<linkki-theme-variants, card variant>> | --linkki-section-padding | --lumo-space-m
 |===
 
+==== Placeholder for an empty section
+
+The `@BindPlaceholder` annotation can be used on a section to show a placeholder text if all child elements of the section are invisible or the section contains no child elements.
+
+More information can be found at  <<placeholder-linkki-section, @BindPlaceholder>>.
+
 [[section-id]]
 ==== ID of a section
 

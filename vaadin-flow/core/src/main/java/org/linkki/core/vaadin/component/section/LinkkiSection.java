@@ -24,6 +24,7 @@ import org.linkki.core.vaadin.component.HasCaption;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasPlaceholder;
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
@@ -44,7 +45,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 @Tag("linkki-section")
 @CssImport("./styles/linkki-section.css")
 @JsModule("./src/linkki-section.ts")
-public class LinkkiSection extends HtmlComponent implements HasCaption {
+public class LinkkiSection extends HtmlComponent implements HasCaption, HasPlaceholder {
 
     /**
      * CSS class that can be applied to arbitrary component to make all contained sections captions
@@ -62,6 +63,8 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
     static final String SLOT_CLOSE_TOGGLE = "close-toggle";
     static final String SLOT_RIGHT_HEADER_COMPONENTS = "right-header-components";
     static final String SLOT_CONTENT = "content";
+
+    static final String CSS_PROPERTY_PLACEHOLDER = "--placeholder";
 
     private static final long serialVersionUID = 1L;
 
@@ -254,6 +257,20 @@ public class LinkkiSection extends HtmlComponent implements HasCaption {
      */
     public Div getContentWrapper() {
         return content;
+    }
+
+    @Override
+    public void setPlaceholder(String placeholder) {
+        getStyle().set(CSS_PROPERTY_PLACEHOLDER, "'" + placeholder + "'");
+    }
+
+    @Override
+    public String getPlaceholder() {
+        var placeholder = getStyle().get(CSS_PROPERTY_PLACEHOLDER);
+        if (StringUtils.isBlank(placeholder)) {
+            return "";
+        }
+        return placeholder.substring(1, placeholder.length() - 1);
     }
 
 }

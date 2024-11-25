@@ -13,15 +13,11 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import com.vaadin.flow.component.Component;
@@ -36,60 +32,60 @@ class LinkkiSectionTest {
     void testisClosed_DefaultShouldBeFalse() {
         LinkkiSection section = new LinkkiSection("caption");
 
-        assertThat(section.isClosed(), is(false));
+        assertThat(section.isClosed()).isFalse();
     }
 
     @Test
     void testisOpen_DefaultShouldBeTrue() {
         LinkkiSection section = new LinkkiSection("caption");
 
-        assertThat(section.isOpen(), is(true));
+        assertThat(section.isOpen()).isTrue();
     }
 
     @Test
     void testClose() {
         LinkkiSection section = new LinkkiSection("caption", true, 1);
-        assertThat(section.isClosed(), is(false));
+        assertThat(section.isClosed()).isFalse();
 
         section.close();
 
-        assertThat(section.isClosed(), is(true));
-        assertThat(section.isOpen(), is(false));
+        assertThat(section.isClosed()).isTrue();
+        assertThat(section.isOpen()).isFalse();
     }
 
     @Test
     void testClose_AlreadyClosed() {
         LinkkiSection section = new LinkkiSection("caption", true, 1);
         section.close();
-        assertThat(section.isClosed(), is(true));
+        assertThat(section.isClosed()).isTrue();
 
         section.close();
 
-        assertThat(section.isClosed(), is(true));
-        assertThat(section.isOpen(), is(false));
+        assertThat(section.isClosed()).isTrue();
+        assertThat(section.isOpen()).isFalse();
     }
 
     @Test
     void testOpen() {
         LinkkiSection section = new LinkkiSection("caption", true, 1);
         section.close();
-        assertThat(section.isOpen(), is(false));
+        assertThat(section.isOpen()).isFalse();
 
         section.open();
 
-        assertThat(section.isClosed(), is(false));
-        assertThat(section.isOpen(), is(true));
+        assertThat(section.isClosed()).isFalse();
+        assertThat(section.isOpen()).isTrue();
     }
 
     @Test
     void testOpen_AlreadyOpen() {
         LinkkiSection section = new LinkkiSection("caption", true, 1);
-        assertThat(section.isOpen(), is(true));
+        assertThat(section.isOpen()).isTrue();
 
         section.open();
 
-        assertThat(section.isClosed(), is(false));
-        assertThat(section.isOpen(), is(true));
+        assertThat(section.isClosed()).isFalse();
+        assertThat(section.isOpen()).isTrue();
     }
 
     @Test
@@ -98,15 +94,14 @@ class LinkkiSectionTest {
 
         section.close();
 
-        assertThat(section.getContentWrapper().isVisible(), is(false));
-        assertThat(getCloseToggle(section).getIcon().getElement().getAttribute("icon"),
-                   is("vaadin:angle-right"));
+        assertThat(section.getContentWrapper().isVisible()).isFalse();
+        assertThat(getCloseToggle(section).getIcon().getElement().getAttribute("icon")).isEqualTo("vaadin:angle-right");
 
         section.open();
 
-        assertThat(section.getContentWrapper().isVisible(), is(true));
-        assertThat(getCloseToggle(section).getIcon().getElement().getAttribute("icon"),
-                   is("vaadin:angle-down"));
+        assertThat(section.getContentWrapper().isVisible()).isTrue();
+        assertThat(getCloseToggle(section).getIcon().getElement().getAttribute("icon"))
+                .isEqualTo("vaadin:angle-down");
     }
 
     @Test
@@ -114,29 +109,29 @@ class LinkkiSectionTest {
         LinkkiSection section = new LinkkiSection("CAP", false, 1);
         H4 captionLabel = getCaptionLabel(section);
 
-        assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getText(), is("CAP"));
+        assertThat(captionLabel.isVisible()).isTrue();
+        assertThat(captionLabel.getText()).isEqualTo("CAP");
     }
 
     @Test
     void testHeader_CloseButton_DefaultShouldBeInvisible() {
         LinkkiSection section = new LinkkiSection("caption");
 
-        assertThat(getCloseToggle(section).isVisible(), is(false));
+        assertThat(getCloseToggle(section).isVisible()).isFalse();
     }
 
     @Test
     void testHeader_CloseButton_CloseableShouldResultInCloseButton() {
         LinkkiSection section = new LinkkiSection("caption", true, 1);
 
-        assertThat(getCloseToggle(section).isVisible(), is(true));
+        assertThat(getCloseToggle(section).isVisible()).isTrue();
     }
 
     @Test
     void testHeader_CloseButton_NotCloseableShouldHideCloseButton() {
         LinkkiSection section = new LinkkiSection("caption", false, 1);
 
-        assertThat(getCloseToggle(section).isVisible(), is(false));
+        assertThat(getCloseToggle(section).isVisible()).isFalse();
     }
 
     @Test
@@ -144,8 +139,7 @@ class LinkkiSectionTest {
         LinkkiSection section = new LinkkiSection("", true, 1);
 
         assertThat(getCloseToggle(section).getThemeNames()
-                .contains(ButtonVariant.LUMO_TERTIARY_INLINE.getVariantName()),
-                   is(true));
+                .contains(ButtonVariant.LUMO_TERTIARY_INLINE.getVariantName())).isTrue();
     }
 
     @Test
@@ -153,13 +147,13 @@ class LinkkiSectionTest {
         LinkkiSection section = new LinkkiSection("CAP", false, 1);
         H4 captionLabel = getCaptionLabel(section);
 
-        assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getText(), is("CAP"));
+        assertThat(captionLabel.isVisible()).isTrue();
+        assertThat(captionLabel.getText()).isEqualTo("CAP");
 
         section.setCaption("TION");
 
-        assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getText(), is("TION"));
+        assertThat(captionLabel.isVisible()).isTrue();
+        assertThat(captionLabel.getText()).isEqualTo("TION");
     }
 
     @Test
@@ -167,12 +161,12 @@ class LinkkiSectionTest {
         LinkkiSection section = new LinkkiSection("CAP", false, 1);
         H4 captionLabel = getCaptionLabel(section);
 
-        assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getText(), is("CAP"));
+        assertThat(captionLabel.isVisible()).isTrue();
+        assertThat(captionLabel.getText()).isEqualTo("CAP");
 
         section.setCaption(null);
 
-        assertThat(captionLabel.isVisible(), is(false));
+        assertThat(captionLabel.isVisible()).isFalse();
     }
 
     @Test
@@ -180,38 +174,38 @@ class LinkkiSectionTest {
         LinkkiSection section = new LinkkiSection("CAP", false, 1);
         H4 captionLabel = getCaptionLabel(section);
 
-        assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getText(), is("CAP"));
+        assertThat(captionLabel.isVisible()).isTrue();
+        assertThat(captionLabel.getText()).isEqualTo("CAP");
 
         section.setCaption("");
 
-        assertThat(captionLabel.isVisible(), is(false));
+        assertThat(captionLabel.isVisible()).isFalse();
     }
 
     @Test
     void testAddHeaderButton() {
         LinkkiSection section = new LinkkiSection("CAP", true, 1);
 
-        assertThat(section.getHeaderComponents(), hasSize(1)); // caption
+        assertThat(section.getHeaderComponents()).hasSize(1); // caption
 
         Button button1 = new Button();
         section.addHeaderButton(button1);
 
-        assertThat(section.getHeaderComponents(), hasSize(2));
-        assertThat(section.getHeaderComponents().get(1), is(button1));
+        assertThat(section.getHeaderComponents()).hasSize(2);
+        assertThat(section.getHeaderComponents().get(1)).isSameAs(button1);
 
         Button button2 = new Button();
         section.addHeaderButton(button2);
 
-        assertThat(section.getHeaderComponents(), hasSize(3));
-        assertThat(section.getHeaderComponents().get(1), is(button2));
-        assertThat(section.getHeaderComponents().get(2), is(button1));
+        assertThat(section.getHeaderComponents()).hasSize(3);
+        assertThat(section.getHeaderComponents().get(1)).isSameAs(button2);
+        assertThat(section.getHeaderComponents().get(2)).isSameAs(button1);
 
         section.setCaption("UPDATE");
 
-        assertThat(section.getHeaderComponents(), hasSize(3));
-        assertThat(section.getHeaderComponents().get(1), is(button2));
-        assertThat(section.getHeaderComponents().get(2), is(button1));
+        assertThat(section.getHeaderComponents()).hasSize(3);
+        assertThat(section.getHeaderComponents().get(1)).isSameAs(button2);
+        assertThat(section.getHeaderComponents().get(2)).isSameAs(button1);
     }
 
     @Test
@@ -221,7 +215,7 @@ class LinkkiSectionTest {
 
         section.addHeaderButton(button1);
 
-        assertThat(button1.getThemeNames().contains(ButtonVariant.LUMO_TERTIARY_INLINE.getVariantName()), is(true));
+        assertThat(button1.getThemeNames().contains(ButtonVariant.LUMO_TERTIARY_INLINE.getVariantName())).isTrue();
     }
 
     @Test
@@ -230,8 +224,8 @@ class LinkkiSectionTest {
 
         section.addHeaderComponent(new Div());
 
-        assertThat(section.getHeaderComponents(), hasSize(2));
-        assertThat(section.getHeaderComponents().get(1), is(instanceOf(Div.class)));
+        assertThat(section.getHeaderComponents()).hasSize(2);
+        assertThat(section.getHeaderComponents().get(1)).isInstanceOf(Div.class);
     }
 
     @Test
@@ -240,18 +234,18 @@ class LinkkiSectionTest {
 
         section.addHeaderComponent(new Button());
 
-        assertThat(section.getHeaderComponents(), hasSize(2));
-        assertThat(section.getHeaderComponents().get(1).getElement().getThemeList(),
-                   Matchers.contains(ButtonVariant.LUMO_TERTIARY_INLINE.getVariantName()));
+        assertThat(section.getHeaderComponents()).hasSize(2);
+        assertThat(section.getHeaderComponents().get(1).getElement().getThemeList())
+                .contains(ButtonVariant.LUMO_TERTIARY_INLINE.getVariantName());
     }
 
     @Test
     void testAddRightHeaderComponent_WithoutComponents() {
         LinkkiSection section = new LinkkiSection("Caption");
 
-        int headerComponents = getHeaderComponents(section, LinkkiSection.SLOT_RIGHT_HEADER_COMPONENTS).size();
+        var headerComponents = getHeaderComponents(section, LinkkiSection.SLOT_RIGHT_HEADER_COMPONENTS);
 
-        assertThat(headerComponents, is(0));
+        assertThat(headerComponents).isEmpty();
     }
 
     @Test
@@ -260,9 +254,35 @@ class LinkkiSectionTest {
         section.addRightHeaderComponent(new Button("test1"));
         section.addRightHeaderComponent(new Button("test2"));
 
-        int headerComponents = getHeaderComponents(section, LinkkiSection.SLOT_RIGHT_HEADER_COMPONENTS).size();
+        var headerComponents = getHeaderComponents(section, LinkkiSection.SLOT_RIGHT_HEADER_COMPONENTS);
 
-        assertThat(headerComponents, is(2));
+        assertThat(headerComponents).hasSize(2);
+    }
+
+    @Test
+    void testGetPlaceholder_Null() {
+        var section = new LinkkiSection("Caption");
+        assertThat(section.getPlaceholder()).isEmpty();
+        assertThat(section.getStyle().get(LinkkiSection.CSS_PROPERTY_PLACEHOLDER)).isNull();
+    }
+
+    @Test
+    void testGetPlaceholder_Empty() {
+        var section = new LinkkiSection("Caption");
+        section.setPlaceholder("");
+        assertThat(section.getPlaceholder()).isEmpty();
+        assertThat(section.getStyle().get(LinkkiSection.CSS_PROPERTY_PLACEHOLDER)).isEqualTo("''");
+    }
+
+    @Test
+    void testSetPlaceholder() {
+        var placeholder = "I am the placeholder text";
+        var section = new LinkkiSection("Caption");
+
+        section.setPlaceholder(placeholder);
+
+        assertThat(section.getPlaceholder()).isEqualTo(placeholder);
+        assertThat(section.getStyle().get(LinkkiSection.CSS_PROPERTY_PLACEHOLDER)).contains(placeholder);
     }
 
     private H4 getCaptionLabel(LinkkiSection linkkiSection) {

@@ -23,6 +23,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.aspects.types.PlaceholderType;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasPlaceholder;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;
 
@@ -73,6 +74,8 @@ public class PlaceholderAspectDefinition extends ModelToUiAspectDefinition<Strin
                 component.getElement().getStyle().set("--" + NAME, "'" + placeholder + "'");
                 // Needs to be set as attribute as properties cannot be used in css selectors
                 component.getElement().setAttribute(HAS_PLACEHOLDER, placeholder != null);
+            } else if (component instanceof HasPlaceholder hasPlaceholder) {
+                hasPlaceholder.setPlaceholder(placeholder);
             } else {
                 component.getElement().setProperty(NAME, placeholder == null ? "" : placeholder);
             }
