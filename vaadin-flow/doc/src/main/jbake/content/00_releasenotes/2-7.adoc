@@ -79,7 +79,7 @@ public class SectionWithBindPlaceholder {
 }
 ----
 
-The old solution using an extra UILabel with the style `LinkkiTheme.Text.TEXT_PLACEHOLDER` is now obsolete and should be replaced.
+The old solution using an extra `UILabel` with the style `LinkkiTheme.Text.TEXT_PLACEHOLDER` is now obsolete and should be replaced as it did not work correctly with different layout options.
 
 .Old solution with UILabel and style LinkkiTheme.Text.TEXT_PLACEHOLDER
 [source,java]
@@ -94,6 +94,9 @@ public class SectionWithPlaceholderLabel {
 
 }
 ----
+
+NOTE: `LinkkiTheme.Text.TEXT_PLACEHOLDER` has been deprecated and should not be used anymore!
+Use `@BindPlaceholder` on `@UISection` instead (see above).
 
 ===== linkki tutorial
 

@@ -61,7 +61,7 @@ public class LinkkiTheme {
     /**
      * Style class for labels that should look like placeholders in table sections.
      *
-     * @deprecated Use {@link Text#TEXT_PLACEHOLDER} instead.
+     * @deprecated Use {@link org.linkki.core.ui.aspects.annotation.BindPlaceholder} instead.
      **/
     @Deprecated(since = "2.5.0")
     public static final String PLACEHOLDER_LABEL = "placeholder-label";
@@ -82,7 +82,12 @@ public class LinkkiTheme {
      */
     public static final class Text {
 
-        /** Makes a label look like a placeholder in table sections. */
+        /**
+         * Makes a label look like a placeholder in table sections.
+         * 
+         * @deprecated since 2.7.0. Use {@link org.linkki.core.ui.aspects.annotation.BindPlaceholder} instead
+         */
+        @Deprecated(since = "2.7.0")
         public static final String TEXT_PLACEHOLDER = "text-placeholder";
 
         /**

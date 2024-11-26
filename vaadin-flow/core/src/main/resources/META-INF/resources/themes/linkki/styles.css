@@ -161,6 +161,7 @@ a:not([href]) {
  * UTILITY CLASSES
  ******************************************************************************/
 
+/* deprecated since 2.7.0. Use @BindPlaceholder instead */
 .text-placeholder {
    font-style: italic;
    opacity: 0.7;

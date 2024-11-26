@@ -119,6 +119,7 @@ public class SectionsWithPlaceholder {
     @UISection(caption = "Section with @UILabel as placeholder")
     public static class SectionWithUILabelAsPlaceholderPmo {
 
+        @SuppressWarnings("deprecation")
         @UILabel(position = 0, styleNames = LinkkiTheme.Text.TEXT_PLACEHOLDER)
         public String getPlaceholder() {
             return "This section is empty.";

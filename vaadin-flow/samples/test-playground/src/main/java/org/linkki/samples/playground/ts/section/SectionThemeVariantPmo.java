@@ -15,12 +15,11 @@
 package org.linkki.samples.playground.ts.section;
 
 import org.linkki.core.ui.aspects.annotation.BindVariantNames;
-import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
-import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.vaadin.component.section.LinkkiSection;
+import org.linkki.samples.playground.ts.layouts.AbstractBasicElementsLayoutBehaviorPmo;
 
 @UIVerticalLayout
 public class SectionThemeVariantPmo {
@@ -36,23 +35,13 @@ public class SectionThemeVariantPmo {
     }
 
     @BindVariantNames(LinkkiSection.THEME_VARIANT_CARD)
-    @UISection(caption = "Section with variant card")
-    public static class CardSectionPmo {
-
-        @UILabel(position = 10, label = "", styleNames = LinkkiTheme.Text.TEXT_PLACEHOLDER)
-        public String getPlaceholder() {
-            return "This is a placeholder.";
-        }
+    @UISection(caption = "Section with variant card", closeable = true)
+    public static class CardSectionPmo extends AbstractBasicElementsLayoutBehaviorPmo {
 
     }
 
-    @UISection(caption = "Section without any variant")
-    public static class PlainSectionPmo {
-
-        @UILabel(position = 10, label = "", styleNames = LinkkiTheme.Text.TEXT_PLACEHOLDER)
-        public String getPlaceholder() {
-            return "This is a placeholder.";
-        }
+    @UISection(caption = "Section without any variant", closeable = true)
+    public static class PlainSectionPmo extends AbstractBasicElementsLayoutBehaviorPmo {
 
     }
 
