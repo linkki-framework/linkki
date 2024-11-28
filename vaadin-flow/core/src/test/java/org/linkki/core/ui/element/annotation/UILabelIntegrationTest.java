@@ -32,6 +32,7 @@ import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.nls.NlsText;
 import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.test.TestLogAppender;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
@@ -212,7 +213,7 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
 
         KaribuUtils.UI.push(ui);
 
-        assertThat(label.getText()).isEqualTo(LabelTestPmo.EXCEPTION_MESSAGE);
+        assertThat(label.getText()).isEqualTo(NlsText.getString(LabelValueAspectDefinition.MSG_CODE_ERROR));
         assertThat(label.getElement().hasAttribute("value-loading")).isFalse();
         assertThat(label.getElement().getClassList().contains("loading")).isFalse();
         assertThat(label.getElement().hasAttribute("has-errors")).isTrue();

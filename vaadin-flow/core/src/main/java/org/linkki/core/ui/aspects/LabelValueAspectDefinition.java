@@ -26,6 +26,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.UiUpdateUtil;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UILabel.DefaultLabelCaptionProvider;
+import org.linkki.core.ui.nls.NlsText;
 import org.linkki.core.util.HtmlContent;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.util.handler.Handler;
@@ -41,6 +42,7 @@ import com.vaadin.flow.component.UI;
 public class LabelValueAspectDefinition implements LinkkiAspectDefinition {
 
     public static final String NAME = LabelAspectDefinition.VALUE_ASPECT_NAME;
+    public static final String MSG_CODE_ERROR = "LabelValueAspectDefinition.error";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LabelValueAspectDefinition.class);
     private static final String ATTR_LOADING = "value-loading";
@@ -159,7 +161,7 @@ public class LabelValueAspectDefinition implements LinkkiAspectDefinition {
         return (item, throwable) -> ui.access(() -> {
             if (throwable != null) {
                 LOGGER.error("An error occurred when retrieving label value", throwable);
-                label.setText(throwable.getLocalizedMessage());
+                label.setText(NlsText.getString(MSG_CODE_ERROR));
                 label.getElement().setAttribute(ATTR_HAS_ERRORS, true);
             } else {
                 label.setText(item.toString());

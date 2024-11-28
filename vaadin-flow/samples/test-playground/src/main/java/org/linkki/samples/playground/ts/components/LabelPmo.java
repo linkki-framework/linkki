@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
@@ -79,11 +80,11 @@ public class LabelPmo {
         return Marker.REQUIRED_INFORMATION_MISSING;
     }
 
-    @UILabel(position = 91, label = "UILabel with a CompletableFuture as Value (complete after 5 seconds)")
+    @UILabel(position = 91, label = "UILabel with a CompletableFuture as Value (complete after 2 seconds)")
     public CompletableFuture<String> getLabelWithFuture() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                Thread.sleep(5000);
+                TimeUnit.SECONDS.sleep(2);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -92,11 +93,11 @@ public class LabelPmo {
     }
 
     @UILabel(position = 92,
-            label = "UILabel with a CompletableFuture as Value (complete after 5 seconds) that throws Exception")
+            label = "UILabel with a CompletableFuture as Value (complete after 2 seconds) that throws Exception")
     public CompletableFuture<String> getLabelWithFutureWithException() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                Thread.sleep(5000);
+                TimeUnit.SECONDS.sleep(2);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
