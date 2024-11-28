@@ -21,6 +21,7 @@ docker create \
         --label "url=$CONTAINER_NAME" \
         --label "entry-path=linkki-sample-test-playground-vaadin-flow" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
+        --label "de.faktorzehn.proxy.enable-websockets=true" \
         -e "JAVA_TOOL_OPTIONS=-Xms250m -Xmx750m" \
         harbor.faktorzehn.de/suite-base/$BASE_IMAGE
 
