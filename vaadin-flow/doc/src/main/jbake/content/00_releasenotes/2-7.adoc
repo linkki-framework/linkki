@@ -17,7 +17,7 @@ The following versions have been updated:
 |===
 | Faktor-IPS                    | 24.7.5.release
 | Vaadin                        | 24.5.6
-| Spring Boot                   | 3.3.6
+| Spring Boot                   | 3.4.0
 |===
 
 The new Vaadin version brings some notable changes that affect linkki applications:

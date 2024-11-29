@@ -44,7 +44,7 @@
     </dependencies>
 
     <build>
-        <!-- remove version from artifact so we can always link to http://localhost:8080/linkki-getting-started-vaadin-flow -->
+        <!-- remove version from artifact, so we can always link to http://localhost:8080/linkki-getting-started-vaadin-flow -->
         <finalName>${project.artifactId}</finalName>
 
         <plugins>
