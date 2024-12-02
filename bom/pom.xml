@@ -32,7 +32,7 @@
     </developers>
 
     <properties>
-        <vaadin.version>24.5.6</vaadin.version>
+        <vaadin.version>24.5.7</vaadin.version>
         <!-- Should be the same version as in ../pom.xml -->
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     </properties>
