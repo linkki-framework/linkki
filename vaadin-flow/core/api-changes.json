@@ -56,6 +56,22 @@
             "code": "java.annotation.added",
             "new": "parameter java.lang.String org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>::getUnsafeCaption(===java.lang.Object===)",
             "justification": "LIN-3879"
+          },
+          {
+            "code": "java.method.removed",
+            "old": "method void org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition<V>::handleNullValue(java.util.function.Consumer<V>, org.linkki.core.binding.wrapper.ComponentWrapper) @ org.linkki.core.ui.aspects.LabelValueAspectDefinition",
+            "justification": "LIN-3739"
+          },
+          {
+            "code": "java.method.removed",
+            "old": "method void org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition<V>::handleUiUpdateException(java.lang.RuntimeException, org.linkki.core.binding.dispatcher.PropertyDispatcher, org.linkki.core.binding.descriptor.aspect.Aspect<V>) @ org.linkki.core.ui.aspects.LabelValueAspectDefinition",
+            "justification": "LIN-3739"
+          },
+          {
+            "code": "java.class.noLongerInheritsFromClass",
+            "old": "class org.linkki.core.ui.aspects.LabelValueAspectDefinition",
+            "new": "class org.linkki.core.ui.aspects.LabelValueAspectDefinition",
+            "justification": "LIN-3739"
           }
         ]
       }

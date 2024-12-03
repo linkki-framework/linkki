@@ -165,7 +165,7 @@ public @interface UITableComponent {
                     setItems(grid, List.of());
                     grid.getElement().setAttribute(ATTR_HAS_ERRORS, true);
                     grid.getElement().getStyle().set(CSS_PROPERTY_ERROR_MESSAGES,
-                                                     NlsText.getString(MSG_CODE_ERROR_MESSAGES));
+                                                     "\"" + NlsText.getString(MSG_CODE_ERROR_MESSAGES) + "\"");
                 } else {
                     setItems(grid, items);
                 }

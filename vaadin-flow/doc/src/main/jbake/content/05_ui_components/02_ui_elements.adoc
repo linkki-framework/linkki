@@ -38,7 +38,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 
 The type of field can be determined dynamically. This mechanism is called <<dynamicfield, dynamic field>>.
 
-Annotations for fields and buttons must exist on methods in a PMO class. The main difference between fields and buttons is that fields are used for displaying and editing of values and thus are bound to a value via data binding. Therefore annotations for fields must exist on a getter method of a <<databinding, PMO property>>. Only if <<domain-model-binding, domain model binding>> is used the method can be named differently.
+Annotations for fields and buttons must exist on methods in a PMO class. The main difference between fields and buttons is that fields are used for displaying and editing of values and thus are bound to a value via data binding. Therefore, annotations for fields must exist on a getter method of a <<databinding, PMO property>>. Only if <<domain-model-binding, domain model binding>> is used the method can be named differently.
 
 Buttons are not bound to a value, but to an annotated method. It represents an executable action which is called by the button click.
 
@@ -73,9 +73,14 @@ A <<ui-field, field>> can be bound to an attribute of an existing model object u
 ==== UILabel
 The annotation `@UILabel` generates an independent UI element displaying `String` content. In contrast to a deactivated <<ui-textfield, UITextField>>, its text is not framed by an input field.
 
-The annotated method must return a value that is convertable to `String`. This can either be achieved by a registered converter at `LinkkiConverterRegistry`, or by a `ItemCaptionProvider` that can be provided to the `UILabel` annotation.
+Return value and `String` conversion::
 
+The annotated method must return a value that is convertable to `String`. This can either be achieved by a registered converter at `LinkkiConverterRegistry`, or by a `ItemCaptionProvider` that can be provided to the `UILabel` annotation. +
 If the Faktor-IPS *linkki* extension is used, the `FormattedStringToDecimalConverter` should be registered to `LinkkiConverterRegistry` in order to display Faktor-IPS Decimal values property.
+
+Displaying asynchronously retrieved values::
+
+If the value is retrieved asynchronously, e.g. from a REST service, the value can be displayed with `UILabel` by using the return type `CompletableFuture`. The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/latest/building-apps/presentation-layer/server-push[Server Push] is enabled. Note that the result of the `CompletableFuture` must be convertible to a `String`, as described in the previous section.
 
 TIP: A `@UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside or on top of the `UILabel`. +
 When used in a table, the `label` is used as the column name while the `caption` is displayed in the table cell. 
@@ -90,8 +95,8 @@ An example below illustrates how to create multicolored text.
 ----
 include::{source-dir}/org/linkki/samples/playground/ts/components/LabelPmo.java[tags=labelPmo-labelHtmlContent]
 ----
-A common usecase is to display a string split accross multiple lines. This can be achieved by using the `HtmlContent.multilineText(String ...)` method.
-If you are building an extendable PMO and it may be reasonable for subclasses to use `HTMLContent`, make sure that the method returns `HtmlContent`.
+A common usecase is to display a string split across multiple lines. This can be achieved by using the `HtmlContent.multilineText(String ...)` method.
+If you are building an extendable PMO, and it may be reasonable for subclasses to use `HTMLContent`, make sure that the method returns `HtmlContent`.
 
 [[label-style-names]]
 Styles::

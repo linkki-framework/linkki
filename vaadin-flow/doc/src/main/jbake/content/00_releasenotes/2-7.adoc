@@ -54,6 +54,11 @@ If the user enters 'u', the entry UP is selected automatically.
 +
 If the user enters 't', there are two possible matches (LEFT and RIGHT) and therefore no entry is selected automatically.
 
+// https://jira.convista.com/browse/LIN-3739
+===== `@UILabel` now supports displaying asynchronously loaded values
+
+`UILabel` has been enhanced to handle asynchronous value loading using `CompletableFuture` as return type. A loading indicator will be displayed until the value is available. Refer to <<ui-label,UILabel>> documentation for more details.
+
 ===== linkki tutorial
 
 The <<linkki-tutorial, linkki tutorial>> is now part of this documentation.

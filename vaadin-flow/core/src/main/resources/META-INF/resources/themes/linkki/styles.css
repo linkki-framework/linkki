@@ -234,13 +234,80 @@ linkki-text.text-success > span {
 linkki-text.text-warning > span {
     color: var(--linkki-warning-text-color);
 }
-linkki-text.text-error > span {
+
+linkki-text.text-error > span,
+linkki-text[has-errors] > span {
     color: var(--linkki-error-text-color);
 }
 linkki-text.text-info > span {
     color: var(--linkki-info-text-color);
 }
 
+/******************************************************************************
+* LOADING STYLES
+******************************************************************************/
+.loading::part(input-field),
+.loading::part(group-field),
+vaadin-checkbox.loading,
+linkki-text.loading > *,
+vaadin-date-time-picker.loading > vaadin-date-picker::part(input-field),
+vaadin-date-time-picker.loading > vaadin-time-picker::part(input-field) {
+    visibility: hidden;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.loading::part(input-field)::before,
+.loading::part(group-field)::before,
+vaadin-checkbox.loading::before,
+linkki-text.loading > *:first-child::before,
+vaadin-date-time-picker.loading > vaadin-date-picker::part(input-field)::before,
+vaadin-grid[items-loading]::after {
+    --dot-size: 5px;
+    visibility: visible;
+    display: inline-block;
+    content: "";
+    width: var(--dot-size);
+    height: var(--dot-size);
+    margin-left: calc(1.5 * var(--dot-size));
+    margin-top: var(--dot-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: loading-dots 1s infinite linear alternate;
+}
+
+/* show loading indicator on top of table if table is empty */
+vaadin-grid:not([has-items])[items-loading]::after {
+    position: absolute;
+    top: 0;
+}
+
+/* show loading indicator on bottom of table if table has entries */
+vaadin-grid[has-items][items-loading]::after {
+    position: absolute;
+    bottom: 0;
+}
+
+@keyframes loading-dots {
+    from {
+        box-shadow: 7px 0 #000, -7px 0 #0002;
+        background: #000
+    }
+    33% {
+        box-shadow: 7px 0 #000, -7px 0 #0002;
+        background: #0002
+    }
+    66% {
+        box-shadow: 7px 0 #0002, -7px 0 #000;
+        background: #0002
+    }
+    to {
+        box-shadow: 7px 0 #0002, -7px 0 #000;
+        background: #000
+    }
+}
 
 /******************************************************************************
  * DEPRECATED STYLES
