@@ -38,13 +38,13 @@ class LinkkiSectionPlaceholderTest extends PlaygroundUiTest {
 
     @Test
     void testPlaceholderOnEmptySection() {
-        var section = getSection(SectionsWithPlaceholder.EmptySectionWithDynamicPlaceholderPmo.class);
-        assertPlaceholder(section, "This section contains no child elements.");
+        var section = getSection(SectionsWithPlaceholder.EmptySectionWithPlaceholderPmo.class);
+        assertPlaceholder(section, "This section has no visible children");
     }
 
     @Test
     void testPlaceholderOnSectionWithInvisibleChildren() {
-        var section = getSection(SectionsWithPlaceholder.SectionWithInvisibleChildrenPlaceholderPmo.class);
+        var section = getSection(SectionsWithPlaceholder.SectionWithPlaceholderPmo.class);
         assertPlaceholder(section, "This section contains no visible child elements.");
 
         section.getHeaderComponents(CheckboxElement.class).first().click();

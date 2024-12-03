@@ -21,6 +21,7 @@ import org.linkki.core.ui.aspects.annotation.BindPlaceholder;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITableComponent;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -32,13 +33,13 @@ import org.linkki.core.ui.theme.LinkkiTheme;
 public class SectionsWithPlaceholder {
 
     @UINestedComponent(position = 10)
-    public EmptySectionWithDynamicPlaceholderPmo getEmptySectionWithDynamicPlaceholderPmo() {
-        return new EmptySectionWithDynamicPlaceholderPmo();
+    public EmptySectionWithPlaceholderPmo getEmptySectionWithDynamicPlaceholderPmo() {
+        return new EmptySectionWithPlaceholderPmo();
     }
 
     @UINestedComponent(position = 20)
-    public SectionWithInvisibleChildrenPlaceholderPmo getSectionWithInvisibleChildrenPlaceholderPmo() {
-        return new SectionWithInvisibleChildrenPlaceholderPmo();
+    public SectionWithPlaceholderPmo getSectionWithInvisibleChildrenPlaceholderPmo() {
+        return new SectionWithPlaceholderPmo();
     }
 
     @UINestedComponent(position = 30)
@@ -47,8 +48,8 @@ public class SectionsWithPlaceholder {
     }
 
     @UINestedComponent(position = 40)
-    public ClosableEmptySectionWithDynamicPlaceholderPmo getClosableEmptySectionWithDynamicPlaceholderPmo() {
-        return new ClosableEmptySectionWithDynamicPlaceholderPmo();
+    public ClosableSectionWithDynamicPlaceholderPmo getClosableEmptySectionWithDynamicPlaceholderPmo() {
+        return new ClosableSectionWithDynamicPlaceholderPmo();
     }
 
     @UINestedComponent(position = 100)
@@ -57,36 +58,36 @@ public class SectionsWithPlaceholder {
     }
 
     // tag::bindPlaceholder-section[]
-    @BindPlaceholder
+    @BindPlaceholder("This section has no visible children")
     @UISection(caption = "Section with no child elements")
-    public static class EmptySectionWithDynamicPlaceholderPmo {
-
-        public String getPlaceholder() {
-            return "This section contains no child elements.";
-        }
+    public static class EmptySectionWithPlaceholderPmo {
 
     }
     // end::bindPlaceholder-section[]
 
     @BindPlaceholder("This section contains no visible child elements.")
-    @UISection(caption = "Section with no visible child elements", layout = SectionLayout.VERTICAL)
-    public static class SectionWithInvisibleChildrenPlaceholderPmo {
+    @UISection(caption = "Section with placeholder", layout = SectionLayout.VERTICAL)
+    public static class SectionWithPlaceholderPmo {
 
-        private boolean visible = false;
+        private boolean childrenVisible = false;
 
         @SectionHeader
         @UICheckBox(position = -10, caption = "Children visible")
-        public boolean isVisible() {
-            return visible;
+        public boolean isChildrenVisible() {
+            return childrenVisible;
         }
 
-        public void setVisible(boolean visible) {
-            this.visible = visible;
+        public void setChildrenVisible(boolean childrenVisible) {
+            this.childrenVisible = childrenVisible;
         }
 
         @UILabel(position = 0, visible = VisibleType.DYNAMIC)
         public String getLabel() {
-            return "I am an invisible label.";
+            return "I am a label.";
+        }
+
+        public boolean isLabelVisible() {
+            return isChildrenVisible();
         }
 
         @UICheckBox(position = 10, visible = VisibleType.DYNAMIC)
@@ -94,14 +95,46 @@ public class SectionsWithPlaceholder {
             return true;
         }
 
-        public boolean isLabelVisible() {
-            return visible;
-        }
-
         public boolean isCheckboxVisible() {
-            return visible;
+            return isChildrenVisible();
+        }
+    }
+
+    @BindPlaceholder
+    @UISection(caption = "Closable section", closeable = true)
+    public static class ClosableSectionWithDynamicPlaceholderPmo {
+
+        private boolean childrenVisible = false;
+        private String placeholder = "dynamic placeholder";
+
+        @SectionHeader
+        @UICheckBox(position = -20, caption = "Children visible")
+        public boolean isChildrenVisible() {
+            return childrenVisible;
         }
 
+        public void setChildrenVisible(boolean childrenVisible) {
+            this.childrenVisible = childrenVisible;
+        }
+
+        @SectionHeader
+        @UITextField(position = -10)
+        public String getPlaceholder() {
+            return placeholder;
+        }
+
+        public void setPlaceholder(String placeholder) {
+            this.placeholder = placeholder;
+        }
+
+        @UILabel(position = 0, visible = VisibleType.DYNAMIC)
+        public String getLabel() {
+            return "I am a label.";
+        }
+
+        public boolean isLabelVisible() {
+            return isChildrenVisible();
+        }
     }
 
     @BindPlaceholder("This placeholder should not be visible.")
@@ -126,15 +159,4 @@ public class SectionsWithPlaceholder {
         }
 
     }
-
-    @BindPlaceholder
-    @UISection(caption = "Closable section with no child elements", closeable = true)
-    public static class ClosableEmptySectionWithDynamicPlaceholderPmo {
-
-        public String getPlaceholder() {
-            return "This closable section contains no child elements.";
-        }
-
-    }
-
 }
