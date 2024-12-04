@@ -25,19 +25,31 @@ import com.vaadin.testbench.elementsbase.Element;
 public class LinkkiGridElement extends GridElement {
 
     /**
-     * Retrieves the placeholder of the {@link com.vaadin.flow.component.grid.Grid} with the given ID.
+     * Retrieves the placeholder of the {@link com.vaadin.flow.component.grid.Grid} with the given
+     * ID.
      *
      * @param tableId ID of the vaadin-grid element
      * @return placeholder text if there is any.
+     * @deprecated since 2.7.0. Use {@link #getPlaceholderText()} instead
      */
+    @Deprecated
     public Optional<String> getPlaceholderText(String tableId) {
-        var contentOfAfter = executeScript("return window" +
-                ".getComputedStyle(document.querySelector('vaadin-grid#" + tableId + "'),'::after')" +
-                ".getPropertyValue('content')")
-                .toString();
+        return getPlaceholderText();
+    }
+
+    /**
+     * Retrieves the placeholder of the {@link com.vaadin.flow.component.grid.Grid}.
+     *
+     * @return placeholder text if there is any.
+     */
+    public Optional<String> getPlaceholderText() {
+        var contentOfAfter =
+                executeScript("return window.getComputedStyle(arguments[0],'::after').getPropertyValue('content')",
+                              getWrappedElement()).toString();
         var strippedContent = StringUtils.strip(contentOfAfter, "\"");
         return StringUtils.isBlank(strippedContent) || "none".equals(strippedContent)
                 ? Optional.empty()
                 : Optional.of(strippedContent);
     }
+
 }

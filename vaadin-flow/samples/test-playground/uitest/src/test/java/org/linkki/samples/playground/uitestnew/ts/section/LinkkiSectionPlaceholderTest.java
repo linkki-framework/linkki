@@ -21,14 +21,11 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
-import org.linkki.testbench.UITestConfiguration;
 import org.linkki.testbench.pageobjects.LinkkiGridElement;
 import org.linkki.testbench.pageobjects.LinkkiSectionElement;
-import org.openqa.selenium.JavascriptExecutor;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 
-@UITestConfiguration(locale = "en")
 class LinkkiSectionPlaceholderTest extends PlaygroundUiTest {
 
     @BeforeEach
@@ -61,33 +58,15 @@ class LinkkiSectionPlaceholderTest extends PlaygroundUiTest {
     }
 
     private void assertPlaceholder(LinkkiSectionElement section, String placeholder) {
-        assertThat(getPlaceholderText(section)).isEqualTo("\"" + placeholder + "\"");
+        assertThat(section.getPlaceholderText()).hasValue(placeholder);
     }
 
     private void assertPlaceholder(LinkkiGridElement grid, String placeholder) {
-        assertThat(getPlaceholderText(grid)).isEqualTo("\"" + placeholder + "\"");
+        assertThat(grid.getPlaceholderText()).hasValue(placeholder);
     }
 
     private void assertPlaceholderIsEmpty(LinkkiSectionElement section) {
-        assertThat(getPlaceholderText(section)).isEqualTo("none");
-    }
-
-    private String getPlaceholderText(LinkkiSectionElement section) {
-        String script = "return window.getComputedStyle(arguments[0], '::after').getPropertyValue('content');";
-        JavascriptExecutor js = (JavascriptExecutor)getDriver();
-        return (String)js.executeScript(script, section.getContent());
-    }
-
-    private String getPlaceholderText(LinkkiGridElement grid) {
-        String script = "return window.getComputedStyle(arguments[0], '::after').getPropertyValue('content');";
-        JavascriptExecutor js = (JavascriptExecutor)getDriver();
-        return (String)js.executeScript(script, grid);
-    }
-
-    private String isPlaceholderDisplayed(LinkkiSectionElement section) {
-        String script = "return window.getComputedStyle(arguments[0], '::after').content";
-        JavascriptExecutor js = (JavascriptExecutor)getDriver();
-        return (String)js.executeScript(script, section.getContent());
+        assertThat(section.getPlaceholderText()).isEmpty();
     }
 
 }

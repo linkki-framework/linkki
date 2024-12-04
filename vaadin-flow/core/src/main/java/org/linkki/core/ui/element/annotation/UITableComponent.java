@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -52,6 +53,7 @@ import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.BeanUtils;
 import org.linkki.util.handler.Handler;
 import org.slf4j.Logger;
@@ -126,6 +128,7 @@ public @interface UITableComponent {
             @SuppressWarnings("unchecked")
             var grid = (Grid<Object>)componentWrapper.getComponent();
             var ui = UI.getCurrent();
+            var locale = UiFramework.getLocale();
             if (CompletableFuture.class.isAssignableFrom(propertyDispatcher.getValueClass())) {
                 if (!ui.getPushConfiguration().getPushMode().isEnabled()) {
                     if (LOGGER.isWarnEnabled()) {
@@ -148,7 +151,7 @@ public @interface UITableComponent {
                     grid.getElement().getStyle().remove(CSS_PROPERTY_ERROR_MESSAGES);
                     @SuppressWarnings("unchecked")
                     var future = (CompletableFuture<List<Object>>)getAspectValue(propertyDispatcher);
-                    future.whenComplete(onFutureComplete(ui, grid));
+                    future.whenComplete(onFutureComplete(ui, grid, locale));
                 };
             } else {
                 return () -> {
@@ -158,14 +161,15 @@ public @interface UITableComponent {
             }
         }
 
-        private BiConsumer<List<Object>, Throwable> onFutureComplete(UI ui, Grid<Object> grid) {
+        private BiConsumer<List<Object>, Throwable> onFutureComplete(UI ui, Grid<Object> grid, Locale locale) {
             return (items, throwable) -> ui.access(() -> {
                 if (throwable != null) {
                     LOGGER.error("An error occurred when retrieving table items", throwable);
                     setItems(grid, List.of());
                     grid.getElement().setAttribute(ATTR_HAS_ERRORS, true);
-                    grid.getElement().getStyle().set(CSS_PROPERTY_ERROR_MESSAGES,
-                                                     "\"" + NlsText.getString(MSG_CODE_ERROR_MESSAGES) + "\"");
+                    grid.getElement().getStyle()
+                            .set(CSS_PROPERTY_ERROR_MESSAGES,
+                                 "\"" + NlsText.getString(MSG_CODE_ERROR_MESSAGES, locale) + "\"");
                 } else {
                     setItems(grid, items);
                 }
