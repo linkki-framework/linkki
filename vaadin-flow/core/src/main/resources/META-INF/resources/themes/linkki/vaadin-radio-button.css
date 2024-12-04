@@ -21,7 +21,6 @@ vaadin-radio-group[readonly]:not([disabled]) vaadin-radio-button:not([checked]) 
 vaadin-radio-group[readonly] vaadin-radio-button::part(radio) {
     background-color: transparent;
 }
-
 vaadin-radio-group[readonly] vaadin-radio-button:not([checked])::part(radio) {
     --_input-border-width: var(--linkki-input-border-width-readonly);
 }
@@ -29,4 +28,8 @@ vaadin-radio-group[readonly] vaadin-radio-button:not([checked])::part(radio) {
 vaadin-radio-group[readonly]:not([disabled]) vaadin-radio-button[checked]::part(radio) {
     --vaadin-radio-button-dot-color: var(--lumo-primary-color);
     --vaadin-input-field-border-color: var(--lumo-primary-color);
+}
+
+vaadin-radio-group[disabled] > vaadin-radio-button[checked]::part(radio) {
+    --vaadin-radio-button-dot-color: var(--lumo-disabled-text-color);
 }

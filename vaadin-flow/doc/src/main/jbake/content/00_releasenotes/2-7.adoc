@@ -150,3 +150,6 @@ Now, selecting `null` correctly checks the "Not specified" radio button, ensurin
 With this bug fix, the converter must now be able to handle null-valued presentation values.
 Although this was already part of the `Converter` contract, it can now lead to an exception in `ValueAspectDefinition`.
 ====
++
+//https://jira.convista.com/browse/LIN-4100
+* Disabled, readonly and checked radio buttons are now displayed correctly
