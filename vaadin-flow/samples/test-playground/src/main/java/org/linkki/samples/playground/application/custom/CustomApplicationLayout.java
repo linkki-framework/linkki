@@ -14,10 +14,13 @@
 
 package org.linkki.samples.playground.application.custom;
 
+import java.io.Serial;
+
 import org.linkki.framework.ui.application.ApplicationLayout;
 
 public class CustomApplicationLayout extends ApplicationLayout {
 
+    @Serial
     private static final long serialVersionUID = -8825334484740928668L;
 
     public CustomApplicationLayout() {

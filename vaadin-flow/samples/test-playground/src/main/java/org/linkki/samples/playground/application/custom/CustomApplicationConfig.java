@@ -19,10 +19,13 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.framework.ui.dialogs.DialogErrorHandler;
+import org.linkki.framework.ui.dialogs.ErrorDialogConfiguration;
 import org.linkki.samples.playground.application.custom.CustomMenuItemDefinitionCreator.MySubSubMenuItem;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
@@ -30,6 +33,7 @@ import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.server.ErrorHandler;
 
 /**
  * An {@link ApplicationConfig} using a {@link CustomApplicationHeader custom application header}
@@ -78,6 +82,14 @@ public class CustomApplicationConfig implements ApplicationConfig {
     @Override
     public ApplicationHeaderDefinition getHeaderDefinition() {
         return CustomApplicationHeader::new;
+    }
+
+    @Override
+    public ErrorHandler getErrorHandler() {
+        var config = ErrorDialogConfiguration.createWithHandlerNavigatingTo(StringUtils.EMPTY)
+                .withCaption("Custom Error Handler")
+                .withErrorMessage("Custom error message");
+        return new DialogErrorHandler(config);
     }
 
     public static class CustomApplicationInfo implements ApplicationInfo {

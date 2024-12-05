@@ -16,13 +16,16 @@ package org.linkki.framework.ui.dialogs;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._assertOne;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.entry;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.function.BiFunction;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,13 +34,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.util.handler.Handler;
 
 import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.github.mvysny.kaributesting.v10.Routes;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasText;
-import com.vaadin.flow.component.HasValue;
+import com.github.mvysny.kaributesting.v10.mock.MockVaadinSession;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
@@ -72,9 +74,14 @@ class DialogErrorHandlerTest {
                 .withCaption("custom caption")
                 .withErrorMessage("custom error message")
                 .showExceptionMessage()
-                .hideExceptionStacktrace();
+                .showExceptionStacktrace();
         var handler = new DialogErrorHandler(dialogConfig);
-        var event = new ErrorEvent(new RuntimeException());
+        MockVaadinSession.getCurrent().setErrorHandler(handler);
+        var exception = new RuntimeException("Exception message", new RuntimeException("Cause"));
+        var event = new ErrorEvent(exception);
+        var testLoggingHandler = new TestLoggingHandler();
+        var logger = Logger.getLogger(DialogErrorHandler.class.getName());
+        logger.addHandler(testLoggingHandler);
 
         handler.error(event);
 
@@ -82,18 +89,25 @@ class DialogErrorHandlerTest {
         var errorDialog = _get(OkCancelDialog.class);
         assertThat(errorDialog.getCaption())
                 .as("Check dialog caption is as configured").isEqualTo(dialogConfig.getCaption());
-        List<Component> dialogContent = errorDialog.getContentArea().getChildren().collect(Collectors.toList());
-        var configuredContent = dialogConfig.getDialogContent(event);
-        // The content of the time stamp cannot be checked using assertEquals as it contains
-        // milliseconds
-        assertThat(dialogContent).element(0).extracting(this::getTextContent).asString().startsWith("Timestamp");
-        assertThat(dialogContent).elements(1, dialogContent.size() - 1)
-                .usingElementComparator(Comparator.comparing(this::getTextContent))
-                .isEqualTo(configuredContent.subList(1, dialogContent.size()));
+        var dialogContent = KaribuUtils.printComponentTree(errorDialog.getContentArea());
+        assertThat(dialogContent).contains("custom error message")
+                .contains("Timestamp")
+                .contains("Cause");
+        assertThat(dialogContent).as("Stacktrace should not be shown")
+                .contains("Exception message");
+        var uuidMatcher = Pattern.compile("Timestamp:.+\\[([^\\]]+)\\]", Pattern.MULTILINE).matcher(dialogContent);
+        var hasMatch = uuidMatcher.find();
+        assertThat(hasMatch).as("UUID is displayed after the timestamp").isTrue();
+        var uuid = uuidMatcher.group(1);
+        assertThatNoException().as("The string displayed after timestamp is a valid UUID")
+                .isThrownBy((() -> UUID.fromString(uuid)));
+        assertThat(testLoggingHandler.getMessage())
+                .contains(uuid);
 
         errorDialog.ok();
 
         assertUrlAfterOkIsCorrect(TEST_VIEW_ROUTE);
+        logger.removeHandler(testLoggingHandler);
     }
 
     @SuppressWarnings("deprecation")
@@ -109,9 +123,9 @@ class DialogErrorHandlerTest {
 
         _assertOne(ConfirmationDialog.class);
         var errorDialog = _get(ConfirmationDialog.class);
-        assertThat(errorDialog.getContentArea().getChildren().collect(Collectors.toList()))
-                .usingElementComparator(Comparator.comparing(this::getTextContent))
-                .containsExactly(new Text(exceptionMessage));
+        assertThat(errorDialog.getContentArea().getChildren())
+                .map(KaribuUtils::getTextContent)
+                .containsExactly(exceptionMessage);
 
         errorDialog.ok();
 
@@ -131,9 +145,9 @@ class DialogErrorHandlerTest {
 
         _assertOne(ConfirmationDialog.class);
         var errorDialog = _get(ConfirmationDialog.class);
-        assertThat(errorDialog.getContentArea().getChildren().collect(Collectors.toList()))
-                .usingElementComparator(Comparator.comparing(this::getTextContent))
-                .containsExactly(new Text(exceptionMessage));
+        assertThat(errorDialog.getContentArea().getChildren())
+                .map(KaribuUtils::getTextContent)
+                .containsExactly(exceptionMessage);
 
         errorDialog.ok();
 
@@ -148,11 +162,6 @@ class DialogErrorHandlerTest {
         assertThat(locationAfterOk.getQueryParameters().getParameters())
                 .as("Check add error parameter after click")
                 .containsExactly(entry(DialogErrorHandler.ERROR_PARAM, List.of(StringUtils.EMPTY)));
-    }
-
-    private String getTextContent(Component component) {
-        return component instanceof HasText ? ((HasText)component).getText()
-                : (String)((HasValue<?, ?>)component).getValue();
     }
 
     @Route(value = DEFAULT_VIEW_ROUTE)

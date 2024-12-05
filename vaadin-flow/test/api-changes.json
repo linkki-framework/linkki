@@ -96,6 +96,20 @@
             "code": "java.method.addedToInterface",
             "new": "method void jakarta.servlet.http.HttpServletResponse::sendRedirect(java.lang.String, int, boolean) throws java.io.IOException",
             "justification": "LIN-3995/LIN-3996 Dependency Update"
+          },
+          {
+            "code": "java.method.returnTypeChanged",
+            "old": "method void org.linkki.core.ui.test.KaribuUtils::printComponentTree()",
+            "new": "method java.lang.String org.linkki.core.ui.test.KaribuUtils::printComponentTree()",
+            "justification": "LIN-3444/LIN-4091 Better functionality"
+          },
+          {
+            "code": "java.method.visibilityIncreased",
+            "old": "method void org.linkki.core.ui.test.KaribuUtils::printComponentTree(com.vaadin.flow.component.Component, int)",
+            "new": "method java.lang.String org.linkki.core.ui.test.KaribuUtils::printComponentTree(com.vaadin.flow.component.Component)",
+            "oldVisibility": "private",
+            "newVisibility": "public",
+            "justification": "LIN-3444/LIN-4091 Better functionality"
           }
         ]
       }

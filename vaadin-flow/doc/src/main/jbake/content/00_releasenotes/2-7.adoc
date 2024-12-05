@@ -116,6 +116,11 @@ For more information, see <<section-bind-closable, here>>.
 
 Many useful methods were added to the <<karibu-utils, KaribuUtils>> to make it even easier to write Karibu tests.
 
+// https://jira.convista.com/browse/LIN-3444
+===== IDs for exceptions in logs
+
+If an exception occurs in the application, it will be displayed by the configured <<linkki-error-dialog, error handler>> or an <<linkki-error-page, error page>> in case of an exception during navigation. With the default configuration, the exception is now logged with a unique ID that is also displayed in the UI, making it easier to find the exception in the logs. Custom implementation may need to be adapted to be able to make use of this feature.
+
 ===== linkki tutorial
 
 The <<linkki-tutorial, linkki tutorial>> is now part of this documentation.

@@ -8,6 +8,7 @@
 Unhandled runtime exceptions in the application are handled by a so-called `ErrorHandler`. 
 By default, *linkki* shows information about the occurred error within a dialog.
 
+[[linkki-error-dialog]]
 ==== Default error dialog
 
 The default error dialog displays following information about the exception:
@@ -83,7 +84,7 @@ For any other exception it shows a custom message or the exception message in de
 | `createNavigationButton()`
 
 | Error details
-| Timestamp and exception type
+| Timestamp and a unique ID for the exception to make it easier to find in the logs
 | `createErrorDetails(ErrorParameter)`
 
 | Logging of the exception

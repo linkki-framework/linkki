@@ -28,9 +28,12 @@ import org.linkki.core.binding.validation.message.Severity;
 import com.github.mvysny.kaributesting.v10.GridKt;
 import com.github.mvysny.kaributesting.v10.LocatorJ;
 import com.github.mvysny.kaributesting.v10.NotificationsKt;
+import com.github.mvysny.kaributesting.v10.PrettyPrintTree;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.HasText;
+import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -117,14 +120,27 @@ public class KaribuUtils {
      * Prints out all {@link Component component}-classnames in
      * {@link com.vaadin.flow.component.UI#getCurrent()} in hierarchical order
      */
-    public static void printComponentTree() {
-        printComponentTree(com.vaadin.flow.component.UI.getCurrent(), 0);
+    public static String printComponentTree() {
+        return printComponentTree(com.vaadin.flow.component.UI.getCurrent());
     }
 
-    private static void printComponentTree(Component component, int level) {
-        String msg = " ".repeat(level) + component.getClass().getName();
-        LOGGER.info(msg);
-        component.getChildren().forEach(c -> printComponentTree(c, level + 2));
+    /**
+     * Prints out the given component.
+     */
+    public static String printComponentTree(Component component) {
+        var tree = PrettyPrintTree.Companion.ofVaadin(component).print();
+        LOGGER.info(tree);
+        return tree;
+    }
+
+    /**
+     * Gets the text content of the given component.
+     */
+    @SuppressWarnings("RedundantExplicitVariableType")
+    public static String getTextContent(Component component) {
+        return component instanceof HasText hasText ? hasText.getText()
+                : component instanceof HasValue<?, ?> hasValue ? (String)hasValue.getValue()
+                : component.getElement().getText();
     }
 
     /**

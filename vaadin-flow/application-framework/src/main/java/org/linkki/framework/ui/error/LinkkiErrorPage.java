@@ -18,6 +18,7 @@ import java.io.Serial;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,6 +74,8 @@ public class LinkkiErrorPage extends VerticalLayout
 
     private final Div messageWrapper;
 
+    private String exceptionId;
+
     /**
      * Constructs a {@link LinkkiErrorPage} including its general layout.
      */
@@ -86,7 +89,7 @@ public class LinkkiErrorPage extends VerticalLayout
 
     /**
      * Sets the title shown in the browser tab.
-     * 
+     *
      * @apiNote Override this to customize the title.
      */
     @Override
@@ -108,12 +111,10 @@ public class LinkkiErrorPage extends VerticalLayout
      * occurrence</li>
      * <li>The exception stack trace (only in development mode)</li>
      * </ul>
-     * 
+     *
      * @param event The before-enter event triggering this error parameter setting
      * @param parameter The error parameter containing {@link Exception} details
-     *
      * @return The HTTP status code 500 INTERNAL SERVER ERROR
-     *
      * @apiNote The {@link #createErrorMessage(ErrorParameter) error message}, the
      *          {@link #createNavigationButton() navigation button} and the
      *          {@link #createErrorDetails(ErrorParameter) error details} can be overwritten
@@ -121,40 +122,44 @@ public class LinkkiErrorPage extends VerticalLayout
      */
     @Override
     public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<Exception> parameter) {
+        exceptionId = UUID.randomUUID().toString();
         logException(parameter);
 
         messageWrapper.removeAll();
         var title = new H4(NlsText.getString(MSG_KEY_PAGE_TITLE));
         messageWrapper.add(title);
         messageWrapper.add(createErrorMessage(parameter));
-        messageWrapper.add(createNavigationButton());
         messageWrapper.add(createErrorDetails(parameter));
         if (isDevelopmentMode()) {
             messageWrapper.add(createStackTrace(parameter.getException()));
         }
+        messageWrapper.add(createNavigationButton());
         return HttpStatusCode.INTERNAL_SERVER_ERROR.getCode();
     }
 
     /**
-     * Logs the exception.
-     * 
-     * @param parameter The error parameter containing {@link Exception} details
-     * 
+     * Logs the given error. The {@link ErrorParameter#getCaughtException() caught exception} of the
+     * given parameter is the unique ID of the exception. The cause of the exception is the actual
+     * exception that is caught.
+     *
+     *
+     * @param parameter the error parameter containing a {@link MessageException} whose message is a
+     *            unique ID for the exception. Its cause is the caught exception.
+     *
      * @apiNote Override this method to customize logging.
-     * 
      * @implSpec The default implementation logs exceptions as {@link Level#SEVERE}.
      *           {@code MessageExceptions} {@link MessageException#MessageException(String) without
-     *           a cause} are purely informational, and therefore not logged.
+     *           a cause} are purely informational for the UI, and therefore not logged.
      */
     protected void logException(ErrorParameter<Exception> parameter) {
         var exception = parameter.getCaughtException();
         if (exception instanceof MessageException) {
             // only log MessageExceptions with cause
             if (exception.getCause() != null) {
-                LOGGER.log(Level.SEVERE, "Unhandled exception", exception.getCause());
+                LOGGER.log(Level.SEVERE, "Unhandled exception [%s]".formatted(exceptionId), exception.getCause());
             }
         } else {
-            LOGGER.log(Level.SEVERE, "Unhandled exception", exception);
+            LOGGER.log(Level.SEVERE, "Unhandled exception [%s]".formatted(exceptionId), exception);
         }
     }
 
@@ -167,13 +172,12 @@ public class LinkkiErrorPage extends VerticalLayout
      * development mode or a generic error message in production mode.</li>
      * </ul>
      *
-     * @param parameter The error parameter containing {@link Exception} details
-     *
-     * @return A {@link Component} displaying the error message
-     * 
+     * @param parameter the error parameter containing a {@link MessageException} whose message is a
+     *            unique ID for the exception. Its cause is the caught exception.
+     * @return a {@link Component} displaying the error message
      * @apiNote Override this method to customize the error message.
      */
-    protected Component createErrorMessage(ErrorParameter<Exception> parameter) {
+    protected Component createErrorMessage(ErrorParameter<? extends Exception> parameter) {
         var message = new LinkkiText();
         var exception = parameter.getCaughtException();
 
@@ -206,7 +210,7 @@ public class LinkkiErrorPage extends VerticalLayout
     protected Component createErrorDetails(ErrorParameter<Exception> parameter) {
         var timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         var component = new LinkkiText();
-        component.setText("Timestamp: " + timestamp);
+        component.setText("Timestamp: " + timestamp + "[" + exceptionId + "]");
         return component;
     }
 
@@ -214,9 +218,7 @@ public class LinkkiErrorPage extends VerticalLayout
      * Creates a button to navigate away from the error page.
      *
      * @return The button used for navigation
-     * 
      * @apiNote Override this method to customize the navigation button.
-     * 
      * @implSpec The default implementation creates a button that navigates to the default start
      *           view.
      */
@@ -238,7 +240,7 @@ public class LinkkiErrorPage extends VerticalLayout
      * <p>
      * A return value of {@code true} results in internal information (e.g. detailed error messages
      * and stack traces) being shown on the page.
-     * 
+     *
      * @apiNote It should not be necessary to override this method.
      */
     protected boolean isDevelopmentMode() {

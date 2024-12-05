@@ -18,39 +18,33 @@ import static com.github.mvysny.kaributesting.v10.LocatorJ._click;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._find;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.linkki.core.ui.test.KaribuUtils.getTextContent;
 
 import java.io.Serial;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.vaadin.component.base.LinkkiText;
+import org.linkki.core.ui.test.KaribuUIExtension;
 
 import com.github.mvysny.kaributesting.v10.MockVaadin;
-import com.github.mvysny.kaributesting.v10.Routes;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.ErrorParameter;
+import com.vaadin.flow.router.HasErrorParameter;
 import com.vaadin.flow.router.Route;
 
 class LinkkiErrorPageTest {
-
-    private static final String START_VIEW_SPAN_ID = "test-span";
-    private static final String TEST_MESSAGE_WITH_HTML = "Test Message<br>with HTML";
-    private static final String CUSTOM_MESSAGE = "CustomMessage";
-
-    @BeforeAll
-    static void setupLanguage() {
-        Locale.setDefault(Locale.ENGLISH);
-    }
 
     @AfterEach
     void vaadinTearDown() {
@@ -61,12 +55,11 @@ class LinkkiErrorPageTest {
     void testLinkkiErrorPage_ProductionMode_NoExceptionDetails() {
         setupVaadin(true);
 
-        // Manually load the error page since navigating to an unknown route causes Karibu to fail.
-        UI.getCurrent().navigate(ErrorPageView.class);
+        UI.getCurrent().navigate(ViewWithException.class);
 
         var testWrapper = new LinkkiErrorPageTestHelper();
         assertTitle(testWrapper.getTitle());
-        assertErrorMessage(testWrapper.getMessage(), "An unknown error occurred.");
+        assertThat(getTextContent(testWrapper.getMessage())).isEqualTo("An unexpected error occurred.");
         assertErrorDetails(testWrapper.getErrorDetails());
         assertThat(_find(Div.class, div -> div.withClasses("error-page-stacktrace"))).isEmpty();
         assertNavigationButton(testWrapper.getNavigationButton());
@@ -76,26 +69,25 @@ class LinkkiErrorPageTest {
     void testLinkkiErrorPage_ProductionMode_MessageException() {
         setupVaadin(true);
 
-        // Manually load the error page since navigating to an unknown route causes Karibu to fail.
-        UI.getCurrent().navigate(MessageErrorPageView.class);
+        UI.getCurrent().navigate(ViewWithMessageException.class);
 
         var testWrapper = new LinkkiErrorPageTestHelper();
         assertTitle(testWrapper.getTitle());
         assertThat(testWrapper.size()).isEqualTo(4);
-        // Text of MessageException should always be shown
-        assertErrorMessage(testWrapper.getMessage(), TEST_MESSAGE_WITH_HTML);
+        assertThat(getTextContent(testWrapper.getMessage()))
+                .as("Text of MessageException should always be shown")
+                .isEqualTo(ViewWithMessageException.EXCEPTION_MESSAGE);
     }
 
     @Test
     void testLinkkiErrorPage_DevelopmentMode_CustomMessageShown() {
         setupVaadin(false);
 
-        // Manually load the error page since navigating to an unknown route causes Karibu to fail.
-        UI.getCurrent().navigate(CustomMessageErrorPageView.class);
+        UI.getCurrent().navigate(ViewWithCustomMessageException.class);
 
         var testWrapper = new LinkkiErrorPageTestHelper();
         assertTitle(testWrapper.getTitle());
-        assertErrorMessage(testWrapper.getMessage(), CUSTOM_MESSAGE);
+        assertThat(getTextContent(testWrapper.getMessage())).isEqualTo(ViewWithCustomMessageException.CUSTOM_MESSAGE);
         assertErrorDetails(testWrapper.getErrorDetails());
         assertThat(testWrapper.getStacktrace().getElement().getText()).startsWith("java.lang.IllegalArgumentException");
         assertNavigationButton(testWrapper.getNavigationButton());
@@ -105,14 +97,37 @@ class LinkkiErrorPageTest {
     void testLinkkiErrorPage_DevelopmentMode_ExceptionDetailsShown() {
         setupVaadin(false);
 
-        // Manually load the error page since navigating to an unknown route causes Karibu to fail.
-        UI.getCurrent().navigate(ErrorPageView.class);
+        UI.getCurrent().navigate(ViewWithException.class);
 
         var testWrapper = new LinkkiErrorPageTestHelper();
         assertTitle(testWrapper.getTitle());
-        assertErrorMessage(testWrapper.getMessage(), TEST_MESSAGE_WITH_HTML);
+        assertThat(getTextContent(testWrapper.getMessage())).isEqualTo(ViewWithException.EXCEPTION_MESSAGE);
         assertErrorDetails(testWrapper.getErrorDetails());
-        assertThat(testWrapper.getStacktrace().getElement().getText()).startsWith("java.lang.IllegalArgumentException");
+        assertThat(testWrapper.getStacktrace().getElement().getText())
+                .contains(ViewWithException.EXCEPTION_MESSAGE)
+                .contains(ViewWithException.CAUSE_MESSAGE)
+                .contains("java.lang.IllegalArgumentException");
+        assertNavigationButton(testWrapper.getNavigationButton());
+    }
+
+    @Test
+    void testLinkkiErrorPage_CustomSubClass() {
+        setupVaadin(true, CustomErrorPage.class);
+
+        UI.getCurrent().navigate(ViewWithException.class);
+
+        var testWrapper = new LinkkiErrorPageTestHelper();
+        assertTitle(testWrapper.getTitle());
+        assertThat(getTextContent(testWrapper.getMessage()))
+                .contains(CustomErrorPage.CUSTOM_MESSAGE)
+                .contains(ViewWithException.EXCEPTION_MESSAGE);
+        assertThat(getTextContent(testWrapper.getErrorDetails()))
+                .contains(CustomErrorPage.CUSTOM_DETAILS)
+                .contains(ViewWithException.EXCEPTION_MESSAGE);
+        assertThat(testWrapper.getStacktrace().getElement().getText())
+                .contains(ViewWithException.EXCEPTION_MESSAGE)
+                .contains(ViewWithException.CAUSE_MESSAGE)
+                .contains("java.lang.IllegalArgumentException");
         assertNavigationButton(testWrapper.getNavigationButton());
     }
 
@@ -120,16 +135,14 @@ class LinkkiErrorPageTest {
         assertThat(title.getElement().getText()).isEqualTo("Ooops, something went wrong!");
     }
 
-    private void assertErrorMessage(Component message, String expectedMessage) {
-        assertThat(message).isInstanceOf(LinkkiText.class);
-        var errorMessage = ((LinkkiText)message).getText();
-        assertThat(errorMessage).isEqualTo(expectedMessage);
-    }
-
     private void assertErrorDetails(Component errorDetails) {
-        assertThat(errorDetails).isInstanceOf(LinkkiText.class);
-        var errorDetailsText = ((LinkkiText)errorDetails).getText();
-        assertThat(errorDetailsText).contains("Timestamp:").doesNotContain("IllegalArgumentException");
+        var textContent = getTextContent(errorDetails);
+        var uuidMatcher = Pattern.compile("Timestamp:.+\\[([^]]+)]").matcher(textContent);
+        var hasMatch = uuidMatcher.find();
+        assertThat(hasMatch).as("UUID is displayed after the timestamp").isTrue();
+        var uuid = uuidMatcher.group(1);
+        assertThatNoException().as("The string displayed after timestamp is a valid UUID")
+                .isThrownBy((() -> UUID.fromString(uuid)));
     }
 
     /**
@@ -140,83 +153,89 @@ class LinkkiErrorPageTest {
         assertThat(navigationButton).isInstanceOf(Button.class);
         assertThat(navigationButton.getElement().getText()).isEqualTo("Go to Start View");
         _click((Button)navigationButton);
-        assertThat(_find(Span.class, span -> span.withId(START_VIEW_SPAN_ID))).isNotEmpty();
+        assertThat(UI.getCurrent().getCurrentView()).isInstanceOf(StartView.class);
     }
 
-    /**
-     * Mocks Vaadin for the current test instance with the given production mode and the given test
-     * view.
-     *
-     * @param productionMode {@code true} whether production mode should be enabled
-     */
     private void setupVaadin(boolean productionMode) {
-        System.setProperty("vaadin.productionMode", String.valueOf(productionMode));
-        MockVaadin.setup(new Routes(
-                Set.of(StartView.class, ErrorPageView.class, MessageErrorPageView.class,
-                       CustomMessageErrorPageView.class),
-                Collections.emptySet(), true));
+        setupVaadin(productionMode, LinkkiErrorPage.class);
+    }
+
+    private void setupVaadin(boolean productionMode, Class<? extends HasErrorParameter<?>> errorView) {
+        KaribuUIExtension
+                .withViews(Set.of(StartView.class, ViewWithException.class, ViewWithMessageException.class,
+                                  ViewWithCustomMessageException.class),
+                           Set.of(errorView))
+                .setUpUI(productionMode);
+        UI.getCurrent().setLocale(Locale.ENGLISH);
     }
 
     @Route("")
     public static class StartView extends Div {
 
         @Serial
-        private static final long serialVersionUID = 1L;
-
-        public StartView() {
-            var span = new Span();
-            span.setId(START_VIEW_SPAN_ID);
-            add(span);
-        }
+        private static final long serialVersionUID = -8257983255778209425L;
     }
 
-    abstract static class TestLinkkiErrorPageView extends Div {
+    @Route("exception")
+    public static class ViewWithException extends Div implements BeforeEnterObserver {
 
         @Serial
         private static final long serialVersionUID = 1L;
+        public static final String EXCEPTION_MESSAGE = "Test Message<br>with HTML";
+        public static final String CAUSE_MESSAGE = "cause";
 
-        TestLinkkiErrorPageView(Exception exception, String customMessage) {
-            var errorPage = new LinkkiErrorPage();
-            var errorParameter = Optional.ofNullable(customMessage)
-                    .map(m -> new ErrorParameter<>(Exception.class, exception, m))
-                    .orElse(new ErrorParameter<>(Exception.class, exception));
-            errorPage.setErrorParameter(null, errorParameter);
-            add(errorPage);
-        }
-
-        TestLinkkiErrorPageView(Exception exception) {
-            this(exception, null);
+        @Override
+        public void beforeEnter(BeforeEnterEvent event) {
+            throw new RuntimeException(EXCEPTION_MESSAGE, new IllegalArgumentException(CAUSE_MESSAGE));
         }
     }
 
-    @Route("error-page")
-    public static class ErrorPageView extends TestLinkkiErrorPageView {
+    @Route("message")
+    public static class ViewWithMessageException extends Div implements BeforeEnterObserver {
+
         @Serial
         private static final long serialVersionUID = 1L;
+        public static final String EXCEPTION_MESSAGE = "message";
+        public static final String CAUSE_MESSAGE = "cause";
 
-        public ErrorPageView() {
-            super(new IllegalArgumentException(TEST_MESSAGE_WITH_HTML));
+        @Override
+        public void beforeEnter(BeforeEnterEvent event) {
+            throw new MessageException(EXCEPTION_MESSAGE, new IllegalArgumentException(CAUSE_MESSAGE));
         }
     }
 
-    @Route("message-error-page")
-    public static class MessageErrorPageView extends TestLinkkiErrorPageView {
+    @Route("custom-message")
+    public static class ViewWithCustomMessageException extends Div implements BeforeEnterObserver {
+
         @Serial
         private static final long serialVersionUID = 1L;
+        public static final String CUSTOM_MESSAGE = "custom-message";
 
-        public MessageErrorPageView() {
-            super(new MessageException(TEST_MESSAGE_WITH_HTML));
+        @Override
+        public void beforeEnter(BeforeEnterEvent event) {
+            event.rerouteToError(IllegalArgumentException.class, CUSTOM_MESSAGE);
         }
     }
 
-    @Route("custom-message-error-page")
-    public static class CustomMessageErrorPageView extends TestLinkkiErrorPageView {
-
+    public static class CustomErrorPage extends LinkkiErrorPage {
         @Serial
         private static final long serialVersionUID = 1L;
+        public static final String CUSTOM_DETAILS = "custom details";
+        public static final String CUSTOM_MESSAGE = "custom message";
 
-        public CustomMessageErrorPageView() {
-            super(new IllegalArgumentException(TEST_MESSAGE_WITH_HTML), CUSTOM_MESSAGE);
+        @Override
+        protected Component createErrorDetails(ErrorParameter<Exception> parameter) {
+            return new Span(CUSTOM_DETAILS + parameter.getCaughtException().getMessage());
+        }
+
+        @Override
+        protected Component createErrorMessage(ErrorParameter<? extends Exception> parameter) {
+            return new Span(CUSTOM_MESSAGE + parameter.getCaughtException().getMessage());
+        }
+
+        @Override
+        protected boolean isDevelopmentMode() {
+            return true;
         }
     }
 
@@ -241,16 +260,19 @@ class LinkkiErrorPageTest {
             return children.get(1);
         }
 
-        Component getNavigationButton() {
-            return children.get(2);
-        }
-
         Component getErrorDetails() {
-            return children.get(3);
+            return children.get(2);
         }
 
         Component getStacktrace() {
             assertThat(children).as("Page must have at least 5 children to show the error stacktrace").hasSize(5);
+            return children.get(3);
+        }
+
+        Component getNavigationButton() {
+            if (children.size() <= 4) {
+                return children.get(3);
+            }
             return children.get(4);
         }
     }

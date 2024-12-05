@@ -15,8 +15,6 @@ package org.linkki.core.ui.test;
 
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
-import java.io.Serial;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,40 +32,85 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 
 import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.github.mvysny.kaributesting.v10.Routes;
+import com.github.mvysny.kaributesting.v10.mock.MockVaadinServlet;
 import com.github.mvysny.kaributesting.v10.mock.MockedUI;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.i18n.DefaultI18NProvider;
 import com.vaadin.flow.i18n.I18NProvider;
+import com.vaadin.flow.router.HasErrorParameter;
+import com.vaadin.flow.server.VaadinServlet;
 import com.vaadin.flow.server.VaadinSession;
 
 /**
  * Extension using {@link MockVaadin} to instantiate a Vaadin {@link UI} for a test and sets its
  * {@link Locale}. To set up routes, use {@link #withConfiguration(Consumer)}.
+ * <p>
+ * The extension can be used with {@link org.junit.jupiter.api.extension.ExtendWith} on the class.
+ * Alternatively, one of the factory methods can be used to create an instance that can then be used
+ * with {@link org.junit.jupiter.api.extension.RegisterExtension}.
  */
 public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback {
 
-    protected UI setUpUI() {
-        MockVaadin.setup();
+    public static final String PROPERTY_PRODUCTION_MODE = "vaadin.productionMode";
+
+    public UI setUpUI(boolean productionMode) {
+        return setUpUI(productionMode, MockedUI::new, new MockVaadinServlet());
+    }
+
+    protected UI setUpUI(boolean productionMode, Supplier<UI> uiFactory, VaadinServlet servlet) {
+        System.setProperty(PROPERTY_PRODUCTION_MODE, String.valueOf(productionMode));
+        MockVaadin.setup(uiFactory::get, servlet);
         return UI.getCurrent();
     }
 
     /**
-     * Configures a {@link KaribuUIExtension} with custom {@link Routes}
+     * Configures a {@link KaribuUIExtension} with custom views. The given classes are instantiated
+     * with the default constructor. To define instances for the views, see
+     * {@link #withConfiguration(Consumer)}.
+     */
+    @SafeVarargs
+    public static KaribuUIExtension withViews(Class<? extends Component>... routes) {
+        return new KaribuUIExtension() {
+            @Override
+            public UI setUpUI(boolean productionMode) {
+                return super.setUpUI(productionMode, MockedUI::new,
+                                     new MockVaadinServlet(new Routes(Set.of(routes), Set.of(), true)));
+            }
+        };
+    }
+
+    /**
+     * Configures a {@link KaribuUIExtension} with custom views and error views. The given classes
+     * are instantiated with the default constructor.
+     */
+    public static KaribuUIExtension withViews(Set<Class<? extends Component>> routes,
+            Set<Class<? extends HasErrorParameter<?>>> errorRoutes) {
+        return new KaribuUIExtension() {
+            @Override
+            public UI setUpUI(boolean productionMode) {
+                return super.setUpUI(productionMode, MockedUI::new,
+                                     new MockVaadinServlet(new Routes(routes, errorRoutes, true)));
+            }
+        };
+    }
+
+    /**
+     * Configures a {@link KaribuUIExtension} with custom configuration that can be used to add
+     * routes and beans.
      */
     public static KaribuUIExtension withConfiguration(Consumer<KaribuConfiguration> configurator) {
         return new KaribuUIExtension() {
 
             @Override
-            protected UI setUpUI() {
+            public UI setUpUI(boolean productionMode) {
                 var configuration = new KaribuConfiguration();
-
-                configuration.setI18NProvider(getDummyI18NProvider());
 
                 configurator.accept(configuration);
 
-                var routes = new Routes(configuration.routeComponents, Collections.emptySet(), true);
-                MockVaadin.setup(MockedUI::new, new CustomInstantiatorMockServlet(routes, configuration.instances));
-                return UI.getCurrent();
+                var routes = new Routes(configuration.routeComponents, Set.of(), true);
+                return setUpUI(productionMode, MockedUI::new,
+                               new CustomInstantiatorMockServlet(routes, configuration.instances));
             }
         };
     }
@@ -81,7 +124,7 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
 
     @Override
     public void beforeEach(ExtensionContext context) {
-        var ui = setUpUI();
+        var ui = setUpUI(false);
         ui.setLocale(getLocale(context));
     }
 
@@ -93,23 +136,6 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
                 .orElse(Locale.ROOT);
     }
 
-    private static @NotNull I18NProvider getDummyI18NProvider() {
-        return new I18NProvider() {
-            @Serial
-            private static final long serialVersionUID = -7750056021083896353L;
-
-            @Override
-            public List<Locale> getProvidedLocales() {
-                return List.of();
-            }
-
-            @Override
-            public String getTranslation(String s, Locale locale, Object... objects) {
-                return "";
-            }
-        };
-    }
-
     /**
      * Configures a mapping between route components and instances which should be injected into
      * Vaadin
@@ -118,6 +144,10 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
 
         private final Set<Class<? extends Component>> routeComponents = new HashSet<>();
         private final Map<ClassKey, Supplier<?>> instances = new HashMap<>();
+
+        public KaribuConfiguration() {
+            instances.put(new ClassKey(I18NProvider.class), () -> new DefaultI18NProvider(List.of()));
+        }
 
         /**
          * Adds a route. When Vaadin navigates to the given component class, the supplier is called

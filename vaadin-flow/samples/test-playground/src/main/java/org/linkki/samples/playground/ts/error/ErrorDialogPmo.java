@@ -20,8 +20,8 @@ import org.linkki.core.ui.layout.annotation.UISection;
 @UISection
 public class ErrorDialogPmo {
 
-    @UIButton(position = 10, label = "Throw general RuntimeException", caption = "Open Custom Error Dialog")
-    public void showExceptionDialogWithoutExceptionDetails() {
-        throw new RuntimeException("IMPORTANT: This message should not shown in production mode");
+    @UIButton(position = 10, label = "Error dialog with default configuration", caption = "Open Default Error Dialog")
+    public void showExceptionDialogWithDefaultConfiguration() {
+        throw new RuntimeException("IMPORTANT: This message should not be shown in production mode");
     }
 }

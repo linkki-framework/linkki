@@ -65,7 +65,7 @@ public class ErrorDialogConfiguration {
     /**
      * Creates a new dialog configuration with an OK handler that navigates to the given view. In
      * addition, an {@link DialogErrorHandler#ERROR_PARAM error parameter} is appended to the URL.
-     * 
+     *
      * @param view the route of the view to navigate to on confirmation
      */
     public static ErrorDialogConfiguration createWithHandlerNavigatingTo(String view) {
@@ -149,27 +149,30 @@ public class ErrorDialogConfiguration {
     }
 
     /**
-     * Gets the configured dialog content.
-     * 
-     * @param event the event to be handled
+     * Gets the configured dialog content components.
+     *
+     * @param event the event to be handled providing the exception that is thrown.
      */
     public List<Component> getDialogContent(ErrorEvent event) {
+        var throwable = event.getThrowable();
         var content = new ArrayList<Component>();
-        content.add(createTimestamp());
         content.add(createErrorMessage());
+        content.add(createErrorDetails(event));
         if (showExceptionMessage) {
-            content.add(createExceptionMessage(event.getThrowable()));
+            content.add(createExceptionMessage(throwable));
         }
         if (showExceptionStacktrace) {
-            content.add(createExceptionStacktrace(event.getThrowable()));
+            content.add(createExceptionStacktrace(throwable));
         }
         return content;
     }
 
-    private Component createTimestamp() {
+    private Component createErrorDetails(ErrorEvent event) {
         var formattedTimestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern(NlsText.getString("DefaultErrorHandler.timestampFormat")));
-        return new Span(NlsText.format("DefaultErrorHandler.errorDialogTimestamp", formattedTimestamp));
+        var exceptionId = event instanceof IdErrorEvent idErrorEvent ? idErrorEvent.getExceptionId() : "no ID";
+        return new Span(
+                NlsText.format("DefaultErrorHandler.errorDialogTimestamp", formattedTimestamp, exceptionId));
     }
 
     private Span createErrorMessage() {

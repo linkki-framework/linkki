@@ -35,6 +35,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -53,7 +54,7 @@ class KaribuUtilsTest {
 
         KaribuUtils.printComponentTree();
 
-        assertThat(testLoggingHandler.getMessage()).isEqualTo("com.github.mvysny.kaributesting.v10.mock.MockedUI");
+        assertThat(testLoggingHandler.getMessage()).contains("MockedUI");
         KaribuUtils.LOGGER.removeHandler(testLoggingHandler);
     }
 
@@ -118,6 +119,34 @@ class KaribuUtilsTest {
 
         assertThrows(AssertionError.class,
                      () -> KaribuUtils.getWithId(layout1, NativeLabel.class, "label-without-parent"));
+    }
+
+    @Test
+    void testGetTextContent_EmptyLayout() {
+        var component = new HorizontalLayout();
+        assertThat(KaribuUtils.getTextContent(component)).isEqualTo("");
+    }
+
+    @Test
+    void testGetTextContent_TextComponent() {
+        var text = "Lorem ipsum";
+        var component = new NativeLabel(text);
+        assertThat(KaribuUtils.getTextContent(component)).isEqualTo(text);
+    }
+
+    @Test
+    void testGetTextContent_ValueComponent() {
+        var text = "Lorem ipsum";
+        var component = new TextField();
+        component.setValue(text);
+        assertThat(KaribuUtils.getTextContent(component)).isEqualTo(text);
+    }
+
+    @Test
+    void testGetTextContent_Span() {
+        var text = "Lorem ipsum";
+        var component = new Span(text);
+        assertThat(KaribuUtils.getTextContent(component)).isEqualTo(text);
     }
 
     @Nested

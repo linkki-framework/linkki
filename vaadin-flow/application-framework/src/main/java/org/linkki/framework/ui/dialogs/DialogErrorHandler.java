@@ -13,6 +13,7 @@
  */
 package org.linkki.framework.ui.dialogs;
 
+import java.io.Serial;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.logging.Logger;
@@ -43,6 +44,7 @@ public class DialogErrorHandler implements ErrorHandler {
      */
     public static final String ERROR_PARAM = "errorOccurred";
 
+    @Serial
     private static final long serialVersionUID = -6253400229098333633L;
 
     private static final Logger LOGGER = Logger.getLogger(DialogErrorHandler.class.getName());
@@ -78,7 +80,7 @@ public class DialogErrorHandler implements ErrorHandler {
     /**
      * Creates a {@link DialogErrorHandler} which uses an {@link ErrorDialogConfiguration} that can
      * be used to create an error dialog.
-     * 
+     *
      * @param errorDialogConfiguration configuration for the error dialog
      */
     public DialogErrorHandler(ErrorDialogConfiguration errorDialogConfiguration) {
@@ -91,7 +93,9 @@ public class DialogErrorHandler implements ErrorHandler {
 
     @Override
     public void error(ErrorEvent event) {
-        LOGGER.log(java.util.logging.Level.SEVERE, "Unhandled exception", event.getThrowable());
-        dialogCreator.apply(event).open();
+        var wrappingEvent = new IdErrorEvent(event);
+        LOGGER.log(java.util.logging.Level.SEVERE, "Unhandled exception [%s]".formatted(wrappingEvent.getExceptionId()),
+                   wrappingEvent.getThrowable());
+        dialogCreator.apply(wrappingEvent).open();
     }
 }

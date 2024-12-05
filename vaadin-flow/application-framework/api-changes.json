@@ -43,6 +43,26 @@
                         "new": "class org.linkki.framework.ui.application.ApplicationLayout",
                         "annotation": "@com.vaadin.flow.component.dependency.JsModule.Container({@com.vaadin.flow.component.dependency.JsModule(\".\/src\/focus-first-item-combo-box-mixin.js\"), @com.vaadin.flow.component.dependency.JsModule(\".\/src\/focus-first-item-combo-box-scroller.js\")})",
                         "justification": "LIN-3970/LIN-4007 ComboBox: focus option if there is only one applicable"
+                    },
+                    {
+                        "code": "java.method.removed",
+                        "old": "method java.util.List<com.vaadin.flow.component.Component> org.linkki.framework.ui.dialogs.ErrorDialogConfiguration::getDialogContent(com.vaadin.flow.server.ErrorEvent)",
+                        "justification": "LIN-4097"
+                    },
+                    {
+                        "code": "java.method.removed",
+                        "old": "method void org.linkki.framework.ui.error.LinkkiErrorPage::logException(com.vaadin.flow.router.ErrorParameter<java.lang.Exception>)",
+                        "justification": "LIN-4097"
+                    },
+                    {
+                        "code": "java.method.numberOfParametersChanged",
+                        "new": "method java.util.List<com.vaadin.flow.component.Component> org.linkki.framework.ui.dialogs.ErrorDialogConfiguration::getDialogContent(com.vaadin.flow.server.ErrorEvent, java.lang.String)",
+                        "justification": "LIN-4097"
+                    },
+                    {
+                        "code": "java.method.numberOfParametersChanged",
+                        "new": "method void org.linkki.framework.ui.error.LinkkiErrorPage::logException(com.vaadin.flow.router.ErrorParameter<java.lang.Exception>, java.lang.String)",
+                        "justification": "LIN-4097"
                     }
                 ]
             }

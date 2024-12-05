@@ -25,8 +25,10 @@ linkki provides an extension of Karibu Testing.
 linkki Karibu Extension provides following functionalities:
 
 KaribuUIExtension::
-The easiest way of using this module is by just annotating a test class with `@ExtendWith(KaribuUIExtension.class)`. That will provide the basic Karibu funtionality.
-To register and use custom classes as routes or instances in Vaadin UI tests, a `KaribuUIExtension` can be configured via the method `withConfiguration` and then added using `@RegisterExtension`.
+The easiest way of using this module is by just annotating a test class with `@ExtendWith(KaribuUIExtension.class)`.
+That will provide the basic Karibu functionality.
+To use custom classes as routes a `KaribuUIExtension` can be configured via the method `withViews` and then added using `@RegisterExtension`.
+Another way to register and use custom classes as routes or instances in Vaadin UI tests, a `KaribuUIExtension` can be configured via the method `withConfiguration` and then added using `@RegisterExtension`.
 Additionally, a test using `KaribuUIExtension` can be annotated with `@WithLocale` to define the UI's locale, defaulting to german.
 +
 .Example Usage
