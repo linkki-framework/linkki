@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+package org.linkki.core.ui.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -18,7 +19,6 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.linkki.core.ui.test.VaadinUIExtension;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;

@@ -19,17 +19,22 @@ import static org.awaitility.Awaitility.await;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import org.linkki.core.binding.validation.message.Severity;
 
+import com.github.mvysny.kaributesting.v10.GridKt;
 import com.github.mvysny.kaributesting.v10.LocatorJ;
 import com.github.mvysny.kaributesting.v10.NotificationsKt;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
@@ -91,6 +96,24 @@ public class KaribuUtils {
     }
 
     /**
+     * Gets a component of the given class with the given ID.
+     *
+     * @see com.github.mvysny.kaributesting.v10.LocatorJ#_get(Class, Consumer)
+     */
+    public static <T extends Component> T getWithId(Class<T> componentClass, String id) {
+        return _get(componentClass, sp -> sp.withId(id));
+    }
+
+    /**
+     * Gets a component of the given class with the given ID in the given parent component.
+     *
+     * @see com.github.mvysny.kaributesting.v10.LocatorJ#_get(Class, Consumer)
+     */
+    public static <T extends Component> T getWithId(Component parent, Class<T> componentClass, String id) {
+        return _get(parent, componentClass, sp -> sp.withId(id));
+    }
+
+    /**
      * Prints out all {@link Component component}-classnames in
      * {@link com.vaadin.flow.component.UI#getCurrent()} in hierarchical order
      */
@@ -104,6 +127,41 @@ public class KaribuUtils {
         component.getChildren().forEach(c -> printComponentTree(c, level + 2));
     }
 
+    /**
+     * Utilities for the {@link com.vaadin.flow.component.UI} class.
+     */
+    public static class UI {
+
+        private UI() {
+            // utility class
+        }
+
+        /**
+         * Pushes the current UI
+         *
+         * @see #push()
+         */
+        public static void push() {
+            push(com.vaadin.flow.component.UI.getCurrent());
+        }
+
+        /**
+         * Manually executes the UI access as atmosphere is not present with the Karibu setup.
+         * <p>
+         * Waits until the UI.access call has reached the session, then manually executes the
+         * command.
+         */
+        public static void push(com.vaadin.flow.component.UI ui) {
+            await().atMost(1, TimeUnit.SECONDS).until(() -> !ui.getSession().getPendingAccessQueue().isEmpty());
+            ui.getSession().getService().runPendingAccessTasks(ui.getSession());
+        }
+    }
+
+    /**
+     * Utilities for the {@link AbstractField} und its subclasses (i.e.
+     * {@link com.vaadin.flow.component.textfield.TextField},
+     * {@link com.vaadin.flow.component.checkbox.Checkbox}, ...).
+     */
     public static class Fields {
 
         private Fields() {
@@ -114,6 +172,50 @@ public class KaribuUtils {
             field.setValue(value);
             LocatorJ._fireValueChange(field, true);
         }
+
+        public static <C extends AbstractField<C, T>, T> void setValue(Class<C> clazz,
+                String id,
+                T value) {
+            var component = _get(clazz, ss -> ss.withId(id));
+            setValue(component, value);
+        }
+
+    }
+
+    /**
+     * Utilities for {@link ComboBox}.
+     */
+    public static class ComboBoxes extends Fields {
+
+        private ComboBoxes() {
+            // utility class
+        }
+
+        /**
+         * Gets a combo box with the given ID in the given parent without producing unchecked
+         * warning.
+         */
+        @SuppressWarnings("unchecked")
+        public static <T> ComboBox<T> getComboBoxWithId(Component parent, String id) {
+            return getWithId(parent, ComboBox.class, id);
+        }
+
+        /**
+         * Gets a combo box with the given ID without producing unchecked warning.
+         */
+        @SuppressWarnings("unchecked")
+        public static <T> ComboBox<T> getComboBoxWithId(String id) {
+            return getWithId(ComboBox.class, id);
+        }
+
+        /**
+         * Sets value in a combo box that without producing unchecked warning
+         */
+        @SuppressWarnings("unchecked")
+        public static <T> void setComboBoxValue(String id, T value) {
+            setValue(ComboBox.class, id, value);
+        }
+
     }
 
     /**
@@ -147,10 +249,6 @@ public class KaribuUtils {
             return getTitleComponent(notification).getText();
         }
 
-        private static H3 getTitleComponent(Notification notification) {
-            return LocatorJ._get(getContent(notification), H3.class);
-        }
-
         /**
          * Returns the description of the notification that is created with NotificationUtil.
          * <p>
@@ -171,10 +269,6 @@ public class KaribuUtils {
                     .filter(c -> c != getTitleComponent(notification)).toList();
         }
 
-        private static Div getContent(Notification notification) {
-            return LocatorJ._get(notification, Div.class, ss -> ss.withClasses("linkki-notification-content"));
-        }
-
         public static Severity getSeverity(Notification notification) {
             var themeNames = notification.getThemeNames();
             if (themeNames.contains(Severity.ERROR.name().toLowerCase())) {
@@ -189,6 +283,15 @@ public class KaribuUtils {
                                 "This is probably because the Notification is not created with NotificationUtil.");
             }
         }
+
+        private static Div getContent(Notification notification) {
+            return LocatorJ._get(notification, Div.class, ss -> ss.withClasses("linkki-notification-content"));
+        }
+
+        private static H3 getTitleComponent(Notification notification) {
+            return LocatorJ._get(getContent(notification), H3.class);
+        }
+
     }
 
     /**
@@ -212,8 +315,11 @@ public class KaribuUtils {
             return getOkButton(dialog.getContent());
         }
 
-        private static Button getOkButton(Dialog dialog) {
-            return _get(dialog, Button.class, ss -> ss.withId("okButton"));
+        /**
+         * Clicks on the OK button in the dialog, assuming that there is only one visible dialog.
+         */
+        public static void clickOkButton() {
+            getOkButton(_get(Dialog.class)).click();
         }
 
         /**
@@ -223,17 +329,6 @@ public class KaribuUtils {
          */
         public static Button getCancelButton(Composite<Dialog> dialog) {
             return getCancelButton(dialog.getContent());
-        }
-
-        private static Button getCancelButton(Dialog dialog) {
-            return _get(dialog, Button.class, ss -> ss.withId("cancelButton"));
-        }
-
-        /**
-         * Clicks on the OK button in the dialog, assuming that there is only one visible dialog.
-         */
-        public static void clickOkButton() {
-            getOkButton(_get(Dialog.class)).click();
         }
 
         /**
@@ -251,35 +346,71 @@ public class KaribuUtils {
             return _get(dialog.getContent(), VerticalLayout.class, ss -> ss.withClasses("linkki-dialog-content-area"))
                     .getChildren().toList();
         }
+
+        private static Button getOkButton(Dialog dialog) {
+            return _get(dialog, Button.class, ss -> ss.withId("okButton"));
+        }
+
+        private static Button getCancelButton(Dialog dialog) {
+            return _get(dialog, Button.class, ss -> ss.withId("cancelButton"));
+        }
+
     }
 
     /**
-     * Utilities for the {@link com.vaadin.flow.component.UI} class.
+     * Utilities for {@link Grid}.
      */
-    public static class UI {
+    public static class Grids {
 
-        private UI() {
+        private Grids() {
             // utility class
         }
 
         /**
-         * Pushes the current UI
-         * 
-         * @see #push()
+         * Gets the grid without producing unchecked warning.
          */
-        public static void push() {
-            push(com.vaadin.flow.component.UI.getCurrent());
+        @SuppressWarnings("unchecked")
+        public static <T> Grid<T> get(Component parent) {
+            return (Grid<T>)_get(parent, Grid.class);
         }
 
         /**
-         * Manually executes the UI access as atmosphere is not present with the Karibu setup.
-         * <p>
-         * Waits until the UI.access call has reached the session, then manually executes the
-         * command.
+         * Gets the grid that is created from the given PMO class without producing unchecked
+         * warning.
          */
-        public static void push(com.vaadin.flow.component.UI ui) {
-            await().atMost(1, TimeUnit.SECONDS).until(() -> !ui.getSession().getPendingAccessQueue().isEmpty());
-            ui.getSession().getService().runPendingAccessTasks(ui.getSession());
+        @SuppressWarnings("unchecked")
+        public static <T> Grid<T> getWithPmo(Class<?> pmoClass) {
+            return (Grid<T>)_get(Grid.class, sp -> sp.withId(pmoClass.getSimpleName() + "_table"));
         }
+
+        /**
+         * Returns a list of the texts displayed in each row of a {@link Grid.Column}.
+         */
+        public static <T> List<String> getTextContentsInColumn(Grid<T> grid, String columnKey) {
+            return IntStream.range(0, grid.getListDataView().getItemCount())
+                    .mapToObj(i -> GridKt._getCellComponent(grid, i, columnKey).getElement()
+                            .getTextRecursively())
+                    .toList();
+        }
+
     }
+
+    /**
+     * Utilities for layouts.
+     */
+    public static class Layouts {
+
+        private Layouts() {
+            // utility class
+        }
+
+        /**
+         * Gets the layout that is based on a specific pmo class.
+         */
+        public static <T extends Component> T getWithPmo(Class<T> componentClass, Class<?> pmoClass) {
+            return _get(componentClass, sp -> sp.withId(pmoClass.getSimpleName()));
+        }
+
+    }
+
 }

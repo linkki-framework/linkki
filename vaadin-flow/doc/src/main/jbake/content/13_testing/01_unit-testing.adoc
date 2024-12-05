@@ -56,9 +56,13 @@ class SimpleTestClassWithLocaleEn {
 }
 ----
 
+[[karibu-utils]]
 KaribuUtils::
 The module also contains the utility class `KaribuUtils` that makes it even easier to write Karibu tests, such as +
 * methods for handling `Notification` components that are created with `NotificationUtil`
 * methods for handling `OkCancelDialog`
 * support for push UI
 * methods for printing out the classnames of all components
+* methods for handling value change events in input fields
+* methods for handling grids
+* methods for handling layouts

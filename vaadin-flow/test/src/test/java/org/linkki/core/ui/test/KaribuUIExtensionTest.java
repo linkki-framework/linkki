@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+package org.linkki.core.ui.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,9 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.linkki.core.ui.test.KaribuUIExtension;
-import org.linkki.core.ui.test.KaribuUtils;
-import org.linkki.core.ui.test.WithLocale;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

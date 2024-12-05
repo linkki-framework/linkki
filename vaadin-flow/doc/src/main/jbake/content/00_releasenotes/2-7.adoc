@@ -98,6 +98,10 @@ public class SectionWithPlaceholderLabel {
 NOTE: `LinkkiTheme.Text.TEXT_PLACEHOLDER` has been deprecated and should not be used anymore!
 Use `@BindPlaceholder` on `@UISection` instead (see above).
 
+===== More utilities for Karibu tests
+
+Many useful methods were added to the <<karibu-utils, KaribuUtils>> to make it even easier to write Karibu tests.
+
 ===== linkki tutorial
 
 The <<linkki-tutorial, linkki tutorial>> is now part of this documentation.
