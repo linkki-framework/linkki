@@ -166,6 +166,13 @@ The `@BindPlaceholder` annotation can be used on a section to show a placeholder
 
 More information can be found at  <<placeholder-linkki-section, @BindPlaceholder>>.
 
+[[section-bind-closable]]
+==== Closable Section
+
+Instead of using the attribute `closable`, the annotation `@BindClosable` can be used with `@UISection` or `@UIFormSection` to create a closable section.
+The annotation has the property `initial` to specify whether the section should be initially closed.
+By default, `initial` is set to false, i.e. the section is initially open.
+
 [[section-id]]
 ==== ID of a section
 

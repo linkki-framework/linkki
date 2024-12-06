@@ -128,6 +128,7 @@ import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInv
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
 import org.linkki.samples.playground.ts.section.CardSectionComponent;
+import org.linkki.samples.playground.ts.section.ClosableSections;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderBehaviorComponent;
@@ -245,6 +246,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC006, new SectionsWithPlaceholder())
                                        .testCase(TC007, new SectionThemeVariantPmo())
                                        .testCase(TC008, CardSectionComponent::create)
+                                       .testCase(TC009, new ClosableSections())
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())

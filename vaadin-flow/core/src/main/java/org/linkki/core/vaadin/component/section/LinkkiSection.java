@@ -198,6 +198,17 @@ public class LinkkiSection extends HtmlComponent implements HasCaption, HasPlace
     }
 
     /**
+     * @param closable whether the section can be closed and opened
+     */
+    public void setClosable(boolean closable) {
+        closeButton.setVisible(closable);
+    }
+
+    public boolean isClosable() {
+        return closeButton.isVisible();
+    }
+
+    /**
      * Returns <code>true</code> if the section is open.
      */
     public boolean isOpen() {

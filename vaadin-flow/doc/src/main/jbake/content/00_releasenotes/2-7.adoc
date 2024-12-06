@@ -24,7 +24,8 @@ The new Vaadin version brings some notable changes that affect linkki applicatio
 
 Selecting an invalid index in `LinkkiTabLayout`::
 When selecting an invalid index in a `LinkkiTabLayout` there is no exception thrown anymore.
-Instead, the tab layout reverts to the previously selected valid index. For more information, see link:https://github.com/vaadin/flow-components/pull/6543[here].
+Instead, the tab layout reverts to the previously selected valid index.
+For more information, see link:https://github.com/vaadin/flow-components/pull/6543[here].
 
 New properties in `LumoUtility`::
 In `LumoUtility` new properties have been added.
@@ -32,15 +33,21 @@ For more information, see link:https://github.com/vaadin/flow-components/pull/64
 
 // https://jira.convista.com/browse/LIN-3417
 ===== New annotation for Checkbox Group: `@UICheckboxes`
-A new UI component, `@UICheckboxes`, is now available, providing a way to create a checkbox group for related binary choices. For more information, see <<ui-checkboxes, here>>.
+
+A new UI component, `@UICheckboxes`, is now available, providing a way to create a checkbox group for related binary choices.
+For more information, see <<ui-checkboxes, here>>.
 
 // https://jira.convista.com/browse/LIN-3629
 ===== New annotation for Number Field: `@UILongField`
-A new UI component, `@UILongField`, is now available, providing a way to accept a very long number. For more information, see <<ui-numberfield, here>>.
+
+A new UI component, `@UILongField`, is now available, providing a way to accept a very long number.
+For more information, see <<ui-numberfield, here>>.
 
 // https://jira.convista.com/browse/LIN-3884
 ===== Testbench extension: support for table placeholder
-The new page object `LinkkiGridElement` adds support to retrieve the placeholder text of a table. It can be used instead of `GridElement`, e.g. `$(LinkkiGridElement.class)`.
+
+The new page object `LinkkiGridElement` adds support to retrieve the placeholder text of a table.
+It can be used instead of `GridElement`, e.g. `$(LinkkiGridElement.class)`.
 
 // https://jira.convista.com/browse/LIN-3970
 ===== Automatically focus first applicable element in combobox
@@ -57,7 +64,9 @@ If the user enters 't', there are two possible matches (LEFT and RIGHT) and ther
 // https://jira.convista.com/browse/LIN-3739
 ===== `@UILabel` now supports displaying asynchronously loaded values
 
-`UILabel` has been enhanced to handle asynchronous value loading using `CompletableFuture` as return type. A loading indicator will be displayed until the value is available. Refer to <<ui-label,UILabel>> documentation for more details.
+`UILabel` has been enhanced to handle asynchronous value loading using `CompletableFuture` as return type.
+A loading indicator will be displayed until the value is available.
+Refer to <<ui-label,UILabel>> documentation for more details.
 
 
 // https://jira.convista.com/browse/LIN-2690
@@ -97,6 +106,11 @@ public class SectionWithPlaceholderLabel {
 
 NOTE: `LinkkiTheme.Text.TEXT_PLACEHOLDER` has been deprecated and should not be used anymore!
 Use `@BindPlaceholder` on `@UISection` instead (see above).
+
+==== New aspect annotation `@BindClosable` for sections
+
+A new aspect annotation, `@BindClosable`, is now available, providing a way to create closable sections with the option to have them initially closed.
+For more information, see <<section-bind-closable, here>>.
 
 ===== More utilities for Karibu tests
 
@@ -139,5 +153,6 @@ Now, selecting `null` correctly checks the "Not specified" radio button, ensurin
 +
 [WARNING]
 ====
-With this bug fix, the converter must now be able to handle null-valued presentation values. Although this was already part of the `Converter` contract, it can now lead to an exception in `ValueAspectDefinition`.
+With this bug fix, the converter must now be able to handle null-valued presentation values.
+Although this was already part of the `Converter` contract, it can now lead to an exception in `ValueAspectDefinition`.
 ====
