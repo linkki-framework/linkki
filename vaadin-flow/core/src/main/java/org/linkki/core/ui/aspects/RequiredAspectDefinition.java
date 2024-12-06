@@ -78,9 +78,8 @@ public class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean>
             return Consumers.nopConsumer();
         }
 
-        if (component instanceof HasValue) {
-            HasValue<?, ?> field = (HasValue<?, ?>)componentWrapper.getComponent();
-            return field::setRequiredIndicatorVisible;
+        if (component instanceof HasValue<?, ?> hasValue) {
+            return hasValue::setRequiredIndicatorVisible;
         } else if (requiredType == RequiredType.NOT_REQUIRED) {
             return Consumers.nopConsumer();
         } else {

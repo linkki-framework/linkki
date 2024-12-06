@@ -441,5 +441,4 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                 .map(s -> "/" + s)
                 .orElse("");
     }
-
 }

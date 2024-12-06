@@ -20,6 +20,12 @@ The following versions have been updated:
 | Spring Boot               | 3.3.6
 |===
 
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4104
+Missing client event in custom fields::
+Due to a Vaadin bug in custom fields (https://github.com/vaadin/web-components/pull/8368) in some cases the new value that was entered was not sent to the server and therefore not saved in the PMO.
+
 === Version 2.6.2
 
 ==== New features and improvements
