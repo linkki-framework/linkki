@@ -192,7 +192,7 @@ public enum Marker implements IMarker {
      *
      * @generated
      */
-    @IpsEnumAttribute(name = "id", identifier = true, unique = true)
+    @IpsEnumAttribute(name = "id", identifier = true, unique = true, mandatory = true)
     @IpsGenerated
     public String getId() {
         return id;

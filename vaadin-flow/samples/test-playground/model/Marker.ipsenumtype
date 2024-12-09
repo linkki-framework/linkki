@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EnumType xmlns="http://www.faktorzehn.org" enumContentName="Marker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/24.7/EnumType.xsd" xml:space="preserve">
+<EnumType xmlns="http://www.faktorzehn.org" enumContentName="Marker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/25.1/EnumType.xsd" xml:space="preserve">
  <Description locale="en"/>
  <Description locale="de"/>
- <EnumAttribute datatype="String" identifier="true" name="id" unique="true">
+ <EnumAttribute datatype="String" identifier="true" mandatory="true" name="id" unique="true">
   <Label locale="en"/>
   <Label locale="de"/>
   <Description locale="en"/>
@@ -14,7 +14,7 @@
   <Description locale="en"/>
   <Description locale="de"/>
  </EnumAttribute>
- <EnumLiteralNameAttribute datatype="String" defaultValueProviderAttribute="name" name="LITERAL_NAME" unique="true">
+ <EnumLiteralNameAttribute datatype="String" defaultValueProviderAttribute="name" mandatory="true" name="LITERAL_NAME" unique="true">
   <Label locale="en"/>
   <Label locale="de"/>
   <Description locale="en"/>

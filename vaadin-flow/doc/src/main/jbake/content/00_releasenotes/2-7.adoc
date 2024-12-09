@@ -15,7 +15,7 @@ The following versions have been updated:
 
 [cols="a,a"]
 |===
-| Faktor-IPS                    | 24.7.5.release
+| Faktor-IPS                    | 25.1.0.release
 | Vaadin                        | 24.5.7
 | Spring Boot                   | 3.4.0
 |===

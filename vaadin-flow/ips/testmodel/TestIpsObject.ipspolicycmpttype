@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicyCmptType xmlns="http://www.faktorzehn.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/24.7/PolicyCmptType.xsd" xml:space="preserve">
+<PolicyCmptType xmlns="http://www.faktorzehn.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/25.1/PolicyCmptType.xsd" xml:space="preserve">
  <Label locale="en" value="A test object"/>
  <Label locale="de" value="Ein Testobjekt"/>
  <Description locale="en"/>
