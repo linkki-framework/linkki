@@ -53,7 +53,7 @@
         <assertj.version>3.26.3</assertj.version>
         <hamcrest.version>3.0</hamcrest.version>
         <awaitility.version>4.2.2</awaitility.version>
-        <checkstyle.version>10.18.2</checkstyle.version>
+        <checkstyle.version>10.20.2</checkstyle.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
         <commons-io.version>2.18.0</commons-io.version>
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
