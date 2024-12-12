@@ -33,17 +33,17 @@ pipeline {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
-                        clean install javadoc:javadoc \
+                        clean install \
                         -Pproduction \
-                        -Dmaven.test.failure.ignore=true \
-                        -Drevapi.skip'
+                        -Dmaven.test.skip \
+                        -Drevapi.skip \
+                        -Dspotbugs.skip=true \
+                        -Dcheckstyle.skip=true \
+                        -Djacoco.skip=true \
+                        -Denforcer.skip=true \
+                        -Dmaven.javadoc.skip=true \
+                        -Djade.skip=true'
                 }
-            }
-        }
-
-        stage('Check Git Diffs') {
-            steps {
-                verifyNoChangedFiles()
             }
         }
 
@@ -69,7 +69,19 @@ pipeline {
                     }
                 }
 
-                stage('Faktor-IPS build') {
+                stage('Full Build') {
+                    steps {
+                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                            sh 'mvn -U -T 6 \
+                                 install javadoc:javadoc  \
+                                -Pproduction'
+                        }
+
+                        archiveArtifacts 'vaadin-flow/doc/target/doc/**'
+                    }
+                }
+
+                stage('Faktor-IPS Build') {
                     steps {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn \
@@ -103,16 +115,16 @@ pipeline {
 
                         stage('UI Test') {
                             steps {
-                                // check handles on chrome BEVOR ui tests
+                                // check handles on chrome BEFORE ui tests
                                 script {
                                     def status = sh(returnStatus: true, script: 'pgrep chrome')
                                     if (status == 0) {
                                         def ret = sh(returnStdout: true, script: 'pgrep chrome')
-                                        echo "Es sind ${ret} handles auf Chrome vorhanden"
+                                        echo "There are ${ret} handles on chrome"
                                     } else if(status == 1) {
-                                        echo "Keine handles auf Chrome vorhanden"
+                                        echo "No handles on chrome"
                                     } else {
-                                        echo "Fehler beim Aufruf!"
+                                        echo "Error retrieving handles on chrome"
                                     }
                                 }
 
@@ -121,7 +133,8 @@ pipeline {
                                         -f vaadin-flow/samples/test-playground/uitest/pom.xml \
                                         test \
                                         -Dmaven.test.failure.ignore=true \
-                                        -Dsurefire.rerunFailingTestsCount=3'
+                                        -Dsurefire.rerunFailingTestsCount=3 \
+                                        -T 6'
                                 }
 
                                 // check handles on chrome AFTER ui tests
@@ -129,11 +142,11 @@ pipeline {
                                     def status = sh(returnStatus: true, script: 'pgrep chrome')
                                     if (status == 0) {
                                         def ret = sh(returnStdout: true, script: 'pgrep chrome')
-                                        echo "Es sind ${ret} handles auf Chrome vorhanden"
+                                        echo "There are ${ret} handles on chrome"
                                     } else if(status == 1) {
-                                        echo "Keine handles auf Chrome vorhanden"
+                                        echo "No handles on chrome"
                                     } else {
-                                        echo "Fehler beim Aufruf!"
+                                        echo "Error retrieving handles on chrome"
                                     }
                                 }
 
@@ -193,13 +206,17 @@ pipeline {
            }
         }
 
+        stage('Check Git Diffs') {
+            steps {
+                verifyNoChangedFiles()
+            }
+        }
+
         stage('Collect Results') {
             steps {
                 junit '**/target/surefire-reports/*.xml'
                 recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle(), sonarQube()]
                 jacoco sourceInclusionPattern: '**/*.java'
-
-                archiveArtifacts 'vaadin-flow/doc/target/doc/**'
             }
         }
     }
