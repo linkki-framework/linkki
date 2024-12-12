@@ -85,7 +85,15 @@ public class LinkkiTheme {
         /**
          * Makes a label look like a placeholder in table sections.
          * 
-         * @deprecated since 2.7.0. Use {@link org.linkki.core.ui.aspects.annotation.BindPlaceholder} instead
+         * @deprecated since 2.7.0. This style name was used with a
+         *             {@link org.linkki.core.ui.element.annotation.UILabel} to create a placeholder
+         *             for empty sections. To achieve this, use
+         *             {@link org.linkki.core.ui.aspects.annotation.BindPlaceholder} on
+         *             {@link org.linkki.core.ui.layout.annotation.UISection} instead. This approach
+         *             eliminates the necessity for a dynamically visible label, displaying the
+         *             placeholder automatically whenever the section has no visible children. In
+         *             contrary to this style name, the placeholder also works consistently with
+         *             different label width.
          */
         @Deprecated(since = "2.7.0")
         public static final String TEXT_PLACEHOLDER = "text-placeholder";

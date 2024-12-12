@@ -64,7 +64,7 @@ The module also contains the utility class `KaribuUtils` that makes it even easi
 * methods for handling `Notification` components that are created with `NotificationUtil`
 * methods for handling `OkCancelDialog`
 * support for push UI
-* methods for printing out the classnames of all components
+* methods for printing out any component as String. This can be used to assert that a certain text is or is not displayed anywhere within the given component, disregarding the placement or the actual component that is used
 * methods for handling value change events in input fields
 * methods for handling grids
-* methods for handling layouts
+* methods for handling layouts created with a PMO

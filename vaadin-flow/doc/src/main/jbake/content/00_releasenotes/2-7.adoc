@@ -7,73 +7,58 @@
 
 === Version 2.7.0
 
-==== New features and improvements
+The release notes contain changes compared to link:https://doc.linkki-framework.org/2.6/00_releasenotes/#_version_2_6_2[version 2.6.2].
 
-===== Dependency Updates
+==== Version Updates
 
 The following versions have been updated:
 
-[cols="a,a"]
+[cols="a,a,a"]
 |===
-| Faktor-IPS                    | 25.1.0.release
-| Vaadin                        | 24.5.8
-| Spring Boot                   | 3.4.0
+| Dependency | New version | Previous version
+
+| Faktor-IPS                    | 25.1.0.release (link:https://doc.faktorzehn.org/faktor-ips/25.1/01_releasenotes/index.html[Release Notes]) | 24.7.5.release
+| Vaadin                        | 24.5.8 (link:https://github.com/vaadin/platform/releases/tag/24.5.8[Release Notes]) | 24.4.16
+| Spring Boot                   | 3.4.0 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.3.5
 |===
 
-The new Vaadin version brings some notable changes that affect linkki applications:
+The Vaadin version update brings some notable changes that affect linkki applications:
 
-Selecting an invalid index in `LinkkiTabLayout`::
-When selecting an invalid index in a `LinkkiTabLayout` there is no exception thrown anymore.
-Instead, the tab layout reverts to the previously selected valid index.
-For more information, see link:https://github.com/vaadin/flow-components/pull/6543[here].
+* New properties in `LumoUtility`: In `LumoUtility` new properties have been added, most notably a utility class to set `flex` to 1. Existing custom CSS classes can thus be replaced by the new utility class.
 
-New properties in `LumoUtility`::
-In `LumoUtility` new properties have been added.
-For more information, see link:https://github.com/vaadin/flow-components/pull/6410[here].
+==== UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-3417
-===== New annotation for Checkbox Group: `@UICheckboxes`
-
+* *New annotation: @UICheckboxes* +
 A new UI component, `@UICheckboxes`, is now available, providing a way to create a checkbox group for related binary choices.
 For more information, see <<ui-checkboxes, here>>.
-
 // https://jira.convista.com/browse/LIN-3629
-===== New annotation for Number Field: `@UILongField`
-
-A new UI component, `@UILongField`, is now available, providing a way to accept a very long number.
-For more information, see <<ui-numberfield, here>>.
-
-// https://jira.convista.com/browse/LIN-3884
-===== Testbench extension: support for table placeholder
-
-The new page object `LinkkiGridElement` adds support to retrieve the placeholder text of a table.
-It can be used instead of `GridElement`, e.g. `$(LinkkiGridElement.class)`.
-
+* *New annotation: @UILongField* +
+A new UI component, `@UILongField`, is now available, providing a way to accept a number with data type `long`. For more information, see <<ui-numberfield, here>>.
 // https://jira.convista.com/browse/LIN-3970
-===== Automatically focus first applicable element in combobox
-
+* *@UIComboBox: Automatically focus first applicable element* +
 If a character or word is entered into a combobox and there is only one matching element, then this element gets selected automatically.
-
++
 Example::
 A combobox has the values UP, DOWN, LEFT, RIGHT.
 +
 If the user enters 'u', the entry UP is selected automatically.
 +
 If the user enters 't', there are two possible matches (LEFT and RIGHT) and therefore no entry is selected automatically.
-
++
 // https://jira.convista.com/browse/LIN-3739
-===== `@UILabel` now supports displaying asynchronously loaded values
-
+* *@UILabel: support for asynchronously loaded values* +
 `UILabel` has been enhanced to handle asynchronous value loading using `CompletableFuture` as return type.
 A loading indicator will be displayed until the value is available.
 Refer to <<ui-label,UILabel>> documentation for more details.
-
-
++
+* *New aspect annotation: @BindClosable for sections* +
+A new aspect annotation, `@BindClosable`, is now available, providing a way to create closable sections with the option to have them initially closed.
+For more information, see <<section-bind-closable, here>>.
 // https://jira.convista.com/browse/LIN-2690
-===== @BindPlaceholder with LinkkiSection
-
+* [.api-change]*@BindPlaceholder: support for sections* +
 The <<placeholder-linkki-section, @BindPlaceholder>> annotation can now be used on a `@UISection` to set a placeholder text if the section has no child elements or all child elements are invisible.
-
++
 .@BindPlaceholder on @UISection
 [source,java]
 ----
@@ -87,9 +72,9 @@ public class SectionWithBindPlaceholder {
 
 }
 ----
-
++
 The old solution using an extra `UILabel` with the style `LinkkiTheme.Text.TEXT_PLACEHOLDER` is now obsolete and should be replaced as it did not work correctly with different layout options.
-
++
 .Old solution with UILabel and style LinkkiTheme.Text.TEXT_PLACEHOLDER
 [source,java]
 ----
@@ -103,26 +88,29 @@ public class SectionWithPlaceholderLabel {
 
 }
 ----
-
-NOTE: `LinkkiTheme.Text.TEXT_PLACEHOLDER` has been deprecated and should not be used anymore!
++
+WARNING: `LinkkiTheme.Text.TEXT_PLACEHOLDER` has been deprecated and should not be used anymore as it did not work consistently for varying label width.
 Use `@BindPlaceholder` on `@UISection` instead (see above).
 
-==== New aspect annotation `@BindClosable` for sections
-
-A new aspect annotation, `@BindClosable`, is now available, providing a way to create closable sections with the option to have them initially closed.
-For more information, see <<section-bind-closable, here>>.
-
-===== More utilities for Karibu tests
-
-Many useful methods were added to the <<karibu-utils, KaribuUtils>> to make it even easier to write Karibu tests.
+==== Other Improvements
 
 // https://jira.convista.com/browse/LIN-3444
-===== IDs for exceptions in logs
-
-If an exception occurs in the application, it will be displayed by the configured <<linkki-error-dialog, error handler>> or an <<linkki-error-page, error page>> in case of an exception during navigation. With the default configuration, the exception is now logged with a unique ID that is also displayed in the UI, making it easier to find the exception in the logs. Custom implementation may need to be adapted to be able to make use of this feature.
-
-===== linkki tutorial
-
+* *Unique IDs for exceptions* +
+If an exception occurs in the application, it will be displayed by the configured <<linkki-error-dialog, error handler>> or an <<linkki-error-page, error page>> in case of an exception during navigation.
+With the default configuration, the exception is now logged with a unique ID that is also displayed in the UI, making it easier to find the exception in the logs.
+Custom implementation may need to be adapted to be able to make use of this feature.
+* *Karibu testing: more utilities* +
+Many useful methods were added to the <<karibu-utils, KaribuUtils>> to make it even easier to write Karibu tests. The new version includes
+** methods for printing out any component as String. This can be used to assert that certain text is or is not displayed anywhere in the UI, disregarding the placement or the actual component that is used.
+** methods for setting value input fields and consistently firing change events
+** methods for tables
++
+// https://jira.convista.com/browse/LIN-3884
+* *Testbench extension: support for table placeholder* +
+The new page object `LinkkiGridElement` adds support to retrieve the placeholder text of a table.
+It can be used instead of `GridElement`, e.g. `$(LinkkiGridElement.class)`.
++
+* *Tutorial in the documentation* +
 The <<linkki-tutorial, linkki tutorial>> is now part of this documentation.
 
 ==== Bugfixes
