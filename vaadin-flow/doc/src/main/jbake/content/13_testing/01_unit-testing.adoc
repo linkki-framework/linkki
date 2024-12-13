@@ -20,38 +20,81 @@ linkki provides an extension of Karibu Testing.
 </dependency>
 ----
 
-==== Functionalities
+==== Mock Vaadin setup with KaribuUIExtension
 
-linkki Karibu Extension provides following functionalities:
+While some of the UI components created with Vaadin can be tested easily in a regular unit test, the setup gets difficult when dialogs, locales or routing are involved.
 
-KaribuUIExtension::
-The easiest way of using this module is by just annotating a test class with `@ExtendWith(KaribuUIExtension.class)`.
-That will provide the basic Karibu functionality.
-To use custom classes as routes a `KaribuUIExtension` can be configured via the method `withViews` and then added using `@RegisterExtension`.
-Another way to register and use custom classes as routes or instances in Vaadin UI tests, a `KaribuUIExtension` can be configured via the method `withConfiguration` and then added using `@RegisterExtension`.
+Karibu makes it easier by the class `MockVaadinUI` which not only set up a `UI` instance along with the session, but also can handle routes.
+
+The linkki Karibu module further simplify the set-up with the JUnit extension `KaribuUIExtension`.
+
+===== Simple set-up: KaribuUIExtension with @ExtendWith
+
+In the most simple use case, this class can be directly annotated on the test class with `@ExtendWith(KaribuUIExtension.class)`.
+This will make sure that the Vaadin UI is set up in `beforeEach` and is cleaned up properly in `afterEach`.
+
 Additionally, a test using `KaribuUIExtension` can be annotated with `@WithLocale` to define the UI's locale, defaulting to german.
 +
-.Example Usage
+.KaribuUIExtension with @ExtendWith
 [source,java]
 ----
 @ExtendWith(KaribuUIExtension.class)
-class SimpleTestClassWithDefaultLocale {
+class SimpleTestClass {
 
     @Test
-    void testLocale() {
+    void testUI() {
         assertThat(UI.getCurrent()).isNotNull();
-        assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.GERMAN);
     }
 
 }
+----
 
+[[karibu-configuration]]
+===== Complex configuration of KaribuUIExtension
+
+KaribuUIExtension can also be used for more complex configurations.
+It provides factory methods with which a configuration can be passed.
+The configuration can be for exampled used to:
+
+* add routes
+* add error routes
+* add instances for parent layouts
+* define whether the deployment is in production mode or
+* define the locale.
+
+To use the configuration, the `KaribuUIExtension` must be used with link:https://junit.org/junit5/docs/5.1.1/api/org/junit/jupiter/api/extension/RegisterExtension.html[`@RegisterExtension`].
+
+.KaribuUIExtension with complex configuration
+[source,java]
+----
+    class RegisterExtensionWithConfiguration {
+
+        @RegisterExtension
+        static KaribuUIExtension extension = KaribuUIExtension
+                .withConfiguration(withDefaults()
+                        .setProductionMode(true)
+                        .addRoute(MyView.class, () -> myView)
+                        .addRoutes(ViewWithParentLayout.class,
+                                   ViewWithException.class)
+                        .addErrorRoutes(ErrorPage.class)
+                        .addInstance(ParentLayout.class, ParentLayout::new));
+        ...
+    }
+----
+
+===== Locale
+
+The locale can be either set with the annotation `@WithLocale`, or with the method `setLocale` in the configuration.
+
+.KaribuUIExtension with @ExtendWith
+[source,java]
+----
 @WithLocale("en")
 @ExtendWith(KaribuUIExtension.class)
 class SimpleTestClassWithLocaleEn {
 
     @Test
     void testLocale() {
-        assertThat(UI.getCurrent()).isNotNull();
         assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
     }
 
@@ -59,12 +102,20 @@ class SimpleTestClassWithLocaleEn {
 ----
 
 [[karibu-utils]]
-KaribuUtils::
-The module also contains the utility class `KaribuUtils` that makes it even easier to write Karibu tests, such as +
-* methods for handling `Notification` components that are created with `NotificationUtil`
-* methods for handling `OkCancelDialog`
-* support for push UI
-* methods for printing out any component as String. This can be used to assert that a certain text is or is not displayed anywhere within the given component, disregarding the placement or the actual component that is used
+==== Finding elements and writing assertions
+
+Karibu provides a class `LocatorJ` that provides many useful methods to find elements, most notably `_find` and `_get`.
+In addition, the class also provides several methods for assertions such as `_assertOne` which provides a very useful failure message.
+
+The linkki extension for Karibu testing offers additional functionalities in the utility class `KaribuUtils`.
+The functionalities include
+
+* methods for printing out any component as String.
+This can be used to assert that a certain text is or is not displayed anywhere within the given component, disregarding the placement or the actual component that is used
 * methods for handling value change events in input fields
 * methods for handling grids
 * methods for handling layouts created with a PMO
+* methods for handling `Notification` components that are created with `NotificationUtil`
+* methods for handling `OkCancelDialog`
+* support for push UI
+

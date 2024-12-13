@@ -29,7 +29,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Fast Build') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
@@ -47,7 +47,7 @@ pipeline {
             }
         }
 
-        stage('UI Test and Checks') {
+        stage('Build and Checks') {
             when {
                 expression {
                     // skip stage when only documentation changed
@@ -69,15 +69,60 @@ pipeline {
                     }
                 }
 
-                stage('Full Build') {
-                    steps {
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
-                            sh 'mvn -U -T 6 \
-                                 install javadoc:javadoc  \
-                                -Pproduction'
-                        }
+                stage('Build') {
+                    stages {
+                        stage('Full Build') {
+                            steps {
+                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                                    sh 'mvn -U -T 6 \
+                                        install javadoc:javadoc  \
+                                        -Drevapi.skip \
+                                        -Dmaven.test.failure.ignore=true \
+                                        -Pproduction'
+                                }
 
-                        archiveArtifacts 'vaadin-flow/doc/target/doc/**'
+                                archiveArtifacts 'vaadin-flow/doc/target/doc/**'
+                            }
+                        }
+                        stage('Sonar Analysis') {
+                            environment {
+                                SONAR_LOGIN = credentials('sonar.login')
+                            }
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    withSonarQubeEnv('SonarQube') {
+                                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                            sh 'mvn \
+                                                    -Dsonar.projectName=${PROJECT_NAME} \
+                                                    -Dsonar.projectKey=${PROJECT_NAME} \
+                                                    -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \
+                                                    -Dsonar.pullrequest.branch=${GERRIT_REFSPEC} \
+                                                    -Dsonar.pullrequest.base=origin/${BRANCH_NAME} \
+                                                    -Dsonar.token=$SONAR_LOGIN \
+                                                    sonar:sonar'
+                                        }
+                                    }
+
+                                    rtp parserName: 'HTML', nullAction: '1', stableText: """
+                                        <h3>SonarQube</h3>
+                                        <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}' target='_blank'>SonarQube Analysis</a>
+                                    """
+                                }
+                            }
+                        }
+                        stage('Quality Gate') {
+                            steps {
+                                timeout(time: 1, unit: 'HOURS') {
+                                    script {
+                                        def qg = waitForQualityGate()
+                                        if (qg.status != 'OK') {
+                                            unstable("SonarQube failed with status: ${qg.status}")
+                                        }
+                                        echo "Sonar Qube: https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -92,7 +137,7 @@ pipeline {
                     }
                 }
 
-                stage('UI Test') {
+                stage('Deployment and UI Test') {
                     stages {
                         stage('Docker Deployment') {
                             steps {
@@ -160,50 +205,7 @@ pipeline {
                         }
                     }
                 }
-
-                stage('SonarQube Analysis') {
-                    stages {
-                        stage('Analysis') {
-                            environment {
-                                SONAR_LOGIN = credentials('sonar.login')
-                            }
-                            steps {
-                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    withSonarQubeEnv('SonarQube') {
-                                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                                            sh 'mvn \
-                                                    -Dsonar.projectName=${PROJECT_NAME} \
-                                                    -Dsonar.projectKey=${PROJECT_NAME} \
-                                                    -Dsonar.pullrequest.key=${GERRIT_CHANGE_NUMBER} \
-                                                    -Dsonar.pullrequest.branch=${GERRIT_REFSPEC} \
-                                                    -Dsonar.pullrequest.base=origin/${BRANCH_NAME} \
-                                                    -Dsonar.token=$SONAR_LOGIN \
-                                                    sonar:sonar'
-                                        }
-                                    }
-
-                                    rtp parserName: 'HTML', nullAction: '1', stableText: """
-                                        <h3>SonarQube</h3>
-                                        <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}' target='_blank'>SonarQube Analysis</a>
-                                    """
-                                }
-                            }
-                        }
-                        stage('Quality Gate') {
-                            steps {
-                                timeout(time: 1, unit: 'HOURS') {
-                                    script {
-                                        def qg = waitForQualityGate()
-                                        if (qg.status != 'OK') {
-                                            unstable("SonarQube failed with status: ${qg.status}")
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-           }
+            }
         }
 
         stage('Check Git Diffs') {

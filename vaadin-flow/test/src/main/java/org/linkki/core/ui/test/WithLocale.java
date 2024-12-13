@@ -25,6 +25,10 @@ import com.vaadin.flow.component.UI;
 /**
  * Use with {@link KaribuUIExtension} to set the {@link UI}'s {@link Locale} for a test. Default is
  * {@link Locale#GERMAN}, {@link Locale#ROOT} if left out.
+ * <p>
+ * When using {@link KaribuUIExtension} with {@link org.junit.jupiter.api.extension.ExtendWith}.
+ * When using {@link org.junit.jupiter.api.extension.RegisterExtension}, use
+ * {@link org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration#setLocale(Locale)} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

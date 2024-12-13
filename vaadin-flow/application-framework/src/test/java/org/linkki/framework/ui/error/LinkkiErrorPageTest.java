@@ -15,22 +15,23 @@
 package org.linkki.framework.ui.error;
 
 import static com.github.mvysny.kaributesting.v10.LocatorJ._click;
-import static com.github.mvysny.kaributesting.v10.LocatorJ._find;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.withDefaults;
 import static org.linkki.core.ui.test.KaribuUtils.getTextContent;
 
 import java.io.Serial;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.linkki.core.ui.test.KaribuUIExtension;
+import org.linkki.core.ui.test.KaribuUtils;
 
 import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.vaadin.flow.component.Component;
@@ -51,84 +52,99 @@ class LinkkiErrorPageTest {
         MockVaadin.tearDown();
     }
 
-    @Test
-    void testLinkkiErrorPage_ProductionMode_NoExceptionDetails() {
-        setupVaadin(true);
+    @Nested
+    class ProductionMode {
 
-        UI.getCurrent().navigate(ViewWithException.class);
+        @RegisterExtension
+        private static KaribuUIExtension extension = createKaribuUIExtension(LinkkiErrorPage.class, true);
 
-        var testWrapper = new LinkkiErrorPageTestHelper();
-        assertTitle(testWrapper.getTitle());
-        assertThat(getTextContent(testWrapper.getMessage())).isEqualTo("An unexpected error occurred.");
-        assertErrorDetails(testWrapper.getErrorDetails());
-        assertThat(_find(Div.class, div -> div.withClasses("error-page-stacktrace"))).isEmpty();
-        assertNavigationButton(testWrapper.getNavigationButton());
+        @Test
+        void testNoExceptionDetails() {
+            UI.getCurrent().navigate(ViewWithException.class);
+
+            var testWrapper = new LinkkiErrorPageTestHelper();
+            assertTitle(testWrapper.getTitle());
+            assertThat(getTextContent(testWrapper.getMessage())).isEqualTo("An unexpected error occurred.");
+            assertErrorDetails(testWrapper.getErrorDetails());
+            assertThat(KaribuUtils.printComponentTree())
+                    .doesNotContain(ViewWithException.EXCEPTION_MESSAGE)
+                    .doesNotContain(ViewWithException.CAUSE_MESSAGE);
+            assertNavigationButton(testWrapper.getNavigationButton());
+        }
+
+        @Test
+        void testMessageException() {
+            UI.getCurrent().navigate(ViewWithMessageException.class);
+
+            var testWrapper = new LinkkiErrorPageTestHelper();
+            assertTitle(testWrapper.getTitle());
+            assertThat(testWrapper.size()).isEqualTo(4);
+            assertThat(getTextContent(testWrapper.getMessage()))
+                    .as("Text of MessageException should always be shown")
+                    .isEqualTo(ViewWithMessageException.EXCEPTION_MESSAGE);
+        }
     }
 
-    @Test
-    void testLinkkiErrorPage_ProductionMode_MessageException() {
-        setupVaadin(true);
+    @Nested
+    class DevelopmentMode {
 
-        UI.getCurrent().navigate(ViewWithMessageException.class);
+        @RegisterExtension
+        private static KaribuUIExtension extension = createKaribuUIExtension(LinkkiErrorPage.class, false);
 
-        var testWrapper = new LinkkiErrorPageTestHelper();
-        assertTitle(testWrapper.getTitle());
-        assertThat(testWrapper.size()).isEqualTo(4);
-        assertThat(getTextContent(testWrapper.getMessage()))
-                .as("Text of MessageException should always be shown")
-                .isEqualTo(ViewWithMessageException.EXCEPTION_MESSAGE);
+        @Test
+        void testCustomMessageShown() {
+            UI.getCurrent().navigate(ViewWithCustomMessageException.class);
+
+            var testWrapper = new LinkkiErrorPageTestHelper();
+            assertTitle(testWrapper.getTitle());
+            assertThat(getTextContent(testWrapper.getMessage()))
+                    .isEqualTo(ViewWithCustomMessageException.CUSTOM_MESSAGE);
+            assertErrorDetails(testWrapper.getErrorDetails());
+            assertThat(testWrapper.getStacktrace().getElement().getText())
+                    .startsWith("java.lang.IllegalArgumentException");
+            assertNavigationButton(testWrapper.getNavigationButton());
+        }
+
+        @Test
+        void testExceptionDetailsShown() {
+            UI.getCurrent().navigate(ViewWithException.class);
+
+            var testWrapper = new LinkkiErrorPageTestHelper();
+            assertTitle(testWrapper.getTitle());
+            assertThat(getTextContent(testWrapper.getMessage())).isEqualTo(ViewWithException.EXCEPTION_MESSAGE);
+            assertErrorDetails(testWrapper.getErrorDetails());
+            assertThat(testWrapper.getStacktrace().getElement().getText())
+                    .contains(ViewWithException.EXCEPTION_MESSAGE)
+                    .contains(ViewWithException.CAUSE_MESSAGE)
+                    .contains("java.lang.IllegalArgumentException");
+            assertNavigationButton(testWrapper.getNavigationButton());
+        }
     }
 
-    @Test
-    void testLinkkiErrorPage_DevelopmentMode_CustomMessageShown() {
-        setupVaadin(false);
+    @Nested
+    class CustomSubclass {
 
-        UI.getCurrent().navigate(ViewWithCustomMessageException.class);
+        @RegisterExtension
+        private static KaribuUIExtension extension = createKaribuUIExtension(CustomErrorPage.class, true);
 
-        var testWrapper = new LinkkiErrorPageTestHelper();
-        assertTitle(testWrapper.getTitle());
-        assertThat(getTextContent(testWrapper.getMessage())).isEqualTo(ViewWithCustomMessageException.CUSTOM_MESSAGE);
-        assertErrorDetails(testWrapper.getErrorDetails());
-        assertThat(testWrapper.getStacktrace().getElement().getText()).startsWith("java.lang.IllegalArgumentException");
-        assertNavigationButton(testWrapper.getNavigationButton());
-    }
+        @Test
+        void testCustomSubClass() {
+            UI.getCurrent().navigate(ViewWithException.class);
 
-    @Test
-    void testLinkkiErrorPage_DevelopmentMode_ExceptionDetailsShown() {
-        setupVaadin(false);
-
-        UI.getCurrent().navigate(ViewWithException.class);
-
-        var testWrapper = new LinkkiErrorPageTestHelper();
-        assertTitle(testWrapper.getTitle());
-        assertThat(getTextContent(testWrapper.getMessage())).isEqualTo(ViewWithException.EXCEPTION_MESSAGE);
-        assertErrorDetails(testWrapper.getErrorDetails());
-        assertThat(testWrapper.getStacktrace().getElement().getText())
-                .contains(ViewWithException.EXCEPTION_MESSAGE)
-                .contains(ViewWithException.CAUSE_MESSAGE)
-                .contains("java.lang.IllegalArgumentException");
-        assertNavigationButton(testWrapper.getNavigationButton());
-    }
-
-    @Test
-    void testLinkkiErrorPage_CustomSubClass() {
-        setupVaadin(true, CustomErrorPage.class);
-
-        UI.getCurrent().navigate(ViewWithException.class);
-
-        var testWrapper = new LinkkiErrorPageTestHelper();
-        assertTitle(testWrapper.getTitle());
-        assertThat(getTextContent(testWrapper.getMessage()))
-                .contains(CustomErrorPage.CUSTOM_MESSAGE)
-                .contains(ViewWithException.EXCEPTION_MESSAGE);
-        assertThat(getTextContent(testWrapper.getErrorDetails()))
-                .contains(CustomErrorPage.CUSTOM_DETAILS)
-                .contains(ViewWithException.EXCEPTION_MESSAGE);
-        assertThat(testWrapper.getStacktrace().getElement().getText())
-                .contains(ViewWithException.EXCEPTION_MESSAGE)
-                .contains(ViewWithException.CAUSE_MESSAGE)
-                .contains("java.lang.IllegalArgumentException");
-        assertNavigationButton(testWrapper.getNavigationButton());
+            var testWrapper = new LinkkiErrorPageTestHelper();
+            assertTitle(testWrapper.getTitle());
+            assertThat(getTextContent(testWrapper.getMessage()))
+                    .contains(CustomErrorPage.CUSTOM_MESSAGE)
+                    .contains(ViewWithException.EXCEPTION_MESSAGE);
+            assertThat(getTextContent(testWrapper.getErrorDetails()))
+                    .contains(CustomErrorPage.CUSTOM_DETAILS)
+                    .contains(ViewWithException.EXCEPTION_MESSAGE);
+            assertThat(testWrapper.getStacktrace().getElement().getText())
+                    .contains(ViewWithException.EXCEPTION_MESSAGE)
+                    .contains(ViewWithException.CAUSE_MESSAGE)
+                    .contains("java.lang.IllegalArgumentException");
+            assertNavigationButton(testWrapper.getNavigationButton());
+        }
     }
 
     private void assertTitle(Component title) {
@@ -156,17 +172,15 @@ class LinkkiErrorPageTest {
         assertThat(UI.getCurrent().getCurrentView()).isInstanceOf(StartView.class);
     }
 
-    private void setupVaadin(boolean productionMode) {
-        setupVaadin(productionMode, LinkkiErrorPage.class);
-    }
-
-    private void setupVaadin(boolean productionMode, Class<? extends HasErrorParameter<?>> errorView) {
-        KaribuUIExtension
-                .withViews(Set.of(StartView.class, ViewWithException.class, ViewWithMessageException.class,
-                                  ViewWithCustomMessageException.class),
-                           Set.of(errorView))
-                .setUpUI(productionMode);
-        UI.getCurrent().setLocale(Locale.ENGLISH);
+    private static KaribuUIExtension createKaribuUIExtension(Class<? extends HasErrorParameter<?>> errorView,
+            boolean productionMode) {
+        return KaribuUIExtension
+                .withConfiguration(withDefaults()
+                        .addRoutes(StartView.class, ViewWithException.class,
+                                   ViewWithMessageException.class,
+                                   ViewWithCustomMessageException.class)
+                        .addErrorRoutes(errorView)
+                        .setProductionMode(productionMode));
     }
 
     @Route("")

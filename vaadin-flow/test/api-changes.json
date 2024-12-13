@@ -25,7 +25,12 @@
             "regex": true,
             "code": "java.class.externalClassExposedInAPI",
             "new": ".* com\\.github\\.mvysny\\.kaributesting\\..*",
-            "justification": "LIN-3470"
+            "justification": "Karibu is used in the API"
+          },
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "interface kotlin.jvm.functions.Function0<R>",
+            "justification": "Karibu is used in the API which uses Kotlin"
           },
           {
             "regex": true,
@@ -34,21 +39,10 @@
             "justification": "LIN-3470"
           },
           {
-            "code": "java.class.externalClassExposedInAPI",
-            "new": "interface kotlin.jvm.functions.Function0<R>",
-            "justification": "LIN-3470"
-          },
-          {
             "regex": true,
             "code": "java.class.externalClassExposedInAPI",
             "package": "org\\.linkki\\.core.*",
             "justification": "linkki core API"
-          },
-          {
-            "regex": true,
-            "code": "java.annotation.attributeValueChanged",
-            "new": ".*org\\.junit\\.jupiter\\.api\\..*",
-            "justification": "FCOM-2037"
           }
         ]
       }
@@ -64,32 +58,6 @@
             "code": "java.annotation.attributeValueChanged",
             "old": "class com.github.mvysny.kaributesting.v10.Routes",
             "new": "class com.github.mvysny.kaributesting.v10.Routes",
-            "annotationType": "kotlin.Metadata",
-            "attribute": "mv",
-            "justification": "LIN-3995/LIN-3996 Dependency Update"
-          },
-          {
-            "code": "java.annotation.attributeValueChanged",
-            "old": "class com.github.mvysny.kaributesting.v10.Routes",
-            "new": "class com.github.mvysny.kaributesting.v10.Routes",
-            "annotationType": "kotlin.Metadata",
-            "attribute": "d1",
-            "justification": "LIN-3995/LIN-3996 Dependency Update"
-          },
-          {
-            "code": "java.annotation.attributeValueChanged",
-            "old": "class com.github.mvysny.kaributesting.v10.Routes",
-            "new": "class com.github.mvysny.kaributesting.v10.Routes",
-            "annotationType": "kotlin.Metadata",
-            "attribute": "d2",
-            "justification": "LIN-3995/LIN-3996 Dependency Update"
-          },
-          {
-            "code": "java.annotation.attributeValueChanged",
-            "old": "class com.github.mvysny.kaributesting.v10.Routes",
-            "new": "class com.github.mvysny.kaributesting.v10.Routes",
-            "annotationType": "kotlin.jvm.internal.SourceDebugExtension",
-            "attribute": "value",
             "justification": "LIN-3995/LIN-3996 Dependency Update"
           },
           {
@@ -98,10 +66,15 @@
             "justification": "LIN-3995/LIN-3996 Dependency Update"
           },
           {
+            "code": "java.annotation.attributeValueChanged",
+            "package": "org.junit.jupiter.api.extension",
+            "justification": "LIN-3995/LIN-3996 Dependency Update"
+          },
+          {
             "code": "java.method.returnTypeChanged",
             "old": "method void org.linkki.core.ui.test.KaribuUtils::printComponentTree()",
             "new": "method java.lang.String org.linkki.core.ui.test.KaribuUtils::printComponentTree()",
-            "justification": "LIN-3444/LIN-4091 Better functionality"
+            "justification": "LIN-3444/LIN-4091 Makes it possible to execute assertions on the component tree"
           },
           {
             "code": "java.method.visibilityIncreased",
@@ -109,7 +82,19 @@
             "new": "method java.lang.String org.linkki.core.ui.test.KaribuUtils::printComponentTree(com.vaadin.flow.component.Component)",
             "oldVisibility": "private",
             "newVisibility": "public",
-            "justification": "LIN-3444/LIN-4091 Better functionality"
+            "justification": "LIN-3444/LIN-4091 Makes it possible to execute assertions on the component tree of one component"
+          },
+          {
+            "code": "java.method.returnTypeChanged",
+            "old": "method <T> void org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration::addInstance(java.lang.Class<T>, java.util.function.Supplier<? extends T>)",
+            "new": "method <T> org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration::addInstance(java.lang.Class<T>, java.util.function.Supplier<? extends T>)",
+            "justification": "LIN-3470 Return this for method chaining"
+          },
+          {
+            "code": "java.method.returnTypeChanged",
+            "old": "method void org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration::setI18NProvider(com.vaadin.flow.i18n.I18NProvider)",
+            "new": "method org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration::setI18NProvider(com.vaadin.flow.i18n.I18NProvider)",
+            "justification": "LIN-3470 Return this for method chaining"
           }
         ]
       }

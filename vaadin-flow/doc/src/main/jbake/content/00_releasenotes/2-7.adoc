@@ -100,7 +100,8 @@ If an exception occurs in the application, it will be displayed by the configure
 With the default configuration, the exception is now logged with a unique ID that is also displayed in the UI, making it easier to find the exception in the logs.
 Custom implementation may need to be adapted to be able to make use of this feature.
 * *Karibu testing: more utilities* +
-Many useful methods were added to the <<karibu-utils, KaribuUtils>> to make it even easier to write Karibu tests. The new version includes
+The <<karibu-configuration, `KaribuUIExtension`>> has been extended with possibilities to add error routes and to set production mode. The documentation has been improved accordingly. +
+Many useful methods were also added to the <<karibu-utils, KaribuUtils>> to make it even easier to write Karibu tests, such as
 ** methods for printing out any component as String. This can be used to assert that certain text is or is not displayed anywhere in the UI, disregarding the placement or the actual component that is used.
 ** methods for setting value input fields and consistently firing change events
 ** methods for tables

@@ -15,14 +15,16 @@
 package org.linkki.framework.ui.dialogs;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.withDefaults;
 
 import java.io.Serial;
-import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.core.ui.test.KaribuUtils;
 
@@ -52,68 +54,89 @@ class ErrorDialogConfigurationTest {
         errorEvent = new IdErrorEvent(new ErrorEvent(exception), EXCEPTION_ID);
     }
 
-    @Test
-    void testGetDialogContent_Default_DevMode() {
-        setupUI(false);
+    @Nested
+    class DevelopmentMode {
 
-        var content = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_DEFAULT_TEST_VIEW)
-                .getDialogContent(errorEvent);
+        @RegisterExtension
+        private static KaribuUIExtension extension = KaribuUIExtension
+                .withConfiguration(withDefaults().addRoutes(DefaultTestView.class, CustomTestView.class)
+                        .setProductionMode(false));
 
-        assertThat(content).element(0).extracting(KaribuUtils::getTextContent).isEqualTo(DEFAULT_ERROR_MESSAGE);
-        assertThat(content).element(1).extracting(KaribuUtils::getTextContent).asString()
-                .contains(TIMESTAMP_STRING)
-                .contains(EXCEPTION_ID);
-        assertThat(content).element(2).extracting(KaribuUtils::getTextContent).asString()
-                .contains(exception.getClass().getSimpleName())
-                .contains(exception.getMessage());
-        assertThat(content).element(3).extracting(KaribuUtils::getTextContent)
-                .isEqualTo(ExceptionUtils.getStackTrace(exception));
+        @Test
+        void testGetDialogContent_Default() {
+            var content = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_DEFAULT_TEST_VIEW)
+                    .getDialogContent(errorEvent);
+
+            assertThat(content).element(0).extracting(KaribuUtils::getTextContent).isEqualTo(DEFAULT_ERROR_MESSAGE);
+            assertThat(content).element(1).extracting(KaribuUtils::getTextContent).asString()
+                    .contains(TIMESTAMP_STRING)
+                    .contains(EXCEPTION_ID);
+            assertThat(content).element(2).extracting(KaribuUtils::getTextContent).asString()
+                    .contains(exception.getClass().getSimpleName())
+                    .contains(exception.getMessage());
+            assertThat(content).element(3).extracting(KaribuUtils::getTextContent)
+                    .isEqualTo(ExceptionUtils.getStackTrace(exception));
+        }
+
+        @Test
+        void testCaption() {
+            testGetCaption();
+        }
     }
 
-    @Test
-    void testGetDialogContent_Default_ProductionMode() {
-        setupUI(true);
+    @Nested
+    class ProductionMode {
 
-        var content = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_DEFAULT_TEST_VIEW)
-                .getDialogContent(errorEvent);
+        @RegisterExtension
+        private static KaribuUIExtension extension = KaribuUIExtension
+                .withConfiguration(withDefaults().addRoutes(DefaultTestView.class, CustomTestView.class)
+                        .setProductionMode(true));
 
-        assertThat(content).element(0).extracting(KaribuUtils::getTextContent).isEqualTo(DEFAULT_ERROR_MESSAGE);
-        assertThat(content).element(1).extracting(KaribuUtils::getTextContent).asString()
-                .contains(TIMESTAMP_STRING)
-                .contains(EXCEPTION_ID);
-        assertThat(content)
-                .map(KaribuUtils::printComponentTree)
-                .noneMatch(m -> m.contains(EXCEPTION_MESSAGE));
+        @Test
+        void testGetDialogContent_Default() {
+            var content = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_DEFAULT_TEST_VIEW)
+                    .getDialogContent(errorEvent);
+
+            assertThat(content).element(0).extracting(KaribuUtils::getTextContent).isEqualTo(DEFAULT_ERROR_MESSAGE);
+            assertThat(content).element(1).extracting(KaribuUtils::getTextContent).asString()
+                    .contains(TIMESTAMP_STRING)
+                    .contains(EXCEPTION_ID);
+            assertThat(content)
+                    .map(KaribuUtils::printComponentTree)
+                    .noneMatch(m -> m.contains(EXCEPTION_MESSAGE));
+        }
+
+        @Test
+        void testGetDialogContent_AllCustomized() {
+            var customCaption = "caption";
+            var customErrorMessage = "message";
+            // use a config which is the opposite of the default
+            var config = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_CUSTOM_TEST_VIEW)
+                    .withCaption(customCaption)
+                    .withErrorMessage(customErrorMessage)
+                    .showExceptionMessage()
+                    .showExceptionStacktrace();
+
+            var content = config.getDialogContent(errorEvent);
+
+            assertThat(content).element(0).extracting(KaribuUtils::getTextContent).isEqualTo(customErrorMessage);
+            assertThat(content).element(1).extracting(KaribuUtils::getTextContent).asString()
+                    .contains(TIMESTAMP_STRING)
+                    .contains(EXCEPTION_ID);
+            assertThat(content).element(2).extracting(KaribuUtils::getTextContent).asString()
+                    .contains(exception.getClass().getSimpleName())
+                    .contains(exception.getMessage());
+            assertThat(content).element(3).extracting(KaribuUtils::getTextContent)
+                    .isEqualTo(ExceptionUtils.getStackTrace(exception));
+        }
+
+        @Test
+        void testCaption() {
+            testGetCaption();
+        }
     }
 
-    @Test
-    void testGetDialogContent_AllCustomized() {
-        setupUI(true);
-        var customCaption = "caption";
-        var customErrorMessage = "message";
-        // use a config which is the opposite of the default
-        var config = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_CUSTOM_TEST_VIEW)
-                .withCaption(customCaption)
-                .withErrorMessage(customErrorMessage)
-                .showExceptionMessage()
-                .showExceptionStacktrace();
-
-        var content = config.getDialogContent(errorEvent);
-
-        assertThat(content).element(0).extracting(KaribuUtils::getTextContent).isEqualTo(customErrorMessage);
-        assertThat(content).element(1).extracting(KaribuUtils::getTextContent).asString()
-                .contains(TIMESTAMP_STRING)
-                .contains(EXCEPTION_ID);
-        assertThat(content).element(2).extracting(KaribuUtils::getTextContent).asString()
-                .contains(exception.getClass().getSimpleName())
-                .contains(exception.getMessage());
-        assertThat(content).element(3).extracting(KaribuUtils::getTextContent)
-                .isEqualTo(ExceptionUtils.getStackTrace(exception));
-    }
-
-    @Test
     void testGetCaption() {
-        setupUI(false);
         var customCaption = "title";
 
         var config = ErrorDialogConfiguration.createWithHandlerNavigatingTo(ROUTE_DEFAULT_TEST_VIEW)
@@ -121,12 +144,6 @@ class ErrorDialogConfigurationTest {
         var dialogCaption = config.getCaption();
 
         assertThat(dialogCaption).isEqualTo(customCaption);
-    }
-
-    private void setupUI(boolean productionMode) {
-        var extension = KaribuUIExtension.withViews(DefaultTestView.class, CustomTestView.class);
-        var ui = extension.setUpUI(productionMode);
-        ui.setLocale(Locale.ENGLISH);
     }
 
     @Route(value = ROUTE_DEFAULT_TEST_VIEW)

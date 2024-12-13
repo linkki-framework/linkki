@@ -114,9 +114,7 @@ public class LabelValueAspectDefinitionTest {
                         return value == FooBar.FOO ? "Foo" : "Bar";
                     }
                 });
-        VaadinSession vaadinSession = mock(VaadinSession.class);
-        when(vaadinSession.getAttribute(LinkkiConverterRegistry.class)).thenReturn(converterRegistry);
-        VaadinSession.setCurrent(vaadinSession);
+        VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, converterRegistry);
 
         valueSetter.accept(FooBar.FOO);
 

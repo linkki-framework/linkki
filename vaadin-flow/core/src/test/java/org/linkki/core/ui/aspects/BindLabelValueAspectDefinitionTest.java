@@ -16,8 +16,6 @@ package org.linkki.core.ui.aspects;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Locale;
 import java.util.function.Consumer;
@@ -113,9 +111,7 @@ class BindLabelValueAspectDefinitionTest {
                         return value == FooBar.FOO ? "Foo" : "Bar";
                     }
                 });
-        VaadinSession vaadinSession = mock(VaadinSession.class);
-        when(vaadinSession.getAttribute(LinkkiConverterRegistry.class)).thenReturn(converterRegistry);
-        VaadinSession.setCurrent(vaadinSession);
+        VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, converterRegistry);
 
         valueSetter.accept(FooBar.FOO);
 

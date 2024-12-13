@@ -14,6 +14,8 @@
 package org.linkki.core.ui.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.withDefaults;
+import static org.mockito.Mockito.mock;
 
 import java.io.Serial;
 import java.util.List;
@@ -31,17 +33,24 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.i18n.DefaultI18NProvider;
 import com.vaadin.flow.i18n.I18NProvider;
 import com.vaadin.flow.internal.LocaleUtil;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.ErrorParameter;
+import com.vaadin.flow.router.HasErrorParameter;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.server.HttpStatusCode;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinSession;
 
 public class KaribuUIExtensionTest {
 
     @Nested
-    @WithLocale("en")
     @ExtendWith(KaribuUIExtension.class)
     class AnnotationBased {
 
@@ -61,8 +70,8 @@ public class KaribuUIExtensionTest {
         }
 
         @Test
-        void testLocale() {
-            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
+        void testDefaultLocale() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ROOT);
         }
 
         @Test
@@ -77,23 +86,52 @@ public class KaribuUIExtensionTest {
     }
 
     @Nested
-    class RegisterExtensionWithConfig {
+    class RegisterExtensionWithConfiguration {
 
         private static final MyView myView = new MyView();
+
         @RegisterExtension
         static KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(conf -> conf.addRoute(MyView.class, () -> myView));
+                .withConfiguration(withDefaults()
+                        .addRoute(MyView.class, () -> myView)
+                        .addRoutes(ViewWithParentLayout.class,
+                                   ViewWithException.class)
+                        .addErrorRoutes(ErrorPage.class)
+                        .addInstance(ParentLayout.class, ParentLayout::new)
+                        // This should overwrite the previous instance
+                        .addInstance(ParentLayout.class, OtherParentLayout::new));
 
         @Test
         void testAddRoute() {
             assertThat(UI.getCurrent()).isNotNull();
             assertThat(UI.getCurrent().navigate(MyView.class)).contains(myView);
-            assertThat(KaribuUtils.getRootComponent(MyView.class)).isEqualTo(myView);
+            assertThat(UI.getCurrent().getCurrentView()).isEqualTo(myView);
+        }
+
+        @Test
+        void testAddRouteAddInstance_ParentLayout() {
+            assertThat(UI.getCurrent().navigate(ViewWithParentLayout.class)).isNotEmpty();
+
+            assertThat(UI.getCurrent().getActiveRouterTargetsChain())
+                    .hasExactlyElementsOfTypes(ViewWithParentLayout.class, OtherParentLayout.class);
+        }
+
+        @Test
+        void testAddErrorRoute() {
+            UI.getCurrent().navigate(ViewWithException.class);
+
+            assertThat(UI.getCurrent().getActiveRouterTargetsChain())
+                    .hasExactlyElementsOfTypes(ErrorPage.class, OtherParentLayout.class);
         }
 
         @Test
         void testDefaultI18NProvider() {
             assertThat(LocaleUtil.getI18NProvider()).isNotNull();
+        }
+
+        @Test
+        void testDefaultLocale() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ROOT);
         }
 
         @Route
@@ -101,29 +139,51 @@ public class KaribuUIExtensionTest {
             @Serial
             private static final long serialVersionUID = 2000472994321994678L;
         }
-    }
 
-    @Nested
-    class RegisterExtensionWithViews {
-
-        @RegisterExtension
-        static KaribuUIExtension extension = KaribuUIExtension.withViews(MyView.class);
-
-        @Test
-        void testAddRoute() {
-            assertThat(UI.getCurrent()).isNotNull();
-            assertThat(UI.getCurrent().navigate(MyView.class)).isNotEmpty();
-        }
-
-        @Test
-        void testDefaultI18NProvider() {
-            assertThat(LocaleUtil.getI18NProvider()).isNotNull();
-        }
-
-        @Route
-        public static class MyView extends VerticalLayout {
+        /* Needs to be public for reflection */
+        @Route(value = "other", layout = ParentLayout.class)
+        public static class ViewWithParentLayout extends VerticalLayout {
             @Serial
             private static final long serialVersionUID = 2000472994321994678L;
+        }
+
+        /* Needs to be public for reflection */
+        @Route("exception")
+        public static class ViewWithException extends Div implements BeforeEnterObserver {
+
+            @Serial
+            private static final long serialVersionUID = -474349692876258316L;
+
+            @Override
+            public void beforeEnter(BeforeEnterEvent event) {
+                throw new IllegalStateException("");
+            }
+        }
+
+        /* Needs to be public for reflection */
+        @com.vaadin.flow.router.ParentLayout(ParentLayout.class)
+        public static class ErrorPage extends Div implements HasErrorParameter<IllegalStateException> {
+
+            @Serial
+            private static final long serialVersionUID = -5310748287407745377L;
+
+            @Override
+            public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<IllegalStateException> parameter) {
+                return HttpStatusCode.INTERNAL_SERVER_ERROR.getCode();
+            }
+        }
+
+        /* Needs to be public for reflection */
+        public static class ParentLayout extends Div implements RouterLayout {
+
+            @Serial
+            private static final long serialVersionUID = -187801250183503292L;
+        }
+
+        private static class OtherParentLayout extends ParentLayout {
+
+            @Serial
+            private static final long serialVersionUID = -187801250183503292L;
         }
     }
 
@@ -132,7 +192,8 @@ public class KaribuUIExtensionTest {
 
         @RegisterExtension
         static KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(conf -> conf.setI18NProvider(getCustomI18NProvider()));
+                .withConfiguration(withDefaults()
+                        .setI18NProvider(getCustomI18NProvider()));
 
         @Test
         void testI18NProvider() {
@@ -140,9 +201,38 @@ public class KaribuUIExtensionTest {
         }
     }
 
-    @WithLocale("en")
     @Nested
-    class RegisterExtensionWithLocale {
+    class RegisterExtensionWithConfigurationLocale {
+
+        @RegisterExtension
+        static KaribuUIExtension extension = KaribuUIExtension
+                .withConfiguration(withDefaults()
+                        .setI18NProvider(new DefaultI18NProvider(
+                                List.of(Locale.ENGLISH, Locale.GERMAN, Locale.CHINESE)))
+                        .setLocale(Locale.CHINESE));
+
+        @Test
+        void testLocale() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.CHINESE);
+        }
+    }
+
+    @Nested
+    @WithLocale
+    class WithLocaleRegisterExtensionDefaultValue {
+
+        @RegisterExtension
+        static KaribuUIExtension extension = KaribuUIExtension.withConfiguration(Consumers.nop());
+
+        @Test
+        void testLocale() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.GERMAN);
+        }
+    }
+
+    @Nested
+    @WithLocale("en")
+    class WithLocaleRegisterExtension {
 
         @RegisterExtension
         static KaribuUIExtension extension = KaribuUIExtension.withConfiguration(Consumers.nop());
@@ -153,15 +243,27 @@ public class KaribuUIExtensionTest {
         }
     }
 
+    @Nested
+    @WithLocale("en")
+    @ExtendWith(KaribuUIExtension.class)
+    class WithLocaleAnnotationBased {
+
+        @Test
+        void testLocale() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
+        }
+    }
+
     @ValueSource(booleans = { true, false })
     @ParameterizedTest
     void testSetUpUI_ProductionMode(boolean productionMode) {
-        var extension = new KaribuUIExtension();
+        var extension = KaribuUIExtension.withConfiguration(withDefaults().setProductionMode(productionMode));
 
-        extension.setUpUI(productionMode);
+        extension.setUpUI();
 
         assertThat(VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode())
                 .isEqualTo(productionMode);
+        extension.afterEach(mock());
     }
 
     private static @NotNull I18NProvider getCustomI18NProvider() {
