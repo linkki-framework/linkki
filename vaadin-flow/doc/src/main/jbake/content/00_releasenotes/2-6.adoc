@@ -5,6 +5,21 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.6.3
+
+==== New features and improvements
+
+===== Dependency Updates
+
+The following versions have been updated:
+
+[cols="a,a"]
+|===
+| Faktor-IPS                | 24.7.6.release
+| Vaadin                    | 24.4.20
+| Spring Boot               | 3.3.6
+|===
+
 === Version 2.6.2
 
 ==== New features and improvements
