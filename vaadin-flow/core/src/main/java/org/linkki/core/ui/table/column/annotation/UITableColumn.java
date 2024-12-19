@@ -62,13 +62,15 @@ public @interface UITableColumn {
     int width() default UNDEFINED_WIDTH;
 
     /**
-     * Configures the flex grow ratio for the column.
-     * 
-     * @implSpec The flex grow ratio defines what part of excess available space the layout allots
-     *           to this column. If not set, the column has flex grow of 1.
-     *           <p>
-     *           If {@link #width()} is set, {@link #flexGrow()} will take effect in additional to
-     *           {@link #width()}.
+     * Defines how much the column should grow relative to other columns when there is extra space
+     * available.
+     * <p>
+     * The returned integer defines how many parts of the excess space should be taken for this
+     * column. If not set, the flex-grow is set to {@value UNDEFINED_FLEX_GROW}.
+     * <p>
+     * Note that if {@link #width()} is set, flex-grow will take effect in addition to
+     * {@link #width()}. The column then has at least the defined width. If there is extra space, it
+     * takes the defined part additionally.
      * 
      * @see Column#setFlexGrow(int)
      */
