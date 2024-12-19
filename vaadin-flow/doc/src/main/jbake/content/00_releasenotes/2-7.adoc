@@ -25,6 +25,9 @@ The following versions have been updated:
 The Vaadin version update brings some notable changes that affect linkki applications:
 
 * New properties in `LumoUtility`: In `LumoUtility` new properties have been added, most notably a utility class to set `flex` to 1. Existing custom CSS classes can thus be replaced by the new utility class.
+* Setting `reactEnable` to `false` in the `vaadin-maven-plugin` leads to a Vite error on startup of the application due to missing vaadin-router resources. +
+As the react router now behaves mostly like the legacy vaadin router, it may be an option to remove the configuration and use the default react router instead. +
+If the configuration should be kepft, the property `vaadin.react.enable` needs to be set to `false` too. See https://vaadin.com/docs/latest/upgrading#opting-out-of-react
 
 ==== UI Annotations and Aspects
 
