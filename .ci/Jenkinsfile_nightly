@@ -96,6 +96,7 @@ pipeline {
     }
 
     options {
-        buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '7'))
+        timeout(time: 1, unit: 'HOURS')
     }
+
 }

@@ -15,6 +15,7 @@ pipeline {
     }
 
     stages {
+
         stage('Pre-Build') {
             steps {
                 script {
@@ -215,8 +216,8 @@ pipeline {
         }
     }
 
-
     options {
-        buildDiscarder(logRotator(daysToKeepStr: '10', numToKeepStr: '30'))
+        timeout(time: 30, unit: 'MINUTES')
     }
+
 }
