@@ -153,7 +153,7 @@ class LinkkiErrorPageTest {
 
     private void assertErrorDetails(Component errorDetails) {
         var textContent = getTextContent(errorDetails);
-        var uuidMatcher = Pattern.compile("Timestamp:.+\\[([^]]+)]").matcher(textContent);
+        var uuidMatcher = Pattern.compile("Timestamp:.+ \\[([^]]+)]").matcher(textContent);
         var hasMatch = uuidMatcher.find();
         assertThat(hasMatch).as("UUID is displayed after the timestamp").isTrue();
         var uuid = uuidMatcher.group(1);

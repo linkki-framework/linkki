@@ -210,7 +210,7 @@ public class LinkkiErrorPage extends VerticalLayout
     protected Component createErrorDetails(ErrorParameter<Exception> parameter) {
         var timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         var component = new LinkkiText();
-        component.setText("Timestamp: " + timestamp + "[" + exceptionId + "]");
+        component.setText("Timestamp: " + timestamp + " [" + exceptionId + "]");
         return component;
     }
 
