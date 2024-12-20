@@ -48,7 +48,7 @@
         <apt.tests.skip>false</apt.tests.skip>
         <surefire.directory>surefire-reports</surefire.directory>
 
-        <junit.version>5.11.3</junit.version>
+        <junit.version>5.11.4</junit.version>
         <mockito.version>5.14.2</mockito.version>
         <assertj.version>3.26.3</assertj.version>
         <hamcrest.version>3.0</hamcrest.version>
@@ -60,7 +60,7 @@
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <spotbugs.version>4.8.6</spotbugs.version>
         <checkstyle.version>10.20.1</checkstyle.version>
-        <logback-version>1.5.12</logback-version>
+        <logback-version>1.5.14</logback-version>
 
         <revapi-maven-plugin.version>0.15.0</revapi-maven-plugin.version>
         <revapi-java.version>0.28.1</revapi-java.version>

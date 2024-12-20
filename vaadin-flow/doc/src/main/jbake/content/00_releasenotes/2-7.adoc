@@ -19,7 +19,7 @@ The following versions have been updated:
 
 | Faktor-IPS                    | 25.1.0.release (link:https://doc.faktorzehn.org/faktor-ips/25.1/01_releasenotes/index.html[Release Notes]) | 24.7.5.release
 | Vaadin                        | 24.5.8 (link:https://github.com/vaadin/platform/releases/tag/24.5.8[Release Notes]) | 24.4.16
-| Spring Boot                   | 3.4.0 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.3.5
+| Spring Boot                   | 3.4.1 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.3.5
 |===
 
 The Vaadin version update brings some notable changes that affect linkki applications:
