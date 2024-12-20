@@ -20,6 +20,7 @@
         <spotbugs.version>4.8.6</spotbugs.version>
         <spring-boot.version>3.4.1</spring-boot.version>
         <checkstyle.version>10.20.2</checkstyle.version>
+        <logback-version>1.5.14</logback-version>
 
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
@@ -79,6 +80,13 @@
                 <version>${spotbugs.version}</version>
                 <scope>provided</scope>
             </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback-version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
