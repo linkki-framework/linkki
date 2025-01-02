@@ -22,6 +22,8 @@ pipeline {
                             clean deploy \
                             -Ddoc.user=doc'
                     }
+
+                    archiveArtifacts 'target/doc/**'
                 }
             }
         }
