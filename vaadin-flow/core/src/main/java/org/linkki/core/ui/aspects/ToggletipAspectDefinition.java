@@ -56,7 +56,7 @@ public class ToggletipAspectDefinition extends ModelToUiAspectDefinition<String>
 
             if (tooltip != null) {
                 tooltip//
-                        .withPosition(annotation.position())
+                        .withPosition(annotation.tooltipPosition())
                         .withManual(true);
 
                 button.addClickListener(event -> tooltip.setOpened(!tooltip.isOpened()));

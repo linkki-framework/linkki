@@ -50,7 +50,7 @@ public class BindToggletipPmo {
     }
 
     @UIComboBox(position = 21, label = "Static Toggletip", content = AvailableValuesType.NO_VALUES)
-    @BindToggletip(toggletipPosition = PREFIX, value = "A nice static toggletip", position = BOTTOM, icon = VaadinIcon.ABACUS)
+    @BindToggletip(toggletipPosition = PREFIX, value = "A nice static toggletip", tooltipPosition = BOTTOM, icon = VaadinIcon.ABACUS)
     public String getToggletipStaticText() {
         return "This field has a static toggletip that cannot be changed with tooltip position bottom and a different icon";
     }

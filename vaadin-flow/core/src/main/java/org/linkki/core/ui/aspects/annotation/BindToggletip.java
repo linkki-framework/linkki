@@ -43,7 +43,7 @@ public @interface BindToggletip {
 
     ToogletipPosition toggletipPosition() default ToogletipPosition.SUFFIX;
 
-    Tooltip.TooltipPosition position() default Tooltip.TooltipPosition.TOP;
+    Tooltip.TooltipPosition tooltipPosition() default Tooltip.TooltipPosition.TOP;
 
     VaadinIcon icon() default VaadinIcon.QUESTION_CIRCLE_O;
 
