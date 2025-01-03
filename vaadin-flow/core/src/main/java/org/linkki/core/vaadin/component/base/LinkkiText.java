@@ -31,6 +31,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.shared.HasPrefix;
 import com.vaadin.flow.component.shared.HasSuffix;
+import com.vaadin.flow.component.shared.HasTooltip;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -41,7 +42,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 @Tag("linkki-text")
 @JsModule("./src/linkki-text.ts")
-public class LinkkiText extends Component implements HasIcon, HasPrefix, HasSuffix, HasText {
+public class LinkkiText extends Component implements HasIcon, HasPrefix, HasSuffix, HasText, HasTooltip {
 
     public static final String CLASS_NAME = "linkki-text";
 

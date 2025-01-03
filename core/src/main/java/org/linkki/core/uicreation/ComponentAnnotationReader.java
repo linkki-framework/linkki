@@ -133,6 +133,11 @@ public final class ComponentAnnotationReader {
                 .map(annotation -> getComponentDefinition(annotation, annotatedElement));
     }
 
+    public static List<Annotation> getComponentDefinitionAnnotations(AnnotatedElement annotatedElement) {
+        return LINKKI_COMPONENT_ANNOTATION
+                .findAnnotatedAnnotationsOn(annotatedElement).toList();
+    }
+
     /**
      * Finds the annotation of the {@link AnnotatedElement} that defines a
      * {@link LinkkiComponentDefinition}.

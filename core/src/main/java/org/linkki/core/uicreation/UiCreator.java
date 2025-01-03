@@ -309,7 +309,7 @@ public class UiCreator {
         return componentWrapper;
     }
 
-    private static String getComponentId(BoundProperty boundProperty, Object pmo) {
+    public static String getComponentId(BoundProperty boundProperty, Object pmo) {
         return boundProperty.getPmoProperty().isEmpty()
                 ? Sections.getSectionId(pmo)
                 : boundProperty.getPmoProperty();

@@ -54,6 +54,7 @@ import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo;
+import org.linkki.samples.playground.ts.aspects.BindHelperTextPmo;
 import org.linkki.samples.playground.ts.aspects.BindIconPmo;
 import org.linkki.samples.playground.ts.aspects.BindLabelPmo;
 import org.linkki.samples.playground.ts.aspects.BindPlaceholderPmo;
@@ -61,10 +62,12 @@ import org.linkki.samples.playground.ts.aspects.BindReadOnlyBehaviorPmo;
 import org.linkki.samples.playground.ts.aspects.BindSlotPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ts.aspects.BindSuffixPmo;
+import org.linkki.samples.playground.ts.aspects.BindToggletipPmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoNoBorder;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoWithoutVariant;
 import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
+import org.linkki.samples.playground.ts.aspects.NewBindTooltipPmo;
 import org.linkki.samples.playground.ts.components.ButtonPmo;
 import org.linkki.samples.playground.ts.components.CheckboxesPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
@@ -195,6 +198,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC016 = "TC016";
     public static final String TC017 = "TC017";
     public static final String TC018 = "TC018";
+    public static final String TC019 = "TC019";
 
     static final String ROUTE = "playground";
 
@@ -312,6 +316,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                  new BindVariantNamesTablePmoWithoutVariant())
                                        .testCase(TC015, new BindLabelPmo())
                                        .testCase(TC016, new BindSlotPmo(new BindSlotPmo.RightSlotPmo()))
+                                       .testCase(TC017, new NewBindTooltipPmo())
+                                       .testCase(TC018, new BindToggletipPmo())
+                                       .testCase(TC019, new BindHelperTextPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())
