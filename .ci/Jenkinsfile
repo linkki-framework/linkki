@@ -6,10 +6,10 @@ pipeline {
     environment {
         PROJECT_NAME = 'linkki'
         BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
-        // make sure that the build name does not contain '_' because this will lead to unexpected Docker failures
-        DOCKER_BUILD_NAME = "${BRANCH_NAME.replaceAll('_', '-')}"
+        // make sure that the build name does not contain illegal characters because this will lead to unexpected Docker failures
+        DOCKER_BUILD_NAME = "${BRANCH_NAME.replaceAll(/[^A-Za-z0-9]/, '-')}"
         CONTAINER_RETENTION = 'permanent-on'
-        BASE_IMAGE = 'spring:24.7'
+        BASE_IMAGE = 'spring:25.1'
     }
 
     stages {
