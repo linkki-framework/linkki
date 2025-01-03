@@ -14,10 +14,10 @@
 
 package org.linkki.core.ui.uiframework;
 
-import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 
 import com.vaadin.flow.component.Component;
 
@@ -46,7 +46,7 @@ public class VaadinComponentWrapperFactory implements ComponentWrapperFactory {
     }
 
     @Override
-    public ComponentWrapper createComponentWrapper(Object component) {
+    public VaadinComponentWrapper createComponentWrapper(Object component) {
         return new NoLabelComponentWrapper((Component)component, WrapperType.FIELD);
     }
 
