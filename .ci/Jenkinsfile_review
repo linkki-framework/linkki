@@ -7,7 +7,10 @@ pipeline {
         PROJECT_NAME = 'linkki'
         BRANCH_NAME = "${env.GERRIT_BRANCH}"
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
+        PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
+        NETWORK_NAME = "network-${PROJECT_ID}"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
+        CONTAINER_RETENTION = 'discard'
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
@@ -132,14 +135,26 @@ pipeline {
 
                 stage('Deployment and UI Test') {
                     stages {
+                        stage('Remove Docker Network') {
+                            steps {
+                                deleteDockerNetwork "${NETWORK_NAME}"
+                            }
+                        }
+
                         stage('Docker Deployment') {
                             steps {
-                                sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME} ${BASE_IMAGE}'
+
+                                sh 'cp vaadin-flow/samples/test-playground/target/linkki-sample-test-playground-vaadin-flow.war .ci/docker/playground/'
+                                sh 'cp vaadin-flow/samples/linkki-f10-sample/target/linkki-f10-sample.jar .ci/docker/linkki-f10-sample/'
+                                dir('.ci/docker') {
+                                    sh "docker compose -f docker-compose.yml -f docker-compose.resources.yml -p ${PROJECT_ID} up -d --build"
+                                }
 
                                 rtp parserName: 'HTML', nullAction: '1', stableText: """
-                                    <h3>Test Playground</h3>
+                                    <h3>Sample Deployments</h3>
                                     <ul>
-                                        <li><a href='${DEPLOYMENT_URL}'>Vaadin Flow</a></li>
+                                        <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
+                                        <li><a href='http://linkki-${BUILD_NAME}-linkki-f10-sample.dockerhost.i.faktorzehn.de/linkki-f10-sample/ui' target="_blank">Linkki F10 Sample</a></li>
                                     </ul>
                                 """
                             }

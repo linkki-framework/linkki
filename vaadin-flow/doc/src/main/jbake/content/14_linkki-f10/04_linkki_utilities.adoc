@@ -1,0 +1,20 @@
+:jbake-title: linkki Utilities
+:jbake-type: section
+:jbake-status: published
+
+[[linkki-utilities]]
+=== linkki Utilities
+
+[[linkki-utilities-treegrid]]
+====  Hilfsklasse `HierarchicalTableUtil` für Vaadin `TreeGrid`
+
+Mittels der Hilfsklasse `HierarchicalTableUtil` können die Items eines `TreeGrid` bis zu einer konfigurierbaren Ebene ausgeklappt werden.
+Daneben wird die Möglichkeit geboten, einen Filter zu übergeben, um Items explizit von dem Prozess auszuschließen. 
+Ebenso lassen sich alle Items wieder einklappen.
+Generell kann diese Hilfsklasse beispielsweise in einer Implementierung von `AbstractPage` zum Tragen kommen, wo auch das `TreeGrid` erstellt wird.
+
+.Beispiel für das Ausklappen der ersten Ebene von Items, insofern diese jeweils mehr als einen Kindknoten besitzen
+[source,java]
+----
+HierarchicalTableUtil.expandNodesIf(treeGrid, 1, rowPmo -> rowPmo.getChildRows().size() > 1);
+----

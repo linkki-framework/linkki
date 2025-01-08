@@ -1,0 +1,250 @@
+:jbake-title: Suche
+:jbake-type: section
+:jbake-status: published
+:source-dir: ../../../../../samples/linkki-f10-sample
+
+[[linkki-f10-search]]
+== Suche
+
+Das Modul `linkki-f10-search` stellt Suchkomponenten zur Verfügung, die alle Produkte für die primäre Suche nutzen können.
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-f10-search</artifactId>
+</dependency>
+----
+
+Die Suche lässt sich auf zwei verschiedene Arten einbinden:
+
+* Als eigene Seite (auch link:https://doc.faktorzehn.de/produkt-ui-guide/07_uikomponenten/05_suche.html#_kontextfreie_suche[kontextfrei] genannt)
+* Innerhalb einer anderen Seite (auch link:https://doc.faktorzehn.de/produkt-ui-guide/07_uikomponenten/05_suche.html#_kontextabh%C3%A4ngige_suche[kontextabhängig] genannt)
+
+=== Benötigte Klassen
+
+Unabhängig von der Art der Suche werden einige Klassen benötigt, die selbst erstellt werden müssen.
+
+[horizontal]
+Suchparameter:: Ein Modellobjekt für Suchparameter
++
+.`SampleSearchParameters`
+[source,java]
+----
+public class SampleSearchParameters {
+
+    public static final String PROPERTY_PARTNER_NUMBER = "partnerNumber";
+    // ggf. weitere Suchparameter
+
+    private String partnerNumber;
+
+    public String getPartnerNumber() {
+        return partnerNumber;
+    }
+
+    public void setPartnerNumber(String partnerNumber) {
+        this.partnerNumber = partnerNumber;
+    }
+
+}
+----
+
+PMO für Suchparameter:: PMO für das Suchparameter-Modellobjekt um die Eingabe von Suchparameter zu ermöglichen
++
+.`SampleSearchParametersPmo`
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/SampleSearchParametersPmo.java[tags=sampleSearchParametersPmo]
+----
++
+Wenn das erste UI Element mit `@BindAutoFocus` annotiert wird, dann wird dieses Element im Browser automatisch immer mit einem Focus-ring selektiert.
+
+Gesammelte Suchergebnisse:: Wrapper für eine Liste von einzelnen Suchergebnissen.
+Es muss möglich sein, aus den gesammelten Suchergebnissen eine `MessageList` mit evtl. aufgetretenen Fehlern auszulesen.
+Es empfiehlt sich daher, die Fehler aus dem Suchservice direkt in diesem Objekt zu speichern.
++
+.`SampleSearchResult`
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchResult.java[tags=SampleSearchResult]
+----
+
+Einzelnes Suchergebnis:: Modellobjekt für ein einzelnes Suchergebnis
++
+.`SampleModelObject`
+[source,java]
+----
+public class SampleModelObject {
+
+    private final String partnerNummber;
+    // ggf. weitere Properties
+
+    public SampleModelObject(String partnerNummber) {
+        this.partnerNummber = partnerNummber;
+    }
+
+    public String getPartnerNummber() {
+        return partnerNummber;
+    }
+}
+----
+
+PMO für ein einzelnes Suchergebnis:: PMO für die Anzeige des Suchergebnis als Zeile in der Ergebnistabelle
++
+.`SampleSearchResultRowPmo`
+[source,java]
+----
+public class SampleSearchResultRowPmo {
+
+    private final SampleModelObject modelObject;
+    private final List<MenuItemDefinition> additionalActions;
+
+    public SampleSearchResultRowPmo(SampleModelObject result,
+            List<MenuItemDefinition> additionalActions) {
+        this.modelObject = result;
+        this.additionalActions = additionalActions;
+    }
+
+    public SampleModelObject getModelObject() {
+        return modelObject;
+    }
+
+    @UILink(position = 10, label = "Partnernummer")
+    public String getPartnernummer() {
+        return modelObject.getLink();
+    }
+
+    public String getPartnernummerCaption() {
+        return modelObject.getPartnerNummber();
+    }
+
+    @UISearchResultAction
+    public List<MenuItemDefinition> getActions() {
+        return additionalActions;
+    }
+}
+----
++
+Für das RowPmo kann die UI Annotation `@UISearchResultAction` verwendet werden, um mögliche Aktionen auf der Tabellenzeile zu definieren.
+Diese Aktionen werden dann in einem Menü am Ende der Zeile angeboten.
+
+=== SearchController
+
+Der `SearchController` ist zuständig für das Ausführen der Suche.
+Je nach Suchtyp (kontextfrei, kontextabhängig) unterscheidet sich die Implementierung und die Verwendung.
+Mehr Details hierzu befinden sich auf der entsprechenden Unterseite für die <<context-free-search, kontextfreien Suche>> bzw. für die <<context-dependent-search, kontextabhängigen Suche>>.
+
+[[search-layout-pmo]]
+=== Erstellen der Suchkomponente
+
+Für die Suchkomponente wird ein `SearchLayoutPmo` verwendet, das mit dem `SearchLayoutBuilder` erzeugt wird.
+
+.Beispielimplementierung einer Suchkomponente mithilfe des `SearchLayoutBuilder<PARAM, RESULT, MODELOBJECT, ROW>`
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextdependent/ContextDependentSearchView.java[tags=searchLayoutBuilder]
+----
+
+Die "primary action" wird beim Doppelklick auf eine Ergebniszeile ausgeführt.
+Bei einer kontextfreien Suche ist es üblich den Eintrag auf einer neuen Seite zu öffnen, bei einer kontextabhängigen Suche wird der Eintrag ausgewählt.
+
+[[context-free-search]]
+=== Suche als eigene Seite
+
+Bei der Suche auf einer eigenen Seite ist es erwünscht, dass die Suchparameter direkt in der URL wieder gespiegelt werden, damit die Suche auch direkt von einer anderen Seite erreichbar ist.
+
+Der `RoutingSearchController` bietet hierfür Funktionalitäten, die die Implementierung erleichtern.
+
+==== SearchView
+
+Da die Suchseite direkt per URL erreichbar sein muss, ist eine `@Route`-Annotation notwendig.
+Außerdem muss das Interface `BeforeEnterObserver` oder `AfterNavigationObserver` implementiert werden, um die URL-Parameter zu verarbeiten.
+
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextfree/ContextFreeSearchView.java[tags=ContextFreeSearchView]
+----
+
+NOTE: Laut Dokumentation zum https://vaadin.com/docs/latest/flow/routing/lifecycle[Vaadin Navigation Lifecycle] wird die Initialisierung der UI eher im After-Navigation-Event vorgenommen.
+In diesem Event kann allerdings keine Umleitung auf eine andere Seite erfolgen.
+Soll bei genau einem Suchtreffer anstatt der Suchseite direkt das gefundene Objekt geöffnet werden, bietet sich das Before-Enter-Event an.
+
+Als Seiteninhalt muss ein `SearchLayoutPmo` verwendet werden, welches über den `SearchLayoutBuilder` erstellt wird.
+Die Erstellung vom `SearchLayoutPmo` ist unabhängig von der Art der Suche, und kann im entsprechenden Abschnitt "<<search-layout-pmo, Erstellen der Suchkomponente>>" nachgelesen werden.
+
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextfree/ContextFreeSearchView.java[tags=content]
+----
+
+In `initialize` muss die `Location` an den `RoutingSearchController` weitergegeben werden.
+Dieser liest die Suchparameter aus der URL und führt ggfs. die Suche aus.
+Um die gesetzten Parameter anzuzeigen, muss der `BindingContext`, in dem das SearchLayoutPmo liegt, aktualisiert werden.
+
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextfree/ContextFreeSearchView.java[tags=initialize]
+----
+
+Dem verwendeten `RoutingSearchController` muss der Wert der `@Route`-Annotation mitgegeben werden.
+
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextfree/ContextFreeSearchView.java[tags=RoutingSearchController]
+----
+
+==== Query Parameter Mapping
+
+Für den Suchparametertyp muss eine Implementierung von `SearchParameterMapper` erstellt werden.
+
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=SampleSearchParametersMapper]
+----
+
+Darin befindet sich eine Methode zum Erzeugen eines Suchparameterobjektes aus Query Parametern:
+
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=toSearchParameters]
+        ...
+----
+
+Sowie eine Methode zum Erzeugen von Query Parametern aus einem Suchparameterobjekt:
+
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=toQueryParameters]
+        ...
+----
+
+Falls jeder Parameter nur einen Wert hat, kann über `ParamsUtil.flatten` und `ParamsUtil.flatten` eine `Map<String, String>` statt einer `Map<String, List<String>>` verwendet werden.
+`ParamsUtil` bietet ebenfalls ein paar `format` und `parse` Methoden.
+
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=formatIsoDate]
+
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=parseIsoDate]
+----
+
+[[context-dependent-search]]
+=== Suche innerhalb einer anderen Seite
+
+Soll die Suche innerhalb einer bestehenden Seite verwendet werden, wie z.B. innerhalb eines Dialogs, kann der `SimpleSearchController` verwendet werden.
+
+Die Erstellung des `SearchLayoutPmo`s ist unabhängig von der Art der Suche, und kann im entsprechenden Abschnitt "<<search-layout-pmo, Erstellen der Suchkomponente>>" nachgelesen werden.
+
+==== Codebeispiel
+
+.Dialog
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextdependent/ContextDependentSearchView.java[tags=showSearchDialog]
+----
+
+.SimpleSearchController
+[source,java]
+----
+include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextdependent/ContextDependentSearchView.java[tags=SimpleSearchController]
+----

@@ -1,0 +1,33 @@
+version: '2.4'
+
+services:
+  playground:
+    container_name: playground-${PROJECT_ID}
+    build:
+      context: playground
+      args:
+        BASE_IMAGE: ${BASE_IMAGE}
+    labels:
+      url: ${PROJECT_ID}
+      entry-path: /linkki-sample-test-playground-vaadin-flow
+      de.faktorzehn.proxy.enable-websockets: true
+    environment:
+      JAVA_TOOL_OPTIONS: -Xms250m -Xmx750m
+
+  linkki-f10-sample:
+    container_name: linkki-f10-sample-${PROJECT_ID}
+    build:
+      context: linkki-f10-sample
+      args:
+        BASE_IMAGE: ${BASE_IMAGE}
+    labels:
+      url: ${PROJECT_ID}-linkki-f10-sample
+      entry-path: /linkki-f10-sample/ui
+    environment:
+      JAVA_TOOL_OPTIONS: -Xms250m -Xmx750m
+
+networks:
+  default:
+    name: ${NETWORK_NAME}
+    labels:
+      retention: ${CONTAINER_RETENTION}

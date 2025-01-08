@@ -1,0 +1,23 @@
+:jbake-title: Browser Confirmation
+:jbake-type: section
+:jbake-status: published
+
+[[browser-confirmation]]
+=== Browser Confirmation
+
+Das Interface `HasBrowserConfirmation` kann von einer View/Route Klasse implementiert werden, um bei einem "Browser Refresh" oder Seitenwechsel außerhalb der Vaadin Anwendung einen Abfragedialog anzuzeigen.
+Der Benutzer wird damit auf ungespeicherte Inhalte aufmerksam gemacht und kann entscheiden ob die Seite verlassen werden soll oder nicht.
+
+Das Interface hat zwei Methoden zum ein und ausschalten der Funktionalität. 
+    * `HasBrowserConfirmation#enableBrowserConfirmation`
+    * `HasBrowserConfirmation#disableBrowserConfirmation`
+
+Zum Aktivieren/Deaktivieren werden am besten die Observer von Vaadin verwendet.
+Durch Implementieren des Interfaces `AfterNavigationObserver` kann in der Methode `afterNavigation` die Abfrage aktiviert werden.
+Das Interface `BeforeLeaveObserver` wird bereits von `HasBrowserConfirmation` implementiert und deaktiviert die Abfrage automatisch beim Verlassen der Seite.
+
+Die Abfrage wird Browserseitig nur angezeigt, wenn die Navigation aus der Anwendung raus oder durch ein Refresh im Browser erfolgt. Navigationen innerhalb der Anwendung müssen getrennt behandelt werden, dies betrifft also insbesondere auch den Fall, dass eine korrekte Navigation mit vorherigem Speichern des Zustands erfolgt. Diese Abfrage erfolgt idealerweise ebenfalls in der Methode `beforeLeave` des Interfaces `BeforeLeaveObserver`. Durch die Methode `BeforeLeaveEvent#postpone` des übergebenen Events kann die Navigation unterbrochen werden und nach erfolgreicher Bestätigung durch `ContinueNavigationAction#proceed()` weiter geführt werden.
+
+Weitere lesenswerte Informationen stehen in der Dokumentation zum https://vaadin.com/docs/latest/flow/routing/lifecycle[Navigation Lifecycle] von Vaadin.
+
+Ein Beispiel der Implementierung kann in der Klasse `SampleBrowserConfirmationView` im Modul `linkki-f10-sample` angeschaut werden.

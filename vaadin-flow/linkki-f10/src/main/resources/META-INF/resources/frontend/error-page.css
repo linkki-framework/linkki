@@ -1,0 +1,36 @@
+.error-page {
+    margin-top: 10vh;
+}
+
+.error-page>div {
+    display: flex;
+    gap: var(--lumo-space-l);
+    margin-left: calc(-50px - 2 * var(--lumo-space-l));
+    max-width: 80vw;
+}
+
+.error-page>div h4 {
+    margin: 0;
+}
+
+.error-page>div vaadin-button {
+    width: fit-content;
+}
+
+.error-page>div .error-page-icon {
+    display: flex;
+    border-right: 3px solid var(--lumo-error-color);
+    padding: 0 var(--lumo-space-l);
+}
+
+.error-page>div .error-page-icon vaadin-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.error-page>div .error-page-message {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: var(--lumo-space-m) 0;
+    gap: var(--lumo-space-m);
+}

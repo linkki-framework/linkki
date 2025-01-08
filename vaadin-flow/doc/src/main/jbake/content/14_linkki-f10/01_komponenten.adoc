@@ -1,0 +1,101 @@
+:jbake-title: Komponenten
+:jbake-type: section
+:jbake-status: published
+
+[[f10-components]]
+=== Komponenten
+
+[[board-layout]]
+==== BoardLayout
+
+Das `BoardLayout` zeigt mehrere `BoardComponents` als Karten an.
+Die `BoardComponents` werden der Reihe nach zeilenweise angeordnet.
+
+Ein Element auf dem Board wird durch eine Instanz der Klasse `BoardComponent` repräsentiert.
+Jede `BoardComponnt` zeigt zunächst eine Überschrift an, gefolgt von einer mitgegebenen Komponente.
+Diese Komponente kann direkt bei der Instatiierung übergeben werden, sodass keine Ableitung notwendig ist.
+Sie kann entweder als Vaadin Komponente oder als PMO übergeben werden.
+
+Zusätzlich bietet `BoardComponent` zwei Theme Variants an: `MEDIUM` und `LARGE`.
+Eine `BoardComponent` mit dem Variant `LARGE` ist doppel so breit wie mit dem Variant `MEDIUM`.
+
+.How To: BoardLayout als View verwenden
+====
+.Beispielimplementierung von BoardLayout
+[source,java]
+----
+@Route(value = "", layout = MyApplicationLayout.class) // 2
+public class MyBoardLayout extends BoardLayout { // 1
+
+  public MyBoardLayout() {
+    super(new BoardComponent("name", new MyBoardPmo()), // 3
+          new BoardComponent("another name", new MyBoardComponent(), BoardComponentVariant.LARGE))
+  }
+}
+----
+
+Das `BoardLayout` wird oft als Startseite der Anwendung verwendet.
+Dazu muss eine Ableitung von `BoardLayout` erstellt und diese als `Route` definiert werden:
+
+. Eine Ableitung von `BoardLayout` erstellen
+. Die erstellte Ableitung mit `@Route` samt der erwünschten Route und der eigenen Implementierung von `ApplicationLayout` annotieren
+. Im Konstruktor Instanzen von `BoardComponent`, die angezeigt werden sollen, erstellen
+====
+
+[[ui-menulist]]
+==== @UIMenuList und @UIMenuButton
+
+Mit `@UIMenuList` kann ein Button erstellen werden, der durch Anklicken eine Liste von Menüeinträgen anzeigt. +
+`@UIMenuButton` ermöglicht es, Buttons zu verwenden, die optisch konsistent aussehen wie `@UIMenuList`, aber keine Menüeinträge anzeigen, sondern beim Anklicken direkt eine Aktion ausführen.
+
+[[menu-item-definition]]
+===== Verwendung von @UIMenuList
+
+Die Methode, die mit `@UIMenuList` annotiert ist, muss eine Liste von `MenuItemDefinition` zurückgeben.
+Diese Liste definiert Menüeinträge, die beim Anklicken angezeigt werden.
+
+.Implementierung einer mit @UIMenuList definierten Methode
+[source,java]
+----
+@UIMenuList(position = 0, caption = "Menü", icon = VaadinIcon.LIST)
+public List<MenuItemDefinition> getMenu() {
+    return List.of(
+        MenuItemDefinition.builder("id1")
+                          .caption("Erster Menüeintrag")
+                          .command(() -> ersteFunktion())
+                          .visibleIf(istErsterMenueEintragSichtbar())
+                          .build(),
+        MenuItemDefinition.builder("id2")
+                          .caption("Zweiter Menüeintrag")
+                          .command(() -> zweiteFunktion())
+                          .enabledIf(istZweiterMenueEintragEnabled())
+                          .build());
+}
+----
+
+Die Erstellung einer `MenuItemDefinition` erfolgt mittels eines Builders, der mit einer statischen Methode erstellt werden kann.
+Da `MenuItemDefinition` eine ID besitzen muss, wird diese bereits bei der Erstellung des Builders gefordert.
+
+NOTE: Die ID der Menüeinträge setzt sich aus der ID des Menübuttons und der angegebenen ID zusammen.
+Aus der Methode im Codebeispiel entsteht ein `MenuItem` mit der ID `menu`, die sich aus dem Methodennamen bzw. dem PMO Property Namen ableitet.
+Die Menüeinträge, die beim Anklicken erscheinen, besitzen in dem Beispiel die IDs `menu-id1` und `menu-id2`.
+
+WARNING: IDs müssen innerhalb eines Menüs eindeutig sein.
+Falls mehrere Menüeinträge die gleiche ID haben, gibt es eine Exception.
+
+Desweiteren sollte ein Menüeintrag eine Caption anzeigen sowie einen Command definieren, der beim Anklicken des zugehörigen Menüeintrags ausgeführt wird.
+Optional kann ein Icon gesetzt werden.
+
+IMPORTANT: Bei der Verwendung von Icons sollte der https://doc.faktorzehn.de/produkt-ui-guide/07_uikomponenten/08_icons.html[UI-Guide] beachtet werden.
+
+Falls ein Eintrag gelegentlich nicht zur Verfügung steht, kann dieser mit der `MenuItemDefinition` Builder-Methode `#enabledIf` disabled werden.
+Diese Eigenschaft wird dynamisch aktualisiert.
+Zur Identifikation des Eintrags wird dessen ID verwendet.
+Dem gleichen Schema folgend kann ein Eintrag mit der Methode `#visibleIf` ausgeblendet werden, falls dieser im zugehörigen Menü nicht zur Verfügung steht.
+
+WARNING: Der Inhalt der mit `@UIMenuList` annotierten Methode wird bei *jedem* UI-Update aufgerufen.
+Deshalb sollten dort keine aufwändigen Operationen durchgeführt werden. +
+Die Liste der angezeigten Elemente wird hierbei *nicht* aktualisiert.
+Auch bleibt die Caption, das Icon und der Command bei Updates konstant.
+Lediglich die Sichtbarkeit und der Enabled-State werden erneut gesetzt. +
+Falls sich die Liste der Einträge dynamisch verändern soll, kann dies über den Sichtbarkeits- bzw. den Enabled-State implementiert werden.

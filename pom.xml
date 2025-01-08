@@ -97,6 +97,11 @@
             <!-- testbench-extension module -->
             **/org/linkki/testbench/**/*.java,
             **/org/linkki/core/defaults/ui/aspects/types/*.java,
+            <!-- linkki-f10 -->
+            **/linkki/ui/confirm/HasBrowserConfirmation.java,
+            **/linkki/ui/error/ErrorPage.java,
+            **/linkki/search/**/*.java,
+            **/linkki/sample/**/*.java
         </sonar.coverage.exclusions>
         <sonar.cpd.exclusions>
             **/org/linkki/samples/**/*.java,
