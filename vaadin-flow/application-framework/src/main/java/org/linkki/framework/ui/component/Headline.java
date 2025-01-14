@@ -22,6 +22,8 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
+import java.io.Serial;
+
 /**
  * A component that renders a header with a title.
  * 
@@ -47,6 +49,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 public class Headline extends Composite<HorizontalLayout> {
 
     public static final String HEADER_TITLE = "headerTitle";
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Bind(pmoProperty = HEADER_TITLE)

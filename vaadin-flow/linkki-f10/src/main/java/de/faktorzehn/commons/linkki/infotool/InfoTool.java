@@ -36,7 +36,7 @@ public class InfoTool {
     private final Handler updateUiHandler;
 
     /**
-     * Creates a new InfoTool with the the given id, caption and component.
+     * Creates a new InfoTool with the given id, caption and component.
      * <p>
      * If updates are necessary on every content change consider registering a
      * {@link UiUpdateObserver} at the {@link BindingManager}.

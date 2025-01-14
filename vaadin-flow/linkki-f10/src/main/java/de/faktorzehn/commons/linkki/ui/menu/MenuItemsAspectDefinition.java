@@ -25,7 +25,12 @@ import org.linkki.util.handler.Handler;
 
 /**
  * A static aspect that creates sub menu items defined in the PMO.
+ *
+ * @deprecated Moved to linkki-core-vaadin-flow. Use
+ *             {@link org.linkki.core.ui.element.annotation.UIMenuList.MenuItemsAspectDefinition}
+ *             instead
  */
+@Deprecated(since = "2.8.0")
 public class MenuItemsAspectDefinition implements LinkkiAspectDefinition {
 
     public static final String NAME = StringUtils.EMPTY;

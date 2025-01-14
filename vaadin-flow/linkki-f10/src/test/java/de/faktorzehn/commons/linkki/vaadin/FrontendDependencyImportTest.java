@@ -41,6 +41,7 @@ import de.faktorzehn.commons.linkki.ui.confirm.HasBrowserConfirmation;
  * dependencies. This test verifies the scanner works with a class structure typical for
  * applications built with f10-commons.
  */
+@SuppressWarnings("deprecation")
 public class FrontendDependencyImportTest {
 
     @Test

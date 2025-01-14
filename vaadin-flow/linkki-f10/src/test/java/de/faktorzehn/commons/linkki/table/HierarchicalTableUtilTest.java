@@ -30,6 +30,7 @@ import com.vaadin.flow.component.treegrid.TreeGrid;
 
 import de.faktorzehn.commons.linkki.ui.table.HierarchicalTableUtil;
 
+@SuppressWarnings("deprecation")
 class HierarchicalTableUtilTest {
 
     @Test

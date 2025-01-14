@@ -45,9 +45,6 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 
-import de.faktorzehn.commons.linkki.ui.menu.UIMenuList.MenuListAspectDefinitionCreator;
-import de.faktorzehn.commons.linkki.ui.menu.UIMenuList.MenuListComponentDefinitionCreator;
-
 /**
  * Marks a method which provides a list of {@link MenuItemDefinition MenuItemDefinitions}. This
  * creates a {@link SingleItemMenuBar} with a sub menu item for every {@code MenuItemDefinition}.
@@ -72,13 +69,17 @@ import de.faktorzehn.commons.linkki.ui.menu.UIMenuList.MenuListComponentDefiniti
  * <p>
  * Neither are sub menu items added nor removed if the number of {@link MenuItemDefinition}s or
  * their IDs differ between invocations.
+ *
+ * @deprecated Moved to linkki-core-vaadin-flow. Use
+ *             {@link org.linkki.core.ui.element.annotation.UIMenuList} instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiPositioned
-@LinkkiAspect(MenuListAspectDefinitionCreator.class)
+@LinkkiAspect(UIMenuList.MenuListAspectDefinitionCreator.class)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
-@LinkkiComponent(MenuListComponentDefinitionCreator.class)
+@LinkkiComponent(UIMenuList.MenuListComponentDefinitionCreator.class)
+@Deprecated(since = "2.8.0")
 public @interface UIMenuList {
 
     /**

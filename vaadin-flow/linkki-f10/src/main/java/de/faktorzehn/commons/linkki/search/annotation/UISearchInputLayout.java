@@ -27,14 +27,11 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchInputLayout.SearchInputComponentDefinitionCreator;
-import de.faktorzehn.commons.linkki.search.component.SearchInputLayout;
-
 @SuppressWarnings("deprecation")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiLayout(SearchInputLayoutDefinitionCreator.class)
-@LinkkiComponent(SearchInputComponentDefinitionCreator.class)
+@LinkkiComponent(UISearchInputLayout.SearchInputComponentDefinitionCreator.class)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
 @LinkkiPositioned
 public @interface UISearchInputLayout {
@@ -45,7 +42,7 @@ public @interface UISearchInputLayout {
     static class SearchInputComponentDefinitionCreator implements ComponentDefinitionCreator<UISearchInputLayout> {
         @Override
         public LinkkiComponentDefinition create(UISearchInputLayout annotation, AnnotatedElement annotatedElement) {
-            return pmo -> new SearchInputLayout();
+            return pmo -> new de.faktorzehn.commons.linkki.search.component.SearchLayout();
         }
     }
 

@@ -59,6 +59,41 @@ class KaribuUtilsTest {
     }
 
     @Test
+    void testPrintComponentTree_WithComponent() {
+        var testLoggingHandler = new TestLoggingHandler();
+        KaribuUtils.LOGGER.addHandler(testLoggingHandler);
+        var child = new Span("text");
+        var component = new Div(child);
+
+        KaribuUtils.printComponentTree(component);
+
+        assertThat(testLoggingHandler.getMessage())
+                .contains("Div")
+                .contains("Span")
+                .contains("text");
+        KaribuUtils.LOGGER.removeHandler(testLoggingHandler);
+    }
+
+    @Test
+    void testGetComponentTree() {
+        var child = new Span("text");
+        var component = new Div(child);
+        component.addClassName("className");
+        component.setId("id");
+        component.getElement().setAttribute("custom", "val");
+
+        var string = KaribuUtils.getComponentTree(component);
+
+        assertThat(string)
+                .containsIgnoringCase(component.getElement().getTag())
+                .containsIgnoringCase(child.getElement().getTag())
+                .contains(child.getText())
+                .contains("className")
+                .contains("id")
+                .contains("custom").contains("val");
+    }
+
+    @Test
     void testGetWithId() {
         var layout1 = new HorizontalLayout();
         layout1.setId("hl-1");

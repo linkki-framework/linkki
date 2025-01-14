@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin-flow-component</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-test</artifactId>
             <scope>test</scope>
         </dependency>

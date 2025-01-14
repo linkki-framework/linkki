@@ -45,9 +45,6 @@ import org.linkki.core.uicreation.LinkkiPositioned;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 
-import de.faktorzehn.commons.linkki.ui.menu.UIMenuButton.MenuButtonAspectDefinitionCreator;
-import de.faktorzehn.commons.linkki.ui.menu.UIMenuButton.MenuButtonComponentDefinitionCreator;
-
 /**
  * Marks a method which is invoked when the {@link UIMenuButton} is clicked.
  * <p>
@@ -64,13 +61,17 @@ import de.faktorzehn.commons.linkki.ui.menu.UIMenuButton.MenuButtonComponentDefi
  * }
  * </code>
  * </pre>
+ *
+ * @deprecated Moved to linkki-core-vaadin-flow. Use
+ *             {@link org.linkki.core.ui.element.annotation.UIMenuButton} instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiPositioned
-@LinkkiAspect(MenuButtonAspectDefinitionCreator.class)
+@LinkkiAspect(UIMenuButton.MenuButtonAspectDefinitionCreator.class)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
-@LinkkiComponent(MenuButtonComponentDefinitionCreator.class)
+@LinkkiComponent(UIMenuButton.MenuButtonComponentDefinitionCreator.class)
+@Deprecated(since = "2.8.0")
 public @interface UIMenuButton {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */

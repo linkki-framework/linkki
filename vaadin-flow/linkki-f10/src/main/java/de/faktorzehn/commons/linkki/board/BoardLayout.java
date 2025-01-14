@@ -27,9 +27,13 @@ import com.vaadin.flow.router.Route;
  * To use this {@link BoardLayout} within an {@link ApplicationLayout}, create a subclass of
  * {@link BoardLayout} and add the {@link Route} annotation with your specific
  * {@link ApplicationLayout} specified using the parameter {@link Route#layout()}.
+ *
+ * @deprecated moved to application-framework. Use
+ *             {@link org.linkki.core.vaadin.component.board.BoardLayout} instead
  */
 @Tag("linkki-board-layout")
 @JsModule("./src/linkki-board-layout.ts")
+@Deprecated(since = "2.8.0")
 public class BoardLayout extends HtmlComponent {
 
     private static final long serialVersionUID = 1L;

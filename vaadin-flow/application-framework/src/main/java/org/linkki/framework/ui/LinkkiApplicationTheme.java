@@ -21,8 +21,8 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
-import org.linkki.framework.ui.component.Headline;
 import org.linkki.framework.ui.component.MessageUiComponents;
+import org.linkki.framework.ui.component.Headline;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 

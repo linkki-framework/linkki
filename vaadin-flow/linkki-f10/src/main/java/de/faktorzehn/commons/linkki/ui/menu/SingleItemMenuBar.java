@@ -36,7 +36,11 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * A variant of {@link MenuBar} that only contains a single {@link MenuItem}, to which the common
  * linkki-aspects like caption and icon are applied directly. Trying to add additional menu items
  * will throw an {@link UnsupportedOperationException}.
+ *
+ * @deprecated Moved to linkki-vaadin-flow-component. Use
+ *             {@link org.linkki.core.vaadin.component.menu.SingleItemMenuBar} instead.
  */
+@Deprecated(since = "2.8.0")
 public class SingleItemMenuBar extends Composite<MenuBar> implements HasCaption, HasEnabled, HasIcon {
 
     private static final long serialVersionUID = 1L;

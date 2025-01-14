@@ -16,6 +16,10 @@ package de.faktorzehn.commons.linkki;
 
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
+/**
+ * @deprecated not needed anymore.
+ */
+@Deprecated(since = "2.8.0")
 public class F10Styles {
 
     public static final String LABEL_APPLICATION_ENVIRONMENT = "f10-application-environment";

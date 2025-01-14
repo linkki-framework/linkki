@@ -40,7 +40,7 @@ import com.vaadin.flow.router.QueryParameters;
 @ExtendWith(KaribuUIExtension.class)
 public class InfoToolsComponentTest {
 
-    class TestInfoToolsComponent extends InfoToolsComponent<InfoTool> {
+    static class TestInfoToolsComponent extends InfoToolsComponent<InfoTool> {
 
         public static final String QUERY_PARAM = "tools";
 

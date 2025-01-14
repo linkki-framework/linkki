@@ -14,6 +14,11 @@
 
 package de.faktorzehn.commons.linkki;
 
+/**
+ * @deprecated moved to application-framework. Use {@link org.linkki.core.ui.theme.F10ProductTheme}
+ *             instead
+ */
+@Deprecated(since = "2.8.0")
 public class F10ProductTheme {
 
     public static final String F10_PRODUCT_THEME = "f10-product";

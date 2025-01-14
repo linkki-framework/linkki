@@ -33,21 +33,17 @@ import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import com.vaadin.flow.component.Component;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchLayout.SearchComponentDefinitionCreator;
-import de.faktorzehn.commons.linkki.search.annotation.UISearchLayout.SearchLayoutDefinitionCreator;
-import de.faktorzehn.commons.linkki.search.component.SearchLayout;
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@LinkkiComponent(SearchComponentDefinitionCreator.class)
-@LinkkiLayout(SearchLayoutDefinitionCreator.class)
+@LinkkiComponent(UISearchLayout.SearchComponentDefinitionCreator.class)
+@LinkkiLayout(UISearchLayout.SearchLayoutDefinitionCreator.class)
 @LinkkiBoundProperty(EmptyPropertyCreator.class)
 public @interface UISearchLayout {
 
     static class SearchComponentDefinitionCreator implements ComponentDefinitionCreator<UISearchLayout> {
         @Override
         public LinkkiComponentDefinition create(UISearchLayout annotation, AnnotatedElement annotatedElement) {
-            return pmo -> new SearchLayout();
+            return pmo -> new de.faktorzehn.commons.linkki.search.component.SearchLayout();
         }
     }
 

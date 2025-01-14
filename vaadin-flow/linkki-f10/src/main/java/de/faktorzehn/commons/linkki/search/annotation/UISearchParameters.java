@@ -30,8 +30,6 @@ import org.linkki.core.uicreation.layout.LinkkiLayout;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexDirection;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchParameters.FlexLayoutComponentDefinitionCreator;
-
 /**
  * Creates a {@link FlexLayout} that contains elements that are defined in the PMO returned by the
  * annotated element.
@@ -39,7 +37,7 @@ import de.faktorzehn.commons.linkki.search.annotation.UISearchParameters.FlexLay
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiLayout(NestedPmoMethodLayoutDefinitionCreator.class)
-@LinkkiComponent(FlexLayoutComponentDefinitionCreator.class)
+@LinkkiComponent(UISearchParameters.FlexLayoutComponentDefinitionCreator.class)
 @LinkkiPositioned
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
 public @interface UISearchParameters {

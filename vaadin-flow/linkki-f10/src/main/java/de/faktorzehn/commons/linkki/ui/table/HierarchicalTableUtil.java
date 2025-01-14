@@ -30,7 +30,11 @@ import com.vaadin.flow.shared.Registration;
 /**
  * Provides common utility functions for {{@link TreeGrid}s whose rows implement
  * {@link HierarchicalRowPmo}.
+ *
+ * @deprecated moved to linkki-core. Use {@link org.linkki.core.ui.table.util.HierarchicalTableUtil}
+ *             instead
  */
+@Deprecated(since = "2.8.0")
 public class HierarchicalTableUtil {
 
     private HierarchicalTableUtil() {

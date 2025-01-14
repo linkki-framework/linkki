@@ -26,6 +26,7 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
+@SuppressWarnings("deprecation")
 class SingleItemMenuBarTest {
 
     @Test

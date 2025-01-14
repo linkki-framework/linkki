@@ -34,17 +34,11 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.framework.ui.component.Headline;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchLayoutHeadline.HeadlineAspectCreator;
-import de.faktorzehn.commons.linkki.search.annotation.UISearchLayoutHeadline.HeadlineComponentDefinitionCreator;
-
-/**
- * Creates a simple {@link Headline}. The title is the return value of the annotated method.
- */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
-@LinkkiComponent(HeadlineComponentDefinitionCreator.class)
-@LinkkiAspect(HeadlineAspectCreator.class)
+@LinkkiComponent(UISearchLayoutHeadline.HeadlineComponentDefinitionCreator.class)
+@LinkkiAspect(UISearchLayoutHeadline.HeadlineAspectCreator.class)
 @LinkkiPositioned
 public @interface UISearchLayoutHeadline {
 

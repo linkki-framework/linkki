@@ -71,16 +71,12 @@ import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.function.ValueProvider;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchTable.GridComponentDefinitionCreator;
-import de.faktorzehn.commons.linkki.search.annotation.UISearchTable.GridLayoutDefinitionCreator;
-import de.faktorzehn.commons.linkki.search.annotation.UISearchTable.TableAspectDefinitionCreator;
-
 @Retention(RUNTIME)
 @Target(ElementType.TYPE)
-@LinkkiComponent(GridComponentDefinitionCreator.class)
-@LinkkiLayout(GridLayoutDefinitionCreator.class)
+@LinkkiComponent(UISearchTable.GridComponentDefinitionCreator.class)
+@LinkkiLayout(UISearchTable.GridLayoutDefinitionCreator.class)
 @LinkkiBoundProperty(EmptyPropertyCreator.class)
-@LinkkiAspect(TableAspectDefinitionCreator.class)
+@LinkkiAspect(UISearchTable.TableAspectDefinitionCreator.class)
 public @interface UISearchTable {
 
     GridVariant[] variants() default { GridVariant.LUMO_WRAP_CELL_CONTENT,

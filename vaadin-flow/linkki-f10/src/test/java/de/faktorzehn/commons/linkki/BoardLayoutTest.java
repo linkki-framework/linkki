@@ -22,14 +22,15 @@ import org.junit.jupiter.api.Test;
 import com.vaadin.flow.component.Text;
 
 import de.faktorzehn.commons.linkki.board.BoardComponent;
-import de.faktorzehn.commons.linkki.board.BoardComponent.BoardComponentVariant;
 import de.faktorzehn.commons.linkki.board.BoardLayout;
 
+@SuppressWarnings("deprecation")
 class BoardLayoutTest {
 
     @Test
     void testBoardComponentsAreAdded() {
-        BoardComponent boardComponent = new BoardComponent("caption", new Text("test"), BoardComponentVariant.MEDIUM);
+        BoardComponent boardComponent =
+                new BoardComponent("caption", new Text("test"), BoardComponent.BoardComponentVariant.MEDIUM);
 
         TestBoardLayout boardLayout = new TestBoardLayout(boardComponent);
 

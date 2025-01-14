@@ -41,6 +41,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+@SuppressWarnings("deprecation")
 class UIMenuListIntegrationTest {
 
     private BindingContext bindingContext;

@@ -31,12 +31,10 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchResultLayout.SearchResultComponentDefinitionCreator;
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiLayout(NestedPmoMethodLayoutDefinitionCreator.class)
-@LinkkiComponent(SearchResultComponentDefinitionCreator.class)
+@LinkkiComponent(UISearchResultLayout.SearchResultComponentDefinitionCreator.class)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
 @LinkkiPositioned
 public @interface UISearchResultLayout {

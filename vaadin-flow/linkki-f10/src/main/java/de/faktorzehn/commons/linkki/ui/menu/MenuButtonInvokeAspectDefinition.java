@@ -23,6 +23,12 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.contextmenu.MenuItem;
 
+/**
+ * @deprecated Moved to linkki-core-vaadin-flow. Use
+ *             {@link org.linkki.core.ui.element.annotation.UIMenuButton.MenuButtonInvokeAspectDefinition}
+ *             instead.
+ */
+@Deprecated(since = "2.8.0")
 public class MenuButtonInvokeAspectDefinition implements LinkkiAspectDefinition {
 
     public static final String NAME = StringUtils.EMPTY;

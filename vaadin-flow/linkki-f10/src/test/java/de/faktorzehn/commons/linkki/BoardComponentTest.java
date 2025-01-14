@@ -26,15 +26,16 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import de.faktorzehn.commons.linkki.board.BoardComponent;
-import de.faktorzehn.commons.linkki.board.BoardComponent.BoardComponentVariant;
 
+@SuppressWarnings("deprecation")
 class BoardComponentTest {
 
     @Test
     void testCaptionIsDisplayedSomewhere() {
         String caption = "caption";
 
-        BoardComponent boardComponent = new BoardComponent(caption, new Text(""), BoardComponentVariant.MEDIUM);
+        BoardComponent boardComponent =
+                new BoardComponent(caption, new Text(""), BoardComponent.BoardComponentVariant.MEDIUM);
 
         assertThat(boardComponent).has(anyChildrenSatisfying(c -> c.getElement().getText().contentEquals(caption),
                                                              "having the text \"" + caption + "\""));
@@ -44,7 +45,8 @@ class BoardComponentTest {
     void testComponentIsAdded() {
         Text component = new Text("");
 
-        BoardComponent boardComponent = new BoardComponent("caption", component, BoardComponentVariant.MEDIUM);
+        BoardComponent boardComponent =
+                new BoardComponent("caption", component, BoardComponent.BoardComponentVariant.MEDIUM);
 
         assertThat(component).is(childOf(boardComponent));
     }
@@ -60,14 +62,17 @@ class BoardComponentTest {
     void testVariant_DefaultIsMedium() {
         BoardComponent boardComponent = new BoardComponent("caption", new Text(""));
 
-        assertThat(boardComponent.getThemeName()).contains(BoardComponentVariant.MEDIUM.getVariantName());
+        assertThat(boardComponent.getThemeName())
+                .contains(BoardComponent.BoardComponentVariant.MEDIUM.getVariantName());
     }
 
     @Test
     void testVariant_IsSetAsTheme() {
-        BoardComponent boardComponent = new BoardComponent("caption", new Text(""), BoardComponentVariant.MEDIUM);
+        BoardComponent boardComponent =
+                new BoardComponent("caption", new Text(""), BoardComponent.BoardComponentVariant.MEDIUM);
 
-        assertThat(boardComponent.getThemeName()).contains(BoardComponentVariant.MEDIUM.getVariantName());
+        assertThat(boardComponent.getThemeName())
+                .contains(BoardComponent.BoardComponentVariant.MEDIUM.getVariantName());
     }
 
     @Test
@@ -80,7 +85,8 @@ class BoardComponentTest {
 
     @Test
     void testPmoIsCreated() {
-        BoardComponent boardComponent = BoardComponent.withPmo("caption", new TestPmo(), BoardComponentVariant.MEDIUM);
+        BoardComponent boardComponent =
+                BoardComponent.withPmo("caption", new TestPmo(), BoardComponent.BoardComponentVariant.MEDIUM);
 
         assertThat(boardComponent)
                 .has(anyChildrenSatisfying(HorizontalLayout.class::isInstance, "being a HorizontalLayout"));

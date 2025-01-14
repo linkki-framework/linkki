@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -99,10 +100,13 @@
             <!-- linkki-f10 -->
             **/linkki/ui/confirm/HasBrowserConfirmation.java,
             **/linkki/ui/error/ErrorPage.java,
-            **/linkki/search/**/*.java,
-            **/linkki/sample/**/*.java
+            **/linkki/framework/ui/component/search/**/*.java,
+            **/linkki/**/sample/**/*.java,
+            **/de/faktorzehn/commons/linkki/**/*.java,
         </sonar.coverage.exclusions>
         <sonar.cpd.exclusions>
+            <!-- deprecated -->
+            **/de/faktorzehn/commons/linkki/**/*.java,
             **/org/linkki/samples/**/*.java,
             **/org/linkki/core/ui/element/annotation/*.java,
             **/org/linkki/core/util/LumoConstants.java

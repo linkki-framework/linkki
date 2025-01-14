@@ -8,6 +8,7 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 
+@SuppressWarnings("deprecation")
 class MenuItemDefinitionTest {
 
     @Test

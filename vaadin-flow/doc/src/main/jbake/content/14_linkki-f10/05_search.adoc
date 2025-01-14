@@ -46,7 +46,7 @@ PMO for Search Parameter:: A PMO for the search parameter object to implement th
 .`SampleSearchParametersPmo`
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/SampleSearchParametersPmo.java[tags=sampleSearchParametersPmo]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/SampleSearchParametersPmo.java[tags=sampleSearchParametersPmo]
 ----
 +
 The first UI element annotated with `@BindAutoFocus` makes the element being automatically selected with a focus ring within the browser.
@@ -56,7 +56,7 @@ Collected Search Results :: Wrapper for a list of singular search results. Note 
 .`SampleSearchResult`
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchResult.java[tags=SampleSearchResult]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/service/SampleSearchResult.java[tags=SampleSearchResult]
 ----
 
 Single Search Result:: Model object of a single search result
@@ -129,7 +129,7 @@ The search component needs a `SearchLayoutPmo` that is created using the `Search
 .Example implementation of a search component using `SearchLayoutBuilder<PARAM, RESULT, MODELOBJECT, ROW>`
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextdependent/ContextDependentSearchView.java[tags=searchLayoutBuilder]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/contextdependent/ContextDependentSearchView.java[tags=searchLayoutBuilder]
 ----
 
 The "primary action" is executed upon double-clicking the search result row. When using a context-free search, it is common to open the entry in a new site. The common action for a context-dependent search is to select the entry.
@@ -147,7 +147,7 @@ Since the search site must be reachable per URL, a `@Route` annotation is needed
 
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextfree/ContextFreeSearchView.java[tags=ContextFreeSearchView]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/contextfree/ContextFreeSearchView.java[tags=ContextFreeSearchView]
 ----
 
 [NOTE]
@@ -157,13 +157,13 @@ The content of the site must be a `SearchLayoutPmo` that is created using `Searc
 
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextfree/ContextFreeSearchView.java[tags=content]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/contextfree/ContextFreeSearchView.java[tags=content]
 ----
 
 The search controller must be initialised and needs the value of the `@Route` annotation as first parameter.
 [source, java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextfree/ContextFreeSearchView.java[tags=searchController]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/contextfree/ContextFreeSearchView.java[tags=searchController]
 ----
 
 Finally, within `afterNavigation` the `AfterNavigationEvents` `Location` must be used to `initialize` the `RoutingSearchController`. The search controller then reads the search parameters of the URL and executes the search if necessary.
@@ -173,7 +173,7 @@ The search parameters can be visualised by updating the `BindingContext` contain
 
 [source, java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextfree/ContextFreeSearchView.java[tags=initialize]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/contextfree/ContextFreeSearchView.java[tags=initialize]
 ----
 
 ===== Query Parameter Mapping
@@ -182,14 +182,14 @@ An implementation of `SearchParameterMapper` must be created for the search para
 
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=SampleSearchParametersMapper]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/service/SampleSearchParametersMapper.java[tags=SampleSearchParametersMapper]
 ----
 
 The `toSearchParameters` method creates a search parameter object based on the query parameters:
 
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=toSearchParameters]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/service/SampleSearchParametersMapper.java[tags=toSearchParameters]
         ...
 ----
 
@@ -197,7 +197,7 @@ Consequently, `toQueryParameters` creates query parameters from a given search p
 
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=toQueryParameters]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/service/SampleSearchParametersMapper.java[tags=toQueryParameters]
         ...
 ----
 
@@ -205,9 +205,9 @@ In case that every parameter only has one value, `ParamsUtil.flatten` can be use
 
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=formatIsoDate]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/service/SampleSearchParametersMapper.java[tags=formatIsoDate]
 
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/service/SampleSearchParametersMapper.java[tags=parseIsoDate]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/service/SampleSearchParametersMapper.java[tags=parseIsoDate]
 ----
 
 [[context-dependent-search]]
@@ -222,11 +222,11 @@ A `SearchLayoutPmo` is again needed but independent of the kind of search and it
 .Dialog
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextdependent/ContextDependentSearchView.java[tags=showSearchDialog]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/contextdependent/ContextDependentSearchView.java[tags=showSearchDialog]
 ----
 
 .SimpleSearchController
 [source,java]
 ----
-include::{source-dir}/src/main/java/de/faktorzehn/commons/linkki/sample/search/contextdependent/ContextDependentSearchView.java[tags=SimpleSearchController]
+include::{source-dir}/src/main/java/org/linkki/samples/f10/search/contextdependent/ContextDependentSearchView.java[tags=SimpleSearchController]
 ----

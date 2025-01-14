@@ -28,9 +28,13 @@ import com.vaadin.flow.component.html.H3;
 
 /**
  * A card displaying a component in {@link BoardLayout} with a caption.
+ *
+ * @deprecated moved to linkki-core-vaadin-flow. Use
+ *             {@link org.linkki.core.vaadin.component.board.BoardComponent} instead.
  */
 @Tag("linkki-board-component")
 @JsModule("./src/linkki-board-component.ts")
+@Deprecated(since = "2.8.0")
 public class BoardComponent extends HtmlComponent implements HasTheme {
 
     private static final long serialVersionUID = 1L;

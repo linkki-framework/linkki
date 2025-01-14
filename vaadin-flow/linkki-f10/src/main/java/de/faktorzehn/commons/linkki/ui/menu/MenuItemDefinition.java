@@ -26,7 +26,11 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 /**
  * Defines a menu item for the {@link UIMenuList}. The annotated method should return a list of this
  * type.
+ *
+ * @deprecated Moved to linkki-vaadin-flow-component. Use
+ *             {@link org.linkki.core.vaadin.component.menu.MenuItemDefinition} instead.
  */
+@Deprecated(since = "2.8.0")
 public class MenuItemDefinition {
 
     private final String caption;

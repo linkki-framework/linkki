@@ -1,14 +1,15 @@
-:jbake-title: Unit Testing
+:jbake-title: Unit UI Testing
 :jbake-type: section
 :jbake-status: published
 
 [[karibu-testing]]
-=== Unit testing with Karibu-Testing
+=== Unit UI testing with Karibu-Testing
 
-https://github.com/mvysny/karibu-testing[Karibu-Testing] provides functionality to write browserless server-side JUnit Tests for Vaadin applications.
-This allows calls such as `UI.getCurrent()` in a regular JUnit test by mocking `VaadinSession`, `CurrentRequest` and others.
+As Vaadin UI is built server-side, it is possible to test the server-side UI without a deployment or browser.
+The maven dependency `linkki-vaadin-flow-test` provides utilities for unit UI testing using JUnit.
 
-linkki provides an extension of Karibu Testing.
+This library utilized https://github.com/mvysny/karibu-testing[Karibu-Testing] which provides additional functionalities unit UI tests, e.g. allowing calling `UI.getCurrent` without mocking the setup such as `VaadinSession` or `CurrentRequest`.
+For tests with Karibu, linkki provides an extension to make the configuration and assertion easier with linkki projects.
 
 ==== Maven Dependency
 
@@ -18,6 +19,30 @@ linkki provides an extension of Karibu Testing.
     <groupId>org.linkki-framework</groupId>
     <artifactId>linkki-vaadin-flow-test</artifactId>
 </dependency>
+----
+
+[[component-conditions]]
+==== Conditions for AssertJ
+
+The utility class `ComponentConditions` provides UI specific conditions that can be used with AssertJ.
+
+.Example usage of ComponentConditions
+[source,java]
+----
+import static org.linkki.core.ui.test.ComponentConditions.childOf;
+
+...
+
+    @Test
+    void testChildOf() {
+        var grandChild = new Div();
+        var child = new Div(grandChild);
+        var layout = new Div(child);
+
+        assertThat(child).is(childOf(layout));
+        assertThat(grandChild).is(childOf(layout));
+        assertThat(layout).isNot(childOf(child));
+    }
 ----
 
 ==== Mock Vaadin setup with KaribuUIExtension
@@ -102,7 +127,7 @@ class SimpleTestClassWithLocaleEn {
 ----
 
 [[karibu-utils]]
-==== Finding elements and writing assertions
+==== Finding elements and writing assertions with `KaribuUtils`
 
 Karibu provides a class `LocatorJ` that provides many useful methods to find elements, most notably `_find` and `_get`.
 In addition, the class also provides several methods for assertions such as `_assertOne` which provides a very useful failure message.

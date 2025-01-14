@@ -55,6 +55,16 @@
             "regex": true,
             "new": ".*org\\.linkki\\.core\\..*AspectDefinition.*",
             "justification": "LIN-4183"
+          },
+          {
+            "code": "java.class.removed",
+            "old": "interface org.linkki.core.vaadin.component.HasCaption",
+            "justification": "LIN-4105 Moved to linkki component"
+          },
+          {
+            "code": "java.class.removed",
+            "old": "interface org.linkki.core.vaadin.component.HasIcon",
+            "justification": "LIN-4105 Moved to linkki component"
           }
         ]
       }

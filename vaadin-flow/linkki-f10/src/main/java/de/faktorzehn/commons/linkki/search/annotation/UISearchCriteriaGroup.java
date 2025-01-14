@@ -28,9 +28,6 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchCriteriaGroup.SearchCriteriaGroupComponentDefinitionCreator;
-import de.faktorzehn.commons.linkki.search.component.SearchCriteriaGroup;
-
 /**
  * Use this annotation to create a group of search criteria within your search criteria PMO.
  * <p>
@@ -40,7 +37,7 @@ import de.faktorzehn.commons.linkki.search.component.SearchCriteriaGroup;
 @Retention(RUNTIME)
 @Target(METHOD)
 @LinkkiPositioned
-@LinkkiComponent(SearchCriteriaGroupComponentDefinitionCreator.class)
+@LinkkiComponent(UISearchCriteriaGroup.SearchCriteriaGroupComponentDefinitionCreator.class)
 @LinkkiLayout(NestedPmoMethodLayoutDefinitionCreator.class)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
 public @interface UISearchCriteriaGroup {
@@ -54,7 +51,7 @@ public @interface UISearchCriteriaGroup {
 
         @Override
         public LinkkiComponentDefinition create(UISearchCriteriaGroup annotation, AnnotatedElement annotatedElement) {
-            return pmo -> new SearchCriteriaGroup(annotation.caption());
+            return pmo -> new de.faktorzehn.commons.linkki.search.component.SearchCriteriaGroup(annotation.caption());
         }
     }
 }

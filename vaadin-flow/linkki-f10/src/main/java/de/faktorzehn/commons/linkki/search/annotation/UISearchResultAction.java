@@ -38,24 +38,19 @@ import org.linkki.core.uicreation.LinkkiPositioned;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchResultAction.SearchResultActionComponentDefinitionCreator;
-import de.faktorzehn.commons.linkki.search.annotation.UISearchResultAction.SearchResultListAspectDefinitionCreator;
-import de.faktorzehn.commons.linkki.ui.menu.MenuItemsAspectDefinition;
-import de.faktorzehn.commons.linkki.ui.menu.SingleItemMenuBar;
-import de.faktorzehn.commons.linkki.ui.menu.UIMenuList;
-
 /**
- * This annotation is similar to {@link UIMenuList} but has special settings for the column of
- * additional actions in a search result table.
+ * This annotation is similar to {@link de.faktorzehn.commons.linkki.ui.menu.UIMenuList} but has
+ * special settings for the column of additional actions in a search result table.
  * 
- * @see UIMenuList
+ * @see de.faktorzehn.commons.linkki.ui.menu.UIMenuList
  */
+@SuppressWarnings("deprecation")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiPositioned
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
-@LinkkiComponent(SearchResultActionComponentDefinitionCreator.class)
-@LinkkiAspect(SearchResultListAspectDefinitionCreator.class)
+@LinkkiComponent(UISearchResultAction.SearchResultActionComponentDefinitionCreator.class)
+@LinkkiAspect(UISearchResultAction.SearchResultListAspectDefinitionCreator.class)
 public @interface UISearchResultAction {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -74,7 +69,8 @@ public @interface UISearchResultAction {
         public LinkkiComponentDefinition create(UISearchResultAction annotation,
                 AnnotatedElement annotatedElement) {
             return pmo -> {
-                SingleItemMenuBar menuBar = new SingleItemMenuBar("", VaadinIcon.ELLIPSIS_DOTS_H);
+                de.faktorzehn.commons.linkki.ui.menu.SingleItemMenuBar menuBar = new de.faktorzehn.commons.linkki.ui.menu.SingleItemMenuBar(
+                        "", VaadinIcon.ELLIPSIS_DOTS_H);
                 menuBar.getContent().addThemeVariants(MenuBarVariant.LUMO_TERTIARY_INLINE);
                 return menuBar;
             };
@@ -88,7 +84,7 @@ public @interface UISearchResultAction {
         public LinkkiAspectDefinition create(UISearchResultAction annotation) {
             return new CompositeAspectDefinition(
                     new VisibleAspectDefinition(annotation.visible()),
-                    new MenuItemsAspectDefinition());
+                    new de.faktorzehn.commons.linkki.ui.menu.MenuItemsAspectDefinition());
         }
 
     }

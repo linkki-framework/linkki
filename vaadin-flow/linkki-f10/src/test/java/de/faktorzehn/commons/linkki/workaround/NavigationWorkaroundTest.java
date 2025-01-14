@@ -36,6 +36,7 @@ import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParameters;
 
+@SuppressWarnings("deprecation")
 class NavigationWorkaroundTest {
 
     private static final String ROUTE_PARAM = "path";

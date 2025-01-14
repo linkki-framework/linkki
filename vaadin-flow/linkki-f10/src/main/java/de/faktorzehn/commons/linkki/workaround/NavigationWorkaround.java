@@ -51,11 +51,15 @@ import com.vaadin.flow.router.RouteParameters;
  * scan, see {@link #WORKAROUND_ROUTE_PACKAGE}.
  *
  * @see <a href="https://github.com/vaadin/flow/issues/16984">related GitHub issue</a>
+ *
+ * @deprecated moved to application-framework. Use
+ *             {@link org.linkki.framework.ui.NavigationWorkaround} instead
  */
 // TODO: remove this class and its usages if the described issue is fixed.
 // Also remove the jakarta.servlet-api dependency from this module'S POM since it is only required
 // for
 // this class.
+@Deprecated(since = "2.8.0")
 public class NavigationWorkaround {
 
     /**

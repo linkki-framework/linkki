@@ -23,8 +23,12 @@ import com.vaadin.flow.router.BeforeLeaveObserver;
 /**
  * This interface is used to enable or disable the default browser confirm dialog. This is used when
  * a view is leaving through navigation or refresh to show the confirm dialog.
+ *
+ * @deprecated moved to application-framework. Use
+ *             {@link org.linkki.framework.ui.HasBrowserConfirmation} instead
  */
 @JsModule(value = "./src/confirm.js")
+@Deprecated(since = "2.8.0")
 public interface HasBrowserConfirmation extends HasElement, BeforeLeaveObserver {
 
     /**
