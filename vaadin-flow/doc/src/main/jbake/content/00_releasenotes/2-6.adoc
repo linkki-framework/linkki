@@ -17,7 +17,7 @@ The following versions have been updated:
 |===
 | Faktor-IPS                | 24.7.6.release
 | Vaadin                    | 24.4.22
-| Spring Boot               | 3.3.6
+| Spring Boot               | 3.3.7
 |===
 
 ==== Bugfixes
