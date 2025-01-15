@@ -20,6 +20,7 @@ docker create \
         --label "url=$CONTAINER_NAME" \
         --label "entry-path=linkki-sample-test-playground-vaadin-flow" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
+        --cgroup-parent "$DOCKER_CGROUP_PARENT" \
         -e "JAVA_TOOL_OPTIONS=-Xms250m -Xmx750m" \
         harbor.faktorzehn.de/suite-base/spring:24.1
 
