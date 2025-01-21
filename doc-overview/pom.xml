@@ -15,6 +15,8 @@
         <doc.deployment.port>2004</doc.deployment.port>
 
         <maven.deploy.skip>true</maven.deploy.skip>
+
+        <linkki-latest.version>2.7</linkki-latest.version>
     </properties>
 
     <groupId>org.linkki-framework</groupId>
@@ -66,8 +68,14 @@
                         </goals>
                         <configuration>
                             <commands>
+                                <!-- Remove old versions overview page -->
                                 <command>rm -vrf \
                                     /var/www/${doc.deployment.url}/versions
+                                </command>
+                                <!-- Update symlink to latest version -->
+                                <command>ln -s \
+                                    /var/www/${doc.deployment.url}/${linkki-latest-version} \
+                                    /var/www/${doc.deployment.url}/latest
                                 </command>
                             </commands>
                             <serverId>linkkidoc</serverId>
