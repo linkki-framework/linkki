@@ -1,36 +1,40 @@
 :host {
-  background: var(--linkki-grid-background, var(--lumo-base-color));
+    background: var(--linkki-grid-background, var(--lumo-base-color));
 }
 
 [part~="cell"] {
-  background: var(--linkki-grid-background, var(--lumo-base-color));
+    background: var(--linkki-grid-background, var(--lumo-base-color));
 }
 
 [part="row"]:only-child [part~="header-cell"] {
-  min-height: var(--lumo-size-m);
+    min-height: var(--lumo-size-m);
 }
 
 #footer {
-  text-align: var(--linkki-footer-alignment, left);
-  text-shadow: var(--linkki-footer-text-shadow);
+    text-align: var(--linkki-footer-alignment, left);
+    text-shadow: var(--linkki-footer-text-shadow);
 }
 
 [part~="footer-cell"] ::slotted(vaadin-grid-cell-content) {
-  font-size: var(--lumo-font-size-m);
+    font-size: var(--lumo-font-size-m);
 }
 
+/******************************************************************************
+* Empty state
+******************************************************************************/
 :host([has-placeholder]:not([has-items])) {
-  /* override fixed inline height */
-  height: unset !important;
+    /* override fixed inline height */
+    height: unset !important;
 }
 :host([has-placeholder]:not([has-items])) #scroller {
-  display: none;
+    display: none;
 }
-:host([has-placeholder]:not([has-items]))::after {
-  content: var(--placeholder, "");
-  font-style: italic;
-  opacity: 0.7;
+:host[has-placeholder]:not([has-items]) {
+    visibility: hidden;
 }
-:host([has-placeholder]:not([has-items])[has-errors])::after {
-  content: var(--error-message);
+:host([has-placeholder]:not([has-items]))::before {
+    visibility: visible;
+    content: var(--placeholder, "");
+    font-style: var(--linkki-empty-state-font-style);
+    color: var(--linkki-empty-state-text-color);
 }

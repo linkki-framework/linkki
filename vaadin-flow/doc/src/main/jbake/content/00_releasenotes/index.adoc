@@ -25,7 +25,20 @@ The release notes contain changes compared to link:https://doc.linkki-framework.
 // | Spring Boot                   | 3.4.2 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.4.2
 // |===
 
-// ==== UI Annotations and Aspects
+==== UI Annotations and Aspects
+
+[api-change]
+===== Aspects with asynchronously loaded values
+
+It is now possible to create custom aspects that load values asynchronously with a `CompletableFuture`. The documentation for creating custom aspects is extended with a <<aspect-async,how-to guide for creating custom future aware aspects>>.
+
+Additionally, the frontend behaviors of `UILable` and `@UITableComponent` considering loading have been unified. This leads to following breaking changes in the frontend:
+* During loading, the `items-loading` (UITableComponent) / `value-loading` (UILabel) attributes are no longer set. Instead, the attribute `content-loading` is set.
+* The `has-errors` attribute has been renamed to `has-loading-error`.
+* The CSS property `error-messages` has been renamed to `loading-error-message`.
+* `@UILabel` components in a loading state no longer have the CSS class `loading`.
+
+Custom CSS selectors that utilize the above attributes / CSS Properties must be adjusted accordingly.
 
 ==== Other Improvements
 

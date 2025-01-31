@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.aspects.FutureAwareAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindPlaceholder;
 import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
@@ -23,7 +24,6 @@ import org.linkki.core.uicreation.UiCreator;
 import org.slf4j.LoggerFactory;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.shared.communication.PushMode;
@@ -42,15 +42,9 @@ class UITableComponentIntegrationTest {
     void setupLogger() {
         testLogAppender.setContext((LoggerContext)LoggerFactory.getILoggerFactory());
         var gridItemsAspectDefinitionLogger = (Logger)LoggerFactory
-                .getLogger(UITableComponent.GridItemsAspectDefinition.class);
+                .getLogger(FutureAwareAspectDefinition.class);
         gridItemsAspectDefinitionLogger.setLevel(Level.DEBUG);
         gridItemsAspectDefinitionLogger.addAppender(testLogAppender);
-
-        // Adds the logs from the error handler as exceptions during UI#access are logged by it.
-        var errorHandlerLogger = (Logger)LoggerFactory
-                .getLogger(UI.getCurrent().getSession().getErrorHandler().getClass());
-        errorHandlerLogger.setLevel(Level.DEBUG);
-        errorHandlerLogger.addAppender(testLogAppender);
 
         testLogAppender.start();
     }
@@ -163,12 +157,12 @@ class UITableComponentIntegrationTest {
         assertThat(grid.getListDataView().getItems())
                 .as("Initially on creation: Items should be updated asynchronously disregarding the push mode")
                 .isEmpty();
-        assertThat(grid.getElement().hasAttribute("items-loading")).isTrue();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isTrue();
 
         KaribuUtils.UI.push(ui);
 
         assertThat(grid.getListDataView().getItems()).hasSize(1);
-        assertThat(grid.getElement().hasAttribute("items-loading")).isFalse();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isFalse();
         assertThat(grid.getElement().hasAttribute("has-items")).isTrue();
 
         pmo.clearItems();
@@ -177,12 +171,12 @@ class UITableComponentIntegrationTest {
         assertThat(grid.getListDataView().getItems())
                 .as("On model changed: Items should be updated asynchronously disregarding the push mode")
                 .hasSize(1);
-        assertThat(grid.getElement().hasAttribute("items-loading")).isTrue();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isTrue();
 
         KaribuUtils.UI.push(ui);
 
         assertThat(grid.getListDataView().getItems()).isEmpty();
-        assertThat(grid.getElement().hasAttribute("items-loading")).isFalse();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isFalse();
         assertThat(grid.getElement().hasAttribute("has-items")).isFalse();
     }
 
@@ -199,38 +193,38 @@ class UITableComponentIntegrationTest {
                                                                                      NoLabelComponentWrapper::new);
         @SuppressWarnings("unchecked")
         var grid = (Grid<Object>)wrapper.getComponent();
-        assertThat(grid.getElement().hasAttribute("items-loading")).isTrue();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isTrue();
         KaribuUtils.UI.push(ui);
         assertThat(testLogAppender.getLoggedEvents(Level.ERROR)).isEmpty();
         assertThat(grid.getListDataView().getItems()).hasSize(1);
-        assertThat(grid.getElement().hasAttribute("has-errors")).isFalse();
-        assertThat(grid.getStyle().get("--error-message")).isNullOrEmpty();
+        assertThat(grid.getElement().hasAttribute("has-loading-error")).isFalse();
+        assertThat(grid.getStyle().get("--loading-error-message")).isNullOrEmpty();
 
-        assertThat(grid.getElement().hasAttribute("items-loading")).isFalse();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isFalse();
 
         pmo.setException(true);
         bindingContext.modelChanged();
-        assertThat(grid.getElement().hasAttribute("items-loading")).isTrue();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isTrue();
         KaribuUtils.UI.push(ui);
 
         var errorLogs = testLogAppender.getLoggedEvents(Level.ERROR);
         assertThat(errorLogs).hasSize(1);
         assertThat(grid.getListDataView().getItems()).isEmpty();
-        assertThat(grid.getElement().hasAttribute("has-errors")).isTrue();
-        assertThat(grid.getStyle().get("--error-message"))
+        assertThat(grid.getElement().hasAttribute("has-loading-error")).isTrue();
+        assertThat(grid.getStyle().get("--loading-error-message"))
                 .isNotBlank()
                 .doesNotContain(TestTablePmo.EXCEPTION_MESSAGE);
-        assertThat(grid.getElement().hasAttribute("items-loading")).isFalse();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isFalse();
 
         pmo.setException(false);
         bindingContext.modelChanged();
-        assertThat(grid.getElement().hasAttribute("has-errors")).isFalse();
-        assertThat(grid.getElement().hasAttribute("items-loading")).isTrue();
+        assertThat(grid.getElement().hasAttribute("has-loading-error")).isFalse();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isTrue();
         KaribuUtils.UI.push(ui);
 
-        assertThat(grid.getElement().hasAttribute("has-errors")).isFalse();
-        assertThat(grid.getStyle().get("--error-message")).isNullOrEmpty();
-        assertThat(grid.getElement().hasAttribute("items-loading")).isFalse();
+        assertThat(grid.getElement().hasAttribute("has-loading-error")).isFalse();
+        assertThat(grid.getStyle().get("--loading-error-message")).isNullOrEmpty();
+        assertThat(grid.getElement().hasAttribute("content-loading")).isFalse();
     }
 
     @Test

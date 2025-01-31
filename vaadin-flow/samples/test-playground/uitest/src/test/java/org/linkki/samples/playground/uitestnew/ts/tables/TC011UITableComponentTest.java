@@ -2,6 +2,7 @@ package org.linkki.samples.playground.uitestnew.ts.tables;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.vaadin.flow.component.html.testbench.DivElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
@@ -23,17 +24,20 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
     @Test
     void testPlaceholder() {
         var tableId = "rows";
-        var table = $(LinkkiGridElement.class).id(tableId);
+        var nestedComponent = $(DivElement.class).id("fixHeightTable");
+        var table = nestedComponent.$(LinkkiGridElement.class).id(tableId);
 
         assertThat(table.$("table").get(0).getSize().getHeight()).isEqualTo(0);
         assertThat(table.getPlaceholderText())
                 .as("Don't show placeholder during initial loading")
                 .isEmpty();
+        assertThat(table.getWrappedElement().getSize().getHeight())
+                .as("Loading indicator is shown").isGreaterThan(0);
 
         waitUntil(d -> table.getRowCount() > 0, 10);
         assertThat(table.getPlaceholderText()).isEmpty();
 
-        $(ButtonElement.class).id("addPerson").click();
+        nestedComponent.$(ButtonElement.class).id("addPerson").click();
 
         assertThat(table.getPlaceholderText())
                 .as("Don't show placeholder if the table has items")
@@ -50,11 +54,12 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
                 .isPresent()
                 .hasValue("There are no person to be shown. Add a new person by clicking on the header button.");
 
-        $(CheckboxElement.class).id("exception").setChecked(true);
+        nestedComponent.$(CheckboxElement.class).id("exception").setChecked(true);
+        nestedComponent.$(ButtonElement.class).id("reload").click();
         waitUntil(d -> !table.getPlaceholderText().orElse("").isBlank(), 10);
         assertThat(table.getPlaceholderText())
                 .as("Shows error placeholder if exception occurred during getItems")
-                .hasValue("An error occurred when retrieving table content.");
+                .hasValue("An error occurred when retrieving content.");
     }
 
 }

@@ -1,5 +1,6 @@
 @import "vaadin-checkbox.css";
 @import "vaadin-radio-button.css";
+@import "loading-styles.css";
 
 html {
 
@@ -30,6 +31,9 @@ html {
     --linkki-error-color-10pct: var(--lumo-error-color-10pct);
     --linkki-error-color-50pct: var(--lumo-error-color-50pct);
     --linkki-error-text-color: var(--lumo-error-text-color);
+
+    --linkki-empty-state-font-style: italic;
+    --linkki-empty-state-text-color: var(--lumo-secondary-text-color);
 
     /* loading indicator on the bottom of the page */
     --linkki-loading-indicator-top: auto;
@@ -65,7 +69,6 @@ a:not([href]) {
     --linkki-info-color-50pct: hsl(213, 80%, 50%);
     --linkki-info-text-color: hsl(213, 80%, 64%);
 }
-
 
 /******************************************************************************
  * THEME: COMPACT
@@ -160,13 +163,6 @@ a:not([href]) {
 /******************************************************************************
  * UTILITY CLASSES
  ******************************************************************************/
-
-/* deprecated since 2.7.0. Use @BindPlaceholder instead */
-.text-placeholder {
-   font-style: italic;
-   opacity: 0.7;
-}
-
 linkki-section vaadin-form-item .text-placeholder {
   position: relative;
   left: calc(-1 * var(--linkki-form-item-label-width, 8em));
@@ -245,75 +241,15 @@ linkki-text.text-info > span {
 }
 
 /******************************************************************************
-* LOADING STYLES
-******************************************************************************/
-.loading::part(input-field),
-.loading::part(group-field),
-vaadin-checkbox.loading,
-linkki-text.loading > *,
-vaadin-date-time-picker.loading > vaadin-date-picker::part(input-field),
-vaadin-date-time-picker.loading > vaadin-time-picker::part(input-field) {
-    visibility: hidden;
-    padding-left: 0;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-}
-
-.loading::part(input-field)::before,
-.loading::part(group-field)::before,
-vaadin-checkbox.loading::before,
-linkki-text.loading > *:first-child::before,
-vaadin-date-time-picker.loading > vaadin-date-picker::part(input-field)::before,
-vaadin-grid[items-loading]::after {
-    --dot-size: 5px;
-    visibility: visible;
-    display: inline-block;
-    content: "";
-    width: var(--dot-size);
-    height: var(--dot-size);
-    margin-left: calc(1.5 * var(--dot-size));
-    margin-top: var(--dot-size);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    animation: loading-dots 1s infinite linear alternate;
-}
-
-/* show loading indicator on top of table if table is empty */
-vaadin-grid:not([has-items])[items-loading]::after {
-    position: absolute;
-    top: 0;
-}
-
-/* show loading indicator on bottom of table if table has entries */
-vaadin-grid[has-items][items-loading]::after {
-    position: absolute;
-    bottom: 0;
-}
-
-@keyframes loading-dots {
-    from {
-        box-shadow: 7px 0 #000, -7px 0 #0002;
-        background: #000
-    }
-    33% {
-        box-shadow: 7px 0 #000, -7px 0 #0002;
-        background: #0002
-    }
-    66% {
-        box-shadow: 7px 0 #0002, -7px 0 #000;
-        background: #0002
-    }
-    to {
-        box-shadow: 7px 0 #0002, -7px 0 #000;
-        background: #000
-    }
-}
-
-/******************************************************************************
  * DEPRECATED STYLES
  ******************************************************************************/
 .placeholder-label {
-    font-style: italic;
-    opacity: 0.7;
+    font-style: var(--linkki-empty-state-font-style);
+    color: var(--linkki-empty-state-text-color);
+}
+
+/* deprecated since 2.7.0. Use @BindPlaceholder instead */
+.text-placeholder {
+    font-style: var(--linkki-empty-state-font-style);
+    color: var(--linkki-empty-state-text-color);
 }

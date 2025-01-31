@@ -1,0 +1,89 @@
+/******************************************************************************
+* LOADING STYLES
+******************************************************************************/
+
+/* Hide input field but keep displaying the label */
+[content-loading]::part(input-field),
+[has-loading-error]::part(input-field),
+[content-loading]::part(group-field),
+[has-loading-error]::part(group-field),
+vaadin-checkbox[content-loading]::part(checkbox),
+vaadin-checkbox[has-loading-error]::part(checkbox),
+linkki-text[content-loading] > *,
+linkki-text[has-loading-error] > *,
+vaadin-date-time-picker[content-loading] > vaadin-date-picker::part(input-field),
+vaadin-date-time-picker[content-loading] > vaadin-time-picker::part(input-field),
+vaadin-date-time-picker[has-loading-error] > vaadin-date-picker::part(input-field),
+vaadin-date-time-picker[has-loading-error] > vaadin-time-picker::part(input-field),
+vaadin-grid[content-loading],
+vaadin-grid[has-loading-error] {
+    visibility: hidden;
+    position: relative;
+    padding-left: 0;
+}
+
+/* Loading indicator */
+[content-loading]::part(input-field)::before,
+[content-loading]::part(group-field)::before,
+vaadin-checkbox[content-loading]::part(checkbox)::before,
+linkki-text[content-loading]::part(content)::before,
+vaadin-date-time-picker[content-loading] > vaadin-date-picker::part(input-field)::before,
+    /* override placeholder styles with higher specificity */
+vaadin-grid[has-placeholder]:not([has-items])[content-loading]::before,
+vaadin-grid[content-loading]::before {
+    --dot-size: 5px;
+    visibility: visible;
+    font-size: initial;
+    display: inline-block;
+    content: "";
+    width: var(--dot-size);
+    height: var(--dot-size);
+    margin-left: calc(1.5 * var(--dot-size));
+    margin-top: var(--dot-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: loading-dots 1s infinite linear alternate;
+}
+
+vaadin-checkbox[content-loading]::part(checkbox)::before {
+    opacity: 1;
+    transform: none;
+}
+
+/* Loading error */
+[has-loading-error]::part(input-field)::before,
+[has-loading-error]::part(group-field)::before,
+vaadin-checkbox[has-loading-error]::part(checkbox)::before,
+vaadin-date-time-picker[has-loading-error] > vaadin-date-picker::part(input-field)::before,
+linkki-text[has-loading-error]::part(content)::before,
+    /* override placeholder styles with higher specificity */
+vaadin-grid[has-placeholder]:not([has-items])[has-loading-error]::before,
+vaadin-grid[has-loading-error]::before {
+    visibility: visible;
+    font-size: initial;
+    content: var(--loading-error-message);
+    color: var(--linkki-error-text-color);
+    font-style: var(--linkki-empty-state-font-style);
+}
+[has-loading-error] input {
+    width: 0;
+}
+
+@keyframes loading-dots {
+    from {
+        box-shadow: 7px 0 #000, -7px 0 #0002;
+        background: #000
+    }
+    33% {
+        box-shadow: 7px 0 #000, -7px 0 #0002;
+        background: #0002
+    }
+    66% {
+        box-shadow: 7px 0 #0002, -7px 0 #000;
+        background: #0002
+    }
+    to {
+        box-shadow: 7px 0 #0002, -7px 0 #000;
+        background: #000
+    }
+}

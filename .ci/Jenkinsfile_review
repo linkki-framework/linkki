@@ -77,27 +77,27 @@ pipeline {
                                 archiveArtifacts 'vaadin-flow/doc/target/doc/**'
                             }
                         }
-                    }
-                }
 
-                stage('SonarQube Analysis') {
-                    stages {
-                        stage('Analysis') {
-                            steps {
-                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17') {
-                                    runSonarQubeAnalysis()
-                                }
-                            }
-                        }
-                        stage('Quality Gate') {
-                            steps {
-                                timeout(time: 1, unit: 'HOURS') {
-                                    script {
-                                        def qg = waitForQualityGate()
-                                        if (qg.status != 'OK') {
-                                            unstable("SonarQube failed with status: ${qg.status}")
+                        stage('SonarQube Analysis') {
+                            stages {
+                                stage('Analysis') {
+                                    steps {
+                                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17') {
+                                            runSonarQubeAnalysis()
                                         }
-                                        echo "Sonar Qube: https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}"
+                                    }
+                                }
+                                stage('Quality Gate') {
+                                    steps {
+                                        timeout(time: 1, unit: 'HOURS') {
+                                            script {
+                                                def qg = waitForQualityGate()
+                                                if (qg.status != 'OK') {
+                                                    unstable("SonarQube failed with status: ${qg.status}")
+                                                }
+                                                echo "Sonar Qube: https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}"
+                                            }
+                                        }
                                     }
                                 }
                             }

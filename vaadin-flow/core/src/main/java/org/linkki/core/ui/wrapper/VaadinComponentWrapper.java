@@ -71,8 +71,8 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     /**
      * Vaadin adds a client validator for every field which set the invalid property according to
-     * the internal field validation. Hence we need to restore the correct invalid property
-     * afterwards.
+     * the internal field validation. Hence, we need to restore the correct invalid property
+     * afterward.
      */
     private void workaroundVaadinClientValidation() {
         if (component instanceof HasClientValidation fieldWithClientValidation) {
