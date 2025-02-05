@@ -279,16 +279,8 @@ vaadin-grid[items-loading]::after {
     animation: loading-dots 1s infinite linear alternate;
 }
 
-/* show loading indicator on top of table if table is empty */
-vaadin-grid:not([has-items])[items-loading]::after {
-    position: absolute;
-    top: 0;
-}
-
-/* show loading indicator on bottom of table if table has entries */
-vaadin-grid[has-items][items-loading]::after {
-    position: absolute;
-    bottom: 0;
+vaadin-grid[items-loading] {
+    visibility: hidden;
 }
 
 @keyframes loading-dots {

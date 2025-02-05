@@ -5,6 +5,13 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.7.1
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4159
+* Loading indicator of a grid is not visible if placeholder is set and the grid does not have full height.
+
 === Version 2.7.0
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.6/00_releasenotes/#_version_2_6_2[version 2.6.2].
