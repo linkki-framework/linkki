@@ -24,10 +24,8 @@ import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.aspects.annotation.BindPlaceholder;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
-import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
-import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITableComponent;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
@@ -169,16 +167,4 @@ public class UITableComponentPmo {
         }
     }
 
-    record RecordPmo(@BindVisible @UILabel(position = 10) String field1,
-            @UILabel(position = 20) String field3) {
-
-        boolean isField1Visible() {
-            return false;
-        }
-
-        @UILabel(position = 15)
-        public String getField2() {
-            return field1 + " derived";
-        }
-    }
 }
