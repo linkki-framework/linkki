@@ -18,14 +18,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <spotbugs.version>4.8.6</spotbugs.version>
-        <spring-boot.version>3.4.1</spring-boot.version>
+        <spring-boot.version>3.4.2</spring-boot.version>
         <checkstyle.version>10.20.2</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 
         <!-- Maven plugin versions -->
-        <vaadin-maven-plugin.version>24.5.8</vaadin-maven-plugin.version>
+        <vaadin-maven-plugin.version>24.5.12</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>

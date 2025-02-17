@@ -8,4 +8,25 @@
 
 == Release Notes
 
-include::2-7.adoc[]
+=== Version 2.8.0
+
+The release notes contain changes compared to link:https://doc.linkki-framework.org/2.7/00_releasenotes/#_version_2_7_1[version 2.7.1].
+
+// ==== Version Updates
+//
+// The following versions have been updated:
+//
+// [cols="a,a,a"]
+// |===
+// | Dependency | New version | Previous version
+//
+// | Faktor-IPS                    | 25.1.1.release (link:https://doc.faktorzehn.org/faktor-ips/25.1/01_releasenotes/index.html[Release Notes]) | 25.1.1.release
+// | Vaadin                        | 24.5.12 (link:https://github.com/vaadin/platform/releases/tag/24.5.12[Release Notes]) | 24.5.12
+// | Spring Boot                   | 3.4.2 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.4.2
+// |===
+
+// ==== UI Annotations and Aspects
+
+// ==== Other Improvements
+
+// ==== Bugfixes
