@@ -7,6 +7,19 @@
 
 === Version 2.7.1
 
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Faktor-IPS                    | 25.1.1.release (link:https://doc.faktorzehn.org/faktor-ips/25.1/01_releasenotes/index.html[Release Notes]) | 25.1.0.release
+| Vaadin                        | 24.5.12 (link:https://github.com/vaadin/platform/releases/tag/24.5.12[Release Notes]) | 24.5.8
+| Spring Boot                   | 3.4.2 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.4.1
+|===
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4159
@@ -34,7 +47,8 @@ The Vaadin version update brings some notable changes that affect linkki applica
 * New properties in `LumoUtility`: In `LumoUtility` new properties have been added, most notably a utility class to set `flex` to 1. Existing custom CSS classes can thus be replaced by the new utility class.
 * Setting `reactEnable` to `false` in the `vaadin-maven-plugin` leads to a Vite error on startup of the application due to missing vaadin-router resources. +
 As the react router now behaves mostly like the legacy vaadin router, it may be an option to remove the configuration and use the default react router instead. +
-If the configuration should be kepft, the property `vaadin.react.enable` needs to be set to `false` too. See https://vaadin.com/docs/latest/upgrading#opting-out-of-react
+If the configuration should be kepft, the property `vaadin.react.enable` needs to be set to `false` too.
+See https://vaadin.com/docs/latest/upgrading#opting-out-of-react
 
 ==== UI Annotations and Aspects
 
@@ -44,7 +58,8 @@ A new UI component, `@UICheckboxes`, is now available, providing a way to create
 For more information, see <<ui-checkboxes, here>>.
 // https://jira.convista.com/browse/LIN-3629
 * *New annotation: @UILongField* +
-A new UI component, `@UILongField`, is now available, providing a way to accept a number with data type `long`. For more information, see <<ui-numberfield, here>>.
+A new UI component, `@UILongField`, is now available, providing a way to accept a number with data type `long`.
+For more information, see <<ui-numberfield, here>>.
 // https://jira.convista.com/browse/LIN-3970
 * *@UIComboBox: Automatically focus first applicable element* +
 If a character or word is entered into a combobox and there is only one matching element, then this element gets selected automatically.
@@ -110,9 +125,11 @@ If an exception occurs in the application, it will be displayed by the configure
 With the default configuration, the exception is now logged with a unique ID that is also displayed in the UI, making it easier to find the exception in the logs.
 Custom implementation may need to be adapted to be able to make use of this feature.
 * *Karibu testing: more utilities* +
-The <<karibu-configuration, `KaribuUIExtension`>> has been extended with possibilities to add error routes and to set production mode. The documentation has been improved accordingly. +
+The <<karibu-configuration, `KaribuUIExtension`>> has been extended with possibilities to add error routes and to set production mode.
+The documentation has been improved accordingly. +
 Many useful methods were also added to the <<karibu-utils, KaribuUtils>> to make it even easier to write Karibu tests, such as
-** methods for printing out any component as String. This can be used to assert that certain text is or is not displayed anywhere in the UI, disregarding the placement or the actual component that is used.
+** methods for printing out any component as String.
+This can be used to assert that certain text is or is not displayed anywhere in the UI, disregarding the placement or the actual component that is used.
 ** methods for setting value input fields and consistently firing change events
 ** methods for tables
 +
