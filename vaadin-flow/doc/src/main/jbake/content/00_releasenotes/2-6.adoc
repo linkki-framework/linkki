@@ -5,6 +5,21 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.6.4
+
+==== New features and improvements
+
+===== Dependency Updates
+
+The following versions have been updated:
+
+[cols="a,a"]
+|===
+| Spring Boot               | 3.3.8
+|===
+
+// ==== Bugfixes
+
 === Version 2.6.3
 
 ==== New features and improvements
@@ -61,7 +76,8 @@ Now, selecting `null` correctly checks the "Not specified" radio button, ensurin
 +
 [WARNING]
 ====
-With this bug fix, the converter must now be able to handle null-valued presentation values. Although this was already part of the `Converter` contract, it can now lead to an exception in `ValueAspectDefinition`.
+With this bug fix, the converter must now be able to handle null-valued presentation values.
+Although this was already part of the `Converter` contract, it can now lead to an exception in `ValueAspectDefinition`.
 ====
 
 === Version 2.6.1
@@ -82,7 +98,8 @@ The following versions have been updated:
 // https://jira.convista.com/browse/LIN-3880
 * Card sections theme now only applies to dialogs if the theme is explicitly set on the dialog itself or a child layout.
 // https://jira.convista.com/browse/LIN-3884
-* The items of a table created with `@UITableComponent` are now only fetched asynchronously if the return type is `CompletableFuture`. The <<ui-table-component, documentation>> is updated accordingly.
+* The items of a table created with `@UITableComponent` are now only fetched asynchronously if the return type is `CompletableFuture`.
+The <<ui-table-component, documentation>> is updated accordingly.
 
 // https://jira.convista.com/browse/LIN-3034
 Disabled and readonly style for radio button and checkbox::
@@ -116,7 +133,8 @@ The following versions have been updated:
 The new Vaadin version brings some notable improvements and changes that affect linkki applications:
 
 Using React components from Flow::
-React components can now be easily used in Vaadin Flow applications. Details are described in the link:https://vaadin.com/docs/next/flow/integrations/react[Vaadin documentation].
+React components can now be easily used in Vaadin Flow applications.
+Details are described in the link:https://vaadin.com/docs/next/flow/integrations/react[Vaadin documentation].
 
 Improvements for Checkbox::
 Checkboxes can now display validation messages also display required indicator in layouts other than `@UISection`.
@@ -164,7 +182,8 @@ If there are no Hilla dependencies on the classpath, e.g. in JEE projects, the f
 This warning is a false positive because of a bug in Vaadin (https://github.com/vaadin/hilla/issues/2440[details]) and can be ignored.
 
 Product build failure when using Spring Data JPA::
-When using Spring Data JPA, exception may occur during the Maven production build using `build-frontend`, caused by a `ClassNotFoundException` for example for the class `ApplicationPublisherAware`. This occurs particularly if the `@EnableJpaRepositories` annotation is on the same class as `@Theme` (https://github.com/vaadin/flow/issues/19616[details]).
+When using Spring Data JPA, exception may occur during the Maven production build using `build-frontend`, caused by a `ClassNotFoundException` for example for the class `ApplicationPublisherAware`.
+This occurs particularly if the `@EnableJpaRepositories` annotation is on the same class as `@Theme` (https://github.com/vaadin/flow/issues/19616[details]).
 +
 .Migration
 [IMPORTANT]
@@ -176,12 +195,14 @@ Alternatively, the annotation for Spring Data JPA such as `@EnabledJpaRepositori
 Details on all changes can be found in the https://github.com/vaadin/platform/releases/tag/24.4.3[Vaadin 24.4.3 release notes].
 
 Additional dependencies in vaadin-spring–boot-starter::
-The Maven dependency `vaadin-spring-boot-starter` now includes the Hilla dependency by default, which introduces several transitive dependencies such as Spring Security or Swagger. Some of these dependencies may cause build issues.
+The Maven dependency `vaadin-spring-boot-starter` now includes the Hilla dependency by default, which introduces several transitive dependencies such as Spring Security or Swagger.
+Some of these dependencies may cause build issues.
 +
 .Migration
 [IMPORTANT]
 ====
-Explicitly include the necessary Spring Boot Starters and Vaadin Spring dependency `vaadin-spring` instead. Alternatively, the Hilla dependency `com.vaadin:hilla` can be excluded from the `vaadin-spring-boot-starter` dependency.
+Explicitly include the necessary Spring Boot Starters and Vaadin Spring dependency `vaadin-spring` instead.
+Alternatively, the Hilla dependency `com.vaadin:hilla` can be excluded from the `vaadin-spring-boot-starter` dependency.
 ====
 
 //https://jira.convista.com/browse/LIN-1803
