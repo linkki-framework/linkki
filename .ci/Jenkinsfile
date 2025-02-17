@@ -88,26 +88,14 @@ pipeline {
 
                 // run the SonarQube analysis for this change
                 stage('SonarQube Analysis') {
-                    environment {
-                        SONAR_LOGIN = credentials('sonar.login')
-                    }
                     steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            withSonarQubeEnv('SonarQube') {
-                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                                    sh 'mvn -Dsonar.projectName=${PROJECT_NAME} \
-                                            -Dsonar.projectKey=${PROJECT_NAME} \
-                                            -Dsonar.login=$SONAR_LOGIN \
-                                            -Dsonar.branch.name=${BRANCH_NAME} \
-                                            sonar:sonar'
-                                }
-                            }
-
-                            rtp parserName: 'HTML', nullAction: '1', stableText: """
-                                <h3>SonarQube</h3>
-                                <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}' target='_blank'>SonarQube Analysis</a>
-                            """
+                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17') {
+                            runSonarQubeAnalysis()
                         }
+                        rtp parserName: 'HTML', nullAction: '1', stableText: """
+                            <h3>SonarQube</h3>
+                            <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}' target='_blank'>SonarQube Analysis</a>
+                        """
                     }
                 }
 
