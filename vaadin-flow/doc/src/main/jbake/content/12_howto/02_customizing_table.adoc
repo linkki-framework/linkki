@@ -1,0 +1,58 @@
+:jbake-title: Customizing existing tables
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../src/main/java
+
+[[howto-customize-existing-tables]]
+
+=== Customizing existing tables
+
+[NOTE]
+This section refers to table and row PMOs (<<databinding, *Presentation Model Object* (PMO)>>) and assumes that you are familiar with the <<linkki-tutorial, *linkki tutorial*>>.
+
+This section discusses a common issue with reusing PMO code that models tables and their rows.
+This particular issue arises when a specific table PMO class is extended, e.g, to show new columns.
+Let's have a look at a concrete example:
+
+.CustomRowExample.java
+[source,java,indent=0]
+----
+include::{source-dir}/org/linkki/doc/CustomRowExample.java[tags=customRowExample_base]
+----
+
+As can be seen, there are two classes. `PartnerRowPmo` models a row that has one column showing a `Partners` `name`.
+It is used within `PartnerTablePmo` to create a row for each instance of `Partner`.
+
+Now, let's assume that we need another table that shows the same information plus the date of birth.
+To implement this, we could introduce a new tablePmo and rowPmo class that would look mostly the same as the ones we had before with the row having an additional `@UIDateField` to visualise the `date of birth`.
+While this would leave us with quite a bit of redundant code, we could use inheritance instead.
+
+First, we create a subclass of `PartnerRowPmo` and add a new getter method for the `date of birth` together with an `@UIDateField` annotation.
+
+.CustomRowExample.java
+[source,java,indent=0]
+----
+include::{source-dir}/org/linkki/doc/CustomRowExample.java[tags=customRowExample_custom_row]
+----
+
+Second, we create a subclass of `PartnerTablePmo` and overwrite the two methods `createRow` and `getItemPmoClass`.
+
+.CustomRowExample.java
+[source,java,indent=0]
+----
+include::{source-dir}/org/linkki/doc/CustomRowExample.java[tags=customRowExample_custom_table]
+----
+
+`createRow` returns instances of our new `CustomPartnerRowPmo` class, while `getItemPmoClass` tells *linkki* the exact type of those instances.
+Usually, developers forget to overwrite `getItemPmoClass`, which has the effect that the new table (here `CustomPartnerTablePmo`) has the same rows as the table it extends from (here `PartnerTablePmo`).
+
+You might ask yourself at this point, why you do not have to overwrite `getItemPmoClass` in `PartnerTablePmo`.
+The default implementation for this method is able to determine the generic type of the rowPmo class at runtime as long as it isn't further subclassed.
+
+[NOTE]
+This behavior is not related to type erasure. *linkki* can indeed determine the row type at runtime because subclassing `SimpleTablePmo` means to bind specific types to each generic.
+These types can then be looked up via reflection.
+
+Inheriting from `PartnerRowPmo` means to also inherit the generic binding and *linkki* cannot determine the new rowPmo type on its own.
+Hence, we have to help out and return the correct type ourselves.
