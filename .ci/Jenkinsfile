@@ -92,10 +92,6 @@ pipeline {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17') {
                             runSonarQubeAnalysis()
                         }
-                        rtp parserName: 'HTML', nullAction: '1', stableText: """
-                            <h3>SonarQube</h3>
-                            <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}' target='_blank'>SonarQube Analysis</a>
-                        """
                     }
                 }
 
