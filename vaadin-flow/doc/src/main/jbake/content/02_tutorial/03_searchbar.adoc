@@ -97,7 +97,7 @@ Now that you have the search input section, do as follows to create and display 
 . Implement the method createContent with `addSection(new SearchSectionPmo(this::search))`.
 
 [NOTE]
-You do not need to use `AbstractPage`. Here, it is convenient because it will convert your PMOs to Vaadin components. Instead, you could also use a layout such as <<howto-integrating-pmos, `VerticalLayout`>>.
+You do not need to use `AbstractPage`. Here, it is convenient because it will convert your PMOs to Vaadin components. Instead, you could also use a layout such as <<howto-using-pmos-in-layouts, `VerticalLayout`>>.
 
 The finished implementation should look like this:
 

@@ -9,7 +9,7 @@
 === Customizing existing tables
 
 [NOTE]
-This section refers to table and row PMOs (<<databinding, *Presentation Model Object* (PMO)>>) and assumes that you are familiar with the <<linkki-tutorial, *linkki tutorial*>>.
+This section assumes that you are familiar with <<ui-tables, table and row PMOs>>.
 
 This section discusses a common issue with reusing PMO code that models tables and their rows.
 This particular issue arises when a specific table PMO class is extended, e.g, to show new columns.

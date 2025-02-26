@@ -27,6 +27,10 @@ The release notes contain changes compared to link:https://doc.linkki-framework.
 
 // ==== UI Annotations and Aspects
 
-// ==== Other Improvements
+==== Other Improvements
+
+* *New documentation chapter - How-To* +
+Introduced a <<linkki-howto, How-To>> chapter containing coding examples and best practises.
+
 
 // ==== Bugfixes

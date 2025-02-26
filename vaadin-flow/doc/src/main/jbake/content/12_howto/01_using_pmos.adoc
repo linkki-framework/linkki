@@ -1,15 +1,15 @@
-:jbake-title: Integrating PMOs
+:jbake-title: Using PMOs in Layouts
 :jbake-type: section
 :jbake-status: published
 
 :source-dir: ../../../../src/main/java
 
-[[howto-integrating-pmos]]
+[[howto-using-pmos-in-layouts]]
 
-=== Integrating PMOs
+=== Using PMOs in Layouts
 
 [NOTE]
-This section refers to PMOs (<<databinding, *Presentation Model Object* (PMO)>>) and assumes that you are familiar with the <<linkki-tutorial, *linkki tutorial*>>.
+This section assumes that you are familiar with the usage of PMOs (<<databinding, *Presentation Model Object* (PMO)>>).
 
 In the tutorial, we integrated PMOs using the class <<tutorial-search-page, AbstractPage>>.
 This class conveniently integrates with PMOs because it provides a method `addSection` that converts any PMO into a Vaadin `Component`.
