@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<!--
+  Photon by HTML5 UP
+  html5up.net | @ajlkn
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+<head>
+<title>linkki</title>
+<meta charset="utf-8" />
+<meta name="viewport"
+  content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="stylesheet" href="assets/css/prism.css">
+<link rel="stylesheet" href="assets/css/main.css" />
+<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+<noscript>
+  <link rel="stylesheet" href="assets/css/noscript.css" />
+</noscript>
+</head>
+<body class="is-preload">
+
+  <!-- Header -->
+  <section id="header">
+    <div class="inner">
+      <img src="images/linkki.png" class="logo" alt="linkki">
+      <h2>
+        Build great looking business applications<br /> in pure Java with
+        minimal effort
+      </h2>
+      <p>
+        A framework for creating <strong>domain driven</strong>, <strong>structured</strong>
+        and <strong>testable</strong> UI code.<br /> Built with experience,
+        love and <a href="https://vaadin.com" target="_blank">Vaadin</a>.
+      </p>
+      <ul class="actions special">
+        <li><a href="https://github.com/linkki-framework/linkki"
+          target="_blank" class="button">GitHub</a></li>
+        <li><a href="#one" class="button primary scrolly">Discover</a></li>
+        <li><a href="https://doc.linkki-framework.org/latest/02_tutorial/index.html"
+          target="_blank" class="button">Learn</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="easy" class="main style2">
+    <div class="container">
+      <div class="row gtr-150">
+        <div class="col-12 col-12-medium">
+          <header class="major">
+            <h2>Write UI code just like writing domain code</h2>
+          </header>
+          <p>Forget about the painful update logic you need to write for
+            the UI. With linkki, implementing dynamic UI feels just like
+            writing domain logic. All you need to do is to give linkki little
+            hints about which UI element you want to use, and what should be
+            updated.</p>
+        </div>
+        <div class="col-6 col-12-medium">
+          <pre class="fitted"><code class="language-java">
+private CalenderEvent event; // domain model object
+
+@UITextField(position = 10, label = "Titel")
+public String getTitel() {
+    return event.getTitle();
+}
+public void setTitel(String title) {
+    event.setTitle(title);
+}
+
+@UIDateField(position = 20, label = "Date")
+public LocalDate getDate() {
+    return event.getDate();
+}
+public void setDate(LocalDate date) {
+    event.setDate(date);
+}
+
+@UIButton(position = 30, caption = "Create Event")
+public void createEvent() {
+    event.create();
+}
+          </code></pre>
+        </div>
+        <div class="col-6 col-12-medium">
+          <img src="images/createevent.png" alt="Create Event"
+            class="screencast cropped">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="control" class="main style2">
+    <div class="container">
+      <div class="row gtr-150">
+        <div class="col-12 col-12-medium">
+          <header class="major">
+            <h2>Maintain full control</h2>
+          </header>
+          <p>
+            Sometimes, using tools to make your life simple also means giving
+            up control. Not with linkki. <br/>linkki creates Vaadin controls that
+            you can modify however you want to. Whatever you can do with
+            Vaadin components, you can still do it with linkki.
+          </p>
+        </div>
+        <div class="col-3 col-12-medium"></div>
+
+        <div class="col-6 col-12-medium">
+          <pre><code class="language-java">
+// Create component with linkki
+CalenderEventPmo pmo = new CalenderEventPmo();
+BindingContext context = new BindingContext();
+Component section = PmoBasedSectionFactory
+                      .createAndBindSection(pmo, context);
+
+// Use it as usual
+VerticalLayout layout =  new VerticalLayout(section);
+          </code></pre>
+        </div>
+        <div class="col-3 col-12-medium"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="why" class="main style1 special">
+    <div class="container">
+      <header class="major">
+        <h2>Not convinced yet?</h2>
+      </header>
+      <div class="row gtr-150">
+        <div class="col-4 col-12-medium">
+          <span class="image"><img src="images/rocket.png" alt="" /></span>
+          <h3>Ready to start</h3>
+          <p>Choose from linkki's built-in components or create new ones
+            easily.</p>
+        </div>
+        <div class="col-4 col-12-medium">
+          <span class="image"><img src="images/flexi.png" alt="" /></span>
+          <h3>Fits in any environment</h3>
+          <p>Use linkki in plain Java, JEE, Jakarta EE or Spring
+            projects.</p>
+        </div>
+        <div class="col-4 col-12-medium">
+          <span class="image"><img src="images/diamond.png" alt="" /></span>
+          <h3>Focus on quality</h3>
+          <p>
+            Write well structured UI code using linkki. <br />Benefit from
+            existing test frameworks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="try" class="main style2 special">
+    <div class="container">
+      <header class="major">
+        <h2>Ready to try it out?</h2>
+      </header>
+      <ul class="alt li">
+        <li>linkki is open source, free to use and licensed under the <a
+          href="https://github.com/linkki-framework/linkki/blob/master/LICENSE"
+          target="_blank">Apache 2.0</a> license.
+      </ul>
+      <ul class="actions special">
+        <li><a href="https://linkki-framework.org/tutorial/index.html"
+          target="_blank" class="button wide primary">Tutorial</a></li>
+        <li><a href="https://doc.linkki-framework.org" target="_blank"
+          class="button wide">Documentation</a></li>
+        <li><a href="https://www.faktorzehn.com/en/academy/"
+          target="_blank" class="button wide">Training</a></li>
+        <li><a href="mailto:info@faktorzehn.de" class="button wide">Support</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <section id="footer">
+    <ul class="icons">
+      <li><a href="https://github.com/linkki-framework/linkki"
+        target="_blank" class="icon brands alt fa-github"><span
+          class="label">GitHub</span></a></li>
+      <li><a href="mailto:info@faktorzehn.de"
+        class="icon solid alt fa-envelope"><span class="label">Email</span></a></li>
+      <li><a href="https://www.facebook.com/FaktorZehn/"
+        target="_blank" class="icon brands alt fa-facebook"><span
+          class="label">Facebook</span></a></li>
+      <li><a
+        href="https://www.youtube.com/channel/UCQBMRolkxooUjVxFwmW1lfQ"
+        target="_blank" class="icon brands alt fa-youtube"><span
+          class="label">YouTube</span></a></li>
+      <li><a href="https://www.xing.com/company/faktorzehngmbh"
+        target="_blank" class="icon brands alt fa-xing"><span
+          class="label">Xing</span></a></li>
+      <li><a href="https://de.linkedin.com/company/faktor-zehn-gmbh"
+        target="_blank" class="icon brands alt fa-linkedin"><span
+          class="label">LinkedIn</span></a></li>
+    </ul>
+    <ul class="copyright">
+      <li>Sponsored and Developed by&nbsp;&nbsp;&nbsp;<a
+        class="noborder" href="https://www.faktorzehn.com" target="_blank"><span
+          class="image"><img src="https://doc.faktorzehn.de/logos/FaktorZehn.svg"
+            alt="Faktor Zehn GmbH" /></span></a></li>
+      <li><a href="https://www.faktorzehn.com/en/imprint/"
+        target="_blank">Imprint</a></li>
+      <li><a href="/privacy-policy/">Privacy policy</a>/<a href="/datenschutz/">Datenschutzerklärung</a></li>
+      <li>HTML template by: <a href="http://html5up.net"
+        target="_blank">HTML5 UP</a></li>
+    </ul>
+  </section>
+
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/prism.js"></script>
+</body>
+</html>
