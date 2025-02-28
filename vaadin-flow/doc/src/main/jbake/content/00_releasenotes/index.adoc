@@ -33,4 +33,6 @@ The release notes contain changes compared to link:https://doc.linkki-framework.
 Introduced a <<linkki-howto, How-To>> chapter containing coding examples and best practises.
 
 
-// ==== Bugfixes
+==== Bugfixes
+// https://jira.faktorzehn.de/browse/LIN-4248
+* `SimpleItemSupplier` now throws a NullPointerException if the model object to PMO mapping supplier returns null

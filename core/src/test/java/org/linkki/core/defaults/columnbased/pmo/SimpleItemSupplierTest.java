@@ -31,6 +31,7 @@ import java.util.function.UnaryOperator;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.pmo.ModelObject;
 
@@ -40,6 +41,9 @@ public class SimpleItemSupplierTest {
 
     private SimpleItemSupplier<SimplePmo, Integer> itemSupplier = new SimpleItemSupplier<>(this::getModelObjects,
             mo -> new SimplePmo(mo));
+
+    private SimpleItemSupplier<SimplePmo, Integer> nullSupplier = new SimpleItemSupplier<>(this::getModelObjects,
+            mo -> null);
 
     /**
      * The purpose of this test is not really that the itemSupplier has the specified value but that
@@ -108,6 +112,12 @@ public class SimpleItemSupplierTest {
         List<SimplePmo> list = itemSupplier.get();
         List<SimplePmo> list2 = itemSupplier.get();
         assertThat(list == list2);
+    }
+
+    @Test
+    public void testGet_shouldThrowNullPointerException_ifSupplierReturnsNull() {
+        modelObjects.add(42);
+        Assertions.assertThrows(NullPointerException.class, () -> nullSupplier.get());
     }
 
     private List<Integer> getModelObjects() {
