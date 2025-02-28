@@ -1,17 +1,9 @@
-:jbake-title: Themes und Komponenten
+:jbake-title: F10 Themes and Components
 :jbake-type: chapter
 :jbake-status: published
-:jbake-order: 10
+:jbake-order: 110
 
 [[linkki-f10]]
-== Themes und Komponenten
+== F10 Themes and Components
 
-Das Modul `linkki-10` beinhaltet Vaadin und linkki Funktionalitäten, die in den Faktor Zehn Produkten verwendet werden.
-
-[source,xml]
-----
-<dependency>
-    <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-f10</artifactId>
-</dependency>
-----
+The `linkki-f10` module contains Vaadin and linkki functionalities specifically used in `Faktor Zehn` products.

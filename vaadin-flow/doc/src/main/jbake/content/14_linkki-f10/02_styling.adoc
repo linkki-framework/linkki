@@ -3,33 +3,37 @@
 :jbake-status: published
 
 [[f10-styles]]
-=== F10 Styling für Vaadin Flow
+=== F10 Vaadin Flow Styling
 
-Das linkki-f10 Modul bietet ein eigenes Theme an, mit dem die enthaltende Komponenten korrekt funktionieren. Zusätzlich wird die Primärfarbe gesetzt.
+The *linkki-f10* module provides its own theme and sets its own primary color.
 
-==== Einbinden des F10 Themes
+==== Integrating F10 Themes
 
-In der linkki Dokumentation zum Thema "Styling" wird beschrieben, wie man das linkki Theme einbindet. Das Einbinden des F10 Themes funktioniert analog. Der Name des Themes wird dabei als Konstante `F10ProductTheme.F10_PRODUCT_THEME` zur Verfügung gestellt.
+A description on how to integrate the *linkki* theme can be found in the "Styling" chapter of the *linkki* documentation. The *F10 theme* can be integrated analogously and its name is provided within the constant `F10ProductTheme.F10_PRODUCT_THEME`.
 
 [[primary-color]]
-==== Setzen der Primärfarbe
+==== Setting a Primary Color
 
-Defaultmäßig wird ein dunkles Blau (hsl(206,100%,30%) / rgb(0,87,153) / #005799) als Primärfarbe gesetzt, was für die Musteranwendungen verwendet werden soll. In Kundenprojekten muss diese Farbe allerdings oft angepasst werden.
+By default, a dark blue (hsl(206,100%,30%) / rgb(0,87,153) / #005799) is used a primary color. This color is intended to be used in sample applications. In customer projects, however, it is often customized.
 
-Dafür muss in dem Applikationsprojekt ein eigenes Theme angelegt werden, das das F10 Theme erweitert. Dafür stellt die linkki Dokumentation eine Anleitung in dem Kapitel "Styling" im Abschnitt "Customizing the linkki theme" bereit. Anstatt `"linkki"` muss `"f10-product"` in `theme.json` als Parent deklariert werden.
+To do so, a new theme must be created within the application project extending the *F10 theme*. A guide can be found within the "Styling" chapter of the *linkki* documentation under "Customizing the linkki theme".
 
-In der `styles.css` kann dann die Primärfarbe angepasst werden. Die primäre Farbe der Applikation wird über die drei CSS Properties festgelegt:
+[NOTE]
+Use `"f10-product"` instead of `"linkki"` as parent within the `theme.json`.
+
+The primary color can then be customized within the `styles.css`. It is set via the following three css properties:
 
 * `--f10-primary-color-h`
 * `--f10-primary-color-s`
 * `--f10-primary-color-l`
 
-Daraus werden die weiteren Farbabstufungen (z.b. die der primären Textfarbe `--lumo-primary-text-color`) abgeleitet und berechnet. Da die weiteren Größen berechnet werden, müssen diese in der Regel nicht angepasst werden.  
 
-Insgesamt stehen folgende Konstanten zur Verfügung:
+Using the above properties, further color gradings (such as the primary text color `--lumo-primary-text-color`) are derived and calculated. Other values are usually derived too and do not need to be customized.
 
-* `--f10-primary-color-h`: Farbwert der primären Farbe (default: 206)
-* `--f10-primary-color-s`: Farbsättigung der primären Farbe (default: 100%)
-* `--f10-primary-color-l`: Relative Helligkeit der primären Farbe (default: 30%)
-* `--f10-primary-color`: Primärfarbe. Wird per default aus den `--f10-primary-color-h`, `--f10-primary-color-s` und `f10-primary-color-l` berechnet.
-* `--f10-primary-contrast-color`: Wird zum Beispiel für Texte auf dem Application Header verwendet. Wird per Default berechnet.
+In total, the following constants are available:
+
+* `--f10-primary-color-h`: Primary color value (default: 206)
+* `--f10-primary-color-s`: Primary color saturation (default: 100%)
+* `--f10-primary-color-l`: Primary color relative brightness (default: 30%)
+* `--f10-primary-color`: Primary color. By default, calculated from `--f10-primary-color-h`, `--f10-primary-color-s` and `f10-primary-color-l`.
+* `--f10-primary-contrast-color`: Primary color contrast. For example, used for text within the application header and derived by default.

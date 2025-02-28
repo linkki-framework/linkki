@@ -48,8 +48,11 @@ public class ContextFreeSearchView extends VerticalLayout implements AfterNaviga
 
     @Serial
     private static final long serialVersionUID = 1L;
-
+    // tag::searchController[]
     private final RoutingSearchController<SampleSearchParameters, SampleSearchResult> searchController = createSearchController();
+
+    // end::searchController[]
+
     // tag::content[]
     private final BindingContext bindingContext = new BindingContext();
 
@@ -67,15 +70,15 @@ public class ContextFreeSearchView extends VerticalLayout implements AfterNaviga
     }
     // end::initialize[]
 
+    // tag::searchController[]
     private RoutingSearchController<SampleSearchParameters, SampleSearchResult> createSearchController() {
         var searchService = new SampleSearchService();
-        // tag::RoutingSearchController[]
         return new RoutingSearchController<>(ContextFreeSearchView.NAME,
                 searchService::search,
                 new SampleSearchParametersMapper(),
                 SampleSearchResult::getMessages);
-        // end::RoutingSearchController[]
     }
+    // end::searchController[]
 
     private SearchLayoutPmo<SampleSearchResultRowPmo> createSearchLayoutPmo() {
         return SearchLayoutBuilder
