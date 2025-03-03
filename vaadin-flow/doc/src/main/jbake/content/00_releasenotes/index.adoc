@@ -33,10 +33,13 @@ The Vaadin version update brings some notable changes that affect linkki applica
 [api-change]
 ===== Aspects with asynchronously loaded values
 
-It is now possible to create custom aspects that load values asynchronously with a `CompletableFuture`. The documentation for creating custom aspects is extended with a <<aspect-async,how-to guide for creating custom future aware aspects>>.
+It is now possible to create custom aspects that load values asynchronously with a `CompletableFuture`.
+The documentation for creating custom aspects is extended with a <<aspect-async,how-to guide for creating custom future aware aspects>>.
 
-Additionally, the frontend behaviors of `UILable` and `@UITableComponent` considering loading have been unified. This leads to following breaking changes in the frontend:
-* During loading, the `items-loading` (UITableComponent) / `value-loading` (UILabel) attributes are no longer set. Instead, the attribute `content-loading` is set.
+Additionally, the frontend behaviors of `UILabel` and `@UITableComponent` considering loading have been unified.
+This leads to following breaking changes in the frontend:
+* During loading, the `items-loading` (UITableComponent) / `value-loading` (UILabel) attributes are no longer set.
+Instead, the attribute `content-loading` is set.
 * The `has-errors` attribute has been renamed to `has-loading-error`.
 * The CSS property `error-messages` has been renamed to `loading-error-message`.
 * `@UILabel` components in a loading state no longer have the CSS class `loading`.
@@ -48,6 +51,9 @@ Custom CSS selectors that utilize the above attributes / CSS Properties must be 
 * *New documentation chapter - How-To* +
 Introduced a <<linkki-howto, How-To>> chapter containing coding examples and best practises.
 
+* *User Aware Application Header* +
+The functionality of `CommonApplicationHeader` from `linkki-f10` was incorporated into `ApplicationHeader` and the newly introduced `UserAwareApplicationHeader`.
+`CommonApplicationHeader` is now deprecated and can be replaced with `UserAwareApplicationHeader` if a user menu is needed or `ApplicationHeader` otherwise.
 
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248

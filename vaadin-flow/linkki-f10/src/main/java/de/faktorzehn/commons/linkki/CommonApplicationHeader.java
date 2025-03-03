@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.util.HtmlSanitizer;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
+import org.linkki.framework.ui.application.UserAwareApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.Sequence;
@@ -37,7 +38,10 @@ import com.vaadin.flow.server.Command;
  * be styled with the class name {@value #STYLE_LABEL_APPLICATION_ENVIRONMENT}.
  * 
  * The class is abstract to implement the necessary details like {@link #getUsername()}.
+ *
+ * @deprecated Use {@link ApplicationHeader} or {@link UserAwareApplicationHeader} instead.
  */
+@Deprecated(since = "2.8.0")
 public abstract class CommonApplicationHeader extends ApplicationHeader {
 
     public static final String PROPERTY_APPLICATION_ENVIRONMENT = "de.faktorzehn.application-environment";

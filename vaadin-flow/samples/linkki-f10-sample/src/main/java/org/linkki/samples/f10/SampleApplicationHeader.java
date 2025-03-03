@@ -24,6 +24,7 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 
 import de.faktorzehn.commons.linkki.CommonApplicationHeader;
 
+@SuppressWarnings("deprecation")
 public class SampleApplicationHeader extends CommonApplicationHeader {
 
     @Serial

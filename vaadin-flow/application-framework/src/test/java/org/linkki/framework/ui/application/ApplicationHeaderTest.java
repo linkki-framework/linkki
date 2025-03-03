@@ -41,6 +41,44 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 class ApplicationHeaderTest {
 
     @Test
+    void testGetEnvironmentLabel_LinkkiApplicationEnvironment() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        System.setProperty(ApplicationHeader.PROPERTY_APPLICATION_ENVIRONMENT, "TestApplication");
+
+        assertThat(header.getEnvironmentLabel()).isEqualTo("TestApplication");
+        System.clearProperty(ApplicationHeader.PROPERTY_APPLICATION_ENVIRONMENT);
+    }
+
+    @Test
+    void testGetEnvironmentLabel_F10ApplicationEnvironment() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        System.setProperty(ApplicationHeader.PROPERTY_F10_APPLICATION_ENVIRONMENT, "TestApplication");
+
+        assertThat(header.getEnvironmentLabel()).isEqualTo("TestApplication");
+        System.clearProperty(ApplicationHeader.PROPERTY_F10_APPLICATION_ENVIRONMENT);
+    }
+
+    @Test
+    void testGetEnvironmentLabel_NoPropertySet() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        assertThat(header.getEnvironmentLabel()).isNull();
+    }
+
+    @Test
+    void testCreateApplicationEnvironmentLabel() {
+        System.setProperty(ApplicationHeader.PROPERTY_APPLICATION_ENVIRONMENT, "TestApplication");
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        header.init();
+
+        var label = header.getContent().getComponentAt(1).getElement().getChild(0);
+        assertThat(label.getProperty("innerHTML")).isEqualTo("TestApplication");
+    }
+
+    @Test
     void testLeftMenu() {
         ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(),
                 Sequence.of(new ApplicationMenuItemDefinition("name1", "id1", Handler.NOP_HANDLER),

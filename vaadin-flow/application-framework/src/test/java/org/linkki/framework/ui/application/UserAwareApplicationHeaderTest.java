@@ -11,22 +11,24 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
-package de.faktorzehn.commons.linkki;
+package org.linkki.framework.ui.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.util.Sequence;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.menubar.MenuBar;
 
-@Deprecated
-class CommonApplicationHeaderTest {
+@ExtendWith(KaribuUIExtension.class)
+class UserAwareApplicationHeaderTest {
 
-    private CommonApplicationHeader header;
+    private UserAwareApplicationHeader header;
 
     @BeforeEach
     void init() {
@@ -36,16 +38,13 @@ class CommonApplicationHeaderTest {
     @Test
     void testCreateUserMenu() {
         MenuBar menuBar = new MenuBar();
+
         header.addUserMenu(menuBar);
+
         assertThat(menuBar.getItems()).hasSize(1);
         assertThat(menuBar.getItems().get(0).getText()).isEqualTo("user");
         assertThat(menuBar.getItems().get(0).getChildren().findFirst())
                 .hasValueSatisfying(c -> assertThat(c).isInstanceOf(Icon.class));
-    }
-
-    @Test
-    void testGetEnvironmentLabel() {
-        assertThat(header.getEnvironmentLabel()).isEmpty();
     }
 
     @Test
@@ -56,6 +55,7 @@ class CommonApplicationHeaderTest {
     @Test
     void testCreateRightMenuBar() {
         MenuBar menuBar = header.createRightMenuBar();
+
         assertThat(menuBar.getItems()).hasSize(2);
         assertThat(menuBar.getItems().get(0).getText()).isEmpty();
         assertThat(menuBar.getItems().get(0).getChildren().findFirst())
@@ -65,8 +65,15 @@ class CommonApplicationHeaderTest {
         assertThat(menuBar.getItems().get(1).getSubMenu().getItems().get(0).getId()).hasValue("appmenu-logout");
     }
 
-    private CommonApplicationHeader createTestApplicationHeader() {
-        return new CommonApplicationHeader(new TestApplicationConfig().getApplicationInfo(),
+    @Test
+    void testGetLogoutUrl() {
+        UI.getCurrent().getInternals().setContextRoot("test/");
+
+        assertThat(header.getLogoutUrl()).isEqualTo("test/logout");
+    }
+
+    private UserAwareApplicationHeader createTestApplicationHeader() {
+        var header = new UserAwareApplicationHeader(new ExampleApplicationInfo(),
                 Sequence.empty()) {
             private static final long serialVersionUID = 1L;
 
@@ -75,5 +82,7 @@ class CommonApplicationHeaderTest {
                 return "user";
             }
         };
+        UI.getCurrent().add(header);
+        return header;
     }
 }

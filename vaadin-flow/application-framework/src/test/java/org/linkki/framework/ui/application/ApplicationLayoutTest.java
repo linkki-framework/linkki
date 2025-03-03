@@ -161,29 +161,6 @@ class ApplicationLayoutTest {
         }
     }
 
-    static class ExampleApplicationInfo implements ApplicationInfo {
-
-        @Override
-        public String getApplicationName() {
-            return "name";
-        }
-
-        @Override
-        public String getApplicationVersion() {
-            return "version";
-        }
-
-        @Override
-        public String getApplicationDescription() {
-            return "description";
-        }
-
-        @Override
-        public String getCopyright() {
-            return "";
-        }
-    }
-
     private static class CustomConverter implements Converter<String, ApplicationInfo> {
 
         @Serial
