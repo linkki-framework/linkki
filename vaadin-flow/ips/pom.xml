@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin-flow</artifactId>
-        <version>2.7.2-SNAPSHOT</version>
+        <version>2.7.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-ips-vaadin-flow</artifactId>
     <name>linkki Extension for Faktor-IPS with Vaadin Flow</name>
 
     <properties>
-        <faktorips.version>25.1.1.release</faktorips.version>
+        <faktorips.version>25.1.2.release</faktorips.version>
     </properties>
 
     <dependencies>
