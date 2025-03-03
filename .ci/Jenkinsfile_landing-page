@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir('linkki-landing-page') {
+                dir('landing-page') {
                     withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                         sh 'mvn clean package'
                     }
@@ -16,7 +16,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                dir('linkki-landing-page') {
+                dir('landing-page') {
                     withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                         sh 'mvn deploy -Ddoc.user=doc'
                     }
