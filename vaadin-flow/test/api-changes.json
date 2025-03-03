@@ -50,6 +50,12 @@
             "code": "java.class.externalClassExposedInAPI",
             "package": "org\\.linkki\\.core.*",
             "justification": "linkki core API"
+          },
+          {
+            "regex": true,
+            "code": "java.annotation.attributeValueChanged",
+            "annotationType": "kotlin\\.Metadata",
+            "attribute": "mv"
           }
         ]
       }
@@ -61,6 +67,16 @@
       "configuration": {
         "ignore": true,
         "differences": [
+          {
+            "code": "java.method.addedToInterface",
+            "new": "method void org.junit.jupiter.api.extension.ExtensionContext::publishDirectory(java.lang.String, org.junit.jupiter.api.function.ThrowingConsumer<java.nio.file.Path>)",
+            "justification": "LIN-4225 Version update to 4.12.0"
+          },
+          {
+            "code": "java.method.addedToInterface",
+            "new": "method void org.junit.jupiter.api.extension.ExtensionContext::publishFile(java.lang.String, org.junit.jupiter.api.extension.MediaType, org.junit.jupiter.api.function.ThrowingConsumer<java.nio.file.Path>)",
+            "justification": "LIN-4225 Version update to 4.12.0"
+          }
         ]
       }
     }

@@ -56,7 +56,7 @@ class TC001TableValidationMarkerTest extends PlaygroundUiTest {
         TextFieldElement textField = findTextFieldByValue(table, "Name 2");
         textField.setValue("abc");
 
-        assertThat(textField.getAttribute("invalid"), is("true"));
+        assertThat(textField.getDomAttribute("invalid"), is("true"));
 
         // switch tabs
 
@@ -66,7 +66,7 @@ class TC001TableValidationMarkerTest extends PlaygroundUiTest {
 
         table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
         textField = findTextFieldByValue(table, "abc");
-        assertThat(textField.getAttribute("invalid"), is("true"));
+        assertThat(textField.getDomAttribute("invalid"), is("true"));
     }
 
     private TextFieldElement findTextFieldByValue(GridElement table, String value) {

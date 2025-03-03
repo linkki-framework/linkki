@@ -131,7 +131,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
 
         // conditions
         assertThat(link.getText()).isEqualTo("I am a Link to #");
-        assertThat(link.getContent().getAttribute("href")).endsWith("/#");
+        assertThat(link.getContent().getDomAttribute("href")).endsWith("#");
     }
 
     @Test
@@ -167,7 +167,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_VISIBLE).click();
 
         // postcondition
-        assertThat(textFieldElement.getAttribute("hidden")).isEqualTo("true");
+        assertThat(textFieldElement.getDomAttribute("hidden")).isEqualTo("true");
     }
 
     @Test

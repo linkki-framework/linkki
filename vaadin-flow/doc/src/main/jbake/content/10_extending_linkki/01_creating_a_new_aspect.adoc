@@ -7,7 +7,7 @@
 [[custom-aspects]]
 === Custom Aspects
 
-In addition to built-in <<aspects>>, you can easily create your own.
+In addition to built-in <<aspects, Aspects>>, you can easily create your own.
 
 [[creating-aspects]]
 ==== Creating a new aspect
@@ -91,7 +91,7 @@ As the inheritance structure can be very complex, the usage of `@InheritedAspect
 
 If the value of the aspect may take longer to load, the whole UI would be blocked as long as the value is loading.
 In this case, it may be sensible to define an aspect that accept `CompletableFuture` as return value, making the aspect value retrieval asynchronous.
-The resulting aspect would work similarly to <<UILabel, ui-label>> or <<UITableComponent,ui-table-component >>.
+The resulting aspect would work similarly to <<ui-label, UILabel>> or <<ui-table-component, UITableComponent>>.
 
 To achieve this, the aspect definition can use the super class `FutureAwareAspectDefinition`, which is a subclass of `ModelToUiAspectDefinition` that contains additional implementation to handle asynchronous updates. In its implementation, Server Push is utilized to update the value on completion if the aspect value is assignable to `CompletableFuture.class`.
 

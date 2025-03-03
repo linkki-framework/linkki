@@ -50,7 +50,7 @@ class TC009UILinkTest extends PlaygroundUiTest {
         address.setValue("http://faktorzehn.de/");
 
         var link = section.$(LinkkiTextElement.class).id("link");
-        assertThat(link.getContent().getAttribute("href")).isEqualTo("http://faktorzehn.de/");
+        assertThat(link.getContent().getDomAttribute("href")).isEqualTo("http://faktorzehn.de/");
         assertThat(link.getText()).isEqualTo("FaktorZehn");
     }
 
@@ -62,7 +62,7 @@ class TC009UILinkTest extends PlaygroundUiTest {
 
         address.setValue(null);
 
-        assertThat(link.getAttribute("href")).isNull();
+        assertThat(link.getDomAttribute("href")).isNull();
         assertThat(link.getCssValue("pointer-events")).isEqualTo("none");
         assertThat(link.getCssValue("text-decoration")).startsWith("none");
     }
@@ -75,7 +75,7 @@ class TC009UILinkTest extends PlaygroundUiTest {
 
         address.setValue("");
 
-        assertThat(link.getAttribute("href")).isNull();
+        assertThat(link.getDomAttribute("href")).isNull();
         assertThat(link.getCssValue("pointer-events")).isEqualTo("none");
         assertThat(link.getCssValue("text-decoration")).startsWith("none");
     }
@@ -88,7 +88,7 @@ class TC009UILinkTest extends PlaygroundUiTest {
 
         address.setValue(" ");
 
-        assertThat(link.getAttribute("href")).isNull();
+        assertThat(link.getDomAttribute("href")).isNull();
         assertThat(link.getCssValue("pointer-events")).isEqualTo("none");
         assertThat(link.getCssValue("text-decoration")).startsWith("none");
     }
