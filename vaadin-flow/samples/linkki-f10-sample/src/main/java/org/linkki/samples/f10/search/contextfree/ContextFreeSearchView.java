@@ -39,38 +39,29 @@ import de.faktorzehn.commons.linkki.search.SearchLayoutBuilder;
 import de.faktorzehn.commons.linkki.search.model.RoutingSearchController;
 import de.faktorzehn.commons.linkki.search.pmo.SearchLayoutPmo;
 
-// tag::ContextFreeSearchView[]
+@SuppressWarnings("deprecation")
 @Route(value = ContextFreeSearchView.NAME, layout = SampleApplicationLayout.class)
 public class ContextFreeSearchView extends VerticalLayout implements AfterNavigationObserver {
-    // end::ContextFreeSearchView[]
 
     public static final String NAME = "context-free";
 
     @Serial
     private static final long serialVersionUID = 1L;
-    // tag::searchController[]
     private final RoutingSearchController<SampleSearchParameters, SampleSearchResult> searchController = createSearchController();
 
-    // end::searchController[]
-
-    // tag::content[]
     private final BindingContext bindingContext = new BindingContext();
 
     public ContextFreeSearchView() {
         add(VaadinUiCreator.createComponent(createSearchLayoutPmo(), bindingContext));
         setSizeFull();
     }
-    // end::content[]
 
-    // tag::initialize[]
     @Override
     public void afterNavigation(AfterNavigationEvent event) {
         searchController.initialize(event.getLocation());
         bindingContext.modelChanged();
     }
-    // end::initialize[]
 
-    // tag::searchController[]
     private RoutingSearchController<SampleSearchParameters, SampleSearchResult> createSearchController() {
         var searchService = new SampleSearchService();
         return new RoutingSearchController<>(ContextFreeSearchView.NAME,
@@ -78,7 +69,6 @@ public class ContextFreeSearchView extends VerticalLayout implements AfterNaviga
                 new SampleSearchParametersMapper(),
                 SampleSearchResult::getMessages);
     }
-    // end::searchController[]
 
     private SearchLayoutPmo<SampleSearchResultRowPmo> createSearchLayoutPmo() {
         return SearchLayoutBuilder

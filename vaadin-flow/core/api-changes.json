@@ -65,6 +65,18 @@
             "code": "java.class.removed",
             "old": "interface org.linkki.core.vaadin.component.HasIcon",
             "justification": "LIN-4105 Moved to linkki component"
+          },
+          {
+            "code": "java.annotation.added",
+            "old": "method ROW org.linkki.core.ui.table.pmo.SelectableTablePmo<ROW>::getSelection()",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
+            "justification": "Has always been CheckForNull"
+          },
+          {
+            "code": "java.annotation.added",
+            "old": "parameter void org.linkki.core.ui.table.pmo.SelectableTablePmo<ROW>::setSelection(===ROW===)",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
+            "justification": "Has always been CheckForNull"
           }
         ]
       }

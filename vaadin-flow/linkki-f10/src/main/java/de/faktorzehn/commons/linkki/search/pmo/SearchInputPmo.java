@@ -20,6 +20,10 @@ import org.linkki.util.handler.Handler;
 import de.faktorzehn.commons.linkki.search.annotation.UISearchParameters;
 import de.faktorzehn.commons.linkki.search.component.SearchInputLayout;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.pmo.SearchInputPmo instead
+ */
+@Deprecated(since = "2.8.0")
 public class SearchInputPmo {
 
     private final Object searchParametersPmo;

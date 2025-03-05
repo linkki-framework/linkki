@@ -37,6 +37,7 @@ import com.vaadin.flow.router.LocationChangeEvent;
 import com.vaadin.flow.router.NavigationTrigger;
 import com.vaadin.flow.router.QueryParameters;
 
+@SuppressWarnings("deprecation")
 @ExtendWith(KaribuUIExtension.class)
 public class InfoToolsComponentTest {
 

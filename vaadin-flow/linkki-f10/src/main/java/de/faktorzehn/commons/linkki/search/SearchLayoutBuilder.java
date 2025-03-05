@@ -54,8 +54,11 @@ import de.faktorzehn.commons.linkki.search.pmo.SearchResultTablePmo;
  *            result list and some optional messages
  * @param <MODELOBJECT> Type of the model object of a single result entity
  * @param <ROW> Type of the row PMO that displays a single model object of type M
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.SearchLayoutBuilder instead
  */
 @SuppressWarnings("hiding")
+@Deprecated(since = "2.8.0")
 public class SearchLayoutBuilder<PARAM, RESULT, MODELOBJECT, ROW> {
 
     private String caption;

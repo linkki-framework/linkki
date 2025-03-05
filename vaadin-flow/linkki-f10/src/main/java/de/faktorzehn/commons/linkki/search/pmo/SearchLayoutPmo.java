@@ -30,7 +30,10 @@ import de.faktorzehn.commons.linkki.search.component.SearchLayout;
  * A caption can be optionally shown.
  * 
  * @see SearchLayoutBuilder
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.pmo.SearchLayoutPmo instead
  */
+@Deprecated(since = "2.8.0")
 @UISearchLayout
 public class SearchLayoutPmo<ROW> {
 

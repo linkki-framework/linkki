@@ -25,6 +25,7 @@
         <module>samples</module>
         <module>doc</module>
         <module>linkki-f10</module>
+        <module>search</module>
     </modules>
 
     <repositories>

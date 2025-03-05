@@ -34,7 +34,10 @@ import de.faktorzehn.commons.linkki.search.SearchLayoutBuilder;
  * @param <PARAM> Type of search parameters
  * @param <RESULT> Type of result object of the search service, normally wraps the result and
  *            optional messages
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.model.SearchController instead
  */
+@Deprecated(since = "2.8.0")
 public interface SearchController<PARAM, RESULT> extends Supplier<Optional<RESULT>> {
 
     /**

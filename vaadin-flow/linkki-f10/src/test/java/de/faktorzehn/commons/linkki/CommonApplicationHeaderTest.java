@@ -23,7 +23,7 @@ import org.linkki.util.Sequence;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.menubar.MenuBar;
 
-@Deprecated
+@SuppressWarnings("deprecation")
 class CommonApplicationHeaderTest {
 
     private CommonApplicationHeader header;

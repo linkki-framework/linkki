@@ -23,7 +23,10 @@ import org.linkki.core.binding.validation.message.MessageList;
 /**
  * A {@link SearchController} that only caches the search result and performs no additional
  * operations.
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.model.SimpleSearchController instead
  */
+@Deprecated(since = "2.8.0")
 public class SimpleSearchController<PARAM, RESULT> implements SearchController<PARAM, RESULT> {
 
     private final Supplier<PARAM> parameterCreator;

@@ -18,6 +18,10 @@ import java.text.MessageFormat;
 
 import org.linkki.core.nls.NlsService;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.util.NlsSearch instead
+ */
+@Deprecated(since = "2.8.0")
 public class NlsSearch {
     /**
      * This constant is used as placeholder for values retrieved from linkki-messages.properties

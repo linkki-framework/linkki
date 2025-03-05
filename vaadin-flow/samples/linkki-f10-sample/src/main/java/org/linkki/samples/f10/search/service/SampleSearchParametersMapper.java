@@ -21,25 +21,20 @@ import java.util.Map;
 import de.faktorzehn.commons.linkki.search.model.SearchParameterMapper;
 import de.faktorzehn.commons.linkki.search.util.ParamsUtil;
 
-// tag::SampleSearchParametersMapper[]
+@SuppressWarnings("deprecation")
 public class SampleSearchParametersMapper implements SearchParameterMapper<SampleSearchParameters> {
-    // end::SampleSearchParametersMapper[]
 
     @Override
-    // tag::toSearchParameters[]
     public SampleSearchParameters toSearchParameters(Map<String, List<String>> queryParams) {
         var searchParams = new SampleSearchParameters();
         var parameters = ParamsUtil.flatten(queryParams);
 
         searchParams.setPartnerNumber(parameters.get(SampleSearchParameters.PROPERTY_PARTNER_NUMBER));
-        // end::toSearchParameters[]
 
         searchParams.setName(parameters.get(SampleSearchParameters.PROPERTY_NAME));
         searchParams.setGivenName(parameters.get(SampleSearchParameters.PROPERTY_GIVEN_NAME));
-        // tag::parseIsoDate[]
         ParamsUtil.parseIsoDate(parameters.get(SampleSearchParameters.PROPERTY_DATE_OF_BIRTH))
                 .ifPresent(searchParams::setDateOfBirth);
-        // end::parseIsoDate[]
         searchParams.setSector(parameters.get(SampleSearchParameters.PROPERTY_SECTOR));
         searchParams.setClassification(parameters.get(SampleSearchParameters.PROPERTY_CLASSIFICATION));
         searchParams.setPostalCode(parameters.get(SampleSearchParameters.PROPERTY_POSTAL_CODE));
@@ -53,19 +48,15 @@ public class SampleSearchParametersMapper implements SearchParameterMapper<Sampl
     }
 
     @Override
-    // tag::toQueryParameters[]
     public Map<String, List<String>> toQueryParameters(SampleSearchParameters searchParams) {
         var queryParams = new LinkedHashMap<String, String>();
 
         queryParams.put(SampleSearchParameters.PROPERTY_PARTNER_NUMBER, searchParams.getPartnerNumber());
-        // end::toQueryParameters[]
 
         queryParams.put(SampleSearchParameters.PROPERTY_NAME, searchParams.getName());
         queryParams.put(SampleSearchParameters.PROPERTY_GIVEN_NAME, searchParams.getGivenName());
-        // tag::formatIsoDate[]
         queryParams.put(SampleSearchParameters.PROPERTY_DATE_OF_BIRTH,
                         ParamsUtil.formatIsoDate(searchParams.getDateOfBirth()));
-        // end::formatIsoDate[]
         queryParams.put(SampleSearchParameters.PROPERTY_SECTOR, searchParams.getSector());
         queryParams.put(SampleSearchParameters.PROPERTY_CLASSIFICATION, searchParams.getClassification());
         queryParams.put(SampleSearchParameters.PROPERTY_POSTAL_CODE, searchParams.getPostalCode());

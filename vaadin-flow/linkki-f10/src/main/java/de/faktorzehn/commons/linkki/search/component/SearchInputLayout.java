@@ -19,7 +19,10 @@ import com.vaadin.flow.component.dependency.JsModule;
 
 /**
  * Component that displays controls to enter the search criteria.
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.component.SearchInputLayout instead
  */
+@Deprecated(since = "2.8.0")
 @Tag("search-input-layout")
 @JsModule("./src/search-input-layout.ts")
 public class SearchInputLayout extends HtmlComponent {

@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.linkki.core.binding.validation.message.MessageList;
 
-// tag::SampleSearchResult[]
 public class SampleSearchResult {
 
     public static final int DEFAULT_MAX_RESULT_SIZE = 100;
@@ -43,4 +42,3 @@ public class SampleSearchResult {
     }
 
 }
-// end::SampleSearchResult[]

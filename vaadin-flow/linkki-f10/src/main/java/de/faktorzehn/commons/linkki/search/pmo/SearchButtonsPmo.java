@@ -21,6 +21,10 @@ import com.vaadin.flow.component.button.ButtonVariant;
 
 import de.faktorzehn.commons.linkki.search.util.NlsSearch;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.pmo.SearchButtonsPmo instead
+ */
+@Deprecated(since = "2.8.0")
 @UIHorizontalLayout
 public class SearchButtonsPmo {
 

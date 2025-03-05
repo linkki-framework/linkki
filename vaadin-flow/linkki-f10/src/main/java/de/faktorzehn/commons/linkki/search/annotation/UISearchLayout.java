@@ -33,6 +33,10 @@ import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import com.vaadin.flow.component.Component;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.annotation.UISearchLayout instead
+ */
+@Deprecated(since = "2.8.0")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @LinkkiComponent(UISearchLayout.SearchComponentDefinitionCreator.class)

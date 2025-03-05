@@ -29,7 +29,10 @@ import de.faktorzehn.commons.linkki.search.util.NlsSearch;
  * PMO to display search result.
  *
  * @see SearchResultTablePmo
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.pmo.SearchResultPmo instead
  */
+@Deprecated(since = "2.8.0")
 public class SearchResultPmo<MODELOBJECT, ROW> {
 
     private static final String RESULT_COUNT_TEMPLATE_PLURAL = "SearchResultPmo.resultCount";

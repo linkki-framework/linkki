@@ -24,6 +24,7 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
 import org.linkki.samples.f10.search.service.SampleModelObject;
 
+@SuppressWarnings("deprecation")
 public class SampleSearchResultRowPmo {
 
     private SampleModelObject modelObject;

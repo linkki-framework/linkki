@@ -58,6 +58,13 @@
             <artifactId>linkki-vaadin-flow-component</artifactId>
         </dependency>
         <!-- end::linkki-vaadin-flow-component[] -->
+        <!-- tag::linkki-search-vaadin-flow[] -->
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-search-vaadin-flow</artifactId>
+        </dependency>
+        <!-- end::linkki-search-vaadin-flow[] -->
+
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>

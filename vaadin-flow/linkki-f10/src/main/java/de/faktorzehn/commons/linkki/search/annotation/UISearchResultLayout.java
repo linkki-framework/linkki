@@ -31,6 +31,10 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.annotation.UISearchResultLayout instead
+ */
+@Deprecated(since = "2.8.0")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiLayout(NestedPmoMethodLayoutDefinitionCreator.class)

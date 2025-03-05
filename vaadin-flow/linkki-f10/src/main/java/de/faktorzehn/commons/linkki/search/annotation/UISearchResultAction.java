@@ -43,8 +43,10 @@ import com.vaadin.flow.component.menubar.MenuBarVariant;
  * special settings for the column of additional actions in a search result table.
  * 
  * @see de.faktorzehn.commons.linkki.ui.menu.UIMenuList
+ * 
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.annotation.UISearchResultAction instead
  */
-@SuppressWarnings("deprecation")
+@Deprecated(since = "2.8.0")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiPositioned

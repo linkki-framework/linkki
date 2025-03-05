@@ -30,6 +30,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.Location;
 import com.vaadin.flow.router.QueryParameters;
 
+@SuppressWarnings("deprecation")
 class RoutingSearchControllerTest {
 
     @BeforeAll

@@ -32,7 +32,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 
 import org.linkki.samples.f10.search.service.SampleSearchParameters;
 
-// tag::sampleSearchParametersPmo[]
+@SuppressWarnings("deprecation")
 public class SampleSearchParametersPmo {
 
     public static final String SECTOR_FINANCE = "Finanz und Versicherung";
@@ -59,7 +59,6 @@ public class SampleSearchParametersPmo {
     public void partnerNumber() {
         // model binding
     }
-    // end::sampleSearchParametersPmo[]
 
     @UISearchCriteriaGroup(position = 30)
     public BasicInfoPmo getBasicInfo() {

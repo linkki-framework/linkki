@@ -34,6 +34,12 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.framework.ui.component.Headline;
 
+/**
+ * Creates a simple {@link Headline}. The title is the return value of the annotated method.
+ * 
+ * @deprecated use {@link org.linkki.framework.ui.component.UIHeadline} instead
+ */
+@Deprecated(since = "2.8.0")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)

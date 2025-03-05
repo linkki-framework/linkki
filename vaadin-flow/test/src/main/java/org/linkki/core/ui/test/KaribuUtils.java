@@ -197,6 +197,11 @@ public class KaribuUtils {
             LocatorJ._fireValueChange(field, true);
         }
 
+        /**
+         * To set the value of a field in a parent layout, use
+         * {@link #getWithId(Component, Class, String)} with
+         * {@link #setValue(AbstractField, Object)} instead.
+         */
         public static <C extends AbstractField<C, T>, T> void setValue(Class<C> clazz,
                 String id,
                 T value) {

@@ -31,7 +31,10 @@ import de.faktorzehn.commons.linkki.search.util.ParamsUtil;
  *          {@link ParamsUtil}.
  * 
  * @see RoutingSearchController
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.model.SearchParameterMapper instead
  */
+@Deprecated(since = "2.8.0")
 public interface SearchParameterMapper<PARAM> {
 
     /**

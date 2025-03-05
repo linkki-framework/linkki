@@ -50,6 +50,7 @@ import de.faktorzehn.commons.linkki.search.model.SearchController;
 import de.faktorzehn.commons.linkki.search.model.SimpleSearchController;
 import de.faktorzehn.commons.linkki.search.pmo.SearchLayoutPmo;
 
+@SuppressWarnings("deprecation")
 @Route(value = ContextDependentSearchView.NAME, layout = SampleApplicationLayout.class)
 public class ContextDependentSearchView extends VerticalLayout {
 
@@ -72,17 +73,14 @@ public class ContextDependentSearchView extends VerticalLayout {
 
     private SearchController<SampleSearchParameters, SampleSearchResult> createSearchController() {
         var searchService = new SampleSearchService();
-        // tag::SimpleSearchController[]
         return new SimpleSearchController<>(SampleSearchParameters::new,
                 searchService::search,
                 SampleSearchResult::getMessages);
-        // end::SimpleSearchController[]
     }
 
     private static OkCancelDialog createSearchDialog(
             SearchController<SampleSearchParameters, SampleSearchResult> searchController,
             Consumer<SampleModelObject> showObject) {
-        // tag::showSearchDialog[]
         var searchLayoutPmo = createSearchLayoutPmo(searchController, showObject);
         var validationService = new SearchValidationService(searchLayoutPmo);
 
@@ -94,7 +92,6 @@ public class ContextDependentSearchView extends VerticalLayout {
                                    searchLayoutPmo);
 
         searchDialog.setSize("85%", "85%");
-        // end::showSearchDialog[]
 
         return searchDialog;
     }
@@ -133,7 +130,6 @@ public class ContextDependentSearchView extends VerticalLayout {
     private static SearchLayoutPmo<SampleSearchResultRowPmo> createSearchLayoutPmo(
             SearchController<SampleSearchParameters, SampleSearchResult> searchController,
             Consumer<SampleModelObject> showObject) {
-        // tag::searchLayoutBuilder[]
         return SearchLayoutBuilder
                 .<SampleSearchParameters, SampleSearchResult, SampleModelObject, SampleSearchResultRowPmo> with()
                 .searchParametersPmo(SampleSearchParametersPmo::new)
@@ -144,7 +140,6 @@ public class ContextDependentSearchView extends VerticalLayout {
                 .primaryAction(showObject)
                 .maxResult(SampleSearchResult.DEFAULT_MAX_RESULT_SIZE)
                 .build();
-        // end::searchLayoutBuilder[]
     }
 
     private static List<MenuItemDefinition> getAdditionalActions(SampleModelObject modelObject) {

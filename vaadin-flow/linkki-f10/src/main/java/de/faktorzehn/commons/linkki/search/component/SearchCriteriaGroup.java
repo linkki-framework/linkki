@@ -21,7 +21,10 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
 /**
  * Component that displays controls to enter the search criteria.
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.component.SearchCriteriaGroup instead
  */
+@Deprecated(since = "2.8.0")
 @Tag("search-criteria-group")
 public class SearchCriteriaGroup extends FlexLayout {
 

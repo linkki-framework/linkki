@@ -25,7 +25,10 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Component that displays controls to enter the search criteria.
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.component.SearchLayout instead
  */
+@Deprecated(since = "2.8.0")
 @Tag("search-layout")
 @JsModule("./src/search-layout.ts")
 public class SearchLayout extends LitTemplate implements HasSize {

@@ -29,6 +29,11 @@ import org.linkki.util.reflection.accessor.MemberAccessors;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasElement;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use
+ *             org.linkki.search.annotation.NestedPmoMethodLayoutDefinitionCreator instead
+ */
+@Deprecated(since = "2.8.0")
 public class NestedPmoMethodLayoutDefinitionCreator implements LayoutDefinitionCreator<Annotation> {
 
     @Override

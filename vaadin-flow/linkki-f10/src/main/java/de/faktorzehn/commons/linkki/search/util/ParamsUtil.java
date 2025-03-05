@@ -37,7 +37,10 @@ import de.faktorzehn.commons.linkki.search.model.SearchParameterMapper;
  *          removed after {@link SearchParameterMapper#toQueryParameters(Object)}, a null-check does
  *          not have be performed on search parameter properties:<br>
  *          <code>queryParams.put(PROPERTY_VALID_AT, ParamsUtil.formatIsoDate(searchParams.getValidAt()));</code>
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.util.ParamsUtil instead
  */
+@Deprecated(since = "2.8.0")
 public class ParamsUtil {
 
     private ParamsUtil() {

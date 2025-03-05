@@ -28,12 +28,17 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
+import de.faktorzehn.commons.linkki.search.component.SearchCriteriaGroup;
+
 /**
  * Use this annotation to create a group of search criteria within your search criteria PMO.
  * <p>
  * The PMO itself does not have to be annotated with any layout annotation, if there is any layout
  * annotation at the PMO class it will be ignored.
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.annotation.UISearchCriteriaGroup instead
  */
+@Deprecated(since = "2.8.0")
 @Retention(RUNTIME)
 @Target(METHOD)
 @LinkkiPositioned
@@ -51,7 +56,7 @@ public @interface UISearchCriteriaGroup {
 
         @Override
         public LinkkiComponentDefinition create(UISearchCriteriaGroup annotation, AnnotatedElement annotatedElement) {
-            return pmo -> new de.faktorzehn.commons.linkki.search.component.SearchCriteriaGroup(annotation.caption());
+            return pmo -> new SearchCriteriaGroup(annotation.caption());
         }
     }
 }

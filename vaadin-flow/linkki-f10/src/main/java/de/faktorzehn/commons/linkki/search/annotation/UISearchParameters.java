@@ -33,7 +33,10 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout.FlexDirection;
 /**
  * Creates a {@link FlexLayout} that contains elements that are defined in the PMO returned by the
  * annotated element.
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.annotation.UISearchParameters instead
  */
+@Deprecated(since = "2.8.0")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiLayout(NestedPmoMethodLayoutDefinitionCreator.class)

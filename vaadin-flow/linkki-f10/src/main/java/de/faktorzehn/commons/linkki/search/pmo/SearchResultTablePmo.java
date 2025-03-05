@@ -23,6 +23,10 @@ import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 
 import de.faktorzehn.commons.linkki.search.annotation.UISearchTable;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.pmo.SearchResultPmo instead
+ */
+@Deprecated(since = "2.8.0")
 @UISearchTable
 public class SearchResultTablePmo<T, ROW> extends SimpleTablePmo<T, ROW> implements SelectableTablePmo<ROW> {
 

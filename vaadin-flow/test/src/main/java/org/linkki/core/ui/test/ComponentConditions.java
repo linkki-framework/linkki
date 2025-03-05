@@ -14,16 +14,30 @@
 
 package org.linkki.core.ui.test;
 
+import java.util.ArrayList;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Condition;
+import org.assertj.core.presentation.Representation;
+import org.linkki.util.Consumers;
 
+import com.github.mvysny.kaributesting.v10.LocatorJ;
+import com.github.mvysny.kaributesting.v10.PrettyPrintTreeKt;
+import com.github.mvysny.kaributesting.v10.SearchSpec;
+import com.github.mvysny.kaributesting.v10.SearchSpecJ;
 import com.vaadin.flow.component.Component;
+
+import kotlin.ranges.IntRange;
 
 /**
  * AssertJ conditions to be used with {@link AbstractAssert#is(Condition)} or
  * {@link AbstractAssert#has(Condition)}.
+ * <p>
+ * For a better representation of the actual component in case of test failure, use
+ * {@link ComponentTreeRepresentation} with
+ * {@link AbstractAssert#withRepresentation(Representation)}.
  * 
  * @since 2.8.0
  */
@@ -34,7 +48,8 @@ public class ComponentConditions {
     }
 
     public static Condition<Component> childOf(Component parent) {
-        return new Condition<>(c -> isChildOf(c, parent), "a child of %s: \n%s", parent,
+        return new Condition<>(c -> isChildOf(c, parent), "a child of %s, but the parent has the component tree \n%s",
+                PrettyPrintTreeKt.toPrettyString(parent),
                 KaribuUtils.getComponentTree(parent));
     }
 
@@ -60,5 +75,38 @@ public class ComponentConditions {
         } else {
             return component.getChildren().anyMatch(c -> isAnyChildSatisfying(c, predicate));
         }
+    }
+
+    public static Condition<Component> exactlyOneVisibleChildOfType(Class<? extends Component> type) {
+        return exactlyOneVisibleChildOfType(type, Consumers.nopConsumer());
+    }
+
+    public static <T extends Component> Condition<Component> exactlyOneVisibleChildOfType(Class<T> type,
+            Consumer<SearchSpecJ<T>> searchSpec) {
+        return new Condition<>(c -> LocatorJ._find(c, type, searchSpec).size() == 1,
+                "exactly one visible child matching type %s", displaySearchSpec(type, searchSpec));
+    }
+
+    public static <T extends Component> Condition<Component> anyVisibleChildOfType(Class<T> type) {
+        return anyVisibleChildOfType(type, Consumers.nopConsumer());
+    }
+
+    public static <T extends Component> Condition<Component> anyVisibleChildOfType(Class<T> type,
+            Consumer<SearchSpecJ<T>> searchSpec) {
+        return new Condition<>(c -> !LocatorJ._find(c, type, searchSpec).isEmpty(),
+                "any visible child matching %s", displaySearchSpec(type, searchSpec));
+    }
+
+    private static <T extends Component> String displaySearchSpec(Class<T> type,
+            Consumer<SearchSpecJ<T>> searchSpecJConsumer) {
+        var searchSpec = createSearchSpec(type);
+        searchSpecJConsumer.accept(new SearchSpecJ<>(searchSpec));
+        return searchSpec.toString();
+    }
+
+    private static <T extends Component> SearchSpec<T> createSearchSpec(Class<T> type) {
+        return new SearchSpec<>(type, null, null, null, null,
+                null, new IntRange(0, Integer.MAX_VALUE), null, null, null, null, null, null, null,
+                new ArrayList<>());
     }
 }

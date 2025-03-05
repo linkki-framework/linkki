@@ -56,6 +56,18 @@ include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-vaadin-flow-com
 include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-application-framework]
 ----
 
+[[linkki-search-dependency]]
+==== linkki-search-vaadin-flow
+
+`linkki-search-vaadin-flow` contains the following additional features:
+
+* <<linkki-search, Search components>>
+
+[source,xml]
+----
+include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-search-vaadin-flow]
+----
+
 ==== linkki-ips-vaadin-flow
 
 `linkki-ips-vaadin-flow` contains the following additional features:

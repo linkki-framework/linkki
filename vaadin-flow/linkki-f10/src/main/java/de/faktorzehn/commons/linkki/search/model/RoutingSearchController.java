@@ -45,7 +45,10 @@ import de.faktorzehn.commons.linkki.search.util.ParamsUtil;
  * another location, for example if there is only one search result, while after navigation is the
  * more common event to update the UI state. See.
  * https://vaadin.com/docs/latest/flow/routing/lifecycle for more details.
+ *
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.model.RoutingSearchController instead
  */
+@Deprecated(since = "2.8.0")
 public class RoutingSearchController<PARAM, RESULT> implements SearchController<PARAM, RESULT> {
 
     private static final String SUBMIT_PARAMETER = "submit";

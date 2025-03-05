@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.table.pmo;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.table.aspects.annotation.BindTableSelection;
 
@@ -26,12 +27,13 @@ public interface SelectableTablePmo<ROW> extends ContainerPmo<ROW> {
     /**
      * Returns the currently selected row.
      */
+    @CheckForNull
     ROW getSelection();
 
     /**
      * Sets the currently selected row.
      */
-    void setSelection(ROW selectedRow);
+    void setSelection(@CheckForNull ROW selectedRow);
 
     /**
      * Action that should be executed when a double click is made on a row.

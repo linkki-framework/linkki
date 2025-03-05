@@ -71,6 +71,10 @@ import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.function.ValueProvider;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.annotation.UISearchTable instead
+ */
+@Deprecated(since = "2.8.0")
 @Retention(RUNTIME)
 @Target(ElementType.TYPE)
 @LinkkiComponent(UISearchTable.GridComponentDefinitionCreator.class)

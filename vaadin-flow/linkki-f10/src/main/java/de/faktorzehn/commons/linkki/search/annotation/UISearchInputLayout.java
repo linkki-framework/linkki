@@ -27,6 +27,10 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
+/**
+ * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.annotation.UISearchInputLayout instead
+ */
+@Deprecated(since = "2.8.0")
 @SuppressWarnings("deprecation")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
