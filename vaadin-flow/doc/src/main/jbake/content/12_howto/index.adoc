@@ -1,0 +1,9 @@
+:jbake-title: How-To
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 100
+
+[[linkki-howto]]
+== How-To
+
+This chapter provides a collection of coding examples and best-practices on how to use *linkki*.

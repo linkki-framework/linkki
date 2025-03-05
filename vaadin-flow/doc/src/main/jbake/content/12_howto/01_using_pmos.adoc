@@ -1,0 +1,27 @@
+:jbake-title: Using PMOs in Layouts
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../src/main/java
+
+[[howto-using-pmos-in-layouts]]
+
+=== Using PMOs in Layouts
+
+[NOTE]
+This section assumes that you are familiar with the usage of PMOs (<<databinding, *Presentation Model Object* (PMO)>>).
+
+In the tutorial, we integrated PMOs using the class <<tutorial-search-page, AbstractPage>>.
+This class conveniently integrates with PMOs because it provides a method `addSection` that converts any PMO into a Vaadin `Component`.
+Yet, if you want to use Vaadin layouts such as `VerticalLayout` or `HorizontalLayout` instead, you can refer to the example code below.
+
+.SearchSectionPmo.java
+[source,java, indent=0]
+----
+include::{source-dir}/org/linkki/doc/PartnerView.java[tags=layoutWithPMO]
+----
+
+The main difference between using either `AbstractPage` or a Vaadin layout is that for the latter we have to convert the PMOs to Vaadin components ourselves. Therefore, we use <<pmo-create-layout, *VaadinUiCreator*>> to handle the conversion. Finally, we add the component to the layout using the `add` method.
+
+[NOTE]
+Remember that an `AbstractPage` had to be initialised by calling `init` or else the component was not visualised at all. The same would hold for our example implementation above if we didn't call the `createContent` method within the constructor. This is the preferred way of initialising UI components that persist throughout the entire life cycle.

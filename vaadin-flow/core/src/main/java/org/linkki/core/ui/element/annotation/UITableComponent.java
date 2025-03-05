@@ -14,8 +14,6 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.util.Objects.requireNonNull;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -23,10 +21,8 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
@@ -36,15 +32,14 @@ import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCrea
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.staticvalue.StaticValueNlsService;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.ui.aspects.FutureAwareAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.creation.table.GridColumnWrapper;
 import org.linkki.core.ui.creation.table.GridComponentDefinition;
-import org.linkki.core.ui.nls.NlsText;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -53,14 +48,9 @@ import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
-import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.BeanUtils;
-import org.linkki.util.handler.Handler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 
@@ -112,79 +102,28 @@ public @interface UITableComponent {
         }
     }
 
-    class GridItemsAspectDefinition implements LinkkiAspectDefinition {
+    class GridItemsAspectDefinition extends FutureAwareAspectDefinition<List<Object>> {
 
-        private static final Logger LOGGER = LoggerFactory.getLogger(GridItemsAspectDefinition.class);
-
-        private static final String NAME = LinkkiAspectDefinition.VALUE_ASPECT_NAME;
         private static final String ATTR_HAS_ITEMS = "has-items";
-        private static final String ATTR_LOADING = "items-loading";
-        private static final String ATTR_HAS_ERRORS = "has-errors";
-        private static final String CSS_PROPERTY_ERROR_MESSAGES = "--error-message";
-        private static final String MSG_CODE_ERROR_MESSAGES = "GridItemsAspectDefinition.error";
+        private static final String NAME = LinkkiAspectDefinition.VALUE_ASPECT_NAME;
+
+        protected List<Object> getValueOnError() {
+            return List.of();
+        }
 
         @Override
-        public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
+        public Aspect<List<Object>> createAspect() {
+            return Aspect.of(NAME);
+        }
+
+        @Override
+        protected Consumer<List<Object>> createComponentValueSetter(ComponentWrapper componentWrapper) {
             @SuppressWarnings("unchecked")
             var grid = (Grid<Object>)componentWrapper.getComponent();
-            var ui = UI.getCurrent();
-            var locale = UiFramework.getLocale();
-            if (CompletableFuture.class.isAssignableFrom(propertyDispatcher.getValueClass())) {
-                if (!ui.getPushConfiguration().getPushMode().isEnabled()) {
-                    if (LOGGER.isWarnEnabled()) {
-                        LOGGER.warn(("""
-                                CompletableFuture is used to retrieve table items with %s although server push is not \
-                                enabled.
-
-                                This will cause update to be not reflected in the UI immediately. (%s)""")
-                                .formatted(UITableComponent.class.getSimpleName(),
-                                           Optional.ofNullable(propertyDispatcher.getBoundObject())
-                                                   .map(Object::getClass)
-                                                   .map(Class::getName)
-                                                   .orElse("null") + "#"
-                                                   + propertyDispatcher.getProperty()));
-                    }
-                }
-                return () -> {
-                    grid.getElement().setAttribute(ATTR_LOADING, true);
-                    grid.getElement().setAttribute(ATTR_HAS_ERRORS, false);
-                    grid.getElement().getStyle().remove(CSS_PROPERTY_ERROR_MESSAGES);
-                    @SuppressWarnings("unchecked")
-                    var future = (CompletableFuture<List<Object>>)getAspectValue(propertyDispatcher);
-                    future.whenComplete(onFutureComplete(ui, grid, locale));
-                };
-            } else {
-                return () -> {
-                    List<Object> items = getAspectValue(propertyDispatcher);
-                    setItems(grid, items);
-                };
-            }
-        }
-
-        private BiConsumer<List<Object>, Throwable> onFutureComplete(UI ui, Grid<Object> grid, Locale locale) {
-            return (items, throwable) -> ui.access(() -> {
-                if (throwable != null) {
-                    LOGGER.error("An error occurred when retrieving table items", throwable);
-                    setItems(grid, List.of());
-                    grid.getElement().setAttribute(ATTR_HAS_ERRORS, true);
-                    grid.getElement().getStyle()
-                            .set(CSS_PROPERTY_ERROR_MESSAGES,
-                                 "\"" + NlsText.getString(MSG_CODE_ERROR_MESSAGES, locale) + "\"");
-                } else {
-                    setItems(grid, items);
-                }
-                grid.getElement().removeAttribute(ATTR_LOADING);
-            });
-        }
-
-        private <T> T getAspectValue(PropertyDispatcher propertyDispatcher) {
-            return requireNonNull(propertyDispatcher
-                    .pull(Aspect.of(NAME)), "List of items must not be null");
-        }
-
-        private void setItems(Grid<Object> grid, List<Object> newItems) {
-            grid.setItems(newItems);
-            grid.getElement().setAttribute(ATTR_HAS_ITEMS, !newItems.isEmpty());
+            return newItems -> {
+                grid.setItems(newItems);
+                grid.getElement().setAttribute(ATTR_HAS_ITEMS, !newItems.isEmpty());
+            };
         }
     }
 

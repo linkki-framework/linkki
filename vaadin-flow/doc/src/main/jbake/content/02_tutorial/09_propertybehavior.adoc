@@ -29,20 +29,8 @@ include::{source-dir}/page/AddressPage.java[tags=binding]
 ----
 
 ==== Changing the behavior of buttons
+Note how the button is still actionable. This is due to the fact that `PropertyBehavior.readOnly` only affects input elements but no buttons. To modify the read-only behavior of buttons, see <<bind-read-only-behavior, `BindReadOnlyBehavior`>>.
 
-By default, buttons are active regardless of the defined `PropertyBehavior`. To change the behavior of UI elements in read-only mode, you can use the annotation <<bind-read-only-behavior, `@BindReadOnlyBehavior`>>.
-
-Annotate the delete button in `AddressRowPmo` with `@BindReadOnlyBehavior` and set the attribute `value` to `ReadOnlyBehaviorType.WRITABLE`.
-
-The finished implementation should look like this:
-
-.AddressRowPmo.java
-[source, java, indent=0]
-----
-@BindReadOnlyBehavior(value = ReadOnlyBehaviorType.WRITABLE)
-@UITableColumn(...)
-@UIButton(...)
-...
 ----
 
 If you run your application now, you should still be able to delete addresses, but you should not be able to edit the other columns anymore.

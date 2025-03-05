@@ -158,7 +158,7 @@ public class TC002IpsUIDecimalFieldTest extends PlaygroundUiTest {
     }
 
     private boolean containsMessageError(TextFieldElement field) {
-        return field.$(DivElement.class).all().stream().map(e -> e.getAttribute("part")).filter(Objects::nonNull)
+        return field.$(DivElement.class).all().stream().map(e -> e.getDomAttribute("part")).filter(Objects::nonNull)
                 .anyMatch(p -> p.equals("error-message"));
     }
 }

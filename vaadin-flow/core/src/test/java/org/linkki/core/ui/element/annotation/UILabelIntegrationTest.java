@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
-import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
+import org.linkki.core.ui.aspects.FutureAwareAspectDefinition;
 import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -64,7 +64,7 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
     void setupLogger() {
         testLogAppender.setContext((LoggerContext)LoggerFactory.getILoggerFactory());
         var gridItemsAspectDefinitionLogger = (Logger)LoggerFactory
-                .getLogger(LabelValueAspectDefinition.class);
+                .getLogger(FutureAwareAspectDefinition.class);
         gridItemsAspectDefinitionLogger.setLevel(Level.DEBUG);
         gridItemsAspectDefinitionLogger.addAppender(testLogAppender);
 
@@ -169,15 +169,13 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
         assertThat(label.getText())
                 .as("Initially on creation: Text should be updated asynchronously disregarding the push mode")
                 .isBlank();
-        assertThat(label.getElement().hasAttribute("value-loading")).isTrue();
-        assertThat(label.getElement().getClassList().contains("loading")).isTrue();
-        assertThat(label.getElement().hasAttribute("has-errors")).isFalse();
+        assertThat(label.getElement().hasAttribute("content-loading")).isTrue();
+        assertThat(label.getElement().hasAttribute("has-loading-error")).isFalse();
 
         KaribuUtils.UI.push(ui);
 
         assertThat(label.getText()).isEqualTo("I am loaded asynchronously");
-        assertThat(label.getElement().hasAttribute("value-loading")).isFalse();
-        assertThat(label.getElement().getClassList().contains("loading")).isFalse();
+        assertThat(label.getElement().hasAttribute("content-loading")).isFalse();
     }
 
     @EnumSource(PushMode.class)
@@ -207,16 +205,16 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
         assertThat(label.getText())
                 .as("Initially on creation: Text should be updated asynchronously disregarding the push mode")
                 .isBlank();
-        assertThat(label.getElement().hasAttribute("value-loading")).isTrue();
-        assertThat(label.getElement().getClassList().contains("loading")).isTrue();
-        assertThat(label.getElement().hasAttribute("has-errors")).isFalse();
+        assertThat(label.getElement().hasAttribute("content-loading")).isTrue();
+        assertThat(label.getElement().hasAttribute("has-loading-error")).isFalse();
 
         KaribuUtils.UI.push(ui);
 
-        assertThat(label.getText()).isEqualTo(NlsText.getString(LabelValueAspectDefinition.MSG_CODE_ERROR));
-        assertThat(label.getElement().hasAttribute("value-loading")).isFalse();
-        assertThat(label.getElement().getClassList().contains("loading")).isFalse();
-        assertThat(label.getElement().hasAttribute("has-errors")).isTrue();
+        assertThat(label.getText()).isEmpty();
+        assertThat(label.getElement().getStyle().get("--loading-error-message"))
+                .contains(NlsText.getString("FutureAwareAspectDefinition.loadingError"));
+        assertThat(label.getElement().hasAttribute("content-loading")).isFalse();
+        assertThat(label.getElement().hasAttribute("has-loading-error")).isTrue();
     }
 
     @UISection

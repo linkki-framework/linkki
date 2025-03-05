@@ -48,7 +48,7 @@ public class LinkkiSectionElement extends TestBenchElement {
      * itself is returned.
      */
     public List<TestBenchElement> getContentComponents() {
-        if (LinkkiSection.THEME_VARIANT_FORM.equals(getAttribute("theme"))) {
+        if (LinkkiSection.THEME_VARIANT_FORM.equals(getDomAttribute("theme"))) {
             return getContent().findElements(By.cssSelector("vaadin-form-item > :not(label)")).stream()
                     .map(TestBenchElement.class::cast).collect(Collectors.toList());
         } else {

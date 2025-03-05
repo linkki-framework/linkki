@@ -1,0 +1,33 @@
+library 'f10-jenkins-library@1.1_patches'
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                dir('landing-page') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        sh 'mvn clean package'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                dir('landing-page') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        sh 'mvn deploy -Ddoc.user=doc'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        regression {
+            sendFailureEmail()
+        }
+    }
+}

@@ -26,10 +26,10 @@ At this point, you already know how to use getters and setters. However, as you 
 [NOTE]
 "Model Binding", shorthand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes. It can be used when the presentation model and the domain model have similar structure and properties.
 
-Basically, *linkki* will create the getters and the setters for you, based on already existing methods in a so-called *_Model Object_* and an attribute called *_modelAttribute_*. For example, if you use a `BusinessPartner` as the model object and set `modelAttribute = "dateOfBirth"` in the `@UIDateField` annotation, *linkki* will generate the getter and the setter of the `UIDateField` element for the property `dateOfBirth`.
+Basically, *linkki* will delegate getter and setter calls for you, based on the already existing methods in a so-called *_Model Object_* and an attribute called *_modelAttribute_*. For example, if you use a `BusinessPartner` as the model object and set `modelAttribute = "dateOfBirth"` in the `@UIDateField` annotation, *linkki* will delegate the getter and the setter calls of the `UIDateField` element for the property `dateOfBirth` to the ones defined within `BusinessPartner`.
 
 [TIP]
-Note that you still need to write a method and annotate it with e.g. `@UIDateField`. However, the method won't be executed, so its return type can be `void` and the method can be empty.
+Note that you still need to write a method and annotate it with e.g. `@UIDateField` so that *linkki* knows which UI elements to create. However, the method won't be executed because *linkki* calls the *_Model Objects_* methods instead. Hence, the methods return type can be `void` and the method can be left empty.
 
 ==== Model Binding Practice
 

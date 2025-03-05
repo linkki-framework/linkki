@@ -238,3 +238,7 @@ To make the column right aligned use the `textAlign` property of `@UITableColumn
 [[button-pmo]]
 ==== ButtonPmo
 The interface <<ui-container-pmo, `ContainerPmo`>> provides a method `getAddItemButtonPmo()`, by which a plus button can be added besides the name of the table.
+
+[[customizing-columns-of-existing-table]]
+==== Customizing columns of an existing table
+An existing table can be reused and extended by subclassing the table and row PMO. Note, however, that both `createRow` as well as `getItemPmoClass` must be overwritten in the table PMO subclass or else the table will still show the columns of the super row PMO. You can find an example implementation <<howto-customize-existing-tables, here>>.

@@ -8,4 +8,47 @@
 
 == Release Notes
 
-include::2-7.adoc[]
+=== Version 2.8.0
+
+The release notes contain changes compared to link:https://doc.linkki-framework.org/2.7/00_releasenotes/#_version_2_7_1[version 2.7.1].
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+| Faktor-IPS                    | 25.1.2.release (link:https://doc.faktorzehn.org/faktor-ips/25.1/01_releasenotes/index.html[Release Notes]) | 25.1.1.release
+| Vaadin                        | 24.5.13 (link:https://github.com/vaadin/platform/releases/tag/24.5.13[Release Notes]) | 24.5.12
+| Spring Boot                   | 3.4.3 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.4.2
+|===
+
+The Vaadin version update brings some notable changes that affect linkki applications:
+
+* Testbench: The method `WebElement#getAttribute` is deprecated and should be replaced with `WebElement#getDomAttribute`.
+
+==== UI Annotations and Aspects
+
+[api-change]
+===== Aspects with asynchronously loaded values
+
+It is now possible to create custom aspects that load values asynchronously with a `CompletableFuture`. The documentation for creating custom aspects is extended with a <<aspect-async,how-to guide for creating custom future aware aspects>>.
+
+Additionally, the frontend behaviors of `UILable` and `@UITableComponent` considering loading have been unified. This leads to following breaking changes in the frontend:
+* During loading, the `items-loading` (UITableComponent) / `value-loading` (UILabel) attributes are no longer set. Instead, the attribute `content-loading` is set.
+* The `has-errors` attribute has been renamed to `has-loading-error`.
+* The CSS property `error-messages` has been renamed to `loading-error-message`.
+* `@UILabel` components in a loading state no longer have the CSS class `loading`.
+
+Custom CSS selectors that utilize the above attributes / CSS Properties must be adjusted accordingly.
+
+==== Other Improvements
+
+* *New documentation chapter - How-To* +
+Introduced a <<linkki-howto, How-To>> chapter containing coding examples and best practises.
+
+
+==== Bugfixes
+// https://jira.faktorzehn.de/browse/LIN-4248
+* `SimpleItemSupplier` now throws a NullPointerException if the model object to PMO mapping supplier returns null

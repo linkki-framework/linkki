@@ -32,6 +32,6 @@ public class TestCaseSelectorElement extends VerticalLayoutElement {
         $(TabElement.class).id(id).click();
 
         return waitUntil(VaadinElementConditions.elementDisplayed($(TestCaseComponentElement.class),
-                                                                  e -> e.getAttribute("id").contains(id)));
+                                                                  e -> e.getDomAttribute("id").contains(id)));
     }
 }

@@ -83,6 +83,7 @@ public class LinkkiErrorPage extends VerticalLayout
         setId(getClass().getSimpleName());
         var contentWrapper = createContentWrapper();
         messageWrapper = new Div();
+        messageWrapper.setWidthFull();
         messageWrapper.addClassName("error-page-message");
         contentWrapper.add(messageWrapper);
     }

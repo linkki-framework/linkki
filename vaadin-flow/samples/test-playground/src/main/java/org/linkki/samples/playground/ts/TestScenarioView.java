@@ -313,89 +313,66 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC015, new BindLabelPmo())
                                        .testCase(TC016, new BindSlotPmo(new BindSlotPmo.RightSlotPmo()))
                                        .createTabSheet(),
-                               TestScenario.id(TS009)
-                                       .testCase(TC001, new TextNotificationPmo())
-                                       .testCase(TC002, new MessageListNotificationPmo())
-                                       .createTabSheet(),
-                               TestScenario.id(TS010)
-                                       .testCase(TC001, HorizontalTabLayoutComponent::new)
+                               TestScenario.id(TS009).testCase(TC001, new TextNotificationPmo())
+                                       .testCase(TC002, new MessageListNotificationPmo()).createTabSheet(),
+                               TestScenario.id(TS010).testCase(TC001, HorizontalTabLayoutComponent::new)
                                        .testCase(TC002, VerticalTabLayoutComponent::new)
                                        .testCase(TC003, TabLayoutVisibilityComponent::new)
-                                       .testCase(TC004, AfterTabSelectedComponent::new)
-                                       .createTabSheet(),
-                               TestScenario.id(TS011)
-                                       .testCase(TC001, OkCancelDialogHandlerPmo::create)
+                                       .testCase(TC004, AfterTabSelectedComponent::new).createTabSheet(),
+                               TestScenario.id(TS011).testCase(TC001, OkCancelDialogHandlerPmo::create)
                                        .testCase(TC002, new QuestionAndConfirmationDialogPmo())
                                        .testCase(TC003, new OkCancelDialogOverflowPmo())
                                        .testCase(TC004, new OkCancelDialogSectionSpacingPmo())
                                        .testCase(TC005, new SetFormItemLabelWidthDialogPmo())
                                        .testCase(TC006, new DialogWithCustomSizePmo())
                                        .testCase(TC007, new DialogErrorHandlerPmo())
-                                       .testCase(TC008, new OkCancelDialogMessagePmo())
-                                       .createTabSheet(),
-                               TestScenario.id(TS012)
-                                       .testCase(TC001, TableWithValidationSection::create)
+                                       .testCase(TC008, new OkCancelDialogMessagePmo()).createTabSheet(),
+                               TestScenario.id(TS012).testCase(TC001, TableWithValidationSection::create)
                                        .testCase(TC002, SelectableTableSection::create)
                                        .testCase(TC003, new ColumnWidthTablePmo())
                                        .testCase(TC004, DynamicFieldsSection::create)
                                        .testCase(TC005, new NumberFooterTablePmo())
-                                       .testCase(TC006,
-                                                 new TableWithPlaceholderPmo(),
+                                       .testCase(TC006, new TableWithPlaceholderPmo(),
                                                  new TableWithInheritedPlaceholderPmo(),
-                                                 new TableWithEmptyPlaceholderPmo(),
-                                                 new TableWithoutPlaceholderPmo())
-                                       .testCase(TC007, new VaryingAlignmentTablePmo())
-                                       .testCase(TC008, () -> {
+                                                 new TableWithEmptyPlaceholderPmo(), new TableWithoutPlaceholderPmo())
+                                       .testCase(TC007, new VaryingAlignmentTablePmo()).testCase(TC008, () -> {
                                            GridSection section = (GridSection)VaadinUiCreator
                                                    .createComponent(new CollapsibleColumnTablePmo(),
                                                                     new BindingContext());
                                            section.setColumnVisible("programaticallyCollapsed", false);
                                            return section;
-                                       })
-                                       .testCase(TC009, new TableWithEmptyLabelColumnPmo())
+                                       }).testCase(TC009, new TableWithEmptyLabelColumnPmo())
                                        .testCase(TC010, new SortableTablePmo())
-                                       .testCase(TC011, new UITableComponentPmo())
-                                       .createTabSheet(),
-                               TestScenario.id(TS013)
-                                       .testCase(TC001, MessageTableSection::create)
+                                       .testCase(TC011, new UITableComponentPmo()).createTabSheet(),
+                               TestScenario.id(TS013).testCase(TC001, MessageTableSection::create)
                                        .testCase(TC002, FieldValidationPmo::createComponent)
                                        .testCase(TC003, ButtonValidationPmo::createComponent)
                                        .testCase(TC004, ConverterErrorPmo::createComponent)
-                                       .testCase(TC005, RequiredValidationPmo::createComponent)
-                                       .createTabSheet(),
-                               TestScenario.id(TS014)
-                                       .testCase(TC001, TreeTableSection::createPersonTreeTableSection)
+                                       .testCase(TC005, RequiredValidationPmo::createComponent).createTabSheet(),
+                               TestScenario.id(TS014).testCase(TC001, TreeTableSection::createPersonTreeTableSection)
                                        .testCase(TC002, TreeTableSection::createLeagueTreeTableSection)
                                        .testCase(TC003, TreeTableSection::createUpdateNodeTreeTableSection)
                                        .testCase(TC004, TreeTableSection::createTreeTableWithPlaceholderSection)
                                        .createTabSheet(),
-                               TestScenario.id(TS015)
-                                       .testCase(TC001, AbstractPageComponent::create)
-                                       .createTabSheet(),
-                               TestScenario.id(TS016)
-                                       .testCase(TC001, new NestedComponentPmo())
+                               TestScenario.id(TS015).testCase(TC001, AbstractPageComponent::create).createTabSheet(),
+                               TestScenario.id(TS016).testCase(TC001, new NestedComponentPmo())
                                        .testCase(TC002, new NullableModelObjectInInvisibleNestedPmo())
-                                       .testCase(TC003, new NestedComponentWidthPmo())
-                                       .createTabSheet(),
-                               TestScenario.id(TS017)
-                                       .testCase(TC001, () -> {
-                                           var component = VaadinUiCreator
-                                                   .createComponent(new ErrorDialogPmo(),
-                                                                    new BindingContext());
-                                           ComponentStyles.setFormItemLabelWidth(component, "300px");
-                                           return component;
-                                       })
-                                       .testCase(TC002, () -> {
-                                           var component = VaadinUiCreator
-                                                   .createComponent(new ErrorPagePmo(),
-                                                                    new BindingContext());
-                                           ComponentStyles.setFormItemLabelWidth(component, "300px");
-                                           return component;
-                                       })
-                                       .createTabSheet(),
-                               TestScenario.id(TS018)
-                                       .testCase(TC001, new ConvertersPmo())
-                                       .createTabSheet());
+                                       .testCase(TC003, new NestedComponentWidthPmo()).createTabSheet(),
+                               TestScenario.id(TS017).testCase(TC001, () -> {
+                                   var component = VaadinUiCreator
+                                           .createComponent(new ErrorDialogPmo(),
+                                                            new BindingContext());
+                                   ComponentStyles.setFormItemLabelWidth(component, "300px");
+                                   return component;
+                               }).testCase(TC002, () -> {
+                                   var component = VaadinUiCreator
+                                           .createComponent(new ErrorPagePmo(),
+                                                            new BindingContext());
+                                   ComponentStyles.setFormItemLabelWidth(component, "300px");
+                                   return component;
+                               }).createTabSheet(),
+                               TestScenario.id(TS018).testCase(TC001, new ConvertersPmo()).createTabSheet());
+
         add(tabLayout);
     }
 

@@ -9,7 +9,7 @@
 [[pmo-create-layout]]
 === Create a layout from a PMO
 
-An <<pmo-annotation, annotated PMO>> that is annotated as a <<layout, layout>> can be turned into a UI component using `UiCreator#createComponent`. The created component also contains all UI elements that are declared in the PMO. For convenience, `VaadinUiCreator` can be used instead to obtain a Vaadin `Component` instead of a `Object`.
+An <<pmo-annotation, annotated PMO>> that is annotated as a <<layout, layout>> can be turned into a UI component using `UiCreator#createComponent`. The created component also contains all UI elements that are declared in the PMO. For convenience, `VaadinUiCreator` can be used instead to obtain a Vaadin `Component` instead of an `Object`.
 
 [source,java]
 ----

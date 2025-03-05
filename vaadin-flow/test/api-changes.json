@@ -34,6 +34,13 @@
           },
           {
             "regex": true,
+            "code": "java.annotation.attributeValueChanged",
+            "annotationType": "kotlin\\.Metadata",
+            "attribute": "mv",
+            "justification": "LIN-4260 Exclude kotlin metadata"
+          },
+          {
+            "regex": true,
             "code": "java.class.externalClassExposedInAPI",
             "new": ".* jakarta\\.servlet\\..*",
             "justification": "LIN-3470"
@@ -43,58 +50,32 @@
             "code": "java.class.externalClassExposedInAPI",
             "package": "org\\.linkki\\.core.*",
             "justification": "linkki core API"
+          },
+          {
+            "regex": true,
+            "code": "java.annotation.attributeValueChanged",
+            "annotationType": "kotlin\\.Metadata",
+            "attribute": "mv"
           }
         ]
       }
     }
   ],
-  "2.7.0": [
+  "2.8.0": [
     {
       "extension": "revapi.differences",
       "configuration": {
         "ignore": true,
         "differences": [
           {
-            "code": "java.annotation.attributeValueChanged",
-            "old": "class com.github.mvysny.kaributesting.v10.Routes",
-            "new": "class com.github.mvysny.kaributesting.v10.Routes",
-            "justification": "LIN-3995/LIN-3996 Dependency Update"
+            "code": "java.method.addedToInterface",
+            "new": "method void org.junit.jupiter.api.extension.ExtensionContext::publishDirectory(java.lang.String, org.junit.jupiter.api.function.ThrowingConsumer<java.nio.file.Path>)",
+            "justification": "LIN-4225 Version update to 4.12.0"
           },
           {
             "code": "java.method.addedToInterface",
-            "new": "method void jakarta.servlet.http.HttpServletResponse::sendRedirect(java.lang.String, int, boolean) throws java.io.IOException",
-            "justification": "LIN-3995/LIN-3996 Dependency Update"
-          },
-          {
-            "code": "java.annotation.attributeValueChanged",
-            "package": "org.junit.jupiter.api.extension",
-            "justification": "LIN-3995/LIN-3996 Dependency Update"
-          },
-          {
-            "code": "java.method.returnTypeChanged",
-            "old": "method void org.linkki.core.ui.test.KaribuUtils::printComponentTree()",
-            "new": "method java.lang.String org.linkki.core.ui.test.KaribuUtils::printComponentTree()",
-            "justification": "LIN-3444/LIN-4091 Makes it possible to execute assertions on the component tree"
-          },
-          {
-            "code": "java.method.visibilityIncreased",
-            "old": "method void org.linkki.core.ui.test.KaribuUtils::printComponentTree(com.vaadin.flow.component.Component, int)",
-            "new": "method java.lang.String org.linkki.core.ui.test.KaribuUtils::printComponentTree(com.vaadin.flow.component.Component)",
-            "oldVisibility": "private",
-            "newVisibility": "public",
-            "justification": "LIN-3444/LIN-4091 Makes it possible to execute assertions on the component tree of one component"
-          },
-          {
-            "code": "java.method.returnTypeChanged",
-            "old": "method <T> void org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration::addInstance(java.lang.Class<T>, java.util.function.Supplier<? extends T>)",
-            "new": "method <T> org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration::addInstance(java.lang.Class<T>, java.util.function.Supplier<? extends T>)",
-            "justification": "LIN-3470 Return this for method chaining"
-          },
-          {
-            "code": "java.method.returnTypeChanged",
-            "old": "method void org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration::setI18NProvider(com.vaadin.flow.i18n.I18NProvider)",
-            "new": "method org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration::setI18NProvider(com.vaadin.flow.i18n.I18NProvider)",
-            "justification": "LIN-3470 Return this for method chaining"
+            "new": "method void org.junit.jupiter.api.extension.ExtensionContext::publishFile(java.lang.String, org.junit.jupiter.api.extension.MediaType, org.junit.jupiter.api.function.ThrowingConsumer<java.nio.file.Path>)",
+            "justification": "LIN-4225 Version update to 4.12.0"
           }
         ]
       }

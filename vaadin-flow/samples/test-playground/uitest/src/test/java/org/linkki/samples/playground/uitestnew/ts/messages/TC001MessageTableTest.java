@@ -55,7 +55,7 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         IconElement icon = grid.getCell(0, 0).$(IconElement.class).first();
 
         assertThat(icon.getCssValue("color")).isEqualTo("rgba(226, 29, 18, 1)");
-        assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:exclamation-circle");
+        assertThat(icon.getDomAttribute("icon")).isEqualTo("vaadin:exclamation-circle");
     }
 
     @Test
@@ -64,7 +64,7 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         IconElement icon = grid.getCell(1, 0).$(IconElement.class).first();
 
         assertThat(icon.getCssValue("color")).isEqualTo("rgba(255, 204, 0, 1)");
-        assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:warning");
+        assertThat(icon.getDomAttribute("icon")).isEqualTo("vaadin:warning");
     }
 
     @Test
@@ -73,7 +73,7 @@ class TC001MessageTableTest extends PlaygroundUiTest {
         IconElement icon = grid.getCell(2, 0).$(IconElement.class).first();
 
         assertThat(icon.getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
-        assertThat(icon.getAttribute("icon")).isEqualTo("vaadin:info-circle");
+        assertThat(icon.getDomAttribute("icon")).isEqualTo("vaadin:info-circle");
     }
 
 }

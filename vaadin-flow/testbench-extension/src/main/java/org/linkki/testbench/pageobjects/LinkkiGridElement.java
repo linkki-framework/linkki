@@ -44,7 +44,7 @@ public class LinkkiGridElement extends GridElement {
      */
     public Optional<String> getPlaceholderText() {
         var contentOfAfter =
-                executeScript("return window.getComputedStyle(arguments[0],'::after').getPropertyValue('content')",
+                executeScript("return window.getComputedStyle(arguments[0],'::before').getPropertyValue('content')",
                               getWrappedElement()).toString();
         var strippedContent = StringUtils.strip(contentOfAfter, "\"");
         return StringUtils.isBlank(strippedContent) || "none".equals(strippedContent)

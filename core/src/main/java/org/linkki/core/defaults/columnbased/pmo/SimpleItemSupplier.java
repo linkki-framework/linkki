@@ -78,12 +78,12 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
     }
 
     private PMO applymo2pmoMapping(MO mo) {
-        PMO computeIfAbsent = itemMap.computeIfAbsent(mo, mo2pmoMapping);
-        return computeIfAbsent;
+        PMO pmo = itemMap.computeIfAbsent(mo, mo2pmoMapping);
+        requireNonNull(pmo, "mo2pmoMapping supplied null instead of a PMO object");
+        return pmo;
     }
 
     private boolean hasUnderlyingModelObjectListChanged(List<? extends MO> modelObjects) {
         return !modelObjects.equals(modelObjectsCopy);
     }
-
 }

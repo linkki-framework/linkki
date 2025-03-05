@@ -53,7 +53,7 @@ class BindIconTest extends PlaygroundUiTest {
         ButtonElement button = section.$(ButtonElement.class).id("staticButton");
 
         WebElement icon = getIconElement(button);
-        assertThat(icon.getAttribute("icon"), is(VAADIN_STATIC_ICON));
+        assertThat(icon.getDomAttribute("icon"), is(VAADIN_STATIC_ICON));
     }
 
     /**
@@ -64,10 +64,10 @@ class BindIconTest extends PlaygroundUiTest {
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
 
         ButtonElement button = section.$(ButtonElement.class).id("dynamicButton");
-        assertThat(getIconElement(button).getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(getIconElement(button).getDomAttribute("icon"), is(VAADIN_MOBILE_ICON));
 
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.DOWNLOAD.toString());
-        assertThat(getIconElement(button).getAttribute("icon"), is(VAADIN_DOWNLOAD_ICON));
+        assertThat(getIconElement(button).getDomAttribute("icon"), is(VAADIN_DOWNLOAD_ICON));
     }
 
     @Test
@@ -75,7 +75,7 @@ class BindIconTest extends PlaygroundUiTest {
         var anchor = section.$(LinkkiTextElement.class).id(STATIC_LINK);
 
         assertThat(anchor.getText(), is("Text"));
-        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_STATIC_ICON));
+        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_STATIC_ICON));
     }
 
     @Test
@@ -84,10 +84,10 @@ class BindIconTest extends PlaygroundUiTest {
 
         var anchor = section.$(LinkkiTextElement.class).id(DYNAMIC_LINK);
         assertThat(anchor.getText(), is("Text"));
-        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_MOBILE_ICON));
 
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
-        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_MOBILE_ICON));
     }
 
     private WebElement getIconElement(ButtonElement element) {

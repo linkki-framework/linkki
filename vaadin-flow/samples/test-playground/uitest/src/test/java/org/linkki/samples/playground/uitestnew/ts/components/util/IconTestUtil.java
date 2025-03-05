@@ -35,6 +35,6 @@ public class IconTestUtil {
 
         assertThat(element).isNotNull();
         assertThat(element.hasIcon()).isTrue();
-        assertThat(element.getIcon().getAttribute("slot")).isEqualTo(iconSlot);
+        assertThat(element.getIcon().getDomAttribute("slot")).isEqualTo(iconSlot);
     }
 }

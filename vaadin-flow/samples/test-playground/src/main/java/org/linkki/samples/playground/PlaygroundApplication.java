@@ -25,7 +25,7 @@ import com.vaadin.flow.server.AppShellSettings;
 import com.vaadin.flow.theme.Theme;
 
 @Push
-@Theme(value = "linkki")
+@Theme(value = "playground")
 @SpringBootApplication
 public class PlaygroundApplication implements AppShellConfigurator {
 

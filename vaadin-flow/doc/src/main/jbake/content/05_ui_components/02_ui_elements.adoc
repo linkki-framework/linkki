@@ -73,17 +73,17 @@ A <<ui-field, field>> can be bound to an attribute of an existing model object u
 ==== UILabel
 The annotation `@UILabel` generates an independent UI element displaying `String` content. In contrast to a deactivated <<ui-textfield, UITextField>>, its text is not framed by an input field.
 
-Return value and `String` conversion::
+TIP: A `@UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside or on top of the `UILabel`. +
+When used in a table, the `label` is used as the column name while the `caption` is displayed in the table cell.
 
+[[label-conversion]]
+Return value and `String` conversion::
 The annotated method must return a value that is convertable to `String`. This can either be achieved by a registered converter at `LinkkiConverterRegistry`, or by a `ItemCaptionProvider` that can be provided to the `UILabel` annotation. +
 If the Faktor-IPS *linkki* extension is used, the `FormattedStringToDecimalConverter` should be registered to `LinkkiConverterRegistry` in order to display Faktor-IPS Decimal values property.
 
+[[label-async]]
 Displaying asynchronously retrieved values::
-
-If the value is retrieved asynchronously, e.g. from a REST service, the value can be displayed with `UILabel` by using the return type `CompletableFuture`. The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/latest/building-apps/presentation-layer/server-push[Server Push] is enabled. Note that the result of the `CompletableFuture` must be convertible to a `String`, as described in the previous section.
-
-TIP: A `@UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside or on top of the `UILabel`. +
-When used in a table, the `label` is used as the column name while the `caption` is displayed in the table cell. 
+If the value is retrieved asynchronously, e.g. from a REST service, the value can be displayed with `UILabel` by using the return type `CompletableFuture`. The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/latest/building-apps/presentation-layer/server-push[Server Push] is enabled. Note that the result of the `CompletableFuture` must be <<label-conversion,convertible to a `String`>>.
 
 HTML Content::
 The label's content can be enhanced with HTML when the annotated method returns an `HtmlContent` object. The `HtmlContent` class provides access to a builder for creating HTML content. For common use cases, static methods are available to simplify `HtmlContent` creation.

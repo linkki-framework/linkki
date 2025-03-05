@@ -40,20 +40,14 @@ public abstract class ModelToUiAspectDefinition<V> implements LinkkiAspectDefini
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         Consumer<V> setter = createComponentValueSetter(componentWrapper);
         Aspect<V> aspect = createAspect();
-        return () -> {
-            try {
-                var aspectValue = propertyDispatcher.pull(aspect);
-                if (aspectValue != null) {
-                    setter.accept(aspectValue);
-                } else {
-                    handleNullValue(setter, componentWrapper);
-                }
-                // CSOFF: IllegalCatch
-            } catch (RuntimeException e) {
-                handleUiUpdateException(e, propertyDispatcher, aspect);
-                // CSON: IllegalCatch
+        return handlingUiUpdateException(() -> {
+            var aspectValue = propertyDispatcher.pull(aspect);
+            if (aspectValue != null) {
+                setter.accept(aspectValue);
+            } else {
+                handleNullValue(setter, componentWrapper);
             }
-        };
+        }, propertyDispatcher, aspect);
     }
 
     /**
@@ -76,6 +70,24 @@ public abstract class ModelToUiAspectDefinition<V> implements LinkkiAspectDefini
     }
 
     /**
+     * Wraps a handler with exception handling using
+     * {@link #handleUiUpdateException(RuntimeException, PropertyDispatcher, Aspect)}.
+     */
+    protected Handler handlingUiUpdateException(Handler uiUpdater,
+            PropertyDispatcher propertyDispatcher,
+            Aspect<V> aspect) {
+        return () -> {
+            try {
+                uiUpdater.apply();
+                // CSOFF: IllegalCatch
+            } catch (RuntimeException e) {
+                handleUiUpdateException(e, propertyDispatcher, aspect);
+                // CSON: IllegalCatch
+            }
+        };
+    }
+
+    /**
      * Returns an {@link Aspect} for this {@link LinkkiAspectDefinition}.
      * <p>
      * This class assumes that the value of the {@link Aspect} does not depend on the type of model
@@ -95,7 +107,7 @@ public abstract class ModelToUiAspectDefinition<V> implements LinkkiAspectDefini
      * @param componentWrapper UI component of which the value has to be set
      * @return setter for the value of the {@link ComponentWrapper}
      */
-    public abstract Consumer<V> createComponentValueSetter(ComponentWrapper componentWrapper);
+    protected abstract Consumer<V> createComponentValueSetter(ComponentWrapper componentWrapper);
 
     /**
      * Defines how to handle null aspect values.
@@ -105,7 +117,7 @@ public abstract class ModelToUiAspectDefinition<V> implements LinkkiAspectDefini
      * @param componentValueSetter setter for the value of the component wrapper
      * @param componentWrapper UI component of which the value has to be set
      */
-    public void handleNullValue(Consumer<V> componentValueSetter, ComponentWrapper componentWrapper) {
+    protected void handleNullValue(Consumer<V> componentValueSetter, ComponentWrapper componentWrapper) {
         componentValueSetter.accept(null);
     }
 }
