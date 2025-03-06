@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.ts;
 
+import java.io.Serial;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 @CssImport(value = "./styles/test-case-component.css")
 public class TestCaseComponent extends Div {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public TestCaseComponent(String sceneId, String testCaseId, Object pmo) {

@@ -21,7 +21,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 
 /**
- * Dashboard-like two column layout displaying {@link BoardComponent} as cards.
+ * Dashboard-like responsive layout displaying {@link BoardComponent} as cards.
  *
  * @since 2.8.0
  */

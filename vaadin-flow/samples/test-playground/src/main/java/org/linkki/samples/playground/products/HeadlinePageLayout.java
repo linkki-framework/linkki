@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.products;
 
+import java.io.Serial;
+
 import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.framework.ui.component.Headline;
@@ -25,6 +27,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  */
 public class HeadlinePageLayout extends VerticalLayout {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public HeadlinePageLayout(Headline headline, AbstractPage page) {

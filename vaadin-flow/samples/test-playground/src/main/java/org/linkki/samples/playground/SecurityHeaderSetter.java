@@ -16,9 +16,12 @@ package org.linkki.samples.playground;
 import com.vaadin.flow.server.communication.IndexHtmlRequestListener;
 import com.vaadin.flow.server.communication.IndexHtmlResponse;
 
+import java.io.Serial;
+
 // tag::index-html-request-listener[]
 public class SecurityHeaderSetter implements IndexHtmlRequestListener {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override

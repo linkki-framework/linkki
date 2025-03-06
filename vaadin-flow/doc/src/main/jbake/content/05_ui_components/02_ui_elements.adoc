@@ -95,7 +95,7 @@ An example below illustrates how to create multicolored text.
 .Example HTML Label Content
 [source, java]
 ----
-include::{source-dir}/org/linkki/samples/playground/ts/components/LabelPmo.java[tags=labelPmo-labelHtmlContent]
+include::{source-dir}/org/linkki/samples/playground/ts/formelements/LabelPmo.java[tags=labelPmo-labelHtmlContent]
 ----
 A common usecase is to display a string split across multiple lines. This can be achieved by using the `HtmlContent.multilineText(String ...)` method.
 If you are building an extendable PMO, and it may be reasonable for subclasses to use `HTMLContent`, make sure that the method returns `HtmlContent`.
@@ -150,7 +150,7 @@ Note that the available values of `@UICheckboxes` are always determined dynamica
 .Example usage of @UICheckboxes
 [source, java]
 ----
-include::{source-dir}/org/linkki/samples/playground/ts/components/CheckboxesPmo.java[tags=checkboxes]
+include::{source-dir}/org/linkki/samples/playground/ts/formelements/CheckboxesPmo.java[tags=checkboxes]
 ----
 
 [[ui-textfield]]
@@ -312,7 +312,7 @@ WARNING: `@UICustomField` only supports controls with a parameter-less construct
 .UICustomField Example: PasswordField
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/ts/components/CustomFieldPmo.java[tags=ui-custom-field]
+include::{source-dir}/org/linkki/samples/playground/ts/formelements/CustomFieldPmo.java[tags=ui-custom-field]
 ----
 
 [[dynamicfield]]
