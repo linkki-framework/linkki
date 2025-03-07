@@ -26,3 +26,13 @@ Then bind it with the headline:
 ----
 include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=bind-headline]
 ----
+
+Alternatively, you can also use @UIHeadline for simple use cases without additional components:
+
+[source, java]
+----
+@UIHeadline
+public String getHeadlineText() {
+    return "MyHeadline";
+}
+----
