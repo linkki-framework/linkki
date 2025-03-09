@@ -152,7 +152,7 @@ include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.
 ----
 
 [[ui-hierarchical-table]]
-==== Hierarchical Tables
+==== Hierarchical tables
 
 Sometimes, the data in a table should be grouped for presentation, for example when summarizing values over certain categories. In that case, the data represents a tree-like structure with parent-child-relationships between rows. The resulting table will be a Vaadin `TreeTable` which allows collapsing and showing the child-rows of a row.
 
@@ -171,6 +171,21 @@ If the order of the rows might change due to user input, you should use a <<ui-s
 [source, java]
 ----
 include::{source-dir}/org/linkki/samples/playground/treetable/dynamic/CategoryRowPmo.java[tags=hierarchical-row-pmo-with-simple-item-supplier]
+----
+
+[[ui-utilities-treegrid]]
+=====  Utility class for hierarchical tables
+
+The utility class `HierarchicalTableUtil` can be used to modify a `TreeGrid` after creation.
+It provides methods to expand or collapse nodes up to a configurable level or based on a given condition.
+
+[NOTE]
+`HierarchicalTableUtil` cannot be used in the PMO. It needs to be used after the creation of the component using an PMO.
+
+.Example for expanding the first level of items if they contain more than one child item
+[source,java]
+----
+HierarchicalTableUtil.expandNodesIf(treeGrid, 1, rowPmo -> rowPmo.getChildRows().size() > 1);
 ----
 
 [[ui-selectable-table]]
