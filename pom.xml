@@ -89,7 +89,7 @@
             **/org/linkki/samples/playground/ts/layouts/AbstractBasicElementsLayoutBehaviorPmo.java
         </sonar.exclusions>
         <sonar.coverage.exclusions>
-            **/org/linkki/samples/**/*.java,
+            **/org/linkki/**/samples/**/*.java,
             **/org/linkki/**/LinkkiComponentUtil.java,
             <!-- hard to test code in APT -->
             **/org/linkki/tooling/apt/util/ElementUtils.java,
@@ -98,10 +98,6 @@
             **/org/linkki/testbench/**/*.java,
             **/org/linkki/core/defaults/ui/aspects/types/*.java,
             <!-- linkki-f10 -->
-            **/linkki/ui/confirm/HasBrowserConfirmation.java,
-            **/linkki/ui/error/ErrorPage.java,
-            **/linkki/framework/ui/component/search/**/*.java,
-            **/linkki/**/sample/**/*.java,
             **/de/faktorzehn/commons/linkki/**/*.java,
         </sonar.coverage.exclusions>
         <sonar.cpd.exclusions>
