@@ -34,6 +34,8 @@ Both fields and buttons are "UI elements". The following types are provided:
 .Buttons
 |===
 |<<ui-button,`UIButton`>> |A button that triggers an action when clicked
+|<<ui-menulist, `UIMenuList`>> |A button that shows a list of menu items when clicked
+|<<ui-menulist, `UIMenuButton`>> |A button that that is styled consistently with `UIMenuList`
 |===
 
 The type of field can be determined dynamically. This mechanism is called <<dynamicfield, dynamic field>>.
@@ -388,3 +390,64 @@ TIP: As button shortcuts work globally, there should always be only one button t
 In addition, a button that uses enter as shortcut should also use the variant PRIMARY to make it visibly clear to the user that the button would be triggered.
 
 NOTE: To prevent unexpected behaviors, defining a shortcut for a button results in preventing the browser default for that key combination. For example, if a button defines the enter key as shortcut, it will not be possible to create line break in text areas using enter. Shift + enter would still work if there is no button that uses shift + enter as shortcut.
+
+[[ui-menulist]]
+==== UIMenuList and UIMenuButton
+
+Within menus, `@UIMenuList` can be used to create a button that shows a list of menu items when clicked.
+`@UIMenuButton` can be used to create buttons that look and feel consistent with respect to `@UIMenuList` buttons.
+These, however, show no menu items but rather directly execute an action when clicked.
+
+[[menu-item-definition]]
+===== Usage of @UIMenuList
+
+A method annotated with `@UIMenuList` must return a list of `MenuItemDefinition`.
+These form the list of menu items that will be shown when the button is clicked.
+
+.Implementation of a method annotated with @UIMenuList
+[source,java]
+----
+@UIMenuList(position = 0, caption = "Menu", icon = VaadinIcon.LIST)
+public List<MenuItemDefinition> getMenu() {
+    return List.of(
+        MenuItemDefinition.builder("id1")
+                          .caption("First Menu Item")
+                          .command(() -> firstFunction())
+                          .visibleIf(isFirstMenuItemVisible())
+                          .build(),
+        MenuItemDefinition.builder("id2")
+                          .caption("Second Menu Item")
+                          .command(() -> secondFunction())
+                          .enabledIf(isSecondMenuItemEnabled())
+                          .build());
+}
+----
+
+`MenuItemDefinition` instances are created using a builder that can be created using the static method `builder`.
+Each `MenuItemDefinition` must have an ID.
+Hence, it is required for creating the builder.
+
+[NOTE]
+The final ID of a menu item is a combination of the menu button ID and the menu item ID.
+Regarding the above example, there would be a menu item with ID `menu`.
+This name would be derived from the methods name or the PMO property name.
+The menu item IDs in the example would have the IDs `menu-id1` and `menu-id2`, respectively.
+
+[WARNING]
+IDs within a menu must be unique.
+If this is violated and multiple items share the same ID, an exception will be thrown.
+
+A menu item should show a caption and define a command that is executed when the item is clicked.
+Optionally, a menu item can be assigned an icon.
+
+[IMPORTANT]
+Usage of icons should follow the https://doc.faktorzehn.de/produkt-ui-guide/07_uikomponenten/08_icons.html[UI Guide].
+
+Additionally, a button can be disabled or made invisible calling either `#enabledIf` or `#visibleIf` on the `MenuItemDefinition` builder.
+This property will update dynamically by using the items ID.
+
+[WARNING]
+The method annotated with `@UIMenuList` is called with *every* UI update. +
+It is, therefore, important to avoid computationally expensive operations. +
+Although, the method is called with every update, only the visibility and enabled state are updated but *no other aspects* such as the caption or the list of menu items.
+However, a dynamic list can be implemented using the visibility and enabled state.

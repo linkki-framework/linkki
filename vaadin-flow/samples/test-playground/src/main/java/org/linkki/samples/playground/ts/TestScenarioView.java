@@ -78,6 +78,8 @@ import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
 import org.linkki.samples.playground.ts.components.LabelPmo;
 import org.linkki.samples.playground.ts.components.LinkPmo;
 import org.linkki.samples.playground.ts.components.LongFieldPmo;
+import org.linkki.samples.playground.ts.components.MenuButtonPmo;
+import org.linkki.samples.playground.ts.components.MenuListPmo;
 import org.linkki.samples.playground.ts.components.MultiSelectPmo;
 import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
 import org.linkki.samples.playground.ts.components.TextAreaPmo;
@@ -195,6 +197,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC016 = "TC016";
     public static final String TC017 = "TC017";
     public static final String TC018 = "TC018";
+    public static final String TC019 = "TC019";
+    public static final String TC020 = "TC020";
 
     static final String ROUTE = "playground";
 
@@ -271,6 +275,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC016, new TimeFieldPmo())
                                        .testCase(TC017, new CheckboxesPmo())
                                        .testCase(TC018, new LongFieldPmo())
+                                       .testCase(TC019, new MenuButtonPmo())
+                                       .testCase(TC020, new MenuListPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, LinkkiTextComponent::new)
