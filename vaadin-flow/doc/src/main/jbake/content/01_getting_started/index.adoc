@@ -56,17 +56,6 @@ include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-vaadin-flow-com
 include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-application-framework]
 ----
 
-==== linkki-core-nestedcomponent-vaadin-flow
-
-`linkki-core-nestedcomponent-vaadin-flow` contains the following additional features:
-
-* <<nested-pmos, Nested component>>
-
-[source,xml]
-----
-include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-core-nestedcomponent-vaadin-flow]
-----
-
 ==== linkki-ips-vaadin-flow
 
 `linkki-ips-vaadin-flow` contains the following additional features:

@@ -18,7 +18,6 @@
         <module>application-framework</module>
         <module>ips</module>
         <module>component</module>
-        <module>nestedcomponent</module>
         <module>test</module>
         <module>testbench-extension</module>
         <module>apt</module>

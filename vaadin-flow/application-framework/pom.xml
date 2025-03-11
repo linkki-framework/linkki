@@ -27,10 +27,6 @@
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin-flow-component</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-core-nestedcomponent-vaadin-flow</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>jakarta.servlet</groupId>

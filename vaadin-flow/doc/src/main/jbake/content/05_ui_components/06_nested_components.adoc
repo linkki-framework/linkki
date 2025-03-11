@@ -6,8 +6,6 @@
 [[nested-pmos]]
 === Nested Components
 
-NOTE: Dependency <<_linkki_application_framework, `linkki-application-framework`>> or <<_linkki_core_nestedcomponent_vaadin_flow, `linkki-core-nestedcomponent-vaadin-flow`>> is needed.
-
 Methods annotated with `@UINestedComponent` can return a PMO, which is then included in the page.
 The nested component is displayed as if it is a component.
 If the nested component is a section, the nested component looks like it is further indented.

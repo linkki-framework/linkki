@@ -58,13 +58,6 @@
             <artifactId>linkki-vaadin-flow-component</artifactId>
         </dependency>
         <!-- end::linkki-vaadin-flow-component[] -->
-        <!-- tag::linkki-core-nestedcomponent-vaadin-flow[] -->
-        <dependency>
-            <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-core-nestedcomponent-vaadin-flow</artifactId>
-        </dependency>
-        <!-- end::linkki-core-nestedcomponent-vaadin-flow[] -->
-
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>

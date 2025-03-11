@@ -55,6 +55,10 @@ Introduced a <<linkki-howto, How-To>> chapter containing coding examples and bes
 The functionality of `CommonApplicationHeader` from `linkki-f10` was incorporated into `ApplicationHeader` and the newly introduced `UserAwareApplicationHeader`.
 `CommonApplicationHeader` is now deprecated and can be replaced with `UserAwareApplicationHeader` if a user menu is needed or `ApplicationHeader` otherwise.
 
+* *Relocation of `UINestedComponent`* +
+`UINestedComponent` has been moved from `linkki-core-nestedcomponent-vaadin-flow` to `linkki-core-vaadin-flow`. The module `linkki-core-nestedcomponent-vaadin-flow` has been removed.
+
+
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248
 * `SimpleItemSupplier` now throws a NullPointerException if the model object to PMO mapping supplier returns null
