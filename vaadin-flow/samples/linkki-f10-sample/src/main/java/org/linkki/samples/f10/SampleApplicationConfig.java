@@ -18,14 +18,10 @@ import java.time.LocalDate;
 import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
-import org.linkki.samples.f10.confirm.SampleBrowserConfirmationView;
 import org.linkki.samples.f10.search.contextdependent.ContextDependentSearchView;
 import org.linkki.samples.f10.search.contextfree.ContextFreeSearchView;
 import org.linkki.util.Sequence;
 import org.springframework.stereotype.Component;
-
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.router.RouteParameters;
 
 @Component
 public class SampleApplicationConfig implements ApplicationConfig {
@@ -42,9 +38,6 @@ public class SampleApplicationConfig implements ApplicationConfig {
         return Sequence.of(new ApplicationMenuItemDefinition("Sample", "sample", SampleUi.class),
                            new ApplicationMenuItemDefinition("Board", "org/linkki/core/vaadin/component/board",
                                    SampleBoardLayout.class),
-                           new ApplicationMenuItemDefinition("Confirm", "confirm",
-                                   () -> UI.getCurrent().navigate(SampleBrowserConfirmationView.class,
-                                                                  new RouteParameters("id", "1"))),
                            new ApplicationMenuItemDefinition("Suche", "search", ContextFreeSearchView.class),
                            new ApplicationMenuItemDefinition("Suche im Dialog", "search-dialog",
                                    ContextDependentSearchView.class));

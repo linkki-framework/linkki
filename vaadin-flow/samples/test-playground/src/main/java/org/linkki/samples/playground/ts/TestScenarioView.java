@@ -127,6 +127,7 @@ import org.linkki.samples.playground.ts.messages.ConverterErrorPmo;
 import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.messages.RequiredValidationPmo;
+import org.linkki.samples.playground.ts.navigation.BrowserConfirmationComponent;
 import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentPmo;
 import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentWidthPmo;
 import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
@@ -177,6 +178,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TS016 = "TS016";
     public static final String TS017 = "TS017";
     public static final String TS018 = "TS018";
+    public static final String TS019 = "TS019";
 
     public static final String TC001 = "TC001";
     public static final String TC002 = "TC002";
@@ -379,7 +381,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                    ComponentStyles.setFormItemLabelWidth(component, "300px");
                                    return component;
                                }).createTabSheet(),
-                               TestScenario.id(TS018).testCase(TC001, new ConvertersPmo()).createTabSheet());
+                               TestScenario.id(TS018).testCase(TC001, new ConvertersPmo()).createTabSheet(),
+                               TestScenario.id(TS019).testCase(TC001, BrowserConfirmationComponent::new)
+                                       .createTabSheet());
 
         add(tabLayout);
     }

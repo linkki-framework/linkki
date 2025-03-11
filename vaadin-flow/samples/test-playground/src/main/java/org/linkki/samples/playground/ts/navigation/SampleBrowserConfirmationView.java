@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.f10.confirm;
+package org.linkki.samples.playground.ts.navigation;
 
 import static org.linkki.util.Objects.requireNonNull;
 
@@ -23,8 +23,9 @@ import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.framework.ui.HasBrowserConfirmation;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
-import org.linkki.samples.f10.SampleApplicationLayout;
+import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.UI;
@@ -38,15 +39,13 @@ import com.vaadin.flow.router.BeforeLeaveEvent;
 import com.vaadin.flow.router.BeforeLeaveObserver;
 import com.vaadin.flow.router.Route;
 
-import de.faktorzehn.commons.linkki.ui.confirm.HasBrowserConfirmation;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * This is a sample route to demonstrate the browser and vaadin confirmation in case of unsaved data
  * in an edit mode.
  */
-@SuppressWarnings("deprecation")
-@Route(value = SampleBrowserConfirmationView.ROUTE, layout = SampleApplicationLayout.class)
+@Route(value = SampleBrowserConfirmationView.ROUTE, layout = PlaygroundAppLayout.class)
 public class SampleBrowserConfirmationView extends VerticalLayout
         implements BeforeEnterObserver, AfterNavigationObserver, HasBrowserConfirmation {
 

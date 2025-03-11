@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.f10.confirm;
+package org.linkki.samples.playground.ts.navigation;
 
 import java.util.function.Supplier;
 
@@ -52,7 +52,7 @@ public class EditSaveButtonPmo {
                 "The state of the text field value is not really persisted in this example.";
     }
 
-    @UITextField(position = 5, label = "Value")
+    @UITextField(position = 5, label = "Value", modelAttribute = "value")
     public void value() {
         // model binding
     }

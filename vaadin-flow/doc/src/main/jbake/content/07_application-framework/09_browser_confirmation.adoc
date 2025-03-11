@@ -23,4 +23,4 @@ this is also implemented using the `BeforeLeaveObserver` interface and within th
 
 Further relevant information regarding the https://vaadin.com/docs/latest/flow/routing/lifecycle[Navigation Lifecycle] can be found within the Vaadin documentation.
 
-An example implementation can be found in the `SampleBrowserConfirmationView` class within the `linkki-f10-sample` module.
+An example implementation can be found in the `SampleBrowserConfirmationView` class.
