@@ -1,5 +1,6 @@
 package org.linkki.core.ui.test;
 
+import static org.assertj.core.api.Assertions.allOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.core.ui.test.ComponentConditions.anyChildSatisfying;
 import static org.linkki.core.ui.test.ComponentConditions.childOf;
@@ -30,11 +31,9 @@ class ComponentConditionsTest {
         var layout = new Div(child);
 
         assertThat(layout)
-                .has(anyChildSatisfying(Div.class::isInstance, "is an instance of Div"));
-        assertThat(layout)
+                .has(allOf(
+                           anyChildSatisfying(Div.class::isInstance, "is an instance of Div"),
+                           anyChildSatisfying(VerticalLayout.class::isInstance, "is an instance of VerticalLayout")))
                 .doesNotHave(anyChildSatisfying(Span.class::isInstance, "is an instance of Span"));
-        assertThat(layout)
-                .has(anyChildSatisfying(VerticalLayout.class::isInstance, "is an instance of VerticalLayout"));
-
     }
 }

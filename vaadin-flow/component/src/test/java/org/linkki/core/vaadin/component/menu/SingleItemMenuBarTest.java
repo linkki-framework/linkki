@@ -171,7 +171,7 @@ class SingleItemMenuBarTest {
 
         @Override
         public void apply() {
-
+            // nop
         }
     }
 }

@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -93,7 +92,8 @@ class UIMenuListIntegrationTest {
         MenuItem theItem = menuButton.getItems().get(0);
 
         // no icon
-        List<Class<?>> collect = theItem.getChildren().map(Component::getClass).collect(Collectors.toList());
+        List<Class<? extends Component>> collect = theItem.getChildren()
+                .<Class<? extends Component>> map(Component::getClass).toList();
         assertThat(collect).contains(Text.class);
     }
 
@@ -103,7 +103,7 @@ class UIMenuListIntegrationTest {
         MenuItem theItem = menuButton.getItems().get(0);
 
         // no subitems
-        assertThat(theItem.getSubMenu().getItems().size()).isZero();
+        assertThat(theItem.getSubMenu().getItems()).isEmpty();
     }
 
     @Test
@@ -129,7 +129,7 @@ class UIMenuListIntegrationTest {
         MenuItem theItem = menuList.getItems().get(0);
 
         List<MenuItem> subItems = theItem.getSubMenu().getItems();
-        assertThat(subItems.size()).isEqualTo(2);
+        assertThat(subItems).hasSize(2);
         assertThat(subItems.get(0).getText()).isEqualTo(MenuListTestPmo.MENU_ITEM1_TEXT);
         Icon icon1 = (Icon)subItems.get(0).getChildren().toList().get(0);
         assertThat(icon1.getElement().getAttribute("icon")).isEqualTo("vaadin:bug");

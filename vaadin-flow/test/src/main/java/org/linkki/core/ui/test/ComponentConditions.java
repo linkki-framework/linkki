@@ -39,12 +39,13 @@ public class ComponentConditions {
     }
 
     private static boolean isChildOf(Component child, Component parent) {
-        if (child.getParent().isEmpty()) {
+        var childParent = child.getParent();
+        if (childParent.isEmpty()) {
             return false;
-        } else if (child.getParent().get().equals(parent)) {
+        } else if (childParent.get().equals(parent)) {
             return true;
         } else {
-            return isChildOf(child.getParent().get(), parent);
+            return isChildOf(childParent.get(), parent);
         }
     }
 

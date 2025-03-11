@@ -50,7 +50,7 @@ public class HierarchicalTableUtil {
      * Expands the nodes of the given {@link TreeGrid} up to the given level.
      */
     public static <T> void expandNodes(TreeGrid<T> grid, int maxLevel) {
-        expandNodesIf(grid, maxLevel, HierarchicalTableUtil::allNodesAccepted);
+        expandNodesIf(grid, maxLevel, allNodesAccepted());
     }
 
     /**
@@ -67,7 +67,7 @@ public class HierarchicalTableUtil {
      * Collapses the root nodes of the given {@link TreeGrid}.
      */
     public static <T> void collapseRootNodes(TreeGrid<T> grid) {
-        updateTreeRepresentation(grid, 1, grid::collapse, HierarchicalTableUtil::allNodesAccepted);
+        updateTreeRepresentation(grid, 1, grid::collapse, allNodesAccepted());
     }
 
     /**
@@ -125,15 +125,15 @@ public class HierarchicalTableUtil {
         // Register a new DataProviderListener to update the tree representation when the data
         // changes
         var registration = grid.getDataProvider()
-                .addDataProviderListener($ -> updateTreeRepresentation(grid, maxLevel, updateFunction, filter));
+                .addDataProviderListener(e -> updateTreeRepresentation(grid, maxLevel, updateFunction, filter));
         ComponentUtil.setData(grid, UpdateGridRegistrationHolder.class, new UpdateGridRegistrationHolder(registration));
     }
 
     /**
      * Dummy function to include all nodes for expanding or collapsing.
      */
-    private static <T> Boolean allNodesAccepted(T row) {
-        return true;
+    private static <T> Predicate<T> allNodesAccepted() {
+        return row -> true;
     }
 
     /**

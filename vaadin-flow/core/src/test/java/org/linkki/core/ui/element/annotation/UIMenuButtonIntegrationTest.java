@@ -21,7 +21,6 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +32,7 @@ import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
+import org.linkki.core.vaadin.component.menu.SingleItemMenuBar;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
@@ -43,7 +43,6 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.linkki.core.vaadin.component.menu.SingleItemMenuBar;
 
 class UIMenuButtonIntegrationTest {
 
@@ -96,7 +95,7 @@ class UIMenuButtonIntegrationTest {
         MenuItem theItem = menuButton.getItems().get(0);
 
         // no icon
-        List<Component> children = theItem.getChildren().collect(Collectors.toList());
+        List<Component> children = theItem.getChildren().toList();
         assertThat(children, contains(instanceOf(Text.class)));
     }
 

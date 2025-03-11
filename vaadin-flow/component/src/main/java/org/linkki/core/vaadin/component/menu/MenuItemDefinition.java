@@ -16,6 +16,8 @@ package org.linkki.core.vaadin.component.menu;
 
 import static org.linkki.util.Objects.requireNonNull;
 
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.util.handler.Handler;
 
@@ -29,6 +31,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @since 2.8.0
  */
 public class MenuItemDefinition {
+
+    public static final Pattern PATTERN_UNKNOWN_CHARS = Pattern.compile("[^a-z0-9]");
+    public static final Pattern PATTERN_WHITESPACES = Pattern.compile("\\s+");
 
     private final String caption;
     @CheckForNull
@@ -118,9 +123,10 @@ public class MenuItemDefinition {
      * characters and replaces all whitespaces with a '-'.
      */
     private static String captionToId(String caption) {
-        String id = caption.toLowerCase()
-                .replaceAll("[^a-z0-9]", " ")
-                .replaceAll("\\s+", "-");
+        String id = PATTERN_WHITESPACES
+                .matcher(
+                         PATTERN_UNKNOWN_CHARS.matcher(caption.toLowerCase()).replaceAll(" "))
+                .replaceAll("-");
 
         id = StringUtils.removeEnd(id, "-");
 

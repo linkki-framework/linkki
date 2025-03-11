@@ -69,7 +69,7 @@ public @interface UISearchResultAction {
         public LinkkiComponentDefinition create(UISearchResultAction annotation,
                 AnnotatedElement annotatedElement) {
             return pmo -> {
-                de.faktorzehn.commons.linkki.ui.menu.SingleItemMenuBar menuBar = new de.faktorzehn.commons.linkki.ui.menu.SingleItemMenuBar(
+                var menuBar = new de.faktorzehn.commons.linkki.ui.menu.SingleItemMenuBar(
                         "", VaadinIcon.ELLIPSIS_DOTS_H);
                 menuBar.getContent().addThemeVariants(MenuBarVariant.LUMO_TERTIARY_INLINE);
                 return menuBar;

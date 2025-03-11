@@ -43,10 +43,11 @@ class MenuItemDefinitionTest {
 
     @Test
     void testBuilder_ValuesAreNull() {
-        assertThrows(NullPointerException.class, () -> MenuItemDefinition.builder(null).build());
-        assertThrows(NullPointerException.class, () -> MenuItemDefinition.builder("1").caption(null).build());
-        assertThrows(NullPointerException.class,
-                     () -> MenuItemDefinition.builder("1").caption("caption").command(null).build());
+        var builder = MenuItemDefinition.builder("1");
+
+        assertThrows(NullPointerException.class, () -> MenuItemDefinition.builder(null));
+        assertThrows(NullPointerException.class, () -> builder.caption(null));
+        assertThrows(NullPointerException.class, () -> builder.command(null));
     }
 
     @Test

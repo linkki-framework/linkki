@@ -16,6 +16,7 @@ package org.linkki.framework.ui.vaadin;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.Serial;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,7 @@ import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.frontend.scanner.ClassFinder.DefaultClassFinder;
+import com.vaadin.flow.server.frontend.scanner.CssData;
 import com.vaadin.flow.server.frontend.scanner.FrontendDependencies;
 
 /**
@@ -59,6 +61,7 @@ class FrontendDependencyImportTest {
 
     @Route
     private static class BoardView extends BoardLayout implements HasBrowserConfirmation {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         @SuppressWarnings("unused")
@@ -68,6 +71,7 @@ class FrontendDependencyImportTest {
     }
 
     private static class SampleBoardComponent extends BoardComponent {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         public SampleBoardComponent() {
@@ -84,7 +88,7 @@ class FrontendDependencyImportTest {
                 .forEach((k, v) -> imports.addAll(v));
         dependencies.getCss().entrySet().stream()
                 .flatMap(e -> e.getValue().stream())
-                .map(css -> css.getValue())
+                .map(CssData::getValue)
                 .forEach(imports::add);
 
         return imports;

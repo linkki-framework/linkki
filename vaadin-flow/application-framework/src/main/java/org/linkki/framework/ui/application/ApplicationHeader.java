@@ -15,6 +15,7 @@ package org.linkki.framework.ui.application;
 
 import static org.linkki.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -74,6 +75,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     static final String APPMENU_INFO_ID = "appmenu-info";
     static final String APPMENU_THEME_ID = "appmenu-theme";
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final ApplicationInfo applicationInfo;
@@ -133,7 +135,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * @see ApplicationMenu for further information about its configuration.
      */
     protected void addLeftComponents() {
-        ApplicationMenu applicationMenu = new ApplicationMenu(getMenuItemDefinitions().list());
+        var applicationMenu = new ApplicationMenu(getMenuItemDefinitions().list());
         getContent().add(applicationMenu);
         getContent().setFlexGrow(1, applicationMenu);
     }
@@ -143,7 +145,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * add items to it.
      */
     private void addRightComponents() {
-        HorizontalLayout wrapper = new HorizontalLayout();
+        var wrapper = new HorizontalLayout();
         wrapper.addClassName(LinkkiApplicationTheme.APPLICATION_HEADER_RIGHT);
         wrapper.setAlignItems(Alignment.BASELINE);
         wrapper.setSpacing(true);
@@ -162,7 +164,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * @implNote Override {@link #createRightMenuBar()} to add elements to the {@link MenuBar}.
      */
     protected void addRightComponents(HorizontalLayout parent) {
-        String applicationEnvironment = getEnvironmentLabel();
+        var applicationEnvironment = getEnvironmentLabel();
         if (StringUtils.isNotBlank(applicationEnvironment)) {
             Span label = createApplicationEnvironmentLabel(applicationEnvironment);
             parent.add(label);
@@ -178,7 +180,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      *           by default.
      */
     protected MenuBar createRightMenuBar() {
-        MenuBar rightMenuBar = new MenuBar();
+        var rightMenuBar = new MenuBar();
         rightMenuBar.setId(APPMENU_RIGHT_ID);
         rightMenuBar.addThemeVariants(MenuBarVariant.LUMO_ICON);
         rightMenuBar.addClassNames(LinkkiApplicationTheme.APPLICATION_MENU);
@@ -199,7 +201,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * @return a {@link Span} displaying the given {@code applicationEnvironment}
      */
     protected Span createApplicationEnvironmentLabel(String applicationEnvironment) {
-        Span label = new Span();
+        var label = new Span();
         label.getElement().setProperty("innerHTML", HtmlSanitizer.sanitizeText(applicationEnvironment));
         label.addClassName(STYLE_LABEL_APPLICATION_ENVIRONMENT);
         return label;
@@ -212,7 +214,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      *           {@link #addHelpMenu(MenuBar) help menu item}.
      */
     protected MenuItem addHelpMenu(MenuBar parent) {
-        MenuItem helpMenu = parent.addItem(VaadinIcon.QUESTION_CIRCLE.create());
+        var helpMenu = parent.addItem(VaadinIcon.QUESTION_CIRCLE.create());
         helpMenu.setId(APPMENU_HELP_ID);
         addHelpMenuItems(helpMenu);
         return helpMenu;
