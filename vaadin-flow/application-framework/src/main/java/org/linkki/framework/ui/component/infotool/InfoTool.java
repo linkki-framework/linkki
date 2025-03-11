@@ -12,7 +12,7 @@
  * the License.
  */
 
-package de.faktorzehn.commons.linkki.infotool;
+package org.linkki.framework.ui.component.infotool;
 
 import static java.util.Objects.requireNonNull;
 
@@ -28,10 +28,8 @@ import com.vaadin.flow.component.Component;
 /**
  * A tool that allows to view and/or edit an aspect of an object in {@link InfoToolsComponent}.
  *
- * @deprecated moved to linkki-application-framework-vaadin-flow. Use
- *             {@link org.linkki.framework.ui.component.infotool.InfoTool} instead.
+ * @since 2.8.0
  */
-@Deprecated(since = "2.8.0")
 public class InfoTool {
 
     private final String id;
@@ -54,10 +52,10 @@ public class InfoTool {
     }
 
     public InfoTool(String id, String caption, Component component, Handler updateUiHandler) {
-        this.id = requireNonNull(id, "id must not be null"); // $NON-NLS-1$
-        this.caption = requireNonNull(caption, "caption must not be null"); // $NON-NLS-1$
-        this.component = requireNonNull(component, "component must not be null"); // $NON-NLS-1$
-        this.updateUiHandler = requireNonNull(updateUiHandler, "updateUiHandler must not be null"); // $NON-NLS-1$
+        this.id = requireNonNull(id, "id must not be null");
+        this.caption = requireNonNull(caption, "caption must not be null");
+        this.component = requireNonNull(component, "component must not be null");
+        this.updateUiHandler = requireNonNull(updateUiHandler, "updateUiHandler must not be null");
     }
 
     /**

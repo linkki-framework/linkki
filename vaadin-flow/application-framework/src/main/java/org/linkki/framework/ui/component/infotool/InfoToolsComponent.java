@@ -12,7 +12,7 @@
  * the License.
  */
 
-package de.faktorzehn.commons.linkki.infotool;
+package org.linkki.framework.ui.component.infotool;
 
 import java.io.Serial;
 import java.util.List;
@@ -33,15 +33,14 @@ import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.Location;
 
 /**
- * A component that provides additional tools that help to view and edit information.
+ * A component that manages tools for viewing and editing information.
  *
- * @deprecated moved to linkki-application-framework-vaadin-flow. Use
- *             {@link org.linkki.framework.ui.component.infotool.InfoToolsComponent} instead.
+ * @since 2.8.0
  */
-@Deprecated(since = "2.8.0")
-public abstract class InfoToolsComponent<T extends InfoTool> extends VerticalLayout
+public class InfoToolsComponent<T extends InfoTool> extends VerticalLayout
         implements UiUpdateObserver, AfterNavigationObserver {
 
+    public static final String QUERY_PARAM = "tools";
     protected static final String NO_TOOL_OPEN = "0";
 
     @Serial
@@ -112,7 +111,9 @@ public abstract class InfoToolsComponent<T extends InfoTool> extends VerticalLay
      *
      * @param openedTools IDs of the tools that are open
      */
-    protected abstract void updateUrlParameters(List<String> openedTools);
+    protected void updateUrlParameters(List<String> openedTools) {
+        // do nothing
+    }
 
     @Override
     public void uiUpdated() {
@@ -138,7 +139,10 @@ public abstract class InfoToolsComponent<T extends InfoTool> extends VerticalLay
      * @param location location containing the current URL
      * @return list of IDs for the tools that should be open
      */
-    protected abstract List<String> getOpenToolsIdsFromUrl(Location location);
+    protected List<String> getOpenToolsIdsFromUrl(Location location) {
+        var parameters = location.getQueryParameters().getParameters();
+        return parameters.getOrDefault(QUERY_PARAM, List.of());
+    }
 
     /* private */ void openToolsFromUrl(List<String> openToolsIdsFromUrl) {
         var openToolsIds = openToolsIdsFromUrl.isEmpty()

@@ -1,0 +1,11 @@
+:jbake-title: Info Tools
+:jbake-type: section
+:jbake-status: published
+
+[[info-tools]]
+=== InfoTool and InfoToolsComponent
+
+An `InfoTool` represents a UI component with a caption that allows viewing or editing specific information. Each tool consists of a unique ID, a caption, and a main component.
+
+The `InfoToolsComponent` manages multiple `InfoTool` instances and displays them as expandable sections (`com.vaadin.flow.component.details.Details`). It allows tools to be opened automatically based on URL parameters or predefined default tools. Changes to the tool's state, such as opening or closing, are reflected in the URL.
+The UI updates dynamically when tools change, and CSS classes can be applied for customization.
