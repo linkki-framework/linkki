@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.util.Arrays;
@@ -31,7 +32,6 @@ import java.util.function.UnaryOperator;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.pmo.ModelObject;
 
@@ -39,11 +39,8 @@ public class SimpleItemSupplierTest {
 
     private List<Integer> modelObjects = new LinkedList<>();
 
-    private SimpleItemSupplier<SimplePmo, Integer> itemSupplier = new SimpleItemSupplier<>(this::getModelObjects,
-            mo -> new SimplePmo(mo));
-
-    private SimpleItemSupplier<SimplePmo, Integer> nullSupplier = new SimpleItemSupplier<>(this::getModelObjects,
-            mo -> null);
+    private final SimpleItemSupplier<SimplePmo, Integer> itemSupplier =
+            new SimpleItemSupplier<>(this::getModelObjects, SimplePmo::new);
 
     /**
      * The purpose of this test is not really that the itemSupplier has the specified value but that
@@ -116,8 +113,9 @@ public class SimpleItemSupplierTest {
 
     @Test
     public void testGet_shouldThrowNullPointerException_ifSupplierReturnsNull() {
+        var nullSupplier = new SimpleItemSupplier<>(this::getModelObjects, mo -> null);
         modelObjects.add(42);
-        Assertions.assertThrows(NullPointerException.class, () -> nullSupplier.get());
+        assertThrows(NullPointerException.class, nullSupplier::get);
     }
 
     private List<Integer> getModelObjects() {

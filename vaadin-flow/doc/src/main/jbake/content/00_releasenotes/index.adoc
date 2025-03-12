@@ -51,4 +51,4 @@ Introduced a <<linkki-howto, How-To>> chapter containing coding examples and bes
 
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248
-* `SimpleItemSupplier` now throws a NullPointerException if the model object to PMO mapping supplier returns null
+* `SimpleItemSupplier` now throws a `NullPointerException` if the model object to PMO mapping supplier returns `null`.
