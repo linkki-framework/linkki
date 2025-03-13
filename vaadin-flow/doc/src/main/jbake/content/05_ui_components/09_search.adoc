@@ -80,7 +80,7 @@ public class SampleModelObject {
     }
 }
 ----
-
+[[search-result-row]]
 PMO for a single search result:: PMO for visualizing the search result as a row in the result table
 +
 .`SampleSearchResultRowPmo`
@@ -120,6 +120,7 @@ public class SampleSearchResultRowPmo {
 The row PMO can be annotated with `@UISearchResultAction` to define actions for a table row.
 These actions are available at the end of a row in a menu.
 
+[[search-controller]]
 ===== SearchController
 
 The `SearchController` is responsible for the execution of the actual search.
@@ -190,6 +191,7 @@ The search parameters can be visualised by updating the `BindingContext` contain
 include::{source-dir}/src/main/java/org/linkki/samples/playground/search/ContextFreeSearchView.java[tags=initialize]
 ----
 
+[[search-parameter-mapping]]
 ===== Query parameter mapping
 
 An implementation of `SearchParameterMapper` must be created to map the search parameters to query parameters and vice versa.

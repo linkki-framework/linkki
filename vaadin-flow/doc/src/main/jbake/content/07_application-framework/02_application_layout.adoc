@@ -62,6 +62,7 @@ The right menu can be customized as follows:
 * To customize items of the menu bar, override `createRightMenuBar`
 . Use the custom subclass in `ApplicationConfig#getHeaderDefinition`
 
+[[useraware-application-header]]
 For applications that require user-specific functionality in the header, `UserAwareApplicationHeader` extends `ApplicationHeader` by adding a user menu to the right menu bar.
 By default, this user menu displays the username and provides logout functionality.
 
