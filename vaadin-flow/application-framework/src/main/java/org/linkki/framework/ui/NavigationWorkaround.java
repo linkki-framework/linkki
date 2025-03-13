@@ -30,32 +30,20 @@ import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouteParameters;
 
 /**
- * Workaround for resolving an error that occurs when navigating from a page to itself. Only use
- * this workaround if the described error occurs, specifically when navigating from a page to itself
- * does not work properly.
+ * A workaround that makes sure that navigating from a route to itself is always performed.
  * <p>
- * The workaround works as follows:
- * <ol>
- * <li>If the currently shown page is the same as the navigation target page, the workaround is
- * triggered.</li>
- * <li>The page is first navigated to a special intermediate page called
- * {@link RedirectionPage}.</li>
- * <li>From {@link RedirectionPage}, it is then navigated to the original target page.</li>
- * </ol>
- * This two-step navigation process avoids the error described in the linked issue. If the target
- * page differs from the current page, the navigation is executed as expected without using the
- * workaround.
+ * The problem is caused by a <a href="https://github.com/vaadin/flow/issues/16984">Vaadin
+ * behavior</a> which prevents navigating to the same route multiple times.
  * <p>
- * Note that the {@link Route} used for this workaround has to be included in the Vaadin package
- * scan, see {@link #WORKAROUND_ROUTE_PACKAGE}.
- *
- * @see <a href="https://github.com/vaadin/flow/issues/16984">related GitHub issue</a>
+ * Note that this problem only occurs if React is disabled!
+ * <p>
+ * To avoid this issue, this class navigates to a redirecting route before navigating to the same
+ * route. Therefore, the {@link RedirectionPage} needs to be included in the Vaadin package scan in
+ * order to this class, see {@link #WORKAROUND_ROUTE_PACKAGE}.
  * 
  * @since 2.8.0
  */
 // TODO: remove this class and its usages if the described issue is fixed.
-// Also remove the jakarta.servlet-api dependency from this module'S POM since it is only required
-// for this class.
 public class NavigationWorkaround {
 
     /**
@@ -64,7 +52,7 @@ public class NavigationWorkaround {
      */
     public static final String WORKAROUND_ROUTE_PACKAGE = "org.linkki.framework.ui.workaround";
 
-    private static final String REDIRECTION_PAGE_ROUTE = "redirect";
+    private static final String REDIRECTION_ROUTE = "redirect";
 
     private NavigationWorkaround() {
         // utility class
@@ -97,8 +85,7 @@ public class NavigationWorkaround {
         var ui = UI.getCurrent();
         if (ui.getCurrentView() != null && ui.getCurrentView().getClass() == target) {
             var targetPath = RouteConfiguration.forSessionScope().getUrl(target, routeParameters);
-            var redirectionPath = REDIRECTION_PAGE_ROUTE + "/" + targetPath;
-            ui.navigate(redirectionPath, queryParameters);
+            ui.navigate(RedirectionPage.class, new RouteParameters("path", targetPath), queryParameters);
         } else {
             ui.navigate(target, routeParameters, queryParameters);
         }
@@ -114,7 +101,7 @@ public class NavigationWorkaround {
      *           displays a dialog, it would be displayed twice. Consequently,
      *           {@link AfterNavigationObserver} has to be used.
      */
-    @Route(value = REDIRECTION_PAGE_ROUTE + "/:path*")
+    @Route(value = REDIRECTION_ROUTE + "/:path*")
     public static class RedirectionPage extends Div implements AfterNavigationObserver {
 
         @Serial
@@ -124,7 +111,7 @@ public class NavigationWorkaround {
         public void afterNavigation(AfterNavigationEvent event) {
             var ui = UI.getCurrent();
             var location = event.getLocation();
-            var path = location.getPath().replace(REDIRECTION_PAGE_ROUTE, "");
+            var path = location.getPath().replace(REDIRECTION_ROUTE, "");
             var query = event.getLocation().getQueryParameters();
             // access() ensures the complete execution of the navigation.
             // Otherwise, the user might get stuck in this page.
