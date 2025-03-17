@@ -122,7 +122,7 @@ include::{source-dir}org/linkki/samples/playground/ips/model/IpsModelObject.java
 .Using the class above as a model object
 [source,java,indent=0]
 ----
-include::{source-dir}org/linkki/samples/playground/ts/ips/IpsPmo.java[tags=ModelObject]
+include::{source-dir}org/linkki/samples/playground/ts/ips/IpsLabelPage.java[tags=IpsPmo:modelObject]
 
-include::{source-dir}org/linkki/samples/playground/ts/ips/IpsPmo.java[tags=getString]
+include::{source-dir}org/linkki/samples/playground/ts/ips/IpsLabelPage.java[tags=IpsPmo:modelAttribute]
 ----

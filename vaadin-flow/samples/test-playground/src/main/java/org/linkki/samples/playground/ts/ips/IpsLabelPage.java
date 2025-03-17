@@ -45,6 +45,29 @@ public class IpsLabelPage extends VerticalLayout {
     }
 
     /**
+     * PMO with an {@link IpsModelObject} as model object.
+     */
+    @UISection
+    private static class IpsPmo {
+
+        // tag::IpsPmo:modelObject[]
+        @ModelObject
+        private final IpsModelObject modelObject;
+        // end::IpsPmo:modelObject[]
+
+        public IpsPmo(IpsModelObject modelObject) {
+            this.modelObject = modelObject;
+        }
+
+        // tag::IpsPmo:modelAttribute[]
+        @UITextField(position = 0, modelAttribute = IpsModelObject.PROPERTY_STRING)
+        public void modelAttribute() {
+            // model binding
+        }
+        // end::IpsPmo:modelAttribute[]
+    }
+
+    /**
      * PMO with a {@link IpsModelObjectChild child} of {@link IpsModelObject} as model object.
      */
     @UISection
