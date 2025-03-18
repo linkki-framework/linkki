@@ -52,3 +52,5 @@ Introduced a <<linkki-howto, How-To>> chapter containing coding examples and bes
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248
 * `SimpleItemSupplier` now throws a `NullPointerException` if the model object to PMO mapping supplier returns `null`.
+// https://jira.convista.com/browse/LIN-4262
+* `linkki-vaadin-flow-test` no longer includes `vaadin-dev`, and `linkki-vaadin-flow-testbench-extension` now marks `vaadin-core` as provided. This avoids unwanted dependencies in production.
