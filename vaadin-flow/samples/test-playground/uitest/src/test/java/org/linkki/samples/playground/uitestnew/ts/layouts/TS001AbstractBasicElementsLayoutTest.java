@@ -131,7 +131,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
 
         // conditions
         assertThat(link.getText()).isEqualTo("I am a Link to #");
-        assertThat(link.getContent().getAttribute("href")).endsWith("/#");
+        assertThat(link.getContent().getDomAttribute("href")).endsWith("#");
     }
 
     @Test
@@ -167,20 +167,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_VISIBLE).click();
 
         // postcondition
-        assertThat(textFieldElement.getAttribute("hidden")).isEqualTo("true");
-    }
-
-    @Test
-    void testTextField_Required_Empty() {
-        TextFieldElement textFieldElement = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
-
-        // actions
-        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_REQUIRED).setChecked(true);
-        textFieldElement.setValue("");
-        textFieldElement.sendKeys("\t");
-
-        // postcondition
-        assertThat(textFieldElement.hasAttribute("invalid")).as("The presence of the attribute invalid").isTrue();
+        assertThat(textFieldElement.getDomAttribute("hidden")).isEqualTo("true");
     }
 
     // TODO LIN-2343 more tests for all other elements in this section?

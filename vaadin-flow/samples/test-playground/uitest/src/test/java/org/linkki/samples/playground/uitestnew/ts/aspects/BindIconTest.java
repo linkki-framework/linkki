@@ -75,7 +75,7 @@ class BindIconTest extends PlaygroundUiTest {
         var anchor = section.$(LinkkiTextElement.class).id(STATIC_LINK);
 
         assertThat(anchor.getText(), is("Text"));
-        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_STATIC_ICON));
+        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_STATIC_ICON));
     }
 
     @Test
@@ -84,10 +84,10 @@ class BindIconTest extends PlaygroundUiTest {
 
         var anchor = section.$(LinkkiTextElement.class).id(DYNAMIC_LINK);
         assertThat(anchor.getText(), is("Text"));
-        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_MOBILE_ICON));
 
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
-        assertThat(anchor.getIcon().getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_MOBILE_ICON));
     }
 
     private WebElement getIconElement(ButtonElement element) {

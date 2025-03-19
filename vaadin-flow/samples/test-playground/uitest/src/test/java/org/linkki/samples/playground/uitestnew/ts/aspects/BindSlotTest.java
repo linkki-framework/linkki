@@ -39,10 +39,10 @@ public class BindSlotTest extends PlaygroundUiTest {
         TestCaseComponentElement section = goToTestCase(TestScenarioView.TS008, TestScenarioView.TC016);
 
         var leftSlot = section.$(ButtonElement.class).id("leftButton");
-        assertThat(leftSlot.getAttribute("slot")).isEqualTo("left-slot");
+        assertThat(leftSlot.getDomAttribute("slot")).isEqualTo("left-slot");
 
         var rightSlot = section.$(DivElement.class).id("rightSlot");
-        assertThat(rightSlot.getAttribute("slot")).isEqualTo("right-slot");
+        assertThat(rightSlot.getDomAttribute("slot")).isEqualTo("right-slot");
         assertThat(rightSlot.getCssValue("padding-right")).isEqualTo("32px");
         assertThat(rightSlot.$(ButtonElement.class).all()).hasSize(2);
     }

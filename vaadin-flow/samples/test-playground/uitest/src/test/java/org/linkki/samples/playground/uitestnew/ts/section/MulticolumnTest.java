@@ -57,6 +57,6 @@ class MulticolumnTest extends PlaygroundUiTest {
         WebElement activeElement = getDriver().switchTo().activeElement();
 
         assertThat(activeElement.getAttribute("id")).isEqualTo(section.$(TextFieldElement.class).id("fixedWidthText")
-                .findElement(By.tagName("input")).getAttribute("id"));
+                .findElement(By.tagName("input")).getDomAttribute("id"));
     }
 }

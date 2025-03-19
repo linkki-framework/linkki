@@ -45,7 +45,7 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
         waitUntil(d -> table.getRowCount() > 1, 10);
 
         table.$(ButtonElement.class).all().stream()
-                .filter(b -> "remove".equals(b.getAttribute("id")))
+                .filter(b -> "remove".equals(b.getDomAttribute("id")))
                 .forEach(ButtonElement::click);
         waitUntil(d -> table.getRowCount() == 0, 10);
 

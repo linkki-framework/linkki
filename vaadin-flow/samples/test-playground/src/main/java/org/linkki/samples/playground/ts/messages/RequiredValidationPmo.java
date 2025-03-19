@@ -32,8 +32,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 @UIVerticalLayout
 public class RequiredValidationPmo {
     public static final String PROPERTY_TEXT_FIELD = "textField";
-    public static final String WITH_BINDING_MANAGER = "Required validation with binding manager";
-    public static final String WITHOUT_BINDING_MANAGER = "Required validation without binding manager";
+    public static final String WITH_BINDING_MANAGER = "withBindingManager";
+    public static final String WITHOUT_BINDING_MANAGER = "withoutBindingManager";
     @ModelObject
     private final RequiredTextFieldModelObject modelObject;
     private final String label;
@@ -54,18 +54,18 @@ public class RequiredValidationPmo {
     }
 
     public static Component createComponent() {
-
         var requiredValidationPmo = new RequiredValidationPmo(WITH_BINDING_MANAGER);
         var bindingManager = new DefaultBindingManager(requiredValidationPmo::validate);
-        Component requiredValidationWithBindingManager = VaadinUiCreator
+        var withBindingManager = VaadinUiCreator
                 .createComponent(requiredValidationPmo,
                                  bindingManager.getContext(RequiredValidationPmo.class));
+        withBindingManager.setId(WITH_BINDING_MANAGER);
 
-        Component requiredValidationWithoutBindingManager = VaadinUiCreator
+        var withoutBindingManager = VaadinUiCreator
                 .createComponent(new RequiredValidationPmo(WITHOUT_BINDING_MANAGER),
                                  new BindingContext());
-        return new VerticalLayout(requiredValidationWithoutBindingManager,
-                requiredValidationWithBindingManager);
+        withoutBindingManager.setId(WITHOUT_BINDING_MANAGER);
+        return new VerticalLayout(withoutBindingManager, withBindingManager);
     }
 
     private MessageList validate() {

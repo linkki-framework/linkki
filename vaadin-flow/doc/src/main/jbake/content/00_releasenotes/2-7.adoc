@@ -5,6 +5,24 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.7.2
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+| Faktor-IPS                    | 25.1.3.release (link:https://doc.faktorzehn.org/faktor-ips/25.1/01_releasenotes/index.html[Release Notes]) | 25.1.2.release
+| Vaadin                        | 24.5.14 (link:https://github.com/vaadin/platform/releases/tag/24.5.14[Release Notes]) | 24.5.12
+|===
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4103
+* Required fields (e.g., `TextField`, `ComboBox`) were not marked red when prefilled with an invalid value under certain conditions. This was a Vaadin bug that is fixed with this version. Note that the issue only appeared in 2.7.1 and does not affect 2.7.0.
+
 === Version 2.7.1
 
 ==== Version Updates

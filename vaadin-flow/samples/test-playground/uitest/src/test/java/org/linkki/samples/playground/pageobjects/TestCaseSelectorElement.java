@@ -14,7 +14,9 @@
 
 package org.linkki.samples.playground.pageobjects;
 
-import org.linkki.testbench.conditions.VaadinElementConditions;
+import static org.linkki.testbench.conditions.VaadinElementConditions.elementDisplayed;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
@@ -31,7 +33,7 @@ public class TestCaseSelectorElement extends VerticalLayoutElement {
     public TestCaseComponentElement selectTestCase(String id) {
         $(TabElement.class).id(id).click();
 
-        return waitUntil(VaadinElementConditions.elementDisplayed($(TestCaseComponentElement.class),
-                                                                  e -> e.getAttribute("id").contains(id)));
+        return waitUntil(elementDisplayed($(TestCaseComponentElement.class),
+                                          e -> StringUtils.contains(e.getDomAttribute("id"), id)));
     }
 }

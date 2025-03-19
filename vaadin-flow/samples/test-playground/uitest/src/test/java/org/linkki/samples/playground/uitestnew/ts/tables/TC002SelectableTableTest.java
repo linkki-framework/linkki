@@ -16,7 +16,10 @@ package org.linkki.samples.playground.uitestnew.ts.tables;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
 
 import java.util.List;
 
@@ -46,7 +49,7 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
         GridElement selectableTable = getGrid(PlaygroundSelectableTablePmo.class);
 
         assertThat("First row should be initially selected",
-                   selectableTable.getRow(PlaygroundSelectableTablePmo.INITAL_SELECTED_ROW).getAttribute("selected"),
+                   selectableTable.getRow(PlaygroundSelectableTablePmo.INITAL_SELECTED_ROW).getDomAttribute("selected"),
                    is("true"));
 
         selectableTable.getRow(1).select();

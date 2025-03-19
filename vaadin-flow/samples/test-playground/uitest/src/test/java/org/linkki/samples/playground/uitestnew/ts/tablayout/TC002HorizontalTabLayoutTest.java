@@ -55,7 +55,7 @@ class TC002HorizontalTabLayoutTest extends PlaygroundUiTest {
 
         IconElement icon = tab.$(IconElement.class).first();
 
-        assertThat(icon.getAttribute("icon"), is("vaadin:plus"));
+        assertThat(icon.getDomAttribute("icon"), is("vaadin:plus"));
     }
 
     @Test
