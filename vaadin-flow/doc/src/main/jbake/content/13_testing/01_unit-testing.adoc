@@ -30,6 +30,7 @@ The utility class `ComponentConditions` provides UI specific conditions that can
 [source,java]
 ----
 import static org.linkki.core.ui.test.ComponentConditions.childOf;
+import static org.linkki.core.ui.test.ComponentConditions.anyVisibleChildOfType;
 
 ...
 
@@ -39,17 +40,55 @@ import static org.linkki.core.ui.test.ComponentConditions.childOf;
         var child = new Div(grandChild);
         var layout = new Div(child);
 
-        assertThat(child).is(childOf(layout));
-        assertThat(grandChild).is(childOf(layout));
         assertThat(layout).isNot(childOf(child));
+        assertThat(child).is(childOf(layout));
+        assertThat(grandChild).doesNotHave(anyVisibleChildOfType(Div.class));
     }
+----
+
+[[component-representation]]
+==== Component representation for AssertJ
+
+The class `ComponentTreeRepresentation` can be used to convert the string representation of a component tree into a more readable format.
+
+.Example usage of ComponentTreeRepresentation
+[source,java]
+----
+import static org.linkki.core.ui.test.ComponentTreeRepresentation;
+import static org.linkki.core.ui.test.ComponentConditions.exactlyOneVisibleChildOfType;
+
+...
+
+    @Test
+    void testChildOf() {
+        var grandChild = new Div();
+        var child = new Div(grandChild);
+        var layout = new Div(child);
+
+        assertThat(layout)
+                .withRepresentation(new ComponentTreeRepresentation())
+                .has(exactlyOneVisibleChildOfType(Div.class));
+    }
+----
+
+Since layout has two `Div` children, `assertThat` will fail and return the following output:
+
+.Example AssertJ output with ComponentTreeRepresentation
+----
+java.lang.AssertionError:
+Expecting actual:
+  └── Div[]
+    └── Div[]
+        └── Div[]
+
+to have exactly one visible child matching type Div
 ----
 
 ==== Mock Vaadin setup with KaribuUIExtension
 
 While some of the UI components created with Vaadin can be tested easily in a regular unit test, the setup gets difficult when dialogs, locales or routing are involved.
 
-Karibu makes it easier by the class `MockVaadinUI` which not only set up a `UI` instance along with the session, but also can handle routes.
+Karibu makes this easier by providing the class `MockVaadinUI`, which not only sets up a `UI` instance along with the session, but also can handle routes.
 
 The linkki Karibu module further simplify the set-up with the JUnit extension `KaribuUIExtension`.
 
@@ -59,7 +98,7 @@ In the most simple use case, this class can be directly annotated on the test cl
 This will make sure that the Vaadin UI is set up in `beforeEach` and is cleaned up properly in `afterEach`.
 
 Additionally, a test using `KaribuUIExtension` can be annotated with `@WithLocale` to define the UI's locale, defaulting to german.
-+
+
 .KaribuUIExtension with @ExtendWith
 [source,java]
 ----
@@ -137,6 +176,7 @@ The functionalities include
 
 * methods for printing out any component as String.
 This can be used to assert that a certain text is or is not displayed anywhere within the given component, disregarding the placement or the actual component that is used
+* methods for getting text values of components
 * methods for handling value change events in input fields
 * methods for handling grids
 * methods for handling layouts created with a PMO

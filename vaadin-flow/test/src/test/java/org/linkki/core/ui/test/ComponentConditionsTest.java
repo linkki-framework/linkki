@@ -66,6 +66,24 @@ class ComponentConditionsTest {
                 .has(anyChildSatisfying(Div.class::isInstance, "is an instance of Div"))
                 .has(anyChildSatisfying(VerticalLayout.class::isInstance, "is an instance of VerticalLayout"))
                 .doesNotHave(anyChildSatisfying(Span.class::isInstance, "is an instance of Span"));
+
+        assertThat(child)
+                .doesNotHave(anyChildSatisfying(Div.class::isInstance, "is an instance of Div"));
+    }
+
+
+    @Test
+    void testOneVisibleChildSatisfying() {
+        var grandChild = new Div();
+        var child = new Div(grandChild);
+        var layout = new Div(child);
+
+        assertThat(layout)
+                .doesNotHave(exactlyOneVisibleChildOfType(Div.class));
+        assertThat(child)
+                .has(exactlyOneVisibleChildOfType(Div.class));
+        assertThat(grandChild)
+                .doesNotHave(exactlyOneVisibleChildOfType(Div.class));
     }
 
     @Test

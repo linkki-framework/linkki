@@ -15,12 +15,15 @@
 package org.linkki.core.ui.test;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Condition;
 import org.assertj.core.presentation.Representation;
+import org.jetbrains.annotations.NotNull;
 import org.linkki.util.Consumers;
 
 import com.github.mvysny.kaributesting.v10.LocatorJ;
@@ -83,8 +86,16 @@ public class ComponentConditions {
 
     public static <T extends Component> Condition<Component> exactlyOneVisibleChildOfType(Class<T> type,
             Consumer<SearchSpecJ<T>> searchSpec) {
-        return new Condition<>(c -> LocatorJ._find(c, type, searchSpec).size() == 1,
+        return new Condition<>(c -> findChildren(type, searchSpec, c).size() == 1,
                 "exactly one visible child matching type %s", displaySearchSpec(type, searchSpec));
+    }
+
+    private static <T extends Component> @NotNull List<T> findChildren(Class<T> type, Consumer<SearchSpecJ<T>> searchSpec, Component c) {
+        return c
+                .getChildren()
+                .map(child -> LocatorJ._find(child, type, searchSpec))
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     public static <T extends Component> Condition<Component> anyVisibleChildOfType(Class<T> type) {
