@@ -18,13 +18,14 @@
         <module>application-framework</module>
         <module>ips</module>
         <module>component</module>
-        <module>nestedcomponent</module>
         <module>test</module>
         <module>testbench-extension</module>
         <module>apt</module>
         <module>archetypes</module>
         <module>samples</module>
         <module>doc</module>
+        <module>linkki-f10</module>
+        <module>search</module>
     </modules>
 
     <repositories>

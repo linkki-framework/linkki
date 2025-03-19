@@ -1,14 +1,15 @@
-:jbake-title: Unit Testing
+:jbake-title: Unit UI Testing
 :jbake-type: section
 :jbake-status: published
 
 [[karibu-testing]]
-=== Unit testing with Karibu-Testing
+=== Unit UI testing with Karibu-Testing
 
-https://github.com/mvysny/karibu-testing[Karibu-Testing] provides functionality to write browserless server-side JUnit Tests for Vaadin applications.
-This allows calls such as `UI.getCurrent()` in a regular JUnit test by mocking `VaadinSession`, `CurrentRequest` and others.
+As Vaadin UI is built server-side, it is possible to test the server-side UI without a deployment or browser.
+The maven dependency `linkki-vaadin-flow-test` provides utilities for unit UI testing using JUnit.
 
-linkki provides an extension of Karibu Testing.
+This library utilized https://github.com/mvysny/karibu-testing[Karibu-Testing] which provides additional functionalities unit UI tests, e.g. allowing calling `UI.getCurrent` without mocking the setup such as `VaadinSession` or `CurrentRequest`.
+For tests with Karibu, linkki provides an extension to make the configuration and assertion easier with linkki projects.
 
 ==== Maven Dependency
 
@@ -20,11 +21,74 @@ linkki provides an extension of Karibu Testing.
 </dependency>
 ----
 
+[[component-conditions]]
+==== Conditions for AssertJ
+
+The utility class `ComponentConditions` provides UI specific conditions that can be used with AssertJ.
+
+.Example usage of ComponentConditions
+[source,java]
+----
+import static org.linkki.core.ui.test.ComponentConditions.childOf;
+import static org.linkki.core.ui.test.ComponentConditions.anyVisibleChildOfType;
+
+...
+
+    @Test
+    void testChildOf() {
+        var grandChild = new Div();
+        var child = new Div(grandChild);
+        var layout = new Div(child);
+
+        assertThat(layout).isNot(childOf(child));
+        assertThat(child).is(childOf(layout));
+        assertThat(grandChild).doesNotHave(anyVisibleChildOfType(Div.class));
+    }
+----
+
+[[component-representation]]
+==== Component representation for AssertJ
+
+The class `ComponentTreeRepresentation` can be used to convert the string representation of a component tree into a more readable format.
+
+.Example usage of ComponentTreeRepresentation
+[source,java]
+----
+import static org.linkki.core.ui.test.ComponentTreeRepresentation;
+import static org.linkki.core.ui.test.ComponentConditions.exactlyOneVisibleChildOfType;
+
+...
+
+    @Test
+    void testChildOf() {
+        var grandChild = new Div();
+        var child = new Div(grandChild);
+        var layout = new Div(child);
+
+        assertThat(layout)
+                .withRepresentation(new ComponentTreeRepresentation())
+                .has(exactlyOneVisibleChildOfType(Div.class));
+    }
+----
+
+Since layout has two `Div` children, `assertThat` will fail and return the following output:
+
+.Example AssertJ output with ComponentTreeRepresentation
+----
+java.lang.AssertionError:
+Expecting actual:
+  └── Div[]
+    └── Div[]
+        └── Div[]
+
+to have exactly one visible child matching type Div
+----
+
 ==== Mock Vaadin setup with KaribuUIExtension
 
 While some of the UI components created with Vaadin can be tested easily in a regular unit test, the setup gets difficult when dialogs, locales or routing are involved.
 
-Karibu makes it easier by the class `MockVaadinUI` which not only set up a `UI` instance along with the session, but also can handle routes.
+Karibu makes this easier by providing the class `MockVaadinUI`, which not only sets up a `UI` instance along with the session, but also can handle routes.
 
 The linkki Karibu module further simplify the set-up with the JUnit extension `KaribuUIExtension`.
 
@@ -34,7 +98,7 @@ In the most simple use case, this class can be directly annotated on the test cl
 This will make sure that the Vaadin UI is set up in `beforeEach` and is cleaned up properly in `afterEach`.
 
 Additionally, a test using `KaribuUIExtension` can be annotated with `@WithLocale` to define the UI's locale, defaulting to german.
-+
+
 .KaribuUIExtension with @ExtendWith
 [source,java]
 ----
@@ -102,7 +166,7 @@ class SimpleTestClassWithLocaleEn {
 ----
 
 [[karibu-utils]]
-==== Finding elements and writing assertions
+==== Finding elements and writing assertions with `KaribuUtils`
 
 Karibu provides a class `LocatorJ` that provides many useful methods to find elements, most notably `_find` and `_get`.
 In addition, the class also provides several methods for assertions such as `_assertOne` which provides a very useful failure message.
@@ -112,6 +176,7 @@ The functionalities include
 
 * methods for printing out any component as String.
 This can be used to assert that a certain text is or is not displayed anywhere within the given component, disregarding the placement or the actual component that is used
+* methods for getting text values of components
 * methods for handling value change events in input fields
 * methods for handling grids
 * methods for handling layouts created with a PMO

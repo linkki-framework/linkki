@@ -1,0 +1,18 @@
+version: '2.4'
+
+services:
+  playground:
+    cgroup_parent: ${DOCKER_CGROUP_PARENT}
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: '2G'
+
+  linkki-f10-sample:
+    cgroup_parent: ${DOCKER_CGROUP_PARENT}
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: '2G'

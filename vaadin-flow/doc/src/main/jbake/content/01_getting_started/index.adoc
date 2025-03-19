@@ -56,15 +56,16 @@ include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-vaadin-flow-com
 include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-application-framework]
 ----
 
-==== linkki-core-nestedcomponent-vaadin-flow
+[[linkki-search-dependency]]
+==== linkki-search-vaadin-flow
 
-`linkki-core-nestedcomponent-vaadin-flow` contains the following additional features:
+`linkki-search-vaadin-flow` contains the following additional features:
 
-* <<nested-pmos, Nested component>>
+* <<linkki-search, Search components>>
 
 [source,xml]
 ----
-include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-core-nestedcomponent-vaadin-flow]
+include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-search-vaadin-flow]
 ----
 
 ==== linkki-ips-vaadin-flow

@@ -31,6 +31,8 @@ import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.dialogs.DialogsView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.samples.playground.products.ProductsSampleView;
+import org.linkki.samples.playground.search.ContextDependentSearchView;
+import org.linkki.samples.playground.search.ContextFreeSearchView;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.util.DateFormats;
 import org.linkki.util.Sequence;
@@ -65,7 +67,10 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
                     new ApplicationMenuItemDefinition("Sample Layout", "sample-layout", SampleView.class),
                     new ApplicationMenuItemDefinition("Custom Layout", "custom-layout", CustomView.class),
                     new ApplicationMenuItemDefinition("Binding", "binding", BindingSampleView.class),
-                    new ApplicationMenuItemDefinition("F10 Produkte", "f10-products", ProductsSampleView.class),
+                    new ApplicationMenuItemDefinition("F10 Products", "f10-products", ProductsSampleView.class),
+                    new ApplicationMenuItemDefinition("Search", "search", ContextFreeSearchView.class),
+                    new ApplicationMenuItemDefinition("Search in Dialog", "search-dialog",
+                            ContextDependentSearchView.class),
                     new ApplicationMenuItemDefinition(BugCollectionView.NAME, "bugs", BugCollectionView.class));
     }
 

@@ -65,25 +65,9 @@ import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoNoBorder;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoWithoutVariant;
 import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
-import org.linkki.samples.playground.ts.components.ButtonPmo;
-import org.linkki.samples.playground.ts.components.CheckboxesPmo;
-import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
-import org.linkki.samples.playground.ts.components.ComboBoxPmo;
-import org.linkki.samples.playground.ts.components.CustomFieldPmo;
-import org.linkki.samples.playground.ts.components.DateFieldPmo;
-import org.linkki.samples.playground.ts.components.DateTimeFieldPmo;
-import org.linkki.samples.playground.ts.components.DoubleFieldPmo;
-import org.linkki.samples.playground.ts.components.DynamicComponentPage;
-import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
-import org.linkki.samples.playground.ts.components.LabelPmo;
-import org.linkki.samples.playground.ts.components.LinkPmo;
-import org.linkki.samples.playground.ts.components.LongFieldPmo;
-import org.linkki.samples.playground.ts.components.MultiSelectPmo;
-import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
-import org.linkki.samples.playground.ts.components.TextAreaPmo;
-import org.linkki.samples.playground.ts.components.TextFieldPmo;
-import org.linkki.samples.playground.ts.components.TimeFieldPmo;
-import org.linkki.samples.playground.ts.components.YesNoComboBoxPmo;
+import org.linkki.samples.playground.ts.components.DynamicHeadlinePmo;
+import org.linkki.samples.playground.ts.components.board.SampleBoardView;
+import org.linkki.samples.playground.ts.components.tablayout.TabOverviewLayout;
 import org.linkki.samples.playground.ts.converters.ConvertersPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogErrorHandlerPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogWithCustomSizePmo;
@@ -95,6 +79,27 @@ import org.linkki.samples.playground.ts.dialogs.QuestionAndConfirmationDialogPmo
 import org.linkki.samples.playground.ts.dialogs.SetFormItemLabelWidthDialogPmo;
 import org.linkki.samples.playground.ts.error.ErrorDialogPmo;
 import org.linkki.samples.playground.ts.error.ErrorPagePmo;
+import org.linkki.samples.playground.ts.formelements.ButtonPmo;
+import org.linkki.samples.playground.ts.formelements.CheckboxesPmo;
+import org.linkki.samples.playground.ts.formelements.ComboBoxCaptionRefreshPmo;
+import org.linkki.samples.playground.ts.formelements.ComboBoxPmo;
+import org.linkki.samples.playground.ts.formelements.CustomFieldPmo;
+import org.linkki.samples.playground.ts.formelements.DateFieldPmo;
+import org.linkki.samples.playground.ts.formelements.DateTimeFieldPmo;
+import org.linkki.samples.playground.ts.formelements.DoubleFieldPmo;
+import org.linkki.samples.playground.ts.formelements.DynamicComponentPage;
+import org.linkki.samples.playground.ts.formelements.IntegerFieldPmo;
+import org.linkki.samples.playground.ts.formelements.LabelPmo;
+import org.linkki.samples.playground.ts.formelements.LinkPmo;
+import org.linkki.samples.playground.ts.formelements.LongFieldPmo;
+import org.linkki.samples.playground.ts.formelements.MenuButtonPmo;
+import org.linkki.samples.playground.ts.formelements.MenuListPmo;
+import org.linkki.samples.playground.ts.formelements.MultiSelectPmo;
+import org.linkki.samples.playground.ts.formelements.RadioButtonsPmo;
+import org.linkki.samples.playground.ts.formelements.TextAreaPmo;
+import org.linkki.samples.playground.ts.formelements.TextFieldPmo;
+import org.linkki.samples.playground.ts.formelements.TimeFieldPmo;
+import org.linkki.samples.playground.ts.formelements.YesNoComboBoxPmo;
 import org.linkki.samples.playground.ts.ips.AvailableValuesSectionPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.DecimalLabelPmo;
@@ -122,6 +127,7 @@ import org.linkki.samples.playground.ts.messages.ConverterErrorPmo;
 import org.linkki.samples.playground.ts.messages.FieldValidationPmo;
 import org.linkki.samples.playground.ts.messages.MessageTableSection;
 import org.linkki.samples.playground.ts.messages.RequiredValidationPmo;
+import org.linkki.samples.playground.ts.navigation.BrowserConfirmationComponent;
 import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentPmo;
 import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentWidthPmo;
 import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
@@ -136,10 +142,6 @@ import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
 import org.linkki.samples.playground.ts.section.SectionThemeVariantPmo;
 import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
-import org.linkki.samples.playground.ts.tablayout.AfterTabSelectedComponent;
-import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
-import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
-import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 import org.linkki.samples.playground.ts.table.UITableComponentPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
@@ -176,6 +178,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TS016 = "TS016";
     public static final String TS017 = "TS017";
     public static final String TS018 = "TS018";
+    public static final String TS019 = "TS019";
 
     public static final String TC001 = "TC001";
     public static final String TC002 = "TC002";
@@ -195,6 +198,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC016 = "TC016";
     public static final String TC017 = "TC017";
     public static final String TC018 = "TC018";
+    public static final String TC019 = "TC019";
+    public static final String TC020 = "TC020";
 
     static final String ROUTE = "playground";
 
@@ -271,6 +276,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC016, new TimeFieldPmo())
                                        .testCase(TC017, new CheckboxesPmo())
                                        .testCase(TC018, new LongFieldPmo())
+                                       .testCase(TC019, new MenuButtonPmo())
+                                       .testCase(TC020, new MenuListPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, LinkkiTextComponent::new)
@@ -313,13 +320,15 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC015, new BindLabelPmo())
                                        .testCase(TC016, new BindSlotPmo(new BindSlotPmo.RightSlotPmo()))
                                        .createTabSheet(),
-                               TestScenario.id(TS009).testCase(TC001, new TextNotificationPmo())
+                               TestScenario.id(TS009)
+                                       .testCase(TC001, new TextNotificationPmo())
                                        .testCase(TC002, new MessageListNotificationPmo()).createTabSheet(),
-                               TestScenario.id(TS010).testCase(TC001, HorizontalTabLayoutComponent::new)
-                                       .testCase(TC002, VerticalTabLayoutComponent::new)
-                                       .testCase(TC003, TabLayoutVisibilityComponent::new)
-                                       .testCase(TC004, AfterTabSelectedComponent::new).createTabSheet(),
-                               TestScenario.id(TS011).testCase(TC001, OkCancelDialogHandlerPmo::create)
+                               TestScenario.id(TS010)
+                                       .testCase(TC001, TabOverviewLayout::new)
+                                       .testCase(TC002, SampleBoardView.getNavigationPmo())
+                                       .testCase(TC003, new DynamicHeadlinePmo()).createTabSheet(),
+                               TestScenario.id(TS011)
+                                       .testCase(TC001, OkCancelDialogHandlerPmo::create)
                                        .testCase(TC002, new QuestionAndConfirmationDialogPmo())
                                        .testCase(TC003, new OkCancelDialogOverflowPmo())
                                        .testCase(TC004, new OkCancelDialogSectionSpacingPmo())
@@ -327,7 +336,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC006, new DialogWithCustomSizePmo())
                                        .testCase(TC007, new DialogErrorHandlerPmo())
                                        .testCase(TC008, new OkCancelDialogMessagePmo()).createTabSheet(),
-                               TestScenario.id(TS012).testCase(TC001, TableWithValidationSection::create)
+                               TestScenario.id(TS012)
+                                       .testCase(TC001, TableWithValidationSection::create)
                                        .testCase(TC002, SelectableTableSection::create)
                                        .testCase(TC003, new ColumnWidthTablePmo())
                                        .testCase(TC004, DynamicFieldsSection::create)
@@ -371,7 +381,9 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                    ComponentStyles.setFormItemLabelWidth(component, "300px");
                                    return component;
                                }).createTabSheet(),
-                               TestScenario.id(TS018).testCase(TC001, new ConvertersPmo()).createTabSheet());
+                               TestScenario.id(TS018).testCase(TC001, new ConvertersPmo()).createTabSheet(),
+                               TestScenario.id(TS019).testCase(TC001, BrowserConfirmationComponent::new)
+                                       .createTabSheet());
 
         add(tabLayout);
     }

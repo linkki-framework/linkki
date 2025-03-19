@@ -19,3 +19,8 @@
 .linkki-main-area {
     overflow: auto;
 }
+
+.linkki-application-environment {
+    color: var(--lumo-primary-contrast-color);
+    white-space: nowrap;
+}

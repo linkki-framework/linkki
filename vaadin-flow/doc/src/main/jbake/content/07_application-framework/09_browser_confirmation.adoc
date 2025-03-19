@@ -1,0 +1,26 @@
+:jbake-title: Browser Confirmation
+:jbake-type: section
+:jbake-status: published
+
+[[browser-confirmation]]
+=== Browser Confirmation
+
+Sometimes it is necessary to show a confirmation dialog in case of a browser refresh or when leaving the Vaadin application. Such a dialog would point out that some content has not yet been saved and ask whether the user still wants to leave the page or not.
+This behavior can be implemented for a View/Route class by letting it implement the `HasBrowserConfirmation` interface.
+
+The interface defines one method for enabling and another for disabling the functionality:
+
+* `HasBrowserConfirmation#enableBrowserConfirmation`
+* `HasBrowserConfirmation#disableBrowserConfirmation`
+
+Activation/deactivation is best set by using the observers provided by Vaadin.
+The activation could be handled by implementing the interface `AfterNavigationObserver` that defines the method `afterNavigation` and activating the dialog there.
+The deactivation, however, is already handled by `HasBrowserConfirmation` and deactivates upon leaving the page.
+
+[NOTE]
+The confirmation is only shown when refreshing the browser or navigating outside the application. Navigations within the application showing similar confirmations must be handled separately. Ideally,
+this is also implemented using the `BeforeLeaveObserver` interface and within the `beforeLeave` method. In this method, the `BeforeLeaveEvent#postpone` method can be used on the given event to interrupt the navigation and continue using `ContinueNavigationAction#proceed()` if confirmed by the user.
+
+Further relevant information regarding the https://vaadin.com/docs/latest/flow/routing/lifecycle[Navigation Lifecycle] can be found within the Vaadin documentation.
+
+An example implementation can be found in the `SampleBrowserConfirmationView` class.

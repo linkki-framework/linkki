@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.linkki-framework</groupId>
+        <artifactId>linkki-vaadin-flow</artifactId>
+        <version>2.8.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>linkki-f10</artifactId>
+    <name>linkki for FaktorZehn Products</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-application-framework-vaadin-flow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin-flow-test</artifactId>
+        </dependency>
+        <dependency>
+            <!-- Required for class NavigationUtil to set Session attributes. -->
+            <!-- TODO: Remove this if not required anymore -->
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+            <version>${mockito.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

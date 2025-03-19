@@ -18,7 +18,14 @@ import java.text.MessageFormat;
 import org.linkki.core.nls.NlsService;
 
 public class NlsText {
-    private static final String BUNDLE_NAME = "org/linkki/framework/ui/nls/messages"; // $NON-NLS-1$
+
+    /**
+     * This constant is used as placeholder for values retrieved from linkki-messages.properties
+     * files.
+     */
+    public static final String I18N = "String should be in linkki-messages.properties files!";
+
+    private static final String BUNDLE_NAME = "org/linkki/framework/ui/nls/messages";
 
     private NlsText() {
         // do not instantiate

@@ -1,0 +1,25 @@
+:jbake-title: Board Layout
+:jbake-type: section
+:jbake-status: published
+
+:image-dir: {images}05_ui_components
+:source-dir: ../../../../src/main/java
+:sample-source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
+
+
+[[linkkiboardlayout]]
+=== BoardLayout
+
+NOTE: Dependency <<_linkki_vaadin_flow_component, `linkki-vaadin-flow-component`>> or <<_linkki_application_framework, `linkki-application-framework`>> is needed.
+
+The `BoardLayout` is a *linkki* UI component that provides a dashboard-like responsive layout made of cards.
+
+Each `BoardComponent` is created with a header, the contained Vaadin `Component` and optionally a variant to customize how much space the card can assume.
+There is also the option of creating BoardComponents using PMOs with `BoardComponent::withPmo`.
+Board elements can be added to the `BoardLayout` within the constructor and by calling `add(BoardComponent... components)`.
+
+.Creating a Board Layout
+[source,java]
+----
+include::{sample-source-dir}/org/linkki/samples/playground/ts/components/board/SampleBoardView.java[tags=board_layout]
+----

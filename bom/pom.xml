@@ -105,7 +105,7 @@
             </dependency>
             <dependency>
                 <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-core-nestedcomponent-vaadin-flow</artifactId>
+                <artifactId>linkki-search-vaadin-flow</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

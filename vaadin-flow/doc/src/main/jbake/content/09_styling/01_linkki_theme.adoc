@@ -31,3 +31,35 @@ public class MyAppShellConfigurator implements AppShellConfigurator {
     ...
 }
 ----
+
+[[apply-f10-theme]]
+=== Applying the F10 Theme
+
+The *F10 theme* can be integrated in the same way as *linkki theme* and its name is provided within the constant `org.linkki.core.ui.theme.F10ProductTheme.F10_PRODUCT_THEME`.
+
+[[primary-color]]
+==== Setting a Primary Color
+
+By default, a dark blue (hsl(206,100%,30%) / rgb(0,87,153) / #005799) is used as the primary color. This color is intended to be used in sample applications. In customer projects, however, it is often customized.
+
+To customize the primary color, a new theme must be created within the application, extending the *F10 theme* in the same way as *linkki theme*. A guide can be found under <<Customizing the *linkki* theme, Customizing the linkki theme>>.
+
+[NOTE]
+In `theme.json`, set `"f10-product"` as the parent instead of `"linkki"`.
+
+The primary color can then be customized within the `styles.css`. It is set via the following three css properties:
+
+* `--f10-primary-color-h`
+* `--f10-primary-color-s`
+* `--f10-primary-color-l`
+
+
+These properties automatically generate additional color variations, such as `--lumo-primary-text-color`. Most other values are derived from these settings and usually do not require further customization.
+
+In total, the following constants are available:
+
+* `--f10-primary-color-h`: Primary color value (default: 206)
+* `--f10-primary-color-s`: Primary color saturation (default: 100%)
+* `--f10-primary-color-l`: Primary color relative brightness (default: 30%)
+* `--f10-primary-color`: Primary color. By default, calculated from `--f10-primary-color-h`, `--f10-primary-color-s` and `f10-primary-color-l`.
+* `--f10-primary-contrast-color`: Primary color contrast. For example, used for text within the application header and derived by default.

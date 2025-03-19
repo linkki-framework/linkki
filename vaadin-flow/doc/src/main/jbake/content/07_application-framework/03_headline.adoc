@@ -5,6 +5,7 @@
 :image-dir: {images}07_application-framework
 :source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
 
+[[headline]]
 === Headline
 
 For every sheet it is useful to have a headline that describes the current content. It natively has a headline caption and could be extended by subclasses.
@@ -25,4 +26,14 @@ Then bind it with the headline:
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=bind-headline]
+----
+
+Alternatively, you can also use @UIHeadline for simple use cases without additional components:
+
+[source, java]
+----
+@UIHeadline
+public String getHeadlineText() {
+    return "MyHeadline";
+}
 ----

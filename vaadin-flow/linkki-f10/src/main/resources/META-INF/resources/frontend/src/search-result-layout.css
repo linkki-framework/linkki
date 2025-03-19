@@ -1,0 +1,29 @@
+search-result-layout {
+    padding-left: var(--lumo-space-m);
+    flex-direction: column;
+    gap: var(--lumo-space-m);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+search-result-layout>#initialSearchHint {
+    font-size: var(--lumo-font-size-xl);
+    opacity: 30%;
+}
+
+search-result-layout>#emptySearchResultHint {
+    font-size: var(--lumo-font-size-xl);
+}
+
+search-result-layout>#searchResultTable {
+    overflow: auto;
+}
+
+search-result-layout>#searchResultTable>vaadin-grid {
+    height: 100%;
+}
+
+search-result-layout>#searchResultCount {
+    align-self: flex-end;
+}
+

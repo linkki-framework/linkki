@@ -41,7 +41,7 @@ import org.linkki.samples.playground.bugs.lin3497.FrontendDependencyInjectionTes
 import org.linkki.samples.playground.bugs.lin3531.BindMessagesOnGridColumnsBug;
 import org.linkki.samples.playground.bugs.lin3846.ReactRouterTestView;
 import org.linkki.samples.playground.bugs.lin3884.EmptyLabelComponentsPmo;
-import org.linkki.samples.playground.ts.components.ComboBoxCaptionRefreshPmo;
+import org.linkki.samples.playground.ts.formelements.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.Component;

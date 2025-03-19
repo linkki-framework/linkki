@@ -14,30 +14,44 @@
 
 package org.linkki.samples.playground.application.custom;
 
-import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
+import org.linkki.framework.ui.application.UserAwareApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
 import org.linkki.samples.playground.application.custom.CustomApplicationConfig.CustomApplicationInfo;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
- * {@link ApplicationHeader} with an additional help <code>MenuItem</code> as well as a
+ * {@link UserAwareApplicationHeader} with an additional help <code>MenuItem</code> as well as a
  * {@link CustomApplicationInfoPmo custom application info dialog}.
  */
-public class CustomApplicationHeader extends ApplicationHeader {
+public class CustomApplicationHeader extends UserAwareApplicationHeader {
 
     private static final long serialVersionUID = 1L;
 
     public CustomApplicationHeader(ApplicationInfo applicationInfo,
             Sequence<ApplicationMenuItemDefinition> menuItemDefinitions) {
         super(applicationInfo, menuItemDefinitions);
+    }
+
+    @Override
+    public String getUsername() {
+        return "user";
+    }
+
+    @Override
+    protected void addUserMenuItems(MenuItem userMenu) {
+        addThemeVariantToggles(userMenu,
+                               ThemeVariantToggleMenuItemDefinition.LUMO_DARK,
+                               ThemeVariantToggleMenuItemDefinition.LINKKI_CARD,
+                               ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT);
+        super.addUserMenuItems(userMenu);
     }
 
     @Override
@@ -55,7 +69,7 @@ public class CustomApplicationHeader extends ApplicationHeader {
 
     @Override
     protected void addRightComponents(HorizontalLayout parent) {
-        parent.add(new Span("Custom Label"));
+        System.setProperty(PROPERTY_APPLICATION_ENVIRONMENT, "Custom Environment");
         super.addRightComponents(parent);
     }
 }

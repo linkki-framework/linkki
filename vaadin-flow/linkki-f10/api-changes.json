@@ -1,0 +1,28 @@
+{
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".*org\\.linkki\\..*",
+            ".*com\\.vaadin\\..*",
+            ".*javax\\.servlet\\..*",
+            ".*org\\.jsoup\\..*"
+          ],
+          "justification": "already handled in linkki"
+        }
+      }
+    }
+  ],
+  "25.1.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+        ]
+      }
+    }
+  ]
+}

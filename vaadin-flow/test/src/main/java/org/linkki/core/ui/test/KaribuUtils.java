@@ -32,7 +32,6 @@ import com.github.mvysny.kaributesting.v10.PrettyPrintTree;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -128,9 +127,16 @@ public class KaribuUtils {
      * Prints out the given component.
      */
     public static String printComponentTree(Component component) {
-        var tree = PrettyPrintTree.Companion.ofVaadin(component).print();
+        var tree = getComponentTree(component);
         LOGGER.info(tree);
         return tree;
+    }
+
+    /**
+     * Gets the DOM of the given {@link Component component} in a hierarchical order
+     */
+    public static String getComponentTree(Component component) {
+        return PrettyPrintTree.Companion.ofVaadin(component).print();
     }
 
     /**
@@ -138,9 +144,11 @@ public class KaribuUtils {
      */
     @SuppressWarnings("RedundantExplicitVariableType")
     public static String getTextContent(Component component) {
-        return component instanceof HasText hasText ? hasText.getText()
-                : component instanceof HasValue<?, ?> hasValue ? (String)hasValue.getValue()
-                : component.getElement().getText();
+        if (component instanceof HasValue<?, ?> hasValue) {
+            return String.valueOf(hasValue.getValue());
+        } else {
+            return component.getElement().getTextRecursively();
+        }
     }
 
     /**
@@ -189,6 +197,11 @@ public class KaribuUtils {
             LocatorJ._fireValueChange(field, true);
         }
 
+        /**
+         * To set the value of a field in a parent layout, use
+         * {@link #getWithId(Component, Class, String)} with
+         * {@link #setValue(AbstractField, Object)} instead.
+         */
         public static <C extends AbstractField<C, T>, T> void setValue(Class<C> clazz,
                 String id,
                 T value) {

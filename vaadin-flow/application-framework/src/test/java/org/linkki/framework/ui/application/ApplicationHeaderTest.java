@@ -14,14 +14,17 @@
 
 package org.linkki.framework.ui.application;
 
+import static com.github.mvysny.kaributesting.v10.LocatorJ._assertOne;
+import static com.github.mvysny.kaributesting.v10.LocatorJ._click;
+import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition.LINKKI_CARD;
 import static org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.ui.test.KaribuUIExtension;
+import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.nls.NlsText;
@@ -29,12 +32,51 @@ import org.linkki.util.Sequence;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 @ExtendWith(KaribuUIExtension.class)
 class ApplicationHeaderTest {
+
+    @Test
+    void testGetEnvironmentLabel_LinkkiApplicationEnvironment() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        System.setProperty(ApplicationHeader.PROPERTY_APPLICATION_ENVIRONMENT, "TestApplication");
+
+        assertThat(header.getEnvironmentLabel()).isEqualTo("TestApplication");
+        System.clearProperty(ApplicationHeader.PROPERTY_APPLICATION_ENVIRONMENT);
+    }
+
+    @Test
+    void testGetEnvironmentLabel_F10ApplicationEnvironment() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        System.setProperty(ApplicationHeader.PROPERTY_F10_APPLICATION_ENVIRONMENT, "TestApplication");
+
+        assertThat(header.getEnvironmentLabel()).isEqualTo("TestApplication");
+        System.clearProperty(ApplicationHeader.PROPERTY_F10_APPLICATION_ENVIRONMENT);
+    }
+
+    @Test
+    void testGetEnvironmentLabel_NoPropertySet() {
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        assertThat(header.getEnvironmentLabel()).isNull();
+    }
+
+    @Test
+    void testCreateApplicationEnvironmentLabel() {
+        System.setProperty(ApplicationHeader.PROPERTY_APPLICATION_ENVIRONMENT, "TestApplication");
+        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+
+        header.init();
+
+        var label = header.getContent().getComponentAt(1).getElement().getChild(0);
+        assertThat(label.getProperty("innerHTML")).isEqualTo("TestApplication");
+    }
 
     @Test
     void testLeftMenu() {
@@ -142,10 +184,19 @@ class ApplicationHeaderTest {
 
     @Test
     void testShowApplicationInfo() {
-        ApplicationHeader header = new ApplicationHeader(new TestApplicationInfo(), Sequence.empty());
+        var applicationInfo = new TestApplicationInfo();
+        var header = new ApplicationHeader(applicationInfo, Sequence.empty());
+        header.init();
 
-        // Is is technically difficult to check if a dialog is opened...
-        Assertions.assertDoesNotThrow(() -> header.showApplicationInfo());
+        _click(_get(header, MenuItem.class, spec -> spec.withId("appmenu-help")));
+        _click(_get(header, MenuItem.class, spec -> spec.withId("appmenu-info")));
+
+        _assertOne(Dialog.class);
+        var dialogContent = KaribuUtils.getComponentTree(_get(Dialog.class));
+        assertThat(dialogContent)
+                .contains(applicationInfo.getApplicationName())
+                .contains(applicationInfo.getApplicationVersion())
+                .contains(applicationInfo.getApplicationDescription());
     }
 
     private static class TestApplicationInfo implements ApplicationInfo {

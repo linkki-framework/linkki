@@ -9,6 +9,20 @@
           ]
         }
       }
+    },
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "package": "org\\.linkki\\.util.*",
+            "justification": "linkki util API"
+          }
+        ]
+      }
     }
   ]
 }

@@ -27,6 +27,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.frontend.scanner.ClassFinder.DefaultClassFinder;
+import com.vaadin.flow.server.frontend.scanner.CssData;
 import com.vaadin.flow.server.frontend.scanner.FrontendDependencies;
 
 /**
@@ -36,16 +37,13 @@ import com.vaadin.flow.server.frontend.scanner.FrontendDependencies;
  * dependencies. This test verifies the scanner works with a class structure typical for
  * applications built with linkki.
  */
-public class FrontendDependencyImportTest {
+class FrontendDependencyImportTest {
 
     @Test
     void testUILabel() {
         var imports = getImports(LinkRoute.class);
 
-        // imported by LinkkiText
-        assertThat(imports).contains("./src/linkki-text.ts");
-        // imported by HasIcon
-        assertThat(imports).contains("./styles/linkki-has-icon.css");
+        assertThat(imports).contains("./src/linkki-text.ts", "./styles/linkki-has-icon.css");
     }
 
     @Route
@@ -69,7 +67,7 @@ public class FrontendDependencyImportTest {
                 .forEach((k, v) -> imports.addAll(v));
         dependencies.getCss().entrySet().stream()
                 .flatMap(e -> e.getValue().stream())
-                .map(css -> css.getValue())
+                .map(CssData::getValue)
                 .forEach(imports::add);
 
         return imports;

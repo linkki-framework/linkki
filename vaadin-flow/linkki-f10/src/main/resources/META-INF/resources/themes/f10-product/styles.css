@@ -1,0 +1,57 @@
+html {
+	
+	--f10-base-color: #ffffff;
+
+    /* Primary color, #005596 in HSL to calculate shades */
+	--f10-primary-color-h: 206;
+	--f10-primary-color-s: 100%;
+	--f10-primary-color-l: 30%;
+	
+	--f10-primary-color: hsl(var(--f10-primary-color-h), var(--f10-primary-color-s), var(--f10-primary-color-l));
+	
+	/* Calculate contrast color for primary color */
+	--f10-primary-contrast-color-threshold: 60%;
+	--f10-primary-contrast-color-switch: calc((var(--f10-primary-color-l) - var(--f10-primary-contrast-color-threshold)) * -100);
+	--f10-primary-contrast-color: hsl(0, 0%, var(--f10-primary-contrast-color-switch));
+	
+	--lumo-primary-color: var(--f10-primary-color);
+	--lumo-primary-color-50pct: hsla(var(--f10-primary-color-h), var(--f10-primary-color-s), calc(var(--f10-primary-color-l) + 1%), 0.76);
+	--lumo-primary-color-10pct: hsla(var(--f10-primary-color-h), var(--f10-primary-color-s), calc(var(--f10-primary-color-l) + 12%), 0.13);
+	
+	--lumo-base-color: var(--f10-base-color);
+	--lumo-primary-contrast-color: var(--f10-primary-contrast-color);
+	--lumo-primary-text-color: hsl(var(--f10-primary-color-h), var(--f10-primary-color-s), calc(var(--f10-primary-color-l) - 5%));
+  
+}
+
+[theme~='dark'] {
+
+	--f10-base-color: hsl(215, 40%, 15%);
+	
+	/* Primary color, #005596 in HSL to calculate shades */
+	--f10-primary-color-h: 206;
+	--f10-primary-color-s: 100%;
+	--f10-primary-color-l: 30%;
+	
+	--f10-primary-color: hsl(var(--f10-primary-color-h), var(--f10-primary-color-s), var(--f10-primary-color-l));
+	
+	/* Calculate contrast color for primary color */
+	--f10-primary-contrast-color-threshold: 60%;
+	--f10-primary-contrast-color-switch: calc((var(--f10-primary-color-l) - var(--f10-primary-contrast-color-threshold)) * -100);
+	--f10-primary-contrast-color: hsl(0, 0%, var(--f10-primary-contrast-color-switch));
+	
+	--lumo-primary-color: var(--f10-primary-color);
+	--lumo-primary-color-50pct: hsla(var(--f10-primary-color-h), var(--f10-primary-color-s), calc(var(--f10-primary-color-l) + 1%), 0.76);
+	--lumo-primary-color-10pct: hsla(var(--f10-primary-color-h), var(--f10-primary-color-s), calc(var(--f10-primary-color-l) + 12%), 0.13);
+	
+	--lumo-base-color: var(--f10-base-color);
+	--lumo-primary-contrast-color: var(--f10-primary-contrast-color);
+	--lumo-primary-text-color: hsl(var(--f10-primary-color-h), var(--f10-primary-color-s), min(100%, calc(var(--f10-primary-color-l) + 50%)));
+  
+	
+}
+
+.f10-application-environment {
+    color: var(--lumo-primary-contrast-color);
+    white-space: nowrap;
+}

@@ -28,26 +28,68 @@ The Vaadin version update brings some notable changes that affect linkki applica
 
 * Testbench: The method `WebElement#getAttribute` is deprecated and should be replaced with `WebElement#getDomAttribute`.
 
+==== Integration of linkki-f10 functionality into linkki
+
+`linkki-f10` is a library created by Faktor Zehn that provided additional linkki functionalities that are commonly used in Faktor Zehn products, but are not open source.
+With this version, classes in `linkki-f10` are fully integrated into linkki, making the code and documentation available at one place.
+
+As part of this transition, all classes in the `linkki-f10` module have been deprecated and replaced by corresponding functionality in the other modules of `linkki`.
+While this change requires action from most users, the migration mainly contains renaming of the packages in import.
+
+In addition to the changes in code, the documentation is now also moved to according sections at link:https://doc.linkki-framework.org[doc.linkki-framework.org].
+During this process, the documentation of the affected components has been reworked.
+
+===== Migration
+
+Most notable changes:
+
+* Functionality previously contained in the `linkki-f10-search` module has been integrated into the new <<linkki-search, `linkki-search-vaadin-flow`>> module.
+* The classes `F10ProductTheme`, `BoardComponent`, `BoardLayout`, `UIMenuList`, `UIMenuButton`, and `HierarchicalTableUtil` have been moved to `linkki-core-vaadin-flow`.
+* The classes `InfoTool`, `InfoToolsComponent`, `HasBrowserConfirmation`, and `NavigationWorkaround` have been moved to `linkki-application-framework-vaadin-flow`.
+* The functionality of `CommonApplicationHeader` was incorporated into <<application-header, `ApplicationHeader`>> and the newly introduced <<useraware-application-header,`UserAwareApplicationHeader`>>. Replace `CommonApplicationHeader` with `UserAwareApplicationHeader` if a user menu is needed and with `ApplicationHeader` otherwise.
+
+include::2_8_linkki_f10_migration.adoc[]
+
 ==== UI Annotations and Aspects
 
 [api-change]
 ===== Aspects with asynchronously loaded values
 
-It is now possible to create custom aspects that load values asynchronously with a `CompletableFuture`. The documentation for creating custom aspects is extended with a <<aspect-async,how-to guide for creating custom future aware aspects>>.
+It is now possible to create custom aspects that load values asynchronously with a `CompletableFuture`.
+The documentation for creating custom aspects is extended with a <<aspect-async,how-to guide for creating custom future aware aspects>>.
 
-Additionally, the frontend behaviors of `UILable` and `@UITableComponent` considering loading have been unified. This leads to following breaking changes in the frontend:
-* During loading, the `items-loading` (UITableComponent) / `value-loading` (UILabel) attributes are no longer set. Instead, the attribute `content-loading` is set.
+Additionally, the frontend behaviors of `UILabel` and `@UITableComponent` considering loading have been unified.
+This leads to following breaking changes in the frontend:
+* During loading, the `items-loading` (UITableComponent) / `value-loading` (UILabel) attributes are no longer set.
+Instead, the attribute `content-loading` is set.
 * The `has-errors` attribute has been renamed to `has-loading-error`.
 * The CSS property `error-messages` has been renamed to `loading-error-message`.
 * `@UILabel` components in a loading state no longer have the CSS class `loading`.
 
 Custom CSS selectors that utilize the above attributes / CSS Properties must be adjusted accordingly.
 
+===== UIHeadline
+A new UI component, `@UIHeadline`, is now available, providing a way to easily create <<headline, headlines>> that only display text.
+
+===== UIMenuList and UIButton
+New UI components, `@UIMenuList` and `@UIMenuButton`, are now available, providing a way to create <<ui-menulist, buttons in menus>> that can expand a menu list or execute an action, while maintaining a consistent look and feel.
+
 ==== Other Improvements
 
 * *New documentation chapter - How-To* +
 Introduced a <<linkki-howto, How-To>> chapter containing coding examples and best practises.
 
+* *Relocation of UINestedComponent* +
+`UINestedComponent` has been moved from `linkki-core-nestedcomponent-vaadin-flow` to `linkki-core-vaadin-flow`. The module `linkki-core-nestedcomponent-vaadin-flow` has been removed.
+
+* *Conditions for AssertJ* +
+The utility class <<component-conditions, `ComponentConditions`>> providing UI specific conditions for AssertJ has been added to `linkki-vaadin-flow-test` to support writing more readable assertions.
+
+* *Component Tree Representation* +
+A new representation class, `ComponentTreeRepresentation`, has been added to provide a more expressive representation of components in AssertJ assertions.
+
+* *Added Functionality in KaribuUtils* +
+`KaribuUtils#getTextContent` now also returns the text content of layout elements. Additionally, the component tree can now be returned without printing it using `KaribuUtils#getComponentTree`.
 
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248

@@ -24,6 +24,12 @@
           {
             "regex": true,
             "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.assertj\\.core\\..*",
+            "justification": "AssertJ is used in the API"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
             "new": ".* com\\.github\\.mvysny\\.kaributesting\\..*",
             "justification": "Karibu is used in the API"
           },
@@ -50,12 +56,6 @@
             "code": "java.class.externalClassExposedInAPI",
             "package": "org\\.linkki\\.core.*",
             "justification": "linkki core API"
-          },
-          {
-            "regex": true,
-            "code": "java.annotation.attributeValueChanged",
-            "annotationType": "kotlin\\.Metadata",
-            "attribute": "mv"
           }
         ]
       }

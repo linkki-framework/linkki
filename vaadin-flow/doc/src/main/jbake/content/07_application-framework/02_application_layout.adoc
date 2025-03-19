@@ -8,9 +8,12 @@
 [[application-layout]]
 === ApplicationLayout
 
-When using *linkki Application Framework*, all views should be displayed in a customized `ApplicationLayout` which provides the application frame. Therefore, the first step to use application framework is to create a subclass of `ApplicationLayout`.
+When using *linkki Application Framework*, all views should be displayed in a customized `ApplicationLayout` which provides the application frame.
+Therefore, the first step to use application framework is to create a subclass of `ApplicationLayout`.
 
-The main purpose of this class is to hold the custom implementation of <<application-config, ApplicationConfig>> in which the application frame is configured. This custom implementation can be passed to the super constructor. The implementation of `ApplicationLayout` itself should have a default constructor which makes it usable as a https://vaadin.com/docs/latest/flow/routing/layout[RouterLayout].
+The main purpose of this class is to hold the custom implementation of <<application-config, ApplicationConfig>> in which the application frame is configured.
+This custom implementation can be passed to the super constructor.
+The implementation of `ApplicationLayout` itself should have a default constructor which makes it usable as a https://vaadin.com/docs/latest/flow/routing/layout[RouterLayout].
 
 .Example ApplicationLayout
 [source,java]
@@ -20,7 +23,7 @@ include::{source-dir}/org/linkki/samples/playground/ui/PlaygroundAppLayout.java[
 
 The `ApplicationLayout` surrounds the view with an <<application-header,`ApplicationHeader`>> and an optional `ApplicationFooter`.
 
-The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side. 
+The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side.
 
 The footer is hidden by default and can simply contain some application info.
 
@@ -29,29 +32,45 @@ Between `ApplicationHeader` and `ApplicationFooter` is the main area that displa
 [[application-config]]
 ==== Application Configuration
 
-The main aspects of the application are configured using the `ApplicationConfig`. This interface needs to be implemented once in every *linkki* application and provided to the `ApplicationLayout`.
+The main aspects of the application are configured using the `ApplicationConfig`.
+This interface needs to be implemented once in every *linkki* application and provided to the `ApplicationLayout`.
 Furthermore, a <<linkki-converter-registry, Converter Registry>> is defined there, which defines how to convert values in the UI components.
 
 [[application-info]]
 ===== ApplicationInfo
 
-`ApplicationConfig` refers to an `ApplicationInfo`, which defines basic information about the application, such as name and copyright. Furthermore, parts of an `ApplicationLayout` are configured by the `ApplicationConfig`, such as the header, footer, as well as converters that should be used to convert values between UI and the underlying model.
+`ApplicationConfig` refers to an `ApplicationInfo`, which defines basic information about the application, such as name and copyright.
+Furthermore, parts of an `ApplicationLayout` are configured by the `ApplicationConfig`, such as the header, footer, as well as converters that should be used to convert values between UI and the underlying model.
 
 [[application-header]]
 ===== Application Header
 
-`ApplicationConfig#getApplicationHeader` configures the application header. An `ApplicationHeader` consists of two menu bars: one on the left, and one on the right. 
+`ApplicationConfig#getApplicationHeader` configures the application header.
+An `ApplicationHeader` consists of two menu bars: one on the left, and one on the right.
+Additionally, if the property `linkki.application-environment` is set in the environment, its value is displayed next to the right menu bar.
 
-The menu actions on the left are directly defined in the Application Configuration by the method <<application-menu-item-definition, getMenuItemDefinitions>>. 
+The menu actions on the left are directly defined in the Application Configuration by the method <<application-menu-item-definition, getMenuItemDefinitions>>.
 
-The menu bar on the right contains a help menu by default. In the help menu, a sub menu item displays the <<application-info, ApplicationInfo>> in a dialog. The right menu can be customized as follows:
+The menu bar on the right contains a help menu by default.
+In the help menu, a sub menu item displays the <<application-info, ApplicationInfo>> in a dialog.
+The right menu can be customized as follows:
 
 . Create a custom subclass of `ApplicationHeader`
 . In the subclass:
- * To customize items of the help menu, override `addHelpMenuItems`
- ** To add submenu items for toggling between different theme variants, use `addThemeVariantToggles(MenuItem, ThemeVariantToggleMenuItemDefinition...)`
- * To customize items of the menu bar, override `createRightMenuBar`
+* To customize items of the help menu, override `addHelpMenuItems`
+** To add submenu items for toggling between different theme variants, use `addThemeVariantToggles(MenuItem, ThemeVariantToggleMenuItemDefinition...)`
+* To customize items of the menu bar, override `createRightMenuBar`
 . Use the custom subclass in `ApplicationConfig#getHeaderDefinition`
+
+[[useraware-application-header]]
+For applications that require user-specific functionality in the header, `UserAwareApplicationHeader` extends `ApplicationHeader` by adding a user menu to the right menu bar.
+By default, this user menu displays the username and provides logout functionality.
+
+To customize the `UserAwareApplicationHeader`:
+
+* Override `getUsername` to define how the username is displayed.
+* Override `addUserMenuItems` to customize the user menu with additional items.
+* Override `getLogoutUrl` to specify a custom logout URL.
 
 [TIP]
 ====
@@ -64,7 +83,7 @@ The right menu and its items have the following IDs by default:
 | `appmenu-theme` | the theme variant submenu within the help menu
 |===
 
-As HTML IDs are very convenient for UI testing, custom items added to the menu should also set an ID. 
+As HTML IDs are very convenient for UI testing, custom items added to the menu should also set an ID.
 ====
 
 [TIP]
@@ -92,18 +111,28 @@ include::{source-dir}/org/linkki/samples/playground/ui/PlaygroundApplicationHead
 
 For creation, `ApplicationMenuItemDefinition` provides following constructors:
 
-* `ApplicationMenuItemDefinition(String, String, Handler)`: Name and ID of the menu and a `Handler` that is executed on click. 
-* `ApplicationMenuItemDefinition(String, String, List<ApplicationMenuItemDefinition>)`: Name and ID of the menu and a list of `ApplicationMenuItemDefinitions` as sub-menu items. Sub-menus are added in order as defined in the sub-menu list.
-* `ApplicationMenuItemDefinition(String, String, String)`: Name and ID of the menu and a URL as String to navigate to on click. This method handles both external and internal links.
-* `ApplicationMenuItemDefinition(String, String, Class<? extends Component>)`: Name and ID of the menu and a `Class` to navigate to. The given class should be a https://vaadin.com/docs/latest/flow/routing/route[route component].
+* `ApplicationMenuItemDefinition(String, String, Handler)`: Name and ID of the menu and a `Handler` that is executed on click.
+* `ApplicationMenuItemDefinition(String, String, List<ApplicationMenuItemDefinition>)`: Name and ID of the menu and a list of `ApplicationMenuItemDefinitions` as sub-menu items.
+Sub-menus are added in order as defined in the sub-menu list.
+* `ApplicationMenuItemDefinition(String, String, String)`: Name and ID of the menu and a URL as String to navigate to on click.
+This method handles both external and internal links.
+* `ApplicationMenuItemDefinition(String, String, Class<? extends Component>)`: Name and ID of the menu and a `Class` to navigate to.
+The given class should be a https://vaadin.com/docs/latest/flow/routing/route[route component].
 
 [[anchor-appmenu-id]]
-TIP: The ID of the menu item is used as ID of the HTML element in the DOM. This makes it easier to navigate through the menu in UI tests. +
-The old versions of these constructors without an parameter for the ID have been deprecated. If they are still used the ID of the menu is derived from the name and converted to an appropriate format with the prefix `appmenu-`.
+TIP: The ID of the menu item is used as ID of the HTML element in the DOM.
+This makes it easier to navigate through the menu in UI tests. +
+The old versions of these constructors without an parameter for the ID have been deprecated.
+If they are still used the ID of the menu is derived from the name and converted to an appropriate format with the prefix `appmenu-`.
 
-More complex menu items can be implemented by creating menu item definitions directly instead of inheriting. If the implementation needs to be customizable, it can be easily done by composing `ApplicationMenuItems`.
+More complex menu items can be implemented by creating menu item definitions directly instead of inheriting.
+If the implementation needs to be customizable, it can be easily done by composing `ApplicationMenuItems`.
 
-The following example uses a factory class to create the menu. A menu item contains one sub-menu item with caption "New". If only one sub-sub-menu item is given, the sub-menu-item shows a notification on click (caption -> New). If multiple sub-sub-menu items are given, those are shown in the sub-menu item (caption -> New -> sub-sub-menu items). This can be used in `ApplicationConfig#getMenuItemDefinitions()`
+The following example uses a factory class to create the menu.
+A menu item contains one sub-menu item with caption "New".
+If only one sub-sub-menu item is given, the sub-menu-item shows a notification on click (caption -> New).
+If multiple sub-sub-menu items are given, those are shown in the sub-menu item (caption -> New -> sub-sub-menu items).
+This can be used in `ApplicationConfig#getMenuItemDefinitions()`
 
 .CustomMenuItemDefinitionCreator
 [source,java]
@@ -113,7 +142,7 @@ include::{source-dir}/org/linkki/samples/playground/application/custom/CustomMen
 
 To add a `MenuItem` when to your own `ApplicationMenu` or `SubMenu` the following methods can be used:
 
-* `createItem(ApplicationMenu)`: Creates and adds a `MenuItem` to the given `ApplicationMenu`. 
+* `createItem(ApplicationMenu)`: Creates and adds a `MenuItem` to the given `ApplicationMenu`.
 * `createItem(SubMenu)`: Creates and adds a `MenuItem` to the given `SubMenu`.
 
 .ApplicationMenu

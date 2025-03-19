@@ -42,6 +42,7 @@
         <module>tutorial</module>
         <module>getting-started</module>
         <module>test-playground</module>
+        <module>linkki-f10-sample</module>
     </modules>
 
     <dependencyManagement>
