@@ -14,17 +14,17 @@
 
 package org.linkki.framework.ui;
 
-import static com.github.mvysny.kaributesting.v10.LocatorJ._assertNone;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._assertOne;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Fail.fail;
 import static org.linkki.framework.ui.NavigationWorkaround.navigateToPage;
 
 import java.io.Serial;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,17 +33,20 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.core.ui.test.ComponentTreeRepresentation;
 import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
+import org.linkki.util.handler.Handler;
 
 import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.github.mvysny.kaributesting.v10.Routes;
-import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.BeforeLeaveEvent;
 import com.vaadin.flow.router.BeforeLeaveObserver;
 import com.vaadin.flow.router.QueryParameters;
@@ -51,7 +54,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParameters;
 
 /**
- * Tests a {@link NavigationWorkaround} for a known Vaadin bug <a href="https://github.com/vaadin/flow/issues/16984">.
+ * Tests a {@link NavigationWorkaround} for a known Vaadin bug
+ * <a href="https://github.com/vaadin/flow/issues/16984">.
  */
 class NavigationWorkaroundTest {
 
@@ -74,14 +78,14 @@ class NavigationWorkaroundTest {
     void setupVaadin() {
         MockVaadin.setup(new Routes(
                 Stream.of(NavigationWorkaround.RedirectionPage.class,
-                                StartView.class,
-                                ViewWithRouteParam.class,
-                          ViewWithoutRouteParam.class,
-                          ViewForBug.class,
-                          ViewForWorkaround.class)
+                          StartView.class,
+                          ViewWithRouteParam.class,
+                          ViewWithoutRouteParam.class)
                         .collect(Collectors.toSet()),
                 Collections.emptySet(), true));
-        assertThat(UI.getCurrent().getSession().getConfiguration().isReactEnabled()).isFalse();
+        assertThat(UI.getCurrent().getSession().getConfiguration().isReactEnabled())
+                .as("React should be disabled as this bug should only occur with react disabled")
+                .isFalse();
     }
 
     @AfterEach
@@ -91,38 +95,68 @@ class NavigationWorkaroundTest {
 
     @Test
     void testBugReproduction() {
+        try {
+            navigateToSamePathTwice(() -> UI.getCurrent().navigate("view/new"));
+            fail("Navigating to same path twice should lead to assert error if the bug still exists. " +
+                    "If this failure occurs because the bug was fixed, the NavigationWorkaround class can be deprecated.");
+        } catch (AssertionError e) {
+            assertThat(e.getMessage())
+                    .as("With the Vaadin bug, the second time navigating to the same path should not trigger a dialog before leave."
+                            +
+                            "If the assert error occurs at a different place, the test setup is probably not correct.")
+                    .contains("Second time: Navigating to exactly the same path should trigger before leave");
+        }
+    }
 
-        UI.getCurrent().navigate("view4/1");
+    /**
+     * Navigates two times to the same path and checks whether the path was loaded correctly and that a dialog
+     * is triggered upon leaving.
+     */
+    static void navigateToSamePathTwice(Handler navigateToViewNew) {
+        UI.getCurrent().navigate("view/new");
+        _get(TextField.class).setValue("value before 1. navigation");
 
-        _get(Button.class).click();
-        _assertOne(Dialog.class);
+        navigateToViewNew.apply();
+        assertThat(UI.getCurrent())
+                .withRepresentation(new ComponentTreeRepresentation())
+                .as("First time: Navigating to exactly the same path should trigger a dialog before leave")
+                .satisfies(ui -> {
+                    _assertOne(Dialog.class);
+                    assertThat(_get(TextField.class).getValue()).isNotBlank();
+                });
         KaribuUtils.Dialogs.clickOkButton();
+        assertThat(_get(TextField.class).getValue())
+                .as("""
+                        beforeLeaveEvent#proceed should work correctly.
+                        This triggers a new navigation to the view, which creates a new text field with empty value.
+                        """)
+                .isBlank();
 
-        assertThatUIIsNavigatedTo(ViewForBug.class, "view4/1");
+        navigateToViewNew.apply();
+        _get(TextField.class).setValue("value before 2. navigation");
 
-        _get(Button.class).click();
-
-        // at this point the dialog doesn't open because the navigation was not triggered and
-        // therefore the beforeLeave is not called
-        _assertNone(Dialog.class);
+        assertThat(UI.getCurrent())
+                .withRepresentation(new ComponentTreeRepresentation())
+                .as("Second time: Navigating to exactly the same path should trigger before leave")
+                .satisfies(ui -> {
+                    _assertOne(Dialog.class);
+                    assertThat(_get(TextField.class).getValue()).isNotBlank();
+                });
+        KaribuUtils.Dialogs.clickOkButton();
+        assertThat(_get(TextField.class).getValue())
+                .as("""
+                        beforeLeaveEvent#proceed should work correctly.
+                        This triggers a new navigation to the view, which creates a new text field with empty value.
+                        """)
+                .isBlank();
     }
 
     @Test
     void testWorkaround() {
-
-        UI.getCurrent().navigate("view4/2");
-
-        _get(Button.class).click();
-        _assertOne(Dialog.class);
-        KaribuUtils.Dialogs.clickOkButton();
-
-        assertThatUIIsNavigatedTo(ViewForWorkaround.class, "view4/2");
-
-        _get(Button.class).click();
-        _assertOne(Dialog.class);
-        KaribuUtils.Dialogs.clickOkButton();
-
-        assertThatUIIsNavigatedTo(ViewForWorkaround.class, "view4/2");
+        assertThatNoException()
+                .as("If navigating to the same path fails even if react is enabled, the test setup is probably not correct.")
+                .isThrownBy(() -> navigateToSamePathTwice(() -> NavigationWorkaround
+                        .navigateToPage(StartView.class, new RouteParameters(Map.of("path", "new")))));
     }
 
     @Test
@@ -207,7 +241,7 @@ class NavigationWorkaroundTest {
      * Checks that the currently opened view equals the expected navigation result.
      *
      * @param targetClass the expected concrete class of the component
-     * @param targetPath  the expected target path
+     * @param targetPath the expected target path
      */
     private void assertThatUIIsNavigatedTo(Class<? extends Component> targetClass, String targetPath) {
         // Make sure the rerouting is finished
@@ -221,12 +255,19 @@ class NavigationWorkaroundTest {
         assertThat(pathWithQuery).isEqualTo(targetPath);
     }
 
-    @Route(value = "view/:path(path1|path2)")
-    public static class StartView extends Div implements BeforeLeaveObserver {
+    @Route(value = "view/:path(path1|path2|new)")
+    public static class StartView extends Div implements BeforeEnterObserver, BeforeLeaveObserver {
         @Serial
         private static final long serialVersionUID = 1L;
 
         private boolean showLeaveConfirmation = true;
+
+        @Override
+        public void beforeEnter(BeforeEnterEvent event) {
+            showLeaveConfirmation = true;
+            removeAll();
+            add(new TextField());
+        }
 
         @Override
         public void beforeLeave(BeforeLeaveEvent event) {
@@ -251,48 +292,4 @@ class NavigationWorkaroundTest {
         @Serial
         private static final long serialVersionUID = 1L;
     }
-
-    @Route(value = "view4/1")
-    public static class ViewForBug extends TestView {
-        @Serial
-        private static final long serialVersionUID = 1L;
-
-        public ViewForBug() {
-            super(e -> UI.getCurrent().navigate(ViewForBug.class));
-        }
-    }
-
-    @Route(value = "view4/2")
-    public static class ViewForWorkaround extends TestView {
-        @Serial
-        private static final long serialVersionUID = 1L;
-
-        public ViewForWorkaround() {
-            super(e -> NavigationWorkaround.navigateToPage(ViewForWorkaround.class));
-        }
-    }
-
-    abstract static class TestView extends Div implements BeforeLeaveObserver {
-        @Serial
-        private static final long serialVersionUID = 1L;
-
-        public TestView(Consumer<ClickEvent<?>> clickHandler) {
-            add(new Button("Navigate", clickHandler::accept));
-        }
-
-        @Override
-        public void beforeLeave(BeforeLeaveEvent event) {
-            var action = event.postpone();
-            var dialog = new Dialog();
-            var okButton = new Button("Proceed", e -> {
-                action.proceed();
-                dialog.close();
-            });
-            okButton.setId("okButton");
-            dialog.add(okButton);
-            dialog.open();
-        }
-
-    }
-
 }

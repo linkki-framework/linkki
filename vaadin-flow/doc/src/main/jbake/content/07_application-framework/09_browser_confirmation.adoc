@@ -21,6 +21,9 @@ The deactivation, however, is already handled by `HasBrowserConfirmation` and de
 The confirmation is only shown when refreshing the browser or navigating outside the application. Navigations within the application showing similar confirmations must be handled separately. Ideally,
 this is also implemented using the `BeforeLeaveObserver` interface and within the `beforeLeave` method. In this method, the `BeforeLeaveEvent#postpone` method can be used on the given event to interrupt the navigation and continue using `ContinueNavigationAction#proceed()` if confirmed by the user.
 
+[WARNING]
+Note that due to a known issue, navigating to the same path twice would not trigger the before leave event. To mitigate this issue, `NavigationWorkaround` class can be used instead of `UI#navigate`.
+
 Further relevant information regarding the https://vaadin.com/docs/latest/flow/routing/lifecycle[Navigation Lifecycle] can be found within the Vaadin documentation.
 
 An example implementation can be found in the `SampleBrowserConfirmationView` class.
