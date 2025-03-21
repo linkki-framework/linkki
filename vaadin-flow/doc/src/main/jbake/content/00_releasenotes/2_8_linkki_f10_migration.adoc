@@ -17,12 +17,14 @@ Some components of `linkki-f10` are moved to `linkki-core-vaadin-flow`:
 |de.faktorzehn.commons.linkki.board.*BoardComponent*|<<linkkiboardlayout, *org.linkki.core.vaadin.component*.board.BoardComponent>>
 |de.faktorzehn.commons.linkki.board.*BoardLayout*|<<linkkiboardlayout, *org.linkki.core.vaadin.component.board*.BoardLayout>>
 |de.faktorzehn.commons.linkki.ui.menu.*UIMenuButton*|<<ui-menulist, *org.linkki.core.ui.element.annotation*.UIMenuButton>>
+|de.faktorzehn.commons.linkki.ui.menu.*MenuButtonInvokeAspectDefinition*|*org.linkki.core.ui.element.annotation.UIMenuButton*.MenuButtonInvokeAspectDefinition
 |de.faktorzehn.commons.linkki.ui.menu.*UIMenuList*|<<ui-menulist, *org.linkki.core.ui.element.annotation*.UIMenuList>>
+|de.faktorzehn.commons.linkki.ui.menu.*MenuItemsAspectDefinition*|*org.linkki.core.ui.element.annotation.UIMenuList*.MenuItemsAspectDefinition
 |de.faktorzehn.commons.linkki.ui.table.*HierarchicalTableUtil*|<<ui-utilities-treegrid, *org.linkki.core.ui.table.util*.HierarchicalTableUtil>>
 |===
 =====
 
-The remaining components of `linkki-f10` are moved to `linkki-application-framework-vaadin-flow`
+Some components of `linkki-f10` are moved to `linkki-application-framework-vaadin-flow`
 
 .linkki-f10 classes that are moved to linkki-application-framework-vaadin-flow
 [%collapsible]
@@ -34,6 +36,18 @@ The remaining components of `linkki-f10` are moved to `linkki-application-framew
 |de.faktorzehn.commons.linkki.infotool.*InfoToolsComponent*|<<info-tools, *org.linkki.framework.ui.component.infotool*.InfoToolsComponent>>
 |de.faktorzehn.commons.linkki.ui.confirm.*HasBrowserConfirmation*|<<browser-confirmation, *org.linkki.framework.ui*.HasBrowserConfirmation>>
 |de.faktorzehn.commons.linkki.workaround.*NavigationWorkaround*|*org.linkki.framework.ui*.NavigationWorkaround
+|===
+=====
+
+The remaining components of `linkki-f10` are moved to `linkki-vaadin-flow-component`:
+
+.linkki-f10 classes that are moved to linkki-vaadin-flow-component
+[%collapsible]
+=====
+[cols="a,a"]
+|===
+|de.faktorzehn.commons.linkki.ui.menu.*SingleItemMenuBar*|*org.linkki.core.vaadin.component.menu*.SingleItemMenuBar
+|de.faktorzehn.commons.linkki.ui.menu.*MenuItemDefinition*|*org.linkki.core.vaadin.component.menu*.MenuItemDefinition
 |===
 =====
 

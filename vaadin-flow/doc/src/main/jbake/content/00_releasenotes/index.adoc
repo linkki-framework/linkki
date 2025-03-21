@@ -46,6 +46,7 @@ Most notable changes:
 * Functionality previously contained in the `linkki-f10-search` module has been integrated into the new <<linkki-search, `linkki-search-vaadin-flow`>> module.
 * The classes `F10ProductTheme`, `BoardComponent`, `BoardLayout`, `UIMenuList`, `UIMenuButton`, and `HierarchicalTableUtil` have been moved to `linkki-core-vaadin-flow`.
 * The classes `InfoTool`, `InfoToolsComponent`, `HasBrowserConfirmation`, and `NavigationWorkaround` have been moved to `linkki-application-framework-vaadin-flow`.
+* The classes `SingleItemMenuBar` and `MenuItemDefinition` have been moved to `linkki-vaadin-flow-component`.
 * The functionality of `CommonApplicationHeader` was incorporated into <<application-header, `ApplicationHeader`>> and the newly introduced <<useraware-application-header,`UserAwareApplicationHeader`>>. Replace `CommonApplicationHeader` with `UserAwareApplicationHeader` if a user menu is needed and with `ApplicationHeader` otherwise.
 
 include::2_8_linkki_f10_migration.adoc[]
