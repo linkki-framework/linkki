@@ -16,7 +16,6 @@ package org.linkki.testbench;
 import static java.util.Objects.isNull;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
@@ -24,7 +23,6 @@ import java.util.logging.Logger;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
@@ -42,9 +40,7 @@ public enum BrowserType {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-search-engine-choice-screen");
 
-            Map<String, Object> prefs = new HashMap<>();
-            prefs.put("intl.accept_languages", locale.getLanguage());
-            options.setExperimentalOption("prefs", prefs);
+            options.setExperimentalOption("prefs", Map.of("intl.accept_languages", locale.getLanguage()));
 
             LoggingPreferences logs = new LoggingPreferences();
             logs.enable(LogType.PERFORMANCE, Level.ALL);
@@ -64,17 +60,15 @@ public enum BrowserType {
             options.addArguments("--headless=new");
             // supposed to solve "Time out receiving message from renderer: 600.000"
             options.addArguments("--disable-gpu");
+            options.setExperimentalOption("prefs", Map.of("intl.accept_languages", locale.getLanguage()));
 
             LoggingPreferences logs = new LoggingPreferences();
             logs.enable(LogType.PERFORMANCE, Level.ALL);
             options.setCapability("goog:loggingPrefs", logs);
 
-            Map<String, String> environment = new HashMap<>();
-            environment.put("LANGUAGE", locale.getLanguage() + "_" + locale.getCountry());
-            try (ChromeDriverService service = new ChromeDriverService.Builder().usingAnyFreePort()
-                    .withEnvironment(environment).build();) {
-                return new ChromeDriver(service, options);
-            }
+            var driver = new ChromeDriver(options);
+            LOGGER.info("Chrome driver version: " + driver.getCapabilities().getCapability("browserVersion"));
+            return new ChromeDriver(options);
         }
     };
 

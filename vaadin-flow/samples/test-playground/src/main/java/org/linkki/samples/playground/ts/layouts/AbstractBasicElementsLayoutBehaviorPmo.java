@@ -14,10 +14,13 @@
 
 package org.linkki.samples.playground.ts.layouts;
 
+import static org.linkki.samples.playground.ts.layouts.AbstractBasicElementsLayoutBehaviorPmo.CSS_CLASS;
+
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -26,6 +29,7 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UICheckboxes;
@@ -51,14 +55,15 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.textfield.PasswordField;
 
-@SuppressWarnings("deprecation")
+@BindStyleNames(CSS_CLASS)
 public abstract class AbstractBasicElementsLayoutBehaviorPmo {
 
+    public static final String CSS_CLASS = "test-layout";
+    public static final String CSS_CLASS_HEADER = "header-component";
     public static final String TEXT_FIELD_LONG_LABEL = "TextFieldWithALongExtendedLabel toTestLabelOverflowBehavior";
 
     private final Supplier<BasicElementsLayoutBehaviorModelObject> modelObject;
 
-    // behaviors to be tested
     private boolean readOnly;
     private boolean required;
     private boolean visible = true;
@@ -83,6 +88,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return modelObject.get();
     }
 
+    @BindStyleNames(CSS_CLASS_HEADER)
     @SectionHeader
     @UICheckBox(position = -90, caption = "required")
     public boolean isAllElementsRequired() {
@@ -93,6 +99,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         this.required = required;
     }
 
+    @BindStyleNames(CSS_CLASS_HEADER)
     @SectionHeader
     @UICheckBox(position = -80, caption = "read-only")
     public boolean isAllElementsReadOnly() {
@@ -103,6 +110,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         this.readOnly = readOnly;
     }
 
+    @BindStyleNames(CSS_CLASS_HEADER)
     @SectionHeader
     @UICheckBox(position = -70, caption = "visible")
     public boolean isAllElementsVisible() {
@@ -113,6 +121,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         this.visible = visible;
     }
 
+    @BindStyleNames(CSS_CLASS_HEADER)
     @SectionHeader
     @UICheckBox(position = -60, caption = "enabled")
     public boolean isAllElementsEnabled() {
@@ -354,7 +363,6 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsEnabled();
     }
 
-    @SuppressWarnings("deprecation")
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIComboBox(position = 60,
             label = "ComboBox", //
@@ -600,5 +608,13 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
 
     public boolean isWaitButtonEnabled() {
         return isAllElementsEnabled();
+    }
+
+    public MessageList validate() {
+        if (isAllElementsRequired()) {
+            return getModelObject().validate();
+        } else {
+            return new MessageList();
+        }
     }
 }

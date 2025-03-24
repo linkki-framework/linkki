@@ -216,20 +216,28 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
         tabLayout.getTabsComponent().setAutoselect(false);
         tabLayout.setId("test-scenario-selector");
         tabLayout.addTabSheets(
-                               // new test scenarios
                                TestScenario.id(TS001)
                                        .testCase(TC001, BasicElementsLayoutBehaviorUiSectionComponent::new)
                                        .testCase(TC002, () -> {
-                                           var component = VaadinUiCreator
-                                                   .createComponent(new BasicElementsLayoutBehaviorFormSectionPmo(),
-                                                                    new BindingContext(TC002));
+                                           var pmo = new BasicElementsLayoutBehaviorFormSectionPmo();
+                                           var bindingContext = new DefaultBindingManager(pmo::validate)
+                                                   .getContext(pmo.getClass());
+                                           var component = VaadinUiCreator.createComponent(pmo, bindingContext);
                                            ComponentStyles.setFormItemLabelWidth(component, "200px");
                                            return component;
                                        })
-                                       .testCase(TC003, new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
-                                       .testCase(TC004, new BasicElementsLayoutBehaviorVerticalLayoutPmo())
-                                       .testCase(TC005, new BasicElementsLayoutBehaviorFormLayoutPmo())
-                                       .testCase(TC006, new BasicElementsLayoutBehaviorCssLayoutPmo())
+                                       .testCaseWithValidation(TC003,
+                                                               new BasicElementsLayoutBehaviorHorizontalLayoutPmo(),
+                                                               BasicElementsLayoutBehaviorHorizontalLayoutPmo::validate)
+                                       .testCaseWithValidation(TC004,
+                                                               new BasicElementsLayoutBehaviorVerticalLayoutPmo(),
+                                                               BasicElementsLayoutBehaviorVerticalLayoutPmo::validate)
+                                       .testCaseWithValidation(TC005,
+                                                               new BasicElementsLayoutBehaviorFormLayoutPmo(),
+                                                               BasicElementsLayoutBehaviorFormLayoutPmo::validate)
+                                       .testCaseWithValidation(TC006,
+                                                               new BasicElementsLayoutBehaviorCssLayoutPmo(),
+                                                               BasicElementsLayoutBehaviorCssLayoutPmo::validate)
                                        .createTabSheet(),
                                TestScenario.id(TS002)
                                        .testCase(TC001, new SectionHeaderAnnotationPmo())

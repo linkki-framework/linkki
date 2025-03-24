@@ -17,7 +17,7 @@ package org.linkki.samples.playground.ts.layouts;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.layout.annotation.UICssLayout;
 
-@BindStyleNames("extraClass")
+@BindStyleNames({"extraClass", "test-layout"})
 @UICssLayout(styleNames = "borderLayout")
 public class BasicElementsLayoutBehaviorCssLayoutPmo extends AbstractBasicElementsLayoutBehaviorPmo {
     // no content needed

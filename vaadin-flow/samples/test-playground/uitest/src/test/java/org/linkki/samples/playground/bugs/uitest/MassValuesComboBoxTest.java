@@ -30,7 +30,7 @@ import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 public class MassValuesComboBoxTest extends AbstractLinkkiUiTest {
 
     @Test
-    public void testValueOnRefreshWithSameAvailbleValues() {
+    public void testValueOnRefreshWithSameAvailableValues() {
         goToView(BugCollectionView.ROUTE);
         openTab(MassValuesComboBoxPmo.CAPTION);
 

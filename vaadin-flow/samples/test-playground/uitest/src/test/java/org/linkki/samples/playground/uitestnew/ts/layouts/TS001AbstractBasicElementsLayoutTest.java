@@ -16,10 +16,13 @@ package org.linkki.samples.playground.uitestnew.ts.layouts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collection;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
+import org.linkki.samples.playground.ts.layouts.AbstractBasicElementsLayoutBehaviorPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject.SampleEnum;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
@@ -30,12 +33,15 @@ import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
+import com.vaadin.testbench.ElementQuery;
+import com.vaadin.testbench.TestBenchElement;
 
 abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
 
     private static final String ID_VISIBLE = "allElementsVisible";
     private static final String ID_REQUIRED = "allElementsRequired";
     private static final String ID_READ_ONLY = "allElementsReadOnly";
+    private static final String ID_ENABLED = "allElementsEnabled";
     private TestCaseComponentElement testCaseSection;
 
     @BeforeEach
@@ -44,6 +50,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
         testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_REQUIRED).setChecked(false);
         testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_VISIBLE).setChecked(true);
         testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_READ_ONLY).setChecked(false);
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_ENABLED).setChecked(true);
     }
 
     protected abstract String getTestCaseId();
@@ -54,72 +61,55 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_HasText() {
-        LinkkiTextElement label = testCaseSection.getContentWrapper()//
-                .$(LinkkiTextElement.class).id("textLabel");
+        var label = testCaseSection.getContentWrapper().$(LinkkiTextElement.class).id("textLabel");
+
         assertThat(label.getText()).isEqualTo("I am a text");
     }
 
     @Test
-    void testTextField_SetValue() {
-        TextFieldElement textField = testCaseSection.getContentWrapper()//
-                .$(TextFieldElement.class).id("text");
+    void testSetValue_TextField() {
+        var textField = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
+        var oldValue = textField.getValue();
 
-        // precondition
-        assertThat(textField.getValue()).isEqualTo("I am a text");
+        textField.sendKeys(Keys.END + " new");
 
-        // action
-        textField.sendKeys(Keys.END + " that was changed!");
-
-        // postcondition
-        assertThat(textField.getValue()).isEqualTo("I am a text that was changed!");
+        assertThat(textField.getValue()).isEqualTo(oldValue + " new");
     }
 
     @Test
-    void testTextArea_SetValue() {
-        TextAreaElement textArea = testCaseSection.getContentWrapper()//
+    void testSetValue_TextArea() {
+        var textArea = testCaseSection.getContentWrapper()
                 .$(TextAreaElement.class)
                 .id(BasicElementsLayoutBehaviorModelObject.PROPERTY_LONGTEXT);
-
-        // precondition
         assertThat(textArea.getValue()).startsWith("Lorem ipsum");
 
-        // action
         textArea.setValue("");
         textArea.sendKeys("bla bla");
 
-        // postcondition
         assertThat(textArea.getValue()).isEqualTo("bla bla");
     }
 
     @Test
-    void testCheckBox_IsCheckable() {
-        CheckboxElement checkBox = testCaseSection.getContentWrapper()//
+    void testSetValue_CheckBox() {
+        var checkBox = testCaseSection.getContentWrapper()
                 .$(CheckboxElement.class)
                 .id(BasicElementsLayoutBehaviorModelObject.PROPERTY_BOOLEANVALUE);
-
-        // precondition
         assertThat(checkBox.isChecked()).isTrue();
 
-        // action
         checkBox.click();
 
-        // postcondition
         assertThat(checkBox.isChecked()).isFalse();
     }
 
     @Test
-    void testRadioButtons_IsSelectable() {
-        RadioButtonGroupElement radioButtons = testCaseSection.getContentWrapper()//
+    void testSetValue_RadioButtons() {
+        var radioButtons = testCaseSection.getContentWrapper()
                 .$(RadioButtonGroupElement.class)
                 .id("enumValueRadioButton");
-
-        // precondition
         assertThat(radioButtons.getSelectedText()).isNull();
 
-        // action
         radioButtons.selectByText(SampleEnum.VALUE3.getName());
 
-        // postcondition
         assertThat(radioButtons.getSelectedText()).isEqualTo(SampleEnum.VALUE3.getName());
     }
 
@@ -135,54 +125,105 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
     }
 
     @Test
-    void testTextField_ReadOnly() {
+    void testReadOnly() {
+        var hasReadOnly = getFormInputs().all();
+        assertThat(hasReadOnly).withRepresentation(this::toElementTag).hasSize(15);
+        assertThat(hasReadOnly)
+                .withRepresentation(this::toElementTag)
+                .noneMatch(e -> e.hasAttribute("readonly"), "having the attribute readonly");
+
         testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_READ_ONLY).setChecked(true);
 
-        assertThat(testCaseSection.getContentWrapper().$(TextFieldElement.class).first().hasAttribute("readonly"))
-                .isTrue();
+        assertThat(hasReadOnly)
+                .withRepresentation(this::toElementTag)
+                .allMatch(e -> e.hasAttribute("readonly"), "having the attribute readonly");
     }
 
     @Test
-    void testTextField_DynamicRequired() {
-        TextFieldElement textFieldElement = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
+    void testDisabled() {
+        var hasEnabled = getFormInputs().all();
+        assertThat(hasEnabled).withRepresentation(this::toElementTag).hasSize(15);
+        assertThat(hasEnabled)
+                .withRepresentation(this::toElementTag)
+                .as("No input elements should have the attribute disabled")
+                .noneMatch(e -> e.hasAttribute("disabled"), "having the attribute disabled");
 
-        // precondition
-        assertThat(textFieldElement.hasAttribute("required")).isFalse();
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_ENABLED).setChecked(false);
 
-        // action
+        assertThat(hasEnabled)
+                .withRepresentation(this::toElementTag)
+                .allMatch(e -> e.hasAttribute("disabled"), "having the attribute disabled");
+    }
+
+    @Test
+    void testRequiredIndicator() {
+        var hasRequiredIndicator = getFormInputs().all();
+        assertThat(hasRequiredIndicator).withRepresentation(this::toElementTag).hasSize(15);
+        assertThat(hasRequiredIndicator)
+                .withRepresentation(this::toElementTag)
+                .noneMatch(e -> e.hasAttribute("required"), "having attribute required");
+
         testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_REQUIRED).setChecked(true);
 
-        // postcondition
-        assertThat(textFieldElement.hasAttribute("required")).isTrue();
+        assertThat(hasRequiredIndicator)
+                .withRepresentation(this::toElementTag)
+                .allMatch(e -> e.hasAttribute("required"), "having attribute required");
     }
 
     @Test
-    void testTextField_Visible() {
-        TextFieldElement textFieldElement = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
+    void testVisible() {
+        var components = getContentComponents().all();
+        assertThat(components).withRepresentation(this::toElementTag).hasSize(19);
 
-        // precondition
-        assertThat(textFieldElement.hasAttribute("hidden")).isFalse();
+        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_VISIBLE).setChecked(false);
 
-        // action
-        testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_VISIBLE).click();
-
-        // postcondition
-        assertThat(textFieldElement.getDomAttribute("hidden")).isEqualTo("true");
+        assertThat(components)
+                .withRepresentation(this::toElementTag)
+                .noneMatch(TestBenchElement::isDisplayed, "being displayed");
     }
 
     @Test
-    void testTextField_Required_Empty() {
-        TextFieldElement textFieldElement = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
+    void testDisplayValidation() {
+        var textFieldElement = testCaseSection.getContentWrapper().$(TextFieldElement.class).id("text");
 
-        // actions
         testCaseSection.getContentWrapper().$(CheckboxElement.class).id(ID_REQUIRED).setChecked(true);
         textFieldElement.setValue("");
         textFieldElement.sendKeys("\t");
 
-        // postcondition
         assertThat(textFieldElement.hasAttribute("invalid")).as("The presence of the attribute invalid").isTrue();
     }
 
-    // TODO LIN-2343 more tests for all other elements in this section?
+    private ElementQuery<TestBenchElement> getContentComponents() {
+        return testCaseSection.getContentWrapper()
+                .$(TestBenchElement.class)
+                .withCondition(TestBenchElement::isDisplayed)
+                .withClassName(AbstractBasicElementsLayoutBehaviorPmo.CSS_CLASS).single()
+                .$(TestBenchElement.class)
+                .withoutClassName(AbstractBasicElementsLayoutBehaviorPmo.CSS_CLASS_HEADER)
+                .withCondition(TestBenchElement::isDisplayed)
+                // somehow the div inside the shadow dom of a formlayout is found...
+                .withCondition(e -> !e.getTagName().equals("div"))
+                // all elements directly created with linkki have an ID
+                .withCondition(e -> e.hasAttribute("id"))
+                .withCondition(e -> !e.hasAttribute("slot"));
+    }
 
+    private ElementQuery<TestBenchElement> getFormInputs() {
+        return getContentComponents()
+                .withCondition(e -> e.getProperty("value") != null
+                        // multi select returns null if value is empty
+                        || e.getTagName().equals("vaadin-multi-select-combo-box"));
+    }
+
+    private String toElementTag(Object o) {
+        if (o instanceof Collection<?> collection) {
+            return collection.stream()
+                    .map(TestBenchElement.class::cast)
+                    .map(TestBenchElement::getTagName).toList().toString();
+        } else if (o instanceof TestBenchElement element) {
+            return element.getTagName();
+        } else {
+            return o.toString();
+        }
+    }
 }

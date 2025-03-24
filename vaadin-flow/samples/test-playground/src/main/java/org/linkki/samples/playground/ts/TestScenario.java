@@ -16,10 +16,13 @@ package org.linkki.samples.playground.ts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.manager.DefaultBindingManager;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
@@ -39,20 +42,23 @@ public class TestScenario {
         this.scenarioId = scenarioId;
     }
 
-    public TestScenario testCase(String testCaseId, Object pmo) {
-        tabSheets.add(LinkkiTabSheet.builder(testCaseId)
-                .caption(createTestCaseCaption(testCaseId, TestCatalog.getCaseTitle(scenarioId, testCaseId)))
-                .content(() -> new TestCaseComponent(scenarioId, testCaseId, pmo))
-                .build());
-        return this;
+    public <T> TestScenario testCaseWithValidation(String testCaseId, T pmo, Function<T, MessageList> validatePmo) {
+        return testCase(testCaseId, () -> {
+            var bindingContext = new DefaultBindingManager(() -> validatePmo.apply(pmo)).getContext(pmo.getClass());
+            return VaadinUiCreator.createComponent(pmo, bindingContext);
+        });
     }
 
     public TestScenario testCase(String testCaseId, Object... pmos) {
         Supplier<Component> componentSupplier = () -> {
-            var parent = new VerticalLayout();
-            Stream.of(pmos).map(o -> VaadinUiCreator.createComponent(o, new BindingContext()))
-                    .forEach(parent::add);
-            return parent;
+            var components = Stream.of(pmos)
+                    .map(o -> VaadinUiCreator.createComponent(o, new BindingContext()))
+                    .toArray(Component[]::new);
+            if (components.length > 1) {
+                return new VerticalLayout(components);
+            } else {
+                return components[0];
+            }
         };
         return testCase(testCaseId, componentSupplier);
     }
@@ -63,17 +69,6 @@ public class TestScenario {
                 .content(() -> new TestCaseComponent(scenarioId, testCaseId, componentSupplier.get()))
                 .build());
         return this;
-    }
-
-    /**
-     * Do not delete, otherwise passing a component would wrongly call
-     * {@link #testCase(String, Object)}.
-     * 
-     * @deprecated Use {@link #testCase(String, Supplier)} instead.
-     */
-    @Deprecated(since = "2.5.0")
-    public TestScenario testCase(String testCaseId, Component component) {
-        return testCase(testCaseId, () -> component);
     }
 
     public LinkkiTabSheet createTabSheet() {

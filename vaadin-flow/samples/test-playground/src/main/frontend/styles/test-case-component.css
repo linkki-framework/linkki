@@ -17,4 +17,5 @@ test-case-component > *[part="description"] {
 
 test-case-component #content-wrapper {
   flex-grow: 1;
+  overflow: auto;
 }

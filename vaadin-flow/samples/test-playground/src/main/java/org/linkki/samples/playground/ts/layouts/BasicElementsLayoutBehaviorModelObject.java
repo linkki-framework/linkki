@@ -17,10 +17,22 @@ package org.linkki.samples.playground.ts.layouts;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.faktorips.values.Decimal;
+import org.faktorips.values.ObjectUtil;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.MessageListCollector;
+import org.linkki.core.binding.validation.message.Severity;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class BasicElementsLayoutBehaviorModelObject {
 
@@ -171,4 +183,33 @@ public class BasicElementsLayoutBehaviorModelObject {
         this.enumValues = enumValues;
     }
 
+    public MessageList validate() {
+        return Stream.of(validateNotNull(PROPERTY_TEXT, this::getText),
+                         validateNotNull(PROPERTY_LONGTEXT, this::getLongText),
+                         validateNotNull(PROPERTY_DATE, this::getDate),
+                         validateNotNull(PROPERTY_DATE_TIME, this::getDateTime),
+                         validateNotNull(PROPERTY_SECRET, this::getSecret),
+                         validateNotNull(PROPERTY_BIG_DECIMAL, this::getBigDecimal),
+                         validateNotNull(PROPERTY_DECIMALVALUE, this::getDecimalValue),
+                         validateNotNull(PROPERTY_ENUMVALUE, this::getEnumValue),
+                         validateNotNull(PROPERTY_ENUMVALUES, this::getEnumValues))
+                .filter(Objects::nonNull)
+                .collect(MessageListCollector.toMessageList());
+    }
+
+    @CheckForNull
+    private Message validateNotNull(String property, Supplier<Object> getter) {
+        if (ObjectUtil.isNull(getter.get())
+                || (getter.get() instanceof String string && StringUtils.isBlank(string))) {
+            return Message.builder(property + " must not be null", Severity.ERROR)
+                    .invalidObjectWithProperties(this, property)
+                    .create();
+        } else if (getter.get() instanceof Collection<?> collection && collection.isEmpty()) {
+            return Message.builder(property + " must contain at least one value", Severity.ERROR)
+                    .invalidObjectWithProperties(this, property)
+                    .create();
+        } else {
+            return null;
+        }
+    }
 }

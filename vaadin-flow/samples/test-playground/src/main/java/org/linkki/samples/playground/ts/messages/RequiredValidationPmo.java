@@ -25,6 +25,7 @@ import org.linkki.core.ui.aspects.annotation.BindLabel;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,8 +33,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 @UIVerticalLayout
 public class RequiredValidationPmo {
     public static final String PROPERTY_TEXT_FIELD = "textField";
-    public static final String WITH_BINDING_MANAGER = "Required validation with binding manager";
-    public static final String WITHOUT_BINDING_MANAGER = "Required validation without binding manager";
+    public static final String WITH_BINDING_MANAGER = "withBindingManager";
+    public static final String WITHOUT_BINDING_MANAGER = "withoutBindingManager";
     @ModelObject
     private final RequiredTextFieldModelObject modelObject;
     private final String label;
@@ -54,18 +55,26 @@ public class RequiredValidationPmo {
     }
 
     public static Component createComponent() {
-
         var requiredValidationPmo = new RequiredValidationPmo(WITH_BINDING_MANAGER);
         var bindingManager = new DefaultBindingManager(requiredValidationPmo::validate);
-        Component requiredValidationWithBindingManager = VaadinUiCreator
+        var withBindingManager = VaadinUiCreator
                 .createComponent(requiredValidationPmo,
                                  bindingManager.getContext(RequiredValidationPmo.class));
+        withBindingManager.setId(WITH_BINDING_MANAGER);
 
-        Component requiredValidationWithoutBindingManager = VaadinUiCreator
+        var withoutBindingManager = VaadinUiCreator
                 .createComponent(new RequiredValidationPmo(WITHOUT_BINDING_MANAGER),
                                  new BindingContext());
-        return new VerticalLayout(requiredValidationWithoutBindingManager,
-                requiredValidationWithBindingManager);
+        withoutBindingManager.setId(WITHOUT_BINDING_MANAGER);
+
+        var allElementsPmo = new BasicElementsLayoutBehaviorUiSectionPmo();
+        allElementsPmo.setAllElementsRequired(true);
+
+        var layout = new VerticalLayout(withBindingManager, withoutBindingManager);
+        layout.add(VaadinUiCreator.createComponent(allElementsPmo,
+                                                   new BindingContext()));
+
+        return layout;
     }
 
     private MessageList validate() {
