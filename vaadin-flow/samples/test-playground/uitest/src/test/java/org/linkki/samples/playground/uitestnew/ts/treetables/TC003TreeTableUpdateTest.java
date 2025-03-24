@@ -35,7 +35,11 @@ class TC003TreeTableUpdateTest extends PlaygroundUiTest {
     @Test
     void testDeleteAllChildren_ChildrenMustBeVisibleWhenRecreated() {
         TreeGridElement table = $(TreeGridElement.class).id(TreeTableUpdateNodePmo.class.getSimpleName() + "_table");
+
         addChildRow(table);
+
+        assertThat(table.getRowCount(), is(3));
+
         table.expandWithClick(0);
 
         assertThat(table.getRowCount(), is(4));
