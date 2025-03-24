@@ -42,7 +42,8 @@ The *F10 theme* can be integrated in the same way as *linkki theme* and its name
 
 By default, a dark blue (hsl(206,100%,30%) / rgb(0,87,153) / #005799) is used as the primary color. This color is intended to be used in sample applications. In customer projects, however, it is often customized.
 
-To customize the primary color, a new theme must be created within the application, extending the *F10 theme* in the same way as *linkki theme*. A guide can be found under <<Customizing the *linkki* theme, Customizing the linkki theme>>.
+To customize the primary color, a new theme must be created within the application, extending the *F10 theme* in the same way as *linkki theme*.
+A guide can be found under <<customizing-linkki-theme, Customizing the linkki theme>>.
 
 [NOTE]
 In `theme.json`, set `"f10-product"` as the parent instead of `"linkki"`.

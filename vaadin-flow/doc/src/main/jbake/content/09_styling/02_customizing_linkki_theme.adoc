@@ -2,6 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
+[[customizing-linkki-theme]]
 === Customizing the *linkki* theme
 
 For general information, see the https://vaadin.com/docs/latest/styling/application-theme[Vaadin documentation on application themes].

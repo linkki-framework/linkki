@@ -85,7 +85,9 @@ If the Faktor-IPS *linkki* extension is used, the `FormattedStringToDecimalConve
 
 [[label-async]]
 Displaying asynchronously retrieved values::
-If the value is retrieved asynchronously, e.g. from a REST service, the value can be displayed with `UILabel` by using the return type `CompletableFuture`. The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/latest/building-apps/presentation-layer/server-push[Server Push] is enabled. Note that the result of the `CompletableFuture` must be <<label-conversion,convertible to a `String`>>.
+If the value is retrieved asynchronously, e.g. from a REST service, the value can be displayed with `UILabel` by using the return type `CompletableFuture`.
+The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/latest/building-apps/deep-dives/presentation-layer/server-push[Server Push] is enabled.
+Note that the result of the `CompletableFuture` must be <<label-conversion,convertible to a `String`>>.
 
 HTML Content::
 The label's content can be enhanced with HTML when the annotated method returns an `HtmlContent` object. The `HtmlContent` class provides access to a builder for creating HTML content. For common use cases, static methods are available to simplify `HtmlContent` creation.
