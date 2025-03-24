@@ -76,6 +76,11 @@
             "code": "java.method.addedToInterface",
             "new": "method void org.junit.jupiter.api.extension.ExtensionContext::publishFile(java.lang.String, org.junit.jupiter.api.extension.MediaType, org.junit.jupiter.api.function.ThrowingConsumer<java.nio.file.Path>)",
             "justification": "LIN-4225 Version update to 4.12.0"
+          },
+          {
+            "code": "java.method.addedToInterface",
+            "new": "method java.util.List<java.lang.Class<?>> org.junit.jupiter.api.extension.ExtensionContext::getEnclosingTestClasses()",
+            "justification": "LIN-4225 Version update to 5.12.1"
           }
         ]
       }
