@@ -10,7 +10,7 @@ pipeline {
         NETWORK_NAME = "network-${PROJECT_ID}"
         CONTAINER_RETENTION = 'permanent-on'
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
-        DEPLOYMENT_HOST = "linkki-${PROJECT_ID}.dockerhost.i.faktorzehn.de"
+        DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
         BASE_IMAGE = 'spring:24.7'
     }
@@ -54,7 +54,7 @@ pipeline {
                     <h3>Sample Deployments</h3>
                     <ul>
                         <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
-                        <li><a href='http://linkki-${PROJECT_ID}-linkki-f10-sample.dockerhost.i.faktorzehn.de/linkki-f10-sample/ui' target="_blank">Linkki F10 Sample</a></li>
+                        <li><a href='http://${PROJECT_ID}-linkki-f10-sample.dockerhost.i.faktorzehn.de/linkki-f10-sample/ui' target="_blank">Linkki F10 Sample</a></li>
                     </ul>
                 """
             }
