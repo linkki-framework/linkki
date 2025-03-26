@@ -93,6 +93,12 @@ If the value of the aspect may take longer to load, the whole UI would be blocke
 In this case, it may be sensible to define an aspect that accept `CompletableFuture` as return value, making the aspect value retrieval asynchronous.
 The resulting aspect would work similarly to <<ui-label, UILabel>> or <<ui-table-component, UITableComponent>>.
 
-To achieve this, the aspect definition can use the super class `FutureAwareAspectDefinition`, which is a subclass of `ModelToUiAspectDefinition` that contains additional implementation to handle asynchronous updates. In its implementation, Server Push is utilized to update the value on completion if the aspect value is assignable to `CompletableFuture.class`.
+To achieve this, the aspect definition can use the super class `FutureAwareAspectDefinition`, which is a subclass of `ModelToUiAspectDefinition` that contains additional implementation to handle asynchronous updates.
+In its implementation, Server Push is utilized to update the value on completion if the aspect value is assignable to `CompletableFuture.class`.
 
-On top of the methods that need to be implemented for `ModelToUiApsectDefinition`, subclasses of `FutureAwareAspectDefinition` need to provide implementation for the method `getValueOnError` additionally. This method defines how error that occur in the `CompletableFuture` should be handled.
+On top of the methods that need to be implemented for `ModelToUiApsectDefinition`, subclasses of `FutureAwareAspectDefinition` need to provide implementation for the method `getValueOnError` additionally.
+This method defines how error that occur in the `CompletableFuture` should be handled.
+
+Custom future aware components should also set the CSS attribute `future-aware` which is available as a constant in `LinkkiTheme.ATTR_FUTURE_AWARE`.
+This attribute activates the CSS selector that shows a loading indicator if the attribute `content-loading` is set.
+It also displays the generic error message that is shown when loading the content throws an exception.

@@ -23,6 +23,7 @@ vaadin-grid[has-loading-error] {
 }
 
 /* Loading indicator */
+[future-aware][content-loading]::before,
 [content-loading]::part(input-field)::before,
 [content-loading]::part(group-field)::before,
 vaadin-checkbox[content-loading]::part(checkbox)::before,
@@ -51,6 +52,7 @@ vaadin-checkbox[content-loading]::part(checkbox)::before {
 }
 
 /* Loading error */
+[future-aware][has-loading-error]::before,
 [has-loading-error]::part(input-field)::before,
 [has-loading-error]::part(group-field)::before,
 vaadin-checkbox[has-loading-error]::part(checkbox)::before,

@@ -50,6 +50,9 @@ public class LinkkiTheme {
     /** Style class for table footer that should be bold. */
     public static final String GRID_FOOTER_BOLD = "linkki-grid-footer-bold";
 
+    /** Attribute name for custom future aware components **/
+    public static final String ATTR_FUTURE_AWARE = "future-aware";
+
     /**
      * A component that contains an icon
      *
