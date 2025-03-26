@@ -59,12 +59,12 @@ public class IpsLabelPage extends VerticalLayout {
             this.modelObject = modelObject;
         }
 
-        // tag::IpsPmo:modelAttribute[]
+        // tag::IpsPmo:string[]
         @UITextField(position = 0, modelAttribute = IpsModelObject.PROPERTY_STRING)
-        public void modelAttribute() {
+        public void string() {
             // model binding
         }
-        // end::IpsPmo:modelAttribute[]
+        // end::IpsPmo:string[]
     }
 
     /**

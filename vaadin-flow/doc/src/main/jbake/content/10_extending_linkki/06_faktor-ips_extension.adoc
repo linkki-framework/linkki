@@ -124,5 +124,5 @@ include::{source-dir}org/linkki/samples/playground/ips/model/IpsModelObject.java
 ----
 include::{source-dir}org/linkki/samples/playground/ts/ips/IpsLabelPage.java[tags=IpsPmo:modelObject]
 
-include::{source-dir}org/linkki/samples/playground/ts/ips/IpsLabelPage.java[tags=IpsPmo:modelAttribute]
+include::{source-dir}org/linkki/samples/playground/ts/ips/IpsLabelPage.java[tags=IpsPmo:string]
 ----

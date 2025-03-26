@@ -64,7 +64,7 @@ public class TC001IpsComponentsTest {
 
         @Test
         void testModelAttribute_Label() {
-            var textField = testCaseSection.$(TextFieldElement.class).id("modelAttribute");
+            var textField = testCaseSection.$(TextFieldElement.class).id("string");
             var label = textField
                     .findElement(By.xpath("./.."))
                     .$(NativeLabelElement.class).last();
