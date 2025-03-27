@@ -19,6 +19,7 @@
         <java.version>17</java.version>
         <spotbugs.version>4.8.6</spotbugs.version>
         <spring-boot.version>3.3.8</spring-boot.version>
+        <tomcat.version>10.1.39</tomcat.version>
         <checkstyle.version>10.14.2</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
@@ -54,6 +55,18 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- CVE-2025-24813 for 11.0.2 and lower-->
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-websocket</artifactId>
+                <version>${tomcat.version}</version>
             </dependency>
 
             <!-- tag::linkki-bom[] -->
