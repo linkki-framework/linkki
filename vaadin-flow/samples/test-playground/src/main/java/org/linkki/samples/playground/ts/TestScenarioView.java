@@ -67,6 +67,7 @@ import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVaria
 import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
 import org.linkki.samples.playground.ts.components.DynamicHeadlinePmo;
 import org.linkki.samples.playground.ts.components.board.SampleBoardView;
+import org.linkki.samples.playground.ts.components.futureaware.CustomFutureAwarePmo;
 import org.linkki.samples.playground.ts.components.tablayout.TabOverviewLayout;
 import org.linkki.samples.playground.ts.converters.ConvertersPmo;
 import org.linkki.samples.playground.ts.dialogs.DialogErrorHandlerPmo;
@@ -327,6 +328,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                                  new BindVariantNamesTablePmoWithoutVariant())
                                        .testCase(TC015, new BindLabelPmo())
                                        .testCase(TC016, new BindSlotPmo(new BindSlotPmo.RightSlotPmo()))
+                                       .testCase(TC017, new CustomFutureAwarePmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())
@@ -334,7 +336,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS010)
                                        .testCase(TC001, TabOverviewLayout::new)
                                        .testCase(TC002, SampleBoardView.getNavigationPmo())
-                                       .testCase(TC003, new DynamicHeadlinePmo()).createTabSheet(),
+                                       .testCase(TC003, new DynamicHeadlinePmo())
+                                       .createTabSheet(),
                                TestScenario.id(TS011)
                                        .testCase(TC001, OkCancelDialogHandlerPmo::create)
                                        .testCase(TC002, new QuestionAndConfirmationDialogPmo())

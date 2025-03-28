@@ -28,6 +28,7 @@ import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class TC006IpsUILabelFieldDecimalTest extends PlaygroundUiTest {
+
     private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
 
