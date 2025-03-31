@@ -16,7 +16,7 @@ pipeline {
         stage('Prepare Release') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
+                    prepareRelease()
                 }
             }
         }
@@ -77,8 +77,16 @@ pipeline {
 
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+
+                    // since the uitest module is no child of linkki we need to manage the correct version manually and set it to RELEASE_VERSION
+                    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DnewVersion=${params.RELEASE_VERSION} -DgenerateBackupPoms=false -f vaadin-flow/samples/test-playground/uitest"
+
                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+
+                    // finally we need to set the version to the new DEVELOPMENT_VERSION
+                    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DnewVersion=${params.DEVELOPMENT_VERSION} -DgenerateBackupPoms=false -f vaadin-flow/samples/test-playground/uitest"
+
                 }
 
                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
