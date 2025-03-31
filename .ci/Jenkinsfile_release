@@ -1,6 +1,22 @@
 library 'f10-jenkins-library@1.1_patches'
 library 'release-library@1.2'
 
+def additionalReleaseActions() {
+    // set version in uitest module to RELEASE_VERSION
+    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set \
+        -DnewVersion=${params.RELEASE_VERSION} \
+        -DgenerateBackupPoms=false \
+        -f vaadin-flow/samples/test-playground/uitest"
+}
+
+def additionalDevelopmentActions() {
+    // set version in uitest module to DEVELOPMENT_VERSION
+    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set \
+        -DnewVersion=${params.DEVELOPMENT_VERSION} \
+        -DgenerateBackupPoms=false \
+        -f vaadin-flow/samples/test-playground/uitest"
+}
+
 pipeline {
     agent any
 
@@ -17,7 +33,12 @@ pipeline {
         stage('Prepare Release') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    prepareRelease()
+                    script {
+                        prepareRelease.withAdditionalActions(
+                            this.&additionalReleaseActions,
+                            this.&additionalDevelopmentActions
+                        )
+                    }
                 }
             }
         }
@@ -78,7 +99,6 @@ pipeline {
 
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DnewVersion=${params.RELEASE_VERSION} -DgenerateBackupPoms=false -f vaadin-flow/samples/test-playground/uitest"
                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                 }
