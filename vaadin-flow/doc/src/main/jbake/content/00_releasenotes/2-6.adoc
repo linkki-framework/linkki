@@ -15,7 +15,7 @@ The following versions have been updated:
 
 [cols="a,a"]
 |===
-| Spring Boot               | 3.3.8
+| Spring Boot               | 3.3.10
 |===
 
 // ==== Bugfixes
