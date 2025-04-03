@@ -1,14 +1,14 @@
 #!/bin/bash
-BUILD_NAME=$1
+PROJECT_ID=$1
 
 # Create user-defined bridge
-NETWORK_NAME="network-linkki-$BUILD_NAME"
+NETWORK_NAME="network-$PROJECT_ID"
 if [ -z "$(docker network ls --filter="name=^$NETWORK_NAME$" -q)" ]; then
     docker network create $NETWORK_NAME
 fi
 
 # Create container
-CONTAINER_NAME="linkki-$BUILD_NAME"
+CONTAINER_NAME="$PROJECT_ID"
 if [ -n "$(docker container ls --filter="name=^$CONTAINER_NAME$" -a -q)" ]; then
     docker rm --force $CONTAINER_NAME
 fi
