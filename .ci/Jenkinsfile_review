@@ -7,11 +7,13 @@ pipeline {
         PROJECT_NAME = 'linkki'
         BRANCH_NAME = "${env.GERRIT_BRANCH}"
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
+        PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
+        NETWORK_NAME = "network-${PROJECT_ID}"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
-        DEPLOYMENT_HOST = "linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de"
+        DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
-        BASE_IMAGE = 'spring:24.7'
+        BASE_IMAGE = 'spring:25.1'
     }
 
     stages {
@@ -118,14 +120,20 @@ pipeline {
 
                 stage('Deployment and UI Test') {
                     stages {
+                        stage('Remove Docker Network') {
+                            steps {
+                                deleteDockerNetwork "${NETWORK_NAME}"
+                            }
+                        }
+
                         stage('Docker Deployment') {
                             steps {
-                                sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME} ${BASE_IMAGE}'
+                                sh 'bash -x .ci/docker_setup.sh ${PROJECT_ID} ${BASE_IMAGE}'
 
                                 rtp parserName: 'HTML', nullAction: '1', stableText: """
-                                    <h3>Test Playground</h3>
+                                    <h3>Sample Deployments</h3>
                                     <ul>
-                                        <li><a href='${DEPLOYMENT_URL}'>Vaadin Flow</a></li>
+                                        <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
                                     </ul>
                                 """
                             }
