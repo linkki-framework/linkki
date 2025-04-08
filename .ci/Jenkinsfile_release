@@ -24,7 +24,10 @@ pipeline {
         PROJECT_NAME = 'linkki'
         BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
         PROJECT_ID = "${PROJECT_NAME}-${BRANCH_NAME.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
-        CONTAINER_RETENTION = 'keep'
+        NETWORK_NAME = "network-${PROJECT_ID}"
+        DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
+        DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
+        DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
         BASE_IMAGE = 'spring:25.1'
     }
 
@@ -68,6 +71,12 @@ pipeline {
             }
         }
 
+        stage('Remove Docker Network') {
+            steps {
+                deleteDockerNetwork "${NETWORK_NAME}"
+            }
+        }
+
         stage('Docker Deployment') {
             steps {
                 sh 'bash -x .ci/docker_setup.sh ${PROJECT_ID} ${BASE_IMAGE}'
@@ -75,7 +84,7 @@ pipeline {
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Sample Deployments</h3>
                     <ul>
-                        <li><a href='http://${env:PROJECT_ID}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow'>Playground</a></li>
+                        <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
                     </ul>
                 """
             }
@@ -84,7 +93,7 @@ pipeline {
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
-                waitForServer "http://${PROJECT_ID}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow"
+                waitForServer "${DEPLOYMENT_URL}"
             }
         }
 
@@ -107,7 +116,7 @@ pipeline {
             }
 
             environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${PROJECT_ID}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin-flow'
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME}'
             }
         }
 

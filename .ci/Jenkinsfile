@@ -43,7 +43,7 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh 'bash -x .ci/docker_setup.sh ${DOCKER_BUILD_NAME} ${BASE_IMAGE}'
+                sh 'bash -x .ci/docker_setup.sh ${PROJECT_ID} ${BASE_IMAGE}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Sample Deployments</h3>
