@@ -18,23 +18,28 @@ import static com.github.mvysny.kaributesting.v10.LocatorJ._fireValueChange;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.awaitility.Awaitility.await;
 
+import java.io.Serial;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
-import com.github.mvysny.kaributesting.v10.ComboBoxKt;
 import org.linkki.core.binding.validation.message.Severity;
 
+import com.github.mvysny.kaributesting.v10.ComboBoxKt;
 import com.github.mvysny.kaributesting.v10.GridKt;
 import com.github.mvysny.kaributesting.v10.LocatorJ;
 import com.github.mvysny.kaributesting.v10.NotificationsKt;
 import com.github.mvysny.kaributesting.v10.PrettyPrintTree;
+import com.github.mvysny.kaributesting.v10.PrettyPrintTreeKt;
+import com.github.mvysny.kaributesting.v10.TestingLifecycleHook;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -43,6 +48,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 
 /**
  * Provides utility methods for testcases annotated with {@link KaribuUIExtension}
@@ -138,7 +144,23 @@ public class KaribuUtils {
      * Gets the DOM of the given {@link Component component} in a hierarchical order
      */
     public static String getComponentTree(Component component) {
-        return PrettyPrintTree.Companion.ofVaadin(component).print();
+        return getPrettyPrintTree(component).print();
+    }
+
+    private static PrettyPrintTree getPrettyPrintTree(Component component) {
+        var result = new PrettyPrintTree(PrettyPrintTreeKt.toPrettyString(component), new ArrayList<>());
+        for (var child : getAllChildren(component)) {
+            result.getChildren().add(getPrettyPrintTree(child));
+        }
+        return result;
+    }
+
+    private static List<Component> getAllChildren(Component component) {
+        var children = TestingLifecycleHook.getDefault().getAllChildren(component);
+        if (component instanceof Grid<?> grid) {
+            children.addAll(Row.fromGrid(grid));
+        }
+        return children;
     }
 
     /**
@@ -150,6 +172,29 @@ public class KaribuUtils {
             return String.valueOf(hasValue.getValue());
         } else {
             return component.getElement().getTextRecursively();
+        }
+    }
+
+    @Tag("irrelevant")
+    private static class Row extends Component {
+
+        @Serial
+        private static final long serialVersionUID = 1L;
+        private final String prettyPrintRow;
+
+        private Row(String prettyPrintRow) {
+            this.prettyPrintRow = prettyPrintRow;
+        }
+
+        public String toString() {
+            return prettyPrintRow;
+        }
+
+        private static List<Row> fromGrid(Grid<?> grid) {
+            return IntStream.range(0, GridKt._size(grid))
+                    .mapToObj(i -> GridKt._getFormattedRow(grid, i).toString())
+                    .map(Row::new)
+                    .toList();
         }
     }
 
@@ -246,6 +291,7 @@ public class KaribuUtils {
         public static <T> void setValue(String id, T value) {
             setValue(ComboBox.class, id, value);
         }
+
         /**
          * Sets the value in a combo box to the value that corresponds to the given label
          */
@@ -425,9 +471,10 @@ public class KaribuUtils {
          * Returns a list of the texts displayed in each row of a {@link Grid.Column}.
          */
         public static <T> List<String> getTextContentsInColumn(Grid<T> grid, String columnKey) {
-            return IntStream.range(0, grid.getListDataView().getItemCount())
-                    .mapToObj(i -> GridKt._getCellComponent(grid, i, columnKey).getElement()
-                            .getTextRecursively())
+            return IntStream.range(0, GridKt._size(grid))
+                    .mapToObj(i -> grid.getColumnByKey(columnKey).getRenderer() instanceof ComponentRenderer<?, ?>
+                            ? getTextContent(GridKt._getCellComponent(grid, i, columnKey))
+                            : GridKt._getFormatted(grid, i, columnKey))
                     .toList();
         }
 

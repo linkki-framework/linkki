@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import kotlin.ranges.IntRange;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Condition;
 import org.assertj.core.presentation.Representation;
@@ -32,8 +34,6 @@ import com.github.mvysny.kaributesting.v10.SearchSpec;
 import com.github.mvysny.kaributesting.v10.SearchSpecJ;
 import com.vaadin.flow.component.Component;
 
-import kotlin.ranges.IntRange;
-
 /**
  * AssertJ conditions to be used with {@link AbstractAssert#is(Condition)} or
  * {@link AbstractAssert#has(Condition)}.
@@ -41,7 +41,7 @@ import kotlin.ranges.IntRange;
  * For a better representation of the actual component in case of test failure, use
  * {@link ComponentTreeRepresentation} with
  * {@link AbstractAssert#withRepresentation(Representation)}.
- * 
+ *
  * @since 2.8.0
  */
 public class ComponentConditions {

@@ -84,6 +84,9 @@ A new representation class, `ComponentTreeRepresentation`, has been added to pro
 
 * *Added Functionality in KaribuUtils* +
 ** `KaribuUtils#getTextContent` now also returns the text content of layout elements. Additionally, the component tree can now be returned without printing it using `KaribuUtils#getComponentTree`.
+** The component tree can now be returned without printing it using `KaribuUtils#getComponentTree`.
+** `KaribuUtils.Grids.getTextContentInColumn` also returns the value of an input element such as text field. The method also supports `TreeGrid` now, but only displays root items.
+** `printComponentTree` and `getComponentTree` also print out table rows.
 ** Added `KaribuUtils.ComboBoxes#setValueByLabel` to set the value within a combobox based on a label
 
 * *Method renaming within KaribuUtils.ComboBoxes*

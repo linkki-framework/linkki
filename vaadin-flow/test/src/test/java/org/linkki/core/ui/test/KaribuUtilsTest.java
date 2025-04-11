@@ -1,6 +1,6 @@
 /*******************************************************
  * Copyright (c) Faktor Zehn GmbH - www.faktorzehn.de
- * 
+ *
  * All Rights Reserved - Alle Rechte vorbehalten.
  *******************************************************/
 package org.linkki.core.ui.test;
@@ -19,6 +19,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.treegrid.TreeGrid;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.server.Command;
 import com.vaadin.flow.shared.communication.PushMode;
@@ -82,15 +84,103 @@ class KaribuUtilsTest {
         component.setId("id");
         component.getElement().setAttribute("custom", "val");
 
-        var string = KaribuUtils.getComponentTree(component);
+        var printResult = KaribuUtils.printComponentTree(component);
 
-        assertThat(string)
+        assertThat(printResult)
                 .containsIgnoringCase(component.getElement().getTag())
                 .containsIgnoringCase(child.getElement().getTag())
                 .contains(child.getText())
                 .contains("className")
                 .contains("id")
                 .contains("custom").contains("val");
+    }
+
+    @Test
+    void testGetComponentTree_Grid() {
+        var parent = new Div();
+        var grid = new Grid<String>();
+        grid.addComponentColumn(s -> {
+            var textField = new TextField();
+            textField.setValue(s + " - 1");
+            return textField;
+        }).setKey("column1").setHeader("header1");
+        grid.addColumn(s -> s + " - 2").setKey("column2").setHeader("header2");
+        grid.setItems("item1", "item2");
+        parent.add(grid);
+
+        var printResult = KaribuUtils.printComponentTree(parent);
+
+        assertThat(printResult)
+                .contains("column1")
+                .contains("column2")
+                .contains("header1")
+                .contains("header2")
+                .contains("item1 - 1")
+                .contains("item2 - 2");
+    }
+
+    @Test
+    void testGetComponentTree_TreeGrid_RootItems() {
+        var parent = new Div();
+        var grid = new TreeGrid<String>();
+        grid.setItems(
+                      List.of("item1", "item2"),
+                      s -> s.length() < 10 ? List.of(s + "-sub1", s + "-sub2") : List.of());
+        grid.addHierarchyColumn(s -> s + " - 1").setKey("column1");
+        grid.addComponentHierarchyColumn(s -> {
+            var textField = new TextField();
+            textField.setValue(s + " - 2");
+            return textField;
+        }).setKey("column2");
+        grid.addColumn(s -> s + " - 3").setKey("column3");
+        parent.add(grid);
+
+        var printResult = KaribuUtils.printComponentTree(parent);
+
+        assertThat(printResult)
+                .contains("column1")
+                .contains("column2")
+                .contains("column3")
+                .matches(s -> StringUtils.countMatches(s, "Row") == 2)
+                .contains("item1 - 1").contains("item1 - 2").contains("item1 - 3")
+                .contains("item2 - 1").contains("item2 - 2").contains("item2 - 3");
+
+    }
+
+    @Test
+    void testGetComponentTree_TreeGrid_ExpandFirstSubTree() {
+        var parent = new Div();
+        var grid = new TreeGrid<String>();
+        grid.setItems(
+                      List.of("item1", "item2"),
+                      s -> s.length() < 12 ? List.of(s + "-sub1", s + "-sub2") : List.of());
+        grid.addHierarchyColumn(s -> s + " - 1").setKey("column1");
+        grid.addComponentHierarchyColumn(s -> {
+            var textField = new TextField();
+            textField.setValue(s + " - 2");
+            return textField;
+        }).setKey("column2");
+        grid.addColumn(s -> s + " - 3").setKey("column3");
+        parent.add(grid);
+        var allVisibleItems = List.of(
+                                      "item1 - 1", "item2 - 1",
+                                      "item1-sub1 - 1", "item1-sub2 - 1",
+                                      "item1-sub1-sub1 - 1", "item1-sub1-sub2 - 1", "item1-sub2-sub1 - 1",
+                                      "item1-sub2-sub2 - 1");
+        var allInvisibleItems = List.of(
+                                        "item2-sub1 - 1", "item2-sub2 - 1",
+                                        "item2-sub1-sub1 - 1", "item2-sub1-sub2 - 1", "item2-sub2-sub1 - 1",
+                                        "item2-sub2-sub2 - 1");
+
+        grid.expandRecursively(List.of("item1"), 5);
+        var printResult = KaribuUtils.printComponentTree(parent);
+
+        assertThat(printResult)
+                .matches(s -> StringUtils.countMatches(s, "Row") == 8)
+                .doesNotContain(allInvisibleItems);
+        assertThat(allVisibleItems).as("All items starting with item1 must be expanded and visible")
+                .isNotEmpty()
+                .allMatch(item -> StringUtils.countMatches(printResult, item) == 1);
     }
 
     @Test
@@ -353,7 +443,6 @@ class KaribuUtilsTest {
             assertThat(combobox.getValue()).isEqualTo(value);
         }
 
-
         @ParameterizedTest
         @MethodSource("provideValues")
         void testSetValueByLabel_String(String value) {
@@ -386,7 +475,6 @@ class KaribuUtilsTest {
             assertThat(combobox.getValue()).isEqualTo(value);
         }
 
-
         @ParameterizedTest
         @MethodSource("provideValues")
         void testSetValueByLabel_Enum(String value) {
@@ -406,10 +494,15 @@ class KaribuUtilsTest {
         private static List<String> provideValues() {
             return List.of("VALUE_1", "VALUE_2", "VALUE_3");
         }
-        private static ComboBoxChoice[] comboBoxChoices() {return ComboBoxChoice.values();};
+
+        private static ComboBoxChoice[] comboBoxChoices() {
+            return ComboBoxChoice.values();
+        }
 
         enum ComboBoxChoice {
-            VALUE_1, VALUE_2, VALUE_3;
+            VALUE_1,
+            VALUE_2,
+            VALUE_3;
         }
     }
 
@@ -536,6 +629,53 @@ class KaribuUtilsTest {
         @Test
         void testGetTextContentsInColumn_EmptyTable() {
             assertThat(KaribuUtils.Grids.getTextContentsInColumn(new Grid<String>(), "colum-1")).isEmpty();
+        }
+
+        @Test
+        void testGetTextContentsInColumn_TreeGrid_RootItems() {
+            var grid = new TreeGrid<String>();
+            grid.setItems(
+                          List.of("item1", "item2"),
+                          s -> s.length() < 6 ? List.of(s + "-sub1", s + "-sub2") : List.of());
+            grid.addColumn(new ComponentRenderer<>(s -> {
+                var textField = new TextField();
+                textField.setValue(s + " - 1");
+                return textField;
+            })).setKey("column1");
+            grid.addColumn(s -> s + " - 2").setKey("column2");
+
+            var t = new TextField();
+            t.setValue("3");
+            assertThat(KaribuUtils.Grids.getTextContentsInColumn(grid, "column1").toString())
+                    .contains("item1 - 1", "item2 - 1")
+                    .doesNotContain("item1-sub1", "item1-sub2");
+            assertThat(KaribuUtils.Grids.getTextContentsInColumn(grid, "column2").toString())
+                    .contains("item1 - 2", "item2 - 2")
+                    .doesNotContain("item2-sub1", "item2-sub2");
+        }
+
+        @Test
+        void testGetTextContentsInColumn_TreeGrid_ExpandSubFirstTree() {
+            var grid = new TreeGrid<String>();
+            grid.setItems(
+                          List.of("item1", "item2"),
+                          s -> s.length() < 6 ? List.of(s + "-sub1", s + "-sub2") : List.of());
+            grid.addColumn(new ComponentRenderer<>(s -> {
+                var textField = new TextField();
+                textField.setValue(s + " - 1");
+                return textField;
+            })).setKey("column1");
+            grid.addColumn(s -> s + " - 2").setKey("column2");
+            grid.expand("item1");
+
+            var t = new TextField();
+            t.setValue("3");
+            assertThat(KaribuUtils.Grids.getTextContentsInColumn(grid, "column1").toString())
+                    .contains("item1 - 1", "item2 - 1")
+                    .contains("item1-sub1", "item1-sub2");
+            assertThat(KaribuUtils.Grids.getTextContentsInColumn(grid, "column2").toString())
+                    .contains("item1 - 2", "item2 - 2")
+                    .doesNotContain("item2-sub1", "item2-sub2");
         }
 
         static final class TestPmo {
