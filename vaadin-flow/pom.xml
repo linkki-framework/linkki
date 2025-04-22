@@ -48,6 +48,7 @@
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
         <karibu.version>2.1.8</karibu.version>
+        <netty.version>4.1.119.Final</netty.version>
     </properties>
 
     <dependencyManagement>
@@ -80,6 +81,44 @@
                 <version>${karibu.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- CVE-2025-24970, CVE-2025-25193 -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-unix-common</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-buffer</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-common</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
