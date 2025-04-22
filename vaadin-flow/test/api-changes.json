@@ -51,6 +51,14 @@
             "new": ".*",
             "annotationType": "kotlin\\.Metadata",
             "attribute": "mv"
+          },
+          {
+            "regex": true,
+            "code": "java.annotation.attributeValueChanged",
+            "old": ".*",
+            "new": ".*",
+            "annotationType": "kotlin\\.jvm\\.internal\\.SourceDebugExtension",
+            "attribute": "value"
           }
         ]
       }
