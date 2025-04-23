@@ -22,8 +22,7 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'linkki'
-        BRANCH_NAME = "${env.GIT_LOCAL_BRANCH}"
-        PROJECT_ID = "${PROJECT_NAME}-${BRANCH_NAME.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
+        PROJECT_ID = "${PROJECT_NAME}-${params.RELEASE_VERSION.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
         CONTAINER_RETENTION = 'keep'
         BASE_IMAGE = 'spring:24.7'
     }
