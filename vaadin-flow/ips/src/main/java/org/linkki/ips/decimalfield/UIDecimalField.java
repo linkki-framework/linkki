@@ -100,7 +100,7 @@ public @interface UIDecimalField {
     /**
      * Format for the UI representation of the value.
      * 
-     * @see DecimalFormat See {@link DecimalFormat} for the documentation of the pattern.
+     * @see DecimalFormat for the documentation of the pattern.
      */
     String format() default FormattedStringToDecimalConverter.DEFAULT_FORMAT;
 

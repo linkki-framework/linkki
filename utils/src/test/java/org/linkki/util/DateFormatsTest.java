@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 
 public class DateFormatsTest {
 
-    private static final Locale AUSTRIA = new Locale(Locale.GERMAN.getLanguage(), "AT");
+    private static final Locale AUSTRIA = Locale.of(Locale.GERMAN.getLanguage(), "AT");
 
     @Test
     public void testGetPattern_German() {
@@ -54,7 +54,7 @@ public class DateFormatsTest {
 
     @Test
     public void testGetPattern_ISOFallback() {
-        assertThat(DateFormats.getPattern(new Locale("unknown language")), is(DateFormats.PATTERN_ISO));
+        assertThat(DateFormats.getPattern(Locale.of("unknown language")), is(DateFormats.PATTERN_ISO));
     }
 
     @Test
@@ -63,20 +63,20 @@ public class DateFormatsTest {
 
         DateFormats.register("foo-language", customPattern);
 
-        assertThat(DateFormats.getPattern(new Locale("foo-language", "country1")), is(customPattern));
-        assertThat(DateFormats.getPattern(new Locale("foo-language", "country2")), is(customPattern));
+        assertThat(DateFormats.getPattern(Locale.of("foo-language", "country1")), is(customPattern));
+        assertThat(DateFormats.getPattern(Locale.of("foo-language", "country2")), is(customPattern));
     }
 
     @Test
     public void testRegister_Locale() {
         String customPattern = "yy:MM:dd";
-        Locale locale = new Locale("bar-language", "country1");
+        Locale locale = Locale.of("bar-language", "country1");
 
         DateFormats.register(locale, customPattern);
 
-        assertThat(DateFormats.getPattern(new Locale("bar-language", "country1")), is(customPattern));
-        assertThat(DateFormats.getPattern(new Locale("bar-language", "country2")), is(not(customPattern)));
-        assertThat(DateFormats.getPattern(new Locale("bar-language")), is(not(customPattern)));
+        assertThat(DateFormats.getPattern(Locale.of("bar-language", "country1")), is(customPattern));
+        assertThat(DateFormats.getPattern(Locale.of("bar-language", "country2")), is(not(customPattern)));
+        assertThat(DateFormats.getPattern(Locale.of("bar-language")), is(not(customPattern)));
     }
 
 }

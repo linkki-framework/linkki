@@ -34,11 +34,13 @@ public interface ValidationService {
     /**
      * Returns the validation messages that should be displayed in the UI. It should call all
      * necessary validations.
-     * 
+     * <p>
+     * Use {@code getFilteredMessages()} to obtain messages filtered by the
+     * {@link #getValidationDisplayState()}
+     *
      * @return a {@link MessageList} containing all validation messages or an empty
      *         {@link MessageList} if there are no messages at all
-     * @see #getFilteredMessages() {@code getFilteredMessages()} to obtain messages filtered by the
-     *      {@link #getValidationDisplayState()}
+     * @see #getFilteredMessages()
      */
     MessageList getValidationMessages();
 

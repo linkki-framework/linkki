@@ -12,7 +12,7 @@ pipeline {
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
-        BASE_IMAGE = 'spring:24.7'
+        BASE_IMAGE = 'spring:25.7'
     }
 
     stages {
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
                         -pl "!vaadin-flow/doc" \
                         -Pproduction \
@@ -62,7 +62,7 @@ pipeline {
 
         stage('Upload Documentation') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
                         -pl "vaadin-flow/doc" \
                         deploy \
@@ -101,7 +101,7 @@ pipeline {
                             }
                         }
 
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                                 -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                         }
@@ -131,7 +131,7 @@ pipeline {
                 // run the SonarQube analysis for this change
                 stage('SonarQube Analysis') {
                     steps {
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17') {
+                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21') {
                             runSonarQubeAnalysis()
                         }
                     }
@@ -139,7 +139,7 @@ pipeline {
 
                 stage('Dependency-Check') {
                     steps {
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                             dependencyCheck version: '25.1'
                         }
                     }

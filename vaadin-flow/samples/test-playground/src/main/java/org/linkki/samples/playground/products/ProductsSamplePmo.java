@@ -30,6 +30,7 @@ import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
+import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.ips.decimalfield.UIDecimalField;
@@ -58,11 +59,11 @@ public abstract class ProductsSamplePmo {
     }
 
     @BindCaption
-    @UISection(layout = SectionLayout.HORIZONTAL, columns = 2)
+    @UIFormSection(columns = 2)
     public static class HorizontalSamplePmo extends ProductsSamplePmo {
 
         public HorizontalSamplePmo() {
-            super("Sample Section Horizontal");
+            super("Sample UIFormSection with 2 columns");
         }
 
         public HorizontalSamplePmo(String caption) {
@@ -89,7 +90,7 @@ public abstract class ProductsSamplePmo {
     public static class VerticalSamplePmo extends ProductsSamplePmo {
 
         public VerticalSamplePmo() {
-            super("Sample Section Horizontal");
+            super("Sample UISection with layout Form");
         }
 
         public VerticalSamplePmo(String caption) {

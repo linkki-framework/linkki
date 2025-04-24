@@ -19,6 +19,7 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency | New version | Previous version
+| Java SDK                      | 21        | 17
 | Faktor-IPS                    | 25.1.3.release (link:https://doc.faktorzehn.org/faktor-ips/25.1/01_releasenotes/index.html[Release Notes]) | 25.1.1.release
 | Vaadin                        | 24.5.14 (link:https://github.com/vaadin/platform/releases/tag/24.5.14[Release Notes]) | 24.5.12
 | Spring Boot                   | 3.4.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.4.2
@@ -47,7 +48,8 @@ Most notable changes:
 * The classes `F10ProductTheme`, `BoardComponent`, `BoardLayout`, `UIMenuList`, `UIMenuButton`, and `HierarchicalTableUtil` have been moved to `linkki-core-vaadin-flow`.
 * The classes `InfoTool`, `InfoToolsComponent`, `HasBrowserConfirmation`, and `NavigationWorkaround` have been moved to `linkki-application-framework-vaadin-flow`.
 * The classes `SingleItemMenuBar` and `MenuItemDefinition` have been moved to `linkki-vaadin-flow-component`.
-* The functionality of `CommonApplicationHeader` was incorporated into <<application-header, `ApplicationHeader`>> and the newly introduced <<useraware-application-header,`UserAwareApplicationHeader`>>. Replace `CommonApplicationHeader` with `UserAwareApplicationHeader` if a user menu is needed and with `ApplicationHeader` otherwise.
+* The functionality of `CommonApplicationHeader` was incorporated into <<application-header, `ApplicationHeader`>> and the newly introduced <<useraware-application-header,`UserAwareApplicationHeader`>>.
+Replace `CommonApplicationHeader` with `UserAwareApplicationHeader` if a user menu is needed and with `ApplicationHeader` otherwise.
 
 include::2_8_linkki_f10_migration.adoc[]
 
@@ -70,12 +72,15 @@ Instead, the attribute `content-loading` is set.
 Custom CSS selectors that utilize the above attributes / CSS Properties must be adjusted accordingly.
 
 ===== UIHeadline
+
 A new UI component, `@UIHeadline`, is now available, providing a way to easily create <<headline, headlines>> that only display text.
 
 ===== UIMenuList and UIButton
+
 New UI components, `@UIMenuList` and `@UIMenuButton`, are now available, providing a way to create <<ui-menulist, buttons in menus>> that can expand a menu list or execute an action, while maintaining a consistent look and feel.
 
 ==== Testing
+
 * *Conditions for AssertJ* +
 The utility class <<component-conditions, `ComponentConditions`>> providing UI specific conditions for AssertJ has been added to `linkki-vaadin-flow-test` to support writing more readable assertions.
 
@@ -83,9 +88,11 @@ The utility class <<component-conditions, `ComponentConditions`>> providing UI s
 A new representation class, `ComponentTreeRepresentation`, has been added to provide a more expressive representation of components in AssertJ assertions.
 
 * *Added Functionality in KaribuUtils* +
-** `KaribuUtils#getTextContent` now also returns the text content of layout elements. Additionally, the component tree can now be returned without printing it using `KaribuUtils#getComponentTree`.
+** `KaribuUtils#getTextContent` now also returns the text content of layout elements.
+Additionally, the component tree can now be returned without printing it using `KaribuUtils#getComponentTree`.
 ** The component tree can now be returned without printing it using `KaribuUtils#getComponentTree`.
-** `KaribuUtils.Grids.getTextContentInColumn` also returns the value of an input element such as text field. The method also supports `TreeGrid` now, but only displays root items.
+** `KaribuUtils.Grids.getTextContentInColumn` also returns the value of an input element such as text field.
+The method also supports `TreeGrid` now, but only displays root items.
 ** `printComponentTree` and `getComponentTree` also print out table rows.
 ** Added `KaribuUtils.ComboBoxes#setValueByLabel` to set the value within a combobox based on a label
 
@@ -100,11 +107,12 @@ The following methods have been renamed:
 Introduced a <<linkki-howto, How-To>> chapter containing coding examples and best practises.
 
 * *Relocation of UINestedComponent* +
-`UINestedComponent` has been moved from `linkki-core-nestedcomponent-vaadin-flow` to `linkki-core-vaadin-flow`. The module `linkki-core-nestedcomponent-vaadin-flow` has been removed.
-
+`UINestedComponent` has been moved from `linkki-core-nestedcomponent-vaadin-flow` to `linkki-core-vaadin-flow`.
+The module `linkki-core-nestedcomponent-vaadin-flow` has been removed.
 
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248
 * `SimpleItemSupplier` now throws a `NullPointerException` if the model object to PMO mapping supplier returns `null`.
 // https://jira.convista.com/browse/LIN-4262
-* `linkki-vaadin-flow-test` no longer includes `vaadin-dev`, and `linkki-vaadin-flow-testbench-extension` now marks `vaadin-core` as provided. This avoids unwanted dependencies in production.
+* `linkki-vaadin-flow-test` no longer includes `vaadin-dev`, and `linkki-vaadin-flow-testbench-extension` now marks `vaadin-core` as provided.
+This avoids unwanted dependencies in production.

@@ -14,6 +14,7 @@
 package org.linkki.framework.ui.application.menu;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -176,9 +177,9 @@ public class ApplicationMenuItemDefinition {
 
     /* private */ static void navigateToLink(String location) {
         try {
-            URL parsedUrl = new URL(location);
+            URL parsedUrl = URI.create(location).toURL();
             UI.getCurrent().getPage().setLocation(parsedUrl.toString());
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | IllegalArgumentException e) {
             UI.getCurrent().navigate(location);
         }
     }

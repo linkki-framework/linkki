@@ -19,7 +19,7 @@ pipeline {
 
         stage('Deploy Documentation') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -pl vaadin-flow/doc clean deploy -Ddoc.user=doc'
                 }
             }

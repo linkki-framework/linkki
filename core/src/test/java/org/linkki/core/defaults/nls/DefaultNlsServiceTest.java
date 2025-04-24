@@ -38,7 +38,7 @@ public class DefaultNlsServiceTest {
 
     private static final String defaultValue = "value";
 
-    private static final Locale RUSSIAN_LOCALE = new Locale("ru", "RU");
+    private static final Locale RUSSIAN_LOCALE = Locale.of("ru", "RU");
 
     private static final Locale GERMAN_LOCALE = Locale.GERMAN;
 

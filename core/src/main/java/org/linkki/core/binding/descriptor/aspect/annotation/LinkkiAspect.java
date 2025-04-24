@@ -52,9 +52,9 @@ import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
  * {@link CompositeAspectDefinition} can be used to create multiple aspects.
  * <p>
  * For further information see {@link Aspect} and {@link LinkkiAspectDefinition}.
- * 
- * @see InheritedAspect Use {@link InheritedAspect @InheritedAspect} alongside this annotation to
- *      make the aspect inheritable from superclasses and interfaces.
+ * <p>
+ * Use {@link InheritedAspect @InheritedAspect} alongside this annotation to make the aspect
+ * inheritable from superclasses and interfaces.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

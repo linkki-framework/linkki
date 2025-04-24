@@ -16,7 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <spotbugs.version>4.9.3</spotbugs.version>
         <spring-boot.version>3.4.5</spring-boot.version>
         <checkstyle.version>10.23.1</checkstyle.version>
@@ -126,7 +126,14 @@
                         <!-- Because the eclipse compiler and javac differ:
                             https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
                         <arg>-Xlint:-varargs</arg>
+
+                        <!-- Suppress "non-transient instance field of a serializable class declared with a non-serializable type" warnings -->
+                        <arg>-Xlint:-serial</arg>
+                        <!-- Suppress "possible 'this' escape before subclass is fully initialized" warnings -->
+                        <arg>-Xlint:-this-escape</arg>
                     </compilerArgs>
+                    <!-- https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-6.x#parameter-name-retention -->
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
 

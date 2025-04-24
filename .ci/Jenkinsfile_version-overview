@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir('doc-overview') {
-                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                         sh 'mvn clean package'
                     }
                 }
@@ -17,7 +17,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('doc-overview') {
-                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                         sh 'mvn -U -T 6 \
                             clean deploy \
                             -Ddoc.user=doc'

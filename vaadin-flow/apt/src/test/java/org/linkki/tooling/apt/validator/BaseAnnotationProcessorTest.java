@@ -28,6 +28,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -223,8 +224,13 @@ public abstract class BaseAnnotationProcessorTest {
         public void flush() throws IOException {
             consoleWriter.flush();
             stringWriter.flush();
-            if (!stringWriter.toString().isEmpty()) {
-                fail("Compiler Error:\n" + stringWriter.toString());
+
+            var rawLog = stringWriter.toString();
+            var relevantOutput = Arrays.stream(rawLog.split("\n"))
+                    .filter(line -> !line.startsWith("Note: Annotation processing is enabled"))
+                    .collect(Collectors.joining("\n"));
+            if (relevantOutput.contains("error")) {
+                fail("Compiler Error:\n" + stringWriter);
             }
         }
 

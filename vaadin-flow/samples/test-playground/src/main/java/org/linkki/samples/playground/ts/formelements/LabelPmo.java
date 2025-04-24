@@ -115,6 +115,7 @@ public class LabelPmo {
         return Set.of(CUSTOM_STYLE, LumoUtility.TextAlignment.RIGHT);
     }
 
+    @Deprecated
     @BindStyleNames
     @BindIcon(VaadinIcon.CIRCLE)
     @UILabel(position = 95, label = "Label with a dynamic style", htmlContent = true)
@@ -230,6 +231,7 @@ public class LabelPmo {
             return new HtmlContentReturnTypeLabelPmo();
         }
 
+        @Deprecated
         @UISection(caption = "Label with HtmlContent using htmlContent=true", layout = SectionLayout.VERTICAL)
         public class HtmlContentPropertyLabelPmo {
 

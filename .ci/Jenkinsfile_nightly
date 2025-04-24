@@ -12,7 +12,7 @@ pipeline {
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
-        BASE_IMAGE = 'spring:24.7-java21'
+        BASE_IMAGE = 'spring:25.7'
     }
 
     stages {
@@ -39,7 +39,7 @@ pipeline {
 
         stage('Dependency-Check') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                     dependencyCheck version: '25.1'
                 }
             }

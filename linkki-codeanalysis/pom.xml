@@ -25,7 +25,7 @@
     <properties>
         <git.user>${user.name}</git.user>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         
         <!-- Maven plugin versions -->
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
