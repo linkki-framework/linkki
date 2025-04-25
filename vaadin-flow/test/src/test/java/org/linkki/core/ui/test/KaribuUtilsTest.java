@@ -288,10 +288,10 @@ class KaribuUtilsTest {
     }
 
     @Nested
-    class ComboboxesTests {
+    class ComboBoxesTests {
 
         @Test
-        void testGetComboBoxWithId() {
+        void testGetWithId() {
             var layout1 = new HorizontalLayout();
             var combobox1 = new ComboBox<>();
             combobox1.setId("combobox-1");
@@ -299,21 +299,21 @@ class KaribuUtilsTest {
 
             UI.getCurrent().add(layout1);
 
-            assertThat(KaribuUtils.ComboBoxes.getComboBoxWithId("combobox-1")).isSameAs(combobox1);
+            assertThat(KaribuUtils.ComboBoxes.getWithId("combobox-1")).isSameAs(combobox1);
         }
 
         @Test
-        void testGetComboBoxWithId_NotInUI() {
+        void testGetWithId_NotInUI() {
             var layout1 = new HorizontalLayout();
             var combobox1 = new ComboBox<>();
             combobox1.setId("combobox-1");
             layout1.add(combobox1);
 
-            assertThrows(AssertionError.class, () -> KaribuUtils.ComboBoxes.getComboBoxWithId("combobox-1"));
+            assertThrows(AssertionError.class, () -> KaribuUtils.ComboBoxes.getWithId("combobox-1"));
         }
 
         @Test
-        void testGetComboBoxWithId_WithParent() {
+        void testGetWithId_WithParent() {
             var layout1 = new HorizontalLayout();
             var combobox1 = new ComboBox<>();
             combobox1.setId("combobox-1");
@@ -321,11 +321,11 @@ class KaribuUtilsTest {
 
             UI.getCurrent().add(layout1);
 
-            assertThat(KaribuUtils.ComboBoxes.getComboBoxWithId(layout1, "combobox-1")).isSameAs(combobox1);
+            assertThat(KaribuUtils.ComboBoxes.getWithId(layout1, "combobox-1")).isSameAs(combobox1);
         }
 
         @Test
-        void testGetComboBoxWithId_WithParent_WrongParent() {
+        void testGetWithId_WithParent_WrongParent() {
             var layout1 = new HorizontalLayout();
             var layout2 = new HorizontalLayout();
             var combobox1 = new ComboBox<>();
@@ -334,12 +334,12 @@ class KaribuUtilsTest {
 
             UI.getCurrent().add(layout1, layout2);
 
-            assertThrows(AssertionError.class, () -> KaribuUtils.ComboBoxes.getComboBoxWithId(layout2, "combobox-1"));
+            assertThrows(AssertionError.class, () -> KaribuUtils.ComboBoxes.getWithId(layout2, "combobox-1"));
         }
 
         @ParameterizedTest
         @MethodSource("provideValues")
-        void testSetComboboxValue(String value) {
+        void testSetValue_String(String value) {
             var id = "combobox-1";
 
             var combobox = new ComboBox<String>();
@@ -348,15 +348,69 @@ class KaribuUtilsTest {
 
             UI.getCurrent().add(combobox);
 
-            KaribuUtils.ComboBoxes.setComboBoxValue(id, value);
+            KaribuUtils.ComboBoxes.setValue(id, value);
 
             assertThat(combobox.getValue()).isEqualTo(value);
         }
 
-        private static List<String> provideValues() {
-            return List.of("Value 1", "Value 2", "Value 3");
+
+        @ParameterizedTest
+        @MethodSource("provideValues")
+        void testSetValueByLabel_String(String value) {
+            var id = "combobox-1";
+
+            var combobox = new ComboBox<String>();
+            combobox.setId(id);
+            combobox.setItems(provideValues());
+
+            UI.getCurrent().add(combobox);
+
+            KaribuUtils.ComboBoxes.setValueByLabel(id, value);
+
+            assertThat(combobox.getValue()).isEqualTo(value);
         }
 
+        @ParameterizedTest
+        @MethodSource("comboBoxChoices")
+        void testSetValue_Enum(ComboBoxChoice value) {
+            var id = "combobox-1";
+
+            var combobox = new ComboBox<ComboBoxChoice>();
+            combobox.setId(id);
+            combobox.setItems(comboBoxChoices());
+
+            UI.getCurrent().add(combobox);
+
+            KaribuUtils.ComboBoxes.setValue(id, value);
+
+            assertThat(combobox.getValue()).isEqualTo(value);
+        }
+
+
+        @ParameterizedTest
+        @MethodSource("provideValues")
+        void testSetValueByLabel_Enum(String value) {
+            var id = "combobox-1";
+
+            var combobox = new ComboBox<ComboBoxChoice>();
+            combobox.setId(id);
+            combobox.setItems(comboBoxChoices());
+
+            UI.getCurrent().add(combobox);
+
+            KaribuUtils.ComboBoxes.setValueByLabel(id, value);
+
+            assertThat(combobox.getValue()).isEqualTo(ComboBoxChoice.valueOf(value));
+        }
+
+        private static List<String> provideValues() {
+            return List.of("VALUE_1", "VALUE_2", "VALUE_3");
+        }
+        private static ComboBoxChoice[] comboBoxChoices() {return ComboBoxChoice.values();};
+
+        enum ComboBoxChoice {
+            VALUE_1, VALUE_2, VALUE_3;
+        }
     }
 
     @Nested
@@ -535,5 +589,4 @@ class KaribuUtilsTest {
         public void close() throws SecurityException {
         }
     }
-
 }

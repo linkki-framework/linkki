@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.test;
 
+import static com.github.mvysny.kaributesting.v10.LocatorJ._fireValueChange;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.awaitility.Awaitility.await;
 
@@ -23,6 +24,7 @@ import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
+import com.github.mvysny.kaributesting.v10.ComboBoxKt;
 import org.linkki.core.binding.validation.message.Severity;
 
 import com.github.mvysny.kaributesting.v10.GridKt;
@@ -225,26 +227,33 @@ public class KaribuUtils {
          * warning.
          */
         @SuppressWarnings("unchecked")
-        public static <T> ComboBox<T> getComboBoxWithId(Component parent, String id) {
-            return getWithId(parent, ComboBox.class, id);
+        public static <T> ComboBox<T> getWithId(Component parent, String id) {
+            return KaribuUtils.getWithId(parent, ComboBox.class, id);
         }
 
         /**
          * Gets a combo box with the given ID without producing unchecked warning.
          */
         @SuppressWarnings("unchecked")
-        public static <T> ComboBox<T> getComboBoxWithId(String id) {
-            return getWithId(ComboBox.class, id);
+        public static <T> ComboBox<T> getWithId(String id) {
+            return KaribuUtils.getWithId(ComboBox.class, id);
         }
 
         /**
-         * Sets value in a combo box that without producing unchecked warning
+         * Sets the value in a combo box without producing unchecked warning
          */
         @SuppressWarnings("unchecked")
-        public static <T> void setComboBoxValue(String id, T value) {
+        public static <T> void setValue(String id, T value) {
             setValue(ComboBox.class, id, value);
         }
-
+        /**
+         * Sets the value in a combo box to the value that corresponds to the given label
+         */
+        public static void setValueByLabel(String id, String label) {
+            var comboBox = getWithId(id);
+            ComboBoxKt.selectByLabel(comboBox, label);
+            _fireValueChange(comboBox, true);
+        }
     }
 
     /**

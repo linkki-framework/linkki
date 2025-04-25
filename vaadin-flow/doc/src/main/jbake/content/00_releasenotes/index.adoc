@@ -75,6 +75,22 @@ A new UI component, `@UIHeadline`, is now available, providing a way to easily c
 ===== UIMenuList and UIButton
 New UI components, `@UIMenuList` and `@UIMenuButton`, are now available, providing a way to create <<ui-menulist, buttons in menus>> that can expand a menu list or execute an action, while maintaining a consistent look and feel.
 
+==== Testing
+* *Conditions for AssertJ* +
+The utility class <<component-conditions, `ComponentConditions`>> providing UI specific conditions for AssertJ has been added to `linkki-vaadin-flow-test` to support writing more readable assertions.
+
+* *Component Tree Representation* +
+A new representation class, `ComponentTreeRepresentation`, has been added to provide a more expressive representation of components in AssertJ assertions.
+
+* *Added Functionality in KaribuUtils* +
+** `KaribuUtils#getTextContent` now also returns the text content of layout elements. Additionally, the component tree can now be returned without printing it using `KaribuUtils#getComponentTree`.
+** Added `KaribuUtils.ComboBoxes#setValueByLabel` to set the value within a combobox based on a label
+
+* *Method renaming within KaribuUtils.ComboBoxes*
+The following methods have been renamed:
+** `getComboBoxWithId` -> `getWithId`
+** `setComboBoxValue` -> `setValue`
+
 ==== Other Improvements
 
 * *New documentation chapter - How-To* +
@@ -83,14 +99,6 @@ Introduced a <<linkki-howto, How-To>> chapter containing coding examples and bes
 * *Relocation of UINestedComponent* +
 `UINestedComponent` has been moved from `linkki-core-nestedcomponent-vaadin-flow` to `linkki-core-vaadin-flow`. The module `linkki-core-nestedcomponent-vaadin-flow` has been removed.
 
-* *Conditions for AssertJ* +
-The utility class <<component-conditions, `ComponentConditions`>> providing UI specific conditions for AssertJ has been added to `linkki-vaadin-flow-test` to support writing more readable assertions.
-
-* *Component Tree Representation* +
-A new representation class, `ComponentTreeRepresentation`, has been added to provide a more expressive representation of components in AssertJ assertions.
-
-* *Added Functionality in KaribuUtils* +
-`KaribuUtils#getTextContent` now also returns the text content of layout elements. Additionally, the component tree can now be returned without printing it using `KaribuUtils#getComponentTree`.
 
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248
