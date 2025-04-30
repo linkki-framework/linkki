@@ -16,11 +16,10 @@ package org.linkki.core.ui.test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import kotlin.ranges.IntRange;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Condition;
@@ -33,6 +32,8 @@ import com.github.mvysny.kaributesting.v10.PrettyPrintTreeKt;
 import com.github.mvysny.kaributesting.v10.SearchSpec;
 import com.github.mvysny.kaributesting.v10.SearchSpecJ;
 import com.vaadin.flow.component.Component;
+
+import kotlin.ranges.IntRange;
 
 /**
  * AssertJ conditions to be used with {@link AbstractAssert#is(Condition)} or
@@ -121,7 +122,7 @@ public class ComponentConditions {
     private static <T extends Component> SearchSpec<T> createSearchSpec(Class<T> type) {
         return new SearchSpec<>(type, null, null, null, null,
                 null, new IntRange(0, Integer.MAX_VALUE), null, null,
-                null, null, null, null, null,
+                null, null, null, null, null, new HashMap<>(),
                 new ArrayList<>());
     }
 }

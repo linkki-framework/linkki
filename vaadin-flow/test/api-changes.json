@@ -53,9 +53,10 @@
           },
           {
             "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "package": "org\\.linkki\\.core.*",
-            "justification": "linkki core API"
+            "code": "java.annotation.attributeValueChanged",
+            "annotationType": "kotlin\\.jvm..*",
+            "attribute": "value",
+            "justification": "LIN-4260 Exclude kotlin metadata"
           }
         ]
       }

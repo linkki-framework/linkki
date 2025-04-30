@@ -45,10 +45,10 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
-            3.4.4
+            3.4.5
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
-        <karibu.version>2.2.2</karibu.version>
+        <karibu.version>2.2.4</karibu.version>
     </properties>
 
     <dependencyManagement>
