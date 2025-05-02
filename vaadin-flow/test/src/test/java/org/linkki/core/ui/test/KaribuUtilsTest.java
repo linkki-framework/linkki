@@ -144,7 +144,15 @@ class KaribuUtilsTest {
                 .matches(s -> StringUtils.countMatches(s, "Row") == 2)
                 .contains("item1 - 1").contains("item1 - 2").contains("item1 - 3")
                 .contains("item2 - 1").contains("item2 - 2").contains("item2 - 3");
-
+        assertThat(StringUtils.countMatches(printResult, "collapsed"))
+                .as("Both root items should be collapsed")
+                .isEqualTo(2);
+        assertThat(StringUtils.countMatches(printResult, "expanded"))
+                .as("There should be no expanded items in an unexpanded tree")
+                .isEqualTo(0);
+        assertThat(StringUtils.countMatches(printResult, "isLeaf"))
+                .as("There should be no leaf items in the unexpanded tree")
+                .isEqualTo(0);
     }
 
     @Test
@@ -181,6 +189,15 @@ class KaribuUtilsTest {
         assertThat(allVisibleItems).as("All items starting with item1 must be expanded and visible")
                 .isNotEmpty()
                 .allMatch(item -> StringUtils.countMatches(printResult, item) == 1);
+        assertThat(StringUtils.countMatches(printResult, "collapsed"))
+                .as("There should only be one collapsed item")
+                .isOne();
+        assertThat(StringUtils.countMatches(printResult, "expanded"))
+                .as("There should be exactly three expanded items")
+                .isEqualTo(3);
+        assertThat(StringUtils.countMatches(printResult, "isLeaf"))
+                .as("There should be exactly four leaf items")
+                .isEqualTo(4);
     }
 
     @Test

@@ -48,6 +48,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.treegrid.TreeGrid;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 
 /**
@@ -192,9 +193,27 @@ public class KaribuUtils {
 
         private static List<Row> fromGrid(Grid<?> grid) {
             return IntStream.range(0, GridKt._size(grid))
-                    .mapToObj(i -> GridKt._getFormattedRow(grid, i).toString())
+                    .mapToObj(i -> getFormattedRow(grid, i))
                     .map(Row::new)
                     .toList();
+        }
+
+        private static <T> String getFormattedRow(Grid<T> grid, int rowIndex) {
+            var formattedRow = GridKt._getFormattedRow(grid, rowIndex).toString();
+
+            if (grid instanceof TreeGrid<T> treeGrid) {
+                var row = GridKt._get(grid, rowIndex);
+                if (treeGrid.isExpanded(row)) {
+                    formattedRow += ", expanded";
+                } else {
+                    if (GridKt._rowSequence(treeGrid.getDataProvider(), row).iterator().hasNext()) {
+                        formattedRow += ", collapsed";
+                    } else {
+                        formattedRow += ", isLeaf";
+                    }
+                }
+            }
+            return formattedRow;
         }
     }
 
