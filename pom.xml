@@ -63,7 +63,7 @@
         <logback-version>1.5.18</logback-version>
 
         <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
-        <revapi-java.version>0.28.3</revapi-java.version>
+        <revapi-java.version>0.28.4</revapi-java.version>
 
         <!-- Maven plugin versions -->
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
