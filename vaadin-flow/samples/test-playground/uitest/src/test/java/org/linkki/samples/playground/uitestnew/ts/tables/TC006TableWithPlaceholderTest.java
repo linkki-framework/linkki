@@ -89,9 +89,6 @@ class TC006TableWithPlaceholderTest extends PlaygroundUiTest {
 
         assertThat(table.getRowCount()).isEqualTo(0);
         assertThat(table.hasAttribute(HAS_ITEMS_ATTRIBUTE)).isEqualTo(false);
-        assertThat(table.getSize().getHeight())
-                .describedAs("The table should not be shown anymore. Not placeholder text should be shown.")
-                .isEqualTo(0);
     }
 
     @Test

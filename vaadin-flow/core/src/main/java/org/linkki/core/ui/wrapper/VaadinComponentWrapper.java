@@ -30,8 +30,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.HasValidation;
-import com.vaadin.flow.component.HasValue;
-import com.vaadin.flow.component.shared.HasClientValidation;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -66,25 +64,6 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
     public VaadinComponentWrapper(Component component, WrapperType type) {
         this.component = component;
         this.type = type;
-        workaroundVaadinClientValidation();
-    }
-
-    /**
-     * Vaadin adds a client validator for every field which set the invalid property according to
-     * the internal field validation. Hence, we need to restore the correct invalid property
-     * afterward.
-     */
-    private void workaroundVaadinClientValidation() {
-        if (component instanceof HasClientValidation fieldWithClientValidation) {
-            fieldWithClientValidation.addClientValidatedEventListener(e -> {
-                var fieldElement = component.getElement();
-                var invalid = fieldElement.getAttribute(VaadinComponentWrapper.ATTRIBUTE_SEVERITY) != null;
-                if (component instanceof HasValue<?, ?> hasValueComponent) {
-                    invalid |= hasValueComponent.isEmpty() && hasValueComponent.isRequiredIndicatorVisible();
-                }
-                fieldElement.setProperty(PROPERTY_INVALID, invalid);
-            });
-        }
     }
 
     @Override
