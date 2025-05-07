@@ -51,6 +51,9 @@ Most notable changes:
 * The classes `SingleItemMenuBar` and `MenuItemDefinition` have been moved to `linkki-vaadin-flow-component`.
 * The functionality of `CommonApplicationHeader` was incorporated into <<application-header, `ApplicationHeader`>> and the newly introduced <<useraware-application-header,`UserAwareApplicationHeader`>>.
 Replace `CommonApplicationHeader` with `UserAwareApplicationHeader` if a user menu is needed and with `ApplicationHeader` otherwise.
+* `UIMenuList` and `UIMenuButton` now have a default value for `caption`. This attribute is not mandatory anymore. Existing declarations that use `DERIVED_BY_LINKKI` can be removed.
+* The `NavigationWorkaround` is not needed anymore and deprecated.
+Use `UI.getCurrent().navigate()` directly instead.
 
 include::2_8_linkki_f10_migration.adoc[]
 

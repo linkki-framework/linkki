@@ -214,6 +214,12 @@ class UIMenuListIntegrationTest {
         assertThat(icon.getElement().getAttribute("icon")).isEqualTo("vaadin:ellipsis-dots-h");
     }
 
+    @Test
+    void testMenuList_WithDefaultCaption() {
+        SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(6);
+        assertThat(menuList.getCaption()).isEqualTo("MenuListWithDefaultProperties");
+    }
+
     @UIVerticalLayout
     public static class MenuListTestPmo {
 
@@ -290,6 +296,11 @@ class UIMenuListIntegrationTest {
 
         @UIMenuList(position = 5, caption = "Default Icon Menu List")
         public List<MenuItemDefinition> getMenuListWithDefaultIcon() {
+            return Collections.emptyList();
+        }
+
+        @UIMenuList(position = 6)
+        public List<MenuItemDefinition> getMenuListWithDefaultProperties() {
             return Collections.emptyList();
         }
 

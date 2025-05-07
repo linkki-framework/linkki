@@ -14,15 +14,10 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -59,8 +54,8 @@ class UIMenuButtonIntegrationTest {
 
     @Test
     void testMenuButton_CreatesSingleItemMenuBar() {
-        assertThat(layout.getComponentAt(0), instanceOf(SingleItemMenuBar.class));
-        assertThat(layout.getComponentAt(1), instanceOf(SingleItemMenuBar.class));
+        assertThat(layout.getComponentAt(0)).isInstanceOf(SingleItemMenuBar.class);
+        assertThat(layout.getComponentAt(1)).isInstanceOf(SingleItemMenuBar.class);
     }
 
     @Test
@@ -68,8 +63,8 @@ class UIMenuButtonIntegrationTest {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(0);
         MenuItem theItem = menuButton.getItems().get(0);
 
-        assertThat(menuButton.getCaption(), is(MenuButtonTestPmo.BUTTON_CAPTION));
-        assertThat(theItem.getText(), is(MenuButtonTestPmo.BUTTON_CAPTION));
+        assertThat(menuButton.getCaption()).isEqualTo(MenuButtonTestPmo.BUTTON_CAPTION);
+        assertThat(theItem.getText()).isEqualTo(MenuButtonTestPmo.BUTTON_CAPTION);
     }
 
     @Test
@@ -77,16 +72,16 @@ class UIMenuButtonIntegrationTest {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(0);
         MenuItem theItem = menuButton.getItems().get(0);
 
-        assertThat(menuButton.getIcon(), is(VaadinIcon.BUTTON));
+        assertThat(menuButton.getIcon()).isEqualTo(VaadinIcon.BUTTON);
         Icon icon = (Icon)theItem.getChildren().toList().get(0);
-        assertThat(icon.getElement().getAttribute("icon"), is("vaadin:button"));
+        assertThat(icon.getElement().getAttribute("icon")).isEqualTo("vaadin:button");
     }
 
     @Test
     void testMenuButton_CaptionOverwrittenWithBindCaption() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(1);
 
-        assertThat(menuButton.getCaption(), is(MenuButtonTestPmo.BOUND_CAPTION));
+        assertThat(menuButton.getCaption()).isEqualTo(MenuButtonTestPmo.BOUND_CAPTION);
     }
 
     @Test
@@ -96,59 +91,66 @@ class UIMenuButtonIntegrationTest {
 
         // no icon
         List<Component> children = theItem.getChildren().toList();
-        assertThat(children, contains(instanceOf(Text.class)));
+        assertThat(children).hasOnlyElementsOfType(Text.class);
     }
 
     @Test
     void testMenuButton_IconOverwrittenWithBindIcon() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(1);
 
-        assertThat(menuButton.getIcon(), is(VaadinIcon.ABACUS));
+        assertThat(menuButton.getIcon()).isEqualTo(VaadinIcon.ABACUS);
     }
 
     @Test
     void testMenuButton_DynamicCaption() {
         SingleItemMenuBar dynamicButton = (SingleItemMenuBar)layout.getComponentAt(0);
-        assertThat(dynamicButton.getCaption(), is(MenuButtonTestPmo.BUTTON_CAPTION));
+        assertThat(dynamicButton.getCaption()).isEqualTo(MenuButtonTestPmo.BUTTON_CAPTION);
         testPmo.setDynamicButtonCaption("A Brave New Caption");
         bindingContext.modelChanged();
 
-        assertThat(dynamicButton.getCaption(), is("A Brave New Caption"));
+        assertThat(dynamicButton.getCaption()).isEqualTo("A Brave New Caption");
     }
 
     @Test
     void testMenuButton_DynamicEnabled() {
         SingleItemMenuBar dynamicButton = (SingleItemMenuBar)layout.getComponentAt(0);
-        assertThat(dynamicButton.isEnabled(), is(true));
+        assertThat(dynamicButton.isEnabled()).isTrue();
         testPmo.setDynamicEnabled(false);
         bindingContext.modelChanged();
 
-        assertThat(dynamicButton.isEnabled(), is(false));
+        assertThat(dynamicButton.isEnabled()).isFalse();
     }
 
     @Test
     void testMenuButton_Invoke() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(0);
         MenuItem theItem = menuButton.getItems().get(0);
-        assertThat(testPmo.getDummyValue(), is(StringUtils.EMPTY));
+        assertThat(testPmo.getDummyValue()).isEmpty();
 
         ComponentUtil.fireEvent(theItem, new ClickEvent<>(theItem));
 
-        assertThat(testPmo.getDummyValue(), is(MenuButtonTestPmo.BUTTON_CLICKED_VALUE));
+        assertThat(testPmo.getDummyValue()).isEqualTo(MenuButtonTestPmo.BUTTON_CLICKED_VALUE);
     }
 
     @Test
     void testMenuButton_WithVariant() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(0);
 
-        assertThat(menuButton.getContent().getThemeNames(), contains(MenuBarVariant.LUMO_PRIMARY.getVariantName()));
+        assertThat(menuButton.getContent().getThemeNames()).contains(MenuBarVariant.LUMO_PRIMARY.getVariantName());
     }
 
     @Test
     void testMenuButton_NoVariant() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(1);
 
-        assertThat(menuButton.getContent().getThemeNames(), is(empty()));
+        assertThat(menuButton.getContent().getThemeNames()).isEmpty();
+    }
+
+    @Test
+    void testMenuButton_WithDefaultCaption() {
+        SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(3);
+
+        assertThat(menuButton.getCaption()).isEqualTo("ButtonWithDefaultProperties");
     }
 
     @UIVerticalLayout
@@ -183,6 +185,11 @@ class UIMenuButtonIntegrationTest {
 
         @UIMenuButton(caption = BUTTON_CAPTION, icon = VaadinIcon.BUTTON, position = 4, showIcon = false)
         public void buttonWithoutIcon() {
+            //
+        }
+
+        @UIMenuButton(position = 5, icon = VaadinIcon.BUTTON)
+        public void buttonWithDefaultProperties() {
             //
         }
 

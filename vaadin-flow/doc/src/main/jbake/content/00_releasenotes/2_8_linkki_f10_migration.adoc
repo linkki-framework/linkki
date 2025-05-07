@@ -96,7 +96,6 @@ The remaining components of `linkki-f10-search` are moved to `linkki-search-vaad
 |===
 =====
 
-The `NavigationWorkaround` is not needed anymore.
-Instead use UI.getCurrent().navigate().
+The `NavigationWorkaround` is not needed anymore. Usages can be replaced by `UI.getCurrent().navigate()`.
 
 ====
