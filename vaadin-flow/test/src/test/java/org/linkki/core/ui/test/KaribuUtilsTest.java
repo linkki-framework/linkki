@@ -7,6 +7,7 @@ package org.linkki.core.ui.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.linkki.core.ui.test.KaribuUtils.Dialogs.getFirstMessage;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -14,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.io.Serial;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -25,9 +27,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.Severity;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -553,7 +558,7 @@ class KaribuUtilsTest {
         }
 
         @Test
-        void testCickCancelButton() {
+        void testClickCancelButton() {
             UI.getCurrent().add(dialogLayout.getContent());
             dialogLayout.getContent().open();
 
@@ -568,6 +573,21 @@ class KaribuUtilsTest {
             assertThat(KaribuUtils.Dialogs.getContents(dialogLayout)).contains(label);
         }
 
+        @Test
+        void testGetFirstMessage() {
+            var dialogWithError = new TestDialogLayout(Stream.of(label), okHandler, cancelHandler,
+                    new Message("error code", "error text", Severity.ERROR));
+
+            var errorText = getFirstMessage(dialogWithError);
+
+            assertThat(KaribuUtils.getTextContent(errorText)).isEqualTo("error text");
+        }
+
+        @Test
+        void testGetFirstMessage_NoMessages() {
+            assertThrows(AssertionError.class, () -> getFirstMessage(dialogLayout));
+        }
+
         static class TestDialogLayout extends Composite<Dialog> {
 
             @Serial
@@ -577,7 +597,7 @@ class KaribuUtilsTest {
             private final Button cancelButton;
 
             TestDialogLayout(Stream<Component> content, org.linkki.util.handler.Handler okHandler,
-                    org.linkki.util.handler.Handler cancelHandler) {
+                    org.linkki.util.handler.Handler cancelHandler, Message... messages) {
                 okButton = new Button();
                 okButton.addClickListener(event -> okHandler.apply());
                 okButton.setId("okButton");
@@ -591,7 +611,15 @@ class KaribuUtilsTest {
 
                 content.forEach(contentLayout::add);
 
-                getContent().add(okButton, cancelButton, contentLayout);
+                var messageLayout = new Div();
+                messageLayout.addClassName("linkki-dialog-message-area");
+                messageLayout.setVisible(messages.length > 0);
+
+                Stream.of(messages)
+                        .max(Comparator.comparing(Message::getSeverity))
+                        .ifPresent(m -> messageLayout.add(new Text(m.getText())));
+
+                getContent().add(okButton, cancelButton, contentLayout, messageLayout);
             }
 
             public Button getOkButton() {
@@ -603,7 +631,6 @@ class KaribuUtilsTest {
             }
 
         }
-
     }
 
     @Nested

@@ -450,6 +450,14 @@ public class KaribuUtils {
                     .getChildren().toList();
         }
 
+        /**
+         * Returns the component of the first shown validation message in the OkCancelDialog.
+         */
+        public static Component getFirstMessage(Composite<Dialog> dialog) {
+            return _get(dialog, Div.class, ss -> ss.withClasses("linkki-dialog-message-area"))
+                    .getChildren().findFirst().orElseThrow(() -> new AssertionError("No visible message found"));
+        }
+
         private static Button getOkButton(Dialog dialog) {
             return _get(dialog, Button.class, ss -> ss.withId("okButton"));
         }

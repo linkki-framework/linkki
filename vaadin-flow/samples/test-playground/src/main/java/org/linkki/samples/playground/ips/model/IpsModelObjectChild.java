@@ -28,6 +28,9 @@ import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
+import org.faktorips.runtime.IModelObject;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Implementation for IpsModelObjectChild.
@@ -109,6 +112,71 @@ public class IpsModelObjectChild extends IpsModelObject {
             return newChild;
         }
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @generated
+     */
+    @Override
+    @IpsGenerated
+    public IpsModelObjectChild newCopy() {
+        Map<IModelObject, IModelObject> copyMap = new HashMap<>();
+        IpsModelObjectChild newCopy = newCopyInternal(copyMap);
+        copyAssociationsInternal(newCopy, copyMap);
+        return newCopy;
+    }
+
+    /**
+     * Internal copy method with a {@link Map} containing already copied instances.
+     *
+     * @param copyMap the map contains the copied instances
+     *
+     * @generated
+     */
+    @Override
+    @IpsGenerated
+    public IpsModelObjectChild newCopyInternal(Map<IModelObject, IModelObject> copyMap) {
+        IpsModelObjectChild newCopy = (IpsModelObjectChild)copyMap.get(this);
+        if (newCopy == null) {
+            newCopy = new IpsModelObjectChild();
+            copyMap.put(this, newCopy);
+            copyProperties(newCopy, copyMap);
+        }
+        return newCopy;
+    }
+
+    /**
+     * This method sets all properties in the copy with the values of this object. If there are
+     * copied associated objects they are added to the copyMap in {@link #newCopyInternal(Map)}.
+     *
+     * @param copy The copy object
+     * @param copyMap a map containing copied associated objects
+     *
+     * @generated
+     */
+    @Override
+    @IpsGenerated
+    protected void copyProperties(IModelObject copy, Map<IModelObject, IModelObject> copyMap) {
+        super.copyProperties(copy, copyMap);
+    }
+
+    /**
+     * Internal method for setting copied associations. For copied targets, the associations have to
+     * be retargeted to the new copied instances. This method have to call
+     * {@link #copyAssociationsInternal(IModelObject, Map)} in other instances associated by
+     * composite.
+     *
+     * @param abstractCopy the copy of this policy component
+     * @param copyMap the map contains the copied instances
+     *
+     * @generated
+     */
+    @Override
+    @IpsGenerated
+    public void copyAssociationsInternal(IModelObject abstractCopy, Map<IModelObject, IModelObject> copyMap) {
+        super.copyAssociationsInternal(abstractCopy, copyMap);
     }
 
     /**

@@ -35,14 +35,14 @@ import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.SortableTablePmo;
 import org.linkki.samples.playground.table.TableWithEmptyLabelColumnPmo;
 import org.linkki.samples.playground.table.TableWithValidationSection;
 import org.linkki.samples.playground.table.VaryingAlignmentTablePmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.collapsible.CollapsibleColumnTablePmo;
 import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
@@ -62,9 +62,9 @@ import org.linkki.samples.playground.ts.aspects.BindSlotPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ts.aspects.BindSuffixPmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
+import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoNoBorder;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoWithoutVariant;
-import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
 import org.linkki.samples.playground.ts.components.DynamicHeadlinePmo;
 import org.linkki.samples.playground.ts.components.board.SampleBoardView;
 import org.linkki.samples.playground.ts.components.futureaware.CustomFutureAwarePmo;
@@ -78,6 +78,7 @@ import org.linkki.samples.playground.ts.dialogs.OkCancelDialogOverflowPmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogSectionSpacingPmo;
 import org.linkki.samples.playground.ts.dialogs.QuestionAndConfirmationDialogPmo;
 import org.linkki.samples.playground.ts.dialogs.SetFormItemLabelWidthDialogPmo;
+import org.linkki.samples.playground.ts.dialogs.UIOpenDialogButtonPmo;
 import org.linkki.samples.playground.ts.error.ErrorDialogPmo;
 import org.linkki.samples.playground.ts.error.ErrorPagePmo;
 import org.linkki.samples.playground.ts.formelements.ButtonPmo;
@@ -346,7 +347,8 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC005, new SetFormItemLabelWidthDialogPmo())
                                        .testCase(TC006, new DialogWithCustomSizePmo())
                                        .testCase(TC007, new DialogErrorHandlerPmo())
-                                       .testCase(TC008, new OkCancelDialogMessagePmo()).createTabSheet(),
+                                       .testCase(TC008, new OkCancelDialogMessagePmo())
+                                       .testCase(TC009, new UIOpenDialogButtonPmo()).createTabSheet(),
                                TestScenario.id(TS012)
                                        .testCase(TC001, TableWithValidationSection::create)
                                        .testCase(TC002, SelectableTableSection::create)

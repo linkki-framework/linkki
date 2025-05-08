@@ -10,6 +10,7 @@
 NOTE: Dependency <<_linkki_application_framework, `linkki-application-framework`>> is needed.
 
 ==== Creating dialogs with PMOs using layout annotation
+
 Dialogs can be created with PMOs annotated with any <<layout, layout annotation>> when using `PmoBasedDialogFactory`.
 Instances of `PmoBasedDialogFactory` with a pre-configured `IpsPropertyDispatcherFactory` can be created using
 `IpsDialogCreator#create()` or `IpsDialogCreator#with(ValidationService)` methods.
@@ -17,13 +18,68 @@ Instances of `PmoBasedDialogFactory` with a pre-configured `IpsPropertyDispatche
 NOTE: PMO classes without any layout annotation are not supported when using `PmoBasedDialogFactory`
 
 .Creating a dialog using `PmoBasedDialogFactory`
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutContentDialog.java[tags=openDialog]
 ----
 
 .PMO using `@UIVerticalLayout`
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutContentDialog.java[tags=verticalLayout]
+----
+
+[[uiOpenDialogButton]]
+==== Creating dialogs on button click
+
+===== Creating dialogs with @UIOpenDialogButton
+Sometimes, a value or a grid item should not be edited directly.
+Instead, a dialog should be opened upon a button click in which the user can edit the value in a more complex form.
+To implement this use case, `BindingContext#modelChanged` often needs to be passed to the PMO to update the underlying `BindingContext` after the OK button was clicked.
+
+The UI annotation `@UIOpenDialogButton` resolves this inconvenience.
+The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click.
+When the user clicks on the OK button, the underlying `BindingContext` is updated automatically.
+
+[NOTE]
+Updating the `BindingContext` is not necessary if pressing the OK button navigates to another view.
+
+.Dialog created with `@UIOpenDialogButton`
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=uiOpenDialogButton]
+----
+
+The annotated method must return a `DialogPmo`, which defines the following properties:
+
+* The caption used to create the dialog.
+* The OK handler that is called when pressing the dialogs OK button.
+* The PMO for the content of the dialog.
+* A validate method that returns a `MessageList` containing validation messages that are shown in the dialog.
+By default, no validation is executed.
+* The <<property-dispatcher, `PropertyDispatcherFactory`>> that handles the communication between properties and their behaviour.
+
+===== Creating dialogs with @UIButton
+If using `@UIOpenDialogButton` is not flexible enough or if `BindingContext#modelChanged` should not be called automatically, the dialog can also be opened using <<ui-button,`@UIButton`>>.
+
+.Dialog created with `@UIButton`
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=openDialogWithUIButton]
+----
+
+===== Creating dialogs with DialogPmo and @UIButton
+The `DialogPmo` can also be used in combination with <<ui-button,`@UIButton`>> to encapsulate the dialog properties within one class.
+
+.Dialog created with `DialogPmo` and `@UIButton`
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=openDialogPmoWithUIButton]
+----
+
+===== Example DialogPmo and ContentPmo
+.Example DialogPmo and ContentPmo
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=dialogPmo]
 ----

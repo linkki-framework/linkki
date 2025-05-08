@@ -4,10 +4,10 @@
  <Label locale="de"/>
  <Description locale="en"/>
  <Description locale="de"/>
- <Attribute attributeType="changeable" changingOverTime="true" datatype="Decimal" modifier="published" name="decimal">
+ <Attribute attributeType="changeable" changingOverTime="true" datatype="Decimal" genericValidation="true" modifier="published" name="decimal">
   <DefaultValue>42</DefaultValue>
-  <Label locale="en"/>
-  <Label locale="de"/>
+  <Label locale="en" value="A Decimal attribute"/>
+  <Label locale="de" value="Ein Decimal-Attribut"/>
   <Description locale="en"/>
   <Description locale="de"/>
   <ValueSet>
@@ -138,20 +138,4 @@
    <Enum/>
   </ValueSet>
  </Attribute>
- <ValidationRuleDef activatedByDefault="true" changingOverTime="false" checkValueAgainstValueSetRule="true" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal">
-  <ValidatedAttribute name="decimal"/>
-  <Markers>
-   <Marker name="T"/>
-  </Markers>
-  <MessageText>
-   <InternationalString>
-    <LocalizedString locale="en" text="The decimal value must be in the range {range} but is {actual}."/>
-    <LocalizedString locale="de" text="Der Wert von decimal muss im Bereich {range} liegen, ist aber {actual}."/>
-   </InternationalString>
-  </MessageText>
-  <Label locale="en"/>
-  <Label locale="de"/>
-  <Description locale="en"/>
-  <Description locale="de"/>
- </ValidationRuleDef>
 </PolicyCmptType>

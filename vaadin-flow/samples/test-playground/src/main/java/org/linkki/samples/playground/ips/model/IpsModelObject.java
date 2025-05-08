@@ -14,20 +14,15 @@
 
 package org.linkki.samples.playground.ips.model;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.faktorips.runtime.IRuntimeRepository;
 import org.faktorips.runtime.IValidationContext;
-import org.faktorips.runtime.Message;
+import org.faktorips.runtime.validation.GenericRelevanceValidation;
 import org.faktorips.runtime.MessageList;
-import org.faktorips.runtime.MsgReplacementParameter;
-import org.faktorips.runtime.ObjectProperty;
-import org.faktorips.runtime.Severity;
 import org.faktorips.runtime.annotation.IpsGenerated;
 import org.faktorips.runtime.internal.AbstractModelObject;
+import org.faktorips.runtime.ICopySupport;
 import org.faktorips.runtime.internal.IpsStringUtils;
 import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
@@ -36,11 +31,8 @@ import org.faktorips.runtime.model.annotation.IpsAttributes;
 import org.faktorips.runtime.model.annotation.IpsDefaultValue;
 import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
-import org.faktorips.runtime.model.annotation.IpsValidationRule;
-import org.faktorips.runtime.model.annotation.IpsValidationRules;
 import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
-import org.faktorips.runtime.util.MessagesHelper;
 import org.faktorips.values.Decimal;
 import org.faktorips.valueset.DecimalRange;
 import org.faktorips.valueset.IntegerRange;
@@ -48,6 +40,8 @@ import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
+import org.faktorips.runtime.IModelObject;
+import java.util.HashMap;
 
 /**
  * Implementation for IpsModelObject.
@@ -58,17 +52,9 @@ import org.w3c.dom.Element;
 @IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "emptyValueSet",
         "enumerationValueSet", "integerEnumerationValueSet", "integerRangeValueSet", "booleanValueSet",
         "emptyStringValueSet" })
-@IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions",
         defaultLocale = "en")
-public class IpsModelObject extends AbstractModelObject {
-
-    /**
-     * Error code for rule checkDecimal.
-     *
-     * @generated
-     */
-    public static final String MSG_CODE_CHECK_DECIMAL = "INVALID_DECIMAL";
+public class IpsModelObject extends AbstractModelObject implements ICopySupport {
 
     /**
      * The name of the property decimal.
@@ -875,6 +861,78 @@ public class IpsModelObject extends AbstractModelObject {
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @generated
+     */
+    @Override
+    @IpsGenerated
+    public IpsModelObject newCopy() {
+        Map<IModelObject, IModelObject> copyMap = new HashMap<>();
+        IpsModelObject newCopy = newCopyInternal(copyMap);
+        copyAssociationsInternal(newCopy, copyMap);
+        return newCopy;
+    }
+
+    /**
+     * Internal copy method with a {@link Map} containing already copied instances.
+     *
+     * @param copyMap the map contains the copied instances
+     *
+     * @generated
+     */
+    @IpsGenerated
+    public IpsModelObject newCopyInternal(Map<IModelObject, IModelObject> copyMap) {
+        IpsModelObject newCopy = (IpsModelObject)copyMap.get(this);
+        if (newCopy == null) {
+            newCopy = new IpsModelObject();
+            copyMap.put(this, newCopy);
+            copyProperties(newCopy, copyMap);
+        }
+        return newCopy;
+    }
+
+    /**
+     * This method sets all properties in the copy with the values of this object. If there are
+     * copied associated objects they are added to the copyMap in {@link #newCopyInternal(Map)}.
+     *
+     * @param copy The copy object
+     * @param copyMap a map containing copied associated objects
+     *
+     * @generated
+     */
+    @IpsGenerated
+    protected void copyProperties(IModelObject copy, Map<IModelObject, IModelObject> copyMap) {
+        IpsModelObject concreteCopy = (IpsModelObject)copy;
+        concreteCopy.decimal = decimal;
+        concreteCopy.string = string;
+        concreteCopy.unrestrictedInclNull = unrestrictedInclNull;
+        concreteCopy.unrestrictedExclNull = unrestrictedExclNull;
+        concreteCopy.emptyValueSet = emptyValueSet;
+        concreteCopy.enumerationValueSet = enumerationValueSet;
+        concreteCopy.integerEnumerationValueSet = integerEnumerationValueSet;
+        concreteCopy.integerRangeValueSet = integerRangeValueSet;
+        concreteCopy.booleanValueSet = booleanValueSet;
+        concreteCopy.emptyStringValueSet = emptyStringValueSet;
+    }
+
+    /**
+     * Internal method for setting copied associations. For copied targets, the associations have to
+     * be retargeted to the new copied instances. This method have to call
+     * {@link #copyAssociationsInternal(IModelObject, Map)} in other instances associated by
+     * composite.
+     *
+     * @param abstractCopy the copy of this policy component
+     * @param copyMap the map contains the copied instances
+     *
+     * @generated
+     */
+    @IpsGenerated
+    public void copyAssociationsInternal(IModelObject abstractCopy, Map<IModelObject, IModelObject> copyMap) {
+        // Nothing to do.
+    }
+
+    /**
      * Validates the object (but not its children). Returns <code>true</code> if this object should
      * continue validating, <code>false</code> otherwise.
      *
@@ -886,9 +944,7 @@ public class IpsModelObject extends AbstractModelObject {
         if (!super.validateSelf(ml, context)) {
             return STOP_VALIDATION;
         }
-        if (!checkDecimal(ml, context)) {
-            return STOP_VALIDATION;
-        }
+        ml.add(GenericRelevanceValidation.of(this, IpsModelObject.class, PROPERTY_DECIMAL, context));
         return CONTINUE_VALIDATION;
     }
 
@@ -902,56 +958,4 @@ public class IpsModelObject extends AbstractModelObject {
     public void validateDependants(MessageList ml, IValidationContext context) {
         super.validateDependants(ml, context);
     }
-
-    /**
-     *
-     * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
-     *
-     * @param ml list to which validation errors are added
-     * @param context the validation context
-     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it
-     *         should be stopped after processing this rule.
-     *
-     * @restrainedmodifiable
-     */
-    @IpsValidationRule(name = "checkDecimal", msgCode = MSG_CODE_CHECK_DECIMAL, severity = Severity.ERROR)
-    @IpsGenerated
-    protected boolean checkDecimal(MessageList ml, IValidationContext context) {
-        if (getAllowedValuesForDecimal().isEmpty() && getDecimal() == Decimal.NULL) {
-            return CONTINUE_VALIDATION;
-        }
-        if (!getAllowedValuesForDecimal().contains(getDecimal())) {
-
-            // begin-user-code
-            ml.add(createMessageForRuleCheckDecimal(context, null, null));
-            // end-user-code
-        }
-        return CONTINUE_VALIDATION;
-    }
-
-    /**
-     * Creates a message to indicate that the rule checkDecimal has found an invalid state.
-     *
-     * @generated
-     */
-    @IpsGenerated
-    protected Message createMessageForRuleCheckDecimal(IValidationContext context, Object range, Object actual) {
-        List<ObjectProperty> invalidObjectProperties = Arrays.asList(
-                                                                     new ObjectProperty(this, PROPERTY_DECIMAL));
-        MsgReplacementParameter[] replacementParameters = new MsgReplacementParameter[] {
-                new MsgReplacementParameter("range", range),
-                new MsgReplacementParameter("actual", actual)
-        };
-        MessagesHelper messageHelper = new MessagesHelper("org.linkki.samples.playground.ips.model.validation-messages",
-                getClass().getClassLoader(), Locale.ENGLISH);
-        String msgText = messageHelper.getMessage("IpsModelObject-checkDecimal", context.getLocale(), range, actual);
-
-        Message.Builder builder = new Message.Builder(msgText, Severity.ERROR)
-                .code(MSG_CODE_CHECK_DECIMAL)
-                .invalidObjects(invalidObjectProperties)
-                .replacements(replacementParameters)
-                .markers(Marker.TECHNICAL_CONSTRAINT_VIOLATED);
-        return builder.create();
-    }
-
 }

@@ -103,7 +103,7 @@
    <Property name="toXMLSupport" value="false"/>
 
    <!--Enables the generation of a model copy mechanism-->
-   <Property name="generateCopySupport" value="false"/>
+   <Property name="generateCopySupport" value="true"/>
 
    <!--Enables the generation of visitor code-->
    <Property name="generateVisitorSupport" value="false"/>
