@@ -17,6 +17,7 @@ The following versions have been updated:
 |===
 | Faktor-IPS                | 24.7.8.release
 | Spring Boot               | 3.3.10
+| Netty                  | 4.1.119.Final
 |===
 
 // ==== Bugfixes
