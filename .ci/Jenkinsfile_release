@@ -116,11 +116,11 @@ pipeline {
                     uploadRelease() {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                             // only publish final releases (no rcs & milestones) on maven central
-                            if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
+                            //if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
                                 sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc'
-                            } else {
-                                sh 'mvn javadoc:jar source:jar deploy -Ddoc.user=doc'
-                            }
+                            //} else {
+                            //    sh 'mvn javadoc:jar source:jar deploy -Ddoc.user=doc'
+                            //}
                         }
                     }
                 }
