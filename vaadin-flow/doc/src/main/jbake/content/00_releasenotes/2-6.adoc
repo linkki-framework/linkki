@@ -5,6 +5,20 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.6.5
+
+==== New features and improvements
+
+===== Dependency Updates
+
+The following versions have been updated:
+
+[cols="a,a"]
+|===
+| Spring Boot               | 3.3.11
+| Netty                  | 4.1.121.Final
+|===
+
 === Version 2.6.4
 
 ==== New features and improvements

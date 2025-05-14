@@ -18,8 +18,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <spotbugs.version>4.8.6</spotbugs.version>
-        <spring-boot.version>3.3.10</spring-boot.version>
-        <tomcat.version>10.1.40</tomcat.version>
+        <spring-boot.version>3.3.11</spring-boot.version>
+        <tomcat.version>10.1.41</tomcat.version>
         <checkstyle.version>10.14.2</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
