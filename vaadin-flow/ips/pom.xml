@@ -25,6 +25,7 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin-flow</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -33,11 +34,13 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin-flow-test</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-application-framework-vaadin-flow</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
