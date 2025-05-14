@@ -667,19 +667,22 @@
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>${central-publishing-maven-plugin.version}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <publishingServerId>central</publishingServerId>
-                            <!-- <skipPublishing>false</skipPublishing>-->
-                            <deploymentName>linkki ${project.version}</deploymentName>
-                            <!-- We don't need to deploy parent modules without code, as their information is flattened in their child modules; they are referenced by their artifactId -->
-                            <excludeArtifacts>
-                                <!-- faktorips-abstraction-testsetup,faktorips-devtools-parent,faktorips-maven,faktorips-model-test,faktorips-runtime-parent,targets-->
-                            </excludeArtifacts>
-                        </configuration>
                     </plugin>
                 </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.sonatype.central</groupId>
+                            <artifactId>central-publishing-maven-plugin</artifactId>
+                            <version>${central-publishing-maven-plugin.version}</version>
+                            <extensions>true</extensions>
+                            <configuration>
+                                <publishingServerId>central</publishingServerId>
+                                <deploymentName>linkki ${project.version}</deploymentName>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
     </profiles>

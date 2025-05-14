@@ -13,6 +13,7 @@
     <packaging>jar</packaging>
 
     <name>linkki Vaadin Flow Samples :: Sample model</name>
+    <description>Sample model for linkki samples</description>
 
     <properties>
         <revapi.skip>true</revapi.skip>
@@ -28,19 +29,6 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>linkki Releases</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>linkki Snapshots</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <build>
         <plugins>
