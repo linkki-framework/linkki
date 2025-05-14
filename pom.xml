@@ -671,7 +671,7 @@
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>central</publishingServerId>
-                            <skipPublishing>true</skipPublishing>
+                            <!-- <skipPublishing>false</skipPublishing>-->
                             <deploymentName>linkki ${project.version}</deploymentName>
                             <!-- We don't need to deploy parent modules without code, as their information is flattened in their child modules; they are referenced by their artifactId -->
                             <excludeArtifacts>
