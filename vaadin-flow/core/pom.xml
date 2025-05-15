@@ -17,18 +17,18 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core</artifactId>
-            <version>2.5.6-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-test</artifactId>
-            <version>2.5.6-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin-flow-test</artifactId>
-            <version>2.5.6-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

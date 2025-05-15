@@ -67,6 +67,11 @@
                 <version>${karibu.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-testbench-junit5</artifactId>
+                <version>${vaadin.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

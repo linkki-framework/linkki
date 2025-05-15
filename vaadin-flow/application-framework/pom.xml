@@ -18,22 +18,22 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-utils</artifactId>
-            <version>2.5.6-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin-flow</artifactId>
-            <version>2.5.6-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin-flow-component</artifactId>
-            <version>2.5.6-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-nestedcomponent-vaadin-flow</artifactId>
-            <version>2.5.6-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin-flow-test</artifactId>
-            <version>2.5.6-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -13,6 +13,26 @@
     <packaging>pom</packaging>
 
     <name>linkki Vaadin Flow Samples</name>
+    <description>Samples for linkki</description>
+    <url>https://github.com/linkki-framework/linkki</url>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>Faktor Zehn GmbH</name>
+        <url>https://www.faktorzehn.de</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Faktor Zehn</name>
+            <email>info@faktorzehn.de</email>
+            <organization>Faktor Zehn GmbH</organization>
+            <organizationUrl>https://www.faktorzehn.de</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,9 +44,11 @@
         <tomcat.version>10.1.41</tomcat.version>
         <checkstyle.version>10.12.7</checkstyle.version>
 
+        <git.user>${user.name}</git.user>
+
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
-        
+
         <!-- Maven plugin versions -->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
@@ -383,6 +405,26 @@
         </pluginManagement>
 
     </build>
+
+    <scm>
+        <connection>scm:git:https://github.com/linkki-framework/linkki.git</connection>
+        <developerConnection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki.git</developerConnection>
+        <url>https://github.com/linkki-framework/linkki/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>linkki Releases</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>linkki Snapshots</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
 </project>
