@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,6 +14,26 @@
     <packaging>pom</packaging>
 
     <name>linkki Vaadin Flow Samples</name>
+    <description>Samples for linkki</description>
+    <url>https://github.com/linkki-framework/linkki</url>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>Faktor Zehn GmbH</name>
+        <url>https://www.faktorzehn.de</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Faktor Zehn</name>
+            <email>info@faktorzehn.de</email>
+            <organization>Faktor Zehn GmbH</organization>
+            <organizationUrl>https://www.faktorzehn.de</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +42,7 @@
         <spring-boot.version>3.4.5</spring-boot.version>
         <spring-framework.version>6.2.7</spring-framework.version>
         <checkstyle.version>10.20.2</checkstyle.version>
+        <git.user>${user.name}</git.user>
 
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
@@ -83,7 +105,7 @@
                 <version>${jakarta.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-annotations</artifactId>
@@ -337,6 +359,26 @@
         </pluginManagement>
 
     </build>
+
+    <scm>
+        <connection>scm:git:https://github.com/linkki-framework/linkki.git</connection>
+        <developerConnection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki.git</developerConnection>
+        <url>https://github.com/linkki-framework/linkki/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>linkki Releases</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>linkki Snapshots</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
 </project>
