@@ -1,6 +1,8 @@
 library 'f10-jenkins-library@1.1_patches'
 library 'release-library@1.2'
 
+import groovy.json.JsonOutput
+
 def additionalReleaseActions() {
     // set version in uitest module to RELEASE_VERSION
     sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set \
@@ -131,7 +133,50 @@ pipeline {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                             // only publish final releases (no rcs & milestones) on maven central
                             if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                                sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc'
+                                sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc | tee target/deploy.log'
+                                script {
+                                    withCredentials([string(credentialsId: 'sonatype.central.token', variable: 'SONATYPE_CREDENTIALS')]) {
+                                        DeploymentId = sh (
+                                            script: 'grep -P -o  -i "(?<=Deployment )[a-f0-9-]+(?= has been validated)" target/deploy.log',
+                                            returnStdout: true
+                                        ).trim()
+                                        rtp parserName: 'HTML', nullAction: '1', stableText: """
+                                            <h2>Deployment</h2>
+                                            <script>
+                                            function copyToClipboard() {
+                                              navigator.clipboard.writeText("${DeploymentId}");
+                                            }
+                                            </script>
+                                            Deployment-ID: ${DeploymentId}&nbsp;<button onclick="copyToClipboard()">&#x1f4cb;</button><br />
+                                            &#x2705;: <a href='https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_ReleaseOnMavenCentral/build'>Release on Maven Central</a><br />
+                                            &#x274C;: <a href='https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_DropOnMavenCentral/build'>Drop on Maven Central</a> - ggf. Nexus und update.faktorzehn.org von Admin aufr&auml;umen lassen
+                                          """
+                                        responseStatus = sh (
+                                            script: 'curl -X POST https://central.sonatype.com/api/v1/publisher/status?id=' + DeploymentId + ' \
+                                                        -H "accept: application/json" -H "Authorization: Bearer $SONATYPE_CREDENTIALS" -d "" --fail',
+                                            returnStdout: true
+                                        ).trim()
+
+                                        props = readJSON text: "${responseStatus}"
+
+                                        try {
+                                            // publish only works on VALIDATED
+                                            assert props.deploymentState == 'VALIDATED'
+
+                                        } catch(Throwable errStatus) {
+                                            rtp parserName: 'HTML', nullAction: '1', stableText: """
+                                                <h2>Status of ${DEPLOYMENT_ID}</h2>
+                                                <span style="background:#ff9999;padding: 1em;font-weight: bold;">deploymentState is not VALIDATED but ${props.deploymentState}</span>
+                                            """
+                                            error("deploymentState is not VALIDATED but ${props.deploymentState}")
+                                        }
+                                        formatted = JsonOutput.prettyPrint(responseStatus).replace(" ", "&nbsp;").replace("\n","<br />\n")
+                                        rtp parserName: 'HTML', nullAction: '1', stableText: """
+                                                <h2>Deployment Status:</h2>
+                                                <span style="font-family: monospace;">${formatted}</span>
+                                            """
+                                    }
+                                }
                             } else {
                                 sh 'mvn javadoc:jar source:jar deploy -Ddoc.user=doc'
                             }
