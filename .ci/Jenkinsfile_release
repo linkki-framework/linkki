@@ -1,6 +1,8 @@
 library 'f10-jenkins-library@1.1_patches'
 library 'release-library@1.2'
 
+import groovy.json.JsonOutput
+
 def additionalReleaseActions() {
     // set version in uitest module to RELEASE_VERSION
     sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set \
@@ -136,8 +138,8 @@ pipeline {
                                     }
                                     </script>
                                     Deployment-ID: ${DeploymentId}&nbsp;<button onclick="copyToClipboard()">&#x1f4cb;</button><br />
-                                    &#x2705;: <a href='https://druiden-ci.faktorzehn.de/view/linkki/job/linkki_ReleaseOnMavenCentral/build'>Release on Maven Central</a><br />
-                                    &#x274C;: <a href='https://druiden-ci.faktorzehn.de/view/linkki/job/linkki_DropOnMavenCentral/build'>Drop on Maven Central</a> - ggf. Nexus und update.faktorzehn.org von Admin aufr&auml;umen lassen
+                                    &#x2705;: <a href='https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_ReleaseOnMavenCentral/build'>Release on Maven Central</a><br />
+                                    &#x274C;: <a href='https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_DropOnMavenCentral/build'>Drop on Maven Central</a> - ggf. Nexus und update.faktorzehn.org von Admin aufr&auml;umen lassen
                                   """
                                 responseStatus = sh (
                                     script: 'curl -X POST https://central.sonatype.com/api/v1/publisher/status?id=' + DeploymentId + ' \
