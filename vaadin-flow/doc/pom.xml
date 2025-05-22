@@ -18,7 +18,7 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <sonar.skip>true</sonar.skip>
 
-        <jade-maven-plugin.version>1.1.2</jade-maven-plugin.version>
+        <jade-maven-plugin.version>1.1.4</jade-maven-plugin.version>
         <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
         <wagon-ssh.version>3.4.3</wagon-ssh.version>
 

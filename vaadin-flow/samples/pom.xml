@@ -19,9 +19,9 @@
         <java.version>17</java.version>
         <vaadin.version>24.3.20</vaadin.version>
         <spotbugs.version>4.8.6</spotbugs.version>
-        <spring-boot.version>3.2.11</spring-boot.version>
+        <spring-boot.version>3.2.12</spring-boot.version>
         <spring-framework.version>6.1.20</spring-framework.version>
-        <tomcat.version>10.1.39</tomcat.version>
+        <tomcat.version>10.1.41</tomcat.version>
         <checkstyle.version>10.12.7</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
@@ -31,10 +31,10 @@
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-        <maven-deploy-plugin.version>3.1.3</maven-deploy-plugin.version>
+        <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <spotbugs-maven-plugin.version>4.8.1.0</spotbugs-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <tomee-maven-plugin.version>7.1.4</tomee-maven-plugin.version>

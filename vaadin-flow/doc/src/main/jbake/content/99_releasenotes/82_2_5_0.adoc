@@ -5,8 +5,22 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 2.5.6
+
+==== New features and improvements
+
+===== Dependency Updates
+
+The following versions have been updated:
+[cols="1,1"]
+|===
+|Faktor-IPS         |24.1.18.release
+|Spring Boot        |3.2.12
+|===
 
 === Version 2.5.5
+
+==== New features and improvements
 
 ===== Dependency Updates
 
@@ -18,8 +32,6 @@ The following versions have been updated:
 |Vaadin             |24.3.20
 |Spring Boot        |3.2.11
 |===
-
-==== New features and improvements
 
 // https://jira.convista.com/browse/LIN-3970
 ===== Automatically focus first applicable element in combobox
