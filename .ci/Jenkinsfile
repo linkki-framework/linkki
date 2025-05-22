@@ -1,4 +1,5 @@
 library 'f10-jenkins-library@1.1_patches'
+library 'druiden-jenkins-library@main'
 
 pipeline {
     agent any
@@ -13,6 +14,7 @@ pipeline {
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
         BASE_IMAGE = 'spring:25.1'
+        SUITE_VERSION = '25.1'
     }
 
     stages {
@@ -134,7 +136,10 @@ pipeline {
                 stage('Dependency-Check') {
                     steps {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                            dependencyCheck version: '25.1'
+                            dependencyCheck version: "${SUITE_VERSION}"
+                        }
+                        script {
+                            cveOutput("${SUITE_VERSION}")
                         }
                     }
                 }
