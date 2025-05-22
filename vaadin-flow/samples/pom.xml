@@ -19,6 +19,7 @@
         <java.version>17</java.version>
         <spotbugs.version>4.8.6</spotbugs.version>
         <spring-boot.version>3.4.5</spring-boot.version>
+        <spring-framework.version>6.2.7</spring-framework.version>
         <checkstyle.version>10.20.2</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
@@ -47,6 +48,16 @@
     <dependencyManagement>
         <dependencies>
 
+            <!-- must be imported before spring-boot-dependencies, otherwise
+                 the versions from spring-boot-dependencies are used -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring-framework.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- Spring boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -72,7 +83,7 @@
                 <version>${jakarta.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
-
+            
             <dependency>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-annotations</artifactId>
