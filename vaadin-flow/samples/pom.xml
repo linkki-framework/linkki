@@ -20,6 +20,7 @@
         <vaadin.version>24.3.20</vaadin.version>
         <spotbugs.version>4.8.6</spotbugs.version>
         <spring-boot.version>3.2.11</spring-boot.version>
+        <spring-framework.version>6.1.20</spring-framework.version>
         <tomcat.version>10.1.39</tomcat.version>
         <checkstyle.version>10.12.7</checkstyle.version>
 
@@ -46,6 +47,16 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- must be imported before spring-boot-dependencies, otherwise
+                 the versions from spring-boot-dependencies are used -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring-framework.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- Spring boot -->
             <dependency>
@@ -87,26 +98,26 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core-vaadin-flow</artifactId>
-                <version>2.5.6-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- end::linkki-core[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-ips-vaadin-flow</artifactId>
-                <version>2.5.6-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- tag::linkki-vaadin-flow-component[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-vaadin-flow-component</artifactId>
-                <version>2.5.6-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- end::linkki-vaadin-flow-component[] -->
             <!-- tag::linkki-application-framework[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework-vaadin-flow</artifactId>
-                <version>2.5.6-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- end::linkki-application-framework[] -->
 
