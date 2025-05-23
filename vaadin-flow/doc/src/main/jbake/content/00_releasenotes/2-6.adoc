@@ -15,7 +15,7 @@ The following versions have been updated:
 
 [cols="a,a"]
 |===
-| Spring Boot               | 3.3.11
+| Spring Boot               | 3.3.12
 | Netty                  | 4.1.121.Final
 |===
 
