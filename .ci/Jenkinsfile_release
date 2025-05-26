@@ -18,7 +18,7 @@ pipeline {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                     script {
-                        prepareRelease()
+                        prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
                     }
                 }
             }
