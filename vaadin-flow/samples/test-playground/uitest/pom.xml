@@ -34,10 +34,8 @@
             </dependency>
             <dependency>
                 <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-bom</artifactId>
+                <artifactId>linkki-vaadin-flow-test</artifactId>
                 <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
