@@ -3,7 +3,6 @@
 :jbake-status: published
 :source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main
 :image-dir: {images}09_extending_linkki
-:github-linkki: https://github.com/linkki-framework/linkki/blob/master
 
 [[custom-ui-element-annotation]]
 === Custom UI element annotation
@@ -92,13 +91,13 @@ The `UIRadioButtonGroupFieldAspectDefinitionCreator#create()` method gets a refe
 
 .Common LinkkiAspectDefinitions
 |===
-|`AvailableValuesAspectDefinition`| Defines an aspect that updates the set of available values of https://vaadin.com/api/platform/22.0.1/com/vaadin/flow/data/provider/HasListDataView.html[HasListDataView].
-|`BindReadOnlyAspectDefinition`| Aspect definition for read-only state.
-|`CaptionAspectDefinition`|Aspect definition for caption binding. Assumes that the `ComponentWrapper` wraps a `Component` by default.
-|`EnabledAspectDefinition`|Aspect definition for {github-linkki}/core/src/main/java/org/linkki/core/defaults/ui/aspects/types/EnabledType.java[EnabledType].
+|`AvailableValuesAspectDefinition`| Aspect definition for the available values of a selection component such as `ComboBox`. For components that implement `HasListDataView`, `GenericAvailableValuesAspectDefinition` can be used.
+|`BindReadOnlyAspectDefinition`| Aspect definition for the read-only state of an input element that implements `HasValue`.
+|`CaptionAspectDefinition`|Aspect definition for the caption of a component that implements either `HasText`, `HasCaption` or is a `CheckBox`.
+|`EnabledAspectDefinition`|Aspect definition for the enabled state of an input element.
 |`FieldValueAspectDefinition`| Aspect definition for value change. Defines that the data source will get/set values through
  Aspects by providing a handler in `#initModelUpdate(PropertyDispatcher, ComponentWrapper, Handler)`.
 |`LabelValueAspectDefinition`|The value aspect for label components. The label is a read-only component, hence this aspect only reads the value from model and updates the UI.
-|`RequiredAspectDefinition`|Aspect definition for {github-linkki}/core/src/main/java/org/linkki/core/defaults/ui/aspects/types/RequiredType.java[RequiredType]. Assumes that the given component is an `AbstractField`.
-|`VisibleAspectDefinition`|Aspect definition for {github-linkki}/core/src/main/java/org/linkki/core/defaults/ui/aspects/types/VisibleType.java[VisibleType].
+|`RequiredAspectDefinition`|Aspect definition that displays the required indicator of a input component that implements `HasValue`.
+|`VisibleAspectDefinition`|Aspect definition for the visible state of a component.
 |===

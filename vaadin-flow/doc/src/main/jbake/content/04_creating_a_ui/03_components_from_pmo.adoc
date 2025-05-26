@@ -3,13 +3,11 @@
 :jbake-status: published
 
 :source-dir-doc: ../../../../src/main/java
-:github: https://github.com/linkki-framework/linkki
-:github-blob: {github}/blob/master
 
 [[ui-creator]]
 === Create individual components
 
-Instead of creating the layout using layout annotations, it is also possible to only create the <<ui-element, UI elements>> that are defined in a PMO by using  {github-blob}/core/src/main/java/org/linkki/core/uicreation/UiCreator.java[`UiCreator`].
+Instead of creating the layout using layout annotations, it is also possible to only create the <<ui-element, UI elements>> that are defined in a PMO by using `UiCreator`.
 
 In the following example, the UI elements of a PMO are directly added to a Vaadin `Div`. In this case, the possibly existing annotation of the PMO class is ignored, only annotations on methods are respected.
 

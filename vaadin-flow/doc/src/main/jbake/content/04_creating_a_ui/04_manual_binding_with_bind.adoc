@@ -3,9 +3,6 @@
 :jbake-status: published
 
 :source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
-:github: https://github.com/linkki-framework/linkki
-:github-tree: {github}/tree/master
-:github-blob: {github}/blob/master
 
 [[manual-binding]]
 === Manual Binding With `@Bind`
@@ -23,7 +20,7 @@ To activate the manual binding the component must be marked with the `@Bind` ann
 * `com.vaadin.flow.data.provider.HasListDataView<T, V>`
 
 
-Then, the data binding can be created via the {github-blob}/core/src/main/java/org/linkki/core/binding/Binder.java[`Binder`].
+Then, the data binding can be created via the `Binder`.
 
 
 .@Bind on Fields
@@ -45,8 +42,6 @@ TIP: When the data binding of a Vaadin component of a third party library should
 ----
 include::{source-dir}/org/linkki/samples/playground/binding/components/ContactComponent.java[tags=manual-binding]
 ----
-
-You can find a sample project with the different binding options on {github-tree}/vaadin-flow/samples/test-playground/src/main/java/org/linkki/samples/playground/binding[GitHub].
 
 [TIP]
 ====

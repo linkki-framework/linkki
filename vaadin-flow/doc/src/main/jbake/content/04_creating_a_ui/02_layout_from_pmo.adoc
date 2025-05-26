@@ -3,8 +3,6 @@
 :jbake-status: published
 :source-dir: ../../../../../../vaadin-flow/samples/test-playground/src/main/java
 :source-dir-doc: ../../../../src/main/java
-:github: https://github.com/linkki-framework/linkki
-:github-blob: {github}/blob/master
 
 [[pmo-create-layout]]
 === Create a layout from a PMO
