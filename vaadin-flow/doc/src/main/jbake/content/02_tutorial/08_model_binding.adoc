@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 08
 
-:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:source-dir: ../../../../../samples/tutorial-application/src/main/java/org/linkki/samples/appsample
 
 [[tutorial-step-6]]
 === Step 6: Filling the AddressPage with Model Binding

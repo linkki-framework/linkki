@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 02
 
-:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:source-dir: ../../../../../samples/tutorial-application/src/main/java/org/linkki/samples/appsample
 
 === Project setup
 
@@ -83,13 +83,14 @@ Now that you have the basic frame of a *linkki* web application using Spring Boo
 ** The classes `HelloPmo` and `BusinessPartnerPage` are not needed and thus can be deleted. You will build your own UI classes.
 ** You switch to the `BusinessPartnerView` and delete its constructor.
 
-You also need to include the domain model. To do that, you simply add the dependency `sample-model` in the `pom.xml`.
+You also need to include the domain model.
+To do that, you simply add the dependency `tutorial-model` in the `pom.xml`.
 
 [source,xml,subs="verbatim,attributes"]
 ----
 <dependency>
 	<groupId>org.linkki-framework.tutorial</groupId>
-	<artifactId>sample-model</artifactId>
+	<artifactId>tutorial-model</artifactId>
 	<version>{projectVersion}</version>
 </dependency>
 ----

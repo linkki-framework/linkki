@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>org.linkki-framework.tutorial</groupId>
-    <artifactId>application-tutorial</artifactId>
+    <artifactId>tutorial-application</artifactId>
     <packaging>war</packaging>
 
-    <name>linkki Vaadin Flow Samples :: Tutorial application</name>
+    <name>linkki Vaadin Flow :: Tutorial application</name>
 
     <dependencies>
         <dependency>
@@ -36,8 +36,8 @@
             <artifactId>linkki-ips-vaadin-flow</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.linkki-framework.samples</groupId>
-            <artifactId>sample-model</artifactId>
+            <groupId>org.linkki-framework.tutorial</groupId>
+            <artifactId>tutorial-model</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
