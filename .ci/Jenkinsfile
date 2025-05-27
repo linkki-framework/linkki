@@ -1,4 +1,5 @@
 library 'f10-jenkins-library@1.1_patches'
+library 'druiden-jenkins-library@main'
 
 pipeline {
     agent any
@@ -11,6 +12,7 @@ pipeline {
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
+        SUITE_VERSION = "24.1"
     }
 
     stages {
@@ -104,24 +106,12 @@ pipeline {
                 }
 
                 stage('Dependency-Check') {
-                    environment {
-                        SUITE_VERSION = '24.1'
-                    }
                     steps {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                             dependencyCheck version: "${SUITE_VERSION}"
                         }
-
                         script {
-                            def cves = sh script: 'grep -Po "data-id-to-suppress=\\"CVE-\\d*-\\d*" target/dependency-check-report.html | sed -e "s,.*\\(CVE.*\\),\\1," | sort | uniq | tr "\\n" "+"', returnStdout: true
-                            echo "CVEs: ${cves}"
-
-                            def globalTemporarySuppressions = "https://gerrit.faktorzehn.de/plugins/gitiles/platform/dependency-check-suppressions/%2B/refs/heads/main/${SUITE_VERSION}/global/suppressions-temporary.xml"
-                            def versionUpdatePipeline = "https://druiden-ci.faktorzehn.dev/view/Version%20Update/job/version-update-pipeline/build"
-                            def commonsIssues = "https://jira.convista.com/issues/?jql=text~%22${cves}%22%20and%20project%3D%22F10%20Commons%22"
-                            def createJiraIssueLink = "https://jira.convista.com/secure/CreateIssueDetails!init.jspa?pid=15370&issuetype=1&summary=${cves}&components=20998&priority=6&customfield_10070=2&customfield_10115=3747&description=h2.+Nach+der+Issue+Erstellung%0D*+*Affected+Version+eintragen*:+letzte+Patchversion%0D+*+*Rank+to+top*%0D%0Dh2.+Umsetzung%0D%23+[Version+Update+Pipeline|${versionUpdatePipeline}]+laufen+lassen+(Branch:+*${BRANCH_NAME}*)%0D+%23+Nicht+resolved?+->+Schauen,+was+*Seals*+gemacht+haben%0D+**+[global+temporary+suppressions|${globalTemporarySuppressions}]%0D+**+[Commons+Issues|${commonsIssues}]%0D%0D[Druiden+CVE+Guideline|https://wiki.convista.com/x/pw_lGg%23Entwicklung%3ACVEinDependencies%2FDependencyCheck-UmsetzungvonCVEIssue%2FSubtask]"
-
-                            echo "Failure? -> Create new JIRA issue ${createJiraIssueLink}"
+                            cveOutput("${SUITE_VERSION}")
                         }
                     }
                 }
