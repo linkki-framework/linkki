@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 03
 
-:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:source-dir: ../../../../../samples/tutorial-application/src/main/java/org/linkki/samples/appsample
 :images-folder-name: 02_tutorial
 
 [[tutorial-step-1]]
@@ -115,7 +115,7 @@ Next, implement the search functionality as follows:
 
 . Create a new field `foundPartners` with the type `List<BusinessPartner>` to store the search results.
 . Initialize the field `foundPartners` with `new ArrayList<>()`.
-. Create a constructor in `SearchPage` with an argument of type `org.linkki.samples.appsample.model.BusinessPartnerRepository`. This type is provided by the dependency `sample-model` and implements the search functionality.
+. Create a constructor in `SearchPage` with an argument of type `org.linkki.samples.appsample.model.BusinessPartnerRepository`. This type is provided by the dependency `tutorial-model` and implements the search functionality.
 . Store the constructor argument in a new field `partnerRepository`.
 . Implement the method `search`: Execute the method `findBusinessPartner` from `partnerRepository` with the method argument and store the result in the field `foundPartners`.
 

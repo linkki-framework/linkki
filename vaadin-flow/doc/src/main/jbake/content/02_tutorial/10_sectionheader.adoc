@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 10
 
-:source-dir: ../../../../../samples/tutorial/src/main/java/org/linkki/samples/appsample
+:source-dir: ../../../../../samples/tutorial-application/src/main/java/org/linkki/samples/appsample
 :images-folder-name: 02_tutorial
 
 [[tutorial-step-8]]

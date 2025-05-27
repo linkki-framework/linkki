@@ -13,6 +13,17 @@
  */
 package org.linkki.samples.appsample.view;
 
+import java.util.Optional;
+import java.util.UUID;
+
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
+import org.linkki.samples.appsample.model.BusinessPartner;
+import org.linkki.samples.appsample.model.BusinessPartnerRepository;
+import org.linkki.samples.appsample.page.AddressPage;
+import org.linkki.samples.appsample.page.BasicDataPage;
+import org.linkki.samples.appsample.ui.BusinessPartnerLayout;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
@@ -22,16 +33,6 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.Route;
-import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
-import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
-import org.linkki.samples.appsample.model.BusinessPartner;
-import org.linkki.samples.appsample.model.BusinessPartnerRepository;
-import org.linkki.samples.appsample.page.AddressPage;
-import org.linkki.samples.appsample.page.BasicDataPage;
-import org.linkki.samples.appsample.ui.BusinessPartnerLayout;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Route(value = "PartnerDetails", layout = BusinessPartnerLayout.class)
 // tag::hasUrlParameter[]
@@ -58,15 +59,15 @@ public class PartnerDetailsView extends LinkkiTabLayout implements HasUrlParamet
 
         // tag::addTabSheets2[]
         addTabSheets(
-                LinkkiTabSheet.builder("error").caption(VaadinIcon.WARNING.create())
-                        .content(this::createErrorLayout)
-                        .visibleWhen(() -> currentPartner.isEmpty()).build(),
-                LinkkiTabSheet.builder("basic-data").caption(VaadinIcon.USER.create())
-                        .content(() -> currentPartner.map(this::createBasicDataPage).orElseGet(Div::new))
-                        .visibleWhen(() -> currentPartner.isPresent()).build(),
-                LinkkiTabSheet.builder("address").caption(VaadinIcon.HOME.create())
-                        .content(() -> currentPartner.map(this::createAddressPage).orElseGet(Div::new))
-                        .visibleWhen(() -> currentPartner.isPresent()).build());
+                     LinkkiTabSheet.builder("error").caption(VaadinIcon.WARNING.create())
+                             .content(this::createErrorLayout)
+                             .visibleWhen(() -> currentPartner.isEmpty()).build(),
+                     LinkkiTabSheet.builder("basic-data").caption(VaadinIcon.USER.create())
+                             .content(() -> currentPartner.map(this::createBasicDataPage).orElseGet(Div::new))
+                             .visibleWhen(() -> currentPartner.isPresent()).build(),
+                     LinkkiTabSheet.builder("address").caption(VaadinIcon.HOME.create())
+                             .content(() -> currentPartner.map(this::createAddressPage).orElseGet(Div::new))
+                             .visibleWhen(() -> currentPartner.isPresent()).build());
         // tag::retrievePartner2[]
     }
     // end::addTabSheets2[]
