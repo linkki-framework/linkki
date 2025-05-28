@@ -13,7 +13,7 @@
     <name>linkki Extension for Faktor-IPS with Vaadin Flow</name>
 
     <properties>
-        <faktorips.version>25.1.3.release</faktorips.version>
+        <faktorips.version>25.7.0.rc01</faktorips.version>
     </properties>
 
     <dependencies>
@@ -54,7 +54,7 @@
                     <configuration>
                         <executionEnvironment>JavaSE-21</executionEnvironment>
                         <!-- Eclipse 2024-12 -->
-                        <eclipseRepository>https://update.faktorzehn.org/p2repositories/2024-12/</eclipseRepository>
+                        <eclipseRepository>https://update.faktorzehn.org/p2repositories/2025-06/</eclipseRepository>
                         <!-- Check for modifications after compiling -->
                         <gitStatusPorcelain>
                             <failBuild>true</failBuild>
