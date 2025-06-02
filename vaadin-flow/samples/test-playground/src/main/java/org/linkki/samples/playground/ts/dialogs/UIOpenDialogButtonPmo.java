@@ -16,9 +16,11 @@ package org.linkki.samples.playground.ts.dialogs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import org.faktorips.runtime.ValidationContext;
+import org.faktorips.runtime.validation.DefaultGenericAttributeValidationConfiguration;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -38,6 +40,7 @@ import org.linkki.framework.ui.dialogs.UIOpenDialogButton;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
+import org.linkki.samples.playground.ips.model.Marker;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -141,7 +144,10 @@ public class UIOpenDialogButtonPmo {
         @Override
         public MessageList validate() {
             return MessageConverter
-                    .convert(contentPmo.getModelObject().validate(new ValidationContext(UiFramework.getLocale())));
+                    .convert(contentPmo.getModelObject()
+                            .validate(new ValidationContext(UiFramework.getLocale(), this.getClass().getClassLoader(),
+                                    new DefaultGenericAttributeValidationConfiguration(Locale.GERMANY,
+                                            Marker.REQUIRED_INFORMATION_MISSING))));
         }
 
         @Override
