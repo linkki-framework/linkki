@@ -92,6 +92,8 @@ The new UI annotation <<uiOpenDialogButton, @UIOpenDialogButton>> resolves this 
 The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click.
 When the user clicks on the OK button, the underlying `BindingContext` is updated automatically.
 
+Note that this annotation is an experimental feature that may be subject of API change in the near future.
+
 ===== UIMenuList and UIButton
 
 New UI components, `@UIMenuList` and `@UIMenuButton`, are now available, providing a way to create <<ui-menulist, buttons in menus>> that can expand a menu list or execute an action, while maintaining a consistent look and feel.
