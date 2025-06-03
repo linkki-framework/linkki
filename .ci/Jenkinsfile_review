@@ -37,7 +37,8 @@ pipeline {
                         clean install javadoc:javadoc \
                         -Pproduction \
                         -Dmaven.test.failure.ignore=true \
-                        -Drevapi.skip'
+                        -Drevapi.skip \
+                        -Dflatten.skip'
                 }
             }
         }
