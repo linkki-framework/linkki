@@ -19,10 +19,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
+import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.ValidationContext;
 import org.faktorips.runtime.validation.DefaultGenericAttributeValidationConfiguration;
-import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
-import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
@@ -37,8 +36,8 @@ import org.linkki.core.uiframework.UiFramework;
 import org.linkki.framework.ui.dialogs.DialogPmo;
 import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.framework.ui.dialogs.UIOpenDialogButton;
-import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
+import org.linkki.ips.ui.element.IpsDialogPmo;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.ips.model.Marker;
 import org.linkki.util.handler.Handler;
@@ -59,7 +58,6 @@ public class UIOpenDialogButtonPmo {
 
     @SectionHeader
     @BindVariantNames("primary")
-    // tag::openDialogWithUIButton[]
     @UIButton(position = 10, caption = "Open dialog with UIButton")
     public void add() {
         var contentPmo = new NewModelObjectPmo();
@@ -69,18 +67,15 @@ public class UIOpenDialogButtonPmo {
                                             () -> saveNewModelObject(contentPmo.getModelObject()),
                                             contentPmo);
     }
-    // end::openDialogWithUIButton[]
 
     @SectionHeader
     @BindVariantNames("primary")
-    // tag::openDialogPmoWithUIButton[]
     @UIButton(position = 20, caption = "Open dialog with UIButton + DialogPmo")
     public void addWithDialogPmo() {
         var dialogPmo = new AddModelObjectDialogPmo(this::saveNewModelObject);
         new PmoBasedDialogFactory(dialogPmo::validate)
                 .openOkCancelDialog(dialogPmo.getCaption(), dialogPmo.getOkHandler(), dialogPmo.getContentPmo());
     }
-    // end::openDialogPmoWithUIButton[]
 
     @SectionHeader
     @BindVariantNames("primary")
@@ -116,7 +111,7 @@ public class UIOpenDialogButtonPmo {
     }
 
     // tag::dialogPmo[]
-    static class AddModelObjectDialogPmo implements DialogPmo {
+    static class AddModelObjectDialogPmo extends IpsDialogPmo {
 
         private final NewModelObjectPmo contentPmo;
         private final Consumer<IpsModelObject> saveModelObject;
@@ -137,17 +132,11 @@ public class UIOpenDialogButtonPmo {
         }
 
         @Override
-        public PropertyDispatcherFactory getPropertyDispatcherFactory() {
-            return new IpsPropertyDispatcherFactory();
-        }
-
-        @Override
-        public MessageList validate() {
-            return MessageConverter
-                    .convert(contentPmo.getModelObject()
-                            .validate(new ValidationContext(UiFramework.getLocale(), this.getClass().getClassLoader(),
-                                    new DefaultGenericAttributeValidationConfiguration(Locale.GERMANY,
-                                            Marker.REQUIRED_INFORMATION_MISSING))));
+        public MessageList getIpsMessages() {
+            return contentPmo.getModelObject()
+                    .validate(new ValidationContext(UiFramework.getLocale(), this.getClass().getClassLoader(),
+                            new DefaultGenericAttributeValidationConfiguration(Locale.GERMANY,
+                                    Marker.REQUIRED_INFORMATION_MISSING)));
         }
 
         @Override

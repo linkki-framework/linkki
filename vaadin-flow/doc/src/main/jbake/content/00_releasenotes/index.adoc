@@ -89,7 +89,7 @@ Instead, a dialog should be opened upon a button click in which the user can edi
 To implement this use case, `BindingContext#modelChanged` often needs to be passed to the PMO to update the underlying `BindingContext` after the OK button was clicked.
 
 The new UI annotation <<uiOpenDialogButton, @UIOpenDialogButton>> resolves this inconvenience.
-The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click.
+The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click. For use with a Faktor-IPS model object, the abstract class <<ips-dialog-pmo, `IpsDialogPmo`>> provides a partial implementation of `DialogPmo`.
 When the user clicks on the OK button, the underlying `BindingContext` is updated automatically.
 
 Note that this annotation is an experimental feature that may be subject of API change in the near future.

@@ -31,8 +31,6 @@ include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutConten
 
 [[uiOpenDialogButton]]
 ==== Creating dialogs on button click
-
-===== Creating dialogs with @UIOpenDialogButton
 [NOTE]
 Note that this annotation is an experimental feature that may be subject of API change in the near future.
 
@@ -41,7 +39,7 @@ Instead, a dialog should be opened upon a button click in which the user can edi
 To implement this use case, `BindingContext#modelChanged` often needs to be passed to the PMO to update the underlying `BindingContext` after the OK button was clicked.
 
 The UI annotation `@UIOpenDialogButton` resolves this inconvenience.
-The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click.
+The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click. For use with a Faktor-IPS model object, the abstract class <<ips-dialog-pmo, `IpsDialogPmo`>> provides a partial implementation of `DialogPmo`.
 When the user clicks on the OK button, the underlying `BindingContext` is updated automatically.
 
 .Dialog created with `@UIOpenDialogButton`
@@ -66,28 +64,9 @@ The annotation only works with dialogs whose content can be defined as a PMO.
 ====
 * Combine this annotation with <<section-header-annotation,`@SectionHeader`>> to place the button in the header of a section.
 * To display an icon instead of a caption, set `caption = ""` or `captionType = CaptionType.NONE` and use <<bind-icon,`@BindIcon`>> to define the icon.
+* `DialogPmo` can be used to define dialogs even if `@UIOpenDialogButton` is not used.
 ====
 
-
-===== Creating dialogs with @UIButton
-If using `@UIOpenDialogButton` is not flexible enough or if `BindingContext#modelChanged` should not be called automatically, the dialog can also be opened using <<ui-button,`@UIButton`>>.
-
-.Dialog created with `@UIButton`
-[source,java]
-----
-include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=openDialogWithUIButton]
-----
-
-===== Creating dialogs with DialogPmo and @UIButton
-The `DialogPmo` can also be used in combination with <<ui-button,`@UIButton`>> to encapsulate the dialog properties within one class.
-
-.Dialog created with `DialogPmo` and `@UIButton`
-[source,java]
-----
-include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=openDialogPmoWithUIButton]
-----
-
-===== Example DialogPmo and ContentPmo
 .Example DialogPmo and ContentPmo
 [source,java]
 ----

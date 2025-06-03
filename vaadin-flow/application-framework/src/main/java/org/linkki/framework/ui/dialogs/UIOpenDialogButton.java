@@ -79,7 +79,7 @@ public @interface UIOpenDialogButton {
     /**
      * Defines how the caption text should be retrieved
      */
-    CaptionType captionType() default CaptionType.AUTO;
+    CaptionType captionType() default CaptionType.STATIC;
 
     class DialogButtonComponentDefinitionCreator implements ComponentDefinitionCreator<UIOpenDialogButton> {
 

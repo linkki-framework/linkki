@@ -126,3 +126,7 @@ include::{source-dir}org/linkki/samples/playground/ts/ips/IpsLabelPage.java[tags
 
 include::{source-dir}org/linkki/samples/playground/ts/ips/IpsLabelPage.java[tags=IpsPmo:string]
 ----
+
+[[ips-dialog-pmo]]
+==== Faktor-IPS DialogPmo
+For the creation of dialogs with <<uiOpenDialogButton,`@UIOpenDialogButton`>>, the `IpsDialogPmo` provides a partial implementation of the interface `DialogPmo`, adapted for the use with Faktor-IPS model objects. It integrates the `IpsPropertyDispatcherFactory` and `MessageConverter` to simplify the implementation of `DialogPmo` subclasses.
