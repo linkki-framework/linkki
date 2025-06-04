@@ -132,7 +132,7 @@ pipeline {
                         withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
                             // only publish final releases (no rcs & milestones) on maven central
                             if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                                sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc | tee target/deploy.log'
+                                sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc -Dmaven.deploy.skip=true -Dmaven.test.skip=true | tee target/deploy.log'
                                 script {
                                     withCredentials([string(credentialsId: 'sonatype.central.token', variable: 'SONATYPE_CREDENTIALS')]) {
                                         DeploymentId = sh (
