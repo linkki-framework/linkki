@@ -1,45 +1,24 @@
 library 'f10-jenkins-library@1.1_patches'
+library 'maven-central-release-library@main'
 
 pipeline {
     agent any
-
     parameters {
         string description: 'The UUID of the deployment request', name: 'DEPLOYMENT_ID'
     }
-
     options {
         buildDiscarder(logRotator(numToKeepStr: '30'))
         skipDefaultCheckout true
     }
-
     stages {
         stage('Drop on Maven Central') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'sonatype.central.token', variable: 'SONATYPE_CREDENTIALS')]) {
-                        try {
-                            sh (
-                                script: 'curl -X DELETE https://central.sonatype.com/api/v1/publisher/deployment/${DEPLOYMENT_ID} \
-                                            -H "accept: */*" -H "Authorization: Bearer $SONATYPE_CREDENTIALS" -d "" --fail',
-                            )
-                            // api returns 204 or 400+, so success if here
-                            rtp parserName: 'HTML', nullAction: '1', stableText: """
-                                <h2 style="background:#99ff99;padding: 1em;">Deployment ${DEPLOYMENT_ID} DROPPED</h2>
-                            """
-                        } catch (Throwable errPublish) {
-                            rtp parserName: 'HTML', nullAction: '1', stableText: """
-                                <h2 style="background:#ff9999;padding: 1em;">Dropping ${DEPLOYMENT_ID} FAILED</h2>
-                                <p>${errPublish}</p>
-                                <small>Exit Code 22 == HTTP error code being 400 or above</small>
-                            """
-                            error ("Dropping deployment failed")
-                        }
-                    }
+                    dropOnMavenCentral(params.DEPLOYMENT_ID)
                 }
             }
         }
     }
-
     post {
         unsuccessful {
             sendFailureEmail()
