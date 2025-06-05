@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <documentation.dtitle>linkki documentation - vaadin-flow</documentation.dtitle>
         <basedir.parent>${project.parent.basedir}</basedir.parent>
-        <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <sonar.skip>true</sonar.skip>
 
@@ -155,7 +154,23 @@
                         <skip>true</skip>
                     </configuration>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse 
+
+                <!-- Skip publishing of maven artifact -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <configuration>
+                        <skipPublishing>true</skipPublishing>
+                    </configuration>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse
                     m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>

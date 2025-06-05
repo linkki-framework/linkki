@@ -641,7 +641,7 @@
                         <configuration>
                             <publishingServerId>central</publishingServerId>
                             <deploymentName>linkki ${project.version}</deploymentName>
-                            <excludeArtifacts>linkki-core-documentation-vaadin-flow,linkki-archetypes-vaadin-flow
+                            <excludeArtifacts>linkki-archetypes-vaadin-flow
                             </excludeArtifacts>
                         </configuration>
                     </plugin>
