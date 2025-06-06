@@ -641,7 +641,8 @@
                         <configuration>
                             <publishingServerId>central</publishingServerId>
                             <deploymentName>linkki ${project.version}</deploymentName>
-                            <excludeArtifacts>linkki-archetypes-vaadin-flow
+                            <!-- skipPublishing somehow does not in modules in which the plugin is configured -->
+                            <excludeArtifacts>linkki-core-documentation-vaadin-flow,linkki-archetypes-vaadin-flow
                             </excludeArtifacts>
                         </configuration>
                     </plugin>
