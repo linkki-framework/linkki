@@ -6,7 +6,6 @@
     <groupId>org.linkki-framework</groupId>
     <artifactId>linkki-codeanalysis</artifactId>
     <version>2.5.6-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
     <name>linkki Code Analysis Configurations</name>
     <description>A data binding framework for web based user interfaces with Vaadin.</description>
