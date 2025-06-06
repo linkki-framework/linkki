@@ -134,7 +134,7 @@ pipeline {
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
                             deployToMavenCentral(releaseJobURL: "https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_ReleaseOnMavenCentral/build",
                                                  dropJobURL: "https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_DropReleaseOnMavenCentral/build",
-                                                 command: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc -Dmaven.test.skip=true'])
+                                                 commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc -Dmaven.test.skip=true'])
                         } else {
                             sh 'mvn javadoc:jar source:jar deploy -Ddoc.user=doc'
                         }
