@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="25.7.rc01"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="25.7.rc02"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -256,6 +256,7 @@
         <DatatypeDefinitions>
             <Datatype id="PaymentMode"                             The datatype's id used in the model to refer to it.
                 javaClass="org.faktorips.sample.PaymentMode"       The Java class the datatype represents
+                jaxbXmlJavaTypeAdapterClass="org.faktorips.sample.PaymentModeAdapter"  (optional) an adapter class to be used when converting values of this datatype to/from XML
                 valueObject="true|false"                           True indicates this is a value object (according to the value object pattern.) 
                 - - - the following attributes are only needed for value objects - - -
                 isEnumType="true|false"                            True if this is an enumeration of values.

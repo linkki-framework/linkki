@@ -13,7 +13,7 @@
     <name>linkki Extension for Faktor-IPS with Vaadin Flow</name>
 
     <properties>
-        <faktorips.version>25.7.0.rc01</faktorips.version>
+        <faktorips.version>25.7.0.rc02</faktorips.version>
     </properties>
 
     <dependencies>
