@@ -45,7 +45,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * {@link #searchResultRowPmo(Function, Function, Class)}</li>
  * <li>The search logic that is called to get the result, see
  * {@link #searchController(SearchController, Function)}</li>
- * <li>The primary action that is triggered by double click, see
+ * <li>The primary action that is triggered by double-clicking on a row, see
  * {@link #primaryAction(Consumer)}</li>
  * </ul>
  *
@@ -120,7 +120,7 @@ public class SearchLayoutBuilder<PARAM, RESULT, MODEL_OBJECT, ROW> {
     }
 
     /**
-     * Defines the action that should be executed upon click on the search button.
+     * Defines the action that should be executed when double-clicking on a row.
      */
     public SearchLayoutBuilder<PARAM, RESULT, MODEL_OBJECT, ROW> primaryAction(Consumer<MODEL_OBJECT> primaryAction) {
         this.primaryAction = primaryAction;
@@ -153,11 +153,11 @@ public class SearchLayoutBuilder<PARAM, RESULT, MODEL_OBJECT, ROW> {
         var rowToResultChecked = requireNonNull(rowToResult, "rowToResult must not be null");
         var rowTypeChecked = requireNonNull(rowType, "rowType must not be null");
         var searchControllerChecked = requireNonNull(searchController, "searchController must not be null");
-        var primaryActionCehcked = requireNonNull(primaryAction, "primaryAction must not be null");
+        var primaryActionChecked = requireNonNull(primaryAction, "primaryAction must not be null");
         var toResultListChecked = requireNonNull(toResultList, "toResultList must not be null");
         return new SearchLayoutPmo<>(Optional.ofNullable(caption),
                 createSearchInputPmo(parametersPmoChecked, searchControllerChecked),
-                createSearchResultPmo(resultRowPmoChecked, rowTypeChecked, rowToResultChecked, primaryActionCehcked,
+                createSearchResultPmo(resultRowPmoChecked, rowTypeChecked, rowToResultChecked, primaryActionChecked,
                                       searchControllerChecked, toResultListChecked));
     }
 
