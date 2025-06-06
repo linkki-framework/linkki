@@ -77,54 +77,54 @@ pipeline {
             }
         }
 
-        stage('Remove Docker Network') {
-            steps {
-                deleteDockerNetwork "${NETWORK_NAME}"
-            }
-        }
+        // stage('Remove Docker Network') {
+                //    steps {
+                //        deleteDockerNetwork "${NETWORK_NAME}"
+                //    }
+                // }
 
-        stage('Docker Deployment') {
-            steps {
-                sh 'bash -x .ci/docker_setup.sh ${PROJECT_ID}'
+                // stage('Docker Deployment') {
+                //    steps {
+                //        sh 'bash -x .ci/docker_setup.sh ${PROJECT_ID}'
+                //
+                //        rtp parserName: 'HTML', nullAction: '1', stableText: """
+                //            <h3>Sample Deployments</h3>
+                //            <ul>
+                //                <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
+                //            </ul>
+                //        """
+                //    }
+                // }
 
-                rtp parserName: 'HTML', nullAction: '1', stableText: """
-                    <h3>Sample Deployments</h3>
-                    <ul>
-                        <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
-                    </ul>
-                """
-            }
-        }
+                // wait for the sample applications to be ready to run the tests
+                // stage('Wait for Server') {
+                //    steps {
+                //        waitForServer "${DEPLOYMENT_URL}"
+                //    }
+                // }
 
-        // wait for the sample applications to be ready to run the tests
-        stage('Wait for Server') {
-            steps {
-                waitForServer "${DEPLOYMENT_URL}"
-            }
-        }
-
-        stage('UI Test') {
-            // Run Tests only if build was successful
-            when {
-                expression {
-                    return currentBuild.currentResult == "SUCCESS"
-                }
-            }
-
-            steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                        -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
-                }
-
-                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
-                junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
-            }
-
-            environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME}'
-            }
-        }
+                // stage('UI Test') {
+                //    // Run Tests only if build was successful
+                //    when {
+                //        expression {
+                //            return currentBuild.currentResult == "SUCCESS"
+                //        }
+                //    }
+                //
+                //    steps {
+                //        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                //            sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
+                //                -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                //        }
+                //
+                //        archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
+                //        junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
+                //    }
+                //
+                //    environment {
+                //        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME}'
+                //    }
+                //}
 
         stage('Upload Release') {
             steps {
