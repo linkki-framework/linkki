@@ -26,9 +26,10 @@ import org.linkki.core.ui.aspects.BindComboBoxItemStyleAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindComboBoxItemStyle.BindComboBoxItemStyleAspectDefinitionCreator;
 
 /**
- * This aspect sets a style class name for every item in a combo box popup menu. The name is either
- * statically defined in the annotation or dynamically queried via the method
- * {@code get<propertyName>ItemStyle}}.
+ * This aspect can be used with {@link org.linkki.core.ui.element.annotation.UIComboBox} and
+ * {@link org.linkki.core.ui.element.annotation.UIMultiSelect} to set a style class name for every
+ * item in a combo box popup menu. The name is either statically defined in the annotation or
+ * dynamically queried via the method {@code get<propertyName>ItemStyle}}.
  * <p>
  * In case of a dynamic style via method invocation the return type of the method is not a single
  * string but a {@code Function<?, String>}. The method is called only once for creating a new combo
@@ -37,6 +38,7 @@ import org.linkki.core.ui.aspects.annotation.BindComboBoxItemStyle.BindComboBoxI
  * <p>
  * The style classes are applied only to elements in the popup menu, the selected value in the combo
  * box is never styled, only the text.
+ *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })

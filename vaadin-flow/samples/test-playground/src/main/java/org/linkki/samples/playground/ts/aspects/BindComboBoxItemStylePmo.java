@@ -14,54 +14,113 @@
 
 package org.linkki.samples.playground.ts.aspects;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.linkki.core.ui.aspects.annotation.BindComboBoxItemStyle;
 import org.linkki.core.ui.aspects.types.TextAlignment;
 import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.element.annotation.UIMultiSelect;
+import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.nested.annotation.UINestedComponent;
 
-@UISection
+@UIHorizontalLayout
 public class BindComboBoxItemStylePmo {
 
-    private TextColor textColor;
-
-    @UIComboBox(position = 0, label = "Item Greyed")
-    @BindComboBoxItemStyle("text-secondary")
-    public TextColor getGreyText() {
-        return textColor;
+    @UINestedComponent(position = 1)
+    public Object getComboBox() {
+        return new BindComboBoxItemStyleWithComboBoxPmo();
     }
 
-    public void setGreyText(TextColor textColor) {
-        this.textColor = textColor;
+    @UINestedComponent(position = 2)
+    public Object getMultiSelect() {
+        return new BindComboBoxItemStyleWithMultiSelectPmo();
     }
 
-    @UIComboBox(position = 10, label = "Item Text Color")
-    @BindComboBoxItemStyle
-    public TextColor getTextColor() {
-        return textColor;
+    @UISection(caption = "ComboBox")
+    public static class BindComboBoxItemStyleWithComboBoxPmo {
+
+        private TextColor textColor;
+
+        @UIComboBox(position = 0, label = "Item Greyed")
+        @BindComboBoxItemStyle("text-secondary")
+        public TextColor getGreyText() {
+            return textColor;
+        }
+
+        public void setGreyText(TextColor textColor) {
+            this.textColor = textColor;
+        }
+
+        @UIComboBox(position = 10, label = "Item Text Color")
+        @BindComboBoxItemStyle
+        public TextColor getTextColor() {
+            return textColor;
+        }
+
+        public void setTextColor(TextColor textColor) {
+            this.textColor = textColor;
+        }
+
+        public Function<TextColor, String> getTextColorItemStyle() {
+            return TextColor::getStyleName;
+        }
+
+        @UIComboBox(position = 20, label = "Style with alignment", textAlign = TextAlignment.RIGHT)
+        @BindComboBoxItemStyle
+        public TextColor getAlignedText() {
+            return textColor;
+        }
+
+        public void setAlignedText(TextColor textColor) {
+            this.textColor = textColor;
+        }
+
+        public Function<TextColor, String> getAlignedTextItemStyle() {
+            return tc -> "text-primary text-right";
+        }
+
     }
 
-    public void setTextColor(TextColor textColor) {
-        this.textColor = textColor;
-    }
+    @UISection(caption = "MultiSelect")
+    public static class BindComboBoxItemStyleWithMultiSelectPmo {
 
-    public Function<TextColor, String> getTextColorItemStyle() {
-        return tc -> tc.styleClass;
-    }
+        private Set<TextColor> textColors;
 
-    @UIComboBox(position = 20, label = "Style with alignment", textAlign = TextAlignment.RIGHT)
-    @BindComboBoxItemStyle
-    public TextColor getAlignedText() {
-        return textColor;
-    }
+        @UIMultiSelect(position = 0, label = "Item Greyed")
+        @BindComboBoxItemStyle("text-secondary")
+        public Set<TextColor> getGreyText() {
+            return textColors;
+        }
 
-    public void setAlignedText(TextColor textColor) {
-        this.textColor = textColor;
-    }
+        public void setGreyText(Set<TextColor> textColors) {
+            this.textColors = textColors;
+        }
 
-    public Function<TextColor, String> getAlignedTextItemStyle() {
-        return tc -> "text-primary text-right";
+        public Collection<TextColor> getGreyTextAvailableValues() {
+            return List.of(TextColor.values());
+        }
+
+        @UIMultiSelect(position = 10, label = "Item Text Color")
+        @BindComboBoxItemStyle
+        public Set<TextColor> getTextColor() {
+            return textColors;
+        }
+
+        public void setTextColor(Set<TextColor> textColors) {
+            this.textColors = textColors;
+        }
+
+        public Function<TextColor, String> getTextColorItemStyle() {
+            return TextColor::getStyleName;
+        }
+
+        public Collection<TextColor> getTextColorAvailableValues() {
+            return List.of(TextColor.values());
+        }
     }
 
     public enum TextColor {
@@ -83,7 +142,5 @@ public class BindComboBoxItemStylePmo {
         public String getStyleName() {
             return styleClass;
         }
-
     }
-
 }

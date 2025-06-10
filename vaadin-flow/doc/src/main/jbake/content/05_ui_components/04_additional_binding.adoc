@@ -7,9 +7,14 @@
 [[aspects]]
 === Aspects
 
-*linkki* can bind more than just the value. In fact, almost every part of the UI state can be taken into account for data binding with *linkki*. The most common parts of the UI state are for example the enabled state or the visibility. But there are also additional features that may be bound to a component such as the tooltip, available values for selection or CSS class names. For a property, every such UI state part is a so called __aspect__ of the property.
+*linkki* can bind more than just the value.
+In fact, almost every part of the UI state can be taken into account for data binding with *linkki*.
+The most common parts of the UI state are for example the enabled state or the visibility.
+But there are also additional features that may be bound to a component such as the tooltip, available values for selection or CSS class names.
+For a property, every such UI state part is a so called __aspect__ of the property.
 
-Some aspects are crucial for the functionality of the <<ui-element, UI element>> and are thus directly <<embedded-aspects, embedded in the annotation>>. Besides those, *linkki* also provides some <<standalone-aspects, standalone aspect annotations>> that can be optionally applied to the <<ui-element, UI elements>>.
+Some aspects are crucial for the functionality of the <<ui-element, UI element>> and are thus directly <<embedded-aspects, embedded in the annotation>>.
+Besides those, *linkki* also provides some <<standalone-aspects, standalone aspect annotations>> that can be optionally applied to the <<ui-element, UI elements>>.
 
 [[aspects-usage]]
 ==== Aspects in a PMO
@@ -22,13 +27,20 @@ The following example shows two aspects for the property "name".
 include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspects]
 ----
 
-The most important aspect is the value aspect. It is also mandatory for the data binding to function. The value aspect is dynamically determined by the getter and setter methods of the property. As the value aspect is critical for the <<ui-element, UI element>> to function, it is always embedded in the UI element annotation.
+The most important aspect is the value aspect.
+It is also mandatory for the data binding to function.
+The value aspect is dynamically determined by the getter and setter methods of the property.
+As the value aspect is critical for the <<ui-element, UI element>> to function, it is always embedded in the UI element annotation.
 
-The second aspect that can be seen is the enabled aspect. This state is defined by the method `isNameEnabled`.
+The second aspect that can be seen is the enabled aspect.
+This state is defined by the method `isNameEnabled`.
 
-Each aspect has a name. The enabled aspect has the name "enabled" whereas the value aspect has the empty String as name. In general, the state of the aspect "aspect" for property "property" is determined by the method `is/get<Property><Aspect>` and `set<Property><Aspect>`.
+Each aspect has a name.
+The enabled aspect has the name "enabled" whereas the value aspect has the empty String as name.
+In general, the state of the aspect "aspect" for property "property" is determined by the method `is/get<Property><Aspect>` and `set<Property><Aspect>`.
 
-Aspects can also apply to the whole PMO if it is also bound to a UI component. In this case, the property name is the empty string.
+Aspects can also apply to the whole PMO if it is also bound to a UI component.
+In this case, the property name is the empty string.
 
 .Aspect on PMO class
 [source,java]
@@ -39,15 +51,23 @@ include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspectO
 [[embedded-aspects]]
 ==== Commonly Embedded Aspects
 
-Some aspects are so important or commonly used that they are directly packaged with the <<ui-element, UI annotation>>. Many of those aspects offer configurations that can be set by attributes in the annotation. Most frequently, the attributes share the name of the aspect itself, e.g. `@UITextField(enabled = ...)` in case of the enabled aspect.
+Some aspects are so important or commonly used that they are directly packaged with the <<ui-element, UI annotation>>.
+Many of those aspects offer configurations that can be set by attributes in the annotation.
+Most frequently, the attributes share the name of the aspect itself, e.g. `@UITextField(enabled = ...)` in case of the enabled aspect.
 
 Below are the commonly embedded aspects.
 
 [[label]]
 ===== Label
-Usually there is a label text for each UI element, that describes the element. The content of the label is defined by this attribute.
 
-Exceptions to this are elements whose main feature is their text, such as <<ui-button, buttons>>, <<ui-checkbox, checkboxes>> and <<ui-link, links>>. These UI elements usually do not need a preceding label. Instead, the description of a button is displayed on the button itself, the description of a link is displayed as the link text, while the description of the checkbox is commonly displayed at the right of the checkbox. This kind of describing element can be configured with the property `caption` in those annotations. Buttons, links and checkboxes can still be configured with a label additionally by overwriting the `label` property.
+Usually there is a label text for each UI element, that describes the element.
+The content of the label is defined by this attribute.
+
+Exceptions to this are elements whose main feature is their text, such as <<ui-button, buttons>>, <<ui-checkbox, checkboxes>> and <<ui-link, links>>.
+These UI elements usually do not need a preceding label.
+Instead, the description of a button is displayed on the button itself, the description of a link is displayed as the link text, while the description of the checkbox is commonly displayed at the right of the checkbox.
+This kind of describing element can be configured with the property `caption` in those annotations.
+Buttons, links and checkboxes can still be configured with a label additionally by overwriting the `label` property.
 
 If no label/caption is set, the default value `"derived.by.linkki"` kicks in and *linkki* uses the default as determined by the <<property-dispatcher, PropertyDispatchers>> (usually the capitalized property name) as label/caption.
 
@@ -57,7 +77,9 @@ NOTE: If an independent label is needed, the UI element <<ui-label, UILabel>> ca
 
 [[enabled]]
 ===== Enabled
-The property `enabled` controls whether a component is enabled or disabled. The following configuration options are available:
+
+The property `enabled` controls whether a component is enabled or disabled.
+The following configuration options are available:
 
 [cols="1,8"]
 .EnabledType
@@ -71,7 +93,9 @@ NOTE: Some components like <<ui-label, UILabel>> and <<ui-link, UILink>> do not 
 
 [[visible]]
 ===== Visible
-The property `visible` controls whether the component is visible. There are the following configuration options:
+
+The property `visible` controls whether the component is visible.
+There are the following configuration options:
 
 [cols="1,7"]
 .VisibleType
@@ -82,7 +106,8 @@ The property `visible` controls whether the component is visible. There are the 
 |`INVISIBLE_IF_EMPTY`|Whether the UI element is visible is depends on the value of the bound property. The UI element will be invisible if that value is `null` or an empty `String`.
 |===
 
-TIP: Using `INVISIBLE_IF_EMPTY` is mostly suited for read only fields like labels. A vanishing input field would probably confuse any application user.
+TIP: Using `INVISIBLE_IF_EMPTY` is mostly suited for read only fields like labels.
+A vanishing input field would probably confuse any application user.
 The following example demonstrates its usage.
 
 ```java
@@ -99,7 +124,9 @@ class ReferencePmo {
 
 [[required]]
 ===== Required
-The property `required` visually highlights required fields. The following configuration options are available:
+
+The property `required` visually highlights required fields.
+The following configuration options are available:
 
 [cols="1,3"]
 .RequiredType
@@ -117,7 +144,13 @@ WARNING: Fields marked as `required` are only visually highlighted. *No* validat
 [[standalone-aspects]]
 ==== Standalone Aspect Annotations
 
-Aspects can also be represented by a separate annotation. In this case, those annotations follow the naming convention `@Bind[AspectName]`. A standalone aspect annotation can be added to an annotated PMO property. Some standalone aspect annotation can also be added to an annotated PMO class itself. In the case of binding using the `@Bind` annotation, `@Bind[AspectName]` must be written directly in the field annotated with `@Bind`. Several frequently used aspects are packaged with *linkki* as listed below. It is also very easy to create additional <<creating-aspects, custom aspect annotations>>.
+Aspects can also be represented by a separate annotation.
+In this case, those annotations follow the naming convention `@Bind[AspectName]`.
+A standalone aspect annotation can be added to an annotated PMO property.
+Some standalone aspect annotation can also be added to an annotated PMO class itself.
+In the case of binding using the `@Bind` annotation, `@Bind[AspectName]` must be written directly in the field annotated with `@Bind`.
+Several frequently used aspects are packaged with *linkki* as listed below.
+It is also very easy to create additional <<creating-aspects, custom aspect annotations>>.
 
 [options="header"]
 |===
@@ -150,7 +183,8 @@ The `@BindTooltip` annotation has two properties:
 
 [[tooltip-text]]
 Value::
-This is the text displayed on <<tooltip-type, `TooltipType.STATIC`>>. Its default value is an empty string (`""`).
+This is the text displayed on <<tooltip-type, `TooltipType.STATIC`>>.
+Its default value is an empty string (`""`).
 
 [[tooltip-type]]
 TooltipType::
@@ -174,13 +208,16 @@ include::{source-dir-playground}/org/linkki/samples/playground/binding/pmo/Conta
 [[bind-read-only]]
 ===== Bind Read-Only State
 
-To change a component's read-only behavior, *linkki* provides the annotation `@BindReadOnly`. This annotation can be used in combination with  @Bind or UI-annotations.
+To change a component's read-only behavior, *linkki* provides the annotation `@BindReadOnly`.
+This annotation can be used in combination with @Bind or UI-annotations.
 
 IMPORTANT: The `@BindReadOnly` annotation is evaluated after `@Bind` or `@UI-annotations` which might already have set a read-only state.
 
 TIP: This annotation should be used only in exceptional cases, since most of the behavior is better controlled by a <<cross-sectional-binding, PropertyBehavior>>.
 
-The `@BindReadOnly` Annotation has only one property, `ReadOnlyType`. Per default, `ReadOnlyType#ALWAYS` is selected. Following `ReadOnlyTypes` are available:
+The `@BindReadOnly` Annotation has only one property, `ReadOnlyType`.
+Per default, `ReadOnlyType#ALWAYS` is selected.
+Following `ReadOnlyTypes` are available:
 
 [cols="1,9"]
 .ReadOnlyType
@@ -195,7 +232,9 @@ TIP: If a component is supposed to be writable even though the rest of the UI is
 [[bind-read-only-behavior]]
 ===== Bind Read-Only Behavior
 
-`@BindReadOnlyBehavior` changes a component's behaviour if it is set to read-only. The read-only status is determined by the <<property-dispatcher, property-dispatcher-chain>>. There is no need to define additional methods as is usually the case with dynamic aspect definitions.
+`@BindReadOnlyBehavior` changes a component's behaviour if it is set to read-only.
+The read-only status is determined by the <<property-dispatcher, property-dispatcher-chain>>.
+There is no need to define additional methods as is usually the case with dynamic aspect definitions.
 
 The aspect has a value of type `ReadOnlyBehaviorType` with the following options available:
 
@@ -208,7 +247,8 @@ The aspect has a value of type `ReadOnlyBehaviorType` with the following options
 |`INVISIBLE_IF_WRITABLE` |Component is invisible in writable mode.
 |===
 
-TIP: `INVISIBLE` and `DISABLED` are especially useful for buttons as buttons do not have a read-only mode. The type `WRITABLE` is useful for components which do not change data like an input field that is used to filter the content in the user interface.
+TIP: `INVISIBLE` and `DISABLED` are especially useful for buttons as buttons do not have a read-only mode.
+The type `WRITABLE` is useful for components which do not change data like an input field that is used to filter the content in the user interface.
 
 TIP: `INVISIBLE_IF_WRITABLE` can be used for buttons which should only be visible in read-only mode.
 
@@ -217,13 +257,17 @@ IMPORTANT: `INVISIBLE`, `DISABLED`, `INVISIBLE_IF_WRITABLE` are only supported f
 [[bind-visible]]
 ===== Bind Visible
 
-`@BindVisible` changes a component's visibility from the PMO by invoking a method named `is[PropertyName]Visible()`. When annotating an entire PMO the method is `isVisible()`.
+`@BindVisible` changes a component's visibility from the PMO by invoking a method named `is[PropertyName]Visible()`.
+When annotating an entire PMO the method is `isVisible()`.
 
-The aspect has a default value of type `VisibiltyType` with the option `DYNAMIC`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`.
+The aspect has a default value of type `VisibiltyType` with the option `DYNAMIC`.
+Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`.
 
 [NOTE]
 ====
-Updates of child bindings are skipped if a PMO is invisible. Due to an initial update upon creation, null-/Exception-handling might however still be necessary. To address this, consider:
+Updates of child bindings are skipped if a PMO is invisible.
+Due to an initial update upon creation, null-/Exception-handling might however still be necessary.
+To address this, consider:
 
 . Creating the PMO with a dummy model object to facilitate the initial update, then switch to the correct model object and use `BindingContext.uiUpdated()` for subsequent updates.
 . Retain null checks in getter methods without direct model binding to ensure stability during the initial update.
@@ -232,26 +276,35 @@ Updates of child bindings are skipped if a PMO is invisible. Due to an initial u
 [[bind-style-names]]
 ===== Style Names
 
-Vaadin components get rendered as HTML and styled via CSS. Using the `@BindStyleNames` annotation custom style names can be bound to a component in addition to those provided by Vaadin.
+Vaadin components get rendered as HTML and styled via CSS.
+Using the `@BindStyleNames` annotation custom style names can be bound to a component in addition to those provided by Vaadin.
 
 A single style name can be provided as the annotation's value (`@BindStyleNames("foo")`) as well as an array of multiple style names (`@BindStyleNames({"bar", "baz"})`).
 
 The value can also be omitted, leading to dynamic resolution via a `get<Property>StyleNames()` method that may return a `String` or any `Collection<String>`.
 
-NOTE: This aspect is an inherited aspect if it is declared on a class. Style names defined in the inheritance hierarchy are all added to the component.
+NOTE: This aspect is an inherited aspect if it is declared on a class.
+Style names defined in the inheritance hierarchy are all added to the component.
 
 [[bind-combo-box-item-style]]
 ===== Combo Box Item Style
 
-With the `@BindComboBoxItemStyle` annotation it is possible to style the items in a combo box popup menu. The annotation can only be used in conjunction with the annotation <<ui-combobox, @UIComboBox>>.
+With the `@BindComboBoxItemStyle` annotation it is possible to style the items in a combo box popup menu.
+The annotation can only be used in conjunction with the annotations <<ui-combobox, @UIComboBox>> and <<ui-multiselect, @UIMultiSelect>>.
 
 The CSS style names can be specified directly in the annotation and then apply to all items.
 
-Alternatively, the annotation can be specified without style names, in which case a method named `get<Property>ItemStyle()` is called with return type `Function<TYPE, String>`. The type `TYPE` must correspond to the type of the items in the combo box. The function is called for each item in the combo box. This makes it possible to define different styles for individual items.
+Alternatively, the annotation can be specified without style names, in which case a method named `get<Property>ItemStyle()` is called with return type `Function<TYPE, String>`.
+The type `TYPE` must correspond to the type of the items in the combo box.
+The function is called for each item in the combo box.
+This makes it possible to define different styles for individual items.
 
 [[ui-combobox-dynamicCaption]]
 ===== @BindComboBoxDynamicCaption
-By default, the caption of an item is only updated if the item itself changes. If the caption of an item can change without the item itself being changed, the combo box should be additionally be annotated with `@BindComboBoxDynamicCaption`. This annotation makes sure that all items are updated including their caption upon updates.
+
+By default, the caption of an item is only updated if the item itself changes.
+If the caption of an item can change without the item itself being changed, the combo box should be additionally be annotated with `@BindComboBoxDynamicCaption`.
+This annotation makes sure that all items are updated including their caption upon updates.
 
 WARNING: The update of all items can be costly, especially if the combo box contains a large number of items.
 
@@ -267,7 +320,8 @@ The `@BindCaption` annotation has two properties:
 
 [[caption-text]]
 Value::
-This is the text displayed on <<caption-type, `CaptionType.STATIC`>>. Its default value is an empty string (`""`).
+This is the text displayed on <<caption-type, `CaptionType.STATIC`>>.
+Its default value is an empty string (`""`).
 
 [[caption-type]]
 CaptionType::
@@ -285,7 +339,8 @@ The following configuration options are available for `CaptionType`:
 [[bind-icon]]
 ===== Icon
 
-UI elements such as <<ui-button, `@UIButton`>> or <<ui-link, `@UILink`>> can have an icon that is shown with the component's caption. This can be set with the `@BindIcon` annotation.
+UI elements such as <<ui-button, `@UIButton`>> or <<ui-link, `@UILink`>> can have an icon that is shown with the component's caption.
+This can be set with the `@BindIcon` annotation.
 
 The `@BindIcon` annotation has two properties:
 
@@ -294,7 +349,8 @@ The `@BindIcon` annotation has two properties:
 
 [[icon-value]]
 Value::
-This is the icon displayed on <<icon-type, `IconType.STATIC`>>. Its default value is a smiley that should alarm the user in case of unintentional usage.
+This is the icon displayed on <<icon-type, `IconType.STATIC`>>.
+Its default value is a smiley that should alarm the user in case of unintentional usage.
 
 [[icon-type]]
 IconType::
@@ -308,9 +364,12 @@ The following configuration options are available for `IconType`:
 |`DYNAMIC`  |The icon is determined by the return value of the method `Resource get<PropertyName>Icon()`. The `value` is ignored.
 |=== 
 
-TIP: The class `VaadinIcon` contains many Icons for easy use. The Vaadin documentation includes a https://vaadin.com/components/vaadin-icons/java-examples#all-icons[reference page listing all available icons] as well as documentation how to https://vaadin.com/docs/latest/flow/application/resources#icons[Icons].
+TIP: The class `VaadinIcon` contains many Icons for easy use.
+The Vaadin documentation includes a https://vaadin.com/components/vaadin-icons/java-examples#all-icons[reference page listing all available icons] as well as documentation how to https://vaadin.com/docs/latest/flow/application/resources#icons[Icons].
 
-IMPORTANT: Since annotations do not support a `null` value and `VaadinIcon` do not have a "NO_ICON" we cannot really specify "no icon" to automatically use a dynamic one. Hence we decided to use a quite uncommon icon (NATIVE_BUTTON) as default. If you really need exactly this icon, use `iconType=STATIC` explicitly.
+IMPORTANT: Since annotations do not support a `null` value and `VaadinIcon` do not have a "NO_ICON" we cannot really specify "no icon" to automatically use a dynamic one.
+Hence we decided to use a quite uncommon icon (NATIVE_BUTTON) as default.
+If you really need exactly this icon, use `iconType=STATIC` explicitly.
 
 [[suffix]]
 ===== Suffix
@@ -339,7 +398,8 @@ The following configuration options are available for `SuffixType`:
 |`DYNAMIC`  |The text of the suffix is determined by the return value of the method `String get<PropertyName>Suffix()`. The `value` is ignored.
 |===
 
-TIP:  BindSuffix can add a suffix to UI elements which implement the `HasPrefixAndSuffix` interface. Common UI elements which support `@BindSuffix` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`.
+TIP:  BindSuffix can add a suffix to UI elements which implement the `HasPrefixAndSuffix` interface.
+Common UI elements which support `@BindSuffix` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`.
 
 [[placeholder]]
 ===== Placeholder
@@ -369,9 +429,14 @@ The following configuration options are available for `PlaceholderType`:
 
 [[placeholder-table-pmo]]
 ===== Tables
-The `@BindPlaceholder` annotation can also be used on table PMOs providing a placeholder text that is shown in case the table has no items. Table header and footer will also be hidden.
 
-NOTE: This aspect is an inherited aspect. If a class is annotated with `@BindPlaceholder`, all subclasses will hide their tables using the declared annotation in their super class. It is not possible for subclasses to remove this behavior. It is however possible to set an new placeholder in a subclass.
+The `@BindPlaceholder` annotation can also be used on table PMOs providing a placeholder text that is shown in case the table has no items.
+Table header and footer will also be hidden.
+
+NOTE: This aspect is an inherited aspect.
+If a class is annotated with `@BindPlaceholder`, all subclasses will hide their tables using the declared annotation in their super class.
+It is not possible for subclasses to remove this behavior.
+It is however possible to set an new placeholder in a subclass.
 
 .`@BindPlaceholder` on table PMO
 [source,java]
@@ -379,7 +444,8 @@ NOTE: This aspect is an inherited aspect. If a class is annotated with `@BindPla
 include::{source-dir-playground}/org/linkki/samples/playground/table/SimplePlaygroundTablePmo.java[tags=bindPlaceholder-tablePmo]
 ----
 
-TIP: `@BindPlaceholder(value = "", placeholderType = PlaceholderType.STATIC)` will hide empty tables without showing any replacement text. When using `@BindPlaceholder` as annotation only, providing mandatory `getPlaceholder()`-Method and returning empty `String` will do the same.
+TIP: `@BindPlaceholder(value = "", placeholderType = PlaceholderType.STATIC)` will hide empty tables without showing any replacement text.
+When using `@BindPlaceholder` as annotation only, providing mandatory `getPlaceholder()`-Method and returning empty `String` will do the same.
 
 [[placeholder-linkki-section]]
 ===== LinkkiSection
@@ -397,7 +463,9 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/section/Sectio
 
 The annotation `@BindAutoFocus` can be used to set the https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus[autofocus] attribute on a UI element.
 
-IMPORTANT: This annotation should only be used on one UI element per page/dialog. The target element must be visible and editable. This annotation does not work with `@UIRadioButtons`.
+IMPORTANT: This annotation should only be used on one UI element per page/dialog.
+The target element must be visible and editable.
+This annotation does not work with `@UIRadioButtons`.
 
 NOTE: When used on a `@UIDateTimeField`, the date input field will be autofocused.
 
@@ -407,12 +475,14 @@ NOTE: When used on a `@UIDateTimeField`, the date input field will be autofocuse
 include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindAutoFocusPmo.java[tags=bindAutoFocus]
 ----
 
-TIP: BindAutoFocus can set the `autofocus` property on UI elements which implement the `HasValue` and `HasElement` interfaces. Common UI elements which support `@BindAutoFocus` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`, `@UIDateField`, `@UIDateTimeField`, `@UICheckBox` and `@UIComboBox`.
+TIP: BindAutoFocus can set the `autofocus` property on UI elements which implement the `HasValue` and `HasElement` interfaces.
+Common UI elements which support `@BindAutoFocus` are `@UIIntegerField`, `@UIDoubleField`, `@UIDecimalField`, `@UITextField`, `@UITextArea`, `@UICustomField`, `@UIDateField`, `@UIDateTimeField`, `@UICheckBox` and `@UIComboBox`.
 
 [[variant-names]]
 ===== Variant names
 
-Vaadin components get rendered as HTML and styled via CSS. The `@BindVariantNames` annotation can be used to add specific Vaadin variants to components.
+Vaadin components get rendered as HTML and styled via CSS.
+The `@BindVariantNames` annotation can be used to add specific Vaadin variants to components.
 It is possible to provide a single variant name (`@BindVariantNames("no-border")`) or an array of variant names (`@BindVariantNames({"no-row-borders", "compact"})`) as the annotation's value.
 
 .`@BindVariantNames` on TablePmo
@@ -421,14 +491,12 @@ It is possible to provide a single variant name (`@BindVariantNames("no-border")
 include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindVariantNamesTables.java[tags=bindVariantNames]
 ----
 
-
 [[bind-messages-aspect]]
 ===== Binding validation messages
 
 In some cases, it is not practical to use model binding in all fields of a PMO (e.g. because conversion/navigation needs to be done in getters/setters), but it should still be possible to set validation messages on a field.
 
 This can be done with the annotation <<bind-messages, `@BindMessages`>>.
-
 
 [[bind-label]]
 ===== Binding labels
@@ -462,7 +530,8 @@ The following configuration options are available for `LabelType`:
 |`NONE`     |No label text is displayed.
 |===
 
-NOTE: Some UI elements already provide a property for defining static labels. This value is overwritten by the `@BindLabel` annotation.
+NOTE: Some UI elements already provide a property for defining static labels.
+This value is overwritten by the `@BindLabel` annotation.
 
 .`@BindLabel` with a dynamic label
 [source,java]
@@ -476,12 +545,11 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindLa
 include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindLabelPmo.java[tags=bindLabel-static]
 ----
 
-
-
 [[bind-slot]]
 ===== Binding slots
-Web components are based on a layout with a fixed CSS style. 
-The web component often defines slots where child elements could be placed. 
+
+Web components are based on a layout with a fixed CSS style.
+The web component often defines slots where child elements could be placed.
 For example a layout component may define a header and a body section.
 The `@BindSlot` annotation can be used to set UI elements into these slots.
 

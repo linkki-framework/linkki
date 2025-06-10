@@ -27,7 +27,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.ComboBoxBase;
 import com.vaadin.flow.data.renderer.LitRenderer;
 
 /**
@@ -71,7 +71,7 @@ public class BindComboBoxItemStyleAspectDefinition extends StaticModelToUiAspect
     @Override
     public Consumer<Function<Object, String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
         @SuppressWarnings("unchecked")
-        var comboBox = (ComboBox<Object>)componentWrapper.getComponent();
+        var comboBox = (ComboBoxBase<?, Object, Object>)componentWrapper.getComponent();
         return f -> comboBox
                 .setRenderer(LitRenderer.of("<div class=\"${item." + STYLE + "}\">${item." + LABEL + "}</div>")
                         .withProperty(STYLE, f::apply)

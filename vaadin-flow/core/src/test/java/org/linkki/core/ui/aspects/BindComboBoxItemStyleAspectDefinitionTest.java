@@ -31,6 +31,7 @@ import org.mockito.ArgumentCaptor;
 
 import com.github.mvysny.kaributesting.v10.MockVaadin;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.data.provider.KeyMapper;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.Rendering;
@@ -78,12 +79,51 @@ class BindComboBoxItemStyleAspectDefinitionTest {
     }
 
     @Test
-    void testCreateComponentValueSetter() {
+    void testCreateComponentValueSetter_ComboBox() {
         MockVaadin.setup();
 
         String styleName = "bar";
         BindComboBoxItemStyleAspectDefinition aspectDefinition = new BindComboBoxItemStyleAspectDefinition(styleName);
-        ComboBox<Object> comboBox = spy(ComponentFactory.newComboBox());
+        ComboBox<Object> multiSelect = spy(ComponentFactory.newComboBox());
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<LitRenderer<Object>> argumentCaptor = ArgumentCaptor.forClass(LitRenderer.class);
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(multiSelect);
+
+        Consumer<Function<Object, String>> componentValueSetter = aspectDefinition
+                .createComponentValueSetter(componentWrapper);
+        componentValueSetter.accept(o -> EXPECTED_STYLE);
+
+        verify(multiSelect).setRenderer(argumentCaptor.capture());
+        LitRenderer<Object> renderer = argumentCaptor.getValue();
+        Rendering<Object> render = renderer.render(new Element("div"), new KeyMapper<>());
+        JreJsonObject jsonObject = new JreJsonObject(new JreJsonFactory());
+        render.getDataGenerator().get().generateData(EXPECTED_LABEL, jsonObject);
+
+        assertThat(jsonObject
+                .get(Arrays.stream(jsonObject.keys())
+                        .filter(c -> c.endsWith("style"))
+                        .findFirst()
+                        .orElseThrow())
+                .asString())
+                        .isEqualTo(EXPECTED_STYLE);
+        assertThat(jsonObject
+                .get(Arrays.stream(jsonObject.keys())
+                        .filter(c -> c.endsWith("label"))
+                        .findFirst()
+                        .orElseThrow())
+                .asString())
+                        .isEqualTo(EXPECTED_LABEL);
+
+        MockVaadin.tearDown();
+    }
+
+    @Test
+    void testCreateComponentValueSetter_MultiSelect() {
+        MockVaadin.setup();
+
+        String styleName = "bar";
+        BindComboBoxItemStyleAspectDefinition aspectDefinition = new BindComboBoxItemStyleAspectDefinition(styleName);
+        MultiSelectComboBox<Object> comboBox = spy(ComponentFactory.newMultiSelect());
         @SuppressWarnings("unchecked")
         ArgumentCaptor<LitRenderer<Object>> argumentCaptor = ArgumentCaptor.forClass(LitRenderer.class);
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(comboBox);

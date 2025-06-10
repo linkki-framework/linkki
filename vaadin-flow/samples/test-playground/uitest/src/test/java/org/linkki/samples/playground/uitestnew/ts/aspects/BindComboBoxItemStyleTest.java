@@ -16,19 +16,24 @@ package org.linkki.samples.playground.uitestnew.ts.aspects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
+import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo.BindComboBoxItemStyleWithComboBoxPmo;
+import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo.BindComboBoxItemStyleWithMultiSelectPmo;
 import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo.TextColor;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.combobox.testbench.MultiSelectComboBoxElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.html.testbench.InputTextElement;
-import com.vaadin.testbench.TestBenchElement;
 
 class BindComboBoxItemStyleTest extends PlaygroundUiTest {
     private TestCaseComponentElement testCaseSection;
@@ -39,47 +44,84 @@ class BindComboBoxItemStyleTest extends PlaygroundUiTest {
     }
 
     @Test
-    void testStaticItemStyle() {
-        ComboBoxElement comboBox = testCaseSection.$(ComboBoxElement.class).id("greyText");
+    void testStaticItemStyle_ComboBox() {
+        var section = testCaseSection.$(LinkkiSectionElement.class)
+                .id(BindComboBoxItemStyleWithComboBoxPmo.class.getSimpleName());
+        var comboBox = section.$(ComboBoxElement.class).id("greyText");
 
         comboBox.openPopup();
 
-        $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last().getClassNames())
-                .contains("text-secondary"));
+        assertThat($("vaadin-combo-box-item").all())
+                .allSatisfy(i -> assertThat(i.$(DivElement.class).last().getClassNames())
+                        .contains("text-secondary"));
 
         comboBox.closePopup();
     }
 
     @Test
-    void testDynamicItemStyle() {
-        ComboBoxElement comboBox = testCaseSection.$(ComboBoxElement.class).id("textColor");
+    void testDynamicItemStyle_ComboBox() {
+        var section = testCaseSection.$(LinkkiSectionElement.class)
+                .id(BindComboBoxItemStyleWithComboBoxPmo.class.getSimpleName());
+        var comboBox = section.$(ComboBoxElement.class).id("textColor");
 
         comboBox.openPopup();
 
-        List<TestBenchElement> items = $("vaadin-combo-box-item").all();
-
-        for (int i = 0; i < TextColor.values().length; i++) {
-            TestBenchElement comboItem = items.get(i);
-            TextColor item = TextColor.values()[i];
-
-            assertThat(comboItem.$(DivElement.class).last().getClassNames())
-                    .contains(item.getStyleName());
-        }
+        assertThat($("vaadin-combo-box-item").all())
+                .map(i -> i.$(DivElement.class).last().getClassNames())
+                .isEqualTo(Arrays.stream(TextColor.values())
+                        .map(TextColor::getStyleName)
+                        .map(Set::of)
+                        .collect(Collectors.toList()));
 
         comboBox.closePopup();
     }
 
     @Test
-    void testDynamicItemStyleWithAlignment() {
-        ComboBoxElement comboBox = testCaseSection.$(ComboBoxElement.class).id("alignedText");
+    void testDynamicItemStyleWithAlignment_ComboBox() {
+        var section = testCaseSection.$(LinkkiSectionElement.class)
+                .id(BindComboBoxItemStyleWithComboBoxPmo.class.getSimpleName());
+        var comboBox = section.$(ComboBoxElement.class).id("alignedText");
         assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("end");
 
         comboBox.openPopup();
 
-        $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last().getClassNames())
-                .contains("text-right", "text-primary"));
+        assertThat($("vaadin-combo-box-item").all())
+                .allSatisfy(i -> assertThat(i.$(DivElement.class).last().getClassNames())
+                        .contains("text-right", "text-primary"));
 
         comboBox.closePopup();
     }
 
+    @Test
+    void testStaticItemStyle_MultiSelect() {
+        var section = testCaseSection.$(LinkkiSectionElement.class)
+                .id(BindComboBoxItemStyleWithMultiSelectPmo.class.getSimpleName());
+        var comboBox = section.$(MultiSelectComboBoxElement.class).id("greyText");
+
+        comboBox.openPopup();
+
+        assertThat($("vaadin-multi-select-combo-box-item").all())
+                .allSatisfy(i -> assertThat(i.$(DivElement.class).last().getClassNames())
+                        .contains("text-secondary"));
+
+        comboBox.closePopup();
+    }
+
+    @Test
+    void testDynamicItemStyle_MultiSelect() {
+        var section = testCaseSection.$(LinkkiSectionElement.class)
+                .id(BindComboBoxItemStyleWithMultiSelectPmo.class.getSimpleName());
+        var comboBox = section.$(MultiSelectComboBoxElement.class).id("textColor");
+
+        comboBox.openPopup();
+
+        assertThat($("vaadin-multi-select-combo-box-item").all())
+                .map(i -> i.$(DivElement.class).last().getClassNames())
+                .isEqualTo(Arrays.stream(TextColor.values())
+                        .map(TextColor::getStyleName)
+                        .map(Set::of)
+                        .collect(Collectors.toList()));
+
+        comboBox.closePopup();
+    }
 }
