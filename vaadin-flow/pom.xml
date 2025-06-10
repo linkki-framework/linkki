@@ -23,8 +23,10 @@
         <module>testbench-extension</module>
         <module>apt</module>
         <module>archetypes</module>
-        <module>samples</module>
         <module>doc</module>
+        <!-- ATTENTION: the last module must not be one that is skipped during
+             central publishing, otherwise nothing will be published -->
+        <module>samples</module>
     </modules>
 
     <repositories>

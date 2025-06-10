@@ -31,6 +31,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-testbench-junit5</artifactId>
+            <version>${vaadin.testbench.version}</version>
         </dependency>
     </dependencies>
 
