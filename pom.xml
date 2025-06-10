@@ -35,6 +35,8 @@
         <module>test</module>
         <module>utils</module>
         <module>core</module>
+        <!-- ATTENTION: the last module must not be one that is skipped during
+             central publishing, otherwise nothing will be published -->
         <module>vaadin-flow</module>
     </modules>
 
@@ -322,6 +324,40 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>ossrh</flattenMode>
+                    <pomElements>
+                        <build>remove</build>
+                        <repositories>remove</repositories>
+                        <organization>expand</organization>
+                        <url>expand</url>
+                        <!-- expand = Take the element from the effective POM. -->
+                        <!-- keep = Take the element from the original POM. -->
+                    </pomElements>
+                </configuration>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -400,6 +436,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>${maven-deploy-plugin.version}</version>
+                    <configuration>
+                        <deployAtEnd>true</deployAtEnd>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -433,6 +472,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
                 </plugin>
 
                 <!--This plugin's configuration is used to store Eclipse 
@@ -616,41 +660,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>flatten-maven-plugin</artifactId>
-                        <version>${flatten-maven-plugin.version}</version>
-                        <configuration>
-                            <updatePomFile>true</updatePomFile>
-                            <flattenMode>ossrh</flattenMode>
-                            <pomElements>
-                                <build>remove</build>
-                                <repositories>remove</repositories>
-                                <organization>expand</organization>
-                                <url>expand</url>
-                                <!-- expand = Take the element from the effective POM. -->
-                                <!-- keep = Take the element from the original POM. -->
-                            </pomElements>
-                        </configuration>
-                        <executions>
-                            <!-- enable flattening -->
-                            <execution>
-                                <id>flatten</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>flatten</goal>
-                                </goals>
-                            </execution>
-                            <!-- ensure proper cleanup -->
-                            <execution>
-                                <id>flatten.clean</id>
-                                <phase>clean</phase>
-                                <goals>
-                                    <goal>clean</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>${maven-gpg-plugin.version}</version>
@@ -667,24 +676,18 @@
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <deploymentName>linkki ${project.version}</deploymentName>
+                            <!-- skipPublishing somehow does not work in modules in which the plugin is configured -->
+                            <excludeArtifacts>
+                                linkki,linkki-vaadin-flow,linkki-core-documentation-vaadin-flow,linkki-codeanalysis,linkki-archetypes-vaadin-flow,linkki-core-documentation-vaadin-flow
+                            </excludeArtifacts>
+                        </configuration>
                     </plugin>
                 </plugins>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.sonatype.central</groupId>
-                            <artifactId>central-publishing-maven-plugin</artifactId>
-                            <version>${central-publishing-maven-plugin.version}</version>
-                            <extensions>true</extensions>
-                            <configuration>
-                                <publishingServerId>central</publishingServerId>
-                                <deploymentName>linkki ${project.version}</deploymentName>
-                                <excludeArtifacts>linkki-core-documentation-vaadin-flow,linkki-archetypes-vaadin-flow
-                                </excludeArtifacts>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
             </build>
         </profile>
     </profiles>
