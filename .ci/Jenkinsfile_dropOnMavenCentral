@@ -4,7 +4,7 @@ library 'maven-central-release-library@main'
 pipeline {
     agent any
     parameters {
-        string description: 'The UUID of the deployment request', name: 'DEPLOYMENT_ID'
+        string(name: 'DEPLOYMENT_ID', description: 'The UUID of the deployment request')
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '30'))
