@@ -1,6 +1,6 @@
 library 'f10-jenkins-library@1.1_patches'
 library 'release-library@1.2'
-// library 'maven-central-release-library@main'
+library 'maven-central-release-library@main'
 
 import groovy.json.JsonOutput
 
@@ -19,107 +19,14 @@ def additionalDevelopmentActions() {
         -DgenerateBackupPoms=false \
         -f vaadin-flow/samples/test-playground/uitest"
 }
-/**
- * @param config the  map of configuration parameters:
- * -configFiles : parameters for configFileProvider
- * -commands : mvn deploy command(s)
- * -releaseJobURL : e.g. https://fips-ci.faktorzehn.de/view/Faktor-IPS/job/FaktorIPS_ReleaseOnMavenCentral/build
- * -dropJobURL : e.g. https://fips-ci.faktorzehn.de/view/Faktor-IPS/job/FaktorIPS_DropOnMavenCentral/build
- */
-def deployToMavenCentral(Map config = [:]) {
-
-    def configFiles = []
-    if(config.containsKey("configFiles")) {
-        configFiles = config.configFiles
-    }
-
-    def releaseJobURL = "${JENKINS_URL}view/Faktor-IPS/job/FaktorIPS_ReleaseOnMavenCentral/build"
-    if(config.containsKey("releaseJobURL")) {
-        releaseJobURL = config.releaseJobURL
-    }
-
-    def dropJobURL = "${JENKINS_URL}view/Faktor-IPS/job/FaktorIPS_DropOnMavenCentral/build"
-    if(config.containsKey("dropJobURL")) {
-        dropJobURL = config.dropJobURL
-    }
-
-    // deploys plain maven artifacts
-    withMaven(maven: 'maven 3.9', publisherStrategy: 'EXPLICIT') {
-        configFileProvider(configFiles) {
-            for(String command : config.commands) {
-                sh command + " | tee target/deploy.log"
-            }
-        }
-    }
-    script {
-        withCredentials([string(credentialsId: 'sonatype.central.token', variable: 'SONATYPE_CREDENTIALS')]) {
-            DeploymentId = sh (
-                script: 'grep -P -o  -i "(?<=Deployment )[a-f0-9-]+(?= has been validated)" target/deploy.log',
-                returnStdout: true
-            ).trim()
-            rtp parserName: 'HTML', nullAction: '1', stableText: """
-                <h2>Deployment</h2>
-                <script>
-                function copyToClipboard() {
-                  navigator.clipboard.writeText("${DeploymentId}");
-                }
-                </script>
-                Deployment-ID: ${DeploymentId}&nbsp;<button onclick="copyToClipboard()">&#x1f4cb;</button><br />
-                &#x2705;: <a href='${releaseJobURL}'>Release on Maven Central</a><br />
-                &#x274C;: <a href='${dropJobURL}'>Drop on Maven Central</a> - ggf. Nexus und update.faktorzehn.org von Admin aufr&auml;umen lassen
-              """
-            responseStatus = sh (
-                script: 'curl -X POST https://central.sonatype.com/api/v1/publisher/status?id=' + DeploymentId + ' \
-                            -H "accept: application/json" -H "Authorization: Bearer $SONATYPE_CREDENTIALS" -d "" --fail',
-                returnStdout: true
-            ).trim()
-
-            props = readJSON text: "${responseStatus}"
-
-            try {
-                possibleStates = ['PENDING', 'VALIDATING', 'VALIDATED']
-                assert possibleStates.contains(props.deploymentState)
-
-            } catch(Throwable errStatus) {
-                rtp parserName: 'HTML', nullAction: '1', stableText: """
-                    <h2>Status of ${DeploymentId}</h2>
-                    <span style="background:#ff9999;padding: 1em;font-weight: bold;">deploymentState is not PENDING, VALIDATING or VALIDATED but ${props.deploymentState}</span>
-                """
-                error("deploymentState is not PENDING, VALIDATING or VALIDATED but ${props.deploymentState}")
-            }
-
-            formatted = sortAndShowFiles(props.purls)
-
-            rtp parserName: 'HTML', nullAction: '1', stableText: """
-                    <h2>Deployment Status:</h2>
-                    <span style="font-family: monospace;">
-                    deploymentName: ${props.deploymentName}<br />
-                    deploymentState: ${props.deploymentState}<br />
-                    deploymentFiles: ${formatted}
-                    </span>
-                """
-        }
-    }
-}
-
-def sortAndShowFiles(def files) {
-    deployedFiles = [] as TreeSet
-    for (s in files) {
-        // pkg:maven/org.faktorips/faktorips-maven-archetype@25.7.0.a20250514-04
-        // pkg:maven/org.faktorips/faktorips-maven-archetype@25.7.0.a20250514-04?type=maven-archetype
-        // yields 2 * faktorips-maven-archetype
-        deployedFiles.add(s.split('/')[2].split('@')[0])
-    }
-    formatted = '<ul>'
-    for (artifactName in deployedFiles) {
-        formatted += "<li>${artifactName}</li>"
-    }
-    formatted += '</ul>'
-    return formatted
-}
 
 pipeline {
-   agent any
+    agent any
+
+    tools {
+        jdk 'OpenJDK 17'
+        maven 'maven 3.9'
+    }
 
     options {
         skipDefaultCheckout true
@@ -138,7 +45,7 @@ pipeline {
     stages {
         stage('Prepare Release') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
+                withMaven(publisherStrategy: 'EXPLICIT') {
                     script {
                         prepareRelease.withAdditionalActions(
                             this.&additionalReleaseActions,
@@ -151,7 +58,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -P production clean javadoc:jar source:jar install'
                 }
 
@@ -163,7 +70,7 @@ pipeline {
 
         stage('Dependency-Check') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(publisherStrategy: 'EXPLICIT') {
                     dependencyCheck version: '24.1'
                 }
             }
@@ -175,54 +82,54 @@ pipeline {
             }
         }
 
-        // stage('Remove Docker Network') {
-                //    steps {
-                //        deleteDockerNetwork "${NETWORK_NAME}"
-                //    }
-                // }
+        stage('Remove Docker Network') {
+            steps {
+                   deleteDockerNetwork "${NETWORK_NAME}"
+            }
+        }
 
-                // stage('Docker Deployment') {
-                //    steps {
-                //        sh 'bash -x .ci/docker_setup.sh ${PROJECT_ID}'
-                //
-                //        rtp parserName: 'HTML', nullAction: '1', stableText: """
-                //            <h3>Sample Deployments</h3>
-                //            <ul>
-                //                <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
-                //            </ul>
-                //        """
-                //    }
-                // }
+        stage('Docker Deployment') {
+           steps {
+               sh 'bash -x .ci/docker_setup.sh ${PROJECT_ID}'
+        
+               rtp parserName: 'HTML', nullAction: '1', stableText: """
+                   <h3>Sample Deployments</h3>
+                   <ul>
+                       <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
+                   </ul>
+               """
+           }
+        }
 
-                // wait for the sample applications to be ready to run the tests
-                // stage('Wait for Server') {
-                //    steps {
-                //        waitForServer "${DEPLOYMENT_URL}"
-                //    }
-                // }
+        //wait for the sample applications to be ready to run the tests
+        stage('Wait for Server') {
+           steps {
+               waitForServer "${DEPLOYMENT_URL}"
+           }
+        }
 
-                // stage('UI Test') {
-                //    // Run Tests only if build was successful
-                //    when {
-                //        expression {
-                //            return currentBuild.currentResult == "SUCCESS"
-                //        }
-                //    }
-                //
-                //    steps {
-                //        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                //            sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                //                -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
-                //        }
-                //
-                //        archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
-                //        junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
-                //    }
-                //
-                //    environment {
-                //        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME}'
-                //    }
-                //}
+        stage('UI Test') {
+            // Run Tests only if build was successful
+            when {
+                expression {
+                    return currentBuild.currentResult == "SUCCESS"
+                }
+            }
+         
+            steps {
+                withMaven(publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
+                        -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                }
+         
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
+                junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
+            }
+         
+            environment {
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME}'
+            }
+        }
 
         stage('Upload Release') {
             steps {

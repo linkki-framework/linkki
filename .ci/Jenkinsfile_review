@@ -15,6 +15,11 @@ pipeline {
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
     }
 
+    tools {
+        jdk 'OpenJDK 17'
+        maven 'maven 3.9'
+    }
+
     stages {
         stage('Pre-Build') {
             steps {
@@ -24,7 +29,7 @@ pipeline {
 
                 preBuildSteps()
 
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                     dependsOn(credentials: 'gerrit_rest') {}
                 }
             }
@@ -32,7 +37,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
                         clean install javadoc:javadoc \
                         -Pproduction \
@@ -60,7 +65,7 @@ pipeline {
                 stage('Check API') {
                     steps {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                            withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                            withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                 sh 'mvn -T 6 -pl "!linkki-codeanalysis" validate org.revapi:revapi-maven-plugin:check'
                             }
                         }
@@ -69,7 +74,7 @@ pipeline {
 
                 stage('Faktor-IPS build') {
                     steps {
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                        withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -pl org.linkki-framework:linkki-ips-vaadin-flow -Dmaven.repo.local="${MAVEN_REPOSITORY}" faktorips:faktorips-clean faktorips:faktorips-build'
                         }
                     }
@@ -104,7 +109,7 @@ pipeline {
 
                         stage('UI Test') {
                             steps {
-                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                                 }
@@ -124,7 +129,7 @@ pipeline {
                     stages {
                         stage('Analysis') {
                             steps {
-                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17') {
+                                withMaven() {
                                     runSonarQubeAnalysis()
                                 }
                             }
