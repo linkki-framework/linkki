@@ -64,3 +64,4 @@
 .repository
 .asciidoctorconfig.adoc
 com.vaadin.designer.prefs
+.flattened-pom.xml
