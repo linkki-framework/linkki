@@ -23,8 +23,8 @@
         <module>testbench-extension</module>
         <module>apt</module>
         <module>archetypes</module>
-        <module>samples</module>
         <module>doc</module>
+        <module>samples</module>
     </modules>
 
     <repositories>
