@@ -25,8 +25,8 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.SimpleMemberNameBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.SimpleMemberNameBoundPropertyCreator;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
@@ -48,6 +48,9 @@ import com.vaadin.flow.component.html.Anchor;
 
 /**
  * Provides a single UI-element to display a link. Creates an {@link Anchor}.
+ * <p>
+ * The annotated method should return the link URL as a string. The shown text can be configured by
+ * setting the caption.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -104,7 +107,7 @@ public @interface UILink {
      */
     IconPosition iconPosition() default IconPosition.RIGHT;
 
-    static class LinkComponentDefinitionCreator implements ComponentDefinitionCreator<UILink> {
+    class LinkComponentDefinitionCreator implements ComponentDefinitionCreator<UILink> {
 
         @Override
         public LinkkiComponentDefinition create(UILink annotation, AnnotatedElement annotatedElement) {
@@ -116,7 +119,7 @@ public @interface UILink {
     /**
      * Aspect definition creator for the {@link UILink} annotation.
      */
-    static class LinkAspectDefinitionCreator implements AspectDefinitionCreator<UILink> {
+    class LinkAspectDefinitionCreator implements AspectDefinitionCreator<UILink> {
 
         @Override
         public LinkkiAspectDefinition create(UILink annotation) {
