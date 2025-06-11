@@ -25,11 +25,11 @@ import org.linkki.core.ui.aspects.types.PlaceholderType;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasPlaceholder;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.textfield.TextField;
 
 /**
- * Aspect definition to set the placeholder of a component. Should only be used on Components which
- * have a setPlaceholder method for example {@link TextField} .
+ * An aspect definition to set a placeholder for a {@link Component} that displays a message when
+ * there is no content to show. The text should give a brief hint to the user that provides context
+ * for the empty state, or what kind of data should be entered into the control.
  */
 public class PlaceholderAspectDefinition extends ModelToUiAspectDefinition<String> {
     public static final String NAME = "placeholder";
@@ -62,9 +62,9 @@ public class PlaceholderAspectDefinition extends ModelToUiAspectDefinition<Strin
     }
 
     /**
-     * @implNote Vaadin doesn't offer an interface for the {@code setPlaceholder} method, so we
-     *           directly set the HTML elements "placeholder" property. This should have no effect
-     *           on components that do not support a placeholder.
+     * @implNote For elements that are not a {@link Grid} and which are not implementing
+     *           {@link HasPlaceholder}, this method sets the HTML property "placeholder". This
+     *           should have no effect on components that do not support a placeholder.
      */
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
