@@ -669,10 +669,7 @@
                             <deploymentName>linkki ${project.version}</deploymentName>
                             <!-- skipPublishing somehow does not work in modules in which the plugin is configured -->
                             <excludeArtifacts>
-                                linkki,
-                                linkki-vaadin-flow,
-                                linkki-core-documentation-vaadin-flow,
-                                linkki-codeanalysis
+                                linkki,linkki-vaadin-flow,linkki-core-documentation-vaadin-flow,linkki-codeanalysis,linkki-archetypes-vaadin-flow,linkki-core-documentation-vaadin-flow
                             </excludeArtifacts>
                         </configuration>
                     </plugin>
