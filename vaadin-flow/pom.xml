@@ -44,7 +44,7 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
-            3.4.5
+            3.4.6
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
         <karibu.version>2.2.4</karibu.version>
