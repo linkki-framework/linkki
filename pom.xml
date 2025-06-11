@@ -668,7 +668,11 @@
                             <publishingServerId>central</publishingServerId>
                             <deploymentName>linkki ${project.version}</deploymentName>
                             <!-- skipPublishing somehow does not work in modules in which the plugin is configured -->
-                            <excludeArtifacts>linkki-core-documentation-vaadin-flow,linkki-archetypes-vaadin-flow
+                            <excludeArtifacts>
+                                linkki,
+                                linkki-vaadin-flow,
+                                linkki-core-documentation-vaadin-flow,
+                                linkki-codeanalysis
                             </excludeArtifacts>
                         </configuration>
                     </plugin>
