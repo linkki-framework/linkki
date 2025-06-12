@@ -93,7 +93,7 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
 
         assertThat("Single click should not trigger the aspect", $(NotificationElement.class).all(), is(empty()));
 
-        selectableTable.scrollIntoView();
+        selectableTable.scrollToRow(3);
         GridTRElement row = selectableTable.getRow(3);
         row.doubleClick();
 

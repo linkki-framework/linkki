@@ -13,15 +13,15 @@
  */
 package org.linkki.util.handler;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.Stack;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
-public class HandlerTest {
+class HandlerTest {
 
     final Stack<TestOkHandler> handlerStack = new Stack<>();
 
@@ -35,25 +35,40 @@ public class HandlerTest {
     }
 
     @Test
-    public void testAndThen() {
+    void testAndThen() {
         TestOkHandler h1 = new TestOkHandler();
         TestOkHandler h2 = new TestOkHandler();
 
         Handler composed = h1.andThen(h2);
         composed.apply();
-        assertThat(handlerStack.size(), is(2));
-        assertThat(handlerStack.pop(), is(h2));
-        assertThat(handlerStack.pop(), is(h1));
+
+        assertThat(handlerStack.size()).isEqualTo(2);
+        assertThat(handlerStack.pop()).isEqualTo(h2);
+        assertThat(handlerStack.pop()).isEqualTo(h1);
     }
 
     @Test
-    public void testAndThenDeep() {
+    void testAndThenDeep() {
         Handler composed = IntStream.rangeClosed(1, 10)
                 .mapToObj(value -> (Handler)new TestOkHandler())
                 .reduce(Handler.NOP_HANDLER, Handler::andThen);
 
         composed.apply();
-        assertThat(handlerStack.size(), is(10));
+        assertThat(handlerStack.size()).isEqualTo(10);
+    }
+
+    @Test
+    void testCompose() {
+        var stringBuilder = new StringBuilder();
+        Handler testHandler = () -> {
+            stringBuilder.append("handler");
+        };
+        Consumer<String> testConsumer = stringBuilder::append;
+
+        var result = testHandler.compose(testConsumer);
+        result.accept("consumer");
+
+        assertThat(stringBuilder.toString()).isEqualTo("consumerhandler");
     }
 
 }

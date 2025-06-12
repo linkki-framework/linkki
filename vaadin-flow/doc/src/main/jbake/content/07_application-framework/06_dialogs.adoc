@@ -31,6 +31,7 @@ include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutConten
 
 [[uiOpenDialogButton]]
 ==== Creating dialogs on button click
+
 [NOTE]
 Note that this annotation is an experimental feature that may be subject of API change in the near future.
 
@@ -39,8 +40,12 @@ Instead, a dialog should be opened upon a button click in which the user can edi
 To implement this use case, `BindingContext#modelChanged` often needs to be passed to the PMO to update the underlying `BindingContext` after the OK button was clicked.
 
 The UI annotation `@UIOpenDialogButton` resolves this inconvenience.
-The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click. For use with a Faktor-IPS model object, the abstract class <<ips-dialog-pmo, `IpsDialogPmo`>> provides a partial implementation of `DialogPmo`.
+The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click.
+For use with a Faktor-IPS model object, the abstract class <<ips-dialog-pmo, `IpsDialogPmo`>> provides a partial implementation of `DialogPmo`.
 When the user clicks on the OK button, the underlying `BindingContext` is updated automatically.
+
+Alternatively, the annotated method can also return `Function<Handler, OkCancelDialog>` for cases where the dialog is not defined with a PMO.
+The function's argument is the model changed handler that updates the binding context and the created dialog must make sure that this handler is called when the OK button is clicked.
 
 .Dialog created with `@UIOpenDialogButton`
 [source,java]
@@ -48,7 +53,7 @@ When the user clicks on the OK button, the underlying `BindingContext` is update
 include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=uiOpenDialogButton]
 ----
 
-The annotated method must return a `DialogPmo`, which defines the following properties:
+The following properties are defined in the implementation of the DialogPmo:
 
 * The caption used to create the dialog.
 * The OK handler that is called when pressing the dialogs OK button.
@@ -57,14 +62,12 @@ The annotated method must return a `DialogPmo`, which defines the following prop
 By default, no validation is executed.
 * The <<property-dispatcher, `PropertyDispatcherFactory`>> that handles the communication between properties and their behaviour.
 
-[NOTE]
-The annotation only works with dialogs whose content can be defined as a PMO.
-
 [TIP]
 ====
 * Combine this annotation with <<section-header-annotation,`@SectionHeader`>> to place the button in the header of a section.
 * To display an icon instead of a caption, set `caption = ""` or `captionType = CaptionType.NONE` and use <<bind-icon,`@BindIcon`>> to define the icon.
 * `DialogPmo` can be used to define dialogs even if `@UIOpenDialogButton` is not used.
+
 ====
 
 .Example DialogPmo and ContentPmo

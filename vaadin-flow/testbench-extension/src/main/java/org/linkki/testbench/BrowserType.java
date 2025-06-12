@@ -39,6 +39,7 @@ public enum BrowserType {
             setChromeDriverSystemProperty();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-search-engine-choice-screen");
+            options.setBrowserVersion("137.0.7151.104");
 
             options.setExperimentalOption("prefs", Map.of("intl.accept_languages", locale.getLanguage()));
 
@@ -56,6 +57,7 @@ public enum BrowserType {
         public WebDriver getWebdriver(Locale locale) {
             setChromeDriverSystemProperty();
             ChromeOptions options = new ChromeOptions();
+            options.setBrowserVersion("137.0.7151.104");
             options.addArguments("--disable-search-engine-choice-screen");
             options.addArguments("--headless=new");
             // supposed to solve "Time out receiving message from renderer: 600.000"

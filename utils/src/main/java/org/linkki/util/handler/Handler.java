@@ -15,6 +15,8 @@ package org.linkki.util.handler;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.function.Consumer;
+
 /**
  * A functional interface to proceed any operation. May be used to provide click handler or any
  * other runnable action.
@@ -66,6 +68,22 @@ public interface Handler {
             before.apply();
             apply();
         };
+    }
+
+    /**
+     * Returns a consumer that first applies the {@code before} consumer, and then applies this
+     * handler.
+     *
+     * @param before the consumer to execute before this handler is applied
+     * @return a consumer that first applies the {@code before} consumer and then applies this
+     *         handler
+     * @throws NullPointerException if before is null
+     *
+     * @see #compose(Handler)
+     */
+    default <T> Consumer<T> compose(Consumer<T> before) {
+        requireNonNull(before, "before must not be null");
+        return before.andThen(t -> apply());
     }
 
 }

@@ -103,7 +103,8 @@ public class TestScenario {
     }
 
     private LinkkiTabLayout createTestCaseSelector() {
-        LinkkiTabLayout layout = new LinkkiTabLayout(Orientation.HORIZONTAL);
+        LinkkiTabLayout layout = new LinkkiTabLayout(Orientation.VERTICAL);
+        layout.getTabsComponent().setWidth("180px");
         layout.addTabSheets(tabSheets);
         layout.setId("test-case-selector");
         return layout;
