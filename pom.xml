@@ -36,6 +36,8 @@
         <module>test</module>
         <module>utils</module>
         <module>core</module>
+        <!-- ATTENTION: the last module must not be one that is skipped during
+             central publishing, otherwise nothing will be published -->
         <module>vaadin-flow</module>
     </modules>
 
