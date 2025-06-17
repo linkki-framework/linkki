@@ -12,17 +12,17 @@
  * the License.
  */
 
-package org.linkki.samples.playground.ts.layout;
+package org.linkki.samples.playground.ts.layouts;
 
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-@UIHorizontalLayout
-public class HorizontalLayoutDefaultAlignmentPmo {
+@UIVerticalLayout
+public class VerticalLayoutLeftPmo {
 
-    @UITextField(position = 1)
+    @UITextField(position = 1, width = "15em")
     public String getText() {
-        return "I should be aligned at baseline which is the default";
+        return "I should be at the left";
     }
 
 }

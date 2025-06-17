@@ -12,33 +12,32 @@
  * the License.
  */
 
-package org.linkki.samples.playground.ts.layout;
+package org.linkki.samples.playground.ts.layouts;
 
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 
-@UIHorizontalLayout(padding = true)
-public class HorizontalLayoutPaddingPmo {
+@UIHorizontalLayout(spacing = false)
+public class HorizontalLayoutSpacingPmo {
 
     @UILabel(position = -1)
     public String getLabel() {
-        return "First Layout !";
+        return "Second Layout !";
     }
 
     @UITextField(position = 1)
     public String getText() {
-        return "This Layout should have padding and spacing";
+        return "This Layout should have no spacing and no padding";
     }
 
     @UITextField(position = 2)
     public String getText2() {
-        return "This Layout should have padding and spacing";
+        return "This Layout should have no spacing and no padding";
     }
 
     @UITextField(position = 3)
     public String getText3() {
-        return "This Layout should have padding and spacing";
+        return "This Layout should have no spacing and no padding";
     }
-
 }

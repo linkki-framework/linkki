@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.linkki.samples.playground.ts.section;
+package org.linkki.samples.playground.ts.linkkitheme;
 
 import java.io.Serial;
 import java.util.List;
@@ -34,6 +34,7 @@ import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionHorizontalPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionVerticalPmo;
+import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;

@@ -110,19 +110,20 @@ import org.linkki.samples.playground.ts.ips.IpsConvertersPmo;
 import org.linkki.samples.playground.ts.ips.IpsLabelPage;
 import org.linkki.samples.playground.ts.ips.RequiredSectionPmo;
 import org.linkki.samples.playground.ts.ips.VisibleSectionPmo;
-import org.linkki.samples.playground.ts.layout.HorizontalAlignmentTestComponent;
-import org.linkki.samples.playground.ts.layout.HorizontalPaddingSpacingTestComponent;
-import org.linkki.samples.playground.ts.layout.VerticalAlignmentTestComponent;
-import org.linkki.samples.playground.ts.layout.VerticalPaddingSpacingTestComponent;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorCssLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormSectionPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionComponent;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
+import org.linkki.samples.playground.ts.layouts.HorizontalAlignmentTestComponent;
+import org.linkki.samples.playground.ts.layouts.HorizontalPaddingSpacingTestComponent;
+import org.linkki.samples.playground.ts.layouts.VerticalAlignmentTestComponent;
+import org.linkki.samples.playground.ts.layouts.VerticalPaddingSpacingTestComponent;
 import org.linkki.samples.playground.ts.linkkipage.AbstractPageComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiAnchorComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
+import org.linkki.samples.playground.ts.linkkitheme.CardSectionComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.messages.ButtonValidationPmo;
 import org.linkki.samples.playground.ts.messages.ConverterErrorPmo;
@@ -135,7 +136,6 @@ import org.linkki.samples.playground.ts.nestedcomponent.NestedComponentWidthPmo;
 import org.linkki.samples.playground.ts.nestedcomponent.NullableModelObjectInInvisibleNestedPmo;
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
-import org.linkki.samples.playground.ts.section.CardSectionComponent;
 import org.linkki.samples.playground.ts.section.ClosableSections;
 import org.linkki.samples.playground.ts.section.GridSectionLayoutPmo;
 import org.linkki.samples.playground.ts.section.SectionHeaderAnnotationPmo;
@@ -240,6 +240,12 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCaseWithValidation(TC006,
                                                                new BasicElementsLayoutBehaviorCssLayoutPmo(),
                                                                BasicElementsLayoutBehaviorCssLayoutPmo::validate)
+
+                                       .testCase(TC007, VerticalAlignmentTestComponent::new)
+                                       .testCase(TC008, HorizontalAlignmentTestComponent::new)
+
+                                       .testCase(TC009, new HorizontalPaddingSpacingTestComponent())
+                                       .testCase(TC010, new VerticalPaddingSpacingTestComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS002)
                                        .testCase(TC001, new SectionHeaderAnnotationPmo())
@@ -260,8 +266,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC005, new UiFormSectionMultiColumnComponentsPmo())
                                        .testCase(TC006, new SectionsWithPlaceholder())
                                        .testCase(TC007, new SectionThemeVariantPmo())
-                                       .testCase(TC008, CardSectionComponent::create)
-                                       .testCase(TC009, new ClosableSections())
+                                       .testCase(TC008, new ClosableSections())
                                        .createTabSheet(),
                                TestScenario.id(TS003)
                                        .testCase(TC001, new I18NElementsLocalizationPmo())
@@ -294,10 +299,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC002, LinkkiAnchorComponent::new)
                                        .createTabSheet(),
                                TestScenario.id(TS007)
-                                       .testCase(TC001, VerticalAlignmentTestComponent::new)
-                                       .testCase(TC002, HorizontalAlignmentTestComponent::new)
-                                       .testCase(TC003, new HorizontalPaddingSpacingTestComponent())
-                                       .testCase(TC004, new VerticalPaddingSpacingTestComponent())
+                                       .testCase(TC001, CardSectionComponent::create)
                                        .createTabSheet(),
                                TestScenario.id(TS008)
                                        .testCase(TC001, new BindTooltipPmo())

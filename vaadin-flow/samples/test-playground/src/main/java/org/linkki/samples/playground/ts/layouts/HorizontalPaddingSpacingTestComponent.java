@@ -12,26 +12,27 @@
  * the License.
  */
 
-package org.linkki.samples.playground.ts.layout;
+package org.linkki.samples.playground.ts.layouts;
 
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 
 @UISection(layout = SectionLayout.VERTICAL)
-public class VerticalPaddingSpacingTestComponent {
+public class HorizontalPaddingSpacingTestComponent {
+
     @UINestedComponent(position = 10)
-    public VerticalLayoutPaddingPmo getLayoutWithPadding() {
-        return new VerticalLayoutPaddingPmo();
+    public HorizontalLayoutPaddingPmo getLayoutWithPadding() {
+        return new HorizontalLayoutPaddingPmo();
     }
 
     @UINestedComponent(position = 20)
-    public VerticalLayoutSpacingPmo getLayoutWithSpacing() {
-        return new VerticalLayoutSpacingPmo();
+    public HorizontalLayoutSpacingPmo getLayoutWithSpacing() {
+        return new HorizontalLayoutSpacingPmo();
     }
 
     @UINestedComponent(position = 30)
-    public VerticalLayoutPaddingSpacingPmo getLayoutWithSpacingAndPadding() {
-        return new VerticalLayoutPaddingSpacingPmo();
+    public HorizontalLayoutPaddingSpacingPmo getLayoutWithSpacingAndPadding() {
+        return new HorizontalLayoutPaddingSpacingPmo();
     }
 }
