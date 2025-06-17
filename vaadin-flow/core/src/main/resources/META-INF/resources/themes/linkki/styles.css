@@ -75,18 +75,25 @@ a:not([href]) {
  ******************************************************************************/
 
 [theme~="compact"] {
-  --lumo-size-xl: 3rem;
-  --lumo-size-l: 2.5rem;
-  --lumo-size-m: 2rem;
-  --lumo-size-s: 1.75rem;
-  --lumo-size-xs: 1.5rem;
-  --lumo-space-xl: 2rem;
-  --lumo-space-l: 1.375rem;
-  --lumo-space-m: 0.7rem;
-  --lumo-space-s: 0.35rem;
-  --lumo-space-xs: 0.2rem;
+    --lumo-size-xl: 3rem;
+    --lumo-size-l: 2.5rem;
+    --lumo-size-m: 2rem;
+    --lumo-size-s: 1.75rem;
+    --lumo-size-xs: 1.5rem;
+    --lumo-space-xl: 2rem;
+    --lumo-space-l: 1.375rem;
+    --lumo-space-m: 0.7rem;
+    --lumo-space-s: 0.35rem;
+    --lumo-space-xs: 0.2rem;
 }
 
+/******************************************************************************
+ * THEME: FORM_ITEM_LABEL_START
+ ******************************************************************************/
+
+[theme~="form-item-label-start"] {
+    --linkki-form-item-label-alignment: start;
+}
 
 /******************************************************************************
  * COLORS FOR VALIDATIONS ON INPUT COMPONENTS
@@ -109,11 +116,13 @@ a:not([href]) {
     --lumo-error-color-50pct: var(--linkki-info-color-50pct);
     --lumo-error-text-color: var(--linkki-info-text-color);
 }
+
 [severity="warning"] {
     --lumo-error-color-10pct: var(--linkki-warning-color-10pct);
     --lumo-error-color-50pct: var(--linkki-warning-color-50pct);
     --lumo-error-text-color: var(--linkki-warning-text-color);
 }
+
 [severity="success"] {
     --lumo-error-color-10pct: var(--linkki-success-color-10pct);
     --lumo-error-color-50pct: var(--linkki-success-color-50pct);
@@ -129,34 +138,39 @@ a:not([href]) {
  */
 
 @font-face {
-  font-family: 'Segoe UI';
-  font-weight: 1 199;
-  src: local("Segoe UI Light");
+    font-family: 'Segoe UI';
+    font-weight: 1 199;
+    src: local("Segoe UI Light");
 }
+
 @font-face {
-  font-family: 'Segoe UI';
-  font-weight: 200 399;
-  src: local("Segoe UI Semilight");
+    font-family: 'Segoe UI';
+    font-weight: 200 399;
+    src: local("Segoe UI Semilight");
 }
+
 @font-face {
-  font-family: 'Segoe UI';
-  font-weight: 400 499;
-  src: local("Segoe UI");
+    font-family: 'Segoe UI';
+    font-weight: 400 499;
+    src: local("Segoe UI");
 }
+
 @font-face {
-  font-family: 'Segoe UI';
-  font-weight: 500 699;
-  src: local("Segoe UI Semibold");
+    font-family: 'Segoe UI';
+    font-weight: 500 699;
+    src: local("Segoe UI Semibold");
 }
+
 @font-face {
-  font-family: 'Segoe UI';
-  font-weight: 700 799;
-  src: local("Segoe UI Bold");
+    font-family: 'Segoe UI';
+    font-weight: 700 799;
+    src: local("Segoe UI Bold");
 }
+
 @font-face {
-  font-family: 'Segoe UI';
-  font-weight: 800 999;
-  src: local("Segoe UI Black");
+    font-family: 'Segoe UI';
+    font-weight: 800 999;
+    src: local("Segoe UI Black");
 }
 
 
@@ -164,8 +178,8 @@ a:not([href]) {
  * UTILITY CLASSES
  ******************************************************************************/
 linkki-section vaadin-form-item .text-placeholder {
-  position: relative;
-  left: calc(-1 * var(--linkki-form-item-label-width, 8em));
+    position: relative;
+    left: calc(-1 * var(--linkki-form-item-label-width, 8em));
 }
 
 /* deprecated selector: .linkki-right-aligned ,  therefore combining the styles of .linkki-right-aligned > span and .text-right into a single style block  */
@@ -175,12 +189,12 @@ linkki-section vaadin-form-item .text-placeholder {
 }
 
 .linkki-grid-footer-sum {
-  --linkki-footer-alignment: right;
-  --linkki-footer-text-shadow: 0 .1px 0 currentColor;
+    --linkki-footer-alignment: right;
+    --linkki-footer-text-shadow: 0 .1px 0 currentColor;
 }
 
 .linkki-grid-footer-bold {
-  --linkki-footer-text-shadow: 0 .1px 0 currentColor;
+    --linkki-footer-text-shadow: 0 .1px 0 currentColor;
 }
 
 /*************************************
@@ -196,16 +210,19 @@ linkki-section vaadin-form-item .text-placeholder {
  *************************************/
 
 .icon-success > .linkki-text-icon {
-  color: var(--linkki-success-color);
+    color: var(--linkki-success-color);
 }
+
 .icon-warning > .linkki-text-icon {
-  color: var(--linkki-warning-color);
+    color: var(--linkki-warning-color);
 }
+
 .icon-error > .linkki-text-icon {
-  color: var(--linkki-error-color);
+    color: var(--linkki-error-color);
 }
+
 .icon-info > .linkki-text-icon {
-  color: var(--linkki-info-color);
+    color: var(--linkki-info-color);
 }
 
 /*************************************
@@ -214,7 +231,7 @@ linkki-section vaadin-form-item .text-placeholder {
 
 /* Similar to LumoUtility#TextColor */
 .text-info {
-  color: var(--linkki-info-text-color);
+    color: var(--linkki-info-text-color);
 }
 
 /* Use text color only on span in linkki-text */
@@ -228,6 +245,7 @@ linkki-text.text-info {
 linkki-text.text-success > span {
     color: var(--linkki-success-text-color);
 }
+
 linkki-text.text-warning > span {
     color: var(--linkki-warning-text-color);
 }
@@ -236,6 +254,7 @@ linkki-text.text-error > span,
 linkki-text[has-errors] > span {
     color: var(--linkki-error-text-color);
 }
+
 linkki-text.text-info > span {
     color: var(--linkki-info-text-color);
 }

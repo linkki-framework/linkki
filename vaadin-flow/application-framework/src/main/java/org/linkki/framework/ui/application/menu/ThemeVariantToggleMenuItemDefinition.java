@@ -34,6 +34,8 @@ public class ThemeVariantToggleMenuItemDefinition extends ApplicationMenuItemDef
             "Card Theme", "appmenu-theme-card", LinkkiTheme.VARIANT_CARD_SECTIONS);
     public static final ThemeVariantToggleMenuItemDefinition LINKKI_COMPACT = new ThemeVariantToggleMenuItemDefinition(
             "Compact Theme", "appmenu-theme-compact", LinkkiTheme.VARIANT_COMPACT);
+    public static final ThemeVariantToggleMenuItemDefinition FORM_ITEM_LABEL_START = new ThemeVariantToggleMenuItemDefinition(
+            "Label Alignment Start Theme", "appmenu-theme-label-start", LinkkiTheme.VARIANT_FORM_ITEM_LABEL_START);
 
     private final String variantName;
 

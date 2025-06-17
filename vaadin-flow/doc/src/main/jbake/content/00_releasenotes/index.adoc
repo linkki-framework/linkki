@@ -135,6 +135,9 @@ Introduced a <<linkki-howto, How-To>> chapter containing coding examples and bes
 `UINestedComponent` has been moved from `linkki-core-nestedcomponent-vaadin-flow` to `linkki-core-vaadin-flow`.
 The module `linkki-core-nestedcomponent-vaadin-flow` has been removed.
 
+* *New theme variant for form item label alignment* +
+The new <<linkki-theme-variants,theme variant>> `form-item-label-start` can be used to create sections with left aligned labels on form items. The variant can be applied to a single layout using `@BindVariantNames`.
+
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248
 * `SimpleItemSupplier` now throws a `NullPointerException` if the model object to PMO mapping supplier returns `null`.

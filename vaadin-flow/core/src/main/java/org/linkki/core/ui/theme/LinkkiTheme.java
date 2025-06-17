@@ -38,6 +38,9 @@ public class LinkkiTheme {
     /** A theme variant for smaller input fields and less space. */
     public static final String VARIANT_COMPACT = "compact";
 
+    /** A theme variant for left aligned labels on form items. */
+    public static final String VARIANT_FORM_ITEM_LABEL_START = "form-item-label-start";
+
     /** Style for the caption of a section. */
     public static final String SECTION_CAPTION_TEXT = "linkki-section-caption-text";
 

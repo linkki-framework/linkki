@@ -42,7 +42,8 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
         settings.setId("appmenu-settings");
         addThemeVariantToggles(settings, ThemeVariantToggleMenuItemDefinition.LUMO_DARK,
                                ThemeVariantToggleMenuItemDefinition.LINKKI_CARD,
-                               ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT);
+                               ThemeVariantToggleMenuItemDefinition.LINKKI_COMPACT,
+                               ThemeVariantToggleMenuItemDefinition.FORM_ITEM_LABEL_START);
         // end::applicationheader-createRightMenuBar[]
         new ApplicationMenuItemDefinition("Locale", "appmenu-locale",
                 () -> new PmoBasedDialogFactory()

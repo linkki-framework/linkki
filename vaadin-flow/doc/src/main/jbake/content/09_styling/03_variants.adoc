@@ -13,6 +13,9 @@ Card sections ("card-sections"):: <<section-theme-variants, Card like>> design f
 
 Compact ("compact"):: Smaller spaces for a more compact look.
 
+Form Item Label Start ("form-item-label-start"):: Left aligned labels on form items.
+The variant doesn't need to be applied to the entire application, but can also be applied to single layouts using <<variant-names, `@BindVariantNames`>>.
+
 The variant names are also available as constants in the class `LinkkiTheme`.
 
 .CSS properties in theme compact
