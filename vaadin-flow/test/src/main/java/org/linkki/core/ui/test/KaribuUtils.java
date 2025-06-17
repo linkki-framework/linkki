@@ -316,6 +316,21 @@ public class KaribuUtils {
          */
         public static void setValueByLabel(String id, String label) {
             var comboBox = getWithId(id);
+            setValueByLabel(comboBox, label);
+        }
+
+        /**
+         * Sets the value in a combo box to the value that corresponds to the given label
+         */
+        public static void setValueByLabel(Component parent, String id, String label) {
+            var comboBox = getWithId(parent, id);
+            setValueByLabel(comboBox, label);
+        }
+
+        /**
+         * Sets the value in a combo box to the value that corresponds to the given label
+         */
+        public static void setValueByLabel(ComboBox<?> comboBox, String label) {
             ComboBoxKt.selectByLabel(comboBox, label);
             _fireValueChange(comboBox, true);
         }

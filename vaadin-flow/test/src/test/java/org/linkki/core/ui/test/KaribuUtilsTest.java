@@ -451,7 +451,7 @@ class KaribuUtilsTest {
 
         @ParameterizedTest
         @MethodSource("provideValues")
-        void testSetValue_String(String value) {
+        void testSetValue_WithID_String(String value) {
             var id = "combobox-1";
 
             var combobox = new ComboBox<String>();
@@ -461,29 +461,13 @@ class KaribuUtilsTest {
             UI.getCurrent().add(combobox);
 
             KaribuUtils.ComboBoxes.setValue(id, value);
-
-            assertThat(combobox.getValue()).isEqualTo(value);
-        }
-
-        @ParameterizedTest
-        @MethodSource("provideValues")
-        void testSetValueByLabel_String(String value) {
-            var id = "combobox-1";
-
-            var combobox = new ComboBox<String>();
-            combobox.setId(id);
-            combobox.setItems(provideValues());
-
-            UI.getCurrent().add(combobox);
-
-            KaribuUtils.ComboBoxes.setValueByLabel(id, value);
 
             assertThat(combobox.getValue()).isEqualTo(value);
         }
 
         @ParameterizedTest
         @MethodSource("comboBoxChoices")
-        void testSetValue_Enum(ComboBoxChoice value) {
+        void testSetValue_WithID_Enum(ComboBoxChoice value) {
             var id = "combobox-1";
 
             var combobox = new ComboBox<ComboBoxChoice>();
@@ -499,18 +483,67 @@ class KaribuUtilsTest {
 
         @ParameterizedTest
         @MethodSource("provideValues")
-        void testSetValueByLabel_Enum(String value) {
+        void testSetValueByLabel_WithComboBox_String(String value) {
+            var combobox = new ComboBox<String>();
+            combobox.setItems(provideValues());
+
+            UI.getCurrent().add(combobox);
+
+            KaribuUtils.ComboBoxes.setValueByLabel(combobox, value);
+
+            assertThat(combobox.getValue()).isEqualTo(value);
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideValues")
+        void testSetValueByLabel_WithComboBox_Enum(String value) {
+            var combobox = new ComboBox<ComboBoxChoice>();
+            combobox.setItems(comboBoxChoices());
+
+            UI.getCurrent().add(combobox);
+
+            KaribuUtils.ComboBoxes.setValueByLabel(combobox, value);
+
+            assertThat(combobox.getValue()).isEqualTo(ComboBoxChoice.valueOf(value));
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideValues")
+        void testSetValueByLabel_WithParent(String value) {
             var id = "combobox-1";
 
-            var combobox = new ComboBox<ComboBoxChoice>();
+            var horizontalLayout = new HorizontalLayout();
+            var combobox1 = new ComboBox<ComboBoxChoice>();
+            combobox1.setId(id);
+            combobox1.setItems(comboBoxChoices());
+            horizontalLayout.add(combobox1);
+            var combobox2 = new ComboBox<ComboBoxChoice>();
+            combobox2.setId(id);
+            combobox2.setItems(comboBoxChoices());
+            var combobox2InitialValue = combobox2.getValue();
+
+            UI.getCurrent().add(horizontalLayout, combobox2);
+
+            KaribuUtils.ComboBoxes.setValueByLabel(horizontalLayout, id, value);
+
+            assertThat(combobox1.getValue()).isEqualTo(ComboBoxChoice.valueOf(value));
+            assertThat(combobox2.getValue()).isEqualTo(combobox2InitialValue);
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideValues")
+        void testSetValueByLabel_WithID(String value) {
+            var id = "combobox-1";
+
+            var combobox = new ComboBox<String>();
             combobox.setId(id);
-            combobox.setItems(comboBoxChoices());
+            combobox.setItems(provideValues());
 
             UI.getCurrent().add(combobox);
 
             KaribuUtils.ComboBoxes.setValueByLabel(id, value);
 
-            assertThat(combobox.getValue()).isEqualTo(ComboBoxChoice.valueOf(value));
+            assertThat(combobox.getValue()).isEqualTo(value);
         }
 
         private static List<String> provideValues() {
