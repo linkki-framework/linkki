@@ -136,4 +136,17 @@ public class LinkkiTheme {
             // prevent instantiation
         }
     }
+
+    /**
+     * Style classes for flex items.
+     */
+    public static final class Flex {
+
+        /** Style class that sets the initial size of a flex item to zero. */
+        public static final String BASIS_NONE = "flex-basis-0";
+
+        private Flex() {
+            // prevent instantiation
+        }
+    }
 }

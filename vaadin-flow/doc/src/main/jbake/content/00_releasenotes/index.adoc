@@ -138,6 +138,9 @@ The module `linkki-core-nestedcomponent-vaadin-flow` has been removed.
 * *New theme variant for form item label alignment* +
 The new <<linkki-theme-variants,theme variant>> `form-item-label-start` can be used to create sections with left aligned labels on form items. The variant can be applied to a single layout using `@BindVariantNames`.
 
+* *New Utility CSS class for nested flex items* +
+The class `flex-basis-0` sets the initial size of flex items to zero, allowing flex items to grow based only on the available space. It is also available as the constant `LinkkiTheme.Flex.BASIS_NONE`.
+
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248
 * `SimpleItemSupplier` now throws a `NullPointerException` if the model object to PMO mapping supplier returns `null`.

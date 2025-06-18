@@ -125,6 +125,7 @@ import org.linkki.samples.playground.ts.linkkitext.LinkkiAnchorComponent;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.linkkitheme.CardSectionComponent;
 import org.linkki.samples.playground.ts.linkkitheme.FormItemLabelAlignmentComponent;
+import org.linkki.samples.playground.ts.linkkitheme.NestedFlexItemComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.messages.ButtonValidationPmo;
 import org.linkki.samples.playground.ts.messages.ConverterErrorPmo;
@@ -302,6 +303,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                TestScenario.id(TS007)
                                        .testCase(TC001, CardSectionComponent::create)
                                        .testCase(TC002, FormItemLabelAlignmentComponent::new)
+                                       .testCase(TC003, NestedFlexItemComponent::create)
                                        .createTabSheet(),
                                TestScenario.id(TS008)
                                        .testCase(TC001, new BindTooltipPmo())
