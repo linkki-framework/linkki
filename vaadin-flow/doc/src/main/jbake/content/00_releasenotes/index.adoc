@@ -28,5 +28,7 @@ The following versions have been updated:
 // ==== Testing
 //
 // ==== Other Improvements
-//
-// ==== Bugfixes
+
+==== Bugfixes
+// https://jira.convista.com/browse/LIN-3289
+* Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events.

@@ -29,10 +29,12 @@ import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePm
 import org.linkki.samples.playground.table.selection.SelectionComparisonSectionPmo;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
+import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.grid.testbench.GridTRElement;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
@@ -125,5 +127,28 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
         assertThat($(LinkkiTextElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION).getText(),
                    is("Name 1"));
         assertThat(selectableTable.getRow(0).isSelected(), is(true));
+    }
+
+    @Test
+    void testSelectFirstButton() {
+        GridElement selectableTable = getGrid(PlaygroundSelectableTablePmo.class);
+        selectableTable.getRow(1).select();
+
+        LinkkiSectionElement section = $(LinkkiSectionElement.class).withId("PlaygroundSelectableTablePmo").first();
+        section.$(ButtonElement.class).withText("Select first").first().click();
+
+        assertThat(selectableTable.getRow(0).isSelected(), is(true));
+    }
+
+    @Test
+    void testAdd_NewRowSelected() {
+        GridElement selectableTable = getGrid(PlaygroundSelectableTablePmo.class);
+        selectableTable.getRow(0).select();
+
+        LinkkiSectionElement section = $(LinkkiSectionElement.class).withId("PlaygroundSelectableTablePmo").first();
+        section.$(ButtonElement.class).withId("add").first().click();
+
+        selectableTable.scrollToRow(selectableTable.getRowCount() - 1);
+        assertThat(selectableTable.getRow(selectableTable.getRowCount() - 1).isSelected(), is(true));
     }
 }

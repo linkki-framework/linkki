@@ -14,11 +14,7 @@
 
 package org.linkki.core.ui.table;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.linkki.test.matcher.Matchers.hasValue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -62,7 +58,9 @@ class TableSelectionAspectIntegrationTest {
     void testTableSelectable() {
         var table = GridComponentCreator.createGrid(new TestSelectableTablePmo(), new BindingContext());
 
-        assertThat("Table is selectable", table.getSelectionModel(), is(instanceOf(GridSingleSelectionModel.class)));
+        assertThat(table.getSelectionModel())
+                .as("Table is selectable")
+                .isInstanceOf(GridSingleSelectionModel.class);
     }
 
     @Test
@@ -70,8 +68,9 @@ class TableSelectionAspectIntegrationTest {
         var tableSection = (GridSection)VaadinUiCreator.createComponent(new TestSelectableTablePmo(),
                                                                         new BindingContext());
 
-        assertThat("Table in table section is selectable", tableSection.getGrid().getSelectionModel(),
-                   is(instanceOf(GridSingleSelectionModel.class)));
+        assertThat(tableSection.getGrid().getSelectionModel())
+                .as("Table in table section is selectable")
+                .isInstanceOf(GridSingleSelectionModel.class);
     }
 
     @Test
@@ -84,7 +83,7 @@ class TableSelectionAspectIntegrationTest {
         // getSelection is actually called twice, once from bindContainer, once in
         // ColumnBasedComponentFactory#createContainerComponent
         verify(tablePmo, atLeast(1)).getSelection();
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+        assertThat(table.getSelectedItems()).containsExactly(tablePmo.getItems().get(1));
     }
 
     @Test
@@ -93,7 +92,7 @@ class TableSelectionAspectIntegrationTest {
 
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
 
-        assertThat(table.getSelectedItems(), is(empty()));
+        assertThat(table.getSelectedItems()).isEmpty();
     }
 
     @Test
@@ -101,37 +100,55 @@ class TableSelectionAspectIntegrationTest {
         var tablePmo = spy(new TestSelectableTablePmo("row1", "row2"));
         tablePmo.setSelection(tablePmo.getItems().get(1));
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+        assertThat(table.getSelectedItems()).containsExactly(tablePmo.getItems().get(1));
 
-        GridKt._clickItem(table, 1);
+        GridKt._selectRow(table, 1);
 
-        assertThat(tablePmo.getSelection(), is(tablePmo.getItems().get(1)));
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+        assertThat(tablePmo.getSelection()).isEqualTo(tablePmo.getItems().get(1));
+        assertThat(table.getSelectedItems()).containsExactly(tablePmo.getItems().get(1));
     }
 
     @Test
-    void testGetSelection_ChangeSelection() {
+    void testGetSelection_ChangeSelection_FromClient() {
         var tablePmo = new TestSelectableTablePmo("row1", "row2");
-        tablePmo.setSelection(tablePmo.getItems().get(1));
+        var row1 = tablePmo.getItems().get(0);
+        var row2 = tablePmo.getItems().get(1);
+        tablePmo.setSelection(row2);
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+        assertThat(table.getSelectedItems()).containsExactly(row2);
 
-        GridKt._clickItem(table, 0);
+        GridKt._selectRow(table, 0);
 
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(0)));
+        assertThat(table.getSelectedItems()).containsExactly(row1);
+        assertThat(tablePmo.getSelection()).isEqualTo(row1);
+    }
+
+    @Test
+    void testGetSelection_ChangeSelection_Programmatic() {
+        var tablePmo = new TestSelectableTablePmo("row1", "row2");
+        var row1 = tablePmo.getItems().get(0);
+        var row2 = tablePmo.getItems().get(1);
+        tablePmo.setSelection(row2);
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems()).containsExactly(row2);
+
+        table.asSingleSelect().setValue(row1);
+
+        assertThat(table.getSelectedItems()).containsExactly(row1);
+        assertThat(tablePmo.getSelection()).isEqualTo(row2);
     }
 
     @Test
     void testDoubleClick_OnNewItem_ChangeSelection() {
         var tablePmo = new TestSelectableTablePmo("row1", "row2");
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
-        assertThat(table.getSelectedItems(), is(empty()));
+        assertThat(table.getSelectedItems()).isEmpty();
 
         GridKt._doubleClickItem(table, 0);
 
-        var row1 = tablePmo.getItems().get(0);
-        assertThat(tablePmo.getSelection(), is(row1));
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(row1));
+        var row1 = tablePmo.getItems().getFirst();
+        assertThat(tablePmo.getSelection()).isEqualTo(row1);
+        assertThat(table.getSelectedItems()).containsExactly(row1);
     }
 
     @Test
@@ -140,12 +157,12 @@ class TableSelectionAspectIntegrationTest {
         var row2 = tablePmo.getItems().get(1);
         tablePmo.setSelection(row2);
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(row2));
+        assertThat(table.getSelectedItems()).containsExactly(row2);
 
         GridKt._doubleClickItem(table, 1);
 
-        assertThat(tablePmo.getSelection(), is(row2));
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(row2));
+        assertThat(tablePmo.getSelection()).isEqualTo(row2);
+        assertThat(table.getSelectedItems()).containsExactly(row2);
     }
 
     @Test
@@ -153,7 +170,7 @@ class TableSelectionAspectIntegrationTest {
         var tablePmo = spy(new TestSelectableTablePmo("row1", "row2"));
         tablePmo.setSelection(tablePmo.getItems().get(1));
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
-        assertThat(table.getSelectedItems().stream().findFirst(), hasValue(tablePmo.getItems().get(1)));
+        assertThat(table.getSelectedItems()).containsExactly(tablePmo.getItems().get(1));
 
         GridKt._doubleClickItem(table, 0);
 
@@ -165,7 +182,9 @@ class TableSelectionAspectIntegrationTest {
         var tablePmo = new TestVisualOnlyselectableTablePmo("row1", "row2");
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
 
-        assertThat("Table is selectable", table.getSelectionModel(), is(instanceOf(GridSingleSelectionModel.class)));
+        assertThat(table.getSelectionModel())
+                .as("Table is selectable")
+                .isInstanceOf(GridSingleSelectionModel.class);
     }
 
     @Test
@@ -173,8 +192,9 @@ class TableSelectionAspectIntegrationTest {
         var tableSection = (GridSection)VaadinUiCreator.createComponent(new TestMultiSelectableTablePmo(),
                                                                         new BindingContext());
 
-        assertThat("Table in table section is selectable", tableSection.getGrid().getSelectionModel(),
-                   is(instanceOf(GridMultiSelectionModel.class)));
+        assertThat(tableSection.getGrid().getSelectionModel())
+                .as("Table in table section is selectable")
+                .isInstanceOf(GridMultiSelectionModel.class);
     }
 
     @Test
@@ -183,7 +203,7 @@ class TableSelectionAspectIntegrationTest {
 
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
 
-        assertThat(table.getSelectedItems(), is(empty()));
+        assertThat(table.getSelectedItems()).isEmpty();
     }
 
     @Test
@@ -191,7 +211,37 @@ class TableSelectionAspectIntegrationTest {
         var tablePmo = new TestMultiSelectableTablePmo("row1", "row2");
         tablePmo.setSelection(new HashSet<>(tablePmo.getItems()));
         var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
-        assertThat(table.getSelectedItems().size(), is(2));
+
+        assertThat(table.getSelectedItems()).hasSize(2);
+    }
+
+    @Test
+    void testMultiGetSelection_ChangeSelection_FromClient() {
+        var tablePmo = new TestMultiSelectableTablePmo("row1", "row2");
+        tablePmo.setSelection(new HashSet<>(tablePmo.getItems()));
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems()).hasSize(2);
+        var row1 = tablePmo.getItems().getFirst();
+
+        GridKt._selectRow(table, 0);
+
+        assertThat(table.getSelectedItems()).containsExactly(row1);
+        assertThat(tablePmo.getSelection()).containsExactly(row1);
+    }
+
+    @Test
+    void testMultiGetSelection_ChangeSelection_Programmatic() {
+        var tablePmo = new TestMultiSelectableTablePmo("row1", "row2");
+        tablePmo.setSelection(new HashSet<>(tablePmo.getItems()));
+        var table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        assertThat(table.getSelectedItems()).hasSize(2);
+        var row1 = tablePmo.getItems().get(0);
+        var row2 = tablePmo.getItems().get(1);
+
+        table.asMultiSelect().setValue(Set.of(row1));
+
+        assertThat(table.getSelectedItems()).containsExactly(row1);
+        assertThat(tablePmo.getSelection()).containsExactlyInAnyOrder(row1, row2);
     }
 
     @UISection

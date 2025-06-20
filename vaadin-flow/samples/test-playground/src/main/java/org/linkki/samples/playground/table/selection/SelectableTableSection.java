@@ -27,6 +27,7 @@ import org.linkki.samples.playground.table.TableModelObject;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.selection.SingleSelect;
 
@@ -45,8 +46,16 @@ public class SelectableTableSection {
                 () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
                 modelObjects::remove);
 
+        BindingContext selectableTableBindingContext = new BindingContext("selectableTable");
         GridSection gridSection = (GridSection)new PmoBasedSectionFactory()
-                .createSection(selectableTableSectionPmo, new BindingContext("selectableTable"));
+                .createSection(selectableTableSectionPmo, selectableTableBindingContext);
+
+        gridSection.addHeaderButton(new Button("Select first",
+                e -> {
+                    selectableTableSectionPmo
+                            .setSelection(selectableTableSectionPmo.getItems().getFirst());
+                    selectableTableBindingContext.modelChanged();
+                }));
 
         SingleSelect<?, ?> singleSelect = gridSection.getGrid().asSingleSelect();
         BindingContext comparisonBindingContext = new BindingContext("selectableTableComparison");

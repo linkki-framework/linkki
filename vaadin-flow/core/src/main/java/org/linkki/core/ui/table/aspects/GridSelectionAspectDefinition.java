@@ -81,27 +81,33 @@ public class GridSelectionAspectDefinition implements LinkkiAspectDefinition {
     private void handleMultiSelection(Grid<?> grid, PropertyDispatcher propertyDispatcher, Handler modelChanged) {
         MultiSelect<?, ?> multiSelect = grid.asMultiSelect();
         multiSelect.addSelectionListener(e -> {
-            propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, e.getAllSelectedItems()));
-            modelChanged.apply();
+            if (e.isFromClient()) {
+                propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, e.getAllSelectedItems()));
+                modelChanged.apply();
+            }
         });
     }
 
     private void handleSingleSelection(Grid<?> grid, PropertyDispatcher propertyDispatcher, Handler modelChanged) {
         SingleSelect<?, ?> singleSelect = grid.asSingleSelect();
         singleSelect.addValueChangeListener(e -> {
-            Object newSelection = e.getValue();
-            if (newSelection != null) {
-                propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, newSelection));
+            if (e.isFromClient()) {
+                Object newSelection = e.getValue();
+                if (newSelection != null) {
+                    propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, newSelection));
+                }
+                modelChanged.apply();
             }
-            modelChanged.apply();
         });
         grid.addItemDoubleClickListener(e -> {
-            Object clickedItem = e.getItem();
-            if (singleSelect.getOptionalValue().map(v -> !Objects.equals(v, clickedItem)).orElse(true)) {
-                propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, e.getItem()));
+            if (e.isFromClient()) {
+                Object clickedItem = e.getItem();
+                if (singleSelect.getOptionalValue().map(v -> !Objects.equals(v, clickedItem)).orElse(true)) {
+                    propertyDispatcher.push(Aspect.of(SELECTION_ASPECT_NAME, e.getItem()));
+                }
+                propertyDispatcher.push(Aspect.of(DOUBLE_CLICK_ASPECT_NAME));
+                modelChanged.apply();
             }
-            propertyDispatcher.push(Aspect.of(DOUBLE_CLICK_ASPECT_NAME));
-            modelChanged.apply();
         });
     }
 

@@ -67,6 +67,7 @@ public class PlaygroundSelectableTablePmo extends SimpleTablePmo<TableModelObjec
     @SectionHeader
     public void add() {
         addHandler.apply();
+        setSelection(this.getItems().getLast());
     }
 
     @Override
