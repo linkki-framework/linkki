@@ -157,7 +157,7 @@ public class KaribuUtils {
     }
 
     private static List<Component> getAllChildren(Component component) {
-        var children = TestingLifecycleHook.getDefault().getAllChildren(component);
+        var children = new ArrayList<>(TestingLifecycleHook.getDefault().getAllChildren(component));
         if (component instanceof Grid<?> grid) {
             children.addAll(Row.fromGrid(grid));
         }

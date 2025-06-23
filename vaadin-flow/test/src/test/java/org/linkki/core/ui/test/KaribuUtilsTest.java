@@ -125,6 +125,27 @@ class KaribuUtilsTest {
     }
 
     @Test
+    void testGetComponentTree_Grid_SingleColumn() {
+        var parent = new Div();
+        var grid = new Grid<String>();
+        grid.addComponentColumn(s -> {
+            var textField = new TextField();
+            textField.setValue(s + " - 1");
+            return textField;
+        }).setKey("column1").setHeader("header1");
+        grid.setItems("item1", "item2");
+        parent.add(grid);
+
+        var printResult = KaribuUtils.printComponentTree(parent);
+
+        assertThat(printResult)
+                .contains("column1")
+                .contains("header1")
+                .contains("item1 - 1")
+                .contains("item2 - 1");
+    }
+
+    @Test
     void testGetComponentTree_TreeGrid_RootItems() {
         var parent = new Div();
         var grid = new TreeGrid<String>();
