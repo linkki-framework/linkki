@@ -31,7 +31,10 @@ class LinkkiSection extends LitElement {
     :host([theme~="horizontal"]) > ::slotted([slot="content"]) {
       flex-direction: row;
     }
-
+    
+    :host([theme~="form"]) {
+      --vaadin-form-item-row-spacing: 0;
+    }
     :host([theme~="form"]) > ::slotted([slot="content"]) {
       row-gap: 0;
     }
