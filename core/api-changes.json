@@ -1,58 +1,59 @@
 {
-    "all-versions": [
-        {
-            "extension": "revapi.filter",
-            "configuration": {
-                "elements": {
-                    "exclude": [
-                        ".* com\\.vaadin\\.flow\\..*"
-                    ]
-                }
-            }
-        },
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.core\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.util\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    }
-                ]
-            }
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".* com\\.vaadin\\.flow\\..*"
+          ]
         }
-    ],
-    "2.8.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.method.visibilityReduced",
-                        "new": "method java.util.function.Consumer<V> org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition<V>::createComponentValueSetter(org.linkki.core.binding.wrapper.ComponentWrapper)",
-                        "oldVisibility": "public",
-                        "newVisibility": "protected",
-                        "justification": "LIN-4183"
-                    },
-                    {
-                        "code": "java.method.visibilityReduced",
-                        "new": "method void org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition<V>::handleNullValue(java.util.function.Consumer<V>, org.linkki.core.binding.wrapper.ComponentWrapper)",
-                        "oldVisibility": "public",
-                        "newVisibility": "protected",
-                        "justification": "LIN-4183"
-                    }
-                ]
-            }
-        }
-    ]
+      }
+    },
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.core\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.util\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          }
+        ]
+      }
+    }
+  ],
+  "2.9.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          //TODO: remove after 2.8.0 release - changes already part of 2.8
+          {
+            "code": "java.method.visibilityReduced",
+            "new": "method java.util.function.Consumer<V> org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition<V>::createComponentValueSetter(org.linkki.core.binding.wrapper.ComponentWrapper)",
+            "oldVisibility": "public",
+            "newVisibility": "protected",
+            "justification": "LIN-4183"
+          },
+          {
+            "code": "java.method.visibilityReduced",
+            "new": "method void org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition<V>::handleNullValue(java.util.function.Consumer<V>, org.linkki.core.binding.wrapper.ComponentWrapper)",
+            "oldVisibility": "public",
+            "newVisibility": "protected",
+            "justification": "LIN-4183"
+          }
+        ]
+      }
+    }
+  ]
 }

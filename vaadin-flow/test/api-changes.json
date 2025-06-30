@@ -62,12 +62,13 @@
       }
     }
   ],
-  "2.8.0": [
+  "2.9.0": [
     {
       "extension": "revapi.differences",
       "configuration": {
         "ignore": true,
         "differences": [
+          //TODO: remove after 2.8.0 release - changes already part of 2.8
           {
             "code": "java.method.addedToInterface",
             "new": "method void org.junit.jupiter.api.extension.ExtensionContext::publishDirectory(java.lang.String, org.junit.jupiter.api.function.ThrowingConsumer<java.nio.file.Path>)",
