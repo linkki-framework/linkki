@@ -10,7 +10,7 @@
 
 === Version 2.9.0
 
-The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
+The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8.0-rc05/00_releasenotes/#_version_2_8_0[version 2.8.0-rc05].
 
 // ==== Version Updates
 //
