@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -18,7 +17,7 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <sonar.skip>true</sonar.skip>
 
-        <jade-maven-plugin.version>1.2.0-a20250331-01</jade-maven-plugin.version>
+        <jade-maven-plugin.version>1.2.0-a20250605-01</jade-maven-plugin.version>
         <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
         <wagon-ssh.version>3.4.3</wagon-ssh.version>
 

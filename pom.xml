@@ -78,11 +78,11 @@
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
-        <flatten-maven-plugin.version>1.7.0</flatten-maven-plugin.version>
+        <flatten-maven-plugin.version>1.7.1</flatten-maven-plugin.version>
         <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
-        <spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.9.3.2</spotbugs-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
-        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+        <build-helper-maven-plugin.version>3.6.1</build-helper-maven-plugin.version>
         <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 
         <!-- Sonarqube properties -->
