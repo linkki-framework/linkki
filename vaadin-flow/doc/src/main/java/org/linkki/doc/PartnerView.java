@@ -13,10 +13,11 @@
  */
 package org.linkki.doc;
 
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 // tag::layoutWithPMO[]
 public class PartnerView extends VerticalLayout {

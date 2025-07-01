@@ -5,12 +5,98 @@
 .Migration Guide
 [%collapsible]
 ====
+. Include dependency to `org.linkki-framework:linkki-f10` if it is not used already and use the version `2.8.0`. +
+The project should compile successfully at this point as all existing classes are available as-is with this dependency. The existing classes are deprecated and are documented with steps to fix the deprecation warning for each class. +
+. Include new dependencies if necessary:
+ * If `linkki-f10-search` was used as dependency, replace the dependency with <<linkki-search-dependency, linkki-search-vaadin-flow>> in version `2.8.0`.
+ * Add dependency to `linkki-application-framework-vaadin-flow` if it was not used before and either any of the classes `InfoTool`, `InfoToolsComponent`, `HasBrowserConfirmation` were used, or `CommonsApplicationHeader` was used with the user menu.
+. Adjust to API changes:
+ * Replace usages of `NavigationWorkaround` by `UI.getCurrent().navigate()`. The class is not needed anymore as the underlying Vaadin bug is fixed.
+ * Replace `CommonsApplicationHeader`: if the user menu is not used, use `ApplicationHeader` directly instead. Otherwise, use `UserAwareApplicationHeader`.
+Existing declarations that use `DERIVED_BY_LINKKI` can be removed.
+. Adjust package imports:
+ * If the IDE is capable of adding unambiguous missing imports for the whole project (e.g. Eclipse): remove dependency to `linkki-f10` and reorganize imports.
+ * Alternatively, the imports can be adjusted by using the python script provided below by executing the script in the working directory of the project.
+. Make sure that dependency to `linkki-f10` is removed.
 
-Some components of `linkki-f10` are moved to `linkki-core-vaadin-flow`:
-
-.linkki-f10 classes that are moved to linkki-core-vaadin-flow
+.Python migration script
 [%collapsible]
 =====
+[source, python]
+----
+import os
+
+# Mapping of old imports to new imports
+import_mapping = {
+    "de.faktorzehn.commons.linkki.F10ProductTheme": "org.linkki.core.ui.theme.F10ProductTheme",
+    "de.faktorzehn.commons.linkki.board.BoardComponent": "org.linkki.core.vaadin.component.board.BoardComponent",
+    "de.faktorzehn.commons.linkki.board.BoardLayout": "org.linkki.core.vaadin.component.board.BoardLayout",
+    "de.faktorzehn.commons.linkki.ui.menu.UIMenuButton": "org.linkki.core.ui.element.annotation.UIMenuButton",
+    "de.faktorzehn.commons.linkki.ui.menu.MenuButtonInvokeAspectDefinition": "org.linkki.core.ui.element.annotation.UIMenuButton.MenuButtonInvokeAspectDefinition",
+    "de.faktorzehn.commons.linkki.ui.menu.UIMenuList": "org.linkki.core.ui.element.annotation.UIMenuList",
+    "de.faktorzehn.commons.linkki.ui.menu.MenuItemsAspectDefinition": "org.linkki.core.ui.element.annotation.UIMenuList.MenuItemsAspectDefinition",
+    "de.faktorzehn.commons.linkki.ui.table.HierarchicalTableUtil": "org.linkki.core.ui.table.util.HierarchicalTableUtil",
+    "de.faktorzehn.commons.linkki.CommonApplicationHeader": "org.linkki.framework.ui.application.UserAwareApplicationHeader",
+    "de.faktorzehn.commons.linkki.infotool.InfoTool": "org.linkki.framework.ui.component.infotool.InfoTool",
+    "de.faktorzehn.commons.linkki.infotool.InfoToolsComponent": "org.linkki.framework.ui.component.infotool.InfoToolsComponent",
+    "de.faktorzehn.commons.linkki.ui.confirm.HasBrowserConfirmation": "org.linkki.framework.ui.HasBrowserConfirmation",
+    "de.faktorzehn.commons.linkki.ui.menu.SingleItemMenuBar": "org.linkki.core.vaadin.component.menu.SingleItemMenuBar",
+    "de.faktorzehn.commons.linkki.ui.menu.MenuItemDefinition": "org.linkki.core.vaadin.component.menu.MenuItemDefinition",
+    "de.faktorzehn.commons.linkki.search.annotation.UISearchLayoutHeadline": "org.linkki.framework.ui.component.UIHeadline",
+    "de.faktorzehn.commons.linkki.search.annotation.BindSlot": "org.linkki.core.ui.aspects.annotation.BindSlot",
+    "de.faktorzehn.commons.linkki.search.annotation.NestedPmoMethodLayoutDefinitionCreator": "org.linkki.search.annotation.NestedPmoMethodLayoutDefinitionCreator",
+    "de.faktorzehn.commons.linkki.search.annotation.SearchInputLayoutDefinitionCreator": "org.linkki.search.annotation.SearchInputLayoutDefinitionCreator",
+    "de.faktorzehn.commons.linkki.search.annotation.UISearchCriteriaGroup": "org.linkki.search.annotation.UISearchCriteriaGroup",
+    "de.faktorzehn.commons.linkki.search.annotation.UISearchInputLayout": "org.linkki.search.annotation.UISearchInputLayout",
+    "de.faktorzehn.commons.linkki.search.annotation.UISearchLayout": "org.linkki.search.annotation.UISearchLayout",
+    "de.faktorzehn.commons.linkki.search.annotation.UISearchParameters": "org.linkki.search.annotation.UISearchParameters",
+    "de.faktorzehn.commons.linkki.search.annotation.UISearchResultAction": "org.linkki.search.annotation.UISearchResultAction",
+    "de.faktorzehn.commons.linkki.search.annotation.UISearchResultLayout": "org.linkki.search.annotation.UISearchResultLayout",
+    "de.faktorzehn.commons.linkki.search.annotation.UISearchTable": "org.linkki.search.annotation.UISearchTable",
+    "de.faktorzehn.commons.linkki.search.component.SearchCriteriaGroup": "org.linkki.search.component.SearchCriteriaGroup",
+    "de.faktorzehn.commons.linkki.search.component.SearchInputLayout": "org.linkki.search.component.SearchInputLayout",
+    "de.faktorzehn.commons.linkki.search.component.SearchLayout": "org.linkki.search.component.SearchLayout",
+    "de.faktorzehn.commons.linkki.search.model.RoutingSearchController": "org.linkki.search.model.RoutingSearchController",
+    "de.faktorzehn.commons.linkki.search.model.SearchController": "org.linkki.search.model.SearchController",
+    "de.faktorzehn.commons.linkki.search.model.SearchParameterMapper": "org.linkki.search.model.SearchParameterMapper",
+    "de.faktorzehn.commons.linkki.search.model.SimpleSearchController": "org.linkki.search.model.SimpleSearchController",
+    "de.faktorzehn.commons.linkki.search.pmo.SearchButtonsPmo": "org.linkki.search.pmo.SearchButtonsPmo",
+    "de.faktorzehn.commons.linkki.search.pmo.SearchInputPmo": "org.linkki.search.pmo.SearchInputPmo",
+    "de.faktorzehn.commons.linkki.search.pmo.SearchLayoutPmo": "org.linkki.search.pmo.SearchLayoutPmo",
+    "de.faktorzehn.commons.linkki.search.pmo.SearchResultPmo": "org.linkki.search.pmo.SearchResultPmo",
+    "de.faktorzehn.commons.linkki.search.pmo.SearchResultTablePmo": "org.linkki.search.pmo.SearchResultTablePmo",
+    "de.faktorzehn.commons.linkki.search.util.NlsSearch": "org.linkki.search.util.NlsSearch",
+    "de.faktorzehn.commons.linkki.search.util.ParamsUtil": "org.linkki.search.util.ParamsUtil",
+    "de.faktorzehn.commons.linkki.search.SearchLayoutBuilder": "org.linkki.search.SearchLayoutBuilder"
+}
+
+def replace_imports_in_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+    for old_import, new_import in import_mapping.items():
+        content = content.replace(old_import, new_import)
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(content)
+
+def process_directory(directory):
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.java'):  # Assuming Java files
+                file_path = os.path.join(root, file)
+                replace_imports_in_file(file_path)
+
+# Get the current working directory
+current_directory = os.getcwd()
+process_directory(current_directory)
+----
+=====
+
+.Full list of all changed imports
+[%collapsible]
+=====
+.linkki-f10 classes that are moved to linkki-core-vaadin-flow
 [cols="a,a"]
 |===
 |de.faktorzehn.commons.linkki.*F10ProductTheme*|<<apply-f10-theme, *org.linkki.core.ui.theme*.F10ProductTheme>>
@@ -22,13 +108,8 @@ Some components of `linkki-f10` are moved to `linkki-core-vaadin-flow`:
 |de.faktorzehn.commons.linkki.ui.menu.*MenuItemsAspectDefinition*|*org.linkki.core.ui.element.annotation.UIMenuList*.MenuItemsAspectDefinition
 |de.faktorzehn.commons.linkki.ui.table.*HierarchicalTableUtil*|<<ui-utilities-treegrid, *org.linkki.core.ui.table.util*.HierarchicalTableUtil>>
 |===
-=====
-
-Some components of `linkki-f10` are moved to `linkki-application-framework-vaadin-flow`
 
 .linkki-f10 classes that are moved to linkki-application-framework-vaadin-flow
-[%collapsible]
-=====
 [cols="a,a"]
 |===
 |de.faktorzehn.commons.linkki.*CommonApplicationHeader*|<<useraware-application-header, *org.linkki.framework.ui.application.UserAwareApplicationHeader*>>
@@ -36,37 +117,22 @@ Some components of `linkki-f10` are moved to `linkki-application-framework-vaadi
 |de.faktorzehn.commons.linkki.infotool.*InfoToolsComponent*|<<info-tools, *org.linkki.framework.ui.component.infotool*.InfoToolsComponent>>
 |de.faktorzehn.commons.linkki.ui.confirm.*HasBrowserConfirmation*|<<browser-confirmation, *org.linkki.framework.ui*.HasBrowserConfirmation>>
 |===
-=====
-
-The remaining components of `linkki-f10` are moved to `linkki-vaadin-flow-component`:
 
 .linkki-f10 classes that are moved to linkki-vaadin-flow-component
-[%collapsible]
-=====
 [cols="a,a"]
 |===
 |de.faktorzehn.commons.linkki.ui.menu.*SingleItemMenuBar*|*org.linkki.core.vaadin.component.menu*.SingleItemMenuBar
 |de.faktorzehn.commons.linkki.ui.menu.*MenuItemDefinition*|*org.linkki.core.vaadin.component.menu*.MenuItemDefinition
 |===
-=====
-
-Two components of `linkki-f10-search` are moved to `linkki-application-framework-vaadin-flow` and `linkki-core-vaadin-flow`:
 
 .linkki-f10-search classes that are moved to linkki-application-framework-vaadin-flow and linkki-core-vaadin-flow
-[%collapsible]
-=====
 [cols="a,a"]
 |===
 |de.faktorzehn.commons.linkki.search.annotation.*UISearchLayoutHeadline*|<<headline, *org.linkki.framework.ui.component.UIHeadline*>>
 |de.faktorzehn.commons.linkki.search.annotation.*BindSlot* (deprecated in a previous release, now removed)|<<bind-slot, *org.linkki.core.ui.aspects.annotation*.BindSlot>>
 |===
-=====
-
-The remaining components of `linkki-f10-search` are moved to `linkki-search-vaadin-flow`
 
 .linkki-f10-search classes that are moved to linkki-search-vaadin-flow
-[%collapsible]
-=====
 [cols="a,a"]
 |===
 |de.faktorzehn.commons.linkki.search.annotation.*NestedPmoMethodLayoutDefinitionCreator*|*org.linkki.search.annotation*.NestedPmoMethodLayoutDefinitionCreator
@@ -95,7 +161,5 @@ The remaining components of `linkki-f10-search` are moved to `linkki-search-vaad
 |de.faktorzehn.commons.linkki.search.*SearchLayoutBuilder*|<<search-layout-pmo, *org.linkki.search*.SearchLayoutBuilder>>
 |===
 =====
-
-The `NavigationWorkaround` is not needed anymore. Usages can be replaced by `UI.getCurrent().navigate()`.
-
 ====
+
