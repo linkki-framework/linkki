@@ -30,8 +30,6 @@
         </developer>
     </developers>
 
-    <!-- ATTENTION: the last module must not be one that is skipped during
-         central publishing, otherwise nothing will be published -->
     <modules>
         <module>bom</module>
         <module>linkki-codeanalysis</module>
@@ -40,6 +38,8 @@
         <module>core</module>
         <module>vaadin-flow</module>
     </modules>
+    <!-- ATTENTION: the last module must not be one that is skipped during
+         central publishing, otherwise nothing will be published -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
