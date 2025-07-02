@@ -6,6 +6,8 @@
 
 This list contains documentation and release notes for all available versions.
 
+=== https://doc.linkki-framework.org/2.8/00_releasenotes/[2.8 (Vaadin 24)]
+
 === https://doc.linkki-framework.org/2.7/00_releasenotes/[2.7 (Vaadin 24)]
 
 === https://doc.linkki-framework.org/2.6/00_releasenotes/[2.6 (Vaadin 24)]
