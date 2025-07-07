@@ -14,15 +14,5 @@
         }
       }
     }
-  ],
-  "25.1.0": [
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-        ]
-      }
-    }
   ]
 }

@@ -299,6 +299,11 @@
                                     <reportUnchanged>false</reportUnchanged>
                                 </nonPublicPartOfAPI>
                             </checks>
+                            <checks>
+                                <varargOverloadsOnlyDifferInVarargParameter>
+                                    <reportUnchanged>false</reportUnchanged>
+                                </varargOverloadsOnlyDifferInVarargParameter>
+                            </checks>
                         </revapi.java>
                         <revapi.differences>
                             <differences>
