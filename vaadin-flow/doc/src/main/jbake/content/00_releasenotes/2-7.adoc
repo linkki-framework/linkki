@@ -14,7 +14,7 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency | New version | Previous version
-| Spring Boot                   | 3.4.6 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.4.5
+| Spring Boot                   | 3.4.7 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.4.5
 |===
 
 === Version 2.7.3
