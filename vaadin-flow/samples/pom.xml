@@ -20,9 +20,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <spotbugs.version>4.8.6</spotbugs.version>
-        <spring-boot.version>3.3.12</spring-boot.version>
-        <spring-framework.version>6.1.20</spring-framework.version>
-        <tomcat.version>10.1.41</tomcat.version>
+        <spring-boot.version>3.3.13</spring-boot.version>
+        <spring-framework.version>6.1.21</spring-framework.version>
         <checkstyle.version>10.14.2</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
@@ -35,7 +34,7 @@
         <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
-        <spotbugs-maven-plugin.version>4.8.3.1</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
@@ -68,18 +67,6 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <!-- CVE-2025-24813 for 11.0.2 and lower-->
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-websocket</artifactId>
-                <version>${tomcat.version}</version>
             </dependency>
 
             <!-- tag::linkki-bom[] -->
@@ -306,7 +293,7 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc-plugin.version}</version>
                 </plugin>
-                
+
                 <!-- Skip publishing maven artifact -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

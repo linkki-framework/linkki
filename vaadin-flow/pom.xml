@@ -46,11 +46,11 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
-            3.3.12
+            3.3.13
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
         <karibu.version>2.1.8</karibu.version>
-        <netty.version>4.1.121.Final</netty.version>
+        <netty.version>4.1.122.Final</netty.version>
     </properties>
 
     <dependencyManagement>
