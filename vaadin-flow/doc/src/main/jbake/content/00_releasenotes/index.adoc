@@ -22,8 +22,8 @@ The following versions have been updated:
 
 | Java                          | 21        | 17
 | Faktor-IPS                    | 25.7.0.release (link:https://doc.faktorzehn.org/faktor-ips/25.7/01_releasenotes/index.html[Release Notes]) | 25.1.1.release
-| Vaadin                        | 24.7.5 (link:https://github.com/vaadin/platform/releases/tag/24.7.5[Release Notes]) | 24.5.12
-| Spring Boot compatibility tested for | 3.5.2 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.4.2
+| Vaadin                        | 24.7.8 (link:https://github.com/vaadin/platform/releases/tag/24.7.8[Release Notes]) | 24.5.12
+| Spring Boot compatibility tested for | 3.5.3 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.4.2
 |===
 
 The Vaadin version update brings some changes that may affect linkki applications:
