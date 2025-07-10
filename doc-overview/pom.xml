@@ -16,7 +16,7 @@
 
         <maven.deploy.skip>true</maven.deploy.skip>
 
-        <linkki-latest.version>2.7</linkki-latest.version>
+        <linkki-latest.version>2.8</linkki-latest.version>
     </properties>
 
     <groupId>org.linkki-framework</groupId>
