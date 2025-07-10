@@ -19,44 +19,43 @@ import java.util.function.Supplier;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
-import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.framework.ui.dialogs.DialogPmo;
+import org.linkki.framework.ui.dialogs.UIOpenDialogButton;
 import org.linkki.samples.appsample.model.Address;
-import org.linkki.util.handler.Handler;
+import org.linkki.samples.appsample.pmo.dialog.AddAddressDialogPmo;
 
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 @UISection(caption = "Addresses")
 public class AddressTablePmo extends SimpleTablePmo<Address, AddressRowPmo> {
 
-    private Consumer<Address> deleteAddress;
-    // tag::createHandler[]
-    private Handler createHandler;
+    private final Consumer<Address> deleteAddress;
+    // tag::createConsumer[]
+    private final Consumer<Address> createConsumer;
 
     public AddressTablePmo(Supplier<List<? extends Address>> modelObjectsSupplier, Consumer<Address> deleteAddress,
-            Handler createHandler) {
+            Consumer<Address> createConsumer) {
         super(modelObjectsSupplier);
         this.deleteAddress = deleteAddress;
-        this.createHandler = createHandler;
+        this.createConsumer = createConsumer;
     }
-    // end::createHandler[]
+    // end::createConsumer[]
 
     @Override
     protected AddressRowPmo createRow(Address address) {
         return new AddressRowPmo(address, deleteAddress);
     }
 
-    // tag::addButton[]
+    // tag::getAddAddressDialogPmo[]
     @SectionHeader
-    @UIButton(position = 10, captionType = CaptionType.NONE, showIcon = true, icon = VaadinIcon.PLUS, variants = {
-            ButtonVariant.LUMO_CONTRAST })
-    public void add() {
-        // end::addButton[]
-        createHandler.apply();
-        // tag::addButton[]
+    @BindIcon(VaadinIcon.PLUS)
+    @UIOpenDialogButton(position = 10, captionType = CaptionType.NONE)
+    public DialogPmo getAddAddressDialogPmo() {
+        return new AddAddressDialogPmo(createConsumer);
     }
-    // end::addButton[]
+    // end::getAddAddressDialogPmo[]
 
 }

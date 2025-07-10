@@ -12,22 +12,25 @@
 [NOTE]
 This step shows you how to validate user input in dialogs.
 
-As you may have noticed, you can add an empty address to the address table. This can be considered invalid, and it can be avoided by using <<validation, Validation>>, which is a way to tell the user whether the input fits the domain model logic.
+As you may have noticed, you can add an empty address to the address table.
+This can be considered invalid, and it can be avoided by using <<validation, Validation>>, which is a way to tell the user whether the input fits the domain model logic.
 
 .Add Address dialog with validation rules
 image::{images}{images-folder-name}/dialog_validation.png[]
 
 ==== Marking input fields as required
 
-To inform the user which fields have to be filled in, the fields can be visually marked as required. Set the property `required` to `RequiredType.REQUIRED` for _all_ fields in `AddressPmo`.
+To inform the user which fields have to be filled in, the fields can be visually marked as required.
+Set the property `required` to `RequiredType.REQUIRED` for _all_ fields in `AddressPmo`.
 
 [NOTE]
-Specifying the `RequiredType` will only display a blue point. It does *not* prevent the user from leaving the field empty, nor will it display the validation rule that is violated by doing so.
+Specifying the `RequiredType` will only display a blue point.
+It does *not* prevent the user from leaving the field empty, nor will it display the validation rule that is violated by doing so.
 
 The finished implementation should look like this:
 
 .AddressPmo.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 @UITextField(..., required = RequiredType.REQUIRED)
 public void street() {
@@ -57,19 +60,24 @@ image::{images}{images-folder-name}/dialog.png[]
 
 ==== Validating the input fields
 
-Validations typically have a justification in the domain model. If for example an attribute is mandatory, this information should be handled by the implementation in the domain model so that all applications that use the same model follow the same logic.
+Validations typically have a justification in the domain model.
+If for example an attribute is mandatory, this information should be handled by the implementation in the domain model so that all applications that use the same model follow the same logic.
 
-In this case, the domain model class `Address` implements a method `validate()`. This method returns a list of validation messages that contain the justification as well as which attributes of which objects they refer to. The only thing left for you to do is to transfer these messages to the fields in the UI.
+In this case, the domain model class `Address` implements a method `validate()`.
+This method returns a `MessageList`, which is a list of validation messages that contain the justification as well as which attributes of which objects they refer to.
+The only thing left for you to do is to transfer these messages to the fields in the UI.
 
-In *linkki*, displaying and distributing validation messages are handled by so-called <<validation-service, `ValidationServices`>>. Whenever a dialog is created with the help of a `PmoBasedDialogFactory`, it is possible to pass a `ValidationService` that is used in all dialogs created by that factory.
+In *linkki*, displaying and distributing validation messages is handled by so-called <<validation-service, `ValidationServices`>>.
+These `ValidationServices` are functional interfaces returning a `MessageList`.
+Each `DialogPmo` has a method `validate`, which implements a `ValidationService` and can be overridden to return the validation result of our `Address`.
 
-Implement the validation in the method `AddressPage.createNewAddress`:
+Override the validation in the method `AddAddressDialogPmo.validate`:
 
-. Assign a lambda expression, in which `address.validate()` is passed to `org.linkki.ips.messages.MessageConverter.convert()`, to a variable `validationService` of type `ValidationService` .
-. Assign a new instance of `PmoBasedDialogFactory`, with `validationService` passed as the argument, to a variable `dialogFactory` of type `PmoBasedDialogFactory`.
-. Use `dialogFactory` when creating the `OkCancelDialog`.
+. Call `validate` on the content PMO's address.
+. Pass the address´ validation to `org.linkki.ips.messages.MessageConverter#convert` and return the result
 
 To be able to use the `MessageConverter` you need to add the following dependency:
+
 [source,xml]
 ----
 <dependency>
@@ -81,17 +89,13 @@ To be able to use the `MessageConverter` you need to add the following dependenc
 
 The finished implementation should look like this:
 
-.AddressPage.java
-[source,java, indent=0]
+.AddressTablePmo.java
+[source,java,indent=0]
 ----
-    public void createNewAddress() {
-        ...
-include::{source-dir}/page/AddressPage.java[tags=validation]
-        ...
-    }
+include::{source-dir}/pmo/dialog/AddAddressDialogPmo.java[tags=validate]
 ----
 
-If you run your application and try to add an address without filling in all the fields, you should get an error saying e.g. "The field Street must not be empty.".
+If you run your application and try to add an address without filling in all the fields, you should get an error saying, e.g., "The field Street must not be empty.".
 
 .Add Address dialog with validation rules
 image::{images}{images-folder-name}/dialog_validation.png[]

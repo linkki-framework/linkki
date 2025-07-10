@@ -10,9 +10,12 @@
 === Step 3: Implementing a new View with LinkkiTabLayout
 
 [NOTE]
-This step introduces you to the navigation between views using *Vaadin*. You will also learn how to use the layout type `LinkkiTabLayout`.
+This step introduces you to the navigation between views using *Vaadin*.
+You will also learn how to use the layout type `LinkkiTabLayout`.
 
-To display more detailed information of a business partner, you will create a new view that will display two pages as tabs: `BasicDataPage` and `AddressPage`. Each page will correspond to a tab sheet. For now, the pages will stay empty.
+To display more detailed information of a business partner, you will create a new view that will display two pages as tabs: `BasicDataPage` and `AddressPage`.
+Each page will correspond to a tab sheet.
+For now, the pages will stay empty.
 
 .BasicDataPage
 image::{images}{images-folder-name}/detail_empty.png[]
@@ -20,7 +23,10 @@ image::{images}{images-folder-name}/detail_empty.png[]
 ==== Creating View to display partner details
 
 [NOTE]
-If you look at the implementation of `BusinessPartnerView`, you will notice the https://vaadin.com/docs/latest/routing/route[`@Route`] annotation. This is a *Vaadin* annotation and it is required for navigating between views. Note that the `value` attribute represents the URL. If `value` is "example", you can access this view using the URL "localhost:8080/example".
+If you look at the implementation of `BusinessPartnerView`, you will notice the https://vaadin.com/docs/latest/routing/route[`@Route`] annotation.
+This is a *Vaadin* annotation and it is required for navigating between views.
+Note that the `value` attribute represents the URL.
+If `value` is "example", you can access this view using the URL "localhost:8080/example".
 
 Create the new view by creating a class called `PartnerDetailsView`, annotating it with `@Route` and doing the following steps:
 
@@ -31,7 +37,7 @@ Create the new view by creating a class called `PartnerDetailsView`, annotating 
 The finished implementation should look like this:
 
 .PartnerDetailsView.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 @Route(value = "PartnerDetails", layout = BusinessPartnerLayout.class)
 public class PartnerDetailsView extends Div {
@@ -41,14 +47,15 @@ public class PartnerDetailsView extends Div {
 
 ==== Transforming `PartnerDetailsView` to a `LinkkiTabLayout`
 
-Overall, `PartnerDetailsView` should show a tab layout with the two pages as tab sheets. To do this:
+Overall, `PartnerDetailsView` should show a tab layout with the two pages as tab sheets.
+To do this:
 
 . Use <<linkkitablayout, `LinkkiTabLayout`>> as the super class of `PartnerDetailsView` instead of `Div`.
 . To have the tabs on the left of the view, use the vertical orientation of `LinkkiTabLayout` by calling the super constructor with `Orientation.VERTICAL` as an argument.
 . If you want, you can change the background of the tab bar by adding `THEME_VARIANT_SOLID` to the list of the view themes in the constructor with `this.getElement().getThemeList().add(THEME_VARIANT_SOLID);`.
 
 .PartnerDetailsView.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 public class PartnerDetailsView extends LinkkiTabLayout {
 
@@ -63,12 +70,14 @@ You can now run your application and access your new view via "localhost:8080/Pa
 
 ==== Accessing `PartnerDetailsView` for a given partner
 
-The URL currently doesn't allow you to show the information of a specific partner. Therefore, you need to add a https://vaadin.com/docs/latest/routing/route-parameters[parameter] to the URL.
+The URL currently doesn't allow you to show the information of a specific partner.
+Therefore, you need to add a https://vaadin.com/docs/latest/routing/route-parameters[parameter] to the URL.
 
-One way to achieve this is to have the view implement the interface https://vaadin.com/docs/latest/routing/route-parameters/#defining-route-parameters[`HasUrlParameter<String>`] and override the method `setParameter(BeforeEvent event, @OptionalParameter String parameter)`. You will implement this method later.
+One way to achieve this is to have the view implement the interface https://vaadin.com/docs/latest/routing/route-parameters/#defining-route-parameters[`HasUrlParameter<String>`] and override the method `setParameter(BeforeEvent event, @OptionalParameter String parameter)`.
+You will implement this method later.
 
 .PartnerDetailsView.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/view/PartnerDetailsView.java[tags=hasUrlParameter]
         // will be implemented later
@@ -81,7 +90,7 @@ You are now ready to add the URL to the `UILink` that you implemented in the <<t
 Go back to the `SearchResultRowPmo` and let the method `getDetails` return the URL of `PartnerDetailsView`, which is `"PartnerDetails/" + partner.getUuid().toString()`, with the parameter being the UUID of the partner.
 
 .SearchResultRowPmo.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/pmo/table/SearchResultRowPmo.java[tags=url]
 ----
@@ -89,14 +98,15 @@ include::{source-dir}/pmo/table/SearchResultRowPmo.java[tags=url]
 If you run your application now, you should be able to click on the "Show Details" link and navigate to the empty `PartnerDetailsView`.
 
 [TIP]
-If you take a look at the URL, you should be able to see the ID of a partner. For John Doe, the parameter is ac54f2f9-7b82-4bc8-ab69-554cac5926f1.
+If you take a look at the URL, you should be able to see the ID of a partner.
+For John Doe, the parameter is ac54f2f9-7b82-4bc8-ab69-554cac5926f1.
 
 .BusinessPartnerView
 image::{images}{images-folder-name}/search_result_table_link.png[]
 
 ==== Retrieving the correct `BusinessPartner`
 
-Now that the "ID" of a `BusinessPartner` is passed to the URL of the `PartnerDetailsView`, you need to retrieve it, otherwise you won't know which partner you want to display information for. 
+Now that the "ID" of a `BusinessPartner` is passed to the URL of the `PartnerDetailsView`, you need to retrieve it, otherwise you won't know which partner you want to display information for.
 
 To retrieve the correct `BusinessPartner`, do the following:
 
@@ -110,7 +120,7 @@ To retrieve the correct `BusinessPartner`, do the following:
 The finished implementation should look like this:
 
 .PartnerDetailsView.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/view/PartnerDetailsView.java[tags=retrievePartner1]
         ...
@@ -119,11 +129,14 @@ include::{source-dir}/view/PartnerDetailsView.java[tags=retrievePartner2]
 
 ==== Adding tab sheets to `PartnerDetailsView`
 
-Now that you have the correct `BusinessPartner`, you can add the two tab sheets that will display detailed information about the partner and their addresses. However, at the moment you can access the view whether the UUID of a `BusinessPartner` is correct or not. 
+Now that you have the correct `BusinessPartner`, you can add the two tab sheets that will display detailed information about the partner and their addresses.
+However, at the moment you can access the view whether the UUID of a `BusinessPartner` is correct or not.
 
-Therefore, you will add an additional tab sheet to handle error cases: If the UUID is missing or incorrect, the first tab will be shown and the other two will be hidden. Otherwise, the first tab will be hidden and the other two will display detailed information on the `BusinessPartner`.
+Therefore, you will add an additional tab sheet to handle error cases: If the UUID is missing or incorrect, the first tab will be shown and the other two will be hidden.
+Otherwise, the first tab will be hidden and the other two will display detailed information on the `BusinessPartner`.
 
-Before adding the tab sheets, you need to create the component the tab sheets will display. Do the following:
+Before adding the tab sheets, you need to create the component the tab sheets will display.
+Do the following:
 
 . Create a method `createErrorLayout` with the signature `Component createErrorLayout()`.
 . Let the method return `new Div(new Text("No partner could be found with the given ID"))`.
@@ -135,7 +148,7 @@ Before adding the tab sheets, you need to create the component the tab sheets wi
 The finished implementation should look like this:
 
 .PartnerDetailsView.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/view/PartnerDetailsView.java[tags=createComponentError]
 
@@ -148,14 +161,16 @@ include::{source-dir}/view/PartnerDetailsView.java[tags=createComponentError]
     }
 ----
 
-
-To add the tab sheets, use the method `addTabSheets`. The method takes a list of <<linkkitablayout, `LinkkiTabSheet`>> as the argument. Create the three `LinkkiTabSheet` as follows:
+To add the tab sheets, use the method `addTabSheets`.
+The method takes a list of <<linkkitablayout, `LinkkiTabSheet`>> as the argument.
+Create the three `LinkkiTabSheet` as follows:
 
 . Use a builder with `LinkkiTabSheet.builder()`, which takes the ID of the tab sheet as a String argument:
 .. Use "error" as the ID for the first tab sheet.
 .. Use "basic-data" as the ID for the second tab sheet.
 .. Use "address" as the ID for the third tab sheet.
-. Add a caption to the tab sheet using `.caption()` which will be displayed on the tab element. In this case, you will display icons:
+. Add a caption to the tab sheet using `.caption()` which will be displayed on the tab element.
+In this case, you will display icons:
 .. Use `VaadinIcon.WARNING.create()` as the caption for the first tab sheet.
 .. Use `VaadinIcon.USER.create()` as the caption for the second tab sheet.
 .. Use `VaadinIcon.HOME.create()` as the caption for the third tab sheet.
@@ -172,7 +187,7 @@ To add the tab sheets, use the method `addTabSheets`. The method takes a list of
 The finished implementation should look like this:
 
 .PartnerDetailsView.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/view/PartnerDetailsView.java[tags=addTabSheets1]
         ...
@@ -191,7 +206,8 @@ The second tab should have a home icon and display for e.g. John Doe "Address Pa
 .AddressPage
 image::{images}{images-folder-name}/address_empty.png[]
 
-If you change the UUID in the URL to some unknown value, for example http://localhost:8080/PartnerDetails/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa, you should get only one tab. This tab should have a warning icon and display "No partner could be found with the given ID".
+If you change the UUID in the URL to some unknown value, for example http://localhost:8080/PartnerDetails/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa, you should get only one tab.
+This tab should have a warning icon and display "No partner could be found with the given ID".
 
 .Error
 image::{images}{images-folder-name}/error.png[]

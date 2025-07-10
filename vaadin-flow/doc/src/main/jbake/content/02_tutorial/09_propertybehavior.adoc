@@ -12,26 +12,30 @@
 [NOTE]
 This step shows you how to make input fields read-only, so that they cannot be edited.
 
-You may have noticed that the fields in the `AddressPage` are all editable. Even though the domain model that we have bound to our PMOs allows modification of the partner data, we want to change this behavior, so we can control when and where the user can change data.
+You may have noticed that the fields in the `AddressPage` are all editable.
+Even though the domain model that we have bound to our PMOs allows modification of the partner data, we want to change this behavior, so we can control when and where the user can change data.
 
 ==== Making the input fields read-only
 
-To solve this problem, you can make use of *linkki*'s <<cross-sectional-binding, `PropertyBehaviors`>>. Everywhere a `DefaultBindingManager` is created, we can additionally pass read-only `PropertyBehaviors` to the constructor. Technically, we need to pass through a `PropertyBehaviorProvider` that contains only one read-only `PropertyBehavior`.
+To solve this problem, you can make use of *linkki*'s <<cross-sectional-binding, `PropertyBehaviors`>>.
+Everywhere a `DefaultBindingManager` is created, we can additionally pass read-only `PropertyBehaviors` to the constructor.
+Technically, we need to pass through a `PropertyBehaviorProvider` that contains only one read-only `PropertyBehavior`.
 
 In the constructor of `AddressPage`, assign the following to the field `bindingManager`: `new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE, PropertyBehaviorProvider.with(PropertyBehavior.readOnly()))`.
 
 The finished implementation should look like this:
 
 .AddressPage.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/page/AddressPage.java[tags=binding]
 ----
 
 ==== Changing the behavior of buttons
-Note how the button is still actionable. This is due to the fact that `PropertyBehavior.readOnly` only affects input elements but no buttons. To modify the read-only behavior of buttons, see <<bind-read-only-behavior, `BindReadOnlyBehavior`>>.
 
-----
+Note how the button is still actionable.
+This is due to the fact that `PropertyBehavior.readOnly` only affects input elements but no buttons.
+To modify the read-only behavior of buttons, see <<bind-read-only-behavior, `BindReadOnlyBehavior`>>.
 
 If you run your application now, you should still be able to delete addresses, but you should not be able to edit the other columns anymore.
 

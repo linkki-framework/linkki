@@ -17,6 +17,7 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.samples.appsample.model.BusinessPartner;
 
+// tag::searchRow[]
 public class SearchResultRowPmo {
 
     private final BusinessPartner partner;
@@ -25,7 +26,6 @@ public class SearchResultRowPmo {
         this.partner = partner;
     }
 
-    // tag::searchRow[]
     @UILabel(position = 10, label = "Name")
     public String getName() {
         return partner.getName();
@@ -43,6 +43,6 @@ public class SearchResultRowPmo {
         return "PartnerDetails/" + partner.getUuid().toString();
         // tag::searchRow2[]
     }
-    // end::searchRow2[]
     // end::url[]
 }
+// end::searchRow2[]

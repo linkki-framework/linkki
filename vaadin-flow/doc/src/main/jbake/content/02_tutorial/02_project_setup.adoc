@@ -10,11 +10,13 @@
 
 ==== Project generation
 
-To build the basic frame of the project, you generate a new *Maven* project using the *linkki* Spring archetype. There are two ways to do that:
+To build the basic frame of the project, you generate a new *Maven* project using the *linkki* Spring archetype.
+There are two ways to do that:
 
 ===== 1. Generating the project from the command line
 
-You can generate the project using Maven on the command line. In order to do that, you execute the command
+You can generate the project using Maven on the command line.
+In order to do that, you execute the command:
 
 [source,shell,subs="normal"]
 ----
@@ -24,22 +26,27 @@ mvn archetype:generate \
 -DarchetypeVersion={vlinkki}
 ----
 
-You are prompted to choose several values for the project. The value for `ApplicationName` should be set to "BusinessPartner". You can choose freely which group ID, artifact ID, version and package name you want to use.
+You are prompted to choose several values for the project.
+The value for `ApplicationName` should be set to "BusinessPartner".
+You can choose freely, which group ID, artifact ID, version and package name you want to use.
 
 Once the generation is completed, you can import the new project into your favored IDE.
 
 ===== 2. Generating the project in Eclipse
 
-Alternatively, when using Eclipse you can use the wizard for new Maven Projects. Start the wizard by selecting File - New - Project - Maven - Maven Project. When selecting the archetype, choose
+Alternatively, when using Eclipse you can use the wizard for new Maven Projects.
+Start the wizard by selecting File -> New -> Project -> Maven -> Maven Project.
+When selecting the archetype, choose
 
 * Group Id `org.linkki-framework.archetypes`
-* Artifact Id  `linkki-archetype-spring-application-vaadin-flow` and
+* Artifact Id `linkki-archetype-spring-application-vaadin-flow` and
 * Version `{vlinkki}`.
 
 .Selecting the archetype
 image::{images}{images-folder-name}/eclipse_select_archetype.png[]
 
-In the next step, set the project's group ID, artifact ID, version and package name however you want. The property `ApplicationName` should be set to "BusinessPartner".
+In the next step, set the project's group ID, artifact ID, version and package name however you want.
+The property `ApplicationName` should be set to "BusinessPartner".
 
 .Generate project in Eclipse
 image::{images}{images-folder-name}/eclipse_maven_project.png[]
@@ -48,13 +55,17 @@ image::{images}{images-folder-name}/eclipse_maven_project.png[]
 
 Alternatively, when using IntelliJ you can use the wizard for new Maven Projects.
 
-Start the wizard by selecting File - New - Project. Select the Maven Archetype Generator, give it a name and set the Catalog to Maven Central. In the Archetype select box you can search for linkki and select the appropriate Archetype from the list. Finally, choose the version and set the Property `ApplicationName` to "BusinessPartner".
+Start the wizard by selecting File -> New -> Project.
+Select the Maven Archetype Generator, give it a name and set the Catalog to Maven Central.
+In the Archetype select box you can search for linkki and select the appropriate Archetype from the list.
+Finally, choose the version and set the Property `ApplicationName` to "BusinessPartner".
 
 .Generate project in IntelliJ
 image::{images}{images-folder-name}/intellij_maven_project.png[]
 
 [NOTE]
-If you search for linkki in the archetype selection in your IDE, you get multiple results. Since this tutorial's goal is to implement a *linkki* application with *Spring Boot*, we need to use `linkki-archetype-spring-application-vaadin-flow`.
+If you search for linkki in the archetype selection in your IDE, you get multiple results.
+Since this tutorial's goal is to implement a *linkki* application with *Spring Boot*, we need to use `linkki-archetype-spring-application-vaadin-flow`.
 
 ==== Initial project structure
 
@@ -67,24 +78,29 @@ image::{images}{images-folder-name}/initial_project_structure.png[width=426]
 `BusinessPartnerView`:: This view will show the browser window containing the search bar and the search result table you will implement later.
 `BusinessPartnerInfo`:: This class contains general information about your application such as its name and copyright.
 `BusinessPartnerConfig`:: The `BusinessPartnerConfig` configures the main aspects of the application such as the information stored in `BusinessPartnerInfo`, the header and the footer.
-`BusinessPartnerLayout`:: All views will be displayed in the `BusinessPartnerLayout`, which is a custom layout configured with `BusinessPartnerConfig`. It will therefore e.g. surround the views with a header and a footer.
+`BusinessPartnerLayout`:: All views will be displayed in the `BusinessPartnerLayout`, which is a custom layout configured with `BusinessPartnerConfig`.
+It will therefore e.g. surround the views with a header and a footer.
 
 To get a better understanding of the classes this archetype creates, refer to the section <<application-layout, Application Layout>> in the chapter Application Framework of the *linkki* Documentation.
 
 ==== Example application
 
-The project as-is is already a runnable web application. Try starting the `BusinessPartner` as a Java application. Once startup is completed, open the URL http://localhost:8080/ in a browser, and you should see the example application below.
+The project as-is is already a runnable web application.
+Try starting the `BusinessPartner` as a Java application.
+Once startup is completed, open the URL http://localhost:8080/ in a browser, and you should see the example application below.
 
 .linkki example application
 image::{images}{images-folder-name}/example_application.png[]
 
 ==== Getting ready
 
-Now that you have the basic frame of a *linkki* web application using Spring Boot, you are almost done with the initial project setup. Before you move on:
+Now that you have the basic frame of a *linkki* web application using Spring Boot, you are almost done with the initial project setup.
+Before you move on:
 
-* You rename `BusinessPartner` to `BusinessPartnerApplication`, in order to avoid confusion between class names later
+* You rename `BusinessPartner` to `BusinessPartnerApplication`, in order to avoid confusion between class names later.
 * You remove some elements of the example application:
-** The classes `HelloPmo` and `BusinessPartnerPage` are not needed and thus can be deleted. You will build your own UI classes.
+** The classes `HelloPmo` and `BusinessPartnerPage` are not needed and thus can be deleted.
+You will build your own UI classes.
 ** You switch to the `BusinessPartnerView` and delete its constructor.
 
 You also need to include the domain model.
@@ -99,21 +115,26 @@ To do that, you simply add the dependency `tutorial-model` in the `pom.xml`.
 </dependency>
 ----
 
-This project includes the model classes `BusinessPartner` and `Address` describing a business partner. The `Validation` class completes the model by providing validation functionality.
+This project includes the model classes `BusinessPartner` and `Address` describing a business partner.
+The `Validation` class completes the model by providing validation functionality.
 
 The model project also provides an interface `BusinessPartnerRepository` with a default implementation `InMemoryBusinessPartnerRepository` that stores business partners.
 
-You have to provide an instance of this repository as a Java Bean, so that the Spring framework can inject it where you need it later. You can accomplish this by adding a `createBusinessPartnerRepository` method to your Application class and marking it with the Spring `@Bean` annotation.
+You have to provide an instance of this repository as a Java Bean, so that the Spring framework can inject it where you need it later.
+You can accomplish this by adding a `createBusinessPartnerRepository` method to your Application class and marking it with the Spring `@Bean` annotation.
 
 .BusinessPartnerApplication.java
-[source, java]
+[source,java]
 ----
 include::{source-dir}/BusinessPartnerApplication.java[tags=createRepository]
 ----
 
-Now the initial project setup is done. If you run the application now, you get an almost empty browser window. All you can see is a blue menu bar on the top of the window with a little question mark on it. This opens a dialog that contains some basic application information that can be configured in the `BusinessPartnerConfig`.
+Now, the initial project setup is done.
+If you run the application now, you get an almost empty browser window.
+All you can see is a blue menu bar on the top of the window with a little question mark on it.
+This opens a dialog that contains some basic application information that can be configured in the `BusinessPartnerConfig`.
 
 .Empty linkki application
 image::{images}{images-folder-name}/empty_application.png[]
 
-Let's begin with the step-by-step tutorial.
+Let's begin with the <<tutorial-step-1, step-by-step tutorial>>.

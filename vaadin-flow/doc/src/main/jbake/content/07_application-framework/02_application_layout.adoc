@@ -8,7 +8,7 @@
 [[application-layout]]
 === ApplicationLayout
 
-When using *linkki Application Framework*, all views should be displayed in a customized `ApplicationLayout` which provides the application frame.
+When using *linkki Application Framework*, all views should be displayed in a customized `ApplicationLayout`, which provides the application frame.
 Therefore, the first step to use application framework is to create a subclass of `ApplicationLayout`.
 
 The main purpose of this class is to hold the custom implementation of <<application-config, ApplicationConfig>> in which the application frame is configured.
