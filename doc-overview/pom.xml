@@ -16,7 +16,7 @@
 
         <maven.deploy.skip>true</maven.deploy.skip>
 
-        <linkki-latest.version>2.8</linkki-latest.version>
+        <linkki.latest.version>2.8</linkki.latest.version>
     </properties>
 
     <groupId>org.linkki-framework</groupId>
@@ -77,7 +77,7 @@
                                     unlink /var/www/${doc.deployment.url}/latest
                                 </command>
                                 <command>ln -s \
-                                    /var/www/${doc.deployment.url}/${linkki-latest-version} \
+                                    /var/www/${doc.deployment.url}/${linkki.latest.version} \
                                     /var/www/${doc.deployment.url}/latest
                                 </command>
                             </commands>
