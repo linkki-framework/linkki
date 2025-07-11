@@ -77,7 +77,7 @@
                                     unlink /var/www/${doc.deployment.url}/latest
                                 </command>
                                 <command>ln -s \
-                                    /var/www/${doc.deployment.url}/${linkki_latest.version} \
+                                    /var/www/${doc.deployment.url}/${linkki-latest-version} \
                                     /var/www/${doc.deployment.url}/latest
                                 </command>
                             </commands>
