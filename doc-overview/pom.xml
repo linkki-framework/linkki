@@ -73,7 +73,7 @@
                                     /var/www/${doc.deployment.url}/versions
                                 </command>
                                 <!-- Update symlink to latest version -->
-                                <command>ln -s \
+                                <command>ln -sf \
                                     /var/www/${doc.deployment.url}/${linkki-latest-version} \
                                     /var/www/${doc.deployment.url}/latest
                                 </command>
