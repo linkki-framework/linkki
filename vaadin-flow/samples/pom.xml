@@ -20,8 +20,8 @@
         <java.version>21</java.version>
         <spotbugs.version>4.9.3</spotbugs.version>
         <spring-boot.version>3.5.3</spring-boot.version>
-        <spring-framework.version>6.2.8</spring-framework.version>
-        <checkstyle.version>10.24.0</checkstyle.version>
+        <spring-framework.version>6.2.9</spring-framework.version>
+        <checkstyle.version>10.26.1</checkstyle.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>

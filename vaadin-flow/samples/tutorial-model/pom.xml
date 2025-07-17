@@ -34,7 +34,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>21</java.version>
         <spotbugs.version>4.9.3</spotbugs.version>
-        <checkstyle.version>10.24.0</checkstyle.version>
+        <checkstyle.version>10.26.1</checkstyle.version>
         <revapi.skip>true</revapi.skip>
 
         <git.user>${user.name}</git.user>
@@ -47,7 +47,7 @@
         <spotbugs-maven-plugin.version>4.9.3.2</spotbugs-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <flatten-maven-plugin.version>1.7.1</flatten-maven-plugin.version>
-        <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
+        <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
     </properties>
 
     <dependencies>

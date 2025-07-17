@@ -16,7 +16,7 @@ package de.faktorzehn.commons.linkki.ui.menu;
 
 import static org.linkki.util.Objects.requireNonNull;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -139,7 +139,7 @@ public class MenuItemDefinition {
                 .replaceAll("[^a-z0-9]", " ")
                 .replaceAll("\\s+", "-");
 
-        id = StringUtils.removeEnd(id, "-");
+        id = Strings.CS.removeEnd(id, "-");
 
         return id;
     }

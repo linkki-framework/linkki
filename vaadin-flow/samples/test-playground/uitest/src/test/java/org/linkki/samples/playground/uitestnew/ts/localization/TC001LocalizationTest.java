@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -77,7 +78,7 @@ class TC001LocalizationTest {
         void testLocalizedLabelsOfAllElements() {
             assertThat(allFormItems.stream()//
                     .map(e -> e.$(NativeLabelElement.class).first().getText()))
-                            .allSatisfy(e -> StringUtils.contains(e, localizedPrefix));
+                            .allSatisfy(e -> Strings.CS.contains(e, localizedPrefix));
         }
 
         @Test

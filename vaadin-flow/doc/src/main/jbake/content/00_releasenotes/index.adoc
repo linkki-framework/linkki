@@ -20,7 +20,7 @@ The following versions have been updated:
 |===
 | Dependency                    | New version       | Previous version
 
-| Vaadin                        | 24.7.9 (link:https://github.com/vaadin/platform/releases/tag/24.7.9[Release Notes]) | 24.7.8
+| Faktor-IPS                    | 25.7.1.release (link:https://doc.faktorzehn.org/faktor-ips/25.7/01_releasenotes/index.html[Release Notes]) | 25.7.0-release
 |===
 
 // ==== UI Annotations and Aspects
