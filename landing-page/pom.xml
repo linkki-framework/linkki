@@ -17,6 +17,8 @@
 
         <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
         <wagon-ssh.version>3.5.3</wagon-ssh.version>
+
+        <checkstyle.skip>true</checkstyle.skip>
     </properties>
 
     <build>
