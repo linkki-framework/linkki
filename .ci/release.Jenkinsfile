@@ -17,6 +17,7 @@ pipeline {
         PROJECT_ID = "${PROJECT_NAME}-${params.RELEASE_VERSION.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
         CONTAINER_RETENTION = 'keep'
         BASE_IMAGE = 'spring:25.7'
+        SUITE_VERSION = '26.1'
     }
 
     stages {
@@ -45,7 +46,7 @@ pipeline {
         stage('Dependency-Check') {
             steps {
                 withMaven(publisherStrategy: 'EXPLICIT') {
-                    dependencyCheck version: '25.1'
+                    dependencyCheck version: "${SUITE_VERSION}"
                 }
             }
         }

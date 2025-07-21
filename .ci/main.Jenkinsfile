@@ -14,7 +14,7 @@ pipeline {
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
         BASE_IMAGE = 'spring:25.7'
-        SUITE_VERSION = '25.7'
+        SUITE_VERSION = '26.1'
     }
 
     stages {

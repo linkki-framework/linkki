@@ -13,6 +13,7 @@ pipeline {
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
         BASE_IMAGE = 'spring:25.7'
+        SUITE_VERSION = '26.1'
     }
 
     stages {
@@ -40,7 +41,7 @@ pipeline {
         stage('Dependency-Check') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
-                    dependencyCheck version: '25.1'
+                    dependencyCheck version: "${SUITE_VERSION}"
                 }
             }
         }
