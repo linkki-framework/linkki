@@ -304,28 +304,6 @@
                                 </varargOverloadsOnlyDifferInVarargParameter>
                             </checks>
                         </revapi.java>
-                        <revapi.differences>
-                            <differences>
-                                <difference>
-                                    <ignore>true</ignore>
-                                    <code>java.class.defaultSerializationChanged</code>
-                                </difference>
-                                <difference>
-                                    <ignore>true</ignore>
-                                    <code>java.annotation.attributeValueChanged</code>
-                                </difference>
-                                <difference>
-                                    <ignore>true</ignore>
-                                    <code>java.method.addedToInterface</code>
-                                </difference>
-                            </differences>
-                        </revapi.differences>
-                        <revapi.semver.ignore>
-                            <enabled>true</enabled>
-                            <passThroughDifferences>
-                                <item>java.class.nonPublicPartOfAPI</item>
-                            </passThroughDifferences>
-                        </revapi.semver.ignore>
                     </analysisConfiguration>
                 </configuration>
                 <executions>

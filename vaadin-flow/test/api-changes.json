@@ -23,6 +23,18 @@
           },
           {
             "regex": true,
+            "code": "java.annotation.attributeValueChanged",
+            "new": ".*org\\.junit\\.jupiter\\.api\\..*",
+            "justification": "JUnit is used in the API"
+          },
+          {
+            "regex": true,
+            "code": "java.method.addedToInterface",
+            "new": ".*org\\.junit\\.jupiter\\.api\\..*",
+            "justification": "JUnit is used in the API"
+          },
+          {
+            "regex": true,
             "code": "java.class.externalClassExposedInAPI",
             "new": ".*org\\.assertj\\.core\\..*",
             "justification": "AssertJ is used in the API"

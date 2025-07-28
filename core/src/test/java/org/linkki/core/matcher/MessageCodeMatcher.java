@@ -13,7 +13,7 @@
  */
 package org.linkki.core.matcher;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.linkki.core.binding.validation.message.Message;
@@ -33,7 +33,7 @@ public class MessageCodeMatcher extends TypeSafeMatcher<Message> {
 
     @Override
     protected boolean matchesSafely(Message m) {
-        return StringUtils.equals(messageCode, m.getCode());
+        return Strings.CS.equals(messageCode, m.getCode());
     }
 
 }
