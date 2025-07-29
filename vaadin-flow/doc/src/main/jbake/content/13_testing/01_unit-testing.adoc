@@ -134,7 +134,7 @@ To use the configuration, the `KaribuUIExtension` must be used with link:https:/
     class RegisterExtensionWithConfiguration {
 
         @RegisterExtension
-        static KaribuUIExtension extension = KaribuUIExtension
+        KaribuUIExtension extension = KaribuUIExtension
                 .withConfiguration(withDefaults()
                         .setProductionMode(true)
                         .addRoute(MyView.class, () -> myView)

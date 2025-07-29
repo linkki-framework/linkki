@@ -24,8 +24,6 @@
 
         <doc.deployment.url>doc.linkki-framework.org</doc.deployment.url>
         <doc.deployment.port>2004</doc.deployment.port>
-
-
     </properties>
 
     <artifactId>linkki-core-documentation-vaadin-flow</artifactId>

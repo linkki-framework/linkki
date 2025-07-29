@@ -38,11 +38,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.mvysny.kaributesting</groupId>
-            <artifactId>karibu-testing-v24</artifactId>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-archunit</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
 </project>

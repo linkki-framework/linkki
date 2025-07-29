@@ -58,7 +58,7 @@ class ErrorDialogConfigurationTest {
     class DevelopmentMode {
 
         @RegisterExtension
-        private static KaribuUIExtension extension = KaribuUIExtension
+        private KaribuUIExtension extension = KaribuUIExtension
                 .withConfiguration(withDefaults().addRoutes(DefaultTestView.class, CustomTestView.class)
                         .setProductionMode(false));
 
@@ -88,7 +88,7 @@ class ErrorDialogConfigurationTest {
     class ProductionMode {
 
         @RegisterExtension
-        private static KaribuUIExtension extension = KaribuUIExtension
+        private KaribuUIExtension extension = KaribuUIExtension
                 .withConfiguration(withDefaults().addRoutes(DefaultTestView.class, CustomTestView.class)
                         .setProductionMode(true));
 

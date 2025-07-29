@@ -63,5 +63,11 @@
             <artifactId>assertj-core</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-archunit</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

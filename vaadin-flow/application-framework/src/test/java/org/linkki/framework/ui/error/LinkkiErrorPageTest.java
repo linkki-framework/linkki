@@ -56,7 +56,7 @@ class LinkkiErrorPageTest {
     class ProductionMode {
 
         @RegisterExtension
-        private static KaribuUIExtension extension = createKaribuUIExtension(LinkkiErrorPage.class, true);
+        private KaribuUIExtension extension = createKaribuUIExtension(LinkkiErrorPage.class, true);
 
         @Test
         void testNoExceptionDetails() {
@@ -89,7 +89,7 @@ class LinkkiErrorPageTest {
     class DevelopmentMode {
 
         @RegisterExtension
-        private static KaribuUIExtension extension = createKaribuUIExtension(LinkkiErrorPage.class, false);
+        private KaribuUIExtension extension = createKaribuUIExtension(LinkkiErrorPage.class, false);
 
         @Test
         void testCustomMessageShown() {
@@ -125,7 +125,7 @@ class LinkkiErrorPageTest {
     class CustomSubclass {
 
         @RegisterExtension
-        private static KaribuUIExtension extension = createKaribuUIExtension(CustomErrorPage.class, true);
+        private KaribuUIExtension extension = createKaribuUIExtension(CustomErrorPage.class, true);
 
         @Test
         void testCustomSubClass() {
@@ -172,7 +172,7 @@ class LinkkiErrorPageTest {
         assertThat(UI.getCurrent().getCurrentView()).isInstanceOf(StartView.class);
     }
 
-    private static KaribuUIExtension createKaribuUIExtension(Class<? extends HasErrorParameter<?>> errorView,
+    private KaribuUIExtension createKaribuUIExtension(Class<? extends HasErrorParameter<?>> errorView,
             boolean productionMode) {
         return KaribuUIExtension
                 .withConfiguration(withDefaults()

@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -33,6 +34,7 @@
         <module>bom</module>
         <module>linkki-codeanalysis</module>
         <module>test</module>
+        <module>archunit</module>
         <module>utils</module>
         <module>core</module>
         <!-- ATTENTION: the last module must not be one that is skipped during
@@ -673,7 +675,7 @@
                             <deploymentName>linkki ${project.version}</deploymentName>
                             <!-- skipPublishing somehow does not work in modules in which the plugin is configured -->
                             <excludeArtifacts>
-                                linkki,linkki-vaadin-flow,linkki-core-documentation-vaadin-flow,linkki-codeanalysis,linkki-archetypes-vaadin-flow,linkki-core-documentation-vaadin-flow
+                                linkki,linkki-vaadin-flow,linkki-core-documentation-vaadin-flow,linkki-codeanalysis,linkki-archetypes-vaadin-flow,linkki-core-documentation-vaadin-flow,linkki-archunit
                             </excludeArtifacts>
                         </configuration>
                     </plugin>

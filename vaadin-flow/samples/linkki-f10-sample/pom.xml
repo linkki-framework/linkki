@@ -16,6 +16,7 @@
 
     <properties>
         <revapi.skip>true</revapi.skip>
+        <sonar.skip>true</sonar.skip>
     </properties>
 
     <dependencies>
@@ -47,6 +48,7 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+
     </dependencies>
 
     <build>
