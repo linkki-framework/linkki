@@ -1,0 +1,315 @@
+:jbake-title: Step 11: UI Tests
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 13
+
+[[tutorial-step-11]]
+=== Step 11: UI Tests
+
+[NOTE]
+This step shows you how to write UI tests (using **karibu**) for the components written in linkki.
+
+=== KaribuUIExtension
+
+To begin writing UI tests for your application, let’s start with a basic test case for the `BusinessPartnerView`.
+
+Create a test class named `BusinessPartnerViewTest`:
+
+.BusinessPartnerViewTest.java
+[source,java]
+----
+@ExtendWith(KaribuUIExtension.class)
+@WithLocale
+public class BusinessPartnerViewTest {
+
+    @Test
+    void test() {
+        Assertions.assertThat((UI.getCurrent())).isNotNull();
+    }
+
+}
+----
+
+This simple test verifies that the UI initializes correctly.
+
+==== Testing the BusinessPartnerView
+
+You should now test the *search functionality* of the `BusinessPartnerView`. The test should:
+
+- Programmatically enter a value in the search field,
+- Click the search button,
+- Verify the results.
+
+Access the UI components by using the static method `LocatorJ._get`.
+It is highly recommended to use the utility methods provided in `KaribuUtils`, as they offer more convenient and robust options for interacting with the UI.
+
+The following example shows how to search for a partner and check if a matching result is present.
+
+.BusinessPartnerViewTest.java - Search returns results
+[source,java]
+----
+@ExtendWith(KaribuUIExtension.class)
+@WithLocale
+public class BusinessPartnerViewTest {
+
+    @Test
+    void testSearchFieldWithResult() {
+        assertThat((UI.getCurrent())).isNotNull();
+
+        var businessPartnerView = new BusinessPartnerView(new BusinessPartnerRepository());
+
+        var searchField = _get(businessPartnerView, TextField.class, ss -> ss.withId("searchField"));
+        KaribuUtils.Fields.setValue(searchField, "bob");
+
+        var searchButton = _get(businessPartnerView, Button.class, ss -> ss.withId("search"));
+        searchButton.click();
+
+        var resultTable = (GridSection)_get(businessPartnerView, LinkkiSection.class, ss -> ss.withId(SearchResultTablePmo.class.getSimpleName()));
+        assertThat(resultTable.getGrid().getColumns()).hasSize(3);
+
+        List<String> nameColumnValues = KaribuUtils.Grids.getTextContentsInColumn(resultTable.getGrid(), "name");
+        assertThat(nameColumnValues).containsExactly("Bob");
+
+        List<String> addressColumnValues = KaribuUtils.Grids.getTextContentsInColumn(resultTable.getGrid(), "firstAddress");
+        assertThat(addressColumnValues).containsExactly("Im Zollhafen 15/17, 50678 Cologne");
+    }
+}
+----
+
+[IMPORTANT]
+====
+Always use `KaribuUtils.Fields.setValue()` to update field values. Calling `setValue()` directly on a component does *not* trigger the linkki binding mechanism.
+====
+
+As you can see in the example, the _get-function obtains the search field from the BusinessPartnerView by its id `searchField`.
+The id of a component created by linkki is usually the name of the annotated construct.
+
+KaribuUtils also provides methods that conveniently extract all values from a column as strings, which is extremely useful because it's normally quite painstaking to do so.
+In the following example, KaribuUtils is being used to acquire the names and addresses written in the name and address column, allowing to write assertions against those values.
+
+Write a test case, where the search yields no result.
+Once you are done, it should look similar to the following example:
+
+.BusinessPartnerViewTest.java - Search returns no results
+[source,java]
+----
+    @Test
+    void testSearchFieldWithNoResult() {
+        assertThat((UI.getCurrent())).isNotNull();
+
+        var businessPartnerView = new BusinessPartnerView(new BusinessPartnerRepository());
+
+        var searchField = _get(businessPartnerView, TextField.class, ss -> ss.withId("searchField"));
+        KaribuUtils.Fields.setValue(searchField, "not bob");
+
+        var searchButton = _get(businessPartnerView, Button.class, ss -> ss.withId("search"));
+        searchButton.click();
+
+        var resultTable = (GridSection)_get(businessPartnerView, LinkkiSection.class, ss -> ss.withId(SearchResultTablePmo.class.getSimpleName()));
+        assertThat(resultTable.getGrid().getColumns()).hasSize(3);
+
+        List<String> nameColumnValues = KaribuUtils.Grids.getTextContentsInColumn(resultTable.getGrid(), "name");
+        assertThat(nameColumnValues).isEmpty();
+
+        List<String> addressColumnValues = KaribuUtils.Grids.getTextContentsInColumn(resultTable.getGrid(), "firstAddress");
+        assertThat(addressColumnValues).isEmpty();
+    }
+----
+
+==== Testing the PartnerDetailsView
+
+Having the search page tested to work is working properly, your next task is to test `PartnerDetailsView` as well!
+
+Since PartnerDetailsView asks for a Url-Parameter through the method `HasUrlParameter.setParameter(BeforeEvent, String)`,
+it also requires some special attention when testing it.
+The setParameter-method should be called by vaadin which only works when using vaadin's navigation engine and
+to use that PartnerDetailsView needs to be configured as a route.
+
+.PartnerDetailsViewTest.java
+[source,java]
+----
+class PartnerDetailsViewTest {
+
+    @RegisterExtension
+    KaribuUIExtension karibuUIExtension = KaribuUIExtension.withConfiguration(
+            new KaribuUIExtension.KaribuConfiguration()
+                    .addRoute(PartnerDetailsView.class, () -> new PartnerDetailsView(new BusinessPartnerRepository()))
+                    .setLocale(Locale.GERMAN)
+    );
+
+    @Test
+    void testExistingPartner() {
+        assertThat((UI.getCurrent())).isNotNull();
+
+        var partnerDetailsView = UI.getCurrent().navigate(PartnerDetailsView.class, "1").get();
+
+        var partnerDetailsSection = _get(partnerDetailsView, LinkkiSection.class,
+             ss -> ss.withId(PartnerDetailsSectionPmo.class.getSimpleName()));
+
+        var name = _get(partnerDetailsSection, TextField.class, ss -> ss.withId("name")).getValue();
+        var dateOfBirth = _get(partnerDetailsSection, DatePicker.class, ss -> ss.withId("dateOfBirth")).getValue();
+        var status = _get(partnerDetailsSection, ComboBox.class, ss -> ss.withId("status")).getValue();
+        var note = _get(partnerDetailsSection, TextArea.class, ss -> ss.withId("note")).getValue();
+
+        assertThat(name).isEqualTo("Bob");
+        assertThat(dateOfBirth).isBefore(LocalDate.now());
+        assertThat(status).isEqualTo(Status.NORMAL_CUSTOMER);
+        assertThat(note).isEmpty();
+    }
+
+}
+----
+
+Instead of annotating the test-class with `@ExtendWith`, you have to declare a field of type `KaribuUIExtension` and annotate that field with `@RegisterExtension`.
+This way, KaribuUIExtension can be configured beyond its default configuration.
+As you just saw in the example, the view is being configured as a route, allowing the use of
+vaadin's navigation methods that are defined in the `UI` class to *properly* trigger the calling of the setParameter-Method.
+
+The test navigates to `PartnerDetailsView` and provides the ID of the business partner to assert against.
+
+Now try to write a test case yourself where no partner could be found for the given ID!
+
+It should look like the following test:
+
+.PartnerDetailsViewTest.java - Partner not found
+[source,java]
+----
+    @Test
+    void testPartnerDoesNotExist() {
+        assertThat((UI.getCurrent())).isNotNull();
+
+        var partnerDetailsView = UI.getCurrent().navigate(PartnerDetailsView.class, "2").get();
+
+        var errorText = _get(partnerDetailsView, Text.class);
+        assertThat(errorText.getText()).isEqualTo("No partner could be found with the given ID");
+    }
+----
+
+==== Testing Dialogs and Validation-Messages
+
+Finally, it's time to test dialogs and validation messages!
+
+To test dialogs, you must:
+
+- Navigate to the appropriate tab,
+- Trigger the dialog,
+- Interact with and assert on the dialog’s content.
+
+.PartnerDetailsViewTest.java
+[source,java]
+----
+       UI.getCurrent().navigate(PartnerDetailsView.class, "1");
+       _get(Tabs.class).setSelectedIndex(2);
+       var addressTablePmo = Layouts.getWithPmo(LinkkiSection.class, AddressTablePmo.class);
+       _get(addressTablePmo, Button.class, ss -> ss.withId("addAddressDialogPmo")).click();
+       var dialog = _get(Dialog.class);
+----
+
+The first test should simply check that the dialog opens with no error messages present.
+
+.PartnerDetailsViewTest.java - Dialog opens without errors
+[source,java]
+----
+    @Test
+    void testAddAddress() {
+        // given
+        UI.getCurrent().navigate(PartnerDetailsView.class, "1");
+        _get(Tabs.class).setSelectedIndex(2);
+        var addressTablePmo = Layouts.getWithPmo(LinkkiSection.class, AddressTablePmo.class);
+
+        // when
+        _get(addressTablePmo, Button.class, ss -> ss.withId("addAddressDialogPmo")).click();
+
+        var dialog = _get(Dialog.class);
+        var street = _get(dialog, TextField.class, ss -> ss.withId("street"));
+        var number = _get(dialog, TextField.class, ss -> ss.withId("streetNumber"));
+        var postalCode = _get(dialog, TextField.class, ss -> ss.withId("postalCode"));
+        var city = _get(dialog, TextField.class, ss -> ss.withId("city"));
+
+        // then
+        assertThat(street.getErrorMessage()).isEmpty();
+        assertThat(number.getErrorMessage()).isEmpty();
+        assertThat(postalCode.getErrorMessage()).isEmpty();
+        assertThat(city.getErrorMessage()).isEmpty();
+    }
+----
+
+Next, you need to check that the validations actually work.
+To make sure that you don't just get a false positive, what you have to do is to give only the field `street` a value and press the OK-Button.
+Now, the other fields should have an error message attached to them, while the field `street` has no error message.
+
+.PartnerDetailsViewTest.java - Dialog validation
+[source,java]
+----
+    @Test
+    void testAddAddress_invalid() {
+        // given
+        UI.getCurrent().navigate(PartnerDetailsView.class, "1");
+        _get(Tabs.class).setSelectedIndex(2);
+        var addressTablePmo = Layouts.getWithPmo(LinkkiSection.class, AddressTablePmo.class);
+
+        // when
+        _get(addressTablePmo, Button.class, ss -> ss.withId("addAddressDialogPmo")).click();
+
+        var dialog = _get(Dialog.class);
+        var street = _get(dialog, TextField.class, ss -> ss.withId("street"));
+        Fields.setValue(street, "Mediterranean Avenue");
+        var number = _get(dialog, TextField.class, ss -> ss.withId("streetNumber"));
+        var postalCode = _get(dialog, TextField.class, ss -> ss.withId("postalCode"));
+        var city = _get(dialog, TextField.class, ss -> ss.withId("city"));
+
+        Dialogs.clickOkButton();
+
+        // then
+        assertThat(street.getErrorMessage()).isEmpty();
+        assertThat(number.getErrorMessage()).isEqualTo("The field street number must not be empty.");
+        assertThat(postalCode.getErrorMessage()).isEqualTo("The field postal code must not be empty.");
+        assertThat(city.getErrorMessage()).isEqualTo("The field city must not be empty.");
+    }
+----
+
+At last, another test case, where all fields are set, the dialog closes properly and another entry appears in our address table.
+
+.PartnerDetailsViewTest.java - Successful dialog submission
+[source,java]
+----
+    @Test
+    void testAddAddress_valid() {
+        // given
+        UI.getCurrent().navigate(PartnerDetailsView.class, "1");
+        _get(Tabs.class).setSelectedIndex(2);
+        var addressTable = Layouts.getWithPmo(LinkkiSection.class, AddressTablePmo.class);
+
+        // when
+        _get(addressTable, Button.class, ss -> ss.withId("addAddressDialogPmo")).click();
+
+        var dialog = _get(Dialog.class);
+        var street = _get(dialog, TextField.class, ss -> ss.withId("street"));
+        Fields.setValue(street, "Mediterranean Avenue");
+        var number = _get(dialog, TextField.class, ss -> ss.withId("streetNumber"));
+        Fields.setValue(number, "1");
+
+        var postalCode = _get(dialog, TextField.class, ss -> ss.withId("postalCode"));
+        Fields.setValue(postalCode, "12345");
+
+        var city = _get(dialog, TextField.class, ss -> ss.withId("city"));
+        Fields.setValue(city, "San Francisco");
+
+        Dialogs.clickOkButton();
+
+        // then
+        LocatorJ._assertNoDialogs();
+        var grid = ((GridSection)addressTable).getGrid();
+        assertThat(KaribuUtils.Grids.getTextContentsInColumn(grid, "street")).contains("Mediterranean Avenue");
+        assertThat(KaribuUtils.Grids.getTextContentsInColumn(grid, "streetNumber")).contains("1");
+        assertThat(KaribuUtils.Grids.getTextContentsInColumn(grid, "postalCode")).contains("12345");
+        assertThat(KaribuUtils.Grids.getTextContentsInColumn(grid, "city")).contains("San Francisco");
+    }
+----
+
+Congratulations! You've now seen how to:
+
+- Write simple UI tests with KaribuUIExtension,
+- Test interactive components like search fields and tables,
+- Handle routing and navigation in tests,
+- Assert on validation messages and dialog interactions.
