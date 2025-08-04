@@ -91,7 +91,7 @@ public class KaribuUIExtensionTest {
         private static final MyView myView = new MyView();
 
         @RegisterExtension
-        static KaribuUIExtension extension = KaribuUIExtension
+        KaribuUIExtension extension = KaribuUIExtension
                 .withConfiguration(withDefaults()
                         .addRoute(MyView.class, () -> myView)
                         .addRoutes(ViewWithParentLayout.class,
@@ -191,7 +191,7 @@ public class KaribuUIExtensionTest {
     class RegisterExtensionWithCustomI18NProvider {
 
         @RegisterExtension
-        static KaribuUIExtension extension = KaribuUIExtension
+        KaribuUIExtension extension = KaribuUIExtension
                 .withConfiguration(withDefaults()
                         .setI18NProvider(getCustomI18NProvider()));
 
@@ -205,7 +205,7 @@ public class KaribuUIExtensionTest {
     class RegisterExtensionWithConfigurationLocale {
 
         @RegisterExtension
-        static KaribuUIExtension extension = KaribuUIExtension
+        KaribuUIExtension extension = KaribuUIExtension
                 .withConfiguration(withDefaults()
                         .setI18NProvider(new DefaultI18NProvider(
                                 List.of(Locale.ENGLISH, Locale.GERMAN, Locale.CHINESE)))
@@ -222,7 +222,7 @@ public class KaribuUIExtensionTest {
     class WithLocaleRegisterExtensionDefaultValue {
 
         @RegisterExtension
-        static KaribuUIExtension extension = KaribuUIExtension.withConfiguration(Consumers.nop());
+        KaribuUIExtension extension = KaribuUIExtension.withConfiguration(Consumers.nop());
 
         @Test
         void testLocale() {
@@ -235,7 +235,7 @@ public class KaribuUIExtensionTest {
     class WithLocaleRegisterExtension {
 
         @RegisterExtension
-        static KaribuUIExtension extension = KaribuUIExtension.withConfiguration(Consumers.nop());
+        KaribuUIExtension extension = KaribuUIExtension.withConfiguration(Consumers.nop());
 
         @Test
         void testLocale() {

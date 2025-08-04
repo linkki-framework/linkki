@@ -35,7 +35,7 @@ import com.vaadin.flow.router.Route;
 class HasBrowserConfirmationTest {
 
     @RegisterExtension
-    static KaribuUIExtension karibu = withConfiguration(withDefaults()
+    KaribuUIExtension karibu = withConfiguration(withDefaults()
             .addRoute(TestView.class, () -> spy(new TestView()))
             .addRoutes(OtherView.class));
 
