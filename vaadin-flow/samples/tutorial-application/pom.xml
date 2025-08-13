@@ -49,6 +49,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin-flow-test</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
