@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
@@ -38,7 +39,7 @@ public class SampleSearchService {
             var result = IntStream.range(0, getResultCount(parameters))//
                     .mapToObj(i -> createPerson(i, parameters))//
                     .toList();
-            if (StringUtils.contains(parameters.getName(), "error")) {
+            if (Strings.CS.contains(parameters.getName(), "error")) {
                 return new SampleSearchResult(result, new MessageList(
                         Message.newInfo("123",
                                         "This is a long message describing a potential problem with the input.")));
@@ -71,9 +72,9 @@ public class SampleSearchService {
         var dateOfBirth = requireNonNullElse(parameters.getDateOfBirth(), LocalDate.now().minusYears(40));
 
         var sex = switch (i % 3) {
-                    case 1 -> "männlich";
-                    case 2 -> "weiblich";
-                    default -> "divers";
+            case 1 -> "männlich";
+            case 2 -> "weiblich";
+            default -> "divers";
         };
 
         var address =
