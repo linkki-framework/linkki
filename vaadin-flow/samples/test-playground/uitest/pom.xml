@@ -16,7 +16,7 @@
         <java.version>17</java.version>
 
         <junit.version>5.11.3</junit.version>
-        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <assertj.version>3.26.3</assertj.version>
         <selenium.version>4.14.0</selenium.version>
         <httpclient5.version>5.3.1</httpclient5.version>

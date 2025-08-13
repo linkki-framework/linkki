@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.util.handler.Handler;
 
@@ -224,7 +224,7 @@ public class ApplicationMenuItemDefinition {
                 .replaceAll(REGEX_UNKNOWN_CHARS.pattern(), " ")
                 .replaceAll(REGEX_WHITESPACES.pattern(), "-");
 
-        id = StringUtils.removeEnd(id, "-");
+        id = Strings.CS.removeEnd(id, "-");
 
         return APPMENU_ID_PREFIX + "-" + id;
     }

@@ -22,6 +22,7 @@
         <spring-boot.version>3.4.7</spring-boot.version>
         <spring-framework.version>6.2.8</spring-framework.version>
         <checkstyle.version>10.20.2</checkstyle.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <git.user>${user.name}</git.user>
 
         <surefire.directory>surefire-reports</surefire.directory>
@@ -84,6 +85,13 @@
                 <artifactId>jakarta.servlet-api</artifactId>
                 <version>${jakarta.servlet-api.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <!-- Ensure that commons-lang3 version is not overridden by vaadin-spring-boot-starter -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
 
             <dependency>
