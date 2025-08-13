@@ -12,6 +12,8 @@
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
 
+=== Alpha {vlinkki}
+
 ==== Version Updates
 
 The following versions have been updated:
@@ -29,7 +31,8 @@ The following versions have been updated:
 //
 // ==== Testing
 //
-// ==== Other Improvements
+==== Other Improvements
+* A new section <<tutorial-step-11, UI Tests>> has been added to the <<linkki-tutorial,linkki tutorial>>, demonstrating how to write unit UI tests with Karibu-Testing.
 
 ==== Bugfixes
 // https://jira.convista.com/browse/LIN-3289
