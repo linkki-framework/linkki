@@ -22,6 +22,7 @@
         <spring-boot.version>3.4.7</spring-boot.version>
         <spring-framework.version>6.2.8</spring-framework.version>
         <checkstyle.version>10.20.2</checkstyle.version>
+        <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
         <git.user>${user.name}</git.user>
 
@@ -87,6 +88,14 @@
                 <scope>provided</scope>
             </dependency>
 
+
+            <dependency>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-annotations</artifactId>
+                <version>${spotbugs.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
             <!-- Ensure that commons-lang3 version is not overridden by vaadin-spring-boot-starter -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -94,11 +103,36 @@
                 <version>${commons-lang3.version}</version>
             </dependency>
 
+            <!-- Override commons-fileupload2 version managed by vaadin -->
             <dependency>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-annotations</artifactId>
-                <version>${spotbugs.version}</version>
-                <scope>provided</scope>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-core</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-distribution</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-servlet5</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-servlet6</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-javax</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-portlet</artifactId>
+                <version>${commons-fileupload2.version}</version>
             </dependency>
 
         </dependencies>

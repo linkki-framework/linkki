@@ -35,6 +35,7 @@
         <java.version>17</java.version>
         <spotbugs.version>4.8.6</spotbugs.version>
         <checkstyle.version>10.20.2</checkstyle.version>
+        <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
         <revapi.skip>true</revapi.skip>
 
         <git.user>${user.name}</git.user>
@@ -49,6 +50,42 @@
         <flatten-maven-plugin.version>1.7.1</flatten-maven-plugin.version>
         <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Override commons-fileupload2 version managed by vaadin -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-core</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-distribution</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-servlet5</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-servlet6</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-javax</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-portlet</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
