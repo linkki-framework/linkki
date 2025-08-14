@@ -23,6 +23,7 @@
         <spring-boot.version>3.3.13</spring-boot.version>
         <spring-framework.version>6.1.21</spring-framework.version>
         <checkstyle.version>10.14.2</checkstyle.version>
+        <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
@@ -91,6 +92,38 @@
                 <artifactId>spotbugs-annotations</artifactId>
                 <version>${spotbugs.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <!-- Override commons-fileupload2 version managed by vaadin -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-core</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-distribution</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-servlet5</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-servlet6</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-javax</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-portlet</artifactId>
+                <version>${commons-fileupload2.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

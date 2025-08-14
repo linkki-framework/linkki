@@ -51,6 +51,7 @@
         </spring-boot.version>
         <karibu.version>2.1.8</karibu.version>
         <netty.version>4.1.122.Final</netty.version>
+        <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
     </properties>
 
     <dependencyManagement>
@@ -71,6 +72,39 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
+
+            <!-- Override commons-fileupload2 version managed by vaadin -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-core</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-distribution</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-servlet5</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-servlet6</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-javax</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-portlet</artifactId>
+                <version>${commons-fileupload2.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
