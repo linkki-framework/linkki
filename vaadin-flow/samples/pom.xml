@@ -19,8 +19,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <spotbugs.version>4.8.6</spotbugs.version>
-        <spring-boot.version>3.4.7</spring-boot.version>
-        <spring-framework.version>6.2.8</spring-framework.version>
+        <spring-boot.version>3.4.9</spring-boot.version>
+        <spring-framework.version>6.2.10</spring-framework.version>
         <checkstyle.version>10.20.2</checkstyle.version>
         <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
@@ -33,7 +33,7 @@
         <vaadin-maven-plugin.version>24.5.14</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
