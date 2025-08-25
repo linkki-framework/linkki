@@ -8,6 +8,23 @@
 
 == Release Notes
 
+=== Version 2.8.1
+
+The release notes contain changes compared to link:https://doc.linkki-framework.org/2.7/00_releasenotes/#_version_2_7_3[version 2.7.3].
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Faktor-IPS                    | 25.7.1.release (link:https://doc.faktorzehn.org/faktor-ips/25.7/01_releasenotes/index.html[Release Notes]) | 25.7.0.release
+| Vaadin                        | 24.7.12 (link:https://github.com/vaadin/platform/releases/tag/24.7.12[Release Notes]) | 24.7.8
+| Spring Boot compatibility tested for | 3.5.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.5.3
+|===
+
 === Version 2.8.0
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.7/00_releasenotes/#_version_2_7_1[version 2.7.1].
