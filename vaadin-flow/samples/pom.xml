@@ -28,6 +28,8 @@
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
 
+        <!-- Must correspond to jakarta.servlet-api version, see https://tomcat.apache.org/whichversion.html -->
+        <tomcat.version>10.1.44</tomcat.version>
         <!-- Maven plugin versions -->
         <vaadin-maven-plugin.version>24.4.22</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -124,6 +126,42 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-fileupload2-portlet</artifactId>
                 <version>${commons-fileupload2.version}</version>
+            </dependency>
+            <!-- imported to ensure the version property overrides spring-boot-dependencies -->
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jsp-api</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jdbc</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-annotations-api</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-websocket</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-el</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

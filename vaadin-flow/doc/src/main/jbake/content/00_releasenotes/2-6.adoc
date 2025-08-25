@@ -16,7 +16,8 @@ The following versions have been updated:
 [cols="a,a"]
 |===
 | Spring Boot               | 3.3.13
-| Netty                  | 4.1.122.Final
+| Netty                  | 4.1.124.Final
+| Tomcat                 | 10.1.44
 |===
 
 === Version 2.6.5
