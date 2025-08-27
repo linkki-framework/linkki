@@ -30,6 +30,7 @@ pipeline {
 
     options {
         skipDefaultCheckout true
+        timeout(time: 1, unit: 'HOURS')
     }
 
     environment {
@@ -155,10 +156,4 @@ pipeline {
             sendFailureEmail()
         }
     }
-
-    options {
-        skipDefaultCheckout true
-        timeout(time: 1, unit: 'HOURS')
-    }
-
 }
