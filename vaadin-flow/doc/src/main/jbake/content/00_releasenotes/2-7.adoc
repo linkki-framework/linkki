@@ -5,6 +5,15 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.7.5
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4554
+* In version `2.7.4`, the linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries.
+This issue affects only version `2.7.4`.
+Starting with `2.7.5`, the BOM has been fixed and works as expected.
+
 === Version 2.7.4
 
 ==== Version Updates
@@ -45,7 +54,9 @@ The following versions have been updated:
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4103
-* Required fields (e.g., `TextField`, `ComboBox`) were not marked red when prefilled with an invalid value under certain conditions. This was a Vaadin bug that is fixed with this version. Note that the issue only appeared in 2.7.1 and does not affect 2.7.0.
+* Required fields (e.g., `TextField`, `ComboBox`) were not marked red when prefilled with an invalid value under certain conditions.
+This was a Vaadin bug that is fixed with this version.
+Note that the issue only appeared in 2.7.1 and does not affect 2.7.0.
 
 === Version 2.7.1
 
