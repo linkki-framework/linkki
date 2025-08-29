@@ -10,8 +10,6 @@
 
 === Version 2.8.1
 
-The release notes contain changes compared to link:https://doc.linkki-framework.org/2.7/00_releasenotes/#_version_2_7_3[version 2.7.3].
-
 ==== Version Updates
 
 The following versions have been updated:
@@ -21,7 +19,7 @@ The following versions have been updated:
 | Dependency | New version | Previous version
 
 | Faktor-IPS                    | 25.7.1.release (link:https://doc.faktorzehn.org/faktor-ips/25.7/01_releasenotes/index.html[Release Notes]) | 25.7.0.release
-| Vaadin                        | 24.7.12 (link:https://github.com/vaadin/platform/releases/tag/24.7.12[Release Notes]) | 24.7.8
+| Vaadin                        | 24.7.13 (link:https://github.com/vaadin/platform/releases/tag/24.7.13[Release Notes]) | 24.7.8
 | Spring Boot compatibility tested for | 3.5.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.5.3
 |===
 
@@ -45,9 +43,9 @@ The following versions have been updated:
 | Dependency | New version | Previous version
 
 | Java                          | 21        | 17
-| Faktor-IPS                    | 25.7.0.release (link:https://doc.faktorzehn.org/faktor-ips/25.7/01_releasenotes/index.html[Release Notes]) | 25.1.1.release
+| Faktor-IPS                    | 25.7.0.release (link:https://doc.faktorzehn.org/faktor-ips/25.7/01_releasenotes/index.html[Release Notes]) | 25.1.2.release
 | Vaadin                        | 24.7.8 (link:https://github.com/vaadin/platform/releases/tag/24.7.8[Release Notes]) | 24.5.12
-| Spring Boot compatibility tested for | 3.5.3 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.4.2
+| Spring Boot compatibility tested for | 3.5.3 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.4.3
 |===
 
 The Vaadin version update brings some changes that may affect linkki applications:
