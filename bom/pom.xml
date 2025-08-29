@@ -159,7 +159,7 @@
                         <version>${flatten-maven-plugin.version}</version>
                         <configuration>
                             <updatePomFile>true</updatePomFile>
-                            <flattenMode>ossrh</flattenMode>
+                            <flattenMode>bom</flattenMode>
                             <pomElements>
                                 <build>remove</build>
                                 <repositories>remove</repositories>

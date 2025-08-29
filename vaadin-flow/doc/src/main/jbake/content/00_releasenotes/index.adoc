@@ -25,6 +25,13 @@ The following versions have been updated:
 | Spring Boot compatibility tested for | 3.5.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.5.3
 |===
 
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4558
+* The linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries.
+This issue affects only version `2.8.0`.
+Starting with `2.8.1`, the BOM has been fixed and works as expected.
+
 === Version 2.8.0
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.7/00_releasenotes/#_version_2_7_1[version 2.7.1].
@@ -61,14 +68,20 @@ During this process, the documentation of the affected components has been rewor
 
 ===== Migration
 
-This change requires action from all users of `linkki-f10` or `linkki-f10-search`. The migration mainly consists of package renamings in imports.
+This change requires action from all users of `linkki-f10` or `linkki-f10-search`.
+The migration mainly consists of package renamings in imports.
 
 Most notable changes:
 
-* Functionalities previously contained in the `linkki-f10-search` module have been moved to the new <<linkki-search, `linkki-search-vaadin-flow`>> module. The maven dependency to `linkki-f10-search` must be replaced by dependency to `linkki-search-vaadin-flow`. The documentation is moved to <<linkki-search, section "Search" in chapter "UI Components">>.
-* Maven dependency for `linkki-f10` is no longer available in newer version. Classes are moved to `linkki-core-vaadin-flow`, `linkki-application-framework-vaadin-flow` or `linkki-vaadin-flow-component` depending on the functionality.
-* Most functionalities of `CommonApplicationHeader` are incorporated into <<application-header, `ApplicationHeader`>>. Functionalities that are related to the user are implemented in the newly introduced <<useraware-application-header,`UserAwareApplicationHeader`>> with the same API.
-* `UIMenuList` and `UIMenuButton` now have the default value `DERIVED_BY_LINKKI` for caption. Therefore, the attribute caption is not mandatory anymore.
+* Functionalities previously contained in the `linkki-f10-search` module have been moved to the new <<linkki-search, `linkki-search-vaadin-flow`>> module.
+The maven dependency to `linkki-f10-search` must be replaced by dependency to `linkki-search-vaadin-flow`.
+The documentation is moved to <<linkki-search, section "Search" in chapter "UI Components">>.
+* Maven dependency for `linkki-f10` is no longer available in newer version.
+Classes are moved to `linkki-core-vaadin-flow`, `linkki-application-framework-vaadin-flow` or `linkki-vaadin-flow-component` depending on the functionality.
+* Most functionalities of `CommonApplicationHeader` are incorporated into <<application-header, `ApplicationHeader`>>.
+Functionalities that are related to the user are implemented in the newly introduced <<useraware-application-header,`UserAwareApplicationHeader`>> with the same API.
+* `UIMenuList` and `UIMenuButton` now have the default value `DERIVED_BY_LINKKI` for caption.
+Therefore, the attribute caption is not mandatory anymore.
 Existing declarations that use `DERIVED_BY_LINKKI` can be removed.
 * The `NavigationWorkaround` is not needed anymore as the underlying Vaadin bug is fixed.
 
@@ -87,7 +100,8 @@ The new UI annotation <<uiOpenDialogButton, @UIOpenDialogButton>> resolves this 
 The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click. +
 For use with a Faktor-IPS model object, the abstract class <<ips-dialog-pmo, `IpsDialogPmo`>> provides a partial implementation of `DialogPmo`.
 When the user clicks on the OK button, the underlying `BindingContext` is updated automatically. +
-Alternatively, a `Function` can be returned that defines how to create a dialog that applies the given handler additionally on OK click. This can be used for use cases where the dialog content cannot be defined as a PMO. +
+Alternatively, a `Function` can be returned that defines how to create a dialog that applies the given handler additionally on OK click.
+This can be used for use cases where the dialog content cannot be defined as a PMO. +
 +
 Note that this annotation is an experimental feature that may be subject of API change in the near future.
 
@@ -111,6 +125,7 @@ Instead, the attribute `content-loading` is set.
 ** The CSS property `error-messages` has been renamed to `loading-error-message`.
 ** `@UILabel` components in a loading state no longer have the CSS class `loading`.
 --
+
 Custom CSS selectors that utilize the above attributes / CSS Properties must be adjusted accordingly.
 
 ==== Testing
@@ -119,7 +134,8 @@ Custom CSS selectors that utilize the above attributes / CSS Properties must be 
 The utility class <<component-conditions, `ComponentConditions`>> providing UI specific conditions for AssertJ has been added to `linkki-vaadin-flow-test` to support writing more readable assertions such as `assertThat(component).is(childOf(layout))` or `assertThat(component).has(anyChildrenSatisfying(...))`.
 
 * *Component Tree Representation* +
-When using AssertJ, the object that is tested is displayed with `toString()` in case of failure. In case of a `Component`, it is often not immediately clear how the component actually looks like.
+When using AssertJ, the object that is tested is displayed with `toString()` in case of failure.
+In case of a `Component`, it is often not immediately clear how the component actually looks like.
 The new class <<component-representation, `ComponentTreeRepresentation`>> can be used with `Assertions#withRepresentation` to display the component with the complete component tree in case of failure.
 
 * *Added Functionalities in KaribuUtils* +
@@ -146,10 +162,12 @@ Introduced a <<linkki-howto, How-To>> chapter containing coding examples and bes
 The module `linkki-core-nestedcomponent-vaadin-flow` has been removed.
 
 * *New theme variant for form item label alignment* +
-The new <<linkki-theme-variants,theme variant>> `form-item-label-start` can be used to create sections with left aligned labels on form items. The variant can be applied to a single layout using `@BindVariantNames`.
+The new <<linkki-theme-variants,theme variant>> `form-item-label-start` can be used to create sections with left aligned labels on form items.
+The variant can be applied to a single layout using `@BindVariantNames`.
 
 * *New Utility CSS class for nested flex items* +
-The class `flex-basis-0` sets the initial size of flex items to zero, allowing flex items to grow based only on the available space. It is also available as the constant `LinkkiTheme.Flex.BASIS_NONE`.
+The class `flex-basis-0` sets the initial size of flex items to zero, allowing flex items to grow based only on the available space.
+It is also available as the constant `LinkkiTheme.Flex.BASIS_NONE`.
 
 ==== Bugfixes
 // https://jira.faktorzehn.de/browse/LIN-4248
