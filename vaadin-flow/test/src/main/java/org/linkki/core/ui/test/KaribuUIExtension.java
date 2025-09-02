@@ -15,6 +15,7 @@ package org.linkki.core.ui.test;
 
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
+import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -111,7 +112,8 @@ public class KaribuUIExtension implements BeforeEachCallback, AfterEachCallback 
 
     private Optional<Locale> getAnnotatedLocale(ExtensionContext context) {
         return context.getParent()
-                .map(ExtensionContext::getElement)
+                .flatMap(ExtensionContext::getElement)
+                .map(element -> element instanceof Method method ? method.getDeclaringClass() : element)
                 .flatMap(annotatedElement -> findAnnotation(annotatedElement, WithLocale.class))
                 .map(WithLocale::value)
                 .map(Locale::forLanguageTag);
