@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.function.Consumers;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,6 +46,8 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.HttpStatusCode;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinSession;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class KaribuUIExtensionTest {
 
@@ -252,6 +253,12 @@ public class KaribuUIExtensionTest {
         void testLocale() {
             assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
         }
+
+        @ValueSource(booleans = { true })
+        @ParameterizedTest
+        void testLocaleWithParameterizedTest() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
+        }
     }
 
     @ValueSource(booleans = { true, false })
@@ -266,7 +273,7 @@ public class KaribuUIExtensionTest {
         extension.afterEach(mock());
     }
 
-    private static @NotNull I18NProvider getCustomI18NProvider() {
+    private static @NonNull I18NProvider getCustomI18NProvider() {
         return new I18NProvider() {
             @Serial
             private static final long serialVersionUID = 1892694711393253904L;

@@ -29,6 +29,9 @@ The following versions have been updated:
 * The linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries.
 This issue affects only version `2.8.0`.
 Starting with `2.8.1`, the BOM has been fixed and works as expected.
+// https://jira.convista.com/browse/LIN-4562
+* Testing: The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
+
 
 === Version 2.8.0
 
