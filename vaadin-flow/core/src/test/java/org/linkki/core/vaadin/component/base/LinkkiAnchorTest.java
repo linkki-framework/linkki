@@ -12,15 +12,19 @@
  * the License.
  */
 
-package org.linkki.core.vaadin.component;
+package org.linkki.core.vaadin.component.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.core.vaadin.component.base.LinkkiAnchor;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.ui.test.KaribuUIExtension;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.server.streams.DownloadHandler;
 
+@ExtendWith(KaribuUIExtension.class)
 class LinkkiAnchorTest {
 
     @Test
@@ -83,4 +87,14 @@ class LinkkiAnchorTest {
         assertThat(anchor.getIcon()).isEqualTo(VaadinIcon.ARCHIVE);
     }
 
+    @Test
+    void testSetHref_DownloadHandler() {
+        var anchor = new LinkkiAnchor();
+        assertThat(anchor.getContent().getHref()).isBlank();
+        var downloadHandler = mock(DownloadHandler.class);
+
+        anchor.setHref(downloadHandler);
+
+        assertThat(anchor.getContent().getHref()).isNotBlank();
+    }
 }

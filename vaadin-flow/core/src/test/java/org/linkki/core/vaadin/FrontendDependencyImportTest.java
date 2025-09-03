@@ -60,7 +60,10 @@ class FrontendDependencyImportTest {
     }
 
     private static Set<String> getImports(Class<?> cls) {
-        var dependencies = new FrontendDependencies(new DefaultClassFinder(Collections.singleton(cls)));
+        var dependencies = new FrontendDependencies(new DefaultClassFinder(Collections.singleton(cls)),
+                true,
+                null,
+                true);
 
         HashSet<String> imports = new HashSet<>();
         dependencies.getModules()

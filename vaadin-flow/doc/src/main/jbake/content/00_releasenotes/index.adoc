@@ -23,9 +23,35 @@ The following versions have been updated:
 | Dependency                    | New version       | Previous version
 
 | Faktor-IPS                    | 25.7.1.release (link:https://doc.faktorzehn.org/faktor-ips/25.7/01_releasenotes/index.html[Release Notes]) | 25.7.0-release
-| Vaadin                        | 24.7.12 (link:https://github.com/vaadin/platform/releases/tag/24.7.12[Release Notes]) | 24.7.9
-| Spring Boot                   | 3.5.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]]) | 3.5.4
+| Vaadin                        | 24.8.7 (link:https://github.com/vaadin/platform/releases/tag/24.8.7[Release Notes]) | 24.7.8
+| Spring Boot                   | 3.5.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.5.3
 |===
+
+==== Update to Vaadin 24.8.7
+
+===== Deprecations
+
+* The constructor FrontendDependencies#FrontendDependencies(ClassFinder) has been deprecated.
+The constructor with full arguments FrontendDependencies#FrontendDependencies(ClassFinder, boolean, FeatureFlags, boolean) should be used instead.
+
+* LinkkiAnchor#setHref(AbstractStreamResource) has been deprecated and is marked for removal.
+For setting download handlers, LinkkiAnchor#setHref(DownloadHandler) should be used.
+For simple links, LinkkiAnchor#setHref(String) should be used.
+
+===== Changes in HTML Sanitization
+
+After upgrading to Vaadin 24.8.7, several existing tests related to HTML sanitization started failing. For example:
+
+* Input: `<b><iframe>Test</iframe></b>`
+** Previous behavior: sanitized to `<b>Test</b>`
+** New behavior: sanitized to `<b></b>`
+
+* Input: `<b><i onload="alert('text');" />Test</b>`
+** Previous behavior: sanitized to `<b><i></i>Test</b>`
+** New behavior: sanitized to `<b><i>Test</i></b>`
+
+These changes are caused by an update to **Jsoup 1.20.1**, where the HTML cleaning logic was modified.
+Disallowed tags (such as `<iframe>`) now have their entire content removed, rather than only stripping the tags.
 
 ==== Other Improvements
 

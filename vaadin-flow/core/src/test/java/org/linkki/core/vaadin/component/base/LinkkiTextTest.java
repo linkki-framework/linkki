@@ -59,14 +59,14 @@ class LinkkiTextTest {
     void testSetText_SanitizeForbiddenHtmlTag() {
         linkkiText.setText("<b><iframe>Test</iframe></b>", true);
 
-        assertThat(linkkiText.getText()).isEqualTo("<b>Test</b>");
+        assertThat(linkkiText.getText()).isEqualTo("<b></b>");
     }
 
     @Test
     void testSetText_SanitizeHtmlAttribute() {
         linkkiText.setText("<b><i onload=\"alert('text');\"/>Test</b>", true);
 
-        assertThat(linkkiText.getText()).isEqualTo("<b><i></i>Test</b>");
+        assertThat(linkkiText.getText()).isEqualTo("<b><i>Test</i></b>");
     }
 
     @Test

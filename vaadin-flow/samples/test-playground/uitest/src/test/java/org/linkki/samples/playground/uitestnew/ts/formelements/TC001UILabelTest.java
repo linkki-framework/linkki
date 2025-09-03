@@ -58,9 +58,9 @@ class TC001UILabelTest extends PlaygroundUiTest {
         assertThat(label.findElements(By.tagName("iframe"))).isEmpty();
         assertThat(label.findElements(By.tagName("b"))).hasSize(1);
         assertThat(label.getText())
-                .isEqualTo("This should be bold text without showing the stripped tag 'iframe'");
+                .isEqualTo("");
         assertThat(label.getHTMLContent())
-                .isEqualTo("<b>This should be bold text without showing the stripped tag 'iframe'</b>");
+                .isEqualTo("<b></b>");
     }
 
     @Test

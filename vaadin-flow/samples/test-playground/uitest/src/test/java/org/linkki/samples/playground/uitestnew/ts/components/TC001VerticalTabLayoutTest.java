@@ -27,6 +27,7 @@ import org.openqa.selenium.Point;
 
 import com.vaadin.flow.component.html.testbench.SpanElement;
 import com.vaadin.flow.component.icon.testbench.IconElement;
+import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 
 class TC001VerticalTabLayoutTest extends PlaygroundUiTest {
@@ -57,6 +58,8 @@ class TC001VerticalTabLayoutTest extends PlaygroundUiTest {
 
     @Test
     void testContentReplacedInSamePosition() {
+        VerticalLayoutElement verticalLayout = testCaseSection.$(VerticalLayoutElement.class).id("vertical-layout-tab");
+        verticalLayout.scrollIntoView();
         TabElement tab1 = testCaseSection.$(TabElement.class).id("vertical-tab1");
         TabElement tab2 = testCaseSection.$(TabElement.class).id("vertical-tab2");
 

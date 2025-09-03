@@ -158,7 +158,7 @@ class NotificationUtilTest {
     }
 
     private boolean hasCloseButton(Notification notification) {
-        String expected = "<vaadin-button>\n Close\n</vaadin-button>";
+        String expected = "<vaadin-button>Close</vaadin-button>";
         return notification.getChildren()
                 .anyMatch(c -> expected.equals(c.getElement().getOuterHTML()));
     }
