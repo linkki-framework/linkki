@@ -8,15 +8,11 @@
 
 == Release Notes
 
-=== Version 2.9.0
-
-The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
+//=== Version 2.9.0
 
 === Alpha {vlinkki}
 
-==== Bugfixes
-// https://jira.convista.com/browse/LIN-4562
-* Testing: The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
+The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
 
 ==== Version Updates
 
@@ -38,3 +34,5 @@ The following versions have been updated:
 ==== Bugfixes
 // https://jira.convista.com/browse/LIN-3289
 * Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events.
+// https://jira.convista.com/browse/LIN-4562
+* Testing: The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
