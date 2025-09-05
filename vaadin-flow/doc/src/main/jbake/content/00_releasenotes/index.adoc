@@ -36,3 +36,5 @@ The following versions have been updated:
 * Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events.
 // https://jira.convista.com/browse/LIN-4562
 * Testing: The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
+// https://jira.convista.com/browse/LIN-4505
+* The linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries. This issue affects only version `2.8.0`.
