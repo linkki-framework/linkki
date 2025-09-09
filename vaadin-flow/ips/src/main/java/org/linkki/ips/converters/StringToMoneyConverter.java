@@ -18,8 +18,8 @@ import java.io.Serial;
 import java.util.Currency;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.faktorips.values.Money;
-import org.jsoup.internal.StringUtil;
 import org.linkki.ips.decimalfield.FormattedStringToDecimalConverter;
 
 import com.vaadin.flow.data.binder.Result;
@@ -43,7 +43,7 @@ public class StringToMoneyConverter implements Converter<String, Money> {
 
     @Override
     public Result<Money> convertToModel(@CheckForNull String value, ValueContext context) {
-        if (StringUtil.isBlank(value)) {
+        if (StringUtils.isBlank(value)) {
             return Result.ok(Money.NULL);
         }
 
