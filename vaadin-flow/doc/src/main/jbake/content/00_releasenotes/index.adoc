@@ -10,7 +10,48 @@
 
 //=== Version 2.9.0
 
+// The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
+
 === Alpha {vlinkki}
+
+=== Alpha 2.9.0-a20250909-01
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version       | Previous version
+
+| Vaadin                        | 24.8.7 (link:https://github.com/vaadin/platform/releases/tag/24.8.7[Release Notes]) | 24.7.8
+|===
+
+The update to Vaadin 24.8.7 brings some notable changes:
+
+* *Upload and download Handling* A new API for file upload and download has been introduced.
+Users with custom components for upload or download may need to migrate to the new API.
+See the https://vaadin.com/docs/latest/flow/advanced/downloads[Vaadin documentation] for details.
+* *HTML Sanitization* The new Vaadin version updates the Jsoup version to 1.20.1 in which the HTML sanitization logic was modified.
+Some cases are now sanitized differently, for example:
+** Input: `<b><iframe>Test</iframe></b>`
+*** Previous behavior: sanitized to `<b>Test</b>`
+*** New behavior: sanitized to `<b></b>`
+** Input: `<b><i onload="alert('text');" />Test</b>`
+*** Previous behavior: sanitized to `<b><i></i>Test</b>`
+*** New behavior: sanitized to `<b><i>Test</i></b>`
+** Banned tags (such as `<iframe>`) now have their entire content removed, rather than only stripping the tags.
+* *Frontend Validation for Date Time Picker* The frontend validation for Date-Time Picker (`@UIDateTimeField`) have changed. We could not detect any negative impact for linkki applications. If you experience any unexpected behaviors, please do to hesitate to contact us.
+
+=== Alpha 2.9.0-a20250905-01
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4505
+* The linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries.
+This issue affects only version `2.8.0` and previous alpha version.
+
+=== Alpha 2.9.0-a20250903-01
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
 
@@ -23,44 +64,14 @@ The following versions have been updated:
 | Dependency                    | New version       | Previous version
 
 | Faktor-IPS                    | 25.7.1.release (link:https://doc.faktorzehn.org/faktor-ips/25.7/01_releasenotes/index.html[Release Notes]) | 25.7.0-release
-| Vaadin                        | 24.8.7 (link:https://github.com/vaadin/platform/releases/tag/24.8.7[Release Notes]) | 24.7.8
-| Spring Boot                   | 3.5.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.5.3
+| Vaadin                        | 24.7.12 (link:https://github.com/vaadin/platform/releases/tag/24.7.12[Release Notes]) | 24.7.8
+| Spring Boot                   | 3.5.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.5.4
 |===
-
-==== Update to Vaadin 24.8.7
-
-===== Deprecations
-
-* The constructor FrontendDependencies#FrontendDependencies(ClassFinder) has been deprecated.
-The constructor with full arguments FrontendDependencies#FrontendDependencies(ClassFinder, boolean, FeatureFlags, boolean) should be used instead.
-
-* LinkkiAnchor#setHref(AbstractStreamResource) has been deprecated and is marked for removal.
-For setting download handlers, LinkkiAnchor#setHref(DownloadHandler) should be used.
-For simple links, LinkkiAnchor#setHref(String) should be used.
-
-===== Changes in HTML Sanitization
-
-After upgrading to Vaadin 24.8.7, several existing tests related to HTML sanitization started failing. For example:
-
-* Input: `<b><iframe>Test</iframe></b>`
-** Previous behavior: sanitized to `<b>Test</b>`
-** New behavior: sanitized to `<b></b>`
-
-* Input: `<b><i onload="alert('text');" />Test</b>`
-** Previous behavior: sanitized to `<b><i></i>Test</b>`
-** New behavior: sanitized to `<b><i>Test</i></b>`
-
-These changes are caused by an update to **Jsoup 1.20.1**, where the HTML cleaning logic was modified.
-Disallowed tags (such as `<iframe>`) now have their entire content removed, rather than only stripping the tags.
 
 ==== Other Improvements
 
 * A new section <<tutorial-step-11, UI Tests>> has been added to the <<linkki-tutorial,linkki tutorial>>, demonstrating how to write unit UI tests with Karibu-Testing.
 
 ==== Bugfixes
-// https://jira.convista.com/browse/LIN-3289
-* Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events.
 // https://jira.convista.com/browse/LIN-4562
 * Testing: The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
-// https://jira.convista.com/browse/LIN-4505
-* The linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries. This issue affects only version `2.8.0`.
