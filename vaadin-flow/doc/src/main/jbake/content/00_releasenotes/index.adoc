@@ -14,6 +14,17 @@
 
 === Alpha {vlinkki}
 
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version       | Previous version
+
+| Vaadin                        | 24.8.8 (link:https://github.com/vaadin/platform/releases/tag/24.8.8[Release Notes]) | 24.7.8
+|===
+
 === Alpha 2.9.0-a20250909-01
 
 ==== Version Updates
