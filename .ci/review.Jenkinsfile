@@ -10,7 +10,6 @@ pipeline {
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
         NETWORK_NAME = "network-${PROJECT_ID}"
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
-        CONTAINER_RETENTION = 'discard'
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"

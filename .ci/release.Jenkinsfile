@@ -15,7 +15,6 @@ pipeline {
     environment {
         PROJECT_NAME = 'linkki'
         PROJECT_ID = "${PROJECT_NAME}-${params.RELEASE_VERSION.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
-        CONTAINER_RETENTION = 'keep'
         BASE_IMAGE = 'spring:25.7'
         SUITE_VERSION = '26.1'
     }
