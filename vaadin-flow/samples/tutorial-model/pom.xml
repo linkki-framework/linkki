@@ -45,11 +45,11 @@
         <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
-        <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.8.6.7</spotbugs-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
         <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
-        <netty.version>4.1.124.Final</netty.version>
+        <netty.version>4.1.127.Final</netty.version>
     </properties>
 
     <dependencyManagement>

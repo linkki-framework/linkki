@@ -50,7 +50,7 @@
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
         <karibu.version>2.1.8</karibu.version>
-        <netty.version>4.1.124.Final</netty.version>
+        <netty.version>4.1.127.Final</netty.version>
         <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
     </properties>
 

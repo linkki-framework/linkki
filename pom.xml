@@ -69,7 +69,7 @@
 
         <!-- Maven plugin versions -->
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
-        <spotbugs-maven-plugin.version>4.8.6.6</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.8.6.7</spotbugs-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
