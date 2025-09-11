@@ -21,7 +21,6 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.samples.playground.table.PlaygroundRowPmo;
-import org.linkki.util.handler.Handler;
 
 @UIHorizontalLayout
 public class SelectionComparisonSectionPmo {
@@ -34,13 +33,10 @@ public class SelectionComparisonSectionPmo {
 
     private final Supplier<PlaygroundRowPmo> pmoSelection;
 
-    private final Handler updateComparisonValues;
-
     public SelectionComparisonSectionPmo(Supplier<PlaygroundRowPmo> tableSelection,
-            Supplier<PlaygroundRowPmo> pmoSelection, Handler updateComparisonValues) {
+            Supplier<PlaygroundRowPmo> pmoSelection) {
         this.tableSelection = tableSelection;
         this.pmoSelection = pmoSelection;
-        this.updateComparisonValues = updateComparisonValues;
     }
 
     @UILabel(position = 10, label = "Table selection:")
@@ -57,6 +53,6 @@ public class SelectionComparisonSectionPmo {
 
     @UIButton(position = 30, caption = "Update comparison values")
     public void updateComparisonValues() {
-        updateComparisonValues.apply();
+        // does nothing, just triggers binding context update
     }
 }

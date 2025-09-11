@@ -14,22 +14,18 @@
 
 package org.linkki.samples.playground.table.selection;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.GridSection;
 import org.linkki.samples.playground.table.PlaygroundRowPmo;
 import org.linkki.samples.playground.table.TableModelObject;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Html;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.data.selection.SingleSelect;
 
 public class SelectableTableSection {
 
@@ -38,60 +34,39 @@ public class SelectableTableSection {
     }
 
     public static Component create() {
-        List<TableModelObject> modelObjects = IntStream.range(1, 10)
+        var wrapper = new Div();
+
+        var modelObjects = IntStream.range(1, 10)
                 .mapToObj(TableModelObject::new)
                 .collect(Collectors.toList());
-        PlaygroundSelectableTablePmo selectableTableSectionPmo = new PlaygroundSelectableTablePmo(
+        var selectableTableSectionPmo = new PlaygroundSelectableTablePmo(
                 () -> modelObjects,
                 () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
                 modelObjects::remove);
+        var gridSection = VaadinUiCreator.createComponent(selectableTableSectionPmo, new BindingContext());
+        wrapper.add(gridSection);
 
-        BindingContext selectableTableBindingContext = new BindingContext("selectableTable");
-        GridSection gridSection = (GridSection)new PmoBasedSectionFactory()
-                .createSection(selectableTableSectionPmo, selectableTableBindingContext);
+        var singleSelect = ((GridSection)gridSection).getGrid().asSingleSelect();
+        var comparisonSectionPmo = new SelectionComparisonSectionPmo(
+                () -> (PlaygroundRowPmo)singleSelect.getValue(), selectableTableSectionPmo::getSelection);
+        wrapper.add(VaadinUiCreator.createComponent(comparisonSectionPmo, new BindingContext()));
 
-        gridSection.addHeaderButton(new Button("Select first",
-                e -> {
-                    selectableTableSectionPmo
-                            .setSelection(selectableTableSectionPmo.getItems().getFirst());
-                    selectableTableBindingContext.modelChanged();
-                }));
-
-        SingleSelect<?, ?> singleSelect = gridSection.getGrid().asSingleSelect();
-        BindingContext comparisonBindingContext = new BindingContext("selectableTableComparison");
-        Component comparisonSection = VaadinUiCreator.createComponent(
-                                                                      new SelectionComparisonSectionPmo(
-                                                                              () -> (PlaygroundRowPmo)singleSelect
-                                                                                      .getValue(),
-                                                                              selectableTableSectionPmo::getSelection,
-                                                                              comparisonBindingContext::modelChanged),
-                                                                      comparisonBindingContext);
-
-        VisualOnlySelectableTablePmo visualOnlySelectableTablePmo = new VisualOnlySelectableTablePmo(
+        var visualOnlySelectableTablePmo = new VisualOnlySelectableTablePmo(
                 () -> modelObjects,
                 () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
                 modelObjects::remove);
+        wrapper.add(VaadinUiCreator.createComponent(visualOnlySelectableTablePmo, new BindingContext()));
 
-        GridSection gridVisualOnlySection = (GridSection)new PmoBasedSectionFactory()
-                .createSection(visualOnlySelectableTablePmo, new BindingContext("visualOnlySelectableTable"));
-
-        PlaygroundMultiSelectableTablePmo multiSelectableTablePmo = new PlaygroundMultiSelectableTablePmo(
+        var multiSelectableTablePmo = new PlaygroundMultiSelectableTablePmo(
                 () -> modelObjects,
                 () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
                 modelObjects::remove);
+        wrapper.add(VaadinUiCreator.createComponent(multiSelectableTablePmo, new BindingContext()));
 
-        GridSection gridMultiSection = (GridSection)new PmoBasedSectionFactory()
-                .createSection(multiSelectableTablePmo, new BindingContext("multiSelectableTable"));
-
-        Div div = new Div();
-        div.setWidthFull();
-        div.add(gridSection);
-        div.add(comparisonSection);
-        // a small space
-        div.add(new Html("<div style='height: 17px;'></div>"));
-        div.add(gridVisualOnlySection);
-        div.add(new Html("<div style='height: 17px;'></div>"));
-        div.add(gridMultiSection);
-        return div;
+        wrapper.setWidthFull();
+        wrapper.getClassNames().add(LumoUtility.Display.FLEX);
+        wrapper.getClassNames().add(LumoUtility.FlexDirection.COLUMN);
+        wrapper.getClassNames().add(LumoUtility.Gap.LARGE);
+        return wrapper;
     }
 }

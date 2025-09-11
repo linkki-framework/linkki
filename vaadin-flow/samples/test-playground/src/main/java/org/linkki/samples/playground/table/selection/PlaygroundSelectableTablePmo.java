@@ -45,9 +45,8 @@ public class PlaygroundSelectableTablePmo extends SimpleTablePmo<TableModelObjec
 
     // end::selectable-table[]
 
-    private Handler addHandler;
-
-    private Consumer<TableModelObject> deleteConsumer;
+    private final Handler addHandler;
+    private final Consumer<TableModelObject> deleteConsumer;
 
     public PlaygroundSelectableTablePmo(Supplier<List<? extends TableModelObject>> modelObjects,
             Handler addHandler,

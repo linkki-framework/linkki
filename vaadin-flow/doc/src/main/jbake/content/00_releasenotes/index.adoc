@@ -87,4 +87,6 @@ The following versions have been updated:
 // https://jira.convista.com/browse/LIN-4562
 * Testing: The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
 // https://jira.convista.com/browse/LIN-3289
-* Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events.
+* [.api-change]*Grid selection only updates the bindings on changes from client* +
+Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events. This reduces the number of unnecessary updates significantly. +
+With this fix, setting the selection programmatically using the Vaadin API does not result in an update of all bindings anymore. While this is the expected behaviors, implementations that previously relied on the binding update may need to be adjusted.
