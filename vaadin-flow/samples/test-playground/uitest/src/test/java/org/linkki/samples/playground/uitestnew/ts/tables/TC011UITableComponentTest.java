@@ -1,6 +1,8 @@
 package org.linkki.samples.playground.uitestnew.ts.tables;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,10 +10,12 @@ import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.UITestConfiguration;
 import org.linkki.testbench.pageobjects.LinkkiGridElement;
+import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 @UITestConfiguration(locale = "en")
 class TC011UITableComponentTest extends PlaygroundUiTest {
@@ -60,6 +64,37 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
         assertThat(table.getPlaceholderText())
                 .as("Shows error placeholder if exception occurred during getItems")
                 .hasValue("An error occurred when retrieving table content.");
+    }
+
+    @Test
+    void testFocusOnRowElementNotLostOnTab() {
+        var tableId = "rows";
+        var nestedComponent = $(DivElement.class).id("fixHeightTable");
+        var table = nestedComponent.$(LinkkiGridElement.class).id(tableId);
+
+        nestedComponent.$(ButtonElement.class).id("addPerson").click();
+
+        waitUntil(d -> table.getRowCount() > 1, 10);
+
+        var ageField = table.$(TextFieldElement.class).first();
+        var likeButton = table.$(ButtonElement.class).first();
+        ageField.focus();
+
+        waitUntil(d -> ageField.hasAttribute("focused"), 10);
+
+        assertFalse(likeButton.hasAttribute("focused"));
+
+        ageField.setValue("12345");
+        ageField.sendKeys(Keys.TAB);
+
+        waitUntil(d -> !ageField.hasAttribute("focused"), 10);
+
+        assertTrue(likeButton.hasAttribute("focused"));
+
+        table.$(ButtonElement.class).all().stream()
+                .filter(b -> "remove".equals(b.getDomAttribute("id")))
+                .forEach(ButtonElement::click);
+        waitUntil(d -> table.getRowCount() == 0, 10);
     }
 
 }

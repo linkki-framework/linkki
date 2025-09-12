@@ -5,6 +5,15 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.7.6
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4561
+* In version `2.7.5`, entering a value to a cell inside a table created with `@UITableComponent` and traversing with the
+tab-key results in loosing focus.
+Starting with `2.7.6`, the behavior has been fixed.
+
 === Version 2.7.5
 
 ==== Bugfixes

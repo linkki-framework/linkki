@@ -22,15 +22,15 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.shared.communication.PushMode;
-
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
 
 @ExtendWith(KaribuUIExtension.class)
 class UITableComponentIntegrationTest {
@@ -113,7 +113,7 @@ class UITableComponentIntegrationTest {
     @EnumSource(PushMode.class)
     @ParameterizedTest
     void testUpdateItems(PushMode pushMode) throws NoSuchMethodException {
-        com.vaadin.flow.component.UI.getCurrent().getPushConfiguration().setPushMode(pushMode);
+        UI.getCurrent().getPushConfiguration().setPushMode(pushMode);
         var pmo = new TestTablePmo();
         var method = pmo.getClass().getMethod("getItems");
 
@@ -140,7 +140,7 @@ class UITableComponentIntegrationTest {
     void testUpdateItems_WithCompletableFuture(PushMode pushMode) throws NoSuchMethodException {
         var pmo = new TestTablePmo();
         var method = pmo.getClass().getMethod("getAsyncItems");
-        var ui = com.vaadin.flow.component.UI.getCurrent();
+        var ui = UI.getCurrent();
         ui.getPushConfiguration().setPushMode(pushMode);
 
         var wrapper = UiCreator
@@ -189,7 +189,7 @@ class UITableComponentIntegrationTest {
     @EnumSource(PushMode.class)
     @ParameterizedTest
     void testUpdateItems_WithCompletableFuture_Exception(PushMode pushMode) throws NoSuchMethodException {
-        var ui = com.vaadin.flow.component.UI.getCurrent();
+        var ui = UI.getCurrent();
         ui.getPushConfiguration().setPushMode(pushMode);
         var pmo = new TestTablePmo();
         var method = pmo.getClass().getMethod("getAsyncItems");
