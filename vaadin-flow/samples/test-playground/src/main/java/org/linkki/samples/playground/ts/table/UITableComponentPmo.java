@@ -53,10 +53,11 @@ public class UITableComponentPmo {
     @BindStyleNames(LumoUtility.Flex.GROW)
     @UINestedComponent(position = 20)
     public UITableComponentSectionPmo getFullHeightTable() {
-        return new UITableComponentSectionPmo("Table with rest of the height", List.of(LumoUtility.Flex.GROW));
+        return new UITableComponentSectionPmo("Table with rest of the height",
+                List.of(LumoUtility.Flex.GROW, LumoUtility.Height.FULL));
     }
 
-    @BindStyleNames(LumoUtility.Height.FULL)
+    @BindStyleNames({ LumoUtility.Height.FULL, LumoUtility.Overflow.HIDDEN })
     @BindCaption
     @UISection(layout = SectionLayout.VERTICAL)
     public static class UITableComponentSectionPmo {
