@@ -25,6 +25,11 @@ The following versions have been updated:
 | Vaadin                        | 24.8.8 (link:https://github.com/vaadin/platform/releases/tag/24.8.8[Release Notes]) | 24.7.8
 |===
 
+==== UI Annotations and Aspects
+// https://jira.convista.com/browse/LIN-4157
+* *BindHelperText* +
+A new aspect annotation <<bind-helper-text, @BindHelperText>> has been added to show additional information for a field, e.g., regarding its format requirement or purpose.
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4561

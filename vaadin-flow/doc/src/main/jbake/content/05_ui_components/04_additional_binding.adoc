@@ -163,12 +163,13 @@ It is also very easy to create additional <<creating-aspects, custom aspect anno
 | `<<bind-caption, @BindCaption>>` | `Caption handling, using default CaptionType.AUTO`
 | `<<bind-icon, @BindIcon>>` | `Icon handling, using default IconType.AUTO`
 | `<<suffix, @BindSuffix>>` | `Suffix handling, using default SuffixType.AUTO`
-| `<<placeholder, @BindPlaceholder>>`| `Placeholder handling, using default PlaceholderType.AUTO`
+| `<<placeholder, @BindPlaceholder>>`| `Placeholder handling using default PlaceholderType.AUTO`
 | `<<autofocus, @BindAutoFocus>>`| `Bind the autofocus property of a UI element.`
 | `<<variant-names, @BindVariantNames>>`| `Bind variant theme to a UI element or PMO class.`
 | `<<bind-messages-aspect, @BindMessages>>`| `Manually filter and set validation messages on a field.`
 | `<<bind-label, @BindLabel>>` | `Set label texts dynamically.`
 | `<<bind-slot, @BindSlot>>` | `Sets a UI element into a slot of a predefined, reusable layout.`
+| `<<bind-helper-text, @BindHelperText>>` | `Set helper text on UI elements using default HelperTextType.AUTO`
 |===
 
 [[tooltips]]
@@ -570,3 +571,29 @@ For a Lit template which defines a left and a right sided slot, this looks as fo
 ----
 include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindSlotPmo.java[tags=bindSlot-pmo]
 ----
+
+[[bind-helper-text]]
+===== Binding Helper Text
+
+The annotation `@BindHelperText` can be used to display a https://vaadin.com/docs/latest/components/text-field#helper[helper text] on UI elements.
+
+It has two properties:
+
+* <<helper-text-value, `value: String`>>
+* <<helper-text-type, `helperTextType: HelperTextType`>>
+
+[[helper-text-value]]
+Value::
+This is the content that is displayed on a UI element as a helper text.
+
+[[helper-text-type]]
+HelperTextType::
+The following configuration options are available for `HelperTextType`:
+
+[cols="1,9"]
+.HelperTextType
+|===
+|`AUTO`     |The text is read from the attribute `value` if it is not empty, otherwise it reacts like `DYNAMIC` (*default*)
+|`STATIC`   |The text is read from the attribute `value`
+|`DYNAMIC`  |The text is determined by the return value of the method `String get<PropertyName>HelperText()`. The `value` is ignored.
+|===
