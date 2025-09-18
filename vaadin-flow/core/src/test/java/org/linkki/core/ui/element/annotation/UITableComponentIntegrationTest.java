@@ -1,6 +1,10 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyCollection;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -23,14 +27,15 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.slf4j.LoggerFactory;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.shared.communication.PushMode;
-
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.shared.communication.PushMode;
 
 @ExtendWith(KaribuUIExtension.class)
 class UITableComponentIntegrationTest {
@@ -67,7 +72,7 @@ class UITableComponentIntegrationTest {
                                  GridVariant.LUMO_COMPACT.getVariantName(),
                                  GridVariant.LUMO_NO_BORDER.getVariantName());
         assertThat(grid.getColumns()).hasSize(2);
-        var defaultColumn = grid.getColumns().get(0);
+        var defaultColumn = grid.getColumns().getFirst();
         assertThat(defaultColumn.getWidth()).isNullOrEmpty();
         assertThat(defaultColumn.getFlexGrow()).isEqualTo(1);
         assertThat(defaultColumn.isSortable()).isFalse();
@@ -107,7 +112,7 @@ class UITableComponentIntegrationTest {
     @EnumSource(PushMode.class)
     @ParameterizedTest
     void testUpdateItems(PushMode pushMode) throws NoSuchMethodException {
-        com.vaadin.flow.component.UI.getCurrent().getPushConfiguration().setPushMode(pushMode);
+        UI.getCurrent().getPushConfiguration().setPushMode(pushMode);
         var pmo = new TestTablePmo();
         var method = pmo.getClass().getMethod("getItems");
 
@@ -131,10 +136,34 @@ class UITableComponentIntegrationTest {
 
     @EnumSource(PushMode.class)
     @ParameterizedTest
+    void testUpdateItems_noRedundantSetItemsCalls(PushMode pushMode) throws NoSuchMethodException {
+        UI.getCurrent().getPushConfiguration().setPushMode(pushMode);
+        var pmo = new TestTablePmo();
+        var method = pmo.getClass().getMethod("getItems");
+
+        var wrapper = UiCreator.<Component, NoLabelComponentWrapper> createUiElement(method, pmo, bindingContext,
+                                                                                     component -> new NoLabelComponentWrapper(
+                                                                                             spy(component)));
+        var grid = (Grid<?>)wrapper.getComponent();
+
+        verify(grid, times(1)).setItems(anyCollection());
+
+        bindingContext.modelChanged();
+
+        verify(grid, times(1)).setItems(anyCollection());
+
+        pmo.changeItemsList();
+        bindingContext.modelChanged();
+
+        verify(grid, times(2)).setItems(anyCollection());
+    }
+
+    @EnumSource(PushMode.class)
+    @ParameterizedTest
     void testUpdateItems_WithCompletableFuture(PushMode pushMode) throws NoSuchMethodException {
         var pmo = new TestTablePmo();
         var method = pmo.getClass().getMethod("getAsyncItems");
-        var ui = com.vaadin.flow.component.UI.getCurrent();
+        var ui = UI.getCurrent();
         ui.getPushConfiguration().setPushMode(pushMode);
 
         var wrapper = UiCreator
@@ -183,7 +212,7 @@ class UITableComponentIntegrationTest {
     @EnumSource(PushMode.class)
     @ParameterizedTest
     void testUpdateItems_WithCompletableFuture_Exception(PushMode pushMode) throws NoSuchMethodException {
-        var ui = com.vaadin.flow.component.UI.getCurrent();
+        var ui = UI.getCurrent();
         ui.getPushConfiguration().setPushMode(pushMode);
         var pmo = new TestTablePmo();
         var method = pmo.getClass().getMethod("getAsyncItems");

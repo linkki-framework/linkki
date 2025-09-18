@@ -20,6 +20,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -53,6 +54,7 @@ import org.linkki.util.BeanUtils;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.data.provider.ListDataProvider;
 
 /**
  * Creates a {@link Grid} component.
@@ -121,9 +123,19 @@ public @interface UITableComponent {
             @SuppressWarnings("unchecked")
             var grid = (Grid<Object>)componentWrapper.getComponent();
             return newItems -> {
+                if (grid.getDataProvider() instanceof ListDataProvider<?> listDataProvider) {
+                    var items = listDataProvider.getItems();
+                    if (isSameItems(newItems, items)) {
+                        return;
+                    }
+                }
                 grid.setItems(newItems);
                 grid.getElement().setAttribute(ATTR_HAS_ITEMS, !newItems.isEmpty());
             };
+        }
+
+        private boolean isSameItems(List<Object> newItems, Collection<?> items) {
+            return items.equals(newItems);
         }
     }
 

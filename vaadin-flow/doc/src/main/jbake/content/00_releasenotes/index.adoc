@@ -25,6 +25,11 @@ The following versions have been updated:
 | Vaadin                        | 24.8.8 (link:https://github.com/vaadin/platform/releases/tag/24.8.8[Release Notes]) | 24.7.8
 |===
 
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4561
+* Entering a value into a cell inside a table created with `@UITableComponent` and traversing with the tab key no longer results in losing focus.
+
 === Alpha 2.9.0-a20250909-01
 
 ==== Version Updates
