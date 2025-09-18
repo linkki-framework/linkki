@@ -1,6 +1,10 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyCollection;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -22,15 +26,15 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.shared.communication.PushMode;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 
 @ExtendWith(KaribuUIExtension.class)
 class UITableComponentIntegrationTest {
@@ -133,6 +137,30 @@ class UITableComponentIntegrationTest {
                 .as("On model changed: Items should be updated synchronously disregarding the push mode")
                 .isEmpty();
         assertThat(grid.getElement().hasAttribute("has-items")).isFalse();
+    }
+
+    @EnumSource(PushMode.class)
+    @ParameterizedTest
+    void testUpdateItems_noRedundantSetItemsCalls(PushMode pushMode) throws NoSuchMethodException {
+        UI.getCurrent().getPushConfiguration().setPushMode(pushMode);
+        var pmo = new TestTablePmo();
+        var method = pmo.getClass().getMethod("getItems");
+
+        var wrapper = UiCreator.<Component, NoLabelComponentWrapper> createUiElement(method, pmo, bindingContext,
+                                                                                     component -> new NoLabelComponentWrapper(
+                                                                                             spy(component)));
+        var grid = (Grid<?>)wrapper.getComponent();
+
+        verify(grid, times(1)).setItems(anyCollection());
+
+        bindingContext.modelChanged();
+
+        verify(grid, times(1)).setItems(anyCollection());
+
+        pmo.changeItemsList();
+        bindingContext.modelChanged();
+
+        verify(grid, times(2)).setItems(anyCollection());
     }
 
     @EnumSource(PushMode.class)
