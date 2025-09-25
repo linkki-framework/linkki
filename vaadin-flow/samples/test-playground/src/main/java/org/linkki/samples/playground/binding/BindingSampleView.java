@@ -13,10 +13,11 @@
  */
 package org.linkki.samples.playground.binding;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
@@ -41,6 +42,7 @@ import com.vaadin.flow.router.Route;
 @PageTitle("linkki Sample :: Bindings")
 public class BindingSampleView extends Div implements HasUrlParameter<String> {
 
+    @Serial
     private static final long serialVersionUID = 42L;
 
     private static final List<Contact> PERSON_STORAGE = new ArrayList<>();
@@ -56,7 +58,7 @@ public class BindingSampleView extends Div implements HasUrlParameter<String> {
         removeAll();
         // can be switched with URL:
         // http://localhost:8080/linkki-sample-test-playground-vaadin-flow/binding/readOnly
-        boolean readOnly = StringUtils.equals("readOnly", parameter);
+        boolean readOnly = Strings.CS.equals("readOnly", parameter);
 
         BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
         // tag::property-behavior[]
