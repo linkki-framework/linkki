@@ -26,14 +26,14 @@ In browse mode all form fields should be read-only. This global editing state of
 The `BindingContext` (see <<binding-basics,BindingContext Basics - BindingManager>>) uses a `PropertyDispatcherFactory`, which creates multiple linked `PropertyDispatchers`. These dispatchers in turn are used to bind PMO properties (see <<binding-ui-element-properties,Binding of further UI element properties>>). `PropertyDispatchers` have methods to determine the data type and value of a property. By default *linkki* creates four linked dispatchers, where each delegates to the next if it can't provide the value:
 
 * `BehaviorDependentDispatcher` uses `PropertyBehaviors` (see next section, <<property-behavior,PropertyBehaviors>>)
-* `BindingAnnotationDispatcher` provides information that can be read directly from UI annotations
+* `StaticValueDispatcher` provides information that can be read directly from UI annotations
 * `ReflectionPropertyDispatcher` uses reflection to access methods on PMO or domain model derived from property names
 * `ExceptionPropertyDispatcher` throws an exception if the required property is not found. This often indicates a spelling error in the method name, which causes the `ReflectionPropertyDispatcher` to be unable to find the proper method
 
 .Example for PropertyDispatcher
 image::{images}{images-folder-name}/vertical_binding.png[]
 
-Custom dispatchers can be created via a `PropertyDispatcherFactory`. There, the method `createCustomDispatchers` can be overridden to create one or more custom dispatchers. These dispatchers are inserted between `BehaviorDependentDispatcher` and `BindingAnnotationDispatcher`.
+Custom dispatchers can be created via a `PropertyDispatcherFactory`. There, the method `createCustomDispatchers` can be overridden to create one or more custom dispatchers. These dispatchers are inserted between `BehaviorDependentDispatcher` and `StaticValueDispatcher`.
 
 The `DefaultBindingManager` offers a constructor to pass a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'.
 

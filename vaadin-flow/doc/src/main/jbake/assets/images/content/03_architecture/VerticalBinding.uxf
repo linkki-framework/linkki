@@ -203,7 +203,7 @@ isVisible</panel_attributes>
       <w>220</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>_:BindingAnnotationDispatcher_
+    <panel_attributes>_:StaticValueDispatcher_
 bg=#009fe3
 transparency=0</panel_attributes>
     <additional_attributes/>

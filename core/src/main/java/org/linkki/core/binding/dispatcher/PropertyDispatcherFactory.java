@@ -54,8 +54,8 @@ public class PropertyDispatcherFactory {
         String pmoPropertyName = boundProperty.getPmoProperty();
         ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, modelObjectName, pmoPropertyName);
         ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, pmoPropertyName, modelObjectName, modelPropertyName, exceptionDispatcher);
-        StaticValueDispatcher bindingAnnotationDispatcher = new StaticValueDispatcher(reflectionDispatcher);
-        PropertyDispatcher customDispatchers = createCustomDispatchers(pmo, boundProperty, bindingAnnotationDispatcher);
+        StaticValueDispatcher staticValueDispatcher = new StaticValueDispatcher(reflectionDispatcher);
+        PropertyDispatcher customDispatchers = createCustomDispatchers(pmo, boundProperty, staticValueDispatcher);
         return new BehaviorDependentDispatcher(customDispatchers, behaviorProvider);
         // @formatter:on
     }
