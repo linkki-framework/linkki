@@ -5,7 +5,6 @@
       "configuration": {
         "elements": {
           "exclude": [
-            ".*org\\.linkki\\..*",
             ".*com\\.vaadin\\..*",
             ".*javax\\.servlet\\..*",
             ".*org\\.jsoup\\..*"
