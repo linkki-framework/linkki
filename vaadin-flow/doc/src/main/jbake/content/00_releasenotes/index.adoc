@@ -35,6 +35,10 @@ The following versions have been updated:
 // https://jira.convista.com/browse/LIN-4157
 * *BindHelperText* +
 A new aspect annotation <<bind-helper-text, @BindHelperText>> has been added to show additional information for a field, e.g., regarding its format requirement or purpose.
+// https://jira.convista.com/browse/LIN-4530
+* *Clear button for UIDateField, UITimeField and UIDateTimeField* +
+Date and time fields now have a clear button to erase the current value.
+This helps in situations when it is faster to first erase the former value and then insert a new one.
 
 ==== Bugfixes
 
@@ -68,7 +72,9 @@ Some cases are now sanitized differently, for example:
 *** Previous behavior: sanitized to `<b><i></i>Test</b>`
 *** New behavior: sanitized to `<b><i>Test</i></b>`
 ** Banned tags (such as `<iframe>`) now have their entire content removed, rather than only stripping the tags.
-* *Frontend Validation for Date Time Picker* The frontend validation for Date-Time Picker (`@UIDateTimeField`) have changed. We could not detect any negative impact for linkki applications. If you experience any unexpected behaviors, please do to hesitate to contact us.
+* *Frontend Validation for Date Time Picker* The frontend validation for Date-Time Picker (`@UIDateTimeField`) have changed.
+We could not detect any negative impact for linkki applications.
+If you experience any unexpected behaviors, please do to hesitate to contact us.
 
 === Alpha 2.9.0-a20250905-01
 
@@ -106,5 +112,7 @@ The following versions have been updated:
 * Testing: The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
 // https://jira.convista.com/browse/LIN-3289
 * [.api-change]*Grid selection only updates the bindings on changes from client* +
-Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events. This reduces the number of unnecessary updates significantly. +
-With this fix, setting the selection programmatically using the Vaadin API does not result in an update of all bindings anymore. While this is the expected behaviors, implementations that previously relied on the binding update may need to be adjusted.
+Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events.
+This reduces the number of unnecessary updates significantly. +
+With this fix, setting the selection programmatically using the Vaadin API does not result in an update of all bindings anymore.
+While this is the expected behaviors, implementations that previously relied on the binding update may need to be adjusted.

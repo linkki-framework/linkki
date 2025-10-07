@@ -48,6 +48,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
+import com.vaadin.flow.component.shared.HasClearButton;
 import com.vaadin.flow.component.textfield.Autocomplete;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -271,6 +272,7 @@ public class ComponentFactory {
         field.setMin(LocalDate.ofYearDay(1000, 1));
         field.setMax(LocalDate.ofYearDay(9999, 365));
         field.setAutoOpen(autoOpen);
+        field.setClearButtonVisible(true);
         field.getElement().setProperty(AUTOSELECT, autoselect);
         return field;
     }
@@ -308,6 +310,8 @@ public class ComponentFactory {
         field.setMax(LocalDateTime.of(LocalDate.ofYearDay(9999, 365), LocalTime.of(23, 59, 59)));
         field.setStep(Duration.ofMinutes(step));
         field.setAutoOpen(autoOpen);
+        field.getChildren().filter(HasClearButton.class::isInstance).map(HasClearButton.class::cast)
+                .forEach(f -> f.setClearButtonVisible(true));
         field.getElement().setProperty(AUTOSELECT, autoselect);
         return field;
     }
@@ -344,6 +348,7 @@ public class ComponentFactory {
         field.setMax(LocalTime.of(23, 59, 59));
         field.setStep(getStepDuration(step, precision));
         field.setAutoOpen(autoOpen);
+        field.setClearButtonVisible(true);
         field.getElement().setProperty(AUTOSELECT, autoselect);
         return field;
     }

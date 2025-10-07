@@ -27,7 +27,7 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UITimeFieldIntegrationTest.TimeFieldTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.test.KaribuUtils;
+import org.linkki.core.ui.test.KaribuUtils.Fields;
 
 import com.vaadin.flow.component.timepicker.TimePicker;
 
@@ -49,9 +49,9 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
 
         assertThat(timeFieldPmo.getStep()).isEqualTo(Duration.ofMinutes(60));
 
-        KaribuUtils.Fields.setValue(timeFieldPmo, USER_INPUT_TIME);
+        Fields.setValue(timeFieldPmo, USER_INPUT_TIME);
         assertThat(modelObject.getValue()).isEqualTo(USER_INPUT_TIME);
-        KaribuUtils.Fields.setValue(timeFieldPmo, null);
+        Fields.setValue(timeFieldPmo, null);
         assertThat(modelObject.getValue()).isNull();
     }
 
@@ -62,9 +62,9 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
 
         assertThat(timeFieldPmo.getStep()).isEqualTo(Duration.ofSeconds(30));
 
-        KaribuUtils.Fields.setValue(timeFieldPmo, USER_INPUT_TIME);
+        Fields.setValue(timeFieldPmo, USER_INPUT_TIME);
         assertThat(modelObject.getValueSeconds()).isEqualTo(USER_INPUT_TIME);
-        KaribuUtils.Fields.setValue(timeFieldPmo, null);
+        Fields.setValue(timeFieldPmo, null);
         assertThat(modelObject.getValueSeconds()).isNull();
     }
 
@@ -75,9 +75,9 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
 
         assertThat(timeFieldPmo.getStep()).isEqualTo(Duration.ofMinutes(30));
 
-        KaribuUtils.Fields.setValue(timeFieldPmo, USER_INPUT_TIME);
+        Fields.setValue(timeFieldPmo, USER_INPUT_TIME);
         assertThat(modelObject.getValueMinutes()).isEqualTo(USER_INPUT_TIME);
-        KaribuUtils.Fields.setValue(timeFieldPmo, null);
+        Fields.setValue(timeFieldPmo, null);
         assertThat(modelObject.getValueMinutes()).isNull();
     }
 
@@ -89,10 +89,17 @@ class UITimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<TimePick
         modelChanged();
 
         assertThat(timeField.isRequiredIndicatorVisible()).isTrue();
-        KaribuUtils.Fields.setValue(timeField, USER_INPUT_TIME);
+        Fields.setValue(timeField, USER_INPUT_TIME);
         assertThat(getDefaultModelObject().getValue()).isEqualTo(USER_INPUT_TIME);
-        KaribuUtils.Fields.setValue(timeField, null);
+        Fields.setValue(timeField, null);
         assertThat(getDefaultModelObject().getValue()).isNull();
+    }
+
+    @Test
+    void testClearButtonIsVisible() {
+        var timeField = getDynamicComponent();
+
+        assertThat(timeField.isClearButtonVisible()).isTrue();
     }
 
     @Test

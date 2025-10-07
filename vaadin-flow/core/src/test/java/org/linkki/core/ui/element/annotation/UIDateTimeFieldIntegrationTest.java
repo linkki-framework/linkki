@@ -13,9 +13,8 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,10 +30,12 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIDateTimeFieldIntegrationTest.DateTimeFieldTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.test.KaribuUtils;
+import org.linkki.core.ui.test.KaribuUtils.Fields;
 import org.linkki.util.TwoDigitYearUtil;
 
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
+import com.vaadin.flow.component.timepicker.TimePicker;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -48,23 +49,23 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         TestModelObjectWithDate modelObject = new TestModelObjectWithDate();
         DateTimePicker dateTimeField = createFirstComponent(modelObject);
 
-        assertThat(dateTimeField.getValue(), is(nullValue()));
+        assertThat(dateTimeField.getValue()).isNull();
 
         Calendar cal = new GregorianCalendar(2009, 4, 1);
         Date date = cal.getTime();
         LocalDateTime dateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
 
-        KaribuUtils.Fields.setValue(dateTimeField, dateTime);
-        assertThat(modelObject.getValue(), is(date));
+        Fields.setValue(dateTimeField, dateTime);
+        assertThat(modelObject.getValue()).isEqualTo(date);
 
         date.setTime(0);
         modelObject.setValue(date);
         getBindingContext().modelChanged();
         // Value for time depends on locale/time zone, so only check date
-        assertThat(dateTimeField.getValue().toLocalDate(), is(LocalDate.ofEpochDay(0)));
+        assertThat(dateTimeField.getValue().toLocalDate()).isEqualTo(LocalDate.ofEpochDay(0));
 
-        KaribuUtils.Fields.setValue(dateTimeField, null);
-        assertThat(modelObject.getValue(), is(nullValue()));
+        Fields.setValue(dateTimeField, null);
+        assertThat(modelObject.getValue()).isNull();
     }
 
     @Test
@@ -72,21 +73,21 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         TestModelObjectWithLocalDateTime modelObject = new TestModelObjectWithLocalDateTime();
         DateTimePicker dateTimeField = createFirstComponent(modelObject);
 
-        assertThat(dateTimeField.getValue(), is(nullValue()));
+        assertThat(dateTimeField.getValue()).isNull();
 
         LocalDateTime localDateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
 
-        KaribuUtils.Fields.setValue(dateTimeField, localDateTime);
-        assertThat(modelObject.getValue(), is(localDateTime));
+        Fields.setValue(dateTimeField, localDateTime);
+        assertThat(modelObject.getValue()).isEqualTo(localDateTime);
 
         localDateTime = LocalDateTime.of(1990, 5, 1, 0, 0);
 
         modelObject.setValue(localDateTime);
         getBindingContext().modelChanged();
-        assertThat(dateTimeField.getValue(), is(localDateTime));
+        assertThat(dateTimeField.getValue()).isEqualTo(localDateTime);
 
-        KaribuUtils.Fields.setValue(dateTimeField, null);
-        assertThat(modelObject.getValue(), is(nullValue()));
+        Fields.setValue(dateTimeField, null);
+        assertThat(modelObject.getValue()).isNull();
     }
 
     @Test
@@ -94,20 +95,20 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         TestModelObjectWithLocalDateTime modelObject = new TestModelObjectWithLocalDateTime();
         DateTimePicker dateTimeField = createFirstComponent(modelObject);
 
-        assertThat(dateTimeField.getValue(), is(nullValue()));
+        assertThat(dateTimeField.getValue()).isNull();
 
         LocalDateTime expectedConvertedLocalDateTime = TwoDigitYearUtil.convert(LocalDateTime.of(19, 5, 1, 0, 0));
 
-        KaribuUtils.Fields.setValue(dateTimeField, LocalDateTime.of(19, 5, 1, 0, 0));
-        assertThat(modelObject.getValue(), is(expectedConvertedLocalDateTime));
+        Fields.setValue(dateTimeField, LocalDateTime.of(19, 5, 1, 0, 0));
+        assertThat(modelObject.getValue()).isEqualTo(expectedConvertedLocalDateTime);
 
         LocalDateTime localDateTime = LocalDateTime.of(90, 1, 1, 0, 0);
         modelObject.setValue(localDateTime);
         getBindingContext().modelChanged();
-        assertThat(dateTimeField.getValue(), is(localDateTime));
+        assertThat(dateTimeField.getValue()).isEqualTo(localDateTime);
 
-        KaribuUtils.Fields.setValue(dateTimeField, null);
-        assertThat(modelObject.getValue(), is(nullValue()));
+        Fields.setValue(dateTimeField, null);
+        assertThat(modelObject.getValue()).isNull();
     }
 
     @Test
@@ -116,22 +117,32 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
         DateTimePicker dateTimeField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
         modelChanged();
-        assertThat(dateTimeField.isRequiredIndicatorVisible(), is(true));
+        assertThat(dateTimeField.isRequiredIndicatorVisible()).isTrue();
 
         LocalDateTime localDateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
         Calendar cal = new GregorianCalendar(2009, 4, 1);
         Date date = cal.getTime();
 
-        KaribuUtils.Fields.setValue(dateTimeField, localDateTime);
-        assertThat(getDefaultModelObject().getValue(), is(date));
+        Fields.setValue(dateTimeField, localDateTime);
+        assertThat(getDefaultModelObject().getValue()).isEqualTo(date);
 
-        KaribuUtils.Fields.setValue(dateTimeField, null);
-        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+        Fields.setValue(dateTimeField, null);
+        assertThat(getDefaultModelObject().getValue()).isNull();
+    }
+
+    @Test
+    void testClearButtons() {
+        DateTimePicker dateTimePicker = getDynamicComponent();
+        var datePicker = _get(dateTimePicker, DatePicker.class);
+        var timePicker = _get(dateTimePicker, TimePicker.class);
+
+        assertThat(datePicker.isClearButtonVisible()).isTrue();
+        assertThat(timePicker.isClearButtonVisible()).isTrue();
     }
 
     @Test
     void testDerivedLabel() {
-        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2)).isEqualTo("Foo");
     }
 
     @Override
