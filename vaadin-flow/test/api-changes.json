@@ -80,6 +80,18 @@
       "configuration": {
         "ignore": true,
         "differences": [
+          {
+            "code": "java.annotation.added",
+            "new": "field org.junit.jupiter.api.extension.MediaType.APPLICATION_JSON_UTF_8",
+            "annotation": "@org.apiguardian.api.API(status = org.apiguardian.api.API.Status.DEPRECATED, since = \"5.14\")",
+            "justification": "JTS-2566 Version updated to 5.14.0"
+          },
+          {
+            "code": "java.class.nonFinalClassInheritsFromNewClass",
+            "new": "class org.junit.jupiter.api.extension.MediaType",
+            "superClass": "org.junit.jupiter.api.MediaType",
+            "justification": "JTS-2566 Version updated to 5.14.0"
+          }
         ]
       }
     }

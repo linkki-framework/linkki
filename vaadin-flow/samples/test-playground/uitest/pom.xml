@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>21</java.version>
 
-        <junit.version>5.13.4</junit.version>
+        <junit.version>5.14.0</junit.version>
         <commons-lang3.version>3.19.0</commons-lang3.version>
         <assertj.version>3.27.6</assertj.version>
         <selenium.version>4.14.0</selenium.version>

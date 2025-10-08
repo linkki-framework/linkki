@@ -21,6 +21,18 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version       | Previous version
+| Junit | 5.14.0 | 5.13.4
+|===
+
+=== Alpha 2.9.0-a20251008-01
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version       | Previous version
 
 | Vaadin                        | 24.9.2  (link:https://github.com/vaadin/platform/releases/tag/24.9.2[Release Notes])| 24.8.10
 |===
@@ -115,6 +127,7 @@ The following versions have been updated:
 | Spring Boot                   | 3.5.5 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes]) | 3.5.4
 | Karibu | 2.4.2 | 2.3.0
 | commons-lang | 3.18.0 | 3.17.0
+| Junit | 5.13.4 | 5.12.2
 |===
 
 ==== Other Improvements
