@@ -28,7 +28,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'JDK25', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
                             -P production \
                             -pl "!vaadin-flow/doc" \
@@ -40,7 +40,7 @@ pipeline {
 
         stage('Dependency-Check') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'JDK25', publisherStrategy: 'EXPLICIT') {
                     dependencyCheck version: "${SUITE_VERSION}"
                 }
             }
@@ -80,7 +80,7 @@ pipeline {
 
         stage('UI Test') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'JDK25', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                 }
