@@ -12,7 +12,7 @@ pipeline {
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
-        BASE_IMAGE = 'spring:26.1'
+        BASE_IMAGE = 'spring:26.1-java25'
         SUITE_VERSION = '26.1'
     }
 
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
                             -P production \
                             -pl "!vaadin-flow/doc" \
@@ -40,7 +40,7 @@ pipeline {
 
         stage('Dependency-Check') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
                     dependencyCheck version: "${SUITE_VERSION}"
                 }
             }
@@ -80,7 +80,7 @@ pipeline {
 
         stage('UI Test') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                 }
