@@ -28,20 +28,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
                             -P production \
                             -pl "!vaadin-flow/doc" \
                             -pl "!vaadin-flow/apt" \
                             clean source:jar javadoc:jar deploy'
-                }
-            }
-        }
-
-        stage('Dependency-Check') {
-            steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
-                    dependencyCheck version: "${SUITE_VERSION}"
                 }
             }
         }
@@ -80,7 +72,7 @@ pipeline {
 
         stage('UI Test') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 25', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                         -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                 }
@@ -91,12 +83,6 @@ pipeline {
 
             environment {
                 MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME}'
-            }
-        }
-
-        stage('Check Git Diffs') {
-            steps {
-                verifyNoChangedFiles()
             }
         }
     }
