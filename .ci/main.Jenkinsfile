@@ -139,7 +139,7 @@ pipeline {
                         }
 
                         script {
-                            cveOutput("${SUITE_VERSION}")
+                            cveOutput("${BRANCH_NAME}")
                         }
                     }
                 }
