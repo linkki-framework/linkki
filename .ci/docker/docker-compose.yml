@@ -12,7 +12,7 @@ services:
       entry-path: /linkki-sample-test-playground-vaadin-flow
       de.faktorzehn.proxy.enable-websockets: true
     environment:
-      JAVA_TOOL_OPTIONS: -Xms250m -Xmx750m
+      JAVA_TOOL_OPTIONS: -Xms250m -Xmx750m -Djava.util.concurrent.ForkJoinPool.common.parallelism=4
 
   linkki-f10-sample:
     container_name: linkki-f10-sample-${PROJECT_ID}
@@ -24,7 +24,7 @@ services:
       url: ${PROJECT_ID}-linkki-f10-sample
       entry-path: /linkki-f10-sample/ui
     environment:
-      JAVA_TOOL_OPTIONS: -Xms250m -Xmx750m
+      JAVA_TOOL_OPTIONS: -Xms250m -Xmx750m -Djava.util.concurrent.ForkJoinPool.common.parallelism=4
 
 networks:
   default:
