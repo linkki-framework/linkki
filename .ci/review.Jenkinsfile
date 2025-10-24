@@ -85,6 +85,15 @@ pipeline {
                                 }
 
                                 archiveArtifacts 'vaadin-flow/doc/target/doc/**'
+
+                                rtp parserName: 'HTML', nullAction: '1', stableText: """
+                                    <h3>Documentation</h3>
+                                    <ul>
+                                        <li><a href='${env.BUILD_URL}artifact/vaadin-flow/doc/target/doc/html/index.html' target="_blank">Documentation</a></li>
+                                        <li><a href='${env.BUILD_URL}artifact/vaadin-flow/doc/target/doc/html/00_releasenotes/index.html' target="_blank">Release Notes</a></li>
+                                        <li><a href='${env.BUILD_URL}artifact/vaadin-flow/doc/target/doc/html/02_tutorial/index.html' target="_blank">Tutorial</a></li>
+                                    </ul>
+                                """
                             }
                         }
 
@@ -148,12 +157,6 @@ pipeline {
                                     <ul>
                                         <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
                                         <li><a href='http://${PROJECT_ID}-linkki-f10-sample.dockerhost.i.faktorzehn.de/linkki-f10-sample/ui' target="_blank">Linkki F10 Sample</a></li>
-                                    </ul>
-                                    <h3>Documentation</h3>
-                                    <ul>
-                                        <li><a href='${env.BUILD_URL}artifact/vaadin-flow/doc/target/doc/html/index.html' target="_blank">Documentation</a></li>
-                                        <li><a href='${env.BUILD_URL}artifact/vaadin-flow/doc/target/doc/html/00_releasenotes/index.html' target="_blank">Release Notes</a></li>
-                                        <li><a href='${env.BUILD_URL}artifact/vaadin-flow/doc/target/doc/html/02_tutorial/index.html' target="_blank">Tutorial</a></li>
                                     </ul>
                                 """
                             }
