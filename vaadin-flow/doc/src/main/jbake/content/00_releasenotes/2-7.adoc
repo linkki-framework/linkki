@@ -7,6 +7,17 @@
 
 === Version 2.7.6
 
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Spring Boot                   | 3.4.11 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes]) | 3.4.9
+|===
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4561
