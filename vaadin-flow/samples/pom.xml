@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,13 +23,13 @@
         <spring-framework.version>6.1.21</spring-framework.version>
         <checkstyle.version>10.14.2</checkstyle.version>
         <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
-        <netty.version>4.1.127.Final</netty.version>
+        <netty.version>4.1.128.Final</netty.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
 
         <!-- Must correspond to jakarta.servlet-api version, see https://tomcat.apache.org/whichversion.html -->
-        <tomcat.version>10.1.45</tomcat.version>
+        <tomcat.version>10.1.48</tomcat.version>
         <!-- Maven plugin versions -->
         <vaadin-maven-plugin.version>24.4.22</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -39,7 +38,7 @@
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <spotbugs-maven-plugin.version>4.8.6.7</spotbugs-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
     </properties>
