@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -44,7 +45,8 @@ import com.vaadin.testbench.TestBench;
  * }
  * </pre>
  */
-public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
+public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback,
+        AfterTestExecutionCallback {
 
     private final boolean headless;
     private final String initialUrl;
@@ -97,6 +99,21 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
     }
 
     @Override
+    public void afterTestExecution(ExtensionContext context) throws Exception {
+        if (driver == null) {
+            // driver setup might have failed
+            return;
+        }
+
+        boolean testFailed = context.getExecutionException().isPresent();
+
+        // On test failure, take screenshot before e.g. logging out is done by @AfterEach-methods
+        if (testFailed) {
+            ScreenshotUtil.takeScreenshot(driver, context.getDisplayName());
+        }
+    }
+
+    @Override
     public void afterAll(ExtensionContext context) {
         if (driver == null) {
             // driver setup might have failed
@@ -117,12 +134,6 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
         }
 
         UITestConfiguration config = getConfiguration(context);
-        boolean testFailed = context.getExecutionException().isPresent();
-
-        if (testFailed) {
-            ScreenshotUtil.takeScreenshot(driver, context.getDisplayName());
-        }
-
         if (config.restartAfterEveryTest()) {
             driver.quit();
         }

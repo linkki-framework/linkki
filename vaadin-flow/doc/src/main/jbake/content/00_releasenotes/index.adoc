@@ -24,6 +24,13 @@ The following versions have been updated:
 | Junit | 5.14.0 | 5.13.4
 |===
 
+==== Bugfixes
+// https://jira.convista.com/browse/LIN-4518
+* *Testbench Extension: error screenshots before @AfterEach methods* +
+Failing UI tests now record an error screenshot before any clean-up is done in @AfterEach methods. +
+Before this change, error screenshots were taken after clean-up was done by these methods. This sometimes prevents seeing the actual UI state when the error occured, e.g. when the clean-up logs out of the application.
+
+
 === Alpha 2.9.0-a20251008-01
 
 ==== Version Updates
