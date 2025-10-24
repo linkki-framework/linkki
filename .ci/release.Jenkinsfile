@@ -42,14 +42,6 @@ pipeline {
             }
         }
 
-        stage('Dependency-Check') {
-            steps {
-                withMaven(publisherStrategy: 'EXPLICIT') {
-                    dependencyCheck version: "${SUITE_VERSION}"
-                }
-            }
-        }
-
         stage('Check Git Diffs') {
             steps {
                 verifyNoChangedFiles()

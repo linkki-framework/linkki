@@ -16,6 +16,11 @@ pipeline {
         BASE_IMAGE = 'spring:26.1'
     }
 
+    tools {
+        jdk 'OpenJDK 21'
+        maven 'maven 3.9'
+    }
+
     stages {
 
         stage('Pre-Build') {
@@ -26,7 +31,7 @@ pipeline {
 
                 preBuildSteps()
 
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                     dependsOn(credentials: 'gerrit_rest') {}
                 }
             }
@@ -34,7 +39,7 @@ pipeline {
 
         stage('Fast Build') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
                         clean install \
                         -Pproduction \
@@ -57,7 +62,7 @@ pipeline {
                 stage('Check API') {
                     steps {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                            withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                            withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                 sh 'mvn -T 6 \
                                     -pl "!linkki-codeanalysis" \
                                     validate org.revapi:revapi-maven-plugin:check'
@@ -70,7 +75,7 @@ pipeline {
                     stages {
                         stage('Full Build') {
                             steps {
-                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                                     sh 'mvn -U -T 6 \
                                         install javadoc:javadoc  \
                                         -Drevapi.skip \
@@ -87,7 +92,7 @@ pipeline {
                             stages {
                                 stage('Analysis') {
                                     steps {
-                                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21') {
+                                        withMaven() {
                                             runSonarQubeAnalysis()
                                         }
                                     }
@@ -112,7 +117,7 @@ pipeline {
 
                 stage('Faktor-IPS Build') {
                     steps {
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                        withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn \
                                 -pl org.linkki-framework:linkki-ips-vaadin-flow \
                                 -Dmaven.repo.local="${MAVEN_REPOSITORY}" \
@@ -175,7 +180,7 @@ pipeline {
                                     }
                                 }
 
-                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn \
                                         -f vaadin-flow/samples/test-playground/uitest/pom.xml \
                                         test \
