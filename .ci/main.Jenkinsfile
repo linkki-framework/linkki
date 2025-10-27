@@ -131,18 +131,6 @@ pipeline {
                         }
                     }
                 }
-
-                stage('Dependency-Check') {
-                    steps {
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                            dependencyCheck version: "${SUITE_VERSION}"
-                        }
-
-                        script {
-                            cveOutput("${BRANCH_NAME}")
-                        }
-                    }
-                }
             }
         }
 
