@@ -54,6 +54,8 @@ pipeline {
                         )
                     }
                 }
+
+                sh 'touch target'
             }
         }
 
