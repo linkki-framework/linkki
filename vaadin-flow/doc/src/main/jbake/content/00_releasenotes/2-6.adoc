@@ -13,7 +13,7 @@
 
 The following versions have been updated:
 
-[cols="a,a"]
+[cols="a,a,a"]
 |===
 | Dependency | New version | Previous version
 
