@@ -54,8 +54,6 @@ pipeline {
                         )
                     }
                 }
-
-                sh 'touch target'
             }
         }
 
@@ -128,6 +126,8 @@ pipeline {
 
         stage('Upload Release') {
             steps {
+                sh 'mkdir target'
+                
                 script {
                     uploadRelease() {
                         // only publish final releases (no rcs & milestones) on maven central
