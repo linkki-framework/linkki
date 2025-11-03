@@ -14,17 +14,14 @@
 
 package org.linkki.core.ui.nested.annotation;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.pmo.SectionID;
 import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UITextField;
@@ -32,77 +29,117 @@ import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
-import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
+import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
-public class UINestedComponentIntegrationTest {
+class UINestedComponentIntegrationTest {
 
     @Test
-    public void testCreateNestedComponent() {
-        BaseSection component = (BaseSection)VaadinUiCreator.createComponent(new NestedComponentPmo(),
-                                                                             new BindingContext());
-        List<FormItem> childComponents = component.getContentWrapper().getChildren().map(FormItem.class::cast).toList();
-        assertThat(childComponents.stream().map(i -> getChild(i, 0)).collect(Collectors.toList()),
-                   contains(instanceOf(TextField.class), instanceOf(Div.class)));
+    void testCreateNestedComponent() {
+        var section = VaadinUiCreator.createComponent(new NestedComponentPmo(),
+                                                      new BindingContext());
+        assertThat(getChildrenOfSection(section))
+                .map(LabelComponentFormItem::getComponent)
+                .map(c -> c.getId().get())
+                .containsExactly("labelAheadOfNestedComponent", "nameLayout");
 
-        FormItem nestedComponentFormItem = childComponents.get(1);
-        assertThat(getChild(nestedComponentFormItem, 1).getElement().getText(), is("Name/Vorname"));
+        var firstChildComponent = getChildInSection(section, 1);
+        assertThat(firstChildComponent)
+                .extracting(LabelComponentFormItem::getLabel)
+                .extracting(NativeLabel::getText)
+                .isEqualTo("Name/Vorname");
 
-        Div nestedComponentWrapper = (Div)getChild(nestedComponentFormItem, 0);
-        assertThat(nestedComponentWrapper.getWidth(), is("100px"));
-        assertThat(nestedComponentWrapper.getClassName(), is("style1 style2"));
+        var nestedComponentWrapper = (Div)firstChildComponent.getComponent();
+        assertThat(nestedComponentWrapper.getWidth()).isEqualTo("100px");
+        assertThat(nestedComponentWrapper.getClassName()).isEqualTo("style1 style2");
 
-        Component nestedComponent = getChild(nestedComponentWrapper, 0);
-        assertThat(nestedComponent, instanceOf(HorizontalLayout.class));
-        assertThat(((HorizontalLayout)nestedComponent).getWidth(), is("100%"));
-
-        assertThat(getChild(nestedComponent, 0), instanceOf(TextField.class));
+        var nestedComponent = nestedComponentWrapper.getComponentAt(0);
+        assertThat(nestedComponent).isInstanceOf(HorizontalLayout.class);
+        var horizontalLayout = (HorizontalLayout)nestedComponent;
+        assertThat(horizontalLayout.getWidth()).isEqualTo("100%");
+        assertThat(horizontalLayout.getComponentAt(0)).isInstanceOf(TextField.class);
     }
 
     @Test
-    public void testAspectOnNestedComponent() {
-        NestedComponentPmo pmo = new NestedComponentPmo();
-        BindingContext bindingContext = new BindingContext();
-        BaseSection component = (BaseSection)VaadinUiCreator.createComponent(pmo,
-                                                                             bindingContext);
-        LabelComponentFormItem nestedComponent = (LabelComponentFormItem)getChild(component.getContentWrapper(), 1);
+    void testAspectOnNestedComponent() {
+        var pmo = new NestedComponentPmo();
+        var bindingContext = new BindingContext();
+        var section = VaadinUiCreator.createComponent(pmo, bindingContext);
+        var nestedComponent = getChildInSection(section, 1);
 
-        assertThat(nestedComponent.isVisible(), is(true));
+        assertThat(nestedComponent.isVisible()).isTrue();
 
-        pmo.setVisible(false);
+        pmo.setNameLayoutVisible(false);
         bindingContext.modelChanged();
 
-        assertThat(nestedComponent.isVisible(), is(false));
+        assertThat(nestedComponent.isVisible()).isFalse();
     }
 
     @Test
-    public void testNestedComponent_DefaultWidth() {
-        NestedComponentWidthDefaultWidthPmo pmo = new NestedComponentWidthDefaultWidthPmo();
-        BindingContext bindingContext = new BindingContext();
-        BaseSection section = (BaseSection)VaadinUiCreator.createComponent(pmo, bindingContext);
-        LabelComponentFormItem wrapper = (LabelComponentFormItem)getChild(section.getContentWrapper(), 0);
+    void testNestedComponent_EmptyWidth() {
+        var section = VaadinUiCreator.createComponent(new NestedComponentWidthEmptyWidthPmo(),
+                                                      new BindingContext());
+        var wrapper = getChildInSection(section, 0);
 
-        Div nestedComponentWrapper = (Div)getChild(wrapper, 0);
-        Assertions.assertThat(nestedComponentWrapper.getWidth()).isEmpty();
+        var nestedComponentWrapper = (Div)wrapper.getComponent();
+        assertThat(nestedComponentWrapper.getWidth()).isEmpty();
 
-        Component nestedComponent = getChild(nestedComponentWrapper, 0);
-        Assertions.assertThat(nestedComponent).isInstanceOf(HorizontalLayout.class);
-        Assertions.assertThat(((HorizontalLayout)nestedComponent).getWidth()).isNull();
+        var nestedComponent = nestedComponentWrapper.getComponentAt(0);
+        assertThat(nestedComponent).isInstanceOf(HorizontalLayout.class);
+        assertThat(((HasSize)nestedComponent).getWidth()).isNull();
     }
 
-    private static Component getChild(Component parent, int i) {
-        return parent.getChildren().toList().get(i);
+    @Test
+    void testCreateNestedComponent_MultiplePmos() {
+        var pmo = new MultipleNestedPmo();
+        var bindingContext = new BindingContext();
+
+        var section = VaadinUiCreator.createComponent(pmo, bindingContext);
+
+        var nestedComponentWithEmptyCollection = getChildInSection(section, 1).getComponent();
+        assertThat(nestedComponentWithEmptyCollection.getChildren()).isEmpty();
+
+        var nestedComponentWithCollectionWrapper = getChildInSection(section, 0).getComponent();
+        var nestedComponents = nestedComponentWithCollectionWrapper.getChildren().toList();
+        assertThat(nestedComponents)
+                .allSatisfy(c -> assertThat(c).isInstanceOf(HorizontalLayout.class))
+                .map(c -> c.getId().get())
+                .containsExactly("first", "second");
+        assertThat(nestedComponents)
+                .map(c -> c.getChildren().findFirst().get())
+                .allSatisfy(c -> assertThat(c).isInstanceOf(TextField.class))
+                .map(c -> ((TextField)c).getValue())
+                .as("Values should be filled correctly initially")
+                .containsExactly("First Pmo", "Second Pmo");
+
+        pmo.getMultiplePmos().get(0).setName("New");
+        bindingContext.modelChanged();
+
+        var firstNestedComponent = (HorizontalLayout)nestedComponents.get(0);
+        var textFieldInNestedComponent = (TextField)firstNestedComponent.getComponentAt(0);
+        assertThat(textFieldInNestedComponent.getValue()).isEqualTo("New");
+    }
+
+    private static LabelComponentFormItem getChildInSection(Component component, int index) {
+        var section = (LinkkiSection)component;
+        return (LabelComponentFormItem)section.getContentWrapper().getComponentAt(index);
+    }
+
+    private static Stream<LabelComponentFormItem> getChildrenOfSection(Component component) {
+        var section = (LinkkiSection)component;
+        return section.getContentWrapper().getChildren().map(LabelComponentFormItem.class::cast);
     }
 
     @UISection
     public static class NestedComponentPmo {
 
-        private boolean visible = true;
+        private boolean nameLayoutVisible = true;
 
         @UITextField(position = 10)
         public String getLabelAheadOfNestedComponent() {
@@ -116,17 +153,33 @@ public class UINestedComponentIntegrationTest {
         }
 
         public boolean isNameLayoutVisible() {
-            return visible;
+            return nameLayoutVisible;
         }
 
-        public void setVisible(boolean visible) {
-            this.visible = visible;
+        public void setNameLayoutVisible(boolean nameLayoutVisible) {
+            this.nameLayoutVisible = nameLayoutVisible;
         }
-
     }
 
     @UISection
-    public static class NestedComponentWidthDefaultWidthPmo {
+    public static class MultipleNestedPmo {
+
+        private List<NamePmo> nestedPmos = List.of(new NamePmo("first", "First Pmo"),
+                                                   new NamePmo("second", "Second Pmo"));
+
+        @UINestedComponent(position = 30, label = "Multiple Pmos")
+        public List<NamePmo> getMultiplePmos() {
+            return nestedPmos;
+        }
+
+        @UINestedComponent(position = 40)
+        public List<NamePmo> getEmptyCollection() {
+            return List.of();
+        }
+    }
+
+    @UISection
+    public static class NestedComponentWidthEmptyWidthPmo {
 
         @UINestedComponent(position = 20, label = "Name", width = "")
         public NamePmo getNameLayout() {
@@ -138,7 +191,18 @@ public class UINestedComponentIntegrationTest {
     @UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
     public static class NamePmo {
 
+        private final String id;
         private String name;
+
+        public NamePmo() {
+            this.id = getClass().getSimpleName();
+            this.name = "";
+        }
+
+        public NamePmo(String id, String name) {
+            this.name = name;
+            this.id = id;
+        }
 
         @UITextField(position = 10, label = "")
         public String getName() {
@@ -147,6 +211,11 @@ public class UINestedComponentIntegrationTest {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        @SectionID
+        public String getId() {
+            return id;
         }
     }
 }

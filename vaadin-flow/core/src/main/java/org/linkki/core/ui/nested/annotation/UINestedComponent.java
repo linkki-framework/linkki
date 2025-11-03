@@ -20,6 +20,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
+import java.util.SequencedCollection;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -42,12 +44,12 @@ import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.util.reflection.accessor.MemberAccessors;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.html.Div;
 
 /**
- * Embeds another PMO in the current layout.
+ * Embeds another PMO in the current layout. To add multiple PMOs, use a {@link SequencedCollection}
+ * as return type of the getter method.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -86,7 +88,7 @@ public @interface UINestedComponent {
     String[] styleNames() default {
     };
 
-    static class NestedComponentDefinitionCreator implements ComponentDefinitionCreator<UINestedComponent> {
+    class NestedComponentDefinitionCreator implements ComponentDefinitionCreator<UINestedComponent> {
         @Override
         public LinkkiComponentDefinition create(UINestedComponent annotation, AnnotatedElement annotatedElement) {
             return pmo -> {
@@ -98,24 +100,29 @@ public @interface UINestedComponent {
         }
     }
 
-    static class NestedLayoutDefinitionCreator implements LayoutDefinitionCreator<UINestedComponent> {
+    class NestedLayoutDefinitionCreator implements LayoutDefinitionCreator<UINestedComponent> {
 
         @Override
         public LinkkiLayoutDefinition create(UINestedComponent annotation, AnnotatedElement annotatedElement) {
             return (parentComponent, pmo, bindingContext) -> {
-                Div wrapper = (Div)parentComponent;
-                Object nestedPmo = MemberAccessors.getValue(pmo, (Member)annotatedElement);
+                var wrapper = (Div)parentComponent;
+                var nestedPmo = MemberAccessors.getValue(pmo, (Member)annotatedElement);
 
-                Component component = VaadinUiCreator.createComponent(nestedPmo, bindingContext);
-                if (component instanceof HasSize && StringUtils.isNotBlank(annotation.width())) {
-                    ((HasSize)component).setWidth("100%");
-                }
-                wrapper.add(component);
+                var pmos = nestedPmo instanceof SequencedCollection<?> collection
+                        ? collection.stream()
+                        : Stream.of(nestedPmo);
+                pmos.map(p -> {
+                    var component = VaadinUiCreator.createComponent(p, bindingContext);
+                    if (component instanceof HasSize && StringUtils.isNotBlank(annotation.width())) {
+                        ((HasSize)component).setWidth("100%");
+                    }
+                    return component;
+                }).forEach(wrapper::add);
             };
         }
     }
 
-    static class NestedAspecDefinitionCreator implements AspectDefinitionCreator<UINestedComponent> {
+    class NestedAspecDefinitionCreator implements AspectDefinitionCreator<UINestedComponent> {
 
         @Override
         public LinkkiAspectDefinition create(UINestedComponent annotation) {

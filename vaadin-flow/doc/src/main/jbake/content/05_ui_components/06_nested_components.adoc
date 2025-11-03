@@ -26,3 +26,20 @@ include::{source-dir}/org/linkki/samples/playground/ts/nestedcomponent/NestedCom
 ----
 include::{source-dir}/org/linkki/samples/playground/ts/nestedcomponent/NestedComponentPmo.java[tags=innercomponentpmo]
 ----
+
+[[multiple-nested-pmos]]
+==== Returning multiple nested PMOs
+
+Instead of returning a single PMO, a method annotated with `@UINestedComponent` can also return a `SequencedCollection<Object>`.
+Each element of the collection is treated as an individual nested component and displayed in the same order as in the collection.
+
+This allows you to provide multiple nested components that should appear in sequence within the same parent component.
+
+.Multiple Nested PMOs
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/nestedcomponent/NestedComponentPmo.java[tags=nestedcomponentcollectionpmo]
+----
+
+WARNING: The list of PMOs is not dynamically updated.
+If certain nested components should only be displayed under specific conditions, they must be configured using `@BindVisible`.

@@ -13,28 +13,35 @@
  */
 package org.linkki.samples.playground.ts.nestedcomponent;
 
-import java.time.LocalDate;
+import java.util.List;
 
-import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
-import org.linkki.core.ui.element.annotation.UIButton;
-import org.linkki.core.ui.element.annotation.UIDateField;
+import org.linkki.core.ui.aspects.annotation.BindCaption;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
+import org.linkki.core.ui.aspects.annotation.BindVisible;
+import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
-import org.linkki.core.ui.element.annotation.UIRadioButtons;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 
+import com.vaadin.flow.theme.lumo.LumoUtility;
+
 // tag::nestedcomponentpmo[]
 @UISection(caption = "@UINestedComponent")
 public class NestedComponentPmo {
 
-    private LocalDate birthday;
     private String title;
-    private Color favoriteColor = Color.RED;
+    private final AddressPmo firstAddress = new AddressPmo("First Address",
+            new AddressPmo.CityPmo("12345", "First city"),
+            "First street");
+    private final AddressPmo secondAddress = new AddressPmo("Second Address",
+            new AddressPmo.CityPmo("67890", "Second city"),
+            "Second street");
+    private final List<AddressPmo> addresses = List.of(firstAddress, secondAddress);
 
-    @UITextField(position = 0, label = "Anrede")
+    @UITextField(position = 0, label = "Non nested component")
     public String getTitle() {
         return title;
     }
@@ -43,59 +50,30 @@ public class NestedComponentPmo {
         this.title = title;
     }
 
-    @UINestedComponent(position = 10, label = "Name/Vorname", width = "")
+    @UINestedComponent(position = 10, label = "Nested horizontal layout", width = "")
     public NamePmo getNameLayout() {
         return new NamePmo();
     }
 
-    @UIDateField(position = 20, label = "Geburtsdatum")
-    public LocalDate getBirthday() {
-        return birthday;
+    @UICheckBox(position = 20,
+            label = "Toggle visibility of nested PMO with collection", caption = "Has second address")
+    public boolean isSecondNestedComponentVisible() {
+        return addresses.get(1).isVisible();
     }
+
+    public void setSecondNestedComponentVisible(boolean visible) {
+        addresses.get(1).visible = visible;
+    }
+
     // end::nestedcomponentpmo[]
 
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
+    // tag::nestedcomponentcollectionpmo[]
+    @BindStyleNames({ LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN, LumoUtility.Gap.LARGE })
+    @UINestedComponent(position = 80, label = "Nested PMO with Collection")
+    public List<AddressPmo> getNestedPmos() {
+        return addresses;
     }
-
-    @UIRadioButtons(position = 30, label = "Lieblingsfarbe", buttonAlignment = AlignmentType.HORIZONTAL)
-    public Color getFavoriteColor() {
-        return favoriteColor;
-    }
-
-    public void setFavoriteColor(Color color) {
-        favoriteColor = color;
-    }
-
-    @UINestedComponent(position = 40, label = "")
-    public InfoPmo getInfoText() {
-        return new InfoPmo();
-    }
-
-    @UINestedComponent(position = 60, label = "")
-    public AddressPmo getAddress() {
-        return new AddressPmo();
-    }
-
-    @UINestedComponent(position = 100)
-    public ButtonPmo getButtons() {
-        return new ButtonPmo();
-    }
-
-    @UISection(caption = "Information")
-    private static class InfoPmo {
-
-        @UILabel(position = 10)
-        public String getText() {
-            return "Hier steht ein Text.";
-        }
-
-        @UILabel(position = 20)
-        public String getText2() {
-            return "Hier auch.";
-        }
-
-    }
+    // end::nestedcomponentcollectionpmo[]
 
     // tag::innercomponentpmo[]
     @UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
@@ -113,7 +91,7 @@ public class NestedComponentPmo {
             this.name = name;
         }
 
-        @UILabel(position = 20, label = "")
+        @UILabel(position = 20)
         public String getDivider() {
             return "/";
         }
@@ -126,82 +104,63 @@ public class NestedComponentPmo {
         public void setVorname(String vorname) {
             this.vorname = vorname;
         }
-
     }
 
     // end::innercomponentpmo[]
-    @UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
-    public static class ButtonPmo {
 
-        @UIButton(position = 10, caption = "Submit")
-        public void doStuff() {
-            // just kidding
-        }
-
-        @UIButton(position = 20, caption = "Reset")
-        public void doEvenMoreStuff() {
-            // as if
-        }
-    }
-
-    @UISection(caption = "Adresse")
+    @BindVisible
+    @BindCaption
+    @UISection
     public static class AddressPmo {
 
-        private CityPmo city = new CityPmo();
-        private String street;
-        private String country;
+        private final String caption;
+        private final CityPmo city;
+        private final String street;
+        private boolean visible = true;
 
-        @UITextField(position = 10, label = "Straße")
+        public AddressPmo(String caption, CityPmo city, String street) {
+            this.caption = caption;
+            this.city = city;
+            this.street = street;
+        }
+
+        public String getCaption() {
+            return caption;
+        }
+
+        public boolean isVisible() {
+            return visible;
+        }
+
+        @UILabel(position = 10, label = "Street")
         public String getStreet() {
             return street;
         }
 
-        public void setStreet(String street) {
-            this.street = street;
-        }
-
-        @UINestedComponent(position = 20, label = "PLZ/Stadt")
+        @UINestedComponent(position = 20, label = "Zip/City")
         public CityPmo getCity() {
             return city;
         }
 
-        @UITextField(position = 40, label = "Land")
-        public String getCountry() {
-            return country;
-        }
-
-        public void setCountry(String country) {
-            this.country = country;
-        }
-
         @UIHorizontalLayout
         public static class CityPmo {
-            private String zip;
-            private String city;
+            private final String zip;
+            private final String city;
 
-            @UITextField(position = 20, label = "", width = "20em")
+            public CityPmo(String zip, String city) {
+                this.zip = zip;
+                this.city = city;
+            }
+
+            @UILabel(position = 20)
             public String getZip() {
                 return zip;
             }
 
-            public void setZip(String zip) {
-                this.zip = zip;
-            }
-
-            @UITextField(position = 30, label = "", width = "40%")
+            @UILabel(position = 30)
             public String getCity() {
                 return city;
             }
-
-            public void setCity(String city) {
-                this.city = city;
-            }
         }
-    }
-
-    public static enum Color {
-        RED,
-        GREEN,
-        BLUE;
     }
 }

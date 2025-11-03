@@ -27,6 +27,11 @@ The following versions have been updated:
 | Junit | 5.14.1 (link:https://docs.junit.org/5.14.1/release-notes/#release-notes-5.14.1[Release Notes])| 5.13.4
 |===
 
+==== UI Annotations and Aspects
+// https://jira.convista.com/browse/LIN-4604
+* *UINestedComponent with multiple PMOs* +
+This version adds support for returning multiple PMOs as a `SequencedCollection<Object>` in the `UINestedComponent` annotation. See <<multiple-nested-pmos, chapter "Nested Components">> for more information.
+
 ==== Other Improvements
 // https://jira.convista.com/browse/LIN-4491
 * This version is tested for compatibility with Java 25. +
