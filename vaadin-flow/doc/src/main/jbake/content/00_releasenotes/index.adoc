@@ -26,6 +26,11 @@ The following versions have been updated:
 | Junit | 5.14.0 (link:https://docs.junit.org/5.14.0/release-notes/#release-notes-5.14.0[Release Notes])| 5.13.4
 |===
 
+==== Other Improvements
+// https://jira.convista.com/browse/LIN-4491
+* This version is tested for compatibility with Java 25. +
+Note that when using components that use `CompletableFuture` as return types in low-parallelism environments, it may be necessary to set the system property `java.util.concurrent.ForkJoinPool.common.parallelism` to a value of 2 or higher to avoid potential timeouts.
+
 ==== Bugfixes
 // https://jira.convista.com/browse/LIN-4518
 * *Testbench Extension: error screenshots before @AfterEach methods* +
