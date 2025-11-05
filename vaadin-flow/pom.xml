@@ -41,7 +41,7 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            24.9.3
+            24.9.4
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <!-- this property must also be updated in samples-vaadin-flow -->

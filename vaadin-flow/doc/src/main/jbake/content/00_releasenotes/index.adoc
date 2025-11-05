@@ -21,9 +21,10 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version       | Previous version
-| Vaadin | 24.9.3 (link:https://github.com/vaadin/platform/releases/tag/24.9.3[Release Notes])| 24.9.2
+| Vaadin | 24.9.4 (link:https://github.com/vaadin/platform/releases/tag/24.9.4[Release Notes])| 24.9.2
 | Spring Boot | 3.5.7 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.7[Release Notes])| 3.5.6
-| Junit | 5.14.0 (link:https://docs.junit.org/5.14.0/release-notes/#release-notes-5.14.0[Release Notes])| 5.13.4
+| Faktor-IPS                    | 26.1.0.a20251024-01 (link:https://doc.faktorzehn.org/faktor-ips/26.1-a20251024-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.a20251001-01
+| Junit | 5.14.1 (link:https://docs.junit.org/5.14.1/release-notes/#release-notes-5.14.1[Release Notes])| 5.13.4
 |===
 
 ==== Other Improvements
