@@ -41,9 +41,11 @@ import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 
 /**
  * Creates a button that opens a dialog upon click and updates the underlying binding context after
@@ -97,10 +99,26 @@ public @interface UIOpenDialogButton {
      */
     CaptionType captionType() default CaptionType.STATIC;
 
+    /**
+     * Defines the variants of the button. The most common variants are:
+     * <ul>
+     * <li>{@link ButtonVariant#LUMO_PRIMARY} for primary buttons</li>
+     * <li>{@link ButtonVariant#LUMO_TERTIARY_INLINE} for inline buttons (no background)</li>
+     * </ul>
+     *
+     * @see ButtonVariant
+     */
+    ButtonVariant[] variants() default {};
+
     class DialogButtonComponentDefinitionCreator implements ComponentDefinitionCreator<UIOpenDialogButton> {
 
         public LinkkiComponentDefinition create(UIOpenDialogButton annotation, AnnotatedElement annotatedElement) {
-            return pmo -> new Button(annotation.caption());
+            return pmo -> {
+                var button = ComponentFactory.newButton();
+                button.setText(annotation.caption());
+                button.addThemeVariants(annotation.variants());
+                return button;
+            };
         }
     }
 

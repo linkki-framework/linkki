@@ -39,6 +39,7 @@ The following types are provided:
 |<<ui-button,`UIButton`>> |A button that triggers an action when clicked
 |<<ui-menulist, `UIMenuList`>> |A button that shows a list of menu items when clicked
 |<<ui-menulist, `UIMenuButton`>> |A button that that is styled consistently with `UIMenuList`
+|<<ui-open-dialog-button, `UIOpenDialogButton`>> |A button that opens a dialog. Upon OK click of the dialog, the binding context of the button is updated. (Only available with <<maven-dependency-application-framework,linkki-application-framework-vaadin-flow>>)
 |===
 
 The type of field can be determined dynamically.

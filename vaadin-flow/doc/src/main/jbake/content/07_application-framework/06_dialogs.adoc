@@ -29,7 +29,7 @@ include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutConten
 include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutContentDialog.java[tags=verticalLayout]
 ----
 
-[[uiOpenDialogButton]]
+[[ui-open-dialog-button]]
 ==== Creating dialogs on button click
 
 [NOTE]

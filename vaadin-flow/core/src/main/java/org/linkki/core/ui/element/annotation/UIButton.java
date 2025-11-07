@@ -116,7 +116,7 @@ public @interface UIButton {
     boolean showIcon() default false;
 
     /**
-     * Defines the look of the button. The most common variants are:
+     * Defines the variants of the button. The most common variants are:
      * <ul>
      * <li>{@link ButtonVariant#LUMO_PRIMARY} for primary buttons</li>
      * <li>{@link ButtonVariant#LUMO_TERTIARY_INLINE} for inline buttons (no background)</li>

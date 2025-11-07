@@ -24,6 +24,7 @@ import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.ValidationContext;
 import org.faktorips.runtime.validation.DefaultGenericAttributeValidationConfiguration;
 import org.faktorips.values.Decimal;
+import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
@@ -46,12 +47,19 @@ import org.linkki.samples.playground.ips.model.Marker;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 @UISection(layout = SectionLayout.VERTICAL)
 public class UIOpenDialogButtonPmo {
 
-    private final List<IpsModelObject> ipsModelObjects = new ArrayList<>();
+    private final List<IpsModelObject> ipsModelObjects;
+    private final SimpleItemSupplier<IpsModelObjectRowPmo, IpsModelObject> rows;
+
+    public UIOpenDialogButtonPmo() {
+        this.ipsModelObjects = new ArrayList<>();
+        this.rows = new SimpleItemSupplier<>(() -> ipsModelObjects, IpsModelObjectRowPmo::new);
+    }
 
     @BindIcon(VaadinIcon.REFRESH)
     @UIButton(position = 0, caption = "Manually trigger model changed")
@@ -77,7 +85,8 @@ public class UIOpenDialogButtonPmo {
     }
 
     // tag::uiOpenDialogButton[]
-    @UIOpenDialogButton(position = 30, caption = "UIOpenDialogButton with DialogPmo")
+    @UIOpenDialogButton(position = 30, caption = "UIOpenDialogButton with DialogPmo (success variant)",
+            variants = ButtonVariant.SUCCESS)
     public DialogPmo getAddModelObjectDialog() {
         return new AddModelObjectDialogPmo(this::saveNewModelObject);
     }
@@ -103,8 +112,8 @@ public class UIOpenDialogButtonPmo {
     }
 
     @UITableComponent(position = 99, rowPmoClass = IpsModelObjectRowPmo.class)
-    public List<IpsModelObject> getIpsModelObjects() {
-        return ipsModelObjects;
+    public List<IpsModelObjectRowPmo> getIpsModelObjects() {
+        return rows.get();
     }
 
     public static final class IpsModelObjectRowPmo {

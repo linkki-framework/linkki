@@ -16,6 +16,8 @@ package org.linkki.framework.ui.dialogs;
 
 import static com.github.mvysny.kaributesting.v10.LocatorJ._find;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
+import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
+import static com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.core.ui.test.KaribuUtils.getTextContent;
 
@@ -65,7 +67,7 @@ class UIOpenDialogButtonIntegrationTest {
                 return counter.get();
             }
 
-            @UIOpenDialogButton(position = 1)
+            @UIOpenDialogButton(position = 1, caption = "Button caption", variants = { LUMO_PRIMARY, LUMO_SMALL })
             public Function<Handler, OkCancelDialog> getDialog() {
                 return modelChanged -> OkCancelDialog.builder("dialog caption")
                         .okHandler(modelChanged.compose(counter::incrementAndGet))
@@ -77,7 +79,12 @@ class UIOpenDialogButtonIntegrationTest {
         var component = VaadinUiCreator.createComponent(testPmo, new BindingContext());
         assertThat(_get(component, LinkkiText.class).getText()).isEqualTo("0");
 
-        _get(component, Button.class).click();
+        var button = _get(component, Button.class);
+        assertThat(button.getText()).isEqualTo("Button caption");
+        assertThat(button.getThemeNames())
+                .contains(LUMO_PRIMARY.getVariantName(), LUMO_SMALL.getVariantName());
+
+        button.click();
 
         var dialog = _get(Dialog.class);
         assertThat(KaribuUtils.getComponentTree(dialog))
