@@ -70,10 +70,8 @@ pipeline {
         stage('Upload Documentation') {
             steps {
                 withMaven(publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 \
-                        -pl "vaadin-flow/doc" \
-                        deploy \
-                        -Ddoc.user=doc'
+                    sh 'mvn -U -pl "vaadin-flow/doc" clean install'
+                    uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false
                 }
             }
         }
