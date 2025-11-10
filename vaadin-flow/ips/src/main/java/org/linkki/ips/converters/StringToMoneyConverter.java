@@ -16,6 +16,7 @@ package org.linkki.ips.converters;
 
 import java.io.Serial;
 import java.util.Currency;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.faktorips.values.Money;
@@ -57,7 +58,7 @@ public class StringToMoneyConverter implements Converter<String, Money> {
         }
 
         String decimalValue = matcher.group(1);
-        String currencyCode = matcher.group(2);
+        String currencyCode = matcher.group(2).toUpperCase(Locale.ROOT);
 
         Currency currency;
         try {

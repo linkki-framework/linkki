@@ -39,7 +39,7 @@ class StringToMoneyConverterTest {
 
     @Test
     void testConvertToModel_CaseSensitive() {
-        var money = Money.valueOf(Decimal.valueOf(100.11), Currency.getInstance("EUr"));
+        var money = Money.valueOf(Decimal.valueOf(100.11), Currency.getInstance("EUR"));
         assertThat(converter.convertToModel("100,11 EUr", valueContext)).isEqualTo(Result.ok(money));
     }
 
