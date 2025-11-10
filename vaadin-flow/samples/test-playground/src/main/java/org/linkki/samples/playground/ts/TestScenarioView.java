@@ -54,6 +54,7 @@ import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo;
+import org.linkki.samples.playground.ts.aspects.BindHeightPmo;
 import org.linkki.samples.playground.ts.aspects.BindHelperTextPmo;
 import org.linkki.samples.playground.ts.aspects.BindIconPmo;
 import org.linkki.samples.playground.ts.aspects.BindLabelPmo;
@@ -338,6 +339,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC016, new BindSlotPmo(new BindSlotPmo.RightSlotPmo()))
                                        .testCase(TC017, new CustomFutureAwarePmo())
                                        .testCase(TC018, new BindHelperTextPmo())
+                                       .testCase(TC019, new BindHeightPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())

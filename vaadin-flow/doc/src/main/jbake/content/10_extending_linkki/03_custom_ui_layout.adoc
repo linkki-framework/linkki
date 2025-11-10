@@ -75,7 +75,7 @@ Within the `HorizontalLayoutDefinitionCreator#createChildren()` method the child
 [#layout-bound-property]
 ==== Bound Property
 
-The scope of the layout annotation is the PMO as a whole. Per convention the `BoundProperty` of a PMO itself is empty. Unlike a `BoundProperty` of a PMO element, as discussed <<03_custom_ui_element#bound-property, here>>, a `BoundProperty` of a PMO does not have a model object or attribute. As a result of these characteristics the `EmptyPropertyCreator` that creates an empty `BoundProperty` can be used for the `UIHorizontalLayout` annotation and other layout annotations.
+The scope of the layout annotation is the PMO as a whole. Per convention the `BoundProperty` of a PMO itself is empty. Unlike a `BoundProperty` of a PMO element, as discussed <<02_custom_ui_element.adoc#bound-property, here>>, a `BoundProperty` of a PMO does not have a model object or attribute. As a result of these characteristics the `EmptyPropertyCreator` that creates an empty `BoundProperty` can be used for the `UIHorizontalLayout` annotation and other layout annotations.
 
 The convention that the `BoundProperty` of a PMO is empty comes into play as well when the `@BindTooltip(tooltipType = TooltipType.DYNAMIC)` annotation is used: If a `BoundProperty` is annotated with `@BindTooltip(tooltipType = TooltipType.DYNAMIC)` *linkki* searches for the method `get<bound-property-name>Tooltip()` to retrieve the content for the tooltip. Since the name of the `BoundProperty` is empty per convention for the whole PMO, *linkki* will search for the method `getTooltip()` if the PMO is annotated with `@BindTooltip(tooltipType = TooltipType.DYNAMIC)`.
 

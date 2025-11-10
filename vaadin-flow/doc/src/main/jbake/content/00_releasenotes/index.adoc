@@ -85,6 +85,9 @@ A new aspect annotation <<bind-helper-text, @BindHelperText>> has been added to 
 * *Clear button for UIDateField, UITimeField and UIDateTimeField* +
 Date and time fields now have a clear button to erase the current value.
 This helps in situations when it is faster to first erase the former value and then insert a new one.
+// https://jira.convista.com/browse/LIN-3148
+* *BindHeight* +
+A new aspect annotation <<bind-height, @BindHeight>> has been added to define the height of a UI component, e.g., to set a fixed size for table components or other components that benefit from a consistent display area.
 
 ==== Bugfixes
 

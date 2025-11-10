@@ -170,6 +170,7 @@ It is also very easy to create additional <<creating-aspects, custom aspect anno
 | `<<bind-label, @BindLabel>>` | `Set label texts dynamically.`
 | `<<bind-slot, @BindSlot>>` | `Sets a UI element into a slot of a predefined, reusable layout.`
 | `<<bind-helper-text, @BindHelperText>>` | `Set helper text on UI elements using default HelperTextType.AUTO`
+| `<<bind-height, @BindHeight>>` | `Set height on UI components using the default value "" (no fixed height)`
 |===
 
 [[tooltips]]
@@ -597,3 +598,15 @@ The following configuration options are available for `HelperTextType`:
 |`STATIC`   |The text is read from the attribute `value`
 |`DYNAMIC`  |The text is determined by the return value of the method `String get<PropertyName>HelperText()`. The `value` is ignored.
 |===
+
+[[bind-height]]
+===== Binding Height
+
+The annotation `@BindHeight` can be used to define the height of a UI component.
+It has a single property `value`, which defines the height that should be applied to the UI component.
+The value can be any valid CSS height value, such as `"100px"`, `"50%"`, or `"10em"`.
+If no value is given (default: `""`), the component keeps its default height.
+
+[NOTE]
+This annotation can be particularly useful for table-like components such as `UITableComponent`,
+where the display area often benefits from a fixed height (e.g. to show a consistent number of rows).
