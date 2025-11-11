@@ -38,7 +38,13 @@ public class BindReadOnlyBehaviorAspectDefinition implements LinkkiAspectDefinit
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        return () -> setComponentStatus(componentWrapper, propertyDispatcher.isPushable(Aspect.of(VALUE_ASPECT_NAME)));
+        return () -> setComponentStatus(componentWrapper, isWritable(propertyDispatcher, componentWrapper));
+    }
+
+    private boolean isWritable(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
+        var aspect = componentWrapper.getComponent() instanceof HasValue<?, ?> ? Aspect.of(VALUE_ASPECT_NAME, null)
+                : Aspect.of(VALUE_ASPECT_NAME);
+        return propertyDispatcher.isPushable(aspect);
     }
 
     private void setComponentStatus(ComponentWrapper componentWrapper, boolean writable) {

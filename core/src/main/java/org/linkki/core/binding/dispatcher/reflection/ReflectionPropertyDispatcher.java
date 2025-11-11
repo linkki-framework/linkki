@@ -165,14 +165,16 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
 
         String propertyAspectName = getPropertyAspectName(aspect);
-        if (aspect.isValuePresent()) {
+        var componentHasValue = aspect.isValuePresent();
+        if (componentHasValue) {
             // the FallbackDispatcher should only be called if the BoundObject has no read method.
             // Otherwise, a #push() could result in a #write() to the ModelObject even if it is not
             // declared within the PMO
             return (hasReadMethod(propertyAspectName) && hasWriteMethod(propertyAspectName))
                     || (!hasReadMethod(propertyAspectName) && fallbackDispatcher.isPushable(aspect));
         } else {
-            return hasInvokeMethod(propertyAspectName)
+            // Component is never or always pushable, for example a label or a button
+            return hasInvokeMethod(propertyAspectName) || hasReadMethod(propertyAspectName)
                     || fallbackDispatcher.isPushable(aspect);
         }
     }
