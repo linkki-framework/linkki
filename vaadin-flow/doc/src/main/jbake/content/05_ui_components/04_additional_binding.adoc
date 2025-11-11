@@ -252,7 +252,7 @@ The type `WRITABLE` is useful for components which do not change data like an in
 
 TIP: `INVISIBLE_IF_WRITABLE` can be used for buttons which should only be visible in read-only mode.
 
-IMPORTANT: `INVISIBLE`, `DISABLED`, `INVISIBLE_IF_WRITABLE` are only supported for buttons yet. `WRITABLE` can only be used on UI elements which implement `HasValue`.
+IMPORTANT: `WRITABLE` can only be used on UI elements which implement `HasValue`.
 
 [[bind-visible]]
 ===== Bind Visible

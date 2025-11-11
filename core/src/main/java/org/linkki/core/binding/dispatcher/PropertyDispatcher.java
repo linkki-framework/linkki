@@ -85,6 +85,9 @@ public interface PropertyDispatcher {
     /**
      * Checks whether {@link #push(Aspect)} can be called that means the value could be stored in
      * the model respectively an appropriate method could be called.
+     * <p>
+     * Note that components that have a value thus can be set to read-only should call this method
+     * with a {@link Aspect} that has a value (may be null).
      * 
      * @param aspect The aspect which should be checked
      * @return <code>true</code> if the aspect could be pushed

@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.ts.aspects;
 
+import java.util.function.Function;
+
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.aspects.annotation.BindPlaceholder;
@@ -22,6 +24,10 @@ import org.linkki.core.ui.aspects.types.ReadOnlyBehaviorType;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.framework.ui.dialogs.ConfirmationDialog;
+import org.linkki.framework.ui.dialogs.OkCancelDialog;
+import org.linkki.framework.ui.dialogs.UIOpenDialogButton;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
@@ -31,10 +37,10 @@ import com.vaadin.flow.component.notification.Notification.Position;
 public class BindReadOnlyBehaviorPmo {
 
     private String text = "";
-    private String title = "";
+    private final String caption;
 
-    public BindReadOnlyBehaviorPmo(String title) {
-        this.title = title;
+    public BindReadOnlyBehaviorPmo(String caption) {
+        this.caption = caption;
     }
 
     @BindReadOnlyBehavior(ReadOnlyBehaviorType.DISABLED)
@@ -47,6 +53,23 @@ public class BindReadOnlyBehaviorPmo {
     @UIButton(position = 20, label = "INVISIBLE", caption = "Should be invisible in read-only mode")
     public void invisibleButton() {
         Notification.show("Button clicked", 1000, Position.MIDDLE);
+    }
+
+    @BindReadOnlyBehavior(ReadOnlyBehaviorType.INVISIBLE)
+    @UIOpenDialogButton(position = 25, label = "INVISIBLE UIOpenDialogButton",
+            caption = "Should be invisible in read-only mode")
+    public Function<Handler, OkCancelDialog> getInvisibleOpenDialogButton() {
+        return update -> ConfirmationDialog.open("Dialog", "update on OK", update);
+    }
+
+    @BindReadOnlyBehavior(ReadOnlyBehaviorType.INVISIBLE)
+    @UITextField(position = 26, label = "INVISIBLE UITextField")
+    public String getInvisibleTextField() {
+        return text;
+    }
+
+    public void setInvisibleTextField(String text) {
+        this.text = text;
     }
 
     @BindPlaceholder("Should be writable in read-only mode")
@@ -76,7 +99,6 @@ public class BindReadOnlyBehaviorPmo {
     }
 
     public String getCaption() {
-        return title;
+        return caption;
     }
-
 }

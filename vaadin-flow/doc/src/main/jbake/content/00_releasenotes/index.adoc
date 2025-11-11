@@ -21,6 +21,10 @@ The following versions have been updated:
 | Logback                    | 1.5.21 | 1.5.20
 |===
 
+==== Bugfixes
+// https://jira.convista.com/browse/LIN-3045
+* <<bind-read-only-behavior, @BindReadOnlyBehavior>> now also works with components other than UIButton.
+
 === Version 2.8.2
 
 ==== Version Updates

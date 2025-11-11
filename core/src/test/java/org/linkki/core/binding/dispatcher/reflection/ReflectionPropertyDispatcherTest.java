@@ -358,7 +358,7 @@ class ReflectionPropertyDispatcherTest {
                 TestPMO.class, TestPMO.PROPERTY_PMO_GETTER_ONLY,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_GETTER_ONLY));
 
-        assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(false));
+        assertThat(dispatcher.isPushable(Aspect.of("", null)), is(false));
     }
 
     @Test
@@ -367,7 +367,7 @@ class ReflectionPropertyDispatcherTest {
                 TestPMO.class, TestPMO.PROPERTY_PMO_PROP,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_PROP));
 
-        assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(true));
+        assertThat(dispatcher.isPushable(Aspect.of("", null)), is(true));
     }
 
     @Test
@@ -376,7 +376,7 @@ class ReflectionPropertyDispatcherTest {
                 TestPMO.class, TestPMO.PROPERTY_PMO_PROP,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_PROP));
 
-        assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(false));
+        assertThat(dispatcher.isPushable(Aspect.of("", null)), is(false));
     }
 
     @Test
@@ -385,7 +385,7 @@ class ReflectionPropertyDispatcherTest {
                 TestPMO.class, TestPMO.PROPERTY_PMO_GETTER_ONLY,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_GETTER_ONLY));
 
-        assertThat(dispatcher.isPushable(Aspect.of("")), is(false));
+        assertThat(dispatcher.isPushable(Aspect.of("", null)), is(false));
     }
 
     @Test
@@ -404,6 +404,17 @@ class ReflectionPropertyDispatcherTest {
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
 
         assertThat(dispatcher.isPushable(Aspect.of("")), is(false));
+    }
+
+    @Test
+    void testIsPushable_VoidMethodWithModelObject() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                TestPMO.class, TestModelObject.MODEL_PROPERTY,
+                new ReflectionPropertyDispatcher(this::getTestModelObject, TestModelObject.class,
+                        TestModelObject.MODEL_PROPERTY,
+                        new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK)));
+
+        assertThat(dispatcher.isPushable(Aspect.of("", null)), is(true));
     }
 
     @Test
@@ -508,6 +519,10 @@ class ReflectionPropertyDispatcherTest {
 
         public void setMissingGetterProp() {
             // Nothing to do
+        }
+
+        public void modelProperty() {
+
         }
 
         public void buttonClick() {
