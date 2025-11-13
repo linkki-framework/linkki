@@ -14,6 +14,19 @@
 
 === Alpha {vlinkki}
 
+// ==== Version Updates
+//
+// The following versions have been updated:
+//
+// [cols="a,a,a"]
+// |===
+// | Dependency                    | New version       | Previous version
+//
+// |===
+
+
+=== Alpha 2.9.0-a20251112-01
+
 ==== Version Updates
 
 The following versions have been updated:
@@ -31,6 +44,9 @@ The following versions have been updated:
 // https://jira.convista.com/browse/LIN-4604
 * *UINestedComponent with multiple PMOs* +
 This version adds support for returning multiple PMOs as a `SequencedCollection<Object>` in the `UINestedComponent` annotation. See <<multiple-nested-pmos, chapter "Nested Components">> for more information.
+// https://jira.convista.com/browse/LIN-3148
+* *BindHeight* +
+A new aspect annotation <<bind-height, @BindHeight>> has been added to define the height of a UI component, e.g., to set a fixed size for table components or other components that benefit from a consistent display area.
 
 ==== Other Improvements
 // https://jira.convista.com/browse/LIN-4491
@@ -85,9 +101,6 @@ A new aspect annotation <<bind-helper-text, @BindHelperText>> has been added to 
 * *Clear button for UIDateField, UITimeField and UIDateTimeField* +
 Date and time fields now have a clear button to erase the current value.
 This helps in situations when it is faster to first erase the former value and then insert a new one.
-// https://jira.convista.com/browse/LIN-3148
-* *BindHeight* +
-A new aspect annotation <<bind-height, @BindHeight>> has been added to define the height of a UI component, e.g., to set a fixed size for table components or other components that benefit from a consistent display area.
 
 ==== Bugfixes
 
