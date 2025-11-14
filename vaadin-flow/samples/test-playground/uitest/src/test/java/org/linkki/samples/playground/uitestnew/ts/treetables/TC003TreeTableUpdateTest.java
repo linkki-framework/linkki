@@ -42,7 +42,7 @@ class TC003TreeTableUpdateTest extends PlaygroundUiTest {
 
         table.expandWithClick(0);
 
-        assertThat(table.getRowCount(), is(4));
+        assertThat("Random failing: LIN-4622", table.getRowCount(), is(4));
 
         removeChildRow(table);
 
