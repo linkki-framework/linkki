@@ -43,10 +43,14 @@ The following versions have been updated:
 ==== UI Annotations and Aspects
 // https://jira.convista.com/browse/LIN-4604
 * *UINestedComponent with multiple PMOs* +
-This version adds support for returning multiple PMOs as a `SequencedCollection<Object>` in the `UINestedComponent` annotation. See <<multiple-nested-pmos, chapter "Nested Components">> for more information.
+This version adds support for returning multiple PMOs as a `SequencedCollection<Object>` in the `UINestedComponent` annotation.
+See <<multiple-nested-pmos, chapter "Nested Components">> for more information.
 // https://jira.convista.com/browse/LIN-3148
 * *BindHeight* +
 A new aspect annotation <<bind-height, @BindHeight>> has been added to define the height of a UI component, e.g., to set a fixed size for table components or other components that benefit from a consistent display area.
+// https://jira.convista.com/browse/LIN-4605
+* *BindWidth* +
+A new aspect annotation <<bind-width, @BindWidth>> has been added to define the width of a UI component, e.g., to set a fixed size for date fields or other components that benefit from a consistent display area.
 
 ==== Other Improvements
 // https://jira.convista.com/browse/LIN-4491
@@ -57,8 +61,8 @@ Note that when using components that use `CompletableFuture` as return types in 
 // https://jira.convista.com/browse/LIN-4518
 * *Testbench Extension: error screenshots before @AfterEach methods* +
 Failing UI tests now record an error screenshot before any cleanup is done in @AfterEach methods. +
-Before this change, error screenshots were taken after cleanup was done by these methods. This sometimes prevents seeing the actual UI state when the error occurred, e.g. when the cleanup logs out of the application.
-
+Before this change, error screenshots were taken after cleanup was done by these methods.
+This sometimes prevents seeing the actual UI state when the error occurred, e.g. when the cleanup logs out of the application.
 
 === Alpha 2.9.0-a20251008-01
 
@@ -72,7 +76,6 @@ The following versions have been updated:
 
 | Vaadin                        | 24.9.2  (link:https://github.com/vaadin/platform/releases/tag/24.9.2[Release Notes])| 24.8.10
 |===
-
 
 === Alpha 2.9.0-a20251007-01
 

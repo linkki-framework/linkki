@@ -22,26 +22,26 @@ import java.lang.annotation.Target;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.ui.aspects.HeightAspectDefinition;
+import org.linkki.core.ui.aspects.WidthAspectDefinition;
 
 /**
- * Annotation to bind a height to a UI Component.
+ * Annotation to bind a width to a UI Component.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
-@LinkkiAspect(BindHeight.BindHeightAspectDefinitionCreator.class)
-public @interface BindHeight {
+@LinkkiAspect(BindWidth.BindWidthAspectDefinitionCreator.class)
+public @interface BindWidth {
     /**
-     * Defines the height as a CSS-compatible string, such as {@code "100px"}, {@code "50%"}, or
+     * Defines the width as a CSS-compatible string, such as {@code "100px"}, {@code "50%"}, or
      * {@code "10em"}.
      */
     String value();
 
-    class BindHeightAspectDefinitionCreator implements AspectDefinitionCreator<BindHeight> {
+    class BindWidthAspectDefinitionCreator implements AspectDefinitionCreator<BindWidth> {
 
         @Override
-        public LinkkiAspectDefinition create(BindHeight annotation) {
-            return new HeightAspectDefinition(annotation.value());
+        public LinkkiAspectDefinition create(BindWidth annotation) {
+            return new WidthAspectDefinition(annotation.value());
         }
     }
 }
