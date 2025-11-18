@@ -14,7 +14,6 @@
 package org.linkki.core.ui.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.withDefaults;
 import static org.mockito.Mockito.mock;
 
 import java.io.Serial;
@@ -93,7 +92,7 @@ public class KaribuUIExtensionTest {
 
         @RegisterExtension
         KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(withDefaults()
+                .withConfiguration(config -> config
                         .addRoute(MyView.class, () -> myView)
                         .addRoutes(ViewWithParentLayout.class,
                                    ViewWithException.class)
@@ -193,8 +192,7 @@ public class KaribuUIExtensionTest {
 
         @RegisterExtension
         KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(withDefaults()
-                        .setI18NProvider(getCustomI18NProvider()));
+                .withConfiguration(c -> c.setI18NProvider(getCustomI18NProvider()));
 
         @Test
         void testI18NProvider() {
@@ -207,13 +205,16 @@ public class KaribuUIExtensionTest {
 
         @RegisterExtension
         KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(withDefaults()
-                        .setI18NProvider(new DefaultI18NProvider(
-                                List.of(Locale.ENGLISH, Locale.GERMAN, Locale.CHINESE)))
+                .withConfiguration(c -> c.setI18NProvider(new DefaultI18NProvider(
+                        List.of(Locale.ENGLISH, Locale.GERMAN, Locale.CHINESE)))
                         .setLocale(Locale.CHINESE));
 
         @Test
         void testLocale() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.CHINESE);
+
+            KaribuUtils.UI.refresh();
+
             assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.CHINESE);
         }
     }
@@ -227,7 +228,15 @@ public class KaribuUIExtensionTest {
 
         @Test
         void testLocale() {
-            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.GERMAN);
+            assertThat(UI.getCurrent().getLocale())
+                    .as("locale should set before test execution")
+                    .isEqualTo(Locale.GERMAN);
+
+            KaribuUtils.UI.refresh();
+
+            assertThat(UI.getCurrent().getLocale())
+                    .as("locale should be set again upon refresh")
+                    .isEqualTo(Locale.GERMAN);
         }
     }
 
@@ -240,6 +249,10 @@ public class KaribuUIExtensionTest {
 
         @Test
         void testLocale() {
+            assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
+
+            KaribuUtils.UI.refresh();
+
             assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.ENGLISH);
         }
     }
@@ -264,12 +277,13 @@ public class KaribuUIExtensionTest {
     @ValueSource(booleans = { true, false })
     @ParameterizedTest
     void testSetUpUI_ProductionMode(boolean productionMode) {
-        var extension = KaribuUIExtension.withConfiguration(withDefaults().setProductionMode(productionMode));
+        var extension = KaribuUIExtension.withConfiguration(c -> c.setProductionMode(productionMode));
 
-        extension.setUpUI();
+        extension.beforeEach(mock());
 
         assertThat(VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode())
                 .isEqualTo(productionMode);
+
         extension.afterEach(mock());
     }
 

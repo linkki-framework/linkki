@@ -28,7 +28,7 @@ import com.vaadin.flow.component.UI;
  * <p>
  * When using {@link KaribuUIExtension} with {@link org.junit.jupiter.api.extension.ExtendWith}.
  * When using {@link org.junit.jupiter.api.extension.RegisterExtension}, use
- * {@link org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration#setLocale(Locale)} instead.
+ * {@link org.linkki.core.ui.test.KaribuConfiguration#setLocale(Locale)} instead.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

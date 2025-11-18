@@ -91,6 +91,37 @@
             "new": "class org.junit.jupiter.api.extension.MediaType",
             "superClass": "org.junit.jupiter.api.MediaType",
             "justification": "JTS-2566 Version updated to 5.14.0"
+          },
+          {
+            "code": "java.class.removed",
+            "old": "class org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration",
+            "justification": "LIN-4635 KaribuConfiguration was moved to top-level because it is now also used by the new utility class KaribuUI."
+          },
+          {
+            "code": "java.method.parameterTypeParameterChanged",
+            "old": "parameter void org.linkki.core.ui.test.CustomInstantiatorMockServlet::<init>(com.github.mvysny.kaributesting.v10.Routes, ===java.util.Map<org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.ClassKey, java.util.function.Supplier<?>>===)",
+            "new": "parameter void org.linkki.core.ui.test.CustomInstantiatorMockServlet::<init>(com.github.mvysny.kaributesting.v10.Routes, ===java.util.Map<org.linkki.core.ui.test.CustomInstantiatorMockServlet.ClassKey, java.util.function.Supplier<?>>===)",
+            "parameterIndex": "1",
+            "justification": "LIN-4635 KaribuConfiguration was moved to top-level because it is now also used by the new utility class KaribuUI."
+          },
+          {
+            "code": "java.method.parameterTypeParameterChanged",
+            "old": "parameter org.linkki.core.ui.test.KaribuUIExtension org.linkki.core.ui.test.KaribuUIExtension::withConfiguration(===java.util.function.Consumer<org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration>===)",
+            "new": "parameter org.linkki.core.ui.test.KaribuUIExtension org.linkki.core.ui.test.KaribuUIExtension::withConfiguration(===java.util.function.Consumer<org.linkki.core.ui.test.KaribuConfiguration>===)",
+            "parameterIndex": "0",
+            "justification": "LIN-4635 KaribuConfiguration was moved to top-level because it is now also used by the new utility class KaribuUI."
+          },
+          {
+            "code": "java.method.parameterTypeChanged",
+            "old": "parameter org.linkki.core.ui.test.KaribuUIExtension org.linkki.core.ui.test.KaribuUIExtension::withConfiguration(===org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration===)",
+            "new": "parameter org.linkki.core.ui.test.KaribuUIExtension org.linkki.core.ui.test.KaribuUIExtension::withConfiguration(===org.linkki.core.ui.test.KaribuConfiguration===)",
+            "parameterIndex": "0",
+            "justification": "LIN-4635 KaribuConfiguration was moved to top-level because it is now also used by the new utility class KaribuUI."
+          },
+          {
+            "code": "java.field.removedWithConstant",
+            "old": "field org.linkki.core.ui.test.KaribuUIExtension.PROPERTY_PRODUCTION_MODE",
+            "justification": "LIN-4635 Moved to new utility class KaribuUI"
           }
         ]
       }

@@ -14,11 +14,13 @@
 
 package org.linkki.core.ui.test;
 
+import java.io.Serial;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.ClassKey;
+import org.jetbrains.annotations.NotNull;
 
 import com.github.mvysny.kaributesting.v10.Routes;
 import com.github.mvysny.kaributesting.v10.mock.MockInstantiator;
@@ -46,11 +48,13 @@ public class CustomInstantiatorMockServlet extends MockVaadinServlet {
     @Override
     protected VaadinServletService createServletService(DeploymentConfiguration deploymentConfiguration) {
         VaadinServletService service = new MockService(this, deploymentConfiguration, getUiFactory()) {
+            @Serial
             private static final long serialVersionUID = 1L;
 
             @Override
             public Instantiator getInstantiator() {
                 return new MockInstantiator(super.getInstantiator()) {
+                    @Serial
                     private static final long serialVersionUID = 1L;
 
                     @SuppressWarnings("unchecked")
@@ -72,4 +76,11 @@ public class CustomInstantiatorMockServlet extends MockVaadinServlet {
         return service;
     }
 
+    public record ClassKey(Class<?> clazz) implements Comparable<ClassKey> {
+
+        @Override
+        public int compareTo(@NotNull ClassKey o) {
+            return Comparator.comparing((ClassKey key) -> key.clazz.getCanonicalName()).compare(this, o);
+        }
+    }
 }

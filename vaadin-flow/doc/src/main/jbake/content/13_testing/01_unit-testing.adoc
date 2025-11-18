@@ -84,13 +84,13 @@ Expecting actual:
 to have exactly one visible child matching type Div
 ----
 
-==== Mock Vaadin setup with KaribuUIExtension
+==== Mock Vaadin setup
 
 While some of the UI components created with Vaadin can be tested easily in a regular unit test, the setup gets difficult when dialogs, locales or routing are involved.
 
 Karibu makes this easier by providing the class `MockVaadinUI`, which not only sets up a `UI` instance along with the session, but also can handle routes.
 
-The linkki Karibu module further simplify the set-up with the JUnit extension `KaribuUIExtension`.
+The linkki Karibu module further simplify the set-up with the utility class `KaribuUI` and the JUnit extension `KaribuUIExtension`.
 
 ===== Simple set-up: KaribuUIExtension with @ExtendWith
 
@@ -131,11 +131,13 @@ To use the configuration, the `KaribuUIExtension` must be used with link:https:/
 .KaribuUIExtension with complex configuration
 [source,java]
 ----
+    import com.vaadin.flow.router.ParentLayout;
+
     class RegisterExtensionWithConfiguration {
 
         @RegisterExtension
         KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(withDefaults()
+                .withConfiguration(config -> config
                         .setProductionMode(true)
                         .addRoute(MyView.class, () -> myView)
                         .addRoutes(ViewWithParentLayout.class,
@@ -144,6 +146,41 @@ To use the configuration, the `KaribuUIExtension` must be used with link:https:/
                         .addInstance(ParentLayout.class, ParentLayout::new));
         ...
     }
+----
+
+[[karibu-ui]]
+==== Explicit set-up using `KaribuUI`
+
+With `KaribuUIExtension`, the set-up must be the same for all methods in the test class as the set-up is called implicitly in the extension methods.
+In some cases, the set-up needs to be called explicitly, e.g. if the set-up differs for each method, or the implementer wants to only set up and tear down once per class.
+
+In these cases, `KaribuUI#setUp` can be used directly without an extension.
+As tear-down is not automatically executed by an extension, caller must make sure to call `KaribuUI#tearDown` afterwards explicitly.
+
+[NOTE]
+====
+If additional set-up is needed in your project, you can create your own utility class such as `MyProjectTestUI` that provides set-up and tear-down methods which delegates to `KaribuUI`.
+====
+
+.Set-up with KaribuUI
+[source,java]
+----
+import com.vaadin.flow.component.UI;
+import java.util.Locale;
+
+class SetupWithKaribuUI {
+
+    @Test
+    void testUI() {
+        KaribuUI.setup(KaribuConfiguration.withDefaults()
+                .setLocale(Locale.GERMAN)
+                .addRoute.addRoute(MyView.class, () -> myView));
+
+        assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.GERMAN);
+        ...
+    }
+
+}
 ----
 
 ===== Locale

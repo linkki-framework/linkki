@@ -15,7 +15,6 @@
 package org.linkki.framework.ui.dialogs;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.withDefaults;
 
 import java.io.Serial;
 
@@ -59,7 +58,7 @@ class ErrorDialogConfigurationTest {
 
         @RegisterExtension
         private KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(withDefaults().addRoutes(DefaultTestView.class, CustomTestView.class)
+                .withConfiguration(c -> c.addRoutes(DefaultTestView.class, CustomTestView.class)
                         .setProductionMode(false));
 
         @Test
@@ -89,7 +88,7 @@ class ErrorDialogConfigurationTest {
 
         @RegisterExtension
         private KaribuUIExtension extension = KaribuUIExtension
-                .withConfiguration(withDefaults().addRoutes(DefaultTestView.class, CustomTestView.class)
+                .withConfiguration(c -> c.addRoutes(DefaultTestView.class, CustomTestView.class)
                         .setProductionMode(true));
 
         @Test

@@ -16,8 +16,8 @@ package org.linkki.framework.ui;
 
 import static com.github.mvysny.kaributesting.v10.LocatorJ._assertOne;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.core.ui.test.KaribuConfiguration.withDefaults;
 import static org.linkki.core.ui.test.KaribuUIExtension.withConfiguration;
-import static org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.withDefaults;
 import static org.mockito.Mockito.spy;
 
 import java.io.Serial;

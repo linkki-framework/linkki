@@ -18,7 +18,7 @@ import static com.github.mvysny.kaributesting.v10.LocatorJ._click;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.withDefaults;
+import static org.linkki.core.ui.test.KaribuConfiguration.withDefaults;
 import static org.linkki.core.ui.test.KaribuUtils.getTextContent;
 
 import java.io.Serial;

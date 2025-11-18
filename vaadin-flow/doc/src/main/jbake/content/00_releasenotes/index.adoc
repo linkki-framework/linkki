@@ -12,6 +12,32 @@
 
 // The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
 
+// ==== Version Updates
+//
+// The following versions have been updated:
+//
+// [cols="a,a,a"]
+// |===
+// | Dependency                    | New version       | Previous version
+//
+// |===
+
+// ==== UI Annotations and Aspects
+// // https://jira.convista.com/browse/LIN-XXXX
+// * *Short description* +
+// Description with link to documentation
+
+// ==== Testing
+// // https://jira.convista.com/browse/LIN-XXXX
+// * *Short description* +
+// Description with link to documentation
+
+// ==== Bugfixes
+// // https://jira.convista.com/browse/LIN-XXXX
+// * *Short description* +
+// Description
+
+
 === Alpha {vlinkki}
 
 ==== Version Updates
@@ -28,7 +54,25 @@ The following versions have been updated:
 | Logback                       | 1.5.21 | 1.5.20
 |===
 
+
+==== Testing
+// https://jira.convista.com/browse/LIN-4635
+* [.api-change]*New utility class for set-up: KaribuUI* +
+linkki provides `KaribuUIExtension` that can be used with `@ExtendWith` or `@RegisterExtension` to set up the Vaadin UI for Karibu testing.
+However, this only works well for test classes in which the set-up is the same for each method. +
+This version introduces a new utility class <<karibu-ui,`KaribuUI`>> that can be used to set up and tear down explicitly by method call.
+This can be used to create a different set-up for each method, as well as test classes that do not tear down after each method, but only once for the whole class. +
+With this change, the configuration class `KaribuConfiguration` was moved to the top level.
+Static imports of this class may need to be adjusted.
+If the static method `withDefaults` is currently used with `KaribuUIExtension.withConfigution` (`KaribuUIExtension.withConfiguration(withDefaults().setSomething())`, consider changing the usage to `KaribuUIExtension.withConfiguration(config -> config.setSomething())`.
+// https://jira.convista.com/browse/LIN-4635
+* *KaribuUtils: browser refresh* +
+`KaribuUtils` now has a new method `UI#refresh` with which a browser refresh can be simulated.
+
 ==== Bugfixes
+// https://jira.convista.com/browse/LIN-4636
+* *KaribuUIExtension does not set locale on refresh* +
+When setting locale using `KaribuUIExtension` or `WithLocale`, the locale is lost upon `Page#reload`.
 // https://jira.convista.com/browse/LIN-3045
 * <<bind-read-only-behavior, @BindReadOnlyBehavior>> now also works with components other than UIButton.
 

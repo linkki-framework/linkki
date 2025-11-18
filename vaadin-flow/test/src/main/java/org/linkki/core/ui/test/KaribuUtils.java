@@ -245,6 +245,15 @@ public class KaribuUtils {
             await().atMost(1, TimeUnit.SECONDS).until(() -> !ui.getSession().getPendingAccessQueue().isEmpty());
             ui.getSession().getService().runPendingAccessTasks(ui.getSession());
         }
+
+        /**
+         * Simulates a browser refresh.
+         * 
+         * @since 2.9.0
+         */
+        public static void refresh() {
+            com.vaadin.flow.component.UI.getCurrent().getPage().reload();
+        }
     }
 
     /**
@@ -539,5 +548,4 @@ public class KaribuUtils {
         }
 
     }
-
 }

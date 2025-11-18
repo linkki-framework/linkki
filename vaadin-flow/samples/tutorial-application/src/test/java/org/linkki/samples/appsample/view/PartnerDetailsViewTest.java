@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.linkki.core.ui.test.KaribuConfiguration;
 import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.vaadin.component.section.LinkkiSection;
@@ -41,7 +42,7 @@ class PartnerDetailsViewTest {
 
     @RegisterExtension
     KaribuUIExtension karibuUIExtension = KaribuUIExtension
-            .withConfiguration(new KaribuUIExtension.KaribuConfiguration()
+            .withConfiguration(new KaribuConfiguration()
                     .addRoute(PartnerDetailsView.class,
                               () -> new PartnerDetailsView(InMemoryBusinessPartnerRepository
                                       .newSampleRepository()))

@@ -14,5 +14,7 @@
 /**
  * Utilities for UI tests.
  */
-@edu.umd.cs.findbugs.annotations.DefaultAnnotation(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
 package org.linkki.core.ui.test;
