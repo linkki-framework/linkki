@@ -16,84 +16,34 @@ package org.linkki.core.ui.aspects.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.lang.annotation.Annotation;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.aspects.HeightAspectDefinition;
-import org.linkki.core.ui.aspects.annotation.BindHeight.BindHeightAspectDefinitionCreator;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
-import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
-import org.linkki.core.uicreation.UiCreator;
+import org.linkki.core.ui.layout.annotation.UICssLayout;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.HasSize;
+import com.vaadin.flow.component.html.Div;
 
 class BindHeightIntegrationTest {
-    private final TestPmo pmo = new TestPmo();
-    private final BindingContext bindingContext = new BindingContext();
 
     @Test
-    void testBindHeight_StaticValue() {
-        var textField = (TextField)getUiElements().get("heightValue");
-        var textField2 = (TextField)getUiElements().get("heightDefaultValue");
+    void testBindHeight() {
+        var layout = (Div)VaadinUiCreator.createComponent(new TestPmo(), new BindingContext());
+        var component = (HasSize)layout.getComponentAt(0);
 
-        var textFieldCustomHeight = textField.getHeight();
-        var textFieldDefaultHeight = textField2.getHeight();
-
-        assertThat(textFieldCustomHeight).isEqualTo("200px");
-        assertThat(textFieldDefaultHeight).isEqualTo("");
+        assertThat(component.getHeight()).isEqualTo(TestPmo.HEIGHT);
     }
 
-    @Test
-    void testBindHeightAspectDefinitionCreator() {
-        BindHeight annotation = new BindHeight() {
-
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return BindHeight.class;
-            }
-
-            @Override
-            public String value() {
-                return "100em";
-            }
-        };
-        var aspectDefinitionCreator = new BindHeightAspectDefinitionCreator();
-
-        var aspectDefinition = (HeightAspectDefinition)aspectDefinitionCreator.create(annotation);
-        var aspect = aspectDefinition.createAspect();
-
-        assertThat(aspect.getName()).isEqualTo(HeightAspectDefinition.NAME);
-        assertThat(aspect.getValue()).isEqualTo("100em");
-    }
-
-    private Map<String, Component> getUiElements() {
-        return UiCreator
-                .createUiElements(pmo,
-                                  bindingContext,
-                                  c -> new NoLabelComponentWrapper((Component)c))
-                .map(VaadinComponentWrapper::getComponent)
-                .collect(Collectors.toMap(k -> k.getId().get(), v -> v));
-    }
-
+    @UICssLayout
     static class TestPmo {
-        private static final String VALUE = "200px";
 
-        @BindHeight(VALUE)
+        private static final String HEIGHT = "200px";
+
+        @BindHeight(HEIGHT)
         @UITextField(position = 0)
-        public String getHeightValue() {
+        public String getValue() {
             return "";
         }
-
-        @BindHeight
-        @UITextField(position = 10)
-        public String getHeightDefaultValue() {
-            return "";
-        }
-
     }
 }

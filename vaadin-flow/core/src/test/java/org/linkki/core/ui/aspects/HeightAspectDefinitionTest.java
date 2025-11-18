@@ -34,7 +34,7 @@ class HeightAspectDefinitionTest {
 
     @Test
     void testCreateComponentValueSetter() {
-        var aspectDefinition = new HeightAspectDefinition("");
+        var aspectDefinition = new HeightAspectDefinition("irrelevant");
         var textField = new TextField();
 
         var valueSetter = aspectDefinition.createComponentValueSetter(new NoLabelComponentWrapper(textField));

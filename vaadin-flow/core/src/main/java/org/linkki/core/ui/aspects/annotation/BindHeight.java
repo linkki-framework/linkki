@@ -28,13 +28,14 @@ import org.linkki.core.ui.aspects.HeightAspectDefinition;
  * Annotation to bind a height to a UI Component.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
 @LinkkiAspect(BindHeight.BindHeightAspectDefinitionCreator.class)
 public @interface BindHeight {
     /**
-     * Defines the height that should be bound to the UI component.
+     * Defines the height as a CSS-compatible string, such as {@code "100px"}, {@code "50%"}, or
+     * {@code "10em"}.
      */
-    String value() default "";
+    String value();
 
     class BindHeightAspectDefinitionCreator implements AspectDefinitionCreator<BindHeight> {
 

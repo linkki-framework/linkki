@@ -155,22 +155,22 @@ It is also very easy to create additional <<creating-aspects, custom aspect anno
 [options="header"]
 |===
 | Standalone Annotation | Description
-| `<<tooltips, @BindTooltip>>` | `Tooltip handling, using default TooltipType.AUTO`
-| `<<bind-read-only, @BindReadOnly>>` | `Bind a component's read-only property. Exclusive to Components of type HasValue`
-| `<<bind-read-only-behavior, @BindReadOnlyBehavior>>` | `Automatically change enabled or visible behavior when in read-only mode.`
-| `<<bind-visible, @BindVisible>>` | `Visiblity handling, using default VisibleType.DYNAMIC`
-| `<<bind-style-names, @BindStyleNames>>` | `Provide style class names for a component`
-| `<<bind-caption, @BindCaption>>` | `Caption handling, using default CaptionType.AUTO`
-| `<<bind-icon, @BindIcon>>` | `Icon handling, using default IconType.AUTO`
-| `<<suffix, @BindSuffix>>` | `Suffix handling, using default SuffixType.AUTO`
-| `<<placeholder, @BindPlaceholder>>`| `Placeholder handling using default PlaceholderType.AUTO`
-| `<<autofocus, @BindAutoFocus>>`| `Bind the autofocus property of a UI element.`
-| `<<variant-names, @BindVariantNames>>`| `Bind variant theme to a UI element or PMO class.`
-| `<<bind-messages-aspect, @BindMessages>>`| `Manually filter and set validation messages on a field.`
-| `<<bind-label, @BindLabel>>` | `Set label texts dynamically.`
-| `<<bind-slot, @BindSlot>>` | `Sets a UI element into a slot of a predefined, reusable layout.`
-| `<<bind-helper-text, @BindHelperText>>` | `Set helper text on UI elements using default HelperTextType.AUTO`
-| `<<bind-height, @BindHeight>>` | `Set height on UI components using the default value "" (no fixed height)`
+| `<<tooltips, @BindTooltip>>` | Tooltip handling, using default `TooltipType.AUTO`
+| `<<bind-read-only, @BindReadOnly>>` | Bind a component's read-only property. Exclusive to Components of type `HasValue`
+| `<<bind-read-only-behavior, @BindReadOnlyBehavior>>` | Automatically change enabled or visible behavior when in read-only mode.
+| `<<bind-visible, @BindVisible>>` | Visiblity handling, using default `VisibleType.DYNAMIC`
+| `<<bind-style-names, @BindStyleNames>>` | Provide style class names for a component
+| `<<bind-caption, @BindCaption>>` | Caption handling, using default CaptionType.AUTO
+| `<<bind-icon, @BindIcon>>` | Icon handling, using default `IconType.AUTO`
+| `<<suffix, @BindSuffix>>` | Suffix handling, using default `SuffixType.AUTO`
+| `<<placeholder, @BindPlaceholder>>`| Placeholder handling using default `PlaceholderType.AUTO`
+| `<<autofocus, @BindAutoFocus>>`| Bind the autofocus property of a UI element.
+| `<<variant-names, @BindVariantNames>>`| Bind variant theme to a UI element or PMO class.
+| `<<bind-messages-aspect, @BindMessages>>`| Manually filter and set validation messages on a field.
+| `<<bind-label, @BindLabel>>` | Set label texts dynamically.
+| `<<bind-slot, @BindSlot>>` | Sets a UI element into a slot of a predefined, reusable layout.
+| `<<bind-helper-text, @BindHelperText>>` | Set helper text on UI elements using default `HelperTextType.AUTO`
+| `<<bind-height, @BindHeight>>` | Set height of a component
 |===
 
 [[tooltips]]
@@ -605,8 +605,6 @@ The following configuration options are available for `HelperTextType`:
 The annotation `@BindHeight` can be used to define the height of a UI component.
 It has a single property `value`, which defines the height that should be applied to the UI component.
 The value can be any valid CSS height value, such as `"100px"`, `"50%"`, or `"10em"`.
-If no value is given (default: `""`), the component keeps its default height.
 
 [NOTE]
-This annotation can be particularly useful for table-like components such as `UITableComponent`,
-where the display area often benefits from a fixed height (e.g. to show a consistent number of rows).
+This annotation can be particularly useful for table-like components such as `UITableComponent`, where the display area often benefits from a fixed height (e.g. to show a consistent number of rows).

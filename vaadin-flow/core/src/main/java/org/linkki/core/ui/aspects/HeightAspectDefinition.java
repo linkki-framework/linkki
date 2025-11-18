@@ -14,6 +14,8 @@
 
 package org.linkki.core.ui.aspects;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.function.Consumer;
 
 import org.linkki.core.binding.descriptor.aspect.Aspect;
@@ -23,23 +25,16 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import com.vaadin.flow.component.HasSize;
 
 /**
- * Aspect definition to bind the height of a UI component.
- * <p>
- * The height can only be defined using a static value that is interpreted as a CSS-compatible
- * string, such as {@code "100px"}, {@code "50%"}, or {@code "10em"}.
+ * Aspect definition to set a static height.
  */
 public class HeightAspectDefinition extends ModelToUiAspectDefinition<String> {
+
     public static final String NAME = "height";
 
     private final String value;
 
-    /**
-     * Creates a new {@link HeightAspectDefinition} that represents a static height.
-     *
-     * @param value the height value to be applied to the component
-     */
-    public HeightAspectDefinition(String value) {
-        this.value = value;
+    public HeightAspectDefinition(String height) {
+        this.value = requireNonNull(height);
     }
 
     @Override
