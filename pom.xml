@@ -62,7 +62,7 @@
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <spotbugs.version>4.8.6</spotbugs.version>
         <checkstyle.version>10.20.1</checkstyle.version>
-        <logback-version>1.5.20</logback-version>
+        <logback-version>1.5.21</logback-version>
 
         <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
         <revapi-java.version>0.28.4</revapi-java.version>

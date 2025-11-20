@@ -20,7 +20,7 @@
         <java.version>17</java.version>
         <spotbugs.version>4.8.6</spotbugs.version>
         <spring-boot.version>3.4.11</spring-boot.version>
-        <spring-framework.version>6.2.12</spring-framework.version>
+        <spring-framework.version>6.2.13</spring-framework.version>
         <checkstyle.version>10.20.2</checkstyle.version>
         <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
