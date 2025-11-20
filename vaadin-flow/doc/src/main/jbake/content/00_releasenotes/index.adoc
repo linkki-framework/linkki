@@ -14,16 +14,19 @@
 
 === Alpha {vlinkki}
 
-// ==== Version Updates
-//
-// The following versions have been updated:
-//
-// [cols="a,a,a"]
-// |===
-// | Dependency                    | New version       | Previous version
-//
-// |===
+==== Version Updates
 
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                                                                  | Previous version
+
+| Vaadin                        | 24.9.5 (link:https://github.com/vaadin/platform/releases/tag/24.9.5[Release Notes])                                          | 24.9.4
+| Faktor-IPS                    | 26.1.0.a20251106-01 (link:https://doc.faktorzehn.org/faktor-ips/26.1-a20251107-01/01_releasenotes/index.html#release_notes[Release Notes]) | 26.1.0.a20251024-01
+| commons-lang                  | 3.20.0 | 3.19.0
+| Logback                       | 1.5.21 | 1.5.20
+|===
 
 === Alpha 2.9.0-a20251112-01
 
@@ -34,6 +37,7 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version       | Previous version
+
 | Vaadin | 24.9.4 (link:https://github.com/vaadin/platform/releases/tag/24.9.4[Release Notes])| 24.9.2
 | Spring Boot | 3.5.7 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.7[Release Notes])| 3.5.6
 | Faktor-IPS                    | 26.1.0.a20251024-01 (link:https://doc.faktorzehn.org/faktor-ips/26.1-a20251024-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.a20251001-01

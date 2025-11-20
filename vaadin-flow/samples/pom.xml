@@ -21,15 +21,15 @@
         <java.version>21</java.version>
         <spotbugs.version>4.9.8</spotbugs.version>
         <spring-boot.version>3.5.7</spring-boot.version>
-        <spring-framework.version>6.2.12</spring-framework.version>
-        <checkstyle.version>12.1.1</checkstyle.version>
-        <commons-lang3.version>3.19.0</commons-lang3.version>
+        <spring-framework.version>6.2.13</spring-framework.version>
+        <checkstyle.version>12.1.2</checkstyle.version>
+        <commons-lang3.version>3.20.0</commons-lang3.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 
         <!-- Maven plugin versions -->
-        <vaadin-maven-plugin.version>24.9.4</vaadin-maven-plugin.version>
+        <vaadin-maven-plugin.version>24.9.5</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
