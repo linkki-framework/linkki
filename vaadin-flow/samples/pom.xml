@@ -29,7 +29,7 @@
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
 
         <!-- Must correspond to jakarta.servlet-api version, see https://tomcat.apache.org/whichversion.html -->
-        <tomcat.version>10.1.48</tomcat.version>
+        <tomcat.version>10.1.49</tomcat.version>
         <!-- Maven plugin versions -->
         <vaadin-maven-plugin.version>24.4.22</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
