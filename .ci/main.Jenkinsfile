@@ -17,6 +17,11 @@ pipeline {
         SUITE_VERSION = '25.1'
     }
 
+    tools {
+        jdk 'OpenJDK 17'
+        maven 'maven 3.9'
+    }
+
     stages {
         stage('Pre-Build') {
             steps {
@@ -28,7 +33,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                withMaven(publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
                         -pl "!vaadin-flow/doc" \
                         -Pproduction \
@@ -58,11 +63,9 @@ pipeline {
 
         stage('Upload Documentation') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 \
-                        -pl "vaadin-flow/doc" \
-                        deploy \
-                        -Ddoc.user=doc'
+                withMaven(publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -U -pl "vaadin-flow/doc" clean install'
+                    uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false
                 }
             }
         }
@@ -97,7 +100,7 @@ pipeline {
                             }
                         }
 
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+                        withMaven(publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
                                 -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
                         }
@@ -127,7 +130,7 @@ pipeline {
                 // run the SonarQube analysis for this change
                 stage('SonarQube Analysis') {
                     steps {
-                        withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 17') {
+                        withMaven() {
                             runSonarQubeAnalysis()
                         }
                     }
@@ -138,7 +141,7 @@ pipeline {
         stage('External Link Tests') {
             steps {
                 retry(3) {
-                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                    withMaven(publisherStrategy: 'EXPLICIT') {
                         sh 'mvn -U -pl "vaadin-flow/doc" jade:test-external-links'
                     }
                 }

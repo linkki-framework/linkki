@@ -129,6 +129,7 @@ pipeline {
             steps {
                 script {
                     uploadRelease() {
+                        uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false
                         // only publish final releases (no rcs & milestones) on maven central
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
                             deployToMavenCentral(releaseJobURL: "https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_Release_MavenCentral_Publish/build",
