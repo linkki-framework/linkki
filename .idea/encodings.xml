@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/archunit/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/archunit/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/linkki-codeanalysis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/linkki-codeanalysis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utils/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utils/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/application-framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/application-framework/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/apt/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/apt/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/archetypes/plain-archetype/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/archetypes/spring-archetype/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/archetypes/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/component/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/component/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/doc/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/doc/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/ips/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/ips/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/linkki-f10/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/linkki-f10/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/getting-started/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/getting-started/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/linkki-f10-sample/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/linkki-f10-sample/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/test-playground/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/test-playground/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/test-playground/uitest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/test-playground/uitest/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/tutorial-application/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/tutorial-application/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/tutorial-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/samples/tutorial-model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/search/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/search/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/test/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/test/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/testbench-extension/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vaadin-flow/testbench-extension/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

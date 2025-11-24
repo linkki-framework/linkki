@@ -46,10 +46,12 @@
 **/.settings/org.sonarlint.eclipse.core.prefs
 
 # IntelliJ IDEA
-**/.idea
+**/.idea/*
 **/*.iml
 **/*.iws
 **/*.ipr
+!**/.idea/encodings.xml
+!**/.idea/eclipseCodeFormatter.xml
 **/out/
 !**/src/main/**/out/
 !**/src/test/**/out/
