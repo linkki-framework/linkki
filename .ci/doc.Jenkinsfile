@@ -5,6 +5,7 @@ node {
         patchDocumentation {
             documentationProject 'linkki'
             mavenModule 'vaadin-flow/doc'
+            mavenParameters '-PpatchDocumentation'
             legacyMode false
         }
     }

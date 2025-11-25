@@ -147,4 +147,58 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- profile is for doc branch only -->
+            <id>patchDocumentation</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- skip checkstyle for doc branch only.
+                        Do not skip in regular builds as there are example code in the module that should be checked -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.linkki-framework</groupId>
+                                <artifactId>linkki-codeanalysis</artifactId>
+                                <version>non-existent</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>checkstyle</id>
+                                <phase/>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!-- skip spotbugs for doc branch only.
+                       Do not skip in regular builds as there are example code in the module that should be checked -->
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.linkki-framework</groupId>
+                                <artifactId>linkki-codeanalysis</artifactId>
+                                <version>non-existent</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>spotbugs</id>
+                                <phase/>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
