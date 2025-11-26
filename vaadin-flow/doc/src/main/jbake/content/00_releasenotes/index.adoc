@@ -54,7 +54,6 @@ The following versions have been updated:
 | Logback                       | 1.5.21 | 1.5.20
 |===
 
-
 ==== Testing
 // https://jira.convista.com/browse/LIN-4635
 * [.api-change]*New utility class for set-up: KaribuUI* +
@@ -129,6 +128,20 @@ The following versions have been updated:
 | Vaadin                        | 24.9.2  (link:https://github.com/vaadin/platform/releases/tag/24.9.2[Release Notes])| 24.8.10
 |===
 
+The update to Vaadin 24.9.2 brings some notable changes:
+
+* *Improved tool tip discoverability with styling hooks* +
+Elements with tooltips now expose a `has-tooltip' attribute.
+This attribute can be used to add visual indicators in CSS for when the tooltip is available.
+* *SideNavItem* now has built-in tooltip support.
+* *Manual value updates in Custom Field* +
+CustomField now has a manual update mode.
+If enabled, it will no longer automatically update its values when any of its contained fields change.
+Instead, updateValue() must be called manually, which can reduce unnecessary intermediate updates.
+* *Static asset management with @NpmPackage* +
+@NpmPackage is used to declare static assets from npm packages.
+During build time, these asset files are copied into the frontend and no `theme.json` entries are needed.
+
 === Alpha 2.9.0-a20251007-01
 
 ==== Version Updates
@@ -177,10 +190,12 @@ The following versions have been updated:
 
 The update to Vaadin 24.8.7 brings some notable changes:
 
-* *Upload and download Handling* A new API for file upload and download has been introduced.
+* *Upload and download Handling* +
+A new API for file upload and download has been introduced.
 Users with custom components for upload or download may need to migrate to the new API.
 See the https://vaadin.com/docs/latest/flow/advanced/downloads[Vaadin documentation] for details.
-* *HTML Sanitization* The new Vaadin version updates the Jsoup version to 1.20.1 in which the HTML sanitization logic was modified.
+* [.api-change]*HTML Sanitization* +
+The new Vaadin version updates the Jsoup version to 1.20.1 in which the HTML sanitization logic was modified.
 Some cases are now sanitized differently, for example:
 ** Input: `<b><iframe>Test</iframe></b>`
 *** Previous behavior: sanitized to `<b>Test</b>`
@@ -189,9 +204,10 @@ Some cases are now sanitized differently, for example:
 *** Previous behavior: sanitized to `<b><i></i>Test</b>`
 *** New behavior: sanitized to `<b><i>Test</i></b>`
 ** Banned tags (such as `<iframe>`) now have their entire content removed, rather than only stripping the tags.
-* *Frontend Validation for Date Time Picker* The frontend validation for Date-Time Picker (`@UIDateTimeField`) have changed.
+* *Frontend Validation for Date Time Picker* +
+The frontend validation for Date-Time Picker (`@UIDateTimeField`) have changed.
 We could not detect any negative impact for linkki applications.
-If you experience any unexpected behaviors, please do to hesitate to contact us.
+If you experience any unexpected behaviors, please do not hesitate to contact us.
 
 === Alpha 2.9.0-a20250905-01
 
