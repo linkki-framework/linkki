@@ -39,7 +39,6 @@ import com.vaadin.flow.data.converter.LocalDateTimeToDateConverter;
 import com.vaadin.flow.data.converter.LocalDateToDateConverter;
 import com.vaadin.flow.data.converter.StringToBigDecimalConverter;
 import com.vaadin.flow.data.converter.StringToBigIntegerConverter;
-import com.vaadin.flow.data.converter.StringToBooleanConverter;
 import com.vaadin.flow.data.converter.StringToDoubleConverter;
 import com.vaadin.flow.data.converter.StringToFloatConverter;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
@@ -77,8 +76,7 @@ public class LinkkiConverterRegistry implements Serializable {
                                                                                           ERROR_MESSAGE),
                                                                                   new StringToBigIntegerConverter(
                                                                                           ERROR_MESSAGE),
-                                                                                  new StringToBooleanConverter(
-                                                                                          ERROR_MESSAGE),
+                                                                                  new LocalizedStringToBooleanConverter(),
                                                                                   new StringToDateConverter(),
                                                                                   new StringToDoubleConverter(
                                                                                           ERROR_MESSAGE),

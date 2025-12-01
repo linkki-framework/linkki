@@ -119,6 +119,13 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
     }
 
     @Test
+    void testBooleanUsesConverter() {
+        assertThat(getComponentById("yesBoolean").getText()).isEqualTo("Ja");
+        assertThat(getComponentById("noBoolean").getText()).isEqualTo("Nein");
+        assertThat(getComponentById("nullBoolean").getText()).isEqualTo("");
+    }
+
+    @Test
     void testUnnamedEnumUsesToString() {
         assertThat(getComponentById("enum").getText()).isEqualTo("FLOOR");
     }
@@ -134,7 +141,7 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
     }
 
     @Test
-    void testNamedEnumtWithToStringCaptionProviderUsesToString() {
+    void testNamedEnumWithToStringCaptionProviderUsesToString() {
         assertThat(getComponentById("namedEnumWithToStringCaptionProvider").getText()).isEqualTo("VALUE");
     }
 
@@ -289,6 +296,21 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
             } else {
                 return CompletableFuture.failedFuture(new RuntimeException(EXCEPTION_MESSAGE));
             }
+        }
+
+        @UILabel(position = 12)
+        public Boolean getYesBoolean() {
+            return true;
+        }
+
+        @UILabel(position = 13)
+        public Boolean getNoBoolean() {
+            return false;
+        }
+
+        @UILabel(position = 14)
+        public Boolean getNullBoolean() {
+            return null;
         }
 
         public void setException(boolean exception) {

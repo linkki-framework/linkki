@@ -32,6 +32,7 @@ import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.aspects.annotation.BindSuffix;
 import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.ui.aspects.types.TextAlignment;
+import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UIMultiSelect;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
@@ -52,6 +53,11 @@ public class LabelPmo {
 
     private static final String CUSTOM_STYLE = "default-style";
     private Set<String> styles = Set.of();
+
+    @UINestedComponent(position = 40)
+    public BooleanLabelPmo getBooleanLabelPmo() {
+        return new BooleanLabelPmo();
+    }
 
     @UILabel(position = 50, label = "Label with a BigDecimal as Value")
     @BindIcon(value = VaadinIcon.ACCORDION_MENU)
@@ -300,6 +306,26 @@ public class LabelPmo {
             public HtmlContent getNotHtmlContentLabel() {
                 return HtmlContent.text("<b>NOT</b> HTML Content");
             }
+        }
+    }
+
+    @UIHorizontalLayout
+    public static class BooleanLabelPmo {
+
+        private Boolean value;
+
+        @UIComboBox(position = 0, label = "Boolean Value")
+        public Boolean getBooleanValue() {
+            return value;
+        }
+
+        public void setBooleanValue(Boolean value) {
+            this.value = value;
+        }
+
+        @UILabel(position = 10, label = "Boolean Label")
+        public Boolean getBooleanLabel() {
+            return value;
         }
     }
 }

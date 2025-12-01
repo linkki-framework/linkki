@@ -27,7 +27,7 @@ Following converters are registered by default in the `LinkkiConverterRegistry`:
 | `LocalDateTimeToStringConverter` | Converts `LocalDateTime` to `String` using the locale specific format. Makes it possible to use `LocalDateTime` in `String`-valued components such as `@UILabel`.
 | `StringToBigDecimalConverter` | Converts a `String` to a number of type `BigDecimal`. Makes it possible to use `BigDecimal` in `String`-valued components such as `@UILabel`.
 | `StringToBigIntegerConverter` | Converts a `String` to a number of type `BigInteger`. Makes it possible to use `BigInteger` in `String`-valued components such as `@UILabel`.
-| `StringToBooleanConverter` | Convert a `String` ("true" or "false") to `Boolean`. Makes it possible to use `Boolean` in `String`-valued components such as `@UILabel`.
+| `LocalizedStringToBooleanConverter` | Convert a `String` ("true" or "false") to `Boolean`. Makes it possible to use `Boolean` in `String`-valued components such as `@UILabel`.
 | `StringToDateConverter` | Converts a `Date` to a `String` using the locale specific format similar to the one used by a Vaadin DatePicker. Makes it possible to use `Date` in `String`-valued components such as `@UILabel`.
 | `StringToDoubleConverter` | Converts a `String` to a number of type `Double`. Makes it possible to use `Double` in `String`-valued components such as `@UILabel`.
 | `StringToFloatConverter` | Converts a `String` to a number of type `Float`. Makes it possible to use `Float` in `String`-valued components such as `@UILabel`.

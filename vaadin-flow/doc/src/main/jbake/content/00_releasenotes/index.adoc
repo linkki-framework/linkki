@@ -83,6 +83,11 @@ If the static method `withDefaults` is currently used with `KaribuUIExtension.wi
 * *KaribuUtils: browser refresh* +
 `KaribuUtils` now has a new method `UI#refresh` with which a browser refresh can be simulated.
 
+==== Other Improvements
+//https://jira.convista.com/browse/LIN-4153
+* A localized converter for booleans replaces the previous default in the <<default-converters,*LinkkiConverterRegistry*>>.
+Booleans will now be displayed as a localized variant of "Yes" or "No" when used with @UILabel.
+
 ==== Bugfixes
 // https://jira.convista.com/browse/LIN-4636
 * *KaribuUIExtension does not set locale on refresh* +
