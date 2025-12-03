@@ -46,6 +46,20 @@ The following versions have been updated:
 
 [cols="a,a,a"]
 |===
+| Dependency                    | New version                                                                                    | Previous version
+
+| Vaadin                        | 24.9.6 (link:https://github.com/vaadin/platform/releases/tag/24.9.6[Release Notes])            | 24.9.5
+| Spring Boot                   | 3.5.8 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.8[Release Notes]) | 3.5.7
+|===
+
+=== Alpha 2.9.0-a20251124-01
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
 | Dependency                    | New version                                                                                                                  | Previous version
 
 | Vaadin                        | 24.9.5 (link:https://github.com/vaadin/platform/releases/tag/24.9.5[Release Notes])                                          | 24.9.4

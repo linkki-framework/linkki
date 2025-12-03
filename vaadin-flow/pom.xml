@@ -41,13 +41,13 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            24.9.5
+            24.9.6
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <!-- this property must also be updated in samples-vaadin-flow -->
         <spring-boot.version>
             <!-- tag::spring-boot-version[] -->
-            3.5.7
+            3.5.8
             <!-- end::spring-boot-version[] -->
         </spring-boot.version>
         <karibu.version>2.5.0</karibu.version>
