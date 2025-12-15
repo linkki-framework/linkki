@@ -37,8 +37,23 @@
 // * *Short description* +
 // Description
 
-
 === Release Candidate {vlinkki}
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 24.9.7(link:https://github.com/vaadin/platform/releases/tag/24.9.7[Release Notes]) | 24.9.6
+| Faktor-IPS                    | 26.1.0.rc02 (link:https://doc.faktorzehn.org/faktor-ips/26.1-rc02/[Release Notes]) | 26.1.0.rc01
+| Logback                       | 1.5.22 | 1.5.21
+
+|===
+
+=== Release Candidate 2.9.0-rc01
 
 ==== Version Updates
 
@@ -49,8 +64,9 @@ The following versions have been updated:
 | Dependency                    | New version                                                                                    | Previous version
 
 | Vaadin                        | 24.9.6 (link:https://github.com/vaadin/platform/releases/tag/24.9.6[Release Notes])            | 24.9.5
-| Faktor-IPS                    | 26.1.0.rc01 (link:https://doc.faktorzehn.org/faktor-ips/26.1-rc01/[Release Notes]) | 26.1.0.a20251106-01
+| Faktor-IPS                    | 26.1.0.rc01 (link:https://doc.faktorzehn.org/faktor-ips/26.1-rc01/[Release Notes])             | 26.1.0.a20251106-01
 | Spring Boot                   | 3.5.8 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.8[Release Notes]) | 3.5.7
+
 |===
 
 === Alpha 2.9.0-a20251124-01
