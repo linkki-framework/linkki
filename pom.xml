@@ -52,13 +52,13 @@
         <surefire.directory>surefire-reports</surefire.directory>
 
         <junit.version>5.14.1</junit.version>
-        <mockito.version>5.20.0</mockito.version>
+        <mockito.version>5.21.0</mockito.version>
         <assertj.version>3.27.6</assertj.version>
         <hamcrest.version>3.0</hamcrest.version>
         <awaitility.version>4.3.0</awaitility.version>
-        <checkstyle.version>12.2.0</checkstyle.version>
+        <checkstyle.version>12.3.0</checkstyle.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
-        <commons-io.version>2.20.0</commons-io.version>
+        <commons-io.version>2.21.0</commons-io.version>
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <spotbugs.version>4.9.8</spotbugs.version>
