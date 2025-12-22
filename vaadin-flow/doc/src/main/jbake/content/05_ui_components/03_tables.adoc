@@ -123,7 +123,7 @@ As the generic type of the return type is erased at runtime, the row PMO class n
 
 If the return type is a `CompletableFuture`, the items of the table are set asynchronously.
 This is particularly useful if the rows of the table are being retrieved form external systems.
-Note that link:https://vaadin.com/docs/latest/building-apps/deep-dives/presentation-layer/server-push[server push] should be enabled if the changes should be reflected to the UI immediately.
+Note that link:https://vaadin.com/docs/v24/building-apps/deep-dives/presentation-layer/server-push[server push] should be enabled if the changes should be reflected to the UI immediately.
 Otherwise, the changes are shown with the next server roundtrip.
 
 [TIP]

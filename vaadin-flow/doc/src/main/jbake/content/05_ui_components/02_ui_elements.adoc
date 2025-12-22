@@ -81,7 +81,7 @@ If the Faktor-IPS *linkki* extension is used, the `FormattedStringToDecimalConve
 Displaying asynchronously retrieved values::
 
 If the value is retrieved asynchronously, e.g. from a REST service, the value can be displayed with `UILabel` by using the return type `CompletableFuture`.
-The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/latest/building-apps/deep-dives/presentation-layer/server-push[Server Push] is enabled.
+The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/v24/building-apps/deep-dives/presentation-layer/server-push[Server Push] is enabled.
 Note that the result of the `CompletableFuture` must be convertible to a `String`, as described in the previous section.
 
 TIP: A `@UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside or on top of the `UILabel`. +
@@ -251,7 +251,7 @@ An alternative implementation class can be specified via the property `itemCapti
 
 [[ui-combobox-textAlign]]
 TextAlign::
-The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop-down menu. `RIGHT` is recommended for numeric values. If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop-down list. Instead, an https://vaadin.com/docs/latest/styling/lumo/utility-classes#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
+The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop-down menu. `RIGHT` is recommended for numeric values. If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop-down list. Instead, an https://vaadin.com/docs/v24/styling/lumo/utility-classes#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
 
 // For 2.7:
 // Remove if https://github.com/vaadin/web-components/issues/1280 is fixed
