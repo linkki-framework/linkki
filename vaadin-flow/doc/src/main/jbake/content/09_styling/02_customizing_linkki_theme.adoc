@@ -5,7 +5,7 @@
 [[customizing-linkki-theme]]
 === Customizing the *linkki* theme
 
-For general information, see the https://vaadin.com/docs/latest/styling/application-theme[Vaadin documentation on application themes].
+For general information, see the https://vaadin.com/docs/v24/styling/application-theme[Vaadin documentation on application themes].
 
 In general, a certain folder structure is needed for a custom theme. This structure depends on whether the theme will be directly used in the application in which it is defined, or will it be packaged to be used in a different project.
 
@@ -49,7 +49,7 @@ The `styles.css` file contains the CSS customizations one wants to make in the t
 ==== CSS Custom Properties in linkki Theme
 
 linkki theme defines CSS custom properties which is the easiest way to customize the UI. These CSS custom properties representing colors, fonts, sizes and other styles, which are used in various components.
-The style properties can be modified to change the styling either globally, or in a certain scope. https://vaadin.com/docs/latest/styling/styling-components#styling-components-with-style-properties[Vaadin documentation] provides some examples on how to customize the style properties. As linkki theme is based on the Lumo theme, all https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties#lists-of-lumo-style-properties[Lumo style properties] are also available.
+The style properties can be modified to change the styling either globally, or in a certain scope. https://vaadin.com/docs/latest/styling/styling-components#styling-components-with-style-properties[Vaadin documentation] provides some examples on how to customize the style properties. As linkki theme is based on the Lumo theme, all https://vaadin.com/docs/v24/styling/lumo/lumo-style-properties#lists-of-lumo-style-properties[Lumo style properties] are also available.
 
 [[linkki-theme-colors]]
 ===== Colors
@@ -126,7 +126,7 @@ Error color indicates that a process cannot be started or continued. They are us
 
 ===== Fonts
 
-https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties/typography#lumo-font-family[Lumo default font family] is modified to make sure that Segoe UI as system font is preferred over Robot font.
+https://vaadin.com/docs/v24/styling/lumo/lumo-style-properties/typography#lumo-font-family[Lumo default font family] is modified to make sure that Segoe UI as system font is preferred over Robot font.
 
 ===== Interaction
 
