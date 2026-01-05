@@ -230,7 +230,7 @@ Following `ReadOnlyTypes` are available:
 |`DERIVED`  |The component is read-only if no setter method exists or the property dispatcher returns read-only for this property.
 |===
 
-TIP: If a component is supposed to be writable even though the rest of the UI is in read-only-mode, use <<bind-read-only-behavior,`@BindReadOnlyBehavior`>> with value `ACTIVE`, e.g. an input field to filter the content of a table.
+TIP: If a component is supposed to be writable even though the rest of the UI is in read-only-mode, use <<bind-read-only-behavior,`@BindReadOnlyBehavior`>> with value `WRITABLE`, e.g. an input field to filter the content of a table.
 
 [[bind-read-only-behavior]]
 ===== Bind Read-Only Behavior
