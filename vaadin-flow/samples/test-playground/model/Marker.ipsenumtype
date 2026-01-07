@@ -35,19 +35,19 @@
  <EnumValue>
   <Description locale="en"/>
   <Description locale="de"/>
-  <EnumAttributeValue isNull="false">R</EnumAttributeValue>
-  <EnumAttributeValue isNull="false">Required Information Missing</EnumAttributeValue>
-  <EnumLiteralNameAttributeValue isNull="false">REQUIRED_INFORMATION_MISSING</EnumLiteralNameAttributeValue>
-  <EnumAttributeValue isNull="false">true</EnumAttributeValue>
-  <EnumAttributeValue isNull="false">false</EnumAttributeValue>
+  <EnumAttributeValue>R</EnumAttributeValue>
+  <EnumAttributeValue>Required Information Missing</EnumAttributeValue>
+  <EnumLiteralNameAttributeValue>REQUIRED_INFORMATION_MISSING</EnumLiteralNameAttributeValue>
+  <EnumAttributeValue>true</EnumAttributeValue>
+  <EnumAttributeValue>false</EnumAttributeValue>
  </EnumValue>
  <EnumValue>
   <Description locale="en"/>
   <Description locale="de"/>
-  <EnumAttributeValue isNull="false">T</EnumAttributeValue>
-  <EnumAttributeValue isNull="false">Technical Constraint Violated</EnumAttributeValue>
-  <EnumLiteralNameAttributeValue isNull="false">TECHNICAL_CONSTRAINT_VIOLATED</EnumLiteralNameAttributeValue>
-  <EnumAttributeValue isNull="false">false</EnumAttributeValue>
-  <EnumAttributeValue isNull="false">true</EnumAttributeValue>
+  <EnumAttributeValue>T</EnumAttributeValue>
+  <EnumAttributeValue>Technical Constraint Violated</EnumAttributeValue>
+  <EnumLiteralNameAttributeValue>TECHNICAL_CONSTRAINT_VIOLATED</EnumLiteralNameAttributeValue>
+  <EnumAttributeValue>false</EnumAttributeValue>
+  <EnumAttributeValue>true</EnumAttributeValue>
  </EnumValue>
 </EnumType>
