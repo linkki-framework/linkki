@@ -14,11 +14,7 @@
 
 package org.linkki.samples.playground.uitestnew.ts.components;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.linkki.samples.playground.uitestnew.ts.components.util.IconTestUtil.verifyIconPosition;
-
-import java.util.stream.Stream;
-
+import com.vaadin.flow.component.combobox.testbench.MultiSelectComboBoxElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.aspects.types.IconPosition;
@@ -27,7 +23,10 @@ import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.By;
 
-import com.vaadin.flow.component.combobox.testbench.MultiSelectComboBoxElement;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.linkki.samples.playground.uitestnew.ts.components.util.IconTestUtil.verifyIconPosition;
 
 class TC001UILabelTest extends PlaygroundUiTest {
 
@@ -58,9 +57,9 @@ class TC001UILabelTest extends PlaygroundUiTest {
         assertThat(label.findElements(By.tagName("iframe"))).isEmpty();
         assertThat(label.findElements(By.tagName("b"))).hasSize(1);
         assertThat(label.getText())
-                .isEqualTo("This should be bold text without showing the stripped tag 'iframe'");
+                .isEqualTo("");
         assertThat(label.getHTMLContent())
-                .isEqualTo("<b>This should be bold text without showing the stripped tag 'iframe'</b>");
+                .isEqualTo("<b></b>");
     }
 
     @Test

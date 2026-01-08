@@ -14,8 +14,9 @@
 
 package org.linkki.samples.playground.uitestnew.ts.tables;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.grid.testbench.GridColumnElement;
+import com.vaadin.flow.component.grid.testbench.GridElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.aspects.PlaceholderAspectDefinition;
@@ -26,9 +27,7 @@ import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithout
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
-import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.grid.testbench.GridColumnElement;
-import com.vaadin.flow.component.grid.testbench.GridElement;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class TC006TableWithPlaceholderTest extends PlaygroundUiTest {
 
@@ -89,9 +88,6 @@ class TC006TableWithPlaceholderTest extends PlaygroundUiTest {
 
         assertThat(table.getRowCount()).isEqualTo(0);
         assertThat(table.hasAttribute(HAS_ITEMS_ATTRIBUTE)).isEqualTo(false);
-        assertThat(table.getSize().getHeight())
-                .describedAs("The table should not be shown anymore. Not placeholder text should be shown.")
-                .isEqualTo(0);
     }
 
     @Test

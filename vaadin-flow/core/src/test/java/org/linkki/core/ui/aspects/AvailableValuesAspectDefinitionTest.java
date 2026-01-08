@@ -14,6 +14,26 @@
 
 package org.linkki.core.ui.aspects;
 
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.data.provider.HasListDataView;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.wrapper.WrapperType;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.ui.bind.TestEnum;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.util.handler.Handler;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
@@ -29,27 +49,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.BiConsumer;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.linkki.core.binding.descriptor.aspect.Aspect;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-import org.linkki.core.ui.bind.TestEnum;
-import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
-import org.linkki.util.handler.Handler;
-
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.data.provider.HasListDataView;
 
 class AvailableValuesAspectDefinitionTest {
 
@@ -138,10 +137,6 @@ class AvailableValuesAspectDefinitionTest {
         availableValuesAspectDefinition
                 .handleNullItems(new NoLabelComponentWrapper(component, WrapperType.FIELD), items);
 
-        // is called by VaadinComponentWrapper#workaroundVaadinClientValidation, must be removed
-        // when
-        // workaround is fixed
-        verify(component).addClientValidatedEventListener(any());
         verifyNoMoreInteractions(component, items);
     }
 

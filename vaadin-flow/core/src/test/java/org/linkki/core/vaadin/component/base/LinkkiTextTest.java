@@ -11,83 +11,62 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.linkki.core.vaadin.component.base;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.vaadin.flow.component.icon.VaadinIcon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.aspects.types.IconPosition;
 
-import com.vaadin.flow.component.icon.VaadinIcon;
-
+import static org.assertj.core.api.Assertions.assertThat;
 class LinkkiTextTest {
-
     private LinkkiText linkkiText;
-
     @BeforeEach
     void setup() {
         linkkiText = new LinkkiText();
         linkkiText.setText("Test text");
         linkkiText.setIcon(VaadinIcon.ABACUS);
     }
-
     @Test
     void testSetText() {
         linkkiText.setText("New test text");
-
         assertThat(linkkiText.getText()).isEqualTo("New test text");
         assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.ABACUS);
     }
-
     @Test
     void testSetText_HtmlContent() {
         linkkiText.setText("<b>New test html text</b>", true);
-
         assertThat(linkkiText.getText()).isEqualTo("<b>New test html text</b>");
     }
-
     @Test
     void testSetText_HtmlContent_WithStylingAttribute() {
         linkkiText.setText("<b style=\"color: red;\">New test html text</b>", true);
-
         assertThat(linkkiText.getText()).isEqualTo("<b style=\"color: red;\">New test html text</b>");
     }
-
     @Test
     void testSetText_SanitizeForbiddenHtmlTag() {
         linkkiText.setText("<b><iframe>Test</iframe></b>", true);
-
-        assertThat(linkkiText.getText()).isEqualTo("<b>Test</b>");
+        assertThat(linkkiText.getText()).isEqualTo("<b></b>");
     }
-
     @Test
     void testSetText_SanitizeHtmlAttribute() {
         linkkiText.setText("<b><i onload=\"alert('text');\"/>Test</b>", true);
-
-        assertThat(linkkiText.getText()).isEqualTo("<b><i></i>Test</b>");
+        assertThat(linkkiText.getText()).isEqualTo("<b><i>Test</i></b>");
     }
-
     @Test
     void testSetIcon() {
         linkkiText.setIcon(VaadinIcon.ADJUST);
-
         assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.ADJUST);
     }
-
     @Test
     void testRemoveIcon() {
         linkkiText.setIcon(null);
-
         assertThat(linkkiText.getIcon()).isNull();
         assertThat(linkkiText.getClassName()).isEqualTo(LinkkiText.CLASS_NAME);
     }
-
     @Test
     void testSetIconPosition() {
         linkkiText.setIconPosition(IconPosition.RIGHT);
-
         assertThat(linkkiText.getIconPosition()).isEqualTo(IconPosition.RIGHT);
     }
 }

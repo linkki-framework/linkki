@@ -11,16 +11,18 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
-package org.linkki.core.vaadin.component;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.jupiter.api.Test;
-import org.linkki.core.vaadin.component.base.LinkkiAnchor;
+package org.linkki.core.vaadin.component.base;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.server.streams.DownloadHandler;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.ui.test.KaribuUIExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
+@ExtendWith(KaribuUIExtension.class)
 class LinkkiAnchorTest {
 
     @Test
@@ -83,4 +85,24 @@ class LinkkiAnchorTest {
         assertThat(anchor.getIcon()).isEqualTo(VaadinIcon.ARCHIVE);
     }
 
+    @Test
+    void testSetHref() {
+        var anchor = new LinkkiAnchor();
+        assertThat(anchor.getContent().getHref()).isBlank();
+
+        anchor.setHref("testUrl");
+
+        assertThat(anchor.getContent().getHref()).isEqualTo("testUrl");
+    }
+
+    @Test
+    void testSetHref_DownloadHandler() {
+        var anchor = new LinkkiAnchor();
+        assertThat(anchor.getContent().getHref()).isBlank();
+        var downloadHandler = mock(DownloadHandler.class);
+
+        anchor.setHref(downloadHandler);
+
+        assertThat(anchor.getContent().getHref()).isNotBlank();
+    }
 }

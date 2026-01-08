@@ -14,20 +14,20 @@
 
 package org.linkki.core.vaadin;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.frontend.scanner.ClassFinder.DefaultClassFinder;
+import com.vaadin.flow.server.frontend.scanner.CssData;
+import com.vaadin.flow.server.frontend.scanner.FrontendDependencies;
+import org.junit.jupiter.api.Test;
+import org.linkki.core.ui.element.annotation.UILink;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.Test;
-import org.linkki.core.ui.element.annotation.UILink;
-
-import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.frontend.scanner.ClassFinder.DefaultClassFinder;
-import com.vaadin.flow.server.frontend.scanner.FrontendDependencies;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Smoke test for import of frontend dependencies using {@link CssImport} and {@link JsModule}.
@@ -42,10 +42,7 @@ public class FrontendDependencyImportTest {
     void testUILabel() {
         var imports = getImports(LinkRoute.class);
 
-        // imported by LinkkiText
-        assertThat(imports).contains("./src/linkki-text.ts");
-        // imported by HasIcon
-        assertThat(imports).contains("./styles/linkki-has-icon.css");
+        assertThat(imports).contains("./src/linkki-text.ts", "./styles/linkki-has-icon.css");
     }
 
     @Route
@@ -62,14 +59,17 @@ public class FrontendDependencyImportTest {
     }
 
     private static Set<String> getImports(Class<?> cls) {
-        var dependencies = new FrontendDependencies(new DefaultClassFinder(Collections.singleton(cls)));
+        var dependencies = new FrontendDependencies(new DefaultClassFinder(Collections.singleton(cls)),
+                true,
+                null,
+                true);
 
         HashSet<String> imports = new HashSet<>();
         dependencies.getModules()
                 .forEach((k, v) -> imports.addAll(v));
         dependencies.getCss().entrySet().stream()
                 .flatMap(e -> e.getValue().stream())
-                .map(css -> css.getValue())
+                .map(CssData::getValue)
                 .forEach(imports::add);
 
         return imports;

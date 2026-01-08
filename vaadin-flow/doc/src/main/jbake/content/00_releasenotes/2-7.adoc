@@ -5,7 +5,7 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
-=== Version 2.7.8
+=== Version 2.7.101
 
 ==== Version Updates
 
@@ -15,9 +15,54 @@ The following versions have been updated:
 |===
 | Dependency | New version | Previous version
 
-| Spring Boot     | 3.4.13 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.4-Release-Notes[Release Notes])    | 3.4.12
-| Logback         | 1.5.24    | 1.5.21
+| Vaadin                        | 24.9.9 (link:https://github.com/vaadin/platform/releases/tag/24.9.9[Release Notes]) | 24.5.14
+| Spring Boot                   | 3.5.9 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes])    | 3.4.12
+| Logback                       | 1.5.24    | 1.5.21
 |===
+
+The update to Vaadin 24.9.9 brings some notable changes:
+
+* [.api-change]*HTML Sanitization* +
+The new Vaadin version updates the Jsoup version to 1.20.1 in which the HTML sanitization logic was modified.
+Some cases are now sanitized differently, for example:
+** Input: `<b><iframe>Test</iframe></b>`
+*** Previous behavior: sanitized to `<b>Test</b>`
+*** New behavior: sanitized to `<b></b>`
+** Input: `<b><i onload="alert('text');" />Test</b>`
+*** Previous behavior: sanitized to `<b><i></i>Test</b>`
+*** New behavior: sanitized to `<b><i>Test</i></b>`
+** Banned tags (such as `<iframe>`) now have their entire content removed, rather than only stripping the tags.
+
+* *Frontend Validation for Date Time Picker* +
+The frontend validation for Date-Time Picker (`@UIDateTimeField`) have changed.
+We could not detect any negative impact for linkki applications.
+If you experience any unexpected behaviors, please do not hesitate to contact us.
+
+* *Manual value updates in Custom Field* +
+CustomField now has a manual update mode.
+If enabled, it will no longer automatically update its values when any of its contained fields change.
+Instead, `updateValue()` must be called manually, which can reduce unnecessary intermediate updates.
+
+* *Upload and download Handling* +
+A new API for file upload and download has been introduced.
+Users with custom components for upload or download may need to migrate to the new API.
+See the https://vaadin.com/docs/latest/flow/advanced/downloads[Vaadin documentation] for details.
+
+* *Static asset management with @NpmPackage* +
+`@NpmPackage` is used to declare static assets from npm packages.
+During build time, these asset files are copied into the frontend and no `theme.json` entries are needed.
+
+* *Improved tool tip discoverability with styling hooks* +
+Elements with tooltips now expose a `has-tooltip' attribute.
+This attribute can be used to add visual indicators in CSS for when the tooltip is available.
+
+* [.api-change]*Anchor#setHref(AbstractStreamResource) has been deprecated.* +
+Therefore, LinkkiAnchor#setHref(AbstractStreamResource) has been deprecated as well and is marked for removal.
+For setting download handlers, LinkkiAnchor#setHref(DownloadHandler) should be used.
+For simple links, LinkkiAnchor#setHref(String) should be used.
+
+* *The constructor FrontendDependencies#FrontendDependencies(ClassFinder) has been deprecated.* +
+The constructor with full arguments FrontendDependencies#FrontendDependencies(ClassFinder, boolean, FeatureFlags, boolean) should be used instead.
 
 === Version 2.7.7
 

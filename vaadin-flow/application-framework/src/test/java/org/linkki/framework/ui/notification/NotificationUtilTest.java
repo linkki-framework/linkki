@@ -14,15 +14,10 @@
 
 package org.linkki.framework.ui.notification;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_ERROR;
-import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_INFO;
-import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_WARNING;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.dom.Element;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,10 +28,14 @@ import org.linkki.core.ui.test.KaribuUIExtension;
 import org.linkki.core.ui.test.WithLocale;
 import org.linkki.framework.ui.notifications.NotificationUtil;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.dom.Element;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_ERROR;
+import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_INFO;
+import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_WARNING;
 
 @WithLocale("en")
 @ExtendWith(KaribuUIExtension.class)
@@ -158,8 +157,9 @@ class NotificationUtilTest {
     }
 
     private boolean hasCloseButton(Notification notification) {
-        String expected = "<vaadin-button>\n Close\n</vaadin-button>";
+        String expectedText = "Close";
         return notification.getChildren()
-                .anyMatch(c -> expected.equals(c.getElement().getOuterHTML()));
+                .anyMatch(c -> c.getElement().getTag().equals("vaadin-button") &&
+                        c.getElement().getText().equals(expectedText));
     }
 }

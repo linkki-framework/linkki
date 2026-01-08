@@ -76,5 +76,20 @@
         ]
       }
     }
+  ],
+  "2.7.101": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.method.added",
+            "new": "method void org.linkki.core.vaadin.component.base.LinkkiAnchor::setHref(com.vaadin.flow.server.streams.DownloadHandler)",
+            "justification": "LIN-4652"
+          }
+        ]
+      }
+    }
   ]
 }

@@ -14,19 +14,22 @@
 
 package org.linkki.core.vaadin.component.base;
 
-import java.util.Optional;
-
 import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.AnchorTargetValue;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
+import com.vaadin.flow.server.streams.DownloadHandler;
+
+import java.io.Serial;
+import java.util.Optional;
 
 /**
  * An anchor component that can have an additional {@link VaadinIcon}
  */
 public class LinkkiAnchor extends LinkkiText implements Focusable<LinkkiAnchor> {
 
+    @Serial
     private static final long serialVersionUID = -1027646873177686722L;
 
     public LinkkiAnchor() {
@@ -61,9 +64,20 @@ public class LinkkiAnchor extends LinkkiText implements Focusable<LinkkiAnchor> 
 
     /**
      * @see Anchor#setHref(AbstractStreamResource)
+     *
+     * @deprecated use {@link #setHref(DownloadHandler)} instead.
      */
+    @SuppressWarnings("removal")
+    @Deprecated(since = "2.7.101", forRemoval = true)
     public void setHref(AbstractStreamResource href) {
         getContent().setHref(href);
+    }
+
+    /**
+     * @see Anchor#setHref(DownloadHandler)
+     */
+    public void setHref(DownloadHandler downloadHandler) {
+        getContent().setHref(downloadHandler);
     }
 
     /**
