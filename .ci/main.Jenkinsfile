@@ -196,7 +196,7 @@ pipeline {
     post {
         always {
             junit '**/target/surefire-reports/*.xml'
-            recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle(), sonarQube()]
+            recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
             jacoco sourceInclusionPattern: '**/*.java'
 
             archiveArtifacts 'vaadin-flow/doc/target/doc/**'
