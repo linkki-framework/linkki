@@ -121,7 +121,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         LinkkiText toolCaption = new LinkkiText(caption, icon);
         AccordionPanel accordionPanel = new AccordionPanel(toolCaption,
                 VaadinUiCreator.createComponent(pmo, new BindingContext()));
-        accordionPanel.addThemeVariants(DetailsVariant.REVERSE);
+        accordionPanel.addThemeVariants(DetailsVariant.LUMO_REVERSE);
         return accordionPanel;
     }
 

@@ -14,18 +14,116 @@
 
 === Alpha Version {vlinkki}
 
-This version only contains internal version updates as preparation for the update to Vaadin 25.
+==== Version Updates
 
-//==== Version Updates
-//
-//The following versions have been updated:
-//
-//[cols="a,a,a"]
-//|===
-//| Dependency                    | New version                 //                                                       | //Previous version
-//
-//| Library | new version (link:linkToReleaseNotes[Release Notes]) | previous version
-//|===
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Faktor-IPS                    | 26.7.0.a20260119-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260119-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
+| Vaadin                        | 25.0.4 (link:https://github.com/vaadin/platform/releases/tag/25.0.3[Release Notes]) | 24.9.8
+| Spring Boot                   | 4.0.1 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.1[Release Notes]) | 3.5.9
+| Spring Framework              | 7.0.2 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 6.2.15
+| Karibu                        | 2.6.1 | 2.5.0
+| JUnit                         | 6.0.2 (link:https://docs.junit.org/6.0.2/release-notes.html[Release Notes]) | 5.14.2
+| Vaadin TestBench              | 10.0.0 | 8.x
+| Logback                       | 1.5.26 | 1.5.21
+
+|===
+
+===== Vaadin 25 Update
+
+The update to Vaadin 25 not only brings an update of the tech stack, but also changes in build configuration and frontend styling.
+
+Below are the most notable changes for linkki applications.
+For a complete list of Vaadin 25 breaking changes and migration steps, please refer to the link:https://vaadin.com/docs/latest/flow/upgrading/v25[Vaadin 25 Upgrade Guide].
+
+====== Technical requirements
+
+* *Spring Boot 4* +
+Applications using Spring must upgrade to *Spring Boot 4* and *Spring Framework 7*.
+This is a major version jump from Spring Boot 3.5.
+Please refer to link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide[Spring Boot 4.0 Migration Guide] for more information.
+* *JakartaEE 11* +
+Applications using Spring must upgrade to *JakartaEE 11*.
+This is a major version jump from JakartaEE 10.
+* *Node.js* +
+Frontend builds now require *Node.js 24 or later* for development.
+* *JUnit* +
+All linkki test libraries now require *JUnit 6*.
+The migration should be straightforward, without noticeable API changes.
+For all changes and improvements, see https://docs.junit.org/6.0.2/release-notes.html[release notes for JUnit 6].
+* *Selenium* +
+Vaadin TestBench now uses Selenium 4.39.0.
+
+====== Build and dependencies
+
+* *Maven configuration* +
+The default in new projects is that `mvn install` builds a production artifact without needing a production profile.
++
+For development features, `com.vaadin/vaadin-dev` can be included as a dependency with `optional` scope.
+This module includes features that make the development faster such as live-reload.
+The server also sends more data to the browser to help troubleshoot problems in the server client communication.
+More details can be found in the https://vaadin.com/docs/latest/flow/configuration/development-mode[Vaadin documentation].
++
+To adapt to this change *in Spring Boot projects*, following changes should be made in all `pom.xml` that use `vaadin-maven-plugin`:
++
+** Profile `production` should be removed.
+** `vaadin-maven-plugin` should always call the goal `build-frontend`.
+Goal `prepare-frontend` should be removed.
+** Add the following dependency:
++
+[source,xml]
+----
+<dependency>
+    <groupId>com.vaadin</groupId>
+    <artifactId>vaadin-dev</artifactId>
+    <optional>true</optional>
+</dependency>
+----
+* *Jackson for JSON handling* +
+Vaadin 25 replaced the deprecated `elemental.json` library with Jackson for JSON handling.
+This is an internal change in Vaadin and should not affect linkki applications directly, but may impact custom components using Vaadin's JSON APIs.
+* *Less transitive dependencies* +
+Some dependencies do not come with Vaadin anymore.
+If those dependencies are needed, they need to be included explicitly.
+Some well-known ones include:
+** Guava: Google Core Libraries
+** Apache Commons Compress
+
+[.api-change]
+===== Notable Java API Changes
+
+* *Label component deprecation* +
+`com.vaadin.flow.component.html.Label` has been deprecated as the naming is confusing, making the component often misused in cases, where a `<label>` element should not be used. +
+To ensure that `<label>` should really be used, check if the usages is correct according to the https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label[specification].
+If this is the case, use `com.vaadin.flow.component.html.NativeLabel` instead. +
+If the usage does not match the specification, use a different element such as `Text` or `Span` instead.
+* *Renaming of variant constants* +
+With the introduction of a new theme, variants that only work with Lumo theme are renamed, e.g. `DetailsVariant.FILLED` to `DetailsVariant.LUMO_FILLED`.
+
+===== Frontend Changes
+
+* [.api-change]*Stylesheets* +
+The annotation `@Theme` is deprecated.
+Instead, themes are loaded by `@Stylesheet`. +
+For <<apply-linkki-theme, linkki and the F10 theme>>, a new `STYLESHEET` constant was added to `LinkkiTheme` and `F10ProductTheme` that can be used with `@Stylsheet` to replace `@Theme`.
+* [.api-change]*Shadow DOM injection deactivated by default* +
+Shadow DOM injection is no longer activated by default.
+All shadow DOM injections in linkki theme are migrated.
+For any exiting shadow DOM injections, consider migrating them by using `:part` selector instead.
+Vaadin documentation provides common CSS selectors for most components, see e.g. https://vaadin.com/docs/v25/components/grid/styling[documentation for Grid]. +
+If shadow DOM injection is still needed, the feature flag https://vaadin.com/docs/v25/flow/configuration/feature-flags#experimental-feature-flags[`themeComponentStyles`] must be set to activate the feature.
+Note that the property must be declared in the web application module directly.
+* *Aura theme* +
+Vaadin introduces the new Aura theme that coexists with Lumo.
+Note that the linkki theme does not work with Aura theme at the moment.
+* [.api-change]*DOM changes* +
+Some web components are reworked in this version, most notably overlays (including dialogs).
+Methods provided by the linkki TestBench extension such as `$(OkCancelDialogElement.class)` are adjusted accordingly.
+Other selectors used in UI tests and CSS styling may need to be adjusted.
 
 // ==== UI Annotations and Aspects
 
@@ -63,6 +161,11 @@ This version only contains internal version updates as preparation for the updat
 // * [.api-change] *Beschreibung* +
 // Text
 
+
+=== Alpha Version 2.10.0-a20260202-02
+
+This version only contains internal version updates as preparation for the update to Vaadin 25.
+
 === Alpha Version 2.10.0-a20260202-01
 
 ==== Version Updates
@@ -82,8 +185,10 @@ The following versions have been updated:
 
 // https://jira.convista.com/browse/LIN-4711
 * *Remove of linkki internal shadow DOM injections* +
-All internal shadow DOM injections that are used by linkki theme are removed. Shadow DOM injection will be deactivated by default in Vaadin 25. If shadow DOM injections are used currently, consider removing them and use selectors such as `part` instead. +
-This change should not cause any visual breaks. If you encounter any unexpected styling or UI test problems, please don't hesitate to contact us.
+All internal shadow DOM injections that are used by linkki theme are removed.
+Shadow DOM injection will be deactivated by default in Vaadin 25. If shadow DOM injections are used currently, consider removing them and use selectors such as `part` instead. +
+This change should not cause any visual breaks.
+If you encounter any unexpected styling or UI test problems, please don't hesitate to contact us.
 
 === Alpha Version 2.10.0-a20260116-01
 

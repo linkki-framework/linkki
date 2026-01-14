@@ -17,6 +17,7 @@ package org.linkki.samples.playground.uitestnew.ts.navigation;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
@@ -34,6 +35,8 @@ class BrowserConfirmationTest extends PlaygroundUiTest {
         goToTestCase(TestScenarioView.TS019, TestScenarioView.TC001);
     }
 
+    @Disabled(
+            value = "ExpectedConditions.alertIsPresent closes alerts automatically since migration from chromedriver 177*.")
     @Test
     void testBrowserConfirmationDialog() throws InterruptedException {
 
@@ -107,6 +110,5 @@ class BrowserConfirmationTest extends PlaygroundUiTest {
     private ButtonElement saveButton() {
         return $(ButtonElement.class).id("save");
     }
-
 
 }

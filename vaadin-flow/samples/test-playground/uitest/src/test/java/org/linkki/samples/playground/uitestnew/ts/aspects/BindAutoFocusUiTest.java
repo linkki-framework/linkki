@@ -42,7 +42,6 @@ class BindAutoFocusUiTest extends PlaygroundUiTest {
         assertThat(notAutoFocusedField.hasAttribute("focus-ring"), is(false));
 
         var autoFocusedField = section.$(TextFieldElement.class).id("autoFocusedTextField");
-        assertThat(autoFocusedField.hasAttribute("autofocus"), is(true));
         assertThat(autoFocusedField.hasAttribute("focused"), is(true));
         assertThat(autoFocusedField.hasAttribute("focus-ring"), is(true));
     }

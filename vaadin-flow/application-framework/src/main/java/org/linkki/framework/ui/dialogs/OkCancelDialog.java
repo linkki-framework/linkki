@@ -31,6 +31,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.ModalityMode;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -156,7 +157,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
                 ? new Button(NlsText.getString("OkCancelDialog.CancelButtonCaption")) // $NON-NLS-1$
                 : null;
 
-        getContent().setModal(true);
+        getContent().setModality(ModalityMode.STRICT);
         getContent().setCloseOnOutsideClick(false);
         getContent().setResizable(false);
         getContent().setDraggable(true);

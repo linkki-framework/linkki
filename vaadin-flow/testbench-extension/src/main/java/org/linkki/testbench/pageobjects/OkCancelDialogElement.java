@@ -74,6 +74,8 @@ public class OkCancelDialogElement extends DialogElement {
 
     @Override
     public Dimension getSize() {
-        return $(DivElement.class).id("overlay").getSize();
+        var dialogOverlay = $("vaadin-dialog-overlay").first();
+        var overlay = dialogOverlay.$(DivElement.class).id("overlay");
+        return overlay.getSize();
     }
 }

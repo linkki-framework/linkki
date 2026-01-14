@@ -15,7 +15,9 @@
 package org.linkki.samples.playground.uitestnew.ts.tables;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -55,14 +57,16 @@ class TC004DynamicFieldTest extends PlaygroundUiTest {
         // Select standard car type
         clickButton(BUTTON_PMO);
 
-        $(DialogElement.class).waitForFirst().$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Standard");
+        var dialog = $(DialogElement.class).waitForFirst();
+        dialog.$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Standard");
+
         // Must be a Textfield
-        assertThat(findElement(By.cssSelector("#overlay #retention")).getTagName(), is("vaadin-text-field"));
+        assertThat(dialog.findElement(By.id("retention")).getTagName(), is("vaadin-text-field"));
 
         // Select premium car type
-        $(DialogElement.class).first().$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Premium");
+        dialog.$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Premium");
         // Must be a Combobox
-        assertThat(findElement(By.cssSelector("#overlay #retention")).getTagName(), is("vaadin-combo-box"));
+        assertThat(dialog.findElement(By.id("retention")).getTagName(), is("vaadin-combo-box"));
     }
 
     @Test

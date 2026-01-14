@@ -22,11 +22,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.AppShellSettings;
-import com.vaadin.flow.theme.Theme;
 
-@Theme(F10ProductTheme.F10_PRODUCT_THEME)
+@StyleSheet(F10ProductTheme.STYLESHEET)
 @SpringBootApplication(scanBasePackageClasses = SampleScanHook.class)
 public class LinkkiF10SampleApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 

@@ -15,11 +15,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>21</java.version>
 
-        <junit.version>5.14.0</junit.version>
+        <junit.version>6.0.2</junit.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <assertj.version>3.27.6</assertj.version>
-        <selenium.version>4.14.0</selenium.version>
-        <httpclient5.version>5.3.1</httpclient5.version>
+        <selenium.version>4.39.0</selenium.version>
+        <httpclient5.version>5.6</httpclient5.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
     </properties>
 

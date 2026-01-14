@@ -15,30 +15,24 @@
 package org.linkki.core.ui.aspects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
-import java.util.Arrays;
-import java.util.function.Consumer;
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.ReflectionUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
-import org.mockito.ArgumentCaptor;
 
 import com.github.mvysny.kaributesting.v10.MockVaadin;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.combobox.MultiSelectComboBox;
+import com.vaadin.flow.component.combobox.ComboBoxBase;
 import com.vaadin.flow.data.provider.KeyMapper;
 import com.vaadin.flow.data.renderer.LitRenderer;
-import com.vaadin.flow.data.renderer.Rendering;
 import com.vaadin.flow.dom.Element;
 
-import elemental.json.impl.JreJsonFactory;
-import elemental.json.impl.JreJsonObject;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.ObjectNode;
 
 class BindComboBoxItemStyleAspectDefinitionTest {
 
@@ -47,19 +41,19 @@ class BindComboBoxItemStyleAspectDefinitionTest {
 
     @Test
     void testCreateAspect_NoStyleNames() {
-        BindComboBoxItemStyleAspectDefinition aspectDefinition = new BindComboBoxItemStyleAspectDefinition(
-                new String[] {});
+        var aspectDefinition = new BindComboBoxItemStyleAspectDefinition();
 
         Aspect<Function<Object, String>> createdAspect = aspectDefinition.createAspect();
 
         assertThat(createdAspect.getName()).isEqualTo(BindComboBoxItemStyleAspectDefinition.NAME);
-        // Retrieved dynamically
-        assertThat(createdAspect.isValuePresent()).isFalse();
+        assertThat(createdAspect.isValuePresent())
+                .as("Aspect should be dynamic")
+                .isFalse();
     }
 
     @Test
     void testCreateAspect_SingleStyleName() {
-        BindComboBoxItemStyleAspectDefinition aspectDefinition = new BindComboBoxItemStyleAspectDefinition("foo");
+        var aspectDefinition = new BindComboBoxItemStyleAspectDefinition("foo");
 
         Aspect<Function<Object, String>> createdAspect = aspectDefinition.createAspect();
 
@@ -69,7 +63,7 @@ class BindComboBoxItemStyleAspectDefinitionTest {
 
     @Test
     void testCreateAspect_MultipleStyleNames() {
-        BindComboBoxItemStyleAspectDefinition aspectDefinition = new BindComboBoxItemStyleAspectDefinition("foo",
+        var aspectDefinition = new BindComboBoxItemStyleAspectDefinition("foo",
                 "bar");
 
         Aspect<Function<Object, String>> createdAspect = aspectDefinition.createAspect();
@@ -79,35 +73,31 @@ class BindComboBoxItemStyleAspectDefinitionTest {
     }
 
     @Test
-    void testCreateComponentValueSetter_ComboBox() {
+    void testCreateComponentValueSetter_ComboBox() throws Exception {
         MockVaadin.setup();
 
-        String styleName = "bar";
-        BindComboBoxItemStyleAspectDefinition aspectDefinition = new BindComboBoxItemStyleAspectDefinition(styleName);
-        ComboBox<Object> multiSelect = spy(ComponentFactory.newComboBox());
-        @SuppressWarnings("unchecked")
-        ArgumentCaptor<LitRenderer<Object>> argumentCaptor = ArgumentCaptor.forClass(LitRenderer.class);
-        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(multiSelect);
+        var styleName = "bar";
+        var aspectDefinition = new BindComboBoxItemStyleAspectDefinition(styleName);
+        var multiSelect = ComponentFactory.newComboBox();
+        var componentWrapper = new NoLabelComponentWrapper(multiSelect);
 
-        Consumer<Function<Object, String>> componentValueSetter = aspectDefinition
-                .createComponentValueSetter(componentWrapper);
+        var componentValueSetter = aspectDefinition.createComponentValueSetter(componentWrapper);
         componentValueSetter.accept(o -> EXPECTED_STYLE);
 
-        verify(multiSelect).setRenderer(argumentCaptor.capture());
-        LitRenderer<Object> renderer = argumentCaptor.getValue();
-        Rendering<Object> render = renderer.render(new Element("div"), new KeyMapper<>());
-        JreJsonObject jsonObject = new JreJsonObject(new JreJsonFactory());
+        var renderer = getRenderer(multiSelect);
+        var render = renderer.render(new Element("div"), new KeyMapper<>());
+        var jsonObject = new ObjectNode(new JsonNodeFactory());
         render.getDataGenerator().get().generateData(EXPECTED_LABEL, jsonObject);
 
         assertThat(jsonObject
-                .get(Arrays.stream(jsonObject.keys())
+                .get(jsonObject.propertyNames().stream()
                         .filter(c -> c.endsWith("style"))
                         .findFirst()
                         .orElseThrow())
                 .asString())
                         .isEqualTo(EXPECTED_STYLE);
         assertThat(jsonObject
-                .get(Arrays.stream(jsonObject.keys())
+                .get(jsonObject.propertyNames().stream()
                         .filter(c -> c.endsWith("label"))
                         .findFirst()
                         .orElseThrow())
@@ -118,35 +108,31 @@ class BindComboBoxItemStyleAspectDefinitionTest {
     }
 
     @Test
-    void testCreateComponentValueSetter_MultiSelect() {
+    void testCreateComponentValueSetter_MultiSelect() throws Exception {
         MockVaadin.setup();
 
-        String styleName = "bar";
-        BindComboBoxItemStyleAspectDefinition aspectDefinition = new BindComboBoxItemStyleAspectDefinition(styleName);
-        MultiSelectComboBox<Object> comboBox = spy(ComponentFactory.newMultiSelect());
-        @SuppressWarnings("unchecked")
-        ArgumentCaptor<LitRenderer<Object>> argumentCaptor = ArgumentCaptor.forClass(LitRenderer.class);
-        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(comboBox);
+        var styleName = "bar";
+        var aspectDefinition = new BindComboBoxItemStyleAspectDefinition(styleName);
+        var comboBox = ComponentFactory.newMultiSelect();
+        var componentWrapper = new NoLabelComponentWrapper(comboBox);
 
-        Consumer<Function<Object, String>> componentValueSetter = aspectDefinition
-                .createComponentValueSetter(componentWrapper);
+        var componentValueSetter = aspectDefinition.createComponentValueSetter(componentWrapper);
         componentValueSetter.accept(o -> EXPECTED_STYLE);
 
-        verify(comboBox).setRenderer(argumentCaptor.capture());
-        LitRenderer<Object> renderer = argumentCaptor.getValue();
-        Rendering<Object> render = renderer.render(new Element("div"), new KeyMapper<>());
-        JreJsonObject jsonObject = new JreJsonObject(new JreJsonFactory());
+        var renderer = getRenderer(comboBox);
+        var render = renderer.render(new Element("div"), new KeyMapper<>());
+        var jsonObject = new ObjectNode(new JsonNodeFactory());
         render.getDataGenerator().get().generateData(EXPECTED_LABEL, jsonObject);
 
         assertThat(jsonObject
-                .get(Arrays.stream(jsonObject.keys())
+                .get(jsonObject.propertyNames().stream()
                         .filter(c -> c.endsWith("style"))
                         .findFirst()
                         .orElseThrow())
                 .asString())
                         .isEqualTo(EXPECTED_STYLE);
         assertThat(jsonObject
-                .get(Arrays.stream(jsonObject.keys())
+                .get(jsonObject.propertyNames().stream()
                         .filter(c -> c.endsWith("label"))
                         .findFirst()
                         .orElseThrow())
@@ -156,4 +142,21 @@ class BindComboBoxItemStyleAspectDefinitionTest {
         MockVaadin.tearDown();
     }
 
+    @SuppressWarnings("rawtypes")
+    private LitRenderer<Object> getRenderer(ComboBoxBase component)
+            throws InvocationTargetException, IllegalAccessException {
+        var getRenderManager = ReflectionUtils.findMethod(ComboBoxBase.class, "getRenderManager").get();
+        getRenderManager.setAccessible(true);
+        var renderManager = getRenderManager.invoke(component);
+
+        var rendererField = ReflectionUtils
+                .findFields(renderManager.getClass(), f -> f.getName().equals("renderer"),
+                            ReflectionUtils.HierarchyTraversalMode.TOP_DOWN)
+                .getFirst();
+        rendererField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        var renderer = (LitRenderer<Object>)rendererField.get(renderManager);
+
+        return renderer;
+    }
 }

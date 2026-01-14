@@ -17,6 +17,10 @@ package org.linkki.samples.gettingstarted;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.vaadin.flow.component.dependency.StyleSheet;
+import com.vaadin.flow.theme.lumo.Lumo;
+
+@StyleSheet(Lumo.STYLESHEET)
 @SpringBootApplication
 @SuppressWarnings("HideUtilityClassConstructor")
 public class GettingStartedApplication {

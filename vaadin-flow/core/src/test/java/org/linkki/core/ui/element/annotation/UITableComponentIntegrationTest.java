@@ -1,13 +1,12 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyCollection;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
+import java.io.Serial;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -27,15 +26,16 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.shared.communication.PushMode;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 
 @ExtendWith(KaribuUIExtension.class)
 class UITableComponentIntegrationTest {
@@ -140,22 +140,24 @@ class UITableComponentIntegrationTest {
         UI.getCurrent().getPushConfiguration().setPushMode(pushMode);
         var pmo = new TestTablePmo();
         var method = pmo.getClass().getMethod("getItems");
-
         var wrapper = UiCreator.<Component, NoLabelComponentWrapper> createUiElement(method, pmo, bindingContext,
                                                                                      component -> new NoLabelComponentWrapper(
-                                                                                             spy(component)));
-        var grid = (Grid<?>)wrapper.getComponent();
-
-        verify(grid, times(1)).setItems(anyCollection());
+                                                                                             new TestGrid<>()));
+        var grid = (TestGrid<?>)wrapper.getComponent();
+        assertThat(grid.countAccess()).isEqualTo(1);
 
         bindingContext.modelChanged();
 
-        verify(grid, times(1)).setItems(anyCollection());
+        assertThat(grid.countAccess())
+                .as("Grid#setItems should not be called if the items did not change")
+                .isEqualTo(1);
 
         pmo.changeItemsList();
         bindingContext.modelChanged();
 
-        verify(grid, times(2)).setItems(anyCollection());
+        assertThat(grid.countAccess())
+                .as("Grid#setItems should be called if the items changed")
+                .isEqualTo(2);
     }
 
     @EnumSource(PushMode.class)
@@ -332,6 +334,22 @@ class UITableComponentIntegrationTest {
         @UILabel(position = 10, label = "Just a default test column")
         public String getDefaultColumn() {
             return "default";
+        }
+    }
+
+    public static class TestGrid<T> extends Grid<T> {
+        @Serial
+        private static final long serialVersionUID = -5908624032001126255L;
+        private final AtomicInteger setItemsAccessCounter = new AtomicInteger(0);
+
+        @Override
+        public GridListDataView<T> setItems(Collection<T> items) {
+            setItemsAccessCounter.incrementAndGet();
+            return super.setItems(items);
+        }
+
+        public int countAccess() {
+            return setItemsAccessCounter.get();
         }
     }
 }

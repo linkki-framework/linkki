@@ -33,7 +33,6 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 
 import com.github.javafaker.Faker;
-import com.google.common.collect.ImmutableList;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -57,7 +56,7 @@ public class UITableComponentPmo {
                 List.of(LumoUtility.Flex.GROW, LumoUtility.Height.FULL));
     }
 
-    @BindStyleNames({ LumoUtility.Height.FULL, LumoUtility.Overflow.HIDDEN })
+    @BindStyleNames({LumoUtility.Height.FULL, LumoUtility.Overflow.HIDDEN})
     @BindCaption
     @UISection(layout = SectionLayout.VERTICAL)
     public static class UITableComponentSectionPmo {
@@ -162,7 +161,7 @@ public class UITableComponentPmo {
         }
 
         public List<Person> getData() {
-            return ImmutableList.copyOf(data);
+            return List.copyOf(data);
         }
     }
 }

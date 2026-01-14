@@ -1,3 +1,5 @@
+@import "../../lumo/lumo.css";
+@import "../../lumo/utility.css";
 @import "input-field.css";
 @import "vaadin-checkbox.css";
 @import "vaadin-radio-button.css";

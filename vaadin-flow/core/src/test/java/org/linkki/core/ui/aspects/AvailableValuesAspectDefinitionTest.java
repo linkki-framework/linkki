@@ -41,7 +41,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
@@ -123,22 +122,6 @@ class AvailableValuesAspectDefinitionTest {
         availableValuesAspectDefinition.setDataProvider(new NoLabelComponentWrapper(component), data);
 
         verify(dataProviderSetter).accept(component, data);
-    }
-
-    @Test
-    void testHandleNullItems() {
-        AvailableValuesAspectDefinition<HasListDataView<Object, ?>> availableValuesAspectDefinition =
-                new AvailableValuesAspectDefinition<>(
-                        AvailableValuesType.DYNAMIC, NOP);
-
-        @SuppressWarnings("unchecked")
-        List<Object> items = mock(List.class);
-        @SuppressWarnings("unchecked")
-        ComboBox<Object> component = mock(ComboBox.class);
-        availableValuesAspectDefinition
-                .handleNullItems(new NoLabelComponentWrapper(component, WrapperType.FIELD), items);
-
-        verifyNoMoreInteractions(component, items);
     }
 
     @Test

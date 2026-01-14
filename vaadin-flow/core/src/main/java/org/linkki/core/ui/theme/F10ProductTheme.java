@@ -21,6 +21,22 @@ package org.linkki.core.ui.theme;
  */
 public class F10ProductTheme {
 
+    /**
+     * Used together with {@link com.vaadin.flow.component.dependency.StyleSheet} to import the f10
+     * product theme.
+     * 
+     * @since 2.10.0
+     */
+    public static final String STYLESHEET = "themes/f10-product/styles.css";
+
+    /**
+     * The name of the f10-product theme. Should be used in*
+     * {@link com.vaadin.flow.theme.Theme @Theme} annotation.
+     *
+     * @deprecated Use {@link com.vaadin.flow.component.dependency.StyleSheet} together with
+     *             {@link F10ProductTheme#STYLESHEET} instead.
+     */
+    @Deprecated(since = "2.10.0")
     public static final String F10_PRODUCT_THEME = "f10-product";
 
     private F10ProductTheme() {

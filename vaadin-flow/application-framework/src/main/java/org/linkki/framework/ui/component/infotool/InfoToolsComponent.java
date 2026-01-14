@@ -76,7 +76,7 @@ public class InfoToolsComponent<T extends InfoTool> extends VerticalLayout
         Details details = new Details(caption, tool.getComponent());
         details.setWidthFull();
         details.setId(tool.getId());
-        details.addThemeVariants(DetailsVariant.FILLED);
+        details.addThemeVariants(DetailsVariant.LUMO_FILLED);
         details.addOpenedChangeListener(this::onOpenedChange);
         return details;
     }

@@ -25,8 +25,20 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 public class LinkkiTheme {
 
     /**
-     * The name of the linkki theme name. Should be used in {@link Theme @Theme} annotation.
+     * Used together with {@link com.vaadin.flow.component.dependency.StyleSheet} to import the
+     * default linkki theme.
+     * 
+     * @since 2.10.0
      */
+    public static final String STYLESHEET = "themes/linkki/styles.css";
+
+    /**
+     * The name of the linkki theme name. Should be used in {@link Theme @Theme} annotation.
+     * 
+     * @deprecated Use {@link com.vaadin.flow.component.dependency.StyleSheet} together with
+     *             LinkkiTheme.STYLESHEET instead.
+     */
+    @Deprecated(since = "2.10.0")
     public static final String LINKKI_THEME = "linkki";
 
     /**

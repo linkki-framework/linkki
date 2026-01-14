@@ -1,3 +1,7 @@
 {
-	"lumoImports": ["utility","badge"]
+  "lumoImports": [
+    "lumo",
+    "utility",
+    "badge"
+  ]
 }

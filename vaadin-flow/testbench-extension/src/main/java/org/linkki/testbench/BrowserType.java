@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.linkki.testbench.util.DriverProperties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -37,9 +38,9 @@ public enum BrowserType {
         @Override
         public WebDriver getWebdriver(Locale locale) {
             setChromeDriverSystemProperty();
+
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-search-engine-choice-screen");
-            options.setBrowserVersion("137.0.7151.104");
 
             options.setExperimentalOption("prefs", Map.of("intl.accept_languages", locale.getLanguage()));
 
@@ -55,13 +56,15 @@ public enum BrowserType {
 
         @Override
         public WebDriver getWebdriver(Locale locale) {
-            setChromeDriverSystemProperty();
-            ChromeOptions options = new ChromeOptions();
-            options.setBrowserVersion("137.0.7151.104");
+            var options = new ChromeOptions();
             options.addArguments("--disable-search-engine-choice-screen");
             options.addArguments("--headless=new");
             // supposed to solve "Time out receiving message from renderer: 600.000"
             options.addArguments("--disable-gpu");
+
+            var url = DriverProperties.getTestUrl("", "");
+            options.addArguments("--unsafely-treat-insecure-origin-as-secure=" + url);
+
             options.setExperimentalOption("prefs", Map.of("intl.accept_languages", locale.getLanguage()));
 
             LoggingPreferences logs = new LoggingPreferences();
@@ -70,7 +73,7 @@ public enum BrowserType {
 
             var driver = new ChromeDriver(options);
             LOGGER.info("Chrome driver version: " + driver.getCapabilities().getCapability("browserVersion"));
-            return new ChromeDriver(options);
+            return driver;
         }
     };
 

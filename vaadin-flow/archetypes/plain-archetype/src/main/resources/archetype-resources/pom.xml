@@ -18,12 +18,12 @@
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
-        <jetty.version>11.0.25</jetty.version>
+        <jetty.version>11.0.26</jetty.version>
         <jakarta-servlet-api.version>6.1.0</jakarta-servlet-api.version>
         <slf4j.version>2.0.17</slf4j.version>
 
-        <maven-war-plugin.version>3.5.0</maven-war-plugin.version>
-        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
+        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +55,12 @@
             <artifactId>linkki-application-framework-vaadin-flow</artifactId>
             <version>@project.version@</version>
         </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-dev</artifactId>
+            <version>@vaadin.version@</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>
@@ -85,8 +91,9 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>prepare-frontend</goal>
+                            <goal>build-frontend</goal>
                         </goals>
+                        <phase>compile</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -112,28 +119,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <profiles>
-        <profile>
-            <!-- Production mode is activated using -Pproduction -->
-            <id>production</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.vaadin</groupId>
-                        <artifactId>vaadin-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>build-frontend</goal>
-                                </goals>
-                                <phase>compile</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>

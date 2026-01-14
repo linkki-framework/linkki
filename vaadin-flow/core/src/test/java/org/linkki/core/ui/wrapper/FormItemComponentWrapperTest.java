@@ -14,15 +14,10 @@
 
 package org.linkki.core.ui.wrapper;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,53 +26,45 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.ElementBinding;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.handler.DefaultMessageHandler;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.vaadin.component.base.LabelComponentFormItem;
 import org.linkki.util.handler.Handler;
-import org.mockito.ArgumentCaptor;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.textfield.TextField;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * basically the same tests as in {@code ElementBindingTest} but focused on the
+ * Basically the same tests as in {@code ElementBindingTest} but focused on the
  * {@link FormItemComponentWrapper}
  **/
 class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
 
     private final NativeLabel label = spy(new NativeLabel());
 
-    private final TextField field = spy(new TextField());
-    private final ComboBox<String> selectField = spy(new ComboBox<>());
+    private final TextField field = new TextField();
+    private final ComboBox<String> selectField = new ComboBox<>();
 
     private ElementBinding selectBinding;
 
+    private final MessageList messageList = new MessageList();
     private PropertyDispatcher propertyDispatcherValue;
-
-    private MessageList messageList;
-
-    private PropertyDispatcher propertyDispatcherEnumValue;
 
     @BeforeEach
     void setUp() {
-        propertyDispatcherValue = mock(PropertyDispatcher.class);
-        when(propertyDispatcherValue.getProperty()).thenReturn("value");
-        propertyDispatcherEnumValue = mock(PropertyDispatcher.class);
-        when(propertyDispatcherEnumValue.getProperty()).thenReturn("enumValue");
-        doReturn(TestEnum.class).when(propertyDispatcherEnumValue).getValueClass();
+        propertyDispatcherValue = new TestPropertyDispatcher("value", Object.class, messageList);
 
-        messageList = new MessageList();
-        when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
-        when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
-
+        var propertyDispatcherEnumValue = new TestPropertyDispatcher("enumValue", TestEnum.class, messageList);
         selectBinding = new ElementBinding(new FormItemComponentWrapper(new LabelComponentFormItem(selectField, label)),
                 propertyDispatcherEnumValue,
                 Handler.NOP_HANDLER,
@@ -87,10 +74,20 @@ class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
     @Test
     void testUpdateFromPmo_updateAspect() {
         Handler componentUpdater = mock(Handler.class);
-        LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
-        when(aspectDefinition.supports(any())).thenReturn(true);
-        when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
-        ElementBinding fieldBinding = new ElementBinding(
+        class TestlinkkiAspectDefinition implements LinkkiAspectDefinition {
+
+            @Override
+            public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
+                return componentUpdater;
+            }
+
+            @Override
+            public boolean supports(WrapperType type) {
+                return true;
+            }
+        }
+        var aspectDefinition = new TestlinkkiAspectDefinition();
+        var fieldBinding = new ElementBinding(
                 new FormItemComponentWrapper(new LabelComponentFormItem(field, label)),
                 propertyDispatcherValue,
                 Handler.NOP_HANDLER, Arrays.asList(aspectDefinition), new DefaultMessageHandler());
@@ -105,22 +102,15 @@ class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
 
         selectBinding.displayMessages(messageList);
 
-        verify(selectField).setErrorMessage(any(String.class));
-
-        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(selectField).setErrorMessage(captor.capture());
-
-        @NonNull
-        String userError = captor.getValue();
-        assertEquals(userError, "text");
+        assertThat(selectField.getErrorMessage()).isEqualTo("text");
     }
 
     @Test
     void testDisplayMessages_noMessages() {
         selectBinding.displayMessages(messageList);
 
-        verify(selectField).setErrorMessage("");
-        assertThat(selectField.isInvalid(), is(false));
+        assertThat(selectField.getErrorMessage()).isEmpty();
+        assertThat(selectField.isInvalid()).isFalse();
     }
 
     @Test
@@ -137,13 +127,62 @@ class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
         FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
 
         wrapper.setTooltip("testTip");
-        assertThat(getTitleAttribute(wrapper), is("testTip"));
+        assertThat(getTitleAttribute(wrapper)).isEqualTo("testTip");
         wrapper.setTooltip("<script>");
-        assertThat(getTitleAttribute(wrapper), is(""));
+        assertThat(getTitleAttribute(wrapper)).isEqualTo("");
         wrapper.setTooltip("<div> some text </div>");
-        assertThat(getTitleAttribute(wrapper), is(" some text "));
+        assertThat(getTitleAttribute(wrapper)).isEqualTo(" some text ");
         wrapper.setTooltip("<div> some text <br> with page break</div> ");
-        assertThat(getTitleAttribute(wrapper), is(" some text \n with page break "));
+        assertThat(getTitleAttribute(wrapper)).isEqualTo(" some text \n with page break ");
     }
 
+    private static class TestPropertyDispatcher implements PropertyDispatcher {
+
+        private final String value;
+        private final Class<?> valueClass;
+        private final MessageList messages;
+
+        public TestPropertyDispatcher(String value, Class<?> valueClass, MessageList messages) {
+            this.value = value;
+            this.valueClass = valueClass;
+            this.messages = messages;
+        }
+
+        @Override
+        public String getProperty() {
+            return value;
+        }
+
+        @CheckForNull
+        @Override
+        public Object getBoundObject() {
+            return null;
+        }
+
+        @Override
+        public Class<?> getValueClass() {
+            return valueClass;
+        }
+
+        @Override
+        public MessageList getMessages(MessageList messageList) {
+            return messages;
+        }
+
+        @CheckForNull
+        @Override
+        public <T> T pull(Aspect<T> aspect) {
+            return null;
+        }
+
+        @Override
+        public <T> void push(Aspect<T> aspect) {
+
+        }
+
+        @Override
+        public <T> boolean isPushable(Aspect<T> aspect) {
+            return false;
+        }
+    }
 }

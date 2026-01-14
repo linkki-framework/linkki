@@ -15,16 +15,17 @@ package org.linkki.samples.appsample;
 
 import java.io.Serial;
 
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.samples.appsample.model.BusinessPartnerRepository;
 import org.linkki.samples.appsample.model.InMemoryBusinessPartnerRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
-import com.vaadin.flow.theme.Theme;
 
-@Theme("linkki")
+@StyleSheet(LinkkiTheme.STYLESHEET)
 @SpringBootApplication
 public class BusinessPartnerApplication implements AppShellConfigurator {
 

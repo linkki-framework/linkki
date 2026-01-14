@@ -1,4 +1,4 @@
-.api-change:after {
+strong.api-change:after {
     content: 'api-change';
     color: white;
     margin-left: 1em;

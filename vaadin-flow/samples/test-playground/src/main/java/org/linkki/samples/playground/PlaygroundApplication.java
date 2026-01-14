@@ -16,16 +16,17 @@ package org.linkki.samples.playground;
 
 import java.io.Serial;
 
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.server.AppShellSettings;
-import com.vaadin.flow.theme.Theme;
 
 @Push
-@Theme(value = "playground")
+@StyleSheet(LinkkiTheme.STYLESHEET)
 @SpringBootApplication
 public class PlaygroundApplication implements AppShellConfigurator {
 

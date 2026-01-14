@@ -1,14 +1,15 @@
 #set($symbol_pound='#')#set($symbol_dollar='$')#set($symbol_escape='\')
 package ${package};
 
-import com.vaadin.flow.component.page.AppShellConfigurator;
-import com.vaadin.flow.theme.Theme;
+import org.linkki.core.ui.theme.LinkkiTheme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@Theme("linkki")
+import com.vaadin.flow.component.dependency.StyleSheet;
+import com.vaadin.flow.component.page.AppShellConfigurator;
+
+@StyleSheet(LinkkiTheme.STYLESHEET)
 @SpringBootApplication
-@SuppressWarnings("HideUtilityClassConstructor")
 public class ${ApplicationName} implements AppShellConfigurator {
 
     private static final long serialVersionUID = 1L;

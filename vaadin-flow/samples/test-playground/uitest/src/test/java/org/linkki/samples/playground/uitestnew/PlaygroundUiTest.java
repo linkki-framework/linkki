@@ -17,7 +17,6 @@ package org.linkki.samples.playground.uitestnew;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.pageobjects.TestCaseSelectorElement;
 import org.linkki.samples.playground.pageobjects.TestScenarioSelectorElement;
 import org.linkki.samples.playground.ts.TestCaseComponent;
 import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
@@ -28,8 +27,9 @@ import org.linkki.testbench.util.DriverProperties;
 public abstract class PlaygroundUiTest extends AbstractLinkkiUiTest {
 
     protected TestCaseComponentElement goToTestCase(String testScenarioId, String testCaseId) {
-        TestScenarioSelectorElement testScenarioSelector = $(TestScenarioSelectorElement.class).waitForFirst();
-        TestCaseSelectorElement testCaseSelector = testScenarioSelector.selectTestScenario(testScenarioId);
+        getDriver().navigate().refresh();
+        var testScenarioSelector = $(TestScenarioSelectorElement.class).waitForFirst();
+        var testCaseSelector = testScenarioSelector.selectTestScenario(testScenarioId);
         return testCaseSelector.selectTestCase(testCaseId);
     }
 

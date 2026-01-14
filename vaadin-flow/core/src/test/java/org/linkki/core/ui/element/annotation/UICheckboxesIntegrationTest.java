@@ -46,7 +46,7 @@ class UICheckboxesIntegrationTest
     @Test
     void testValue() {
         var checkboxes = getDynamicComponent();
-        var modelObject = (CheckboxesTestModelObject)getDefaultModelObject();
+        var modelObject = (CheckboxesTestModelObject) getDefaultModelObject();
         assertThat(checkboxes.getValue()).containsExactly(TestEnum.ONE);
         assertThat(modelObject.getValue()).containsExactly(TestEnum.ONE);
 
@@ -107,11 +107,11 @@ class UICheckboxesIntegrationTest
      * {@link Checkbox#getLabel()} also delivers wrong value.
      */
     private String getLabel(Object checkboxItem) {
-        var checkbox = (Checkbox)checkboxItem;
+        var checkbox = (Checkbox) checkboxItem;
         @SuppressWarnings("removal")
         var label = checkbox.getChildren()
-                .filter(com.vaadin.flow.component.html.Label.class::isInstance)
-                .map(com.vaadin.flow.component.html.Label.class::cast)
+                .filter(com.vaadin.flow.component.html.NativeLabel.class::isInstance)
+                .map(com.vaadin.flow.component.html.NativeLabel.class::cast)
                 .findFirst()
                 .get();
         return label.getElement().getTextRecursively();
@@ -119,7 +119,7 @@ class UICheckboxesIntegrationTest
 
     @Test
     void testValueRemainsWhenChangingAvailableValues() {
-        var modelObject = (CheckboxesTestModelObject)getDefaultModelObject();
+        var modelObject = (CheckboxesTestModelObject) getDefaultModelObject();
         modelObject.setValue(Set.of(TestEnum.THREE));
         modelChanged();
         assertThat(getDynamicComponent().getValue()).containsOnly(TestEnum.THREE);

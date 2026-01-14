@@ -42,7 +42,6 @@ pipeline {
                 withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                     sh 'mvn -U -T 6 \
                         clean install \
-                        -Pproduction \
                         -Dmaven.test.skip \
                         -Drevapi.skip \
                         -Dspotbugs.skip=true \
@@ -80,8 +79,7 @@ pipeline {
                                         install javadoc:javadoc  \
                                         -Drevapi.skip \
                                         -Dflatten.skip \
-                                        -Dmaven.test.failure.ignore=true \
-                                        -Pproduction'
+                                        -Dmaven.test.failure.ignore=true'
                                 }
 
                                 archiveArtifacts 'vaadin-flow/doc/target/doc/**'

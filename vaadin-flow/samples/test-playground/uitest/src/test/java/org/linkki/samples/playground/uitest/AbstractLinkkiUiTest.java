@@ -209,7 +209,7 @@ public abstract class AbstractLinkkiUiTest extends AbstractBrowserTestBase {
     public String getValueString(TestBenchElement webElement) {
         // checkbox value is mapped to the property checked
         if ("vaadin-checkbox".equals(webElement.getTagName())) {
-            return webElement.getPropertyString("checked");
+            return webElement.getPropertyBoolean("checked").toString();
         } else if ("vaadin-multi-select-combo-box".equals(webElement.getTagName())) {
             return String.join(", ", webElement.getPropertyString("_inputElementValue"));
         } else if ("vaadin-checkbox-group".equals(webElement.getTagName())) {

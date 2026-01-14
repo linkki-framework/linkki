@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.apache.commons.compress.utils.Sets;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
@@ -70,8 +70,8 @@ class UIMultiSelectIntegrationTest
         var multiselect = getDynamicComponent();
 
         assertThat(getAllowedValues(multiselect)).contains(TestEnum.ONE,
-                                                           TestEnum.TWO,
-                                                           TestEnum.THREE);
+                TestEnum.TWO,
+                TestEnum.THREE);
         assertThat(multiselect.isClearButtonVisible()).isTrue();
     }
 
@@ -79,20 +79,20 @@ class UIMultiSelectIntegrationTest
     void testStaticAvailableValues() {
         MultiSelectComboBox<TestEnum> multiselect = getStaticComponent();
         assertThat(getAllowedValues(multiselect)).contains(TestEnum.ONE, TestEnum.TWO,
-                                                           TestEnum.THREE);
+                TestEnum.THREE);
     }
 
     @Test
     void testDynamicAvailableValues() {
         assertThat(getAllowedValues(getDynamicComponent())).contains(TestEnum.ONE, TestEnum.TWO,
-                                                                     TestEnum.THREE);
+                TestEnum.THREE);
 
         List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.remove(TestEnum.ONE);
         getDefaultPmo().setValueAvailableValues(availableValues);
         modelChanged();
         assertThat(getAllowedValues(getDynamicComponent())).contains(TestEnum.TWO,
-                                                                     TestEnum.THREE);
+                TestEnum.THREE);
     }
 
     @Test
@@ -108,7 +108,7 @@ class UIMultiSelectIntegrationTest
         NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
 
         BindingContext bindingContext = new BindingContext();
-        Function<Object, NoLabelComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper((Component)c);
+        Function<Object, NoLabelComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper((Component) c);
 
         var component = UiCreator.createUiElements(pmo, bindingContext, wrapperCreator);
 
@@ -196,7 +196,7 @@ class UIMultiSelectIntegrationTest
 
     @Override
     protected MultiSelectTestModelObject getDefaultModelObject() {
-        return (MultiSelectTestModelObject)super.getDefaultModelObject();
+        return (MultiSelectTestModelObject) super.getDefaultModelObject();
     }
 
     private static List<TestEnum> getAllowedValues(MultiSelectComboBox<TestEnum> multiSelectComboBox) {
@@ -264,7 +264,7 @@ class UIMultiSelectIntegrationTest
 
     protected static class MultiSelectTestModelObject {
         @CheckForNull
-        private Set<TestEnum> value = Sets.newHashSet(TestEnum.THREE);
+        private Set<TestEnum> value = Stream.of(TestEnum.THREE).collect(Collectors.toSet());
 
         @CheckForNull
         public Set<TestEnum> getValue() {
