@@ -14,10 +14,13 @@
 
 package org.linkki.tooling.apt.test.dynamicMethodValidator;
 
+import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.framework.ui.dialogs.DialogPmo;
+import org.linkki.framework.ui.dialogs.UIOpenDialogButton;
 import org.linkki.tooling.apt.test.Report;
 
 @UISection
@@ -31,6 +34,11 @@ public class MissingDynamicMethodPmo {
     @UITextField(position = 10, modelAttribute = "type", visible = VisibleType.DYNAMIC)
     public void type() {
         // model binding
+    }
+
+    @UIOpenDialogButton(position = 20, captionType = CaptionType.DYNAMIC)
+    public DialogPmo getDialog() {
+        return null;
     }
 
 }

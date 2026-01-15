@@ -14,9 +14,12 @@
 
 package org.linkki.tooling.apt.test.dynamicMethodValidator;
 
+import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.framework.ui.dialogs.DialogPmo;
+import org.linkki.framework.ui.dialogs.UIOpenDialogButton;
 import org.linkki.tooling.apt.test.Report;
 
 public class DynamicMethodProvidedPmo {
@@ -33,5 +36,14 @@ public class DynamicMethodProvidedPmo {
 
     public boolean isTypeVisible() {
         return false;
+    }
+
+    @UIOpenDialogButton(position = 20, captionType = CaptionType.DYNAMIC)
+    public DialogPmo getDialog() {
+        return null;
+    }
+
+    public String getDialogCaption() {
+        return "Caption";
     }
 }

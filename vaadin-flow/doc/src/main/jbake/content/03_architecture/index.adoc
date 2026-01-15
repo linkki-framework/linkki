@@ -16,7 +16,9 @@ Central aspects of the *linkki* Framework are
 
 In the first part of this chapter the <<binding-basics, `BindingContext` and `BindingManager` basics>>, and how they interact, are detailed.
 
-Further on, <<databinding, Data binding with PMOs>> is explained. These can be simple PMOs, in which values are stored, or <<domain-model-binding, PMOs with domain model binding>>, where values are bound directly to the domain model. The binding of <<model-attribute-names, multiple model objects>> in a PMO is also explained.
+Further on, <<databinding, Data binding with PMOs>> is explained.
+These can be simple PMOs, in which values are stored, or <<domain-model-binding, PMOs with domain model binding>>, where values are bound directly to the domain model.
+The binding of <<model-attribute-names, multiple model objects>> in a PMO is also explained.
 
 Which properties of the defined UI elements can be controlled and which possibilities *linkki* provides, is discussed in the section <<binding-ui-element-properties, Binding of further UI element properties>>.
 
@@ -29,22 +31,26 @@ The chapter concludes with <<cross-sectional-binding,Cross-Sectional Data Bindin
 
 ==== *linkki* Core
 
-The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc. In addition, it provides common usable implementations for reading *linkki* annotations. As a result, `linkki-core` dependent code can stay unmodified when switching to a different UI framework. It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components. If you intend to use *linkki* with Vaadin Flow (instead of writing your own UI framework mapping), you can directly use the dependency below.
+The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc.
+In addition, it provides common usable implementations for reading *linkki* annotations.
+As a result, `linkki-core` dependent code can stay unmodified when switching to a different UI framework.
+It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components.
+If you intend to use *linkki* with Vaadin Flow (instead of writing your own UI framework mapping), you can directly use the <<maven-dependency-core-vaadin, dependency below>>.
 
-To declare the dependency in maven: 
+To declare the dependency in maven:
 
 [source,xml]
 ----
 <dependency>
     <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-core-vaadin-flow</artifactId>
+    <artifactId>linkki-core</artifactId>
 </dependency>
 ----
 
 [[maven-dependency-core-vaadin]]
 ==== *linkki* Core for Vaadin
 
-To use *linkki* with Vaadin you need to reference a module providing all the Vaadin version specific implementations and all component annotations described in <<ui-components, UI Components>>. 
+To use *linkki* with Vaadin you need to reference a module providing all the Vaadin version specific implementations and all component annotations described in <<ui-components, UI Components>>.
 
 Use the following dependency:
 

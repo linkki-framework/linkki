@@ -56,12 +56,12 @@ The following versions have been updated:
 // * *Beschreibung* +
 // Text
 
-// ==== Bugfixes
+==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-????
 // * [.api-change] *Beschreibung* +
 // Text
 
-// https://jira.convista.com/browse/LIN-????
-// * *Beschreibung* +
-// Text
+// https://jira.convista.com/browse/LIN-4520
+* *linkki-apt validation for all linkki annotations* +
+<<linkki-apt,linkki-apt>> can now fully validate usages of all linkki standard annotations.

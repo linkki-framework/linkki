@@ -14,6 +14,30 @@
 
 package org.linkki.tooling.apt.compiler;
 
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.stream.Stream;
+
+import javax.annotation.processing.Processor;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaCompiler.CompilationTask;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
+
 import org.apache.commons.io.FileUtils;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.ui.aspects.annotation.BindAutoFocus;
@@ -49,30 +73,8 @@ import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.element.annotation.UITimeField;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.framework.ui.dialogs.UIOpenDialogButton;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-
-import javax.annotation.processing.Processor;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaCompiler.CompilationTask;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.stream.Stream;
-
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * A class for compiling and testing Java source files with annotation processors.
@@ -257,6 +259,7 @@ public class TestCompiler {
                 UILink.class,
                 UILongField.class,
                 UIMultiSelect.class,
+                UIOpenDialogButton.class,
                 UIRadioButtons.class,
                 UITableComponent.class,
                 UITableColumn.class,
