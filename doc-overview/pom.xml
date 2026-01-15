@@ -15,12 +15,12 @@
     </properties>
 
     <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-documentation-landing-page</artifactId>
+    <artifactId>linkki-version-overview</artifactId>
     <!-- Do not change, referenced by doc.faktorzehn.de webserver -->
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <name>Linkki Core Documentation Landing Page</name>
+    <name>Linkki Core Version Overview</name>
 
     <build>
         <plugins>
