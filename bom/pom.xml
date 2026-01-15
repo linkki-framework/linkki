@@ -32,11 +32,11 @@
     </developers>
 
     <properties>
-        <vaadin.version>24.9.8</vaadin.version>
+        <vaadin.version>24.9.9</vaadin.version>
         <!-- Should be the same version as in ../pom.xml -->
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
-        <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+        <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
     </properties>
 
     <dependencyManagement>

@@ -8,9 +8,11 @@
 
 == Release Notes
 
-=== Version 2.9.0
+// === Version 2.10.0
 
-The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
+=== Alpha Version {vlinkki}
+
+The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
 
 ==== Version Updates
 
@@ -20,116 +22,46 @@ The following versions have been updated:
 |===
 | Dependency                    | New version                                                                        | Previous version
 
-| Vaadin                        | 24.9.8 (link:https://github.com/vaadin/platform/releases/tag/24.9.8[Release Notes]) | 24.7.8
-| Faktor-IPS                    | 26.1.0.release (link:https://doc.faktorzehn.org/faktor-ips/26.1/[Release Notes]) | 25.7.0-release
-| Spring Boot                   | 3.5.9 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.9[Release Notes]) | 3.5.3
-| Karibu                        | 2.5.0  | 2.3.0
-| Junit | 5.14.2 (link:https://docs.junit.org/5.14.2/release-notes/#release-notes-5.14.2[Release Notes])| 5.12.2
-| commons-lang                  | 3.20.0 | 3.17.0
-| commons-io                    | 2.21.0 | 2.18.0
-| Logback                       | 1.5.24 | 1.5.18
+| Vaadin                        | 24.9.9 (link:https://github.com/vaadin/platform/releases/tag/24.9.9[Release Notes]) | 24.9.8
 
 |===
 
-The update to Vaadin 24.9.7 brings some notable changes:
+// ==== UI Annotations and Aspects
 
-* [.api-change]*HTML Sanitization* +
-The new Vaadin version updates the Jsoup version to 1.20.1 in which the HTML sanitization logic was modified.
-Some cases are now sanitized differently, for example:
-** Input: `<b><iframe>Test</iframe></b>`
-*** Previous behavior: sanitized to `<b>Test</b>`
-*** New behavior: sanitized to `<b></b>`
-** Input: `<b><i onload="alert('text');" />Test</b>`
-*** Previous behavior: sanitized to `<b><i></i>Test</b>`
-*** New behavior: sanitized to `<b><i>Test</i></b>`
-** Banned tags (such as `<iframe>`) now have their entire content removed, rather than only stripping the tags.
-* *Frontend Validation for Date Time Picker* +
-The frontend validation for Date-Time Picker (`@UIDateTimeField`) have changed.
-We could not detect any negative impact for linkki applications.
-If you experience any unexpected behaviors, please do not hesitate to contact us.
-* *Manual value updates in Custom Field* +
-CustomField now has a manual update mode.
-If enabled, it will no longer automatically update its values when any of its contained fields change.
-Instead, `updateValue()` must be called manually, which can reduce unnecessary intermediate updates.
-* *Upload and download Handling* +
-A new API for file upload and download has been introduced.
-Users with custom components for upload or download may need to migrate to the new API.
-See the https://vaadin.com/docs/latest/flow/advanced/downloads[Vaadin documentation] for details.
-* *Static asset management with @NpmPackage* +
-`@NpmPackage` is used to declare static assets from npm packages.
-During build time, these asset files are copied into the frontend and no `theme.json` entries are needed.
-* *Improved tool tip discoverability with styling hooks* +
-Elements with tooltips now expose a `has-tooltip' attribute.
-This attribute can be used to add visual indicators in CSS for when the tooltip is available.
+// https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Beschreibung* +
+// Text
 
-==== UI Annotations and Aspects
-// https://jira.convista.com/browse/LIN-3148
-* *BindHeight* +
-A new aspect annotation <<bind-height, @BindHeight>> has been added to define the height of a UI component, e.g., to set a fixed size for table components or other components that benefit from a consistent display area.
-// https://jira.convista.com/browse/LIN-4605
-* *BindWidth* +
-A new aspect annotation <<bind-width, @BindWidth>> has been added to define the width of a UI component, e.g., to set a fixed size for date fields or other components that benefit from a consistent display area.
-// https://jira.convista.com/browse/LIN-4157
-* *BindHelperText* +
-A new aspect annotation <<bind-helper-text, @BindHelperText>> has been added to show additional information for a field, e.g., regarding its format requirement or purpose.
-// https://jira.convista.com/browse/LIN-4604
-* *UINestedComponent with multiple PMOs* +
-This version adds support for returning multiple PMOs as a `SequencedCollection<Object>` in the `UINestedComponent` annotation.
-See <<multiple-nested-pmos, chapter "Nested Components">> for more information.
-// https://jira.convista.com/browse/LIN-4530
-* *Clear button for UIDateField, UITimeField and UIDateTimeField* +
-Date and time fields now have a clear button to erase the current value.
-This helps in situations when it is faster to first erase the former value and then insert a new one.
+// https://jira.convista.com/browse/LIN-????
+// * *Beschreibung* +
+// Text
 
-==== Testing
-// https://jira.convista.com/browse/LIN-4635
-* [.api-change]*New utility class for set-up: KaribuUI* +
-linkki provides `KaribuUIExtension` that can be used with `@ExtendWith` or `@RegisterExtension` to set up the Vaadin UI for Karibu testing.
-However, this only works well for test classes in which the set-up is the same for each method. +
-This version introduces a new utility class <<karibu-ui,`KaribuUI`>> that can be used to set up and tear down explicitly by method call.
-This can be used to create a different set-up for each method, as well as test classes that do not tear down after each method, but only once for the whole class. +
-With this change, the configuration class `KaribuConfiguration` was moved to the top level.
-Static imports of this class may need to be adjusted.
-If the static method `withDefaults` is currently used with `KaribuUIExtension.withConfigution` (`KaribuUIExtension.withConfiguration(withDefaults().setSomething())`, consider changing the usage to `KaribuUIExtension.withConfiguration(config -> config.setSomething())`.
-// https://jira.convista.com/browse/LIN-4635
-* *KaribuUtils: browser refresh* +
-`KaribuUtils` now has a new method `UI#refresh` with which a browser refresh can be simulated.
+// ==== Testing
 
-==== Other Improvements
-// https://jira.convista.com/browse/LIN-4153
-* A localized converter for booleans replaces the previous default in the <<default-converters,*LinkkiConverterRegistry*>>.
-Booleans will now be displayed as a localized variant of "Yes" or "No" when used with @UILabel.
-// https://jira.convista.com/browse/LIN-4491
-* A new section <<tutorial-step-11, UI Tests>> has been added to the <<linkki-tutorial,linkki tutorial>>, demonstrating how to write unit UI tests with Karibu-Testing.
-// https://jira.convista.com/browse/LIN-4491
-* This version is tested for compatibility with Java 25. +
-Note that when using components that use `CompletableFuture` as return types in low-parallelism environments, it may be necessary to set the system property `java.util.concurrent.ForkJoinPool.common.parallelism` to a value of 2 or higher to avoid potential timeouts.
+// https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Beschreibung* +
+// Text
 
-==== Bugfixes
-// https://jira.convista.com/browse/LIN-3289
-* [.api-change]*Grid selection only updates the bindings on changes from client* +
-Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events.
-This reduces the number of unnecessary updates significantly. +
-With this fix, setting the selection programmatically using the Vaadin API does not result in an update of all bindings anymore.
-While this is the expected behaviors, implementations that previously relied on the binding update may need to be adjusted.
-// https://jira.convista.com/browse/LIN-4561
-* *No focus loss during tab traversal in @UITableComponent* +
-Entering a value into a cell inside a table created with `@UITableComponent` and traversing with the tab key no longer results in losing focus.
-// https://jira.convista.com/browse/LIN-3045
-* *@BindReadOnlyBehavior with components other than UIButton* +
-<<bind-read-only-behavior, @BindReadOnlyBehavior>> now also works with components other than UIButton.
-// https://jira.convista.com/browse/LIN-4518
-* *Testbench Extension: error screenshots before @AfterEach methods* +
-Failing UI tests now record an error screenshot before any cleanup is done in @AfterEach methods. +
-Before this change, error screenshots were taken after cleanup was done by these methods.
-This sometimes prevents seeing the actual UI state when the error occurred, e.g. when the cleanup logs out of the application.
-// https://jira.convista.com/browse/LIN-4562
-* *Testing: @WithLocale in parameterized tests* +
-The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
-// https://jira.convista.com/browse/LIN-4636
-* *Testing: KaribuUIExtension sets locale on refresh* +
-When setting locale using `KaribuUIExtension` or `WithLocale`, the locale is now preserved upon `Page#reload`.
-// https://jira.convista.com/browse/LIN-4505
-* *Correct publishing of linkki-bom* +
-The linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries.
-This issue affects only version `2.8.0` and previous alpha version.
+// https://jira.convista.com/browse/LIN-????
+// * *Beschreibung* +
+// Text
+
+// ==== Other Improvements
+
+// https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Beschreibung* +
+// Text
+
+// https://jira.convista.com/browse/LIN-????
+// * *Beschreibung* +
+// Text
+
+// ==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Beschreibung* +
+// Text
+
+// https://jira.convista.com/browse/LIN-????
+// * *Beschreibung* +
+// Text
