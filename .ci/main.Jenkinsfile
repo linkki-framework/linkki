@@ -26,6 +26,10 @@ pipeline {
         stage('Pre-Build') {
             steps {
                 script {
+                    // Load library from .ci/lib/vars
+                    library(identifier: 'linkki-jenkins-library@', retriever: legacySCM(libraryPath: '.ci/lib/', scm: scm))
+                }
+                script {
                     currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BRANCH_NAME}"
                 }
             }
@@ -67,28 +71,24 @@ pipeline {
             }
         }
 
-        stage('Documentation') {
-            stages {
-                stage('Upload Documentation') {
-                    steps {
-                        withMaven(publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -U -pl "vaadin-flow/doc" clean install'
-                            uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false
-                        }
-                    }
+        stage('Upload Documentation') {
+            steps {
+                withMaven(publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -U -pl "vaadin-flow/doc" clean install'
+                    uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false
                 }
+            }
+        }
 
-                stage('Documentation Overview') {
-                    when {
-                        expression {
-                            moduleHasChanges('doc-overview')
-                        }
-                    }
-
-                    steps {
-                        build job: 'linkki_version-overview'
-                    }
+        stage('Upload Version Overview') {
+            when {
+                expression {
+                    moduleHasChanged('doc-overview')
                 }
+            }
+
+            steps {
+                build job: 'linkki_version-overview', wait: false
             }
         }
 

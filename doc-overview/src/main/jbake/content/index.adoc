@@ -4,7 +4,7 @@
 
 == linkki Documentation
 
-This list contains the documentation and release notes for all available versions.
+This list contains the documentation and the release notes for all available versions.
 
 === https://doc.linkki-framework.org/2.9/00_releasenotes/[2.9 (Vaadin 24)]
 
