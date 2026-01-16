@@ -7,6 +7,8 @@
 
 === Version 2.7.101
 
+This patch version updates the Vaadin version to the latest Vaadin 24 version, which has a prolonged maintenance support. As this update contains API changes despite being in a patch release, the version number is set to 101.
+
 ==== Version Updates
 
 The following versions have been updated:
