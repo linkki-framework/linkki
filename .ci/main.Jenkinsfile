@@ -67,11 +67,27 @@ pipeline {
             }
         }
 
-        stage('Upload Documentation') {
-            steps {
-                withMaven(publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -pl "vaadin-flow/doc" clean install'
-                    uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false
+        stage('Documentation') {
+            stages {
+                stage('Upload Documentation') {
+                    steps {
+                        withMaven(publisherStrategy: 'EXPLICIT') {
+                            sh 'mvn -U -pl "vaadin-flow/doc" clean install'
+                            uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false
+                        }
+                    }
+                }
+
+                stage('Documentation Overview') {
+                    when {
+                        expression {
+                            moduleHasChanges('doc-overview')
+                        }
+                    }
+
+                    steps {
+                        build job: 'linkki_version-overview'
+                    }
                 }
             }
         }
