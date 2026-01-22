@@ -8,13 +8,15 @@
 [[headline]]
 === Headline
 
-For every sheet it is useful to have a headline that describes the current content. It natively has a headline caption and could be extended by subclasses.
+For every sheet it is useful to have a headline that describes the current content.
+It natively has a headline caption and could be extended by subclasses.
 
 image::{image-dir}/create-report-simple.png[]
 
-To use a `Headline` simply instantiate and add the component to your content.
+To use a `Headline`, simply instantiate and add the component to your content.
 
-If you want the Headline's title to be updated dynamically, you can also bind it to a PMO. To do so, create a PMO containing a corresponding getter method for `Headline#HEADER_TITLE`:
+If you want the Headline's title to be updated dynamically, you can also bind it to a PMO.
+To do so, create a PMO containing a corresponding getter method for `Headline#HEADER_TITLE`:
 
 [source,java]
 ----
@@ -28,9 +30,14 @@ Then bind it with the headline:
 include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=bind-headline]
 ----
 
+To add additional components into the `<h2>` element holding the title, `Headline` provides the method `addToTitle(Component)`.
+Components added via `addToTitle()` remain present when the title text is updated using `setTitle()`.
+`Headline` uses `CompositeH2` internally, which in contrast to `H2` preserves children when setting the text.
+However, `Headline` can also be initialized with a standard `H2` element if needed.
+
 Alternatively, you can also use @UIHeadline for simple use cases without additional components:
 
-[source, java]
+[source,java]
 ----
 @UIHeadline
 public String getHeadlineText() {

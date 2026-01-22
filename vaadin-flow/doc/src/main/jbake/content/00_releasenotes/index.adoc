@@ -144,11 +144,13 @@ Other selectors used in UI tests and CSS styling may need to be adjusted.
 // * *Beschreibung* +
 // Text
 
-// ==== Other Improvements
+==== Other Improvements
 
-// https://jira.convista.com/browse/LIN-????
-// * [.api-change] *Beschreibung* +
-// Text
+// https://jira.convista.com/browse/LIN-2733
+* [.api-change]*Adding components to the title component of a <<headline,headline>>* +
+Components can now be added directly into the `<h2>` element using the new method `Headline#addToTitle(Component)`.
+Components added via this method are preserved when `setTitle()` is called.
+
 
 // https://jira.convista.com/browse/LIN-????
 // * *Beschreibung* +

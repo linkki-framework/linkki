@@ -13,16 +13,19 @@
  */
 package org.linkki.framework.ui.component;
 
+import static java.util.Objects.requireNonNull;
+
+import java.io.Serial;
+
 import org.linkki.core.ui.bind.annotation.Bind;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-
-import java.io.Serial;
 
 /**
  * A component that renders a header with a title.
@@ -59,17 +62,19 @@ public class Headline extends Composite<HorizontalLayout> {
      * Creates a new {@link Headline} without a label.
      */
     public Headline() {
-        this(new H2());
+        this(new CompositeH2());
     }
 
     /**
-     * Creates a new {@link Headline} with a predefined {@link H2}.
+     * Creates a new {@link Headline} with a predefined {@link H2}. Note that {@link CompositeH2}
+     * should be used if the title component may contain child elements. Using a standard {@link H2}
+     * replaces all existing children when using {@link Headline}#setText.
      * 
      * @param headerTitle the {@link H2} which holds the {@link Headline}'s title to be shown
      */
     public Headline(H2 headerTitle) {
         super();
-        this.headerTitle = headerTitle;
+        this.headerTitle = requireNonNull(headerTitle);
         initHeaderLayout();
     }
 
@@ -79,7 +84,7 @@ public class Headline extends Composite<HorizontalLayout> {
      * @param title shown by the {@link Headline}
      */
     public Headline(String title) {
-        this(new H2(title));
+        this(new CompositeH2(requireNonNull(title)));
     }
 
     /**
@@ -103,5 +108,14 @@ public class Headline extends Composite<HorizontalLayout> {
      */
     public void setTitle(String title) {
         headerTitle.setText(title);
+    }
+
+    /**
+     * Adds a component to the {@link H2} which holds the {@link Headline}'s title.
+     *
+     * @since 2.10.0
+     */
+    public void addToTitle(Component component) {
+        headerTitle.add(requireNonNull(component));
     }
 }

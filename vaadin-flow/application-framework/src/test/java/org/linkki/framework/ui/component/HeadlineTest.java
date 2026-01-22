@@ -14,9 +14,7 @@
 
 package org.linkki.framework.ui.component;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -25,28 +23,68 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.H2;
 
 class HeadlineTest {
 
     @Test
     void testHeadline_HeadlineTitle() {
-        BasicHeadlinePmo basicHeadlinePmo = new BasicHeadlinePmo();
-        BindingContext bindingContext = new BindingContext();
+        var basicHeadlinePmo = new BasicHeadlinePmo();
 
-        Headline headline = new Headline();
-        Binder binder = new Binder(headline, basicHeadlinePmo);
-        binder.setupBindings(bindingContext);
+        var headline = new Headline();
+        var binder = new Binder(headline, basicHeadlinePmo);
+        binder.setupBindings(new BindingContext());
 
-        Component title = headline.getContent().getChildren().toList().get(0);
-        assertThat(title, is(instanceOf(H2.class)));
-        assertThat(((H2)title).getText(), is("Headline Title"));
+        var title = headline.getContent().getChildren().toList().getFirst();
+        assertThat(title).isInstanceOf(CompositeH2.class);
+        assertThat(((H2)title).getText()).isEqualTo("Headline Title");
+    }
+
+    @Test
+    void testHeadline_H2_TitleComponent() {
+        // given
+        var basicHeadlinePmo = new BasicHeadlinePmo();
+        var headline = new Headline(new H2());
+
+        // when
+        headline.addToTitle(new Text("Subtitle"));
+
+        var binder = new Binder(headline, basicHeadlinePmo);
+        binder.setupBindings(new BindingContext());
+
+        // then
+        Component title = headline.getContent().getChildren().toList().getFirst();
+        assertThat(title).isInstanceOf(H2.class);
+        assertThat(((H2)title).getText()).isEqualTo("Headline Title");
+        assertThat(title.getChildren()).as("H2#setText replaces all children").hasSize(1);
+    }
+
+    @Test
+    void testHeadline_CompositeH2_TitleComponent() {
+        // given
+        var basicHeadlinePmo = new BasicHeadlinePmo();
+        var headline = new Headline();
+
+        // when
+        var subTitle = new Text("Subtitle");
+        headline.addToTitle(subTitle);
+
+        var binder = new Binder(headline, basicHeadlinePmo);
+        binder.setupBindings(new BindingContext());
+
+        // then
+        Component title = headline.getContent().getChildren().toList().getFirst();
+        assertThat(title).isInstanceOf(CompositeH2.class);
+        assertThat(((H2)title).getText()).isEqualTo("Headline Title");
+        assertThat(title.getChildren()).hasSize(2);
+        assertThat(title.getChildren().toList().getLast()).isEqualTo(subTitle);
     }
 
     @Test
     void testHeadline_MissingHeaderTitleMethod() {
-        Binder binder = new Binder(new Headline(), new NoHeadlineTitleHeadlinePmo());
-        BindingContext bindingContext = new BindingContext();
+        var binder = new Binder(new Headline(), new NoHeadlineTitleHeadlinePmo());
+        var bindingContext = new BindingContext();
 
         assertThrows(LinkkiBindingException.class, () -> binder.setupBindings(bindingContext));
     }
