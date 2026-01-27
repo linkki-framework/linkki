@@ -1,6 +1,7 @@
 @import "vaadin-checkbox.css";
 @import "vaadin-radio-button.css";
 @import "loading-styles.css";
+@import "error-message.css";
 
 html {
 
