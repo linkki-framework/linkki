@@ -1,0 +1,8 @@
+/* Make sure focus ring does not clip due to overflow https://github.com/vaadin/flow-components/issues/2456 */
+[focus-ring]::part(input-field),
+vaadin-button[focus-ring] {
+    box-shadow: inset 0 0 0 var(--_focus-ring-width) var(--_focus-ring-color);
+}
+vaadin-button[theme~='primary'][focus-ring] {
+    box-shadow: inset 0 0 0 var(--_focus-ring-width) var(--_focus-ring-color), inset 0 0 0 calc(var(--_focus-ring-width) + 1px) var(--lumo-primary-contrast-color);
+}

@@ -1,0 +1,30 @@
+/*
+ * General styling
+ */
+::part(input-field) {
+    font-weight: 400;
+}
+/* Make --linkki-input-background take effect */
+:not([readonly]):not([invalid])::part(input-field) {
+    background-color: var(--linkki-input-background);
+}
+/* Make hover background more visible */
+:not([readonly]):not([invalid]):not([focused]):hover::part(input-field) {
+    background-color: var(--linkki-input-background-hover);
+}
+
+/*
+ * Read-only state
+ */
+[readonly]::part(input-field) {
+    color: var(--linkki-readonly-text-color, var(--lumo-secondary-text-color));
+}
+/* Color read-only fields with validation with border only */
+[readonly][invalid]::part(input-field),
+[readonly][invalid]::part(input-field)::after {
+    border-color: var(--linkki-input-border-color-readonly-invalid, var(--lumo-error-color-50pct));
+    background-color: transparent;
+}
+[readonly][disabled]::part(input-field) {
+    background: transparent;
+}
