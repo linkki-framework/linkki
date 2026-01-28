@@ -53,7 +53,7 @@
 
         <junit.version>5.14.2</junit.version>
         <mockito.version>5.21.0</mockito.version>
-        <assertj.version>3.27.6</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
         <hamcrest.version>3.0</hamcrest.version>
         <awaitility.version>4.3.0</awaitility.version>
         <checkstyle.version>12.3.1</checkstyle.version>
@@ -62,7 +62,7 @@
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <spotbugs.version>4.9.8</spotbugs.version>
-        <logback.version>1.5.24</logback.version>
+        <logback.version>1.5.26</logback.version>
 
         <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
         <revapi-java.version>0.28.4</revapi-java.version>

@@ -8,6 +8,21 @@
 
 == Release Notes
 
+=== Version {vlinkki}
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 24.9.10 (link:https://github.com/vaadin/platform/releases/tag/24.9.10[Release Notes]) | 24.9.8
+| Spring Boot compatibility tested for | 3.5.10 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.10[Release Notes]) | 3.5.9
+|===
+
+
 === Version 2.9.0
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_version_2_8_0[version 2.8.0].
