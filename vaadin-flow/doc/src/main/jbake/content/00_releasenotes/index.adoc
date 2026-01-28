@@ -22,7 +22,9 @@ The following versions have been updated:
 |===
 | Dependency                    | New version                                                                        | Previous version
 
-| Vaadin                        | 24.9.9 (link:https://github.com/vaadin/platform/releases/tag/24.9.9[Release Notes]) | 24.9.8
+| Faktor-IPS | 26.7.0.a20260119-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260119-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
+| Vaadin                        | 24.9.10 (link:https://github.com/vaadin/platform/releases/tag/24.9.10[Release Notes]) | 24.9.8
+| Spring Boot | 3.5.10 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.10[Release Notes]) | 3.5.9
 
 |===
 
