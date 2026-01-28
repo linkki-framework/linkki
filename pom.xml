@@ -52,7 +52,7 @@
 
         <junit.version>5.12.2</junit.version>
         <mockito.version>5.18.0</mockito.version>
-        <assertj.version>3.27.6</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
         <hamcrest.version>3.0</hamcrest.version>
         <awaitility.version>4.3.0</awaitility.version>
         <checkstyle.version>10.24.0</checkstyle.version>
@@ -63,7 +63,7 @@
         <spotbugs.version>4.9.8</spotbugs.version>
         <checkstyle.version>10.20.1</checkstyle.version>
         <!-- Version managed for tests -->
-        <logback.version>1.5.24</logback.version>
+        <logback.version>1.5.26</logback.version>
 
         <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
         <revapi-java.version>0.28.4</revapi-java.version>
