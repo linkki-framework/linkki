@@ -53,6 +53,9 @@ public @interface UIFormLayout {
             return pmo -> {
                 FormLayout formLayout = new FormLayout();
                 formLayout.setResponsiveSteps(new ResponsiveStep("0px", 1));
+                formLayout.setAutoResponsive(true);
+                formLayout.setExpandColumns(true);
+                formLayout.setExpandFields(true);
                 return formLayout;
             };
         }

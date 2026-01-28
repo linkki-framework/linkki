@@ -1,6 +1,10 @@
 @import "vaadin-input-field.css";
 @import "vaadin-checkbox.css";
 @import "vaadin-radio-button.css";
+@import "vaadin-form-item.css";
+@import "vaadin-form-layout.css";
+@import "vaadin-notification-card.css";
+@import "vaadin-dialog.css";
 @import "loading-styles.css";
 @import "error-message.css";
 @import "focus-ring.css";

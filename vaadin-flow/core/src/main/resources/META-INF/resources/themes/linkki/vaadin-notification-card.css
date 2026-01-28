@@ -1,0 +1,9 @@
+vaadin-notification-card linkki-text {
+    color: inherit;
+}
+vaadin-notification-card[theme~="warning"]::part(overlay) {
+    background-color: var(--linkki-warning-color);
+}
+vaadin-notification-card[theme~="error"]::part(overlay) {
+    background-color: var(--linkki-error-color);
+}

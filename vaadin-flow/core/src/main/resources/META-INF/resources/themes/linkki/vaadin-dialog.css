@@ -1,0 +1,3 @@
+vaadin-dialog-overlay::part(overlay) {
+    min-width: 400px;
+}

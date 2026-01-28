@@ -12,10 +12,6 @@
     margin-top: 15px;
 }
 
-.linkki-notification-content linkki-text {
-    color: inherit;
-}
-
 .linkki-notification-messagelist {
     padding: var(--lumo-space-s) 0;
 }

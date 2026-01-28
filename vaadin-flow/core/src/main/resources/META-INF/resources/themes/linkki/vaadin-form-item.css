@@ -1,0 +1,32 @@
+vaadin-form-item {
+    width: 100%;
+    --_form-item-labels-aside: var(--linkki-form-item-label-width, var(--vaadin-form-item-label-width, var(--vaadin-form-layout-label-width, 8em)));
+}
+/* label text alignment */
+vaadin-form-item:not([label-position='top'])::part(label) {
+    display: flex;
+    justify-content: var(--linkki-form-item-label-alignment, end);
+    text-align: var(--linkki-form-item-label-alignment, end);
+    position: relative;
+}
+/* Make label overflow in ellipsis */
+vaadin-form-item > [slot="label"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*
+ * Required indicator
+ */
+vaadin-form-item::part(required-indicator) {
+    /*
+     * Ensure that the required indicator is visible even if the label is empty/ blank.
+     * Without setting this min-height a scrollbar on the whole row appears.
+     */
+    min-height: 1em;
+}
+vaadin-form-item::part(required-indicator)::after {
+    position: absolute;
+    height: auto;
+    overflow: hidden;
+}

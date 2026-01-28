@@ -1,7 +1,0 @@
-:host([theme~='warning']) [part='overlay'] {
-    background-color: var(--linkki-warning-color);
-}
-
-[part='content'] linkki-text {
-    color: inherit;
-}
