@@ -1,0 +1,4 @@
+/* Make components with label on top have less padding */
+[has-label] {
+    padding-top: 0;
+}

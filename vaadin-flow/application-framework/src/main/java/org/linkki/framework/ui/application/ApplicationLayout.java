@@ -37,7 +37,6 @@ import com.vaadin.flow.server.VaadinSession;
 @JsModule("./src/focus-first-item-combo-box-mixin.js")
 @JsModule("./src/focus-first-item-combo-box-scroller.js")
 @CssImport(value = "./styles/linkki-application-layout.css")
-@CssImport(value = "./styles/linkki-vaadin-field.css", themeFor = "vaadin-*")
 public abstract class ApplicationLayout extends VerticalLayout implements RouterLayout {
 
     private static final long serialVersionUID = 1L;

@@ -31,12 +31,26 @@
       }
     }
   ],
-  "2.9.0": [
+  "2.10.0": [
     {
       "extension": "revapi.differences",
       "configuration": {
         "ignore": true,
         "differences": [
+          {
+            "code": "java.annotation.removed",
+            "annotationType": "com.vaadin.flow.component.dependency.CssImport.Container",
+            "package": "org.linkki.framework.ui.application",
+            "classQualifiedName": "org.linkki.framework.ui.application.ApplicationLayout",
+            "justification": "LIN-4711 linkki-vaadin-field.css integrated to linkki"
+          },
+          {
+            "code": "java.annotation.added",
+            "annotation": "@com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-application-layout.css\")",
+            "package": "org.linkki.framework.ui.application",
+            "classQualifiedName": "org.linkki.framework.ui.application.ApplicationLayout",
+            "justification": "LIN-4711 linkki-vaadin-field.css integrated to linkki"
+          }
         ]
       }
     }

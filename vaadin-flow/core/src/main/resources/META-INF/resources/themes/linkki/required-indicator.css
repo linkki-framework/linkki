@@ -1,0 +1,5 @@
+/* Make required indicator only be if the component is editable. */
+[required][readonly]::part(required-indicator)::after,
+[required][disabled]::part(required-indicator)::after {
+    opacity: 0;
+}

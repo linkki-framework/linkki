@@ -1,4 +1,4 @@
-@import "vaadin-input-field.css";
+@import "input-field.css";
 @import "vaadin-checkbox.css";
 @import "vaadin-radio-button.css";
 @import "vaadin-form-item.css";
@@ -9,6 +9,8 @@
 @import "loading-styles.css";
 @import "error-message.css";
 @import "focus-ring.css";
+@import "required-indicator.css";
+@import "has-label.css";
 
 html {
 
