@@ -1,0 +1,37 @@
+/* Solid background for card sections */
+vaadin-grid,
+vaadin-grid::part(cell) {
+    background: var(--linkki-grid-background, var(--lumo-base-color));
+}
+
+/* Header styling */
+vaadin-grid::part(header-cell) {
+    min-height: var(--lumo-size-m);
+}
+
+/* Foot styling */
+vaadin-grid::part(footer-cell) {
+    font-size: var(--lumo-font-size-m);
+    text-shadow: var(--linkki-footer-text-shadow);
+    text-align: var(--linkki-footer-alignment, left);
+}
+
+/*
+ * Empty state
+ */
+vaadin-grid[has-placeholder]:not([has-items]) {
+    /* override fixed inline height */
+    height: unset !important;
+}
+vaadin-grid[has-placeholder]:not([has-items])::part(row) {
+    display: none;
+}
+vaadin-grid[has-placeholder]:not([has-items]) {
+    visibility: hidden;
+}
+vaadin-grid[has-placeholder]:not([has-items])::before {
+    visibility: visible;
+    content: var(--placeholder, "");
+    font-style: var(--linkki-empty-state-font-style);
+    color: var(--linkki-empty-state-text-color);
+}

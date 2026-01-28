@@ -31,7 +31,7 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
         var nestedComponent = $(DivElement.class).id("fixHeightTable");
         var table = nestedComponent.$(LinkkiGridElement.class).id(tableId);
 
-        assertThat(table.$("table").get(0).getSize().getHeight()).isEqualTo(0);
+        assertThat(table.getSize().getHeight()).isEqualTo(36);
         assertThat(table.getPlaceholderText())
                 .as("Don't show placeholder during initial loading")
                 .isEmpty();
