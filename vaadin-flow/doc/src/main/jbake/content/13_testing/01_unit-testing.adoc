@@ -174,7 +174,7 @@ class SetupWithKaribuUI {
     void testUI() {
         KaribuUI.setup(KaribuConfiguration.withDefaults()
                 .setLocale(Locale.GERMAN)
-                .addRoute.addRoute(MyView.class, () -> myView));
+                .addRoute(MyView.class, () -> myView));
 
         assertThat(UI.getCurrent().getLocale()).isEqualTo(Locale.GERMAN);
         ...
