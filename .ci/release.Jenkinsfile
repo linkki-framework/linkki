@@ -4,22 +4,6 @@ library 'maven-central-release-library@main'
 
 import groovy.json.JsonOutput
 
-def additionalReleaseActions() {
-    // set version in uitest module to RELEASE_VERSION
-    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set \
-        -DnewVersion=${params.RELEASE_VERSION} \
-        -DgenerateBackupPoms=false \
-        -f vaadin-flow/samples/test-playground/uitest"
-}
-
-def additionalDevelopmentActions() {
-    // set version in uitest module to DEVELOPMENT_VERSION
-    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.7:set \
-        -DnewVersion=${params.DEVELOPMENT_VERSION} \
-        -DgenerateBackupPoms=false \
-        -f vaadin-flow/samples/test-playground/uitest"
-}
-
 pipeline {
     agent any
 
@@ -49,10 +33,7 @@ pipeline {
             steps {
                 withMaven(publisherStrategy: 'EXPLICIT') {
                     script {
-                        prepareRelease.withAdditionalActions(
-                            this.&additionalReleaseActions,
-                            this.&additionalDevelopmentActions
-                        )
+                       prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
                     }
                 }
             }
