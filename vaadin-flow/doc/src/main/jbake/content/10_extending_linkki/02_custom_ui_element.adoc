@@ -61,9 +61,9 @@ Annotations on classes typically use an empty `BoundProperty`. That way, the asp
 
 The annotation `LinkkiBoundProperty` points to a `BoundPropertyCreator` that defines how a `BoundProperty` should be created from the annotated annotation. The `UIRadioButtonGroup` uses the existing `ModelBindingBoundPropertyCreator` that derives the `BoundProperty` from the PMO property, and also determines the model object and model attribute from annotation attributes that are annotated with `@LinkkiBoundProperty.@ModelObject` and `@LinkkiBoundProperty.@ModelAttribute` respectively. This enables <<domain-model-binding, binding to the domain model>>.
 
-[NOTE] 
+[NOTE]
 ====
-Aside from `ModelBindingBoundPropertyCreator`, *linkki* also provides some other implementations: 
+Aside from `ModelBindingBoundPropertyCreator`, *linkki* also provides some other implementations:
 
 * `EmptyPropertyCreator` - Creates an empty `BoundProperty`
 * `SimpleMemberNameBoundPropertyCreator` - Derives the `BoundProperty` from only the PMO property

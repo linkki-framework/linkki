@@ -5,14 +5,15 @@
 [[apply-linkki-theme]]
 === Applying the *linkki* theme
 
-A theme can be applied by adding the annotation `@Theme` to a class that implements the interface `AppShellConfigurator`. The *linkki* theme uses the name `"linkki"`.
+A theme can be applied by adding the annotation `@Stylesheet` to a class that implements the interface `AppShellConfigurator`.
+The *linkki* theme can be referred using the constant `LinkkiTheme#STYLESHEET`.
 
 In a Spring Boot application, the application configuration class can be used as `AppShellConfigurator`.
 
 .AppShellConfigurator in a Spring Boot application
-[source, java]
+[source,java]
 ----
-@Theme("linkki")
+@Stylesheet(LinkkiTheme.STYLESHEET)
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer
                          implements AppShellConfigurator {
@@ -20,47 +21,51 @@ public class Application extends SpringBootServletInitializer
 }
 ----
 
-In a CDI application, a dedicated class can be created for this purpose. The only requirement for this class is to be in application scope.
+In a CDI application, a dedicated class can be created for this purpose.
+The only requirement for this class is to be in application scope.
 
 .AppShellConfigurator in a CDI application
-[source, java]
+[source,java]
 ----
 @ApplicationScoped
-@Theme("linkki")
+@Stylesheet(LinkkiTheme.STYLESHEET)
 public class MyAppShellConfigurator implements AppShellConfigurator {
     ...
 }
 ----
 
-[[apply-f10-theme]]
-=== Applying the F10 Theme
+[IMPORTANT]
+====
+Note that the linkki theme is based on Lumo theme and does not work with Aura.
+====
 
-The *F10 theme* can be integrated in the same way as *linkki theme* and its name is provided within the constant `org.linkki.core.ui.theme.F10ProductTheme.F10_PRODUCT_THEME`.
+[[apply-f10-theme]]
+==== Applying the F10 Theme
+
+The *F10 theme* is a derivative of the linkki theme with a customized color set of its developing company Faktor Zehn.
+F10 theme can be integrated in the same way as *linkki theme* and can be referred using the constant `org.linkki.core.ui.theme.F10ProductTheme.STYLESHEET`.
 
 [[primary-color]]
-==== Setting a Primary Color
+==== Setting a Primary Color in F10 product theme
 
-By default, a dark blue (hsl(206,100%,30%) / rgb(0,87,153) / #005799) is used as the primary color. This color is intended to be used in sample applications. In customer projects, however, it is often customized.
+To customize the primary color, follow link:https://vaadin.com/docs/v25/styling[Vaadin styling documentation] to apply a custom CSS file, e.g. `styles.css`.
 
-To customize the primary color, a new theme must be created within the application, extending the *F10 theme* in the same way as *linkki theme*.
-A guide can be found under <<customizing-linkki-theme, Customizing the linkki theme>>.
-
-[NOTE]
-In `theme.json`, set `"f10-product"` as the parent instead of `"linkki"`.
-
-The primary color can then be customized within the `styles.css`. It is set via the following three css properties:
+The primary color can then be customized within the `styles.css`.
+It is set via the following three CSS properties:
 
 * `--f10-primary-color-h`
 * `--f10-primary-color-s`
 * `--f10-primary-color-l`
 
-
-These properties automatically generate additional color variations, such as `--lumo-primary-text-color`. Most other values are derived from these settings and usually do not require further customization.
+These properties automatically generate additional color variations, such as `--lumo-primary-text-color`.
+Most other values are derived from these settings and usually do not require further customization.
 
 In total, the following constants are available:
 
 * `--f10-primary-color-h`: Primary color value (default: 206)
 * `--f10-primary-color-s`: Primary color saturation (default: 100%)
 * `--f10-primary-color-l`: Primary color relative brightness (default: 30%)
-* `--f10-primary-color`: Primary color. By default, calculated from `--f10-primary-color-h`, `--f10-primary-color-s` and `f10-primary-color-l`.
-* `--f10-primary-contrast-color`: Primary color contrast. For example, used for text within the application header and derived by default.
+* `--f10-primary-color`: Primary color.
+By default, calculated from `--f10-primary-color-h`, `--f10-primary-color-s` and `f10-primary-color-l`.
+* `--f10-primary-contrast-color`: Primary color contrast.
+For example, used for text within the application header and derived by default.

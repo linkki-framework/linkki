@@ -1,7 +1,7 @@
 :jbake-title: How-To
 :jbake-type: chapter
 :jbake-status: published
-:jbake-order: 100
+:jbake-order: 105
 
 [[linkki-howto]]
 == How-To

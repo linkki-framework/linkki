@@ -5,51 +5,56 @@
 [[customizing-linkki-theme]]
 === Customizing the *linkki* theme
 
-For general information, see the https://vaadin.com/docs/v24/styling/application-theme[Vaadin documentation on application themes].
+For general information, see the link:https://vaadin.com/docs/v25/styling/stylesheets[Vaadin documentation on styling applications].
 
-In general, a certain folder structure is needed for a custom theme. This structure depends on whether the theme will be directly used in the application in which it is defined, or will it be packaged to be used in a different project.
+In general, a CSS file is needed for styling and loaded by the application. +
+In Spring projects, the stylesheets should be defined in `src/main/resources/META-INF/resources`. +
+In non-Spring WAR projects, they need to be defined in `src/main/webapp`.
 
-For direct usage, the minimum requirement includes a folder with the theme name in `frontend/themes`, with a `styles.css` file and a `theme.json` file.
+The stylesheet can then be used with `@Stylesheet` on top of the linkki theme.
 
-.Folder structure for a custom theme for the own project
+.Applying own stylings
+[source,java]
 ----
-frontend
-└── themes
-    └── my-theme
-        ├── styles.css
-        └── theme.json
+@Stylesheet(LinkkiTheme.STYLESHEET)
+@Stylesheet("styles.css")
+public class MyAppShellConfigurator implements AppShellConfigurator {
+    ...
+}
 ----
 
-If the theme needs to be packaged for other projects, the theme folder must be in `src/main/resources/META-INF/resources/themes`.
+==== Creating reusable themes based on linkki theme
 
-.Folder structure for a custom theme that needs to be packaged
+In Vaadin, a stylesheet can be https://vaadin.com/docs/v25/styling/advanced/reusable-theme[made reusable] by creating a CSS in a folder with the name of the theme.
+
+.Custom theme that needs to be reusable
 ----
 src
 └── main
     └── resources
         └── META-INF
             └── resources
-                └── themes
-                    └── my-theme
-                        ├── styles.css
-                        └── theme.json
+                └── my-theme
+                    └── styles.css
 ----
 
-In both cases, the `theme.json` file must include the following configuration:
-[source, json]
-----
-{
-  "parent": "linkki"
-}
-----
+linkki theme can then be simply imported in the CSS.
 
-The `styles.css` file contains the CSS customizations one wants to make in the theme. For most simple changes, adjusting some of the Lumo CSS properties should suffice. The Lumo Theme Editor is a useful tool to visualize the possibilities.
+As linkki theme is placed in `META-INF/resources/themes/linkki/styles.css` due to compatibility, it needs to be imported with +
+
+[source,css]
+----
+@import '../../linkki/styles.css';
+----
 
 [[css-custom-properties-linkki-theme]]
 ==== CSS Custom Properties in linkki Theme
 
-linkki theme defines CSS custom properties which is the easiest way to customize the UI. These CSS custom properties representing colors, fonts, sizes and other styles, which are used in various components.
-The style properties can be modified to change the styling either globally, or in a certain scope. https://vaadin.com/docs/v24/styling/styling-components#styling-components-with-style-properties[Vaadin documentation] provides some examples on how to customize the style properties. As linkki theme is based on the Lumo theme, all https://vaadin.com/docs/v24/styling/lumo/lumo-style-properties#lists-of-lumo-style-properties[Lumo style properties] are also available.
+linkki theme defines CSS custom properties, which is the easiest way to customize the UI.
+These CSS custom properties represent colors, fonts, sizes and other styles, which are used in various components.
+The style properties can be modified to change the styling either globally, or in a certain scope.
+
+As linkki theme is based on the Lumo theme, all link:https://vaadin.com/docs/v25/styling/themes/lumo/lumo-style-properties[Lumo style properties] are also available.
 
 [[linkki-theme-colors]]
 ===== Colors
@@ -98,7 +103,8 @@ Warning colors are used to display information that should raise caution.
 
 ====== Success
 
-Success colors are used to display result messages of an successful operation, or messages that indicate that a process can be continued. They are used to display validation messages, e.g. on fields or in notifications.
+Success colors are used to display result messages of an successful operation, or messages that indicate that a process can be continued.
+They are used to display validation messages, e.g. on fields or in notifications.
 
 .Success Properties
 |===
@@ -112,7 +118,8 @@ Success colors are used to display result messages of an successful operation, o
 
 ====== Error
 
-Error color indicates that a process cannot be started or continued. They are used to display validation messages,e.g. on fields or in notifications
+Error color indicates that a process cannot be started or continued.
+They are used to display validation messages,e.g. on fields or in notifications
 
 .Error Properties
 |===

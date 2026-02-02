@@ -2,39 +2,30 @@
 :jbake-type: section
 :jbake-status: published
 
-:vaadin-dir: ../../../../..
-:images-folder-name: 01_getting_started
-
 [[dependencies]]
-=== Dependencies
+=== Dependencies and compatibility
 
-==== Java Version
+.linkki Core
+|===
+| Technology | Version
 
-linkki requires Java 17 or later.
+| Java       | 21+
+| Java runtime compatibility tested for | 25
+|===
 
-==== Libraries
+.linkki for Vaadin
+|===
+| Technology | Version
 
-`linkki-core` depends on the following external libraries:
-  
-|=======
-|groupId | artifactId | version
+| Vaadin | 25
+| Spring Boot | 4.0+
+| Node.js | 24+
+| Maven | 3.8+
+|===
 
-|com.github.spotbugs |spotbugs-annotations | {vspotbugs}
-|org.apache.commons |commons-lang3 | {vcommonslang}
-|=======
+.linkki for Vaadin with Faktor-IPS
+|===
+| Technology | Version
 
-`linkki-core-vaadin-flow` depends on the following Vaadin Flow modules:
- 
-|=======
-|groupId | artifactId | version
-
-|com.vaadin | vaadin-core | 
-include::{vaadin-dir}/pom.xml[tags=vaadin-version]
-
-|=======
-
-==== Optional Libraries
-
-linkki can be used with https://spring.io/projects/spring-boot[Spring Boot], this version is tested with Spring Boot version
-include::{vaadin-dir}/pom.xml[tags=spring-boot-version]
-.
+| Faktor-IPS | 26.7
+|===

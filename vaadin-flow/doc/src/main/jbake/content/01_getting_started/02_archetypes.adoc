@@ -40,13 +40,4 @@ mvn package
 mvn spring-boot:run
 ----
 
-Production mode:: Ensure you package with the profile `production`, then start the application using `java -jar target/*.jar`.
-+
-[source,go]
-.Example
-----
-mvn package -Pproduction
-java -jar target/App.jar
-----
-
 The application can then be viewed at `http://localhost:8080/`
