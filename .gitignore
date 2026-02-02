@@ -10,12 +10,15 @@
 # The following files are generated/updated by vaadin-maven-plugin or vaadin-gradle-plugin
 **/node_modules/
 **/src/main/frontend/generated/
+**/src/main/frontend/generated/index.html
 **/pnpmfile.js
 **/.npmrc
 **/webpack.generated.js
 **/vite.generated.ts
 **/package-lock.json
 **/package.json
+**/tsconfig.json
+**/types.d.ts
 
 # pre-compiled frontend files and resources
 **/src/main/bundles/
