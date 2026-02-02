@@ -21,7 +21,7 @@
         <spotbugs.version>4.9.8</spotbugs.version>
         <spring-boot.version>3.5.10</spring-boot.version>
         <spring-framework.version>6.2.15</spring-framework.version>
-        <checkstyle.version>13.0.0</checkstyle.version>
+        <checkstyle.version>13.1.0</checkstyle.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
@@ -29,7 +29,7 @@
 
         <!-- Maven plugin versions -->
         <vaadin-maven-plugin.version>24.9.10</vaadin-maven-plugin.version>
-        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>

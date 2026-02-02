@@ -10,23 +10,22 @@
 
 // === Version 2.10.0
 
+// The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
+
 === Alpha Version {vlinkki}
 
-The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
+This version only contains internal version updates as preparation for the update to Vaadin 25.
 
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-
-| Faktor-IPS | 26.7.0.a20260119-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260119-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
-| Vaadin                        | 24.9.10 (link:https://github.com/vaadin/platform/releases/tag/24.9.10[Release Notes]) | 24.9.8
-| Spring Boot | 3.5.10 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.10[Release Notes]) | 3.5.9
-
-|===
+//==== Version Updates
+//
+//The following versions have been updated:
+//
+//[cols="a,a,a"]
+//|===
+//| Dependency                    | New version                 //                                                       | //Previous version
+//
+//| Library | new version (link:linkToReleaseNotes[Release Notes]) | previous version
+//|===
 
 // ==== UI Annotations and Aspects
 
@@ -58,11 +57,48 @@ The following versions have been updated:
 // * *Beschreibung* +
 // Text
 
-==== Bugfixes
+// ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-????
 // * [.api-change] *Beschreibung* +
 // Text
+
+=== Alpha Version 2.10.0-a20260202-01
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Faktor-IPS | 26.7.0.a20260119-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260119-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
+| Vaadin                        | 24.9.10 (link:https://github.com/vaadin/platform/releases/tag/24.9.10[Release Notes]) | 24.9.8
+| Spring Boot | 3.5.10 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.10[Release Notes]) | 3.5.9
+|===
+
+==== Other Improvements
+
+// https://jira.convista.com/browse/LIN-4711
+* *Remove of linkki internal shadow DOM injections* +
+All internal shadow DOM injections that are used by linkki theme are removed. Shadow DOM injection will be deactivated by default in Vaadin 25. If shadow DOM injections are used currently, consider removing them and use selectors such as `part` instead. +
+This change should not cause any visual breaks. If you encounter any unexpected styling or UI test problems, please don't hesitate to contact us.
+
+=== Alpha Version 2.10.0-a20260116-01
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 24.9.9 (link:https://github.com/vaadin/platform/releases/tag/24.9.9[Release Notes]) | 24.9.8
+|===
+
+==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4520
 * *linkki-apt validation for all linkki annotations* +
