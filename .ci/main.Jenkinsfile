@@ -40,7 +40,6 @@ pipeline {
                 withMaven(publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
                         -pl "!vaadin-flow/doc" \
-                        -Pproduction \
                         clean source:jar javadoc:jar deploy'
                 }
             }
@@ -123,8 +122,12 @@ pipeline {
                         }
 
                         withMaven(publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                                -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                            sh 'mvn \
+                                -f vaadin-flow/samples/test-playground/uitest/pom.xml \
+                                test \
+                                -Dmaven.test.failure.ignore=true \
+                                -Dsurefire.rerunFailingTestsCount=3 \
+                                -Pheadless'
                         }
 
                         // check handles on chrome AFTER ui tests

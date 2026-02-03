@@ -30,7 +30,6 @@ pipeline {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 \
-                            -P production \
                             -pl "!vaadin-flow/doc" \
                             -pl "!vaadin-flow/apt" \
                             clean source:jar javadoc:jar deploy'
@@ -73,8 +72,12 @@ pipeline {
         stage('UI Test') {
             steps {
                 withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                        -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                    sh 'mvn \
+                        -f vaadin-flow/samples/test-playground/uitest/pom.xml \
+                        test \
+                        -Dmaven.test.failure.ignore=true \
+                        -Dsurefire.rerunFailingTestsCount=3 \
+                        -Pheadless
                 }
 
                 script {

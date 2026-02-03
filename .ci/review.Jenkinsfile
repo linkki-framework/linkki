@@ -187,7 +187,8 @@ pipeline {
                                         test \
                                         -Dmaven.test.failure.ignore=true \
                                         -Dsurefire.rerunFailingTestsCount=3 \
-                                        -T 6'
+                                        -Pheadless \
+                                        -T6'
                                 }
 
                                 // check handles on chrome AFTER ui tests

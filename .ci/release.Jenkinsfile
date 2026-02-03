@@ -33,7 +33,7 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven(publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -P production clean javadoc:jar source:jar install'
+                    sh 'mvn -U clean javadoc:jar source:jar install'
                 }
 
                 junit "**/target/surefire-reports/*.xml"
@@ -78,8 +78,12 @@ pipeline {
 
             steps {
                 withMaven(publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                        -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                    sh 'mvn \
+                        -f vaadin-flow/samples/test-playground/uitest/pom.xml \
+                        test \
+                        -Dmaven.test.failure.ignore=true \
+                        -Dsurefire.rerunFailingTestsCount=3 \
+                        -Pheadless'
                 }
 
                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
