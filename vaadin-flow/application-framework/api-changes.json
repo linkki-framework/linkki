@@ -50,6 +50,29 @@
             "package": "org.linkki.framework.ui.application",
             "classQualifiedName": "org.linkki.framework.ui.application.ApplicationLayout",
             "justification": "LIN-4711 linkki-vaadin-field.css integrated to linkki"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator",
+            "justification": "LIN-2733/LIN-4698"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.linkki.framework.ui.component.UIHeadline.HeadlineTitleAspectDefinition",
+            "justification": "LIN-2733/LIN-4698"
+          },
+          {
+            "ignore": true,
+            "code": "java.annotation.attributeValueChanged",
+            "old": "@interface org.linkki.framework.ui.component.UIHeadline",
+            "new": "@interface org.linkki.framework.ui.component.UIHeadline",
+            "annotationType": "org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect",
+            "attribute": "value",
+            "oldValue": "org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator.class",
+            "newValue": "org.linkki.framework.ui.component.UIHeadline.HeadlineComponentAspectCreator.class",
+            "justification": "LIN-2733/LIN-4698"
           }
         ]
       }

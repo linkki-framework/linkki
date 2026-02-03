@@ -34,7 +34,7 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.creation.VaadinUiCreator;
-import org.linkki.core.ui.nested.annotation.UINestedComponent.NestedAspecDefinitionCreator;
+import org.linkki.core.ui.nested.annotation.UINestedComponent.NestedAspectDefinitionCreator;
 import org.linkki.core.ui.nested.annotation.UINestedComponent.NestedComponentDefinitionCreator;
 import org.linkki.core.ui.nested.annotation.UINestedComponent.NestedLayoutDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -56,7 +56,7 @@ import com.vaadin.flow.component.html.Div;
 @LinkkiLayout(NestedLayoutDefinitionCreator.class)
 @LinkkiComponent(NestedComponentDefinitionCreator.class)
 @LinkkiPositioned
-@LinkkiAspect(NestedAspecDefinitionCreator.class)
+@LinkkiAspect(NestedAspectDefinitionCreator.class)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
 public @interface UINestedComponent {
 
@@ -122,7 +122,7 @@ public @interface UINestedComponent {
         }
     }
 
-    class NestedAspecDefinitionCreator implements AspectDefinitionCreator<UINestedComponent> {
+    class NestedAspectDefinitionCreator implements AspectDefinitionCreator<UINestedComponent> {
 
         @Override
         public LinkkiAspectDefinition create(UINestedComponent annotation) {

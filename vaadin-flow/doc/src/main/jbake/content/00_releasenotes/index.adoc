@@ -14,6 +14,15 @@
 
 === Alpha Version {vlinkki}
 
+==== UI Annotations and Aspects
+
+// https://jira.convista.com/browse/LIN-2733
+* [.api-change]*UIHeadline with HeadlinePmo* +
+<<uiHeadline, `UIHeadline`>> has been extended and can now be used on methods returning either a String or a `HeadlinePmo`.
+A `HeadlinePmo` can be used if an additional component should be added to the title or if a component should be added at the end of the headline.
+
+=== Alpha Version 2.10.0-a20260205-01
+
 ==== Other Improvements
 
 // https://jira.convista.com/browse/LIN-2733

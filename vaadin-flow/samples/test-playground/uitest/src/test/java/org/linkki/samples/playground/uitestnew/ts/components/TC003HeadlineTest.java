@@ -38,15 +38,15 @@ class TC003HeadlineTest extends PlaygroundUiTest {
     }
 
     @Test
-    void testHeadline() {
+    void testHeadlineComponent() {
         var headline = testCaseSection.$(HorizontalLayoutElement.class).id("headline-component");
 
         assertThat(headline.$(H2Element.class).first().getText())
                 .as("Title is still shown although children are added to the title")
-                .contains("Headline title");
+                .contains("Headline Component");
         assertThat(headline.$(LinkkiTextElement.class).first().getRect().getX())
                 .as("Components added with addToTitle should be directly after the headline text with a gap")
-                .isCloseTo(606, offset(1));
+                .isCloseTo(706, offset(1));
         assertThat(headline.$(ButtonElement.class).first().getLocation().getX())
                 .as("Components added with getContent().add should be right aligned")
                 .isGreaterThan(1000);
@@ -54,12 +54,27 @@ class TC003HeadlineTest extends PlaygroundUiTest {
 
     @Test
     void testUIHeadline_updateTitleOnModelChanged() {
-        var headlineToTest = testCaseSection.$(HorizontalLayoutElement.class).id("headline");
-        var titleBeforeButtonClick = headlineToTest.getText();
-        int counterBeforeClick = Integer.parseInt(titleBeforeButtonClick.split(" - ")[1]);
+        var headlineToTest =
+                testCaseSection.$(HorizontalLayoutElement.class).id("headlinePmo");
 
-        testCaseSection.$(ButtonElement.class).id("increment").click();
+        assertThat(headlineToTest.getText()).contains("- 0\n");
 
-        assertThat(headlineToTest.getText()).contains(String.valueOf(counterBeforeClick + 1));
+        testCaseSection.$(ButtonElement.class).id("incrementHeadlinePmoCounter").click();
+
+        assertThat(headlineToTest.getText()).contains("- 1\n");
+    }
+
+    @Test
+    void testUIHeadline_modelChangedOnHeadlineButtonClick() {
+        var headlineToTest =
+                testCaseSection.$(HorizontalLayoutElement.class).id("headlinePmo");
+        var button1 = headlineToTest.$(ButtonElement.class).id("button1");
+        var label = testCaseSection.$(LinkkiTextElement.class).id("headlineEndButtonCounter");
+
+        assertThat(label.getText()).endsWith("- 0");
+
+        button1.click();
+
+        assertThat(label.getText()).endsWith("- 1");
     }
 }

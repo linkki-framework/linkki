@@ -33,11 +33,12 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.framework.ui.component.Headline;
+import org.linkki.framework.ui.component.UIHeadline;
 
 /**
  * Creates a simple {@link Headline}. The title is the return value of the annotated method.
  * 
- * @deprecated use {@link org.linkki.framework.ui.component.UIHeadline} instead
+ * @deprecated use {@link UIHeadline} instead
  */
 @Deprecated(since = "2.8.0")
 @Retention(RetentionPolicy.RUNTIME)

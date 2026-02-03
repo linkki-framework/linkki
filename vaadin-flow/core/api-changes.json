@@ -1,44 +1,61 @@
 {
-    "all-versions": [
-        {
-            "extension": "revapi.filter",
-            "configuration": {
-                "elements": {
-                    "exclude": [
-                        ".* com\\.vaadin\\.flow\\..*"
-                    ]
-                }
-            }
-        },
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.core\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.util\\..*",
-                        "justification": "LIN-2651/LIN-2652"
-                    }
-                ]
-            }
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".* com\\.vaadin\\.flow\\..*"
+          ]
         }
-    ],
-    "2.9.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                ]
-            }
-        }
-    ]
+      }
+    },
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.core\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.util\\..*",
+            "justification": "LIN-2651/LIN-2652"
+          }
+        ]
+      }
+    }
+  ],
+  "2.10.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "ignore": true,
+            "code": "java.class.removed",
+            "old": "class org.linkki.core.ui.nested.annotation.UINestedComponent.NestedAspecDefinitionCreator",
+            "justification": "LIN-2733/LIN-4698"
+          },
+          {
+            "ignore": true,
+            "code": "java.annotation.attributeValueChanged",
+            "old": "@interface org.linkki.core.ui.nested.annotation.UINestedComponent",
+            "new": "@interface org.linkki.core.ui.nested.annotation.UINestedComponent",
+            "annotationType": "org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect",
+            "attribute": "value",
+            "oldValue": "org.linkki.core.ui.nested.annotation.UINestedComponent.NestedAspecDefinitionCreator.class",
+            "newValue": "org.linkki.core.ui.nested.annotation.UINestedComponent.NestedAspectDefinitionCreator.class",
+            "justification": "LIN-2733/LIN-4698"
+          }
+        ]
+      }
+    }
+  ]
 }
