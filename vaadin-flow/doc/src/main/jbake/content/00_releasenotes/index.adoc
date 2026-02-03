@@ -40,21 +40,20 @@ The update to Vaadin 25 not only brings an update of the tech stack, but also ch
 Below are the most notable changes for linkki applications.
 For a complete list of Vaadin 25 breaking changes and migration steps, please refer to the link:https://vaadin.com/docs/latest/flow/upgrading/v25[Vaadin 25 Upgrade Guide].
 
-====== Technical requirements
+====== Technical compatibilities
 
 * *Spring Boot 4* +
-Applications using Spring must upgrade to *Spring Boot 4* and *Spring Framework 7*.
+Vaadin 25 uses *Spring Boot 4* and *Spring Framework 7*.
 This is a major version jump from Spring Boot 3.5.
 Please refer to link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide[Spring Boot 4.0 Migration Guide] for more information.
 * *JakartaEE 11* +
-Applications using Spring must upgrade to *JakartaEE 11*.
-This is a major version jump from JakartaEE 10.
+Vaadin 25 is compatible with *Jakarta EE 11*.
 * *Node.js* +
 Frontend builds now require *Node.js 24 or later* for development.
 * *JUnit* +
-All linkki test libraries now require *JUnit 6*.
-The migration should be straightforward, without noticeable API changes.
-For all changes and improvements, see https://docs.junit.org/6.0.2/release-notes.html[release notes for JUnit 6].
+All linkki test libraries now use *JUnit 6*. Apart from the Java 21 requirement, which is already mandatory since linkki 2.8, there should be no breaking API changes.+
+For detailed changes and improvements, see https://docs.junit.org/6.0.2/release-notes.html[JUnit 6 release notes]. +
+If you encounter any incompatibilities while using JUnit 5, please don't hesitate to contact us.
 * *Selenium* +
 Vaadin TestBench now uses Selenium 4.39.0.
 
