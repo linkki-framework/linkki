@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki</artifactId>
-        <version>2.7.101-a20260204-01</version>
+        <version>2.7.101-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-vaadin-flow</artifactId>
