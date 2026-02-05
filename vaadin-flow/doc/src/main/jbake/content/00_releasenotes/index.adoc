@@ -14,6 +14,15 @@
 
 === Alpha Version {vlinkki}
 
+==== Other Improvements
+
+// https://jira.convista.com/browse/LIN-2733
+* [.api-change]*Adding components to the title component of a <<headline,headline>>* +
+Components can now be added directly into the `<h2>` element using the new method `Headline#addToTitle(Component)`.
+Components added via this method are preserved when `setTitle()` is called.
+
+=== Alpha Version 2.10.0-a20260202-03
+
 ==== Version Updates
 
 The following versions have been updated:
@@ -51,8 +60,8 @@ Vaadin 25 is compatible with *Jakarta EE 11*.
 * *Node.js* +
 Frontend builds now require *Node.js 24 or later* for development.
 * *JUnit* +
-All linkki test libraries now use *JUnit 6*. Apart from the Java 21 requirement, which is already mandatory since linkki 2.8, there should be no breaking API changes.+
-For detailed changes and improvements, see https://docs.junit.org/6.0.2/release-notes.html[JUnit 6 release notes]. +
+All linkki test libraries now use *JUnit 6*.
+Apart from the Java 21 requirement, which is already mandatory since linkki 2.8, there should be no breaking API changes.+ For detailed changes and improvements, see https://docs.junit.org/6.0.2/release-notes.html[JUnit 6 release notes]. +
 If you encounter any incompatibilities while using JUnit 5, please don't hesitate to contact us.
 * *Selenium* +
 Vaadin TestBench now uses Selenium 4.39.0.
@@ -143,13 +152,6 @@ Other selectors used in UI tests and CSS styling may need to be adjusted.
 // https://jira.convista.com/browse/LIN-????
 // * *Beschreibung* +
 // Text
-
-==== Other Improvements
-
-// https://jira.convista.com/browse/LIN-2733
-* [.api-change]*Adding components to the title component of a <<headline,headline>>* +
-Components can now be added directly into the `<h2>` element using the new method `Headline#addToTitle(Component)`.
-Components added via this method are preserved when `setTitle()` is called.
 
 
 // https://jira.convista.com/browse/LIN-????
