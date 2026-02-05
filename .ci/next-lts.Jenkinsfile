@@ -77,7 +77,7 @@ pipeline {
                         test \
                         -Dmaven.test.failure.ignore=true \
                         -Dsurefire.rerunFailingTestsCount=3 \
-                        -Pheadless
+                        -Pheadless'
                 }
 
                 script {
