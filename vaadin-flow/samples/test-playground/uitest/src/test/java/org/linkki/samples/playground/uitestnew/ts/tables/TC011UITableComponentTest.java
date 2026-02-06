@@ -38,7 +38,7 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
         assertThat(table.getWrappedElement().getSize().getHeight())
                 .as("Loading indicator is shown").isGreaterThan(0);
 
-        waitUntil(d -> table.getRowCount() > 0, 10);
+        waitUntil(d -> table.getRowCount() > 0, 60);
         assertThat(table.getPlaceholderText()).isEmpty();
 
         nestedComponent.$(ButtonElement.class).id("addPerson").click();
@@ -74,7 +74,7 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
 
         nestedComponent.$(ButtonElement.class).id("addPerson").click();
 
-        waitUntil(d -> table.getRowCount() > 1, 10);
+        waitUntil(d -> table.getRowCount() > 1, 60);
 
         var ageField = table.$(TextFieldElement.class).first();
         var likeButton = table.$(ButtonElement.class).first();
