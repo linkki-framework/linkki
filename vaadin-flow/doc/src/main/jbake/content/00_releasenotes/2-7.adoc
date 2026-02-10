@@ -7,7 +7,8 @@
 
 === Version 2.7.101
 
-This patch version updates the Vaadin version to the latest Vaadin 24 version, which has a prolonged maintenance support. As this update contains API changes despite being in a patch release, the version number is set to 101.
+This patch version updates the Vaadin version to the latest Vaadin 24 version, which has a prolonged maintenance support.
+As this update contains API changes despite being in a patch release, the version number is set to 101.
 
 ==== Version Updates
 
@@ -17,12 +18,12 @@ The following versions have been updated:
 |===
 | Dependency | New version | Previous version
 
-| Vaadin                        | 24.9.10 (link:https://github.com/vaadin/platform/releases/tag/24.9.10[Release Notes]) | 24.5.14
+| Vaadin                        | 24.9.11 (link:https://github.com/vaadin/platform/releases/tag/24.9.11[Release Notes]) | 24.5.14
 | Spring Boot                   | 3.5.10 (link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes[Release Notes])    | 3.4.12
-| Logback                       | 1.5.26    | 1.5.21
+| Logback                       | 1.5.28    | 1.5.21
 |===
 
-The update to Vaadin 24.9.10 brings some notable changes:
+The update to Vaadin 24.9.11 brings some notable changes:
 
 * [.api-change]*HTML Sanitization* +
 The new Vaadin version updates the Jsoup version to 1.20.1 in which the HTML sanitization logic was modified.

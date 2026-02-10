@@ -63,7 +63,7 @@
         <spotbugs.version>4.8.6</spotbugs.version>
         <checkstyle.version>10.20.1</checkstyle.version>
         <!-- Version managed for tests -->
-        <logback-version>1.5.26</logback-version>
+        <logback-version>1.5.28</logback-version>
 
         <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
         <revapi-java.version>0.28.4</revapi-java.version>
