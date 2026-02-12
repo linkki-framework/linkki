@@ -5,6 +5,19 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 00_releasenotes
 
+=== Version 2.7.102
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Logback                       | 1.5.29    | 1.5.28
+|===
+
 === Version 2.7.101
 
 This patch version updates the Vaadin version to the latest Vaadin 24 version, which has a prolonged maintenance support.
