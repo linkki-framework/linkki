@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Must not define ../pom.xml as parent as the bom is used there to manage other modules -->
@@ -33,7 +32,7 @@
     </developers>
 
     <properties>
-        <vaadin.version>25.0.4</vaadin.version>
+        <vaadin.version>25.0.5</vaadin.version>
         <!-- Should be the same version as in ../pom.xml -->
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>

@@ -37,7 +37,6 @@
             "regex": true,
             "code": "java.annotation.attributeValueChanged",
             "annotationType": "kotlin\\.Metadata",
-            "attribute": "mv",
             "justification": "LIN-4260 Exclude kotlin metadata"
           },
           {
@@ -105,6 +104,25 @@
             "code": "java.field.removedWithConstant",
             "old": "field org.linkki.core.ui.test.KaribuUIExtension.PROPERTY_PRODUCTION_MODE",
             "justification": "LIN-4635 Moved to new utility class KaribuUI"
+          }
+        ]
+      }
+    }
+  ],
+  "2.10.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "ignore": true,
+            "code": "java.annotation.attributeValueChanged",
+            "old": "class com.github.mvysny.kaributesting.v10.Routes",
+            "new": "class com.github.mvysny.kaributesting.v10.Routes",
+            "annotationType": "kotlin.Metadata",
+            "attribute": "d1",
+            "justification": "JTS-2906 Version updated to 2.6.2"
           }
         ]
       }

@@ -14,6 +14,21 @@
 
 === Alpha Version {vlinkki}
 
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.04
+| Spring Boot                   | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
+| Karibu                        | 2.6.2 | 2.6.1
+| Logback                       | 1.5.29 | 1.5.27
+
+|===
+
 ==== UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-2733
@@ -41,13 +56,13 @@ The following versions have been updated:
 | Dependency                    | New version                                                                        | Previous version
 
 | Faktor-IPS                    | 26.7.0.a20260119-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260119-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
-| Vaadin                        | 25.0.4 (link:https://github.com/vaadin/platform/releases/tag/25.0.3[Release Notes]) | 24.9.8
+| Vaadin                        | 25.0.4 (link:https://github.com/vaadin/platform/releases/tag/25.0.4[Release Notes]) | 24.9.8
 | Spring Boot                   | 4.0.1 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.1[Release Notes]) | 3.5.9
 | Spring Framework              | 7.0.2 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 6.2.15
 | Karibu                        | 2.6.1 | 2.5.0
 | JUnit                         | 6.0.2 (link:https://docs.junit.org/6.0.2/release-notes.html[Release Notes]) | 5.14.2
 | Vaadin TestBench              | 10.0.0 | 8.x
-| Logback                       | 1.5.26 | 1.5.21
+| Logback                       | 1.5.27 | 1.5.21
 
 |===
 

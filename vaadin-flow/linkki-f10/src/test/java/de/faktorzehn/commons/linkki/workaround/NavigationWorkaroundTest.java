@@ -125,7 +125,7 @@ class NavigationWorkaroundTest {
      */
     private void assertNavigation(Class<? extends Component> targetClass, String targetPath) {
         // Make sure the rerouting is finished
-        MockVaadin.clientRoundtrip();
+        MockVaadin.clientRoundtrip(true);
         var routerTargets = UI.getCurrent().getInternals().getActiveRouterTargetsChain();
         var pathWithQuery = UI.getCurrent().getInternals().getActiveViewLocation().getPathWithQueryParameters();
 
