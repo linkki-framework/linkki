@@ -140,8 +140,8 @@ With the introduction of a new theme, variants that only work with Lumo theme ar
 
 * [.api-change]*Stylesheets* +
 The annotation `@Theme` is deprecated.
-Instead, themes are loaded by `@Stylesheet`. +
-For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 theme>>, a new `STYLESHEET` constant was added to `LinkkiTheme` and `F10ProductTheme` that can be used with `@Stylsheet` to replace `@Theme`.
+Instead, themes are loaded by `@StyleSheet`. +
+For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 theme>>, a new `STYLESHEET` constant was added to `LinkkiTheme` and `F10ProductTheme`. Replace existing `@Theme` declarations with `@StyleSheet(LinkkiTheme.STYLESHEET)` or `@StyleSheet(F10ProductTheme.STYLESHEET)`.
 * [.api-change]*Shadow DOM injection deactivated by default* +
 Shadow DOM injection is no longer activated by default.
 All shadow DOM injections in linkki theme are migrated.
