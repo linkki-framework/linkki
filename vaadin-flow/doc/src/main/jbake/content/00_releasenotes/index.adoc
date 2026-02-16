@@ -32,9 +32,17 @@ The following versions have been updated:
 ==== UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-2733
-* [.api-change]*UIHeadline with HeadlinePmo* +
-<<uiHeadline, `UIHeadline`>> has been extended and can now be used on methods returning either a String or a `HeadlinePmo`.
-A `HeadlinePmo` can be used if an additional component should be added to the title or if a component should be added at the end of the headline.
+* *Support for additional components in Headlines* +
+The existing annotation <<uiHeadline, `UIHeadline`>> has been extended and can now be used on methods returning either a String or a `HeadlinePmo`.
+A `HeadlinePmo` can be used as return value if additional components should be added to the title or at the end of the headline.
+These components can be provided as PMOs to the `HeadlinePmo`. +
+Component added using the additional PMOs are updated within the same binding context in which the headline is created.
++
+Alternatively, `HeadlinePmo` can also be used directly with `VaadinUiCreator` to create a Headline.
++
+For more detailed information, see documentation of <<uiHeadline, `UIHeadline`>>.
++
+For headlines that are created as Vaadin components, a new method `addToTitle(Component)` can be used to add components directly behind the title.
 
 === Alpha Version 2.10.0-a20260205-01
 
@@ -141,7 +149,8 @@ With the introduction of a new theme, variants that only work with Lumo theme ar
 * [.api-change]*Stylesheets* +
 The annotation `@Theme` is deprecated.
 Instead, themes are loaded by `@StyleSheet`. +
-For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 theme>>, a new `STYLESHEET` constant was added to `LinkkiTheme` and `F10ProductTheme`. Replace existing `@Theme` declarations with `@StyleSheet(LinkkiTheme.STYLESHEET)` or `@StyleSheet(F10ProductTheme.STYLESHEET)`.
+For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 theme>>, a new `STYLESHEET` constant was added to `LinkkiTheme` and `F10ProductTheme`.
+Replace existing `@Theme` declarations with `@StyleSheet(LinkkiTheme.STYLESHEET)` or `@StyleSheet(F10ProductTheme.STYLESHEET)`.
 * [.api-change]*Shadow DOM injection deactivated by default* +
 Shadow DOM injection is no longer activated by default.
 All shadow DOM injections in linkki theme are migrated.

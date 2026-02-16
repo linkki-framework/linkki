@@ -15,6 +15,7 @@ package org.linkki.framework.ui.component;
 
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatException;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -58,25 +59,86 @@ class UIHeadlineIntegrationTest {
         bindingContext.modelChanged();
 
         assertThat(KaribuUtils.getTextContent(headline)).contains("new");
+
+        pmo.setTitle(null);
+        bindingContext.modelChanged();
+
+        assertThat(KaribuUtils.getTextContent(headline))
+                .doesNotContain("new")
+                .doesNotContain("null");
     }
 
     @Test
     void testGetHeadlinePmo() {
-        var pmo = new TestPmo();
+        // given
+        var pmo = new HeadlinePmoTestPmo();
+
+        // when
         var container = VaadinUiCreator.createComponent(pmo, new BindingContext());
+
+        // then
         var headline = _get(container, Headline.class);
         var headlineButton = _get(headline, Button.class);
         var containerButton = _get(container, Button.class, s -> s.withId("updateHeadline"));
         assertThat(KaribuUtils.getTextContent(container)).contains("HeadlineButtonCounter: 0");
         assertThat(KaribuUtils.getTextContent(container)).contains("initial");
 
+        // when
         containerButton.click();
 
+        // then
         assertThat(KaribuUtils.getTextContent(container)).contains("updated");
 
+        // when
         headlineButton.click();
 
+        // then
         assertThat(KaribuUtils.getTextContent(container)).contains("HeadlineButtonCounter: 1");
+    }
+
+    @Test
+    void testGetHeadlinePmo_Null() {
+        @UICssLayout
+        class TestPmo {
+            @UIHeadline
+            public HeadlinePmo getTitle() {
+                return null;
+            }
+        }
+
+        assertThatException()
+                .isThrownBy(() -> VaadinUiCreator.createComponent(new TestPmo(), new BindingContext()));
+    }
+
+    @Test
+    void testGetHeadlinePmo_NeitherStringNorHeadlinePmo() {
+        class NotAHeadlinePmo {
+            // Doesn't extend HeadlinePmo
+        }
+        @UICssLayout
+        class TestPmo {
+            @UIHeadline
+            public NotAHeadlinePmo getHeadline() {
+                return new NotAHeadlinePmo();
+            }
+        }
+
+        assertThatException()
+                .isThrownBy(() -> VaadinUiCreator.createComponent(new TestPmo(), new BindingContext()));
+    }
+
+    @Test
+    void testGetHeadlinePmo_SubclassOfHeadlinePmo() {
+        class CustomHeadlinePmo extends HeadlinePmo {
+            public CustomHeadlinePmo(String headerTitle) {
+                super(headerTitle);
+            }
+        }
+        var pmo = new CustomHeadlinePmo("HeaderTitle");
+
+        var container = (Headline)VaadinUiCreator.createComponent(pmo, new BindingContext());
+
+        assertThat(KaribuUtils.getTextContent(container)).contains("HeaderTitle");
     }
 
     @Test
@@ -102,35 +164,12 @@ class UIHeadlineIntegrationTest {
         assertThat(headline.getChildren().findFirst()).get().isInstanceOf(Headline.class);
     }
 
-    @UIHorizontalLayout
-    public static class TitlePmo {
-
-        @UILabel(position = 10)
-        public String getSubtitle() {
-            return "subTitle";
-        }
-    }
-
-    @UIHorizontalLayout
-    public static class ButtonPmo {
-        private final Handler buttonHandler;
-
-        public ButtonPmo(Handler buttonHandler) {
-            this.buttonHandler = buttonHandler;
-        }
-
-        @UIButton(position = 10)
-        public void button() {
-            buttonHandler.apply();
-        }
-    }
-
     @UICssLayout
-    public static class TestPmo {
+    public static class HeadlinePmoTestPmo {
         private final HeadlinePmo headlinePmo;
         private final AtomicInteger counter = new AtomicInteger(0);
 
-        public TestPmo() {
+        public HeadlinePmoTestPmo() {
             this.headlinePmo = new HeadlinePmo("initial", new TitlePmo(), new ButtonPmo(counter::incrementAndGet));
         }
 
@@ -148,5 +187,29 @@ class UIHeadlineIntegrationTest {
         public void updateHeadline() {
             headlinePmo.setHeaderTitle("updated");
         }
+
+        @UIHorizontalLayout
+        public static class TitlePmo {
+
+            @UILabel(position = 10)
+            public String getSubtitle() {
+                return "subTitle";
+            }
+        }
+
+        @UIHorizontalLayout
+        public static class ButtonPmo {
+            private final Handler buttonHandler;
+
+            public ButtonPmo(Handler buttonHandler) {
+                this.buttonHandler = buttonHandler;
+            }
+
+            @UIButton(position = 10)
+            public void button() {
+                buttonHandler.apply();
+            }
+        }
     }
+
 }

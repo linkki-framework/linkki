@@ -13,15 +13,14 @@
  */
 package org.linkki.framework.ui.component;
 
-import static java.util.Objects.requireNonNull;
-
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 
-import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
@@ -35,13 +34,20 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
+import org.linkki.core.uicreation.layout.LinkkiLayout;
+import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.util.handler.Handler;
+import org.linkki.util.reflection.accessor.MemberAccessors;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Provides two ways to create a {@link Headline}. A simple {@link Headline} with only a title is created when the title
- * is given as the return value of the annotated method. Alternatively, the method can also return a
- * {@link HeadlinePmo}. Besides the mandatory title, a {@link HeadlinePmo} may also contain an optional pmo that is
- * added to the title and another optional pmo that is added at the end.
+ * Provides two ways to create a {@link Headline}. A simple {@link Headline} with only a title is
+ * created when the title is given as the return value of the annotated method. Alternatively, the
+ * method can also return a {@link HeadlinePmo}. Besides the mandatory title, a {@link HeadlinePmo}
+ * may also contain an optional pmo that is added to the title and another optional pmo that is
+ * added at the end.
  *
  * @since 2.8.0
  */
@@ -49,7 +55,8 @@ import org.linkki.util.handler.Handler;
 @Target(ElementType.METHOD)
 @LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
 @LinkkiComponent(UIHeadline.HeadlineComponentDefinitionCreator.class)
-@LinkkiAspect(UIHeadline.HeadlineComponentAspectCreator.class)
+@LinkkiLayout(UIHeadline.HeadlineLayoutDefinitionCreator.class)
+@LinkkiAspect(UIHeadline.HeadlineAspectCreator.class)
 @LinkkiPositioned
 public @interface UIHeadline {
 
@@ -59,10 +66,10 @@ public @interface UIHeadline {
     @LinkkiPositioned.Position
     int position() default 0;
 
-    class HeadlineComponentDefinitionCreator implements ComponentDefinitionCreator<UIHeadline> {
+    class HeadlineComponentDefinitionCreator implements ComponentDefinitionCreator<Annotation> {
 
         @Override
-        public LinkkiComponentDefinition create(UIHeadline annotation, AnnotatedElement annotatedElement) {
+        public LinkkiComponentDefinition create(Annotation annotation, AnnotatedElement annotatedElement) {
             return pmo -> {
                 var headline = new Headline();
                 headline.getContent().setPadding(false);
@@ -71,57 +78,58 @@ public @interface UIHeadline {
         }
     }
 
-    class HeadlineComponentAspectCreator implements AspectDefinitionCreator<UIHeadline> {
+    class HeadlineLayoutDefinitionCreator implements LayoutDefinitionCreator<Annotation> {
 
         @Override
-        public LinkkiAspectDefinition create(UIHeadline annotation) {
-            return new HeadlineComponentTitleAspectDefinition();
+        public LinkkiLayoutDefinition create(Annotation annotation, AnnotatedElement annotatedElement) {
+            return (parentComponent, pmo, bindingContext) -> {
+                var headline = (Headline)parentComponent;
+                var annotatedMethod = (Method)annotatedElement;
+                var returnType = MemberAccessors.getType(annotatedMethod,
+                                                         annotatedMethod.getDeclaringClass());
+
+                if (HeadlinePmo.class.isAssignableFrom(returnType)) {
+                    var headlinePmo = (HeadlinePmo)MemberAccessors.getValue(pmo, annotatedMethod);
+                    if (headlinePmo.getTitleComponentPmo() != null) {
+                        headline.addToTitle(VaadinUiCreator.createComponent(headlinePmo.getTitleComponentPmo(),
+                                                                            bindingContext));
+                    }
+                    if (headlinePmo.getRightComponentPmo() != null) {
+                        headline.getContent()
+                                .addToEnd(VaadinUiCreator.createComponent(headlinePmo.getRightComponentPmo(),
+                                                                          bindingContext));
+                    }
+                }
+            };
         }
     }
 
-    class HeadlineComponentTitleAspectDefinition implements LinkkiAspectDefinition {
+    class HeadlineAspectCreator implements AspectDefinitionCreator<Annotation> {
 
         @Override
-        public void initModelUpdate(PropertyDispatcher propertyDispatcher,
-                                    ComponentWrapper componentWrapper,
-                                    Handler modelChanged) {
-            var headline = (Headline)componentWrapper.getComponent();
-            var aspectValue = requireNonNull(propertyDispatcher.pull(Aspect.of(VALUE_ASPECT_NAME)));
-
-            if (aspectValue instanceof String title) {
-                headline.setTitle(title);
-            } else if (aspectValue instanceof HeadlinePmo headlinePmo) {
-                ((Headline)componentWrapper.getComponent())
-                        .setTitle(requireNonNull(headlinePmo.getHeaderTitle()));
-                var bindingContext = new BindingContext.BindingContextBuilder()
-                        .afterModelChangedHandler(modelChanged)
-                        .build();
-                if (headlinePmo.getTitleComponentPmo() != null) {
-                    headline.addToTitle(VaadinUiCreator.createComponent(headlinePmo.getTitleComponentPmo(),
-                                                                        bindingContext));
-                }
-                if (headlinePmo.getRightComponentPmo() != null) {
-                    headline.getContent()
-                            .addToEnd(VaadinUiCreator.createComponent(headlinePmo.getRightComponentPmo(),
-                                                                      bindingContext));
-                }
-            } else {
-                throw new IllegalStateException("Aspect method must either return a String or a HeadlinePmo");
-            }
+        public LinkkiAspectDefinition create(Annotation annotation) {
+            return new HeadlineAspectDefinition();
         }
+    }
+
+    class HeadlineAspectDefinition implements LinkkiAspectDefinition {
 
         @Override
         public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
             return () -> {
-                var aspectValue = requireNonNull(propertyDispatcher.pull(Aspect.of(VALUE_ASPECT_NAME)),
-                                                 "Aspect method must not return null");
+                @CheckForNull
+                var aspectValue = propertyDispatcher.pull(Aspect.of(VALUE_ASPECT_NAME));
                 var headline = (Headline)componentWrapper.getComponent();
-                if (aspectValue instanceof String title) {
+                if (aspectValue == null) {
+                    headline.setTitle("");
+                } else if (aspectValue instanceof String title) {
                     headline.setTitle(title);
                 } else if (aspectValue instanceof HeadlinePmo headlinePmo) {
                     headline.setTitle(headlinePmo.getHeaderTitle());
                 } else {
-                    throw new IllegalStateException("Aspect method must either return a String or a HeadlinePmo");
+                    throw new IllegalStateException(
+                            "Return value %s of the annotated method must be either a String or a HeadlinePmo"
+                                    .formatted(aspectValue));
                 }
             };
         }

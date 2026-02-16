@@ -16,10 +16,12 @@ image::{image-dir}/create-report-simple.png[]
 [[uiHeadline]]
 ==== UIHeadline
 
-You can use `@UIHeadline` to create a `Headline`, which comes in two variations.
+You can use `@UIHeadline` to create a `Headline`, which comes in two variations:
 
+UIHeadline with only a title::
 If your headline should only consist of a title, then you can use `UIHeadline` and return the title as a String.
-
++
+.UIHeadline with String as return type
 [source,java]
 ----
 @UIHeadline(position=10)
@@ -28,9 +30,11 @@ public String getHeadlineText() {
 }
 ----
 
-If you need to add additional PMOs to the title or the end of the headline, you may also return a `HeadlinePmo`.
-It is given a mandatory title and two PMOs, which are optional and may be null if not needed.
-
+UIHeadline with additional components::
+If you need to add additional components to the title or the end of the headline, you may also return a `HeadlinePmo` in the annotated method.
+A headline PMO consists of a title and two optional PMOs that define the additional components.
++
+.UIHeadline with additional components
 [source,java]
 ----
 public void initializeHeadlinePmo() {
@@ -42,8 +46,21 @@ public HeadlinePmo getHeadlinePmo() {
     return this.headlinePmo;
 }
 ----
++
+[WARNING]
+====
+Note that the additional PMOs are only evaluated initially. Thus, the PMO instance must remain the same to avoid confusions.
 
-You may also convert and add `HeadlinePmo` manually using `VaadinUiCreator#createComponent`.
+Toggle the visibility of components that are only available conditionally.
+====
+
+Alternatively, `HeadlinePmo` itself is annotated with a linkki annotation which makes it usable with `VaadinUiCreator#createComponent`. The created Headline can then be added to any Vaadin layout.
+
+.HeadlinePmo with VaadinUiCreator
+[souce,java]
+----
+VaadinUiCreator.createComponent(new HeadlinePmo("MyHeadline", new TitleComponentPmo(), new HeadlineEndPmo()), new BindingContext());
+----
 
 ==== Headline Component
 

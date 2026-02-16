@@ -52,27 +52,59 @@
             "justification": "LIN-4711 linkki-vaadin-field.css integrated to linkki"
           },
           {
-            "ignore": true,
-            "code": "java.class.removed",
-            "old": "class org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator",
-            "justification": "LIN-2733/LIN-4698"
-          },
-          {
-            "ignore": true,
             "code": "java.class.removed",
             "old": "class org.linkki.framework.ui.component.UIHeadline.HeadlineTitleAspectDefinition",
-            "justification": "LIN-2733/LIN-4698"
+            "justification": "LIN-2733 Renamed to HeadlineAspectDefinition"
           },
           {
-            "ignore": true,
-            "code": "java.annotation.attributeValueChanged",
+            "code": "java.method.parameterTypeChanged",
+            "old": "parameter org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator::create(===org.linkki.framework.ui.component.UIHeadline===)",
+            "new": "parameter org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator::create(===java.lang.annotation.Annotation===)",
+            "justification": "LIN-2733 Makes it clear that HeadlineAspectCreator does not depend on the annotation"
+          },
+          {
+            "code": "java.class.noLongerImplementsInterface",
+            "old": "class org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator",
+            "new": "class org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator",
+            "interface": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<org.linkki.framework.ui.component.UIHeadline>",
+            "justification": "LIN-2733 Makes it clear that HeadlineAspectCreator does not depend on the specific annotation"
+          },
+          {
+            "code": "java.class.superTypeTypeParametersChanged",
+            "old": "class org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator",
+            "new": "class org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator",
+            "oldSuperType": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<org.linkki.framework.ui.component.UIHeadline>",
+            "newSuperType": "org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator<java.lang.annotation.Annotation>",
+            "justification": "LIN-2733 Makes it clear that HeadlineAspectCreator does not depend on the specific annotation"
+          },
+          {
+            "code": "java.method.parameterTypeChanged",
+            "old": "parameter org.linkki.core.binding.uicreation.LinkkiComponentDefinition org.linkki.framework.ui.component.UIHeadline.HeadlineComponentDefinitionCreator::create(===org.linkki.framework.ui.component.UIHeadline===, java.lang.reflect.AnnotatedElement)",
+            "new": "parameter org.linkki.core.binding.uicreation.LinkkiComponentDefinition org.linkki.framework.ui.component.UIHeadline.HeadlineComponentDefinitionCreator::create(===java.lang.annotation.Annotation===, java.lang.reflect.AnnotatedElement)",
+            "parameterIndex": "0",
+            "justification": "LIN-2733 Makes it clear that the component definition does not depend on the specific annotation"
+          },
+          {
+            "code": "java.class.noLongerImplementsInterface",
+            "old": "class org.linkki.framework.ui.component.UIHeadline.HeadlineComponentDefinitionCreator",
+            "new": "class org.linkki.framework.ui.component.UIHeadline.HeadlineComponentDefinitionCreator",
+            "interface": "org.linkki.core.uicreation.ComponentDefinitionCreator<org.linkki.framework.ui.component.UIHeadline>",
+            "justification": "LIN-2733 Makes it clear that the component definition does not depend on the specific annotation"
+          },
+          {
+            "code": "java.class.superTypeTypeParametersChanged",
+            "old": "class org.linkki.framework.ui.component.UIHeadline.HeadlineComponentDefinitionCreator",
+            "new": "class org.linkki.framework.ui.component.UIHeadline.HeadlineComponentDefinitionCreator",
+            "oldSuperType": "org.linkki.core.uicreation.ComponentDefinitionCreator<org.linkki.framework.ui.component.UIHeadline>",
+            "newSuperType": "org.linkki.core.uicreation.ComponentDefinitionCreator<java.lang.annotation.Annotation>",
+            "justification": "LIN-2733 Makes it clear that the component definition does not depend on the specific annotation"
+          },
+          {
+            "code": "java.annotation.added",
             "old": "@interface org.linkki.framework.ui.component.UIHeadline",
             "new": "@interface org.linkki.framework.ui.component.UIHeadline",
-            "annotationType": "org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect",
-            "attribute": "value",
-            "oldValue": "org.linkki.framework.ui.component.UIHeadline.HeadlineAspectCreator.class",
-            "newValue": "org.linkki.framework.ui.component.UIHeadline.HeadlineComponentAspectCreator.class",
-            "justification": "LIN-2733/LIN-4698"
+            "annotation": "@org.linkki.core.uicreation.layout.LinkkiLayout(org.linkki.framework.ui.component.UIHeadline.HeadlineLayoutDefinitionCreator.class)",
+            "justification": "LIN-2733 Make UI Headline work with HeadlinePmo"
           }
         ]
       }
