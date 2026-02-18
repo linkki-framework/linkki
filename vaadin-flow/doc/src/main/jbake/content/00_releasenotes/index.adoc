@@ -14,6 +14,23 @@
 
 === Alpha Version {vlinkki}
 
+// ==== Version Updates
+
+// The following versions have been updated:
+
+// [cols="a,a,a"]
+// |===
+// | Dependency                    | New version                                                                        | Previous version
+//
+// | Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.04
+// | Spring Boot                   | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
+// | Karibu                        | 2.6.2 | 2.6.1
+// | Logback                       | 1.5.29 | 1.5.27
+
+// |===
+
+=== Alpha Version 2.10.0-a20260219-01
+
 ==== Version Updates
 
 The following versions have been updated:
