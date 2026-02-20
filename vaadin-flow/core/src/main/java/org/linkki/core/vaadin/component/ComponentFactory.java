@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -31,6 +32,7 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.LinkkiComponentUtil;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
+import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -368,6 +370,19 @@ public class ComponentFactory {
         layout.setSpacing(false);
         layout.setMargin(false);
         return layout;
+    }
+
+    /**
+     * Creates a new badge with the specified severity and variants.
+     */
+    public static LinkkiText newBadge(BadgeSeverity severity, String[] variants) {
+        var badge = new LinkkiText();
+        badge.getElement().getThemeList().add("badge");
+        Arrays.stream(variants).forEach(badge.getElement().getThemeList()::add);
+        if (severity.getVariantName() != null) {
+            badge.getElement().getThemeList().add(severity.getVariantName());
+        }
+        return badge;
     }
 
     /**

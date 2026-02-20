@@ -29,6 +29,7 @@ The following types are provided:
 |<<ui-multiselect,`UIMultiSelect`>> |Dropdown field with predefined options for selecting multiple options
 |<<ui-yesnocombobox,`UIYesNoCombobox`>> |Dropdown field for boolean choices
 |<<ui-radiobuttons,`UIRadioButtons`>> |Radio buttons for selecting a single choice
+|<<ui-badge,`UIBadge`>> |Badge for displaying visually highlighted information
 |===
 
 [[ui-buttons]]
@@ -418,6 +419,27 @@ If the `position` values are identical but the `label` values differ, an excepti
 
 Which UI element is displayed for each PMO instance is determined by the method `Class<?> get<PropertyName>ComponentType()`.
 It returns the class of the UI*-Annotation for the UI control to be rendered.
+
+[[ui-badge]]
+==== UIBadge
+
+The annotation `@UIBadge` creates a badge for displaying visually highlighted information and corresponds to a badge styled with https://vaadin.com/docs/latest/components/badge[Vaadin's badge theme variants].
+
+The annotated method must return a value that is convertible to `String` with the <<itemCaptionProvider,`ItemCaptionProvider`>> defined in the annotation.
+
+Severity::
+The attribute `severity` determines the badge's color scheme (background and text) based on semantic meaning.
+Available values are `INFO`, `SUCCESS`, `WARNING`, `ERROR`, and `NONE` (default).
+Each severity applies a corresponding color scheme.
+
+Variants::
+The attribute `variants` applies additional styling modifications to the badge.
+Multiple variants can be combined by providing a String array.
+linkki provides the `BadgeVariant` class with common Vaadin badge variants:
+ +
+* `BadgeVariant.PILL`: Rounded badge shape (default)
+* `BadgeVariant.SMALL`: Compact size
+* `BadgeVariant.PRIMARY`: Applies primary theme color
 
 [[ui-button]]
 ==== UIButton

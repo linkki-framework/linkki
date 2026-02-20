@@ -84,6 +84,7 @@ import org.linkki.samples.playground.ts.dialogs.SetFormItemLabelWidthDialogPmo;
 import org.linkki.samples.playground.ts.dialogs.UIOpenDialogButtonPmo;
 import org.linkki.samples.playground.ts.error.ErrorDialogPmo;
 import org.linkki.samples.playground.ts.error.ErrorPagePmo;
+import org.linkki.samples.playground.ts.formelements.BadgePmo;
 import org.linkki.samples.playground.ts.formelements.ButtonPmo;
 import org.linkki.samples.playground.ts.formelements.CheckboxesPmo;
 import org.linkki.samples.playground.ts.formelements.ComboBoxCaptionRefreshPmo;
@@ -207,6 +208,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC018 = "TC018";
     public static final String TC019 = "TC019";
     public static final String TC020 = "TC020";
+    public static final String TC021 = "TC021";
 
     static final String ROUTE = "playground";
 
@@ -298,6 +300,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC018, new LongFieldPmo())
                                        .testCase(TC019, new MenuButtonPmo())
                                        .testCase(TC020, new MenuListPmo())
+                                       .testCase(TC021, new BadgePmo())
                                        .createTabSheet(),
                                TestScenario.id(TS006)
                                        .testCase(TC001, LinkkiTextComponent::new)

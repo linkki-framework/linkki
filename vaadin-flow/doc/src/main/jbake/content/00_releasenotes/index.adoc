@@ -29,6 +29,33 @@
 
 // |===
 
+==== UI Annotations and Aspects
+
+// https://jira.convista.com/browse/LIN-4658
+* *UIBadge* +
+A new annotation `@UIBadge` has been added to create badges for displaying visually highlighted information. For more information see <<ui-badge, UIBadge>>.
+
+// ==== Testing
+
+// https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Beschreibung* +
+// Text
+
+// https://jira.convista.com/browse/LIN-????
+// * *Beschreibung* +
+// Text
+
+
+// https://jira.convista.com/browse/LIN-????
+// * *Beschreibung* +
+// Text
+
+// ==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Beschreibung* +
+// Text
+
 === Alpha Version 2.10.0-a20260219-01
 
 ==== Version Updates
@@ -182,38 +209,6 @@ Note that the linkki theme does not work with Aura theme at the moment.
 Some web components are reworked in this version, most notably overlays (including dialogs).
 Methods provided by the linkki TestBench extension such as `$(OkCancelDialogElement.class)` are adjusted accordingly.
 Other selectors used in UI tests and CSS styling may need to be adjusted.
-
-// ==== UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-????
-// * [.api-change] *Beschreibung* +
-// Text
-
-// https://jira.convista.com/browse/LIN-????
-// * *Beschreibung* +
-// Text
-
-// ==== Testing
-
-// https://jira.convista.com/browse/LIN-????
-// * [.api-change] *Beschreibung* +
-// Text
-
-// https://jira.convista.com/browse/LIN-????
-// * *Beschreibung* +
-// Text
-
-
-// https://jira.convista.com/browse/LIN-????
-// * *Beschreibung* +
-// Text
-
-// ==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-????
-// * [.api-change] *Beschreibung* +
-// Text
-
 
 === Alpha Version 2.10.0-a20260202-02
 
