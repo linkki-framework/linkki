@@ -12,8 +12,6 @@
 
 // The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
 
-=== Alpha Version {vlinkki}
-
 // ==== Version Updates
 
 // The following versions have been updated:
@@ -29,32 +27,46 @@
 
 // |===
 
+// ==== UI Annotations and Aspects
+
+// // https://jira.convista.com/browse/LIN-????
+// * *Description* +
+// Text
+
+// ==== Testing
+
+// // https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Beschreibung* +
+// Text
+
+// // https://jira.convista.com/browse/LIN-????
+// * *Beschreibung* +
+// Text
+
+
+// // https://jira.convista.com/browse/LIN-????
+// * *Description* +
+// Text
+
+// ==== Bugfixes
+
+// // https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Description* +
+// Text
+
+=== Alpha Version {vlinkki}
+
 ==== UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-4658
 * *UIBadge* +
 A new annotation `@UIBadge` has been added to create badges for displaying visually highlighted information. For more information see <<ui-badge, UIBadge>>.
 
-// ==== Testing
+==== Bugfixes
 
-// https://jira.convista.com/browse/LIN-????
-// * [.api-change] *Beschreibung* +
-// Text
-
-// https://jira.convista.com/browse/LIN-????
-// * *Beschreibung* +
-// Text
-
-
-// https://jira.convista.com/browse/LIN-????
-// * *Beschreibung* +
-// Text
-
-// ==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-????
-// * [.api-change] *Beschreibung* +
-// Text
+// https://jira.convista.com/browse/LIN-4561
+* *Styling: selected rows are not highlighted* +
+Selected rows are not displayed anymore since Vaadin 25 upgrade.
 
 === Alpha Version 2.10.0-a20260219-01
 

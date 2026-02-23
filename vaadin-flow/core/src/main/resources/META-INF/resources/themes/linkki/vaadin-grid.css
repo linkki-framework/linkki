@@ -1,7 +1,10 @@
 /* Solid background for card sections */
-vaadin-grid,
 vaadin-grid::part(cell) {
-    background: var(--linkki-grid-background, var(--lumo-base-color));
+    background-image: var(--linkki-grid-background, var(--lumo-base-color));
+}
+vaadin-grid::part(selected-row-cell) {
+    /* Reapply shadow DOM styling, otherwise :part(cell) would overwrite selection color */
+    background-image: linear-gradient(var(--_lumo-grid-selected-row-color),var(--_lumo-grid-selected-row-color));
 }
 
 /* Header styling */
