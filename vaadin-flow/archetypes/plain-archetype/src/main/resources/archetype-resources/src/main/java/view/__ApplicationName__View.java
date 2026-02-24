@@ -5,12 +5,16 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.linkki.framework.ui.component.Headline;
-import ${package}.ui.${ApplicationName}Layout;
+import ${package}.ui.${ApplicationName}ApplicationLayout;
+
+import java.io.Serial;
+
 
 @PageTitle("${ApplicationName}")
-@Route(value = "", layout = ${ApplicationName}Layout.class)
+@Route(value = "", layout = ${ApplicationName}ApplicationLayout.class)
 public class ${ApplicationName}View extends VerticalLayout {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public ${ApplicationName}View() {

@@ -12,6 +12,7 @@
 
     <properties>
         <java.version>21</java.version>
+        <vaadin.version>@vaadin.version@</vaadin.version>
     </properties>
 
     <parent>
@@ -36,16 +37,11 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
-            <version>@vaadin.version@</version>
+            <version>${vaadin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
@@ -53,9 +49,14 @@
             <version>@project.version@</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-dev</artifactId>
-            <version>@vaadin.version@</version>
+            <version>${vaadin.version}</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -89,7 +90,7 @@
                 <plugin>
                     <groupId>com.vaadin</groupId>
                     <artifactId>vaadin-maven-plugin</artifactId>
-                    <version>@vaadin.version@</version>
+                    <version>${vaadin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -3,12 +3,15 @@ package ${package}.ui;
 
 import org.linkki.framework.ui.application.ApplicationLayout;
 
-public class ${ApplicationName}Layout extends ApplicationLayout {
+import java.io.Serial;
 
+public class ${ApplicationName}ApplicationLayout extends ApplicationLayout {
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    public ${ApplicationName}Layout() {
-        super(new ${ApplicationName}Config());
+    public ${ApplicationName}ApplicationLayout() {
+        super(new ${ApplicationName}ApplicationConfig());
     }
 }
 

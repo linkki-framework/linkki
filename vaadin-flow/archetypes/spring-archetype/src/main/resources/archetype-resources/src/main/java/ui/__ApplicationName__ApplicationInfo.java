@@ -2,10 +2,9 @@
 package ${package}.ui;
 
 import java.time.Year;
-
 import org.linkki.framework.ui.application.ApplicationInfo;
 
-public class ${ApplicationName}Info implements ApplicationInfo {
+public class ${ApplicationName}ApplicationInfo implements ApplicationInfo {
 
     public static final String APPLICATION_NAME = "${ApplicationName}";
 

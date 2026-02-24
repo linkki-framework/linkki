@@ -5,11 +5,11 @@ import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.util.Sequence;
 
-public class ${ApplicationName}Config implements ApplicationConfig {
+public class ${ApplicationName}ApplicationConfig implements ApplicationConfig {
 
     @Override
-    public ${ApplicationName}Info getApplicationInfo() {
-        return new ${ApplicationName}Info();
+    public ${ApplicationName}ApplicationInfo getApplicationInfo() {
+        return new ${ApplicationName}ApplicationInfo();
     }
 
     @Override

@@ -14,10 +14,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
+        <vaadin.version>@vaadin.version@</vaadin.version>
         <jetty.version>11.0.26</jetty.version>
         <jakarta-servlet-api.version>6.1.0</jakarta-servlet-api.version>
         <slf4j.version>2.0.17</slf4j.version>
@@ -58,7 +60,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-dev</artifactId>
-            <version>@vaadin.version@</version>
+            <version>${vaadin.version}</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -75,15 +77,6 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.version}</version>
-                <configuration>
-                    <!-- If using IntelliJ IDEA with autocompilation, this
-                        might cause lots of unnecessary compilations in the background. -->
-                    <scanIntervalSeconds>2</scanIntervalSeconds>
-                    <!-- Use war output directory to get the webpack files -->
-                    <webAppConfig>
-                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
-                    </webAppConfig>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.vaadin</groupId>
@@ -114,7 +107,7 @@
                 <plugin>
                     <groupId>com.vaadin</groupId>
                     <artifactId>vaadin-maven-plugin</artifactId>
-                    <version>@vaadin.version@</version>
+                    <version>${vaadin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

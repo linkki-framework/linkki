@@ -7,8 +7,11 @@ import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
 import org.linkki.util.handler.Handler;
 
+import java.io.Serial;
+
 public class ${ApplicationName}Page extends AbstractPage {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final BindingManager bindingManager;
