@@ -63,7 +63,7 @@
         <spotbugs.version>4.9.8</spotbugs.version>
         <checkstyle.version>10.20.1</checkstyle.version>
         <!-- Version managed for tests -->
-        <logback.version>1.5.29</logback.version>
+        <logback.version>1.5.32</logback.version>
 
         <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
         <revapi-java.version>0.28.4</revapi-java.version>
@@ -71,7 +71,7 @@
         <!-- Maven plugin versions -->
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
