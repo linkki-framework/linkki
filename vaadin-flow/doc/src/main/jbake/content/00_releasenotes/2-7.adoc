@@ -15,7 +15,9 @@ The following versions have been updated:
 |===
 | Dependency | New version | Previous version
 
-| Logback                       | 1.5.29    | 1.5.28
+| Vaadin                        | 24.9.12 (link:https://github.com/vaadin/platform/releases/tag/24.9.12[Release Notes]) | 24.9.11
+| Spring Boot                   | 3.5.11 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.11[Release Notes])    | 3.5.10
+| Logback                       | 1.5.32    | 1.5.28
 |===
 
 === Version 2.7.101
