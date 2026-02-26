@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -52,7 +51,7 @@
         <apt.tests.skip>false</apt.tests.skip>
         <surefire.directory>surefire-reports</surefire.directory>
 
-        <junit.version>6.0.2</junit.version>
+        <junit.version>6.0.3</junit.version>
         <mockito.version>5.21.0</mockito.version>
         <assertj.version>3.27.7</assertj.version>
         <hamcrest.version>3.0</hamcrest.version>
@@ -63,7 +62,7 @@
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <spotbugs.version>4.9.8</spotbugs.version>
-        <logback.version>1.5.29</logback.version>
+        <logback.version>1.5.32</logback.version>
 
         <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
         <revapi-java.version>0.28.4</revapi-java.version>
@@ -71,7 +70,7 @@
         <!-- Maven plugin versions -->
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
-        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>

@@ -21,9 +21,9 @@
 // | Dependency                    | New version                                                                        | Previous version
 //
 // | Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.04
-// | Spring Boot                   | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
 // | Karibu                        | 2.6.2 | 2.6.1
 // | Logback                       | 1.5.29 | 1.5.27
+// | Spring Boot compatibility tested for | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
 
 // |===
 
@@ -43,7 +43,6 @@
 // * *Beschreibung* +
 // Text
 
-
 // // https://jira.convista.com/browse/LIN-????
 // * *Description* +
 // Text
@@ -55,6 +54,22 @@
 // Text
 
 === Alpha Version {vlinkki}
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 25.0.6 (link:https://github.com/vaadin/platform/releases/tag/25.0.6[Release Notes]) | 25.0.5
+| Faktor-IPS                    | 26.7.0.a20260217-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260217-01/01_releasenotes/index.html[Release Notes]) | 26.7.0.a20260119-01
+| Karibu                        | 2.7.0  | 2.6.1
+| Logback                       | 1.5.32 | 1.5.29
+| Spring Boot compatibility tested for | 4.0.3 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.3[Release Notes]) | 4.0.2
+
+|===
 
 ==== UI Annotations and Aspects
 
@@ -80,7 +95,7 @@ The following versions have been updated:
 |===
 | Dependency                    | New version                                                                        | Previous version
 
-| Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.04
+| Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.4
 | Spring Boot                   | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
 | Karibu                        | 2.6.2 | 2.6.1
 | Logback                       | 1.5.29 | 1.5.27
