@@ -1,36 +1,60 @@
 {
-    "all-versions": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.openqa\\.selenium\\..*",
-                        "justification": "Selenium is used in the API"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.junit\\.jupiter\\.api\\..*",
-                        "justification": "JUnit is used in the API"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*com\\.vaadin\\..*",
-                        "justification": "Vaadin is used in the API"
-                    },
-                    {
-                        "regex": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": ".*org\\.linkki\\.core\\..*",
-                        "justification": "linkki is used in the API"
-                    }
-                ]
-            }
-        }
-    ]
+  "all-versions": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.openqa\\.selenium\\..*",
+            "justification": "Selenium is used in the API"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.junit\\.jupiter\\.api\\..*",
+            "justification": "JUnit is used in the API"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*com\\.vaadin\\..*",
+            "justification": "Vaadin is used in the API"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": ".*org\\.linkki\\.core\\..*",
+            "justification": "linkki is used in the API"
+          }
+        ]
+      }
+    }
+  ],
+  "2.10.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.method.exception.checkedRemoved",
+            "old": "method void org.linkki.testbench.WebDriverExtension::afterEach(org.junit.jupiter.api.extension.ExtensionContext) throws java.lang.Exception",
+            "new": "method void org.linkki.testbench.WebDriverExtension::afterEach(org.junit.jupiter.api.extension.ExtensionContext)",
+            "exception": "java.lang.Exception",
+            "justification": "Unnecessary throw"
+          },
+          {
+            "code": "java.method.exception.checkedRemoved",
+            "old": "method void org.linkki.testbench.WebDriverExtension::afterTestExecution(org.junit.jupiter.api.extension.ExtensionContext) throws java.lang.Exception",
+            "new": "method void org.linkki.testbench.WebDriverExtension::afterTestExecution(org.junit.jupiter.api.extension.ExtensionContext)",
+            "exception": "java.lang.Exception",
+            "justification": "Unnecessary throw"
+          }
+        ]
+      }
+    }
+  ]
 }

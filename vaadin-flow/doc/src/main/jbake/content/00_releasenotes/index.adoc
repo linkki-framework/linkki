@@ -67,6 +67,8 @@ A new annotation `@UIBadge` has been added to create badges for displaying visua
 // https://jira.convista.com/browse/LIN-4561
 * *Styling: selected rows are not highlighted* +
 Selected rows are not displayed anymore since Vaadin 25 upgrade.
+* *TestBench Extension: better handling of exceptions from WebDriver* +
+`SessionNotCreatedException` that can occur during driver creation are now retried. In addition, web drivers in `WebDriverExtension` are now thread local, which should reduce `NoSuchSessionException`, improving the stability of parallel UI tests executions.
 
 === Alpha Version 2.10.0-a20260219-01
 

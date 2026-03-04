@@ -23,9 +23,7 @@ pipeline {
         stage('Prepare Release') {
             steps {
                 withMaven(publisherStrategy: 'EXPLICIT') {
-                    script {
-                        prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
-                    }
+                    prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
                 }
             }
         }

@@ -27,8 +27,11 @@ import org.linkki.testbench.util.DriverProperties;
 import org.linkki.testbench.util.ScreenshotUtil;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vaadin.testbench.TestBench;
 
@@ -48,10 +51,12 @@ import com.vaadin.testbench.TestBench;
 public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback,
         AfterTestExecutionCallback {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverExtension.class);
+
     private final boolean headless;
     private final String initialUrl;
 
-    private WebDriver driver;
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     /**
      * Creates a {@link WebDriverExtension} with the given context path. The fully qualified URL is
@@ -75,8 +80,9 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
     }
 
     public WebDriver getDriver() {
-        if (driver != null) {
-            return driver;
+        var driverInThread = driver.get();
+        if (driverInThread != null) {
+            return driverInThread;
         } else {
             throw new IllegalStateException("Driver has not been initialized");
         }
@@ -86,7 +92,7 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
     public void beforeAll(ExtensionContext context) {
         UITestConfiguration config = getConfiguration(context);
         if (!config.restartAfterEveryTest()) {
-            createDriver(config);
+            createTestBenchDriver(config);
         }
     }
 
@@ -94,13 +100,13 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
     public void beforeEach(ExtensionContext context) {
         UITestConfiguration config = getConfiguration(context);
         if (config.restartAfterEveryTest()) {
-            createDriver(config);
+            createTestBenchDriver(config);
         }
     }
 
     @Override
-    public void afterTestExecution(ExtensionContext context) throws Exception {
-        if (driver == null) {
+    public void afterTestExecution(ExtensionContext context) {
+        if (driver.get() == null) {
             // driver setup might have failed
             return;
         }
@@ -109,45 +115,74 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
         // On test failure, take screenshot before e.g. logging out is done by @AfterEach-methods
         if (testFailed) {
-            ScreenshotUtil.takeScreenshot(driver, context.getDisplayName());
+            ScreenshotUtil.takeScreenshot(driver.get(), context.getDisplayName());
         }
     }
 
     @Override
     public void afterAll(ExtensionContext context) {
-        if (driver == null) {
+        if (driver.get() == null) {
             // driver setup might have failed
             return;
         }
 
         UITestConfiguration config = getConfiguration(context);
         if (!config.restartAfterEveryTest()) {
-            driver.quit();
+            driver.get().quit();
+            driver.remove();
         }
     }
 
     @Override
-    public void afterEach(ExtensionContext context) throws Exception {
-        if (driver == null) {
+    public void afterEach(ExtensionContext context) {
+        if (driver.get() == null) {
             // driver setup might have failed
             return;
         }
 
         UITestConfiguration config = getConfiguration(context);
         if (config.restartAfterEveryTest()) {
-            driver.quit();
+            driver.get().quit();
+            driver.remove();
         }
     }
 
-    private void createDriver(UITestConfiguration config) {
-        BrowserType browserType = headless ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
-        driver = TestBench.createDriver(browserType.getWebdriver(Locale.forLanguageTag(config.locale())));
-        driver.manage().window().setSize(new Dimension(1440, 900));
+    private void createTestBenchDriver(UITestConfiguration config) {
+        var browserType = headless ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
+        var locale = Locale.forLanguageTag(config.locale());
 
-        driver.get(initialUrl);
-        new WebDriverWait(driver, Duration.ofSeconds(10))
+        if (driver.get() == null) {
+            WebDriver webDriver;
+            try {
+                webDriver = browserType.getWebdriver(locale);
+            } catch (SessionNotCreatedException e1) {
+                LOGGER.debug("Creating Webdriver failed with {}", e1.getMessage(), e1);
+                // retry
+                try {
+                    webDriver = browserType.getWebdriver(locale);
+                } catch (SessionNotCreatedException e2) {
+                    LOGGER.debug("Creating Webdriver failed in retry (1) with {}", e1.getMessage(), e1);
+                    try {
+                        webDriver = browserType.getWebdriver(locale);
+                    } catch (SessionNotCreatedException e3) {
+                        LOGGER.debug("Creating Webdriver failed in retry (2) with {}", e1.getMessage(), e1);
+                        webDriver = browserType.getWebdriver(locale);
+                    }
+                }
+            }
+            createTestBenchDriver(webDriver);
+        }
+    }
+
+    private void createTestBenchDriver(WebDriver webDriver) {
+        var newDriver = TestBench.createDriver(webDriver);
+        newDriver.manage().window().setSize(new Dimension(1440, 900));
+
+        newDriver.get(initialUrl);
+        new WebDriverWait(newDriver, Duration.ofSeconds(10))
                 .until(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
                         .toString().equals("complete"));
+        driver.set(newDriver);
     }
 
     private UITestConfiguration getConfiguration(ExtensionContext context) {
