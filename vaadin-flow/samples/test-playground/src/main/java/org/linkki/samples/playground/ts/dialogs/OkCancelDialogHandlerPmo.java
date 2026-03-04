@@ -42,7 +42,7 @@ public class OkCancelDialogHandlerPmo {
     }
 
     public static Component create() {
-        BindingContext bindingContext = new BindingContext();
+        var bindingContext = new BindingContext();
         return VaadinUiCreator.createComponent(new OkCancelDialogHandlerPmo(bindingContext), bindingContext);
     }
 
@@ -67,14 +67,12 @@ public class OkCancelDialogHandlerPmo {
 
     @UIButton(position = 11, caption = "Open dialog with DialogBindingManager")
     public void showDialogWithBindingManager() {
-        OkCancelDialog dialog = OkCancelDialog.builder("OkCancelDialog")
+        var dialog = OkCancelDialog.builder("OkCancelDialog")
                 .okHandler(this::onOk)
                 .cancelHandler(this::onCancel)
                 .build();
 
-        @SuppressWarnings("checkstyle:unusedlocalvariable")
-        DialogBindingManager bindingManager = new DialogBindingManager(dialog,
-                ValidationService.NOP_VALIDATION_SERVICE);
+        new DialogBindingManager(dialog, ValidationService.NOP_VALIDATION_SERVICE);
 
         dialog.addContent(new Span(
                 "Pressing enter while the OK button was selected used to trigger the okHandler twice"));

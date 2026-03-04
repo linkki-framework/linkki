@@ -41,6 +41,7 @@ import org.linkki.samples.playground.bugs.lin3497.FrontendDependencyInjectionTes
 import org.linkki.samples.playground.bugs.lin3531.BindMessagesOnGridColumnsBug;
 import org.linkki.samples.playground.bugs.lin3846.ReactRouterTestView;
 import org.linkki.samples.playground.bugs.lin3884.EmptyLabelComponentsPmo;
+import org.linkki.samples.playground.bugs.lin4780.OverlappingDialogHeadersBug;
 import org.linkki.samples.playground.ts.formelements.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
@@ -111,6 +112,11 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      LinkkiTabSheet.builder("LIN-3846")
                              .caption(createCaptionLink("LIN-3846", "LIN-3846"))
                              .content(ReactRouterTestView::new)
+                             .build(),
+                     LinkkiTabSheet.builder(OverlappingDialogHeadersBug.CAPTION)
+                             .caption(createCaptionLink(OverlappingDialogHeadersBug.CAPTION,
+                                                        OverlappingDialogHeadersBug.CAPTION))
+                             .content(OverlappingDialogHeadersBug::new)
                              .build());
     }
 
