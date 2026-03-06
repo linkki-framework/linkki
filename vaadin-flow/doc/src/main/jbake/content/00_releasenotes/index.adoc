@@ -75,16 +75,26 @@ The following versions have been updated:
 
 // https://jira.convista.com/browse/LIN-4658
 * *UIBadge* +
-A new annotation `@UIBadge` has been added to create badges for displaying visually highlighted information. For more information see <<ui-badge, UIBadge>>.
+A new annotation `@UIBadge` has been added to create badges for displaying visually highlighted information.
+For more information see <<ui-badge, UIBadge>>.
+
+==== Testing
+
+* *TestBench Extension: better handling of exceptions from WebDriver* +
+`SessionNotCreatedException` that can occur during driver creation are now retried.
+In addition, web drivers in `WebDriverExtension` are now thread local, which should reduce `NoSuchSessionException`, improving the stability of parallel UI tests executions.
+// https://jira.convista.com/browse/LIN-4782
+* *TestBench Extension: support testing for browser alert* +
+With Chromedriver 126+, chrome driver automatically consume alerts created during `onbeforeUnload` which is used in `HasBrowserConfigration` when executed in headless mode.
+This makes it impossible to test these scenarios.
+In this version, additional options are added to the chrome driver that start with linkki TestBench extension.
+This makes it possible to test for browser alert again, e.g. using `ExpectedCondition.alertIsPresent`.
 
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4561
 * *Styling: selected rows are not highlighted* +
 Selected rows are not displayed anymore since Vaadin 25 upgrade.
-* *TestBench Extension: better handling of exceptions from WebDriver* +
-`SessionNotCreatedException` that can occur during driver creation are now retried. In addition, web drivers in `WebDriverExtension` are now thread local, which should reduce `NoSuchSessionException`, improving the stability of parallel UI tests executions.
-
 // https://jira.convista.com/browse/LIN-4755
 * *Styling: scrollbars appear in form items* +
 Labels in `vaadin-form-item` were not aligned correctly after the Vaadin update.
