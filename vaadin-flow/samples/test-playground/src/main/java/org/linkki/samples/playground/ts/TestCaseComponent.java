@@ -23,7 +23,7 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Span;
@@ -35,7 +35,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  * covered by this section and the content with the UI elements to be tested.
  */
 @Tag("test-case-component")
-@CssImport(value = "./styles/test-case-component.css")
+@StyleSheet("./test-case-component.css")
 public class TestCaseComponent extends Div {
 
     @Serial

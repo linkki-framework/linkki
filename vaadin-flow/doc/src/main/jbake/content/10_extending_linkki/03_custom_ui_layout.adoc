@@ -103,7 +103,7 @@ A Lit template is basically described within a TypeScript file which specifies t
 .TypeScript Lit template which defines two available slots
 [source,java]
 ----
-include::{source-dir-playground-frontend}/layouts/sample-slot-layout.ts[tags=bindSlot-layout-typescript]
+include::{source-dir-playground-frontend}/src/sample-slot-layout.ts[tags=bindSlot-layout-typescript]
 ----
 
 This template can be applied to a Java class which extends `LitTemplate` by using the `@Tag` and `@JsModule` annotations.

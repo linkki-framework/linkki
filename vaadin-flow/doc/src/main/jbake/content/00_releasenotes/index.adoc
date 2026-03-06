@@ -210,7 +210,8 @@ This module includes features that make the development faster such as live-relo
 The server also sends more data to the browser to help troubleshoot problems in the server client communication.
 More details can be found in the https://vaadin.com/docs/latest/flow/configuration/development-mode[Vaadin documentation].
 +
-To adapt to this change *in Spring Boot projects*, following changes should be made in all `pom.xml` that use `vaadin-maven-plugin`:
+*Migration*: For JEE projects, no changes are needed. +
+*In Spring Boot projects*, following changes should be made in all `pom.xml` that use `vaadin-maven-plugin`:
 +
 ** Profile `production` should be removed.
 ** `vaadin-maven-plugin` should always call the goal `build-frontend`.
@@ -226,25 +227,31 @@ Goal `prepare-frontend` should be removed.
 </dependency>
 ----
 * *Jackson for JSON handling* +
-Vaadin 25 replaced the deprecated `elemental.json` library with Jackson for JSON handling.
-This is an internal change in Vaadin and should not affect linkki applications directly, but may impact custom components using Vaadin's JSON APIs.
+Vaadin 25 replaced the deprecated `elemental.json` library with Jackson for JSON handling. +
+*Migration*: This is an internal change in Vaadin and should not affect linkki applications directly, but may impact custom components using Vaadin's JSON APIs.
 * *Less transitive dependencies* +
 Some dependencies do not come with Vaadin anymore.
 If those dependencies are needed, they need to be included explicitly.
 Some well-known ones include:
++
+--
 ** Guava: Google Core Libraries
 ** Apache Commons Compress
+--
++
+*Migration*: Check if these dependencies are really required and include them as dependencies explicitly if needed.
 
 [.api-change]
 ===== Notable Java API Changes
 
 * *Label component deprecation* +
 `com.vaadin.flow.component.html.Label` has been deprecated as the naming is confusing, making the component often misused in cases, where a `<label>` element should not be used. +
-To ensure that `<label>` should really be used, check if the usages is correct according to the https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label[specification].
+*Migration*: To ensure that `<label>` should really be used, check if the usages is correct according to the https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label[specification]. +
 If this is the case, use `com.vaadin.flow.component.html.NativeLabel` instead. +
 If the usage does not match the specification, use a different element such as `Text` or `Span` instead.
 * *Renaming of variant constants* +
-With the introduction of a new theme, variants that only work with Lumo theme are renamed, e.g. `DetailsVariant.FILLED` to `DetailsVariant.LUMO_FILLED`.
+With the introduction of a new theme, variants that only work with Lumo theme are renamed, e.g. `DetailsVariant.FILLED` to `DetailsVariant.LUMO_FILLED`. +
+*Migration*: Check the deprecation Javadoc and replace the constants accordingly.
 
 ===== Frontend Changes
 
@@ -252,11 +259,17 @@ With the introduction of a new theme, variants that only work with Lumo theme ar
 The annotation `@Theme` is deprecated.
 Instead, themes are loaded by `@StyleSheet`. +
 For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 theme>>, a new `STYLESHEET` constant was added to `LinkkiTheme` and `F10ProductTheme`.
-Replace existing `@Theme` declarations with `@StyleSheet(LinkkiTheme.STYLESHEET)` or `@StyleSheet(F10ProductTheme.STYLESHEET)`.
+*Migration*:
+** Replace existing `@Theme` declarations for linkki or f10-product theme with `@StyleSheet(LinkkiTheme.STYLESHEET)` or `@StyleSheet(F10ProductTheme.STYLESHEET)`.
+** Make sure that the class that is annotated with `StyleSheet` is indeed covered by the value of `@EnableVaadin`.
+** Custom themes should be migrated accordingly:
+*** If the custom theme is not reusable, consider moving `/themes/mytheme/styles.css` to `/mytheme/styles.css`, which is the location recommended by Vaadin.
+*** If the custom theme can be used by downstream projects, and do not need to support usage with `@Theme`, consider moving `/themes/mytheme/styles.css` to `mytheme/mytheme.css`.
+** Consider adjusting the usage of `@CssImport`: If the annotation is not used to import a style sheet from a npm package, consider importing the stylesheet on `AppShellConfigurator` directly with `@StyleSheet`, and move it to `src/main/resources/META-INF/resources`. Alternatively, consider importing the stylesheet in CSS with `@import`. This makes it easier to understand which stylesheets are included by having all stylesheets at one place. For more details, see https://vaadin.com/docs/latest/styling/stylesheets[Vaadin documentation].
 * [.api-change]*Shadow DOM injection deactivated by default* +
 Shadow DOM injection is no longer activated by default.
 All shadow DOM injections in linkki theme are migrated.
-For any exiting shadow DOM injections, consider migrating them by using `:part` selector instead.
+*Migration*: For any exiting shadow DOM injections, consider migrating them by using `:part` selector instead.
 Vaadin documentation provides common CSS selectors for most components, see e.g. https://vaadin.com/docs/v25/components/grid/styling[documentation for Grid]. +
 If shadow DOM injection is still needed, the feature flag https://vaadin.com/docs/v25/flow/configuration/feature-flags#experimental-feature-flags[`themeComponentStyles`] must be set to activate the feature.
 Note that the property must be declared in the web application module directly.

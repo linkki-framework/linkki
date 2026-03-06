@@ -20,9 +20,6 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.util.HtmlContent;
 
-import com.vaadin.flow.component.dependency.CssImport;
-
-@CssImport("./styles/shared-styles.css")
 @BindStyleNames({ "style1", "style2", "style3" })
 @UIFormSection
 public class BindStyleNamesPmo {

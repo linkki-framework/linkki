@@ -1,0 +1,6 @@
+@import "shared-styles.css";
+@import "../../../frontend/styles/pmo-with-css-import.css";
+
+.h-10 {
+    height: 10rem;
+}

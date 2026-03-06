@@ -27,6 +27,7 @@ import com.vaadin.flow.server.AppShellSettings;
 
 @Push
 @StyleSheet(LinkkiTheme.STYLESHEET)
+@StyleSheet("styles.css")
 @SpringBootApplication
 public class PlaygroundApplication implements AppShellConfigurator {
 

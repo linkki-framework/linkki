@@ -13,6 +13,8 @@
  */
 package org.linkki.samples.playground.customlayout;
 
+import java.io.Serial;
+
 import org.linkki.core.ui.aspects.annotation.BindSlot;
 import org.linkki.samples.playground.ts.aspects.BindSlotPmo;
 
@@ -25,12 +27,13 @@ import com.vaadin.flow.component.littemplate.LitTemplate;
  */
 // tag::bindSlot-layout-java[]
 @Tag("sample-slot-layout")
-@JsModule("./layouts/sample-slot-layout.ts")
+@JsModule("./src/sample-slot-layout.ts")
 public class BindSlotLayout extends LitTemplate {
 
     public static final String SLOT_LEFT = "left-slot";
     public static final String SLOT_RIGHT = "right-slot";
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }
 // end::bindSlot-layout-java[]
