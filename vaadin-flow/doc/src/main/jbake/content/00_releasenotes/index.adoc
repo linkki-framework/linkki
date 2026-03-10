@@ -99,6 +99,10 @@ Selected rows are not displayed anymore since Vaadin 25 upgrade.
 * *Styling: scrollbars appear in form items* +
 Labels in `vaadin-form-item` were not aligned correctly after the Vaadin update.
 
+=== Alpha Version 2.10.0-a20260306-01
+
+This version should not be used as it contains incomplete bug fixes.
+
 === Alpha Version 2.10.0-a20260219-01
 
 ==== Version Updates
