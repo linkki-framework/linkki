@@ -42,6 +42,13 @@ public enum BrowserType {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-search-engine-choice-screen");
 
+            // Make driver ignore beforeunload events
+            options.enableBiDi();
+            options.setCapability("unhandledPromptBehavior", Map.of("alert", "ignore",
+                    "beforeUnload", "ignore",
+                    "confirm", "ignore",
+                    "default", "ignore"));
+
             options.setExperimentalOption("prefs", Map.of("intl.accept_languages", locale.getLanguage()));
 
             LoggingPreferences logs = new LoggingPreferences();
