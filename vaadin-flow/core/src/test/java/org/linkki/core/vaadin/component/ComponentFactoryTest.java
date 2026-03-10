@@ -75,7 +75,7 @@ class ComponentFactoryTest {
 
     @Test
     void testNewDateField_Default() {
-        DatePicker dateField = ComponentFactory.newDateField();
+        var dateField = ComponentFactory.newDateField();
 
         assertThat(dateField.getElement().getProperty(AUTOSELECT)).isEqualTo("true");
         assertThat(dateField.isAutoOpen()).isFalse();
@@ -83,7 +83,7 @@ class ComponentFactoryTest {
 
     @Test
     void testNewDateField_CustomAutoFeatures() {
-        DatePicker dateField = ComponentFactory.newDateField(true, false);
+        var dateField = ComponentFactory.newDateField(true, false);
 
         assertThat(dateField.getElement().getProperty(AUTOSELECT)).isEqualTo("false");
         assertThat(dateField.isAutoOpen()).isTrue();
