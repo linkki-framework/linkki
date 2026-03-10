@@ -1,4 +1,5 @@
 /* Solid background for card sections */
+vaadin-grid,
 vaadin-grid::part(cell) {
     background-image: var(--linkki-grid-background, var(--lumo-base-color));
 }
