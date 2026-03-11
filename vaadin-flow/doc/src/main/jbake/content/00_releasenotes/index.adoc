@@ -62,9 +62,7 @@
 In version 2.9.0, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
 This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
 
-=== Alpha Version 2.10.0-a20260306-01
-
-==== UI Annotations and Aspects
+=== Alpha Version 2.10.0-a20260310-01
 
 ==== Version Updates
 
@@ -265,7 +263,10 @@ For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 them
 ** Custom themes should be migrated accordingly:
 *** If the custom theme is not reusable, consider moving `/themes/mytheme/styles.css` to `/mytheme/styles.css`, which is the location recommended by Vaadin.
 *** If the custom theme can be used by downstream projects, and do not need to support usage with `@Theme`, consider moving `/themes/mytheme/styles.css` to `mytheme/mytheme.css`.
-** Consider adjusting the usage of `@CssImport`: If the annotation is not used to import a style sheet from a npm package, consider importing the stylesheet on `AppShellConfigurator` directly with `@StyleSheet`, and move it to `src/main/resources/META-INF/resources`. Alternatively, consider importing the stylesheet in CSS with `@import`. This makes it easier to understand which stylesheets are included by having all stylesheets at one place. For more details, see https://vaadin.com/docs/latest/styling/stylesheets[Vaadin documentation].
+** Consider adjusting the usage of `@CssImport`: If the annotation is not used to import a style sheet from a npm package, consider importing the stylesheet on `AppShellConfigurator` directly with `@StyleSheet`, and move it to `src/main/resources/META-INF/resources`.
+Alternatively, consider importing the stylesheet in CSS with `@import`.
+This makes it easier to understand which stylesheets are included by having all stylesheets at one place.
+For more details, see https://vaadin.com/docs/latest/styling/stylesheets[Vaadin documentation].
 * [.api-change]*Shadow DOM injection deactivated by default* +
 Shadow DOM injection is no longer activated by default.
 All shadow DOM injections in linkki theme are migrated.
