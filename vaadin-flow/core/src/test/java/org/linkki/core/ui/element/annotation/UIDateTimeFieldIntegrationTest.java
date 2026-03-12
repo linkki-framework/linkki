@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -46,14 +45,14 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
 
     @Test
     void testTextFieldValueWithDateTime() {
-        TestModelObjectWithDate modelObject = new TestModelObjectWithDate();
-        DateTimePicker dateTimeField = createFirstComponent(modelObject);
+        var modelObject = new TestModelObjectWithDate();
+        var dateTimeField = createFirstComponent(modelObject);
 
         assertThat(dateTimeField.getValue()).isNull();
 
-        Calendar cal = new GregorianCalendar(2009, 4, 1);
-        Date date = cal.getTime();
-        LocalDateTime dateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
+        var cal = new GregorianCalendar(2009, 4, 1);
+        var date = cal.getTime();
+        var dateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
 
         Fields.setValue(dateTimeField, dateTime);
         assertThat(modelObject.getValue()).isEqualTo(date);
@@ -70,12 +69,12 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
 
     @Test
     void testTextFieldValueWithLocalDate() {
-        TestModelObjectWithLocalDateTime modelObject = new TestModelObjectWithLocalDateTime();
-        DateTimePicker dateTimeField = createFirstComponent(modelObject);
+        var modelObject = new TestModelObjectWithLocalDateTime();
+        var dateTimeField = createFirstComponent(modelObject);
 
         assertThat(dateTimeField.getValue()).isNull();
 
-        LocalDateTime localDateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
+        var localDateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
 
         Fields.setValue(dateTimeField, localDateTime);
         assertThat(modelObject.getValue()).isEqualTo(localDateTime);
@@ -92,17 +91,17 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
 
     @Test
     void testTextFieldValueWithLocalDateTime_DateConversion() {
-        TestModelObjectWithLocalDateTime modelObject = new TestModelObjectWithLocalDateTime();
-        DateTimePicker dateTimeField = createFirstComponent(modelObject);
+        var modelObject = new TestModelObjectWithLocalDateTime();
+        var dateTimeField = createFirstComponent(modelObject);
 
         assertThat(dateTimeField.getValue()).isNull();
 
-        LocalDateTime expectedConvertedLocalDateTime = TwoDigitYearUtil.convert(LocalDateTime.of(19, 5, 1, 0, 0));
+        var expectedConvertedLocalDateTime = TwoDigitYearUtil.convert(LocalDateTime.of(19, 5, 1, 0, 0));
 
         Fields.setValue(dateTimeField, LocalDateTime.of(19, 5, 1, 0, 0));
         assertThat(modelObject.getValue()).isEqualTo(expectedConvertedLocalDateTime);
 
-        LocalDateTime localDateTime = LocalDateTime.of(90, 1, 1, 0, 0);
+        var localDateTime = LocalDateTime.of(90, 1, 1, 0, 0);
         modelObject.setValue(localDateTime);
         getBindingContext().modelChanged();
         assertThat(dateTimeField.getValue()).isEqualTo(localDateTime);
@@ -114,14 +113,14 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
     @Test
     @Override
     void testNullInputIfRequired() {
-        DateTimePicker dateTimeField = getDynamicComponent();
+        var dateTimeField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
         modelChanged();
         assertThat(dateTimeField.isRequiredIndicatorVisible()).isTrue();
 
-        LocalDateTime localDateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
-        Calendar cal = new GregorianCalendar(2009, 4, 1);
-        Date date = cal.getTime();
+        var localDateTime = LocalDateTime.of(2009, 5, 1, 0, 0);
+        var cal = new GregorianCalendar(2009, 4, 1);
+        var date = cal.getTime();
 
         Fields.setValue(dateTimeField, localDateTime);
         assertThat(getDefaultModelObject().getValue()).isEqualTo(date);
@@ -132,12 +131,12 @@ class UIDateTimeFieldIntegrationTest extends FieldAnnotationIntegrationTest<Date
 
     @Test
     void testClearButtons() {
-        DateTimePicker dateTimePicker = getDynamicComponent();
+        var dateTimePicker = getDynamicComponent();
         var datePicker = _get(dateTimePicker, DatePicker.class);
         var timePicker = _get(dateTimePicker, TimePicker.class);
 
-        assertThat(datePicker.isClearButtonVisible()).isTrue();
-        assertThat(timePicker.isClearButtonVisible()).isTrue();
+        assertThat(datePicker.isClearButtonVisible()).isFalse();
+        assertThat(timePicker.isClearButtonVisible()).isFalse();
     }
 
     @Test

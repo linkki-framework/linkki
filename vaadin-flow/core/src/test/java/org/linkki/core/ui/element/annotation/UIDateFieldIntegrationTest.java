@@ -16,7 +16,6 @@ package org.linkki.core.ui.element.annotation;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -43,13 +42,13 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
 
     @Test
     void testTextFieldValueWithDate() {
-        TestModelObjectWithDate modelObject = new TestModelObjectWithDate();
-        DatePicker dateField = createFirstComponent(modelObject);
+        var modelObject = new TestModelObjectWithDate();
+        var dateField = createFirstComponent(modelObject);
 
         assertThat(dateField.getValue()).isNull();
 
-        Calendar cal = new GregorianCalendar(2009, 4, 1);
-        Date date = cal.getTime();
+        var cal = new GregorianCalendar(2009, 4, 1);
+        var date = cal.getTime();
 
         Fields.setValue(dateField, LocalDate.of(2009, 5, 1));
         assertThat(modelObject.getValue()).isEqualTo(date);
@@ -65,12 +64,12 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
 
     @Test
     void testTextFieldValueWithLocalDate() {
-        TestModelObjectWithLocalDate modelObject = new TestModelObjectWithLocalDate();
-        DatePicker dateField = createFirstComponent(modelObject);
+        var modelObject = new TestModelObjectWithLocalDate();
+        var dateField = createFirstComponent(modelObject);
 
         assertThat(dateField.getValue()).isNull();
 
-        LocalDate localDate = LocalDate.of(2009, 5, 1);
+        var localDate = LocalDate.of(2009, 5, 1);
 
         Fields.setValue(dateField, localDate);
         assertThat(modelObject.getValue()).isEqualTo(localDate);
@@ -87,13 +86,13 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
 
     @Test
     void testTextFieldValueWithLocalDate_DateConversion() {
-        TestModelObjectWithLocalDate modelObject = new TestModelObjectWithLocalDate();
-        DatePicker dateField = createFirstComponent(modelObject);
+        var modelObject = new TestModelObjectWithLocalDate();
+        var dateField = createFirstComponent(modelObject);
 
         assertThat(dateField.getValue()).isNull();
 
-        LocalDate localDate = LocalDate.of(19, 5, 1);
-        LocalDate expectedConvertedLocalDate = TwoDigitYearUtil.convert(localDate);
+        var localDate = LocalDate.of(19, 5, 1);
+        var expectedConvertedLocalDate = TwoDigitYearUtil.convert(localDate);
 
         Fields.setValue(dateField, localDate);
         assertThat(modelObject.getValue()).isEqualTo(expectedConvertedLocalDate);
@@ -111,14 +110,14 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
     @Test
     @Override
     void testNullInputIfRequired() {
-        DatePicker dateField = getDynamicComponent();
+        var dateField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
         modelChanged();
         assertThat(dateField.isRequiredIndicatorVisible()).isTrue();
 
-        LocalDate localDate = LocalDate.of(2009, 5, 1);
-        Calendar cal = new GregorianCalendar(2009, 4, 1);
-        Date date = cal.getTime();
+        var localDate = LocalDate.of(2009, 5, 1);
+        var cal = new GregorianCalendar(2009, 4, 1);
+        var date = cal.getTime();
 
         Fields.setValue(dateField, localDate);
         assertThat(getDefaultModelObject().getValue()).isEqualTo(date);
@@ -129,10 +128,10 @@ class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePick
 
     @Test
     void testClearButtonIsVisible() {
-        TestModelObjectWithLocalDate modelObject = new TestModelObjectWithLocalDate();
-        DatePicker dateField = createFirstComponent(modelObject);
+        var modelObject = new TestModelObjectWithLocalDate();
+        var dateField = createFirstComponent(modelObject);
 
-        assertThat(dateField.isClearButtonVisible()).isTrue();
+        assertThat(dateField.isClearButtonVisible()).isFalse();
     }
 
     @Test

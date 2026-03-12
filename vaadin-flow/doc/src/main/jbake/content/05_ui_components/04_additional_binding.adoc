@@ -172,6 +172,7 @@ It is also very easy to create additional <<creating-aspects, custom aspect anno
 | `<<bind-helper-text, @BindHelperText>>` | Set helper text on UI elements using default `HelperTextType.AUTO`
 | `<<bind-height, @BindHeight>>` | Set height of a component
 | `<<bind-width, @BindWidth>>` | Set width of a component
+| `<<bind-clear-button, @BindClearButton>>` | Set clear button visibility on UI components
 |===
 
 [[tooltips]]
@@ -616,3 +617,10 @@ This annotation can be particularly useful for table-like components such as `UI
 The annotation `@BindWidth` can be used to define the width of a UI component.
 It has a single property `value`, which defines the width that should be applied to the UI component.
 The value can be any valid CSS height value, such as `"100px"`, `"50%"`, or `"10em"`.
+
+[[bind-clear-button]]
+===== Binding Clear Button
+
+The annotation `@BindClearButton` can be used to make the https://vaadin.com/docs/latest/components/date-picker#basic-features[clear button] visible on UI components like `UITextField`, `UIDateField`, etc.
+This annotation can only be used with UI components that implement the `HasClearButton` interface.
+Therefore, components like `UICheckbox` or `UIRadioButton` cannot be used with `BindClearButton`.

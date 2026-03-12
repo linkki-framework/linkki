@@ -35,14 +35,14 @@ import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
-import org.linkki.samples.playground.table.SortableTablePmo;
-import org.linkki.samples.playground.table.TableWithEmptyLabelColumnPmo;
-import org.linkki.samples.playground.table.TableWithValidationSection;
-import org.linkki.samples.playground.table.VaryingAlignmentTablePmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
+import org.linkki.samples.playground.table.SortableTablePmo;
+import org.linkki.samples.playground.table.TableWithEmptyLabelColumnPmo;
+import org.linkki.samples.playground.table.TableWithValidationSection;
+import org.linkki.samples.playground.table.VaryingAlignmentTablePmo;
 import org.linkki.samples.playground.table.collapsible.CollapsibleColumnTablePmo;
 import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
@@ -53,6 +53,7 @@ import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
+import org.linkki.samples.playground.ts.aspects.BindClearButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo;
 import org.linkki.samples.playground.ts.aspects.BindHeightPmo;
 import org.linkki.samples.playground.ts.aspects.BindHelperTextPmo;
@@ -64,10 +65,10 @@ import org.linkki.samples.playground.ts.aspects.BindSlotPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ts.aspects.BindSuffixPmo;
 import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
-import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
-import org.linkki.samples.playground.ts.aspects.BindWidthPmo;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoNoBorder;
 import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVariantNamesTablePmoWithoutVariant;
+import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
+import org.linkki.samples.playground.ts.aspects.BindWidthPmo;
 import org.linkki.samples.playground.ts.components.DynamicHeadlinePmo;
 import org.linkki.samples.playground.ts.components.board.SampleBoardView;
 import org.linkki.samples.playground.ts.components.futureaware.CustomFutureAwarePmo;
@@ -207,6 +208,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC018 = "TC018";
     public static final String TC019 = "TC019";
     public static final String TC020 = "TC020";
+    public static final String TC021 = "TC021";
 
     static final String ROUTE = "playground";
 
@@ -342,6 +344,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC018, new BindHelperTextPmo())
                                        .testCase(TC019, new BindHeightPmo())
                                        .testCase(TC020, new BindWidthPmo())
+                                       .testCase(TC021, new BindClearButtonPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())
