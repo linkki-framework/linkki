@@ -129,7 +129,7 @@ class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
         wrapper.setTooltip("testTip");
         assertThat(getTitleAttribute(wrapper)).isEqualTo("testTip");
         wrapper.setTooltip("<script>");
-        assertThat(getTitleAttribute(wrapper)).isEqualTo("");
+        assertThat(getTitleAttribute(wrapper)).isEmpty();
         wrapper.setTooltip("<div> some text </div>");
         assertThat(getTitleAttribute(wrapper)).isEqualTo(" some text ");
         wrapper.setTooltip("<div> some text <br> with page break</div> ");
