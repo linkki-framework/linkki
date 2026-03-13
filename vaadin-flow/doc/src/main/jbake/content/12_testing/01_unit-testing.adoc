@@ -221,3 +221,31 @@ This can be used to assert that a certain text is or is not displayed anywhere w
 * methods for handling `OkCancelDialog`
 * support for push UI
 
+[[karibu-limitations]]
+==== Limitations of Karibu
+
+Karibu-Testing is intentionally designed as a *server-side, browserless* testing framework for Vaadin Flow applications.
+It runs entirely inside the JVM and interacts directly with server-side constructs such as `UI`, `View`, and Vaadin components, rather than communicating with a real browser.
+
+More information can be found on https://github.com/mvysny/karibu-testing/blob/master/README.md[Karibu's GitHub page].
+
+===== No Client-Side Testing
+
+Karibu does not execute any client-side code.
+As a result, it cannot test behavior that depends on the browser or frontend runtime.
+Here is a short list of the most relevant limitations:
+
+* JavaScript execution
+* Browser DOM behavior
+* CSS rendering
+* Browser startup and lifecycle
+* Static resources
+* Cookies or browser-managed session behavior
+* HTTP-based routing
+
+For these scenarios, browser-based testing tools (such as end-to-end or UI testing frameworks) should be used instead.
+
+===== Test Scope
+
+Since Karibu-Testing does not run against a live deployment, functionalities that depend on external systems cannot be tested directly.
+To cover such cases, it may be necessary to create mock or test-specific implementations when testing views with these dependencies.
