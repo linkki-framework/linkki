@@ -79,7 +79,11 @@ This issue was resolved with Vaadin 25.0.7.
 // https://jira.convista.com/browse/LIN-4713
 * *UIDateField and UIDateTimeField are no longer created with clear button by default* +
 In version 2.9.0, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
-This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
+This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations. To add a clear button to these fields, the new  <<bind-clear-button, `@BindClearButton`>> annotation can be used.
+
+// https://jira.convista.com/browse/LIN-4713
+* *BindClearButton* +
+A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set the clear button visible on UI components that implement `HasClearButton` interface.
 
 === Alpha Version 2.10.0-a20260310-01
 

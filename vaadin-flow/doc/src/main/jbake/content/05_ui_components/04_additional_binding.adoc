@@ -172,6 +172,7 @@ It is also very easy to create additional <<creating-aspects, custom aspect anno
 | `<<bind-helper-text, @BindHelperText>>` | Set helper text on UI elements using default `HelperTextType.AUTO`
 | `<<bind-height, @BindHeight>>` | Set height of a component
 | `<<bind-width, @BindWidth>>` | Set width of a component
+| `<<bind-clear-button, @BindClearButton>>` | Set clear button visibility on UI components
 |===
 
 [[tooltips]]
@@ -209,7 +210,7 @@ include::{source-dir-playground}/org/linkki/samples/playground/binding/pmo/Conta
 ----
 
 [[bind-read-only]]
-===== Bind Read-Only State
+===== Read-Only State
 
 To change a component's read-only behavior, *linkki* provides the annotation `@BindReadOnly`.
 This annotation can be used in combination with @Bind or UI-annotations.
@@ -233,7 +234,7 @@ Following `ReadOnlyTypes` are available:
 TIP: If a component is supposed to be writable even though the rest of the UI is in read-only-mode, use <<bind-read-only-behavior,`@BindReadOnlyBehavior`>> with value `WRITABLE`, e.g. an input field to filter the content of a table.
 
 [[bind-read-only-behavior]]
-===== Bind Read-Only Behavior
+===== Read-Only Behavior
 
 `@BindReadOnlyBehavior` changes a component's behaviour if it is set to read-only.
 The read-only status is determined by the <<property-dispatcher, property-dispatcher-chain>>.
@@ -258,7 +259,7 @@ TIP: `INVISIBLE_IF_WRITABLE` can be used for buttons which should only be visibl
 IMPORTANT: `WRITABLE` can only be used on UI elements which implement `HasValue`.
 
 [[bind-visible]]
-===== Bind Visible
+===== Visible State
 
 `@BindVisible` changes a component's visibility from the PMO by invoking a method named `is[PropertyName]Visible()`.
 When annotating an entire PMO the method is `isVisible()`.
@@ -495,14 +496,14 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindVa
 ----
 
 [[bind-messages-aspect]]
-===== Binding validation messages
+===== Validation messages
 
 In some cases, it is not practical to use model binding in all fields of a PMO (e.g. because conversion/navigation needs to be done in getters/setters), but it should still be possible to set validation messages on a field.
 
 This can be done with the annotation <<bind-messages, `@BindMessages`>>.
 
 [[bind-label]]
-===== Binding labels
+===== Label
 
 In some cases, the labels of UI elements as text fields for example require to be set dynamically.
 This can be done by using the `@BindLabel` annotation.
@@ -549,7 +550,7 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindLa
 ----
 
 [[bind-slot]]
-===== Binding slots
+===== Slots
 
 Web components are based on a layout with a fixed CSS style.
 The web component often defines slots where child elements could be placed.
@@ -575,7 +576,7 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindSl
 ----
 
 [[bind-helper-text]]
-===== Binding Helper Text
+===== Helper Text
 
 The annotation `@BindHelperText` can be used to display a https://vaadin.com/docs/latest/components/text-field#helper[helper text] on UI elements.
 
@@ -601,7 +602,7 @@ The following configuration options are available for `HelperTextType`:
 |===
 
 [[bind-height]]
-===== Binding Height
+===== Height
 
 The annotation `@BindHeight` can be used to define the height of a UI component.
 It has a single property `value`, which defines the height that should be applied to the UI component.
@@ -611,8 +612,25 @@ The value can be any valid CSS width value, such as `"100px"`, `"50%"`, or `"10e
 This annotation can be particularly useful for table-like components such as `UITableComponent`, where the display area often benefits from a fixed height (e.g. to show a consistent number of rows).
 
 [[bind-width]]
-===== Binding Width
+===== Width
 
 The annotation `@BindWidth` can be used to define the width of a UI component.
 It has a single property `value`, which defines the width that should be applied to the UI component.
 The value can be any valid CSS height value, such as `"100px"`, `"50%"`, or `"10em"`.
+
+[[bind-clear-button]]
+===== Clear Button
+
+The annotation `@BindClearButton` can be used to make the https://vaadin.com/docs/latest/components/date-picker#basic-features[clear button] visible on UI components like `UITextField`, `UIDateField`, etc.
+Clicking on the clear button sets the field value to `null`.
+
+[NOTE]
+====
+This annotation can only be used with UI components that implement the `HasClearButton` interface.
+Therefore, components like `UICheckbox` or `UIRadioButtons` cannot be used with `BindClearButton`.
+
+Additionally, the property getter must return a non-primitive type (e.g., `Integer` instead of `int` for `UIIntegerField`) as otherweise the value cannot be set to `null`.
+
+Note that it does not work with `UIComboBox`, as the visibility of the clear button there is determined by the available values (i.e., whether `null` is allowed).
+For `UIMultiSelect`, a clear button is always available.
+====
