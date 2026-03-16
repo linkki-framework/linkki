@@ -21,6 +21,22 @@
 // | Logback                       | 1.5.32 | 1.5.26
 // |===
 
+=== Version 2.9.5
+
+=== Version 2.9.4
+
+==== UI Annotations and Aspects
+
+// https://jira.convista.com/browse/LIN-4713
+* *UIDateField and UIDateTimeField are no longer created with clear button by default* +
+In version 2.9.2, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
+This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
+To add a clear button to these fields, the new <<bind-clear-button, `@BindClearButton`>> annotation can be used.
+
+// https://jira.convista.com/browse/LIN-4713
+* *BindClearButton* +
+A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set a clear button visibility on UI components that implement `HasClearButton` interface.
+
 === Version 2.9.3
 
 ==== Version Updates
@@ -34,18 +50,6 @@ The following versions have been updated:
 | Vaadin                        | 24.9.13 (link:https://github.com/vaadin/platform/releases/tag/24.9.13[Release Notes]) | 24.9.12
 | Faktor-IPS                    | 26.1.1.release (link:https://doc.faktorzehn.org/faktor-ips/26.1/[Release Notes]) | 26.1.0-release
 |===
-
-==== UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-4713
-* *UIDateField and UIDateTimeField are no longer created with clear button by default* +
-In version 2.9.2, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
-This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
-To add a clear button to these fields, the new <<bind-clear-button, `@BindClearButton`>> annotation can be used.
-
-// https://jira.convista.com/browse/LIN-4713
-* *BindClearButton* +
-A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set a clear button visibility on UI components that implement `HasClearButton` interface.
 
 === Version 2.9.2
 
