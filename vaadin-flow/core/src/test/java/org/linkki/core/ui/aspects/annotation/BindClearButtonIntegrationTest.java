@@ -26,10 +26,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UIDateTimeField;
+import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UICssLayout;
 import org.linkki.core.ui.test.KaribuUIExtension;
@@ -43,9 +43,28 @@ class BindClearButtonIntegrationTest {
 
     @Test
     void testBindClearButton() {
-        var pmo = new TestPmo(new TestModelObject("This is a text.",
-                LocalDate.now(),
-                LocalDateTime.now()));
+        @UICssLayout
+        class ClearButtonPmo {
+
+            @BindClearButton
+            @UITextField(position = 0)
+            public String getText() {
+                return "This is a text.";
+            }
+
+            @BindClearButton
+            @UIDateField(position = 10)
+            public LocalDate getDate() {
+                return LocalDate.now();
+            }
+
+            @BindClearButton
+            @UIDateTimeField(position = 20)
+            public LocalDateTime getDateTime() {
+                return LocalDateTime.now();
+            }
+        }
+        var pmo = new ClearButtonPmo();
 
         var component = createComponent(pmo, new BindingContext());
 
@@ -100,13 +119,28 @@ class BindClearButtonIntegrationTest {
     }
 
     @Test
+    void testBindClearButton_PrimitiveTypes() {
+        @UICssLayout
+        class ClearButtonWithPrimitivePmo {
+            @BindClearButton
+            @UIIntegerField(position = 0)
+            public int getIntegerField() {
+                return 42;
+            }
+        }
+
+        assertThatThrownBy(() -> createComponent(new ClearButtonWithPrimitivePmo(), new BindingContext()))
+                .hasMessageContaining("Getter method for the property 'integerField' returns a primitive type 'int' and @BindClearButton can only be used with non-primitive types.");
+    }
+
+    @Test
     void testBindClearButton_FieldDoesNotSupportClearButton() {
         @UICssLayout
         class NoClearButtonSupportPmo {
 
             @BindClearButton
             @UICheckBox(position = 0)
-            public boolean getCheckBox() {
+            public Boolean getCheckBox() {
                 return true;
             }
         }
@@ -115,73 +149,4 @@ class BindClearButtonIntegrationTest {
                 .hasMessageContaining("@BindClearButton cannot be used with Checkbox as it does not support clear buttons.");
     }
 
-    @UICssLayout
-    static class TestPmo {
-
-        private final TestModelObject modelObject;
-
-        TestPmo(TestModelObject modelObject) {
-            this.modelObject = modelObject;
-        }
-
-        @ModelObject
-        public TestModelObject getModelObject() {
-            return modelObject;
-        }
-
-        @BindClearButton
-        @UITextField(position = 0)
-        public void text() {
-            // model binding
-        }
-
-        @BindClearButton
-        @UIDateField(position = 10)
-        public void date() {
-            // model binding
-        }
-
-        @BindClearButton
-        @UIDateTimeField(position = 20)
-        public void dateTime() {
-            // model binding
-        }
-    }
-
-    static class TestModelObject {
-
-        private String text;
-        private LocalDate date;
-        private LocalDateTime dateTime;
-
-        public TestModelObject(String text, LocalDate date, LocalDateTime dateTime) {
-            this.text = text;
-            this.date = date;
-            this.dateTime = dateTime;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public LocalDate getDate() {
-            return date;
-        }
-
-        public void setDate(LocalDate date) {
-            this.date = date;
-        }
-
-        public LocalDateTime getDateTime() {
-            return dateTime;
-        }
-
-        public void setDateTime(LocalDateTime dateTime) {
-            this.dateTime = dateTime;
-        }
-    }
 }

@@ -17,18 +17,13 @@ package org.linkki.samples.playground.ts.aspects;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Set;
 
-import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.aspects.annotation.BindClearButton;
-import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UIDateTimeField;
 import org.linkki.core.ui.element.annotation.UIDoubleField;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILongField;
-import org.linkki.core.ui.element.annotation.UIMultiSelect;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.element.annotation.UITimeField;
@@ -37,59 +32,41 @@ import org.linkki.core.ui.layout.annotation.UISection;
 @UISection
 public class BindClearButtonPmo {
 
-    private String textField = "TextField with clear button";
-    private String textFieldWithout = "TextField without clear button";
-    private String textArea = "TextArea with clear button";
-    private String comboBox = "Option 1";
+    private String text = "This is a text.";
     private LocalDate dateField = LocalDate.of(2026, 1, 1);
     private LocalDateTime dateTimeField = LocalDateTime.of(2026, 1, 1, 12, 0);
     private LocalTime timeField = LocalTime.of(12, 0);
-    private int integerField = 42;
-    private double doubleField = 3.14;
-    private long longField = 123456789L;
-    private Set<SampleEnum> multiSelect = Set.of(SampleEnum.VALUE1);
+    private Integer integerField = 42;
+    private Double doubleField = 3.14;
+    private Long longField = 123456789L;
 
     @UITextField(position = 10, label = "TextField without @BindClearButton")
     public String getTextFieldWithout() {
-        return textFieldWithout;
+        return text;
     }
 
-    public void setTextFieldWithout(String textFieldWithout) {
-        this.textFieldWithout = textFieldWithout;
+    public void setTextFieldWithout(String text) {
+        this.text = text;
     }
 
     @UITextField(position = 20, label = "TextField with @BindClearButton")
     @BindClearButton
     public String getTextField() {
-        return textField;
+        return text;
     }
 
     public void setTextField(String textField) {
-        this.textField = textField;
+        this.text = textField;
     }
 
     @UITextArea(position = 30, label = "TextArea with @BindClearButton")
     @BindClearButton
     public String getTextArea() {
-        return textArea;
+        return text;
     }
 
-    public void setTextArea(String textArea) {
-        this.textArea = textArea;
-    }
-
-    @UIComboBox(position = 40, label = "ComboBox with @BindClearButton", content = AvailableValuesType.DYNAMIC)
-    @BindClearButton
-    public String getComboBox() {
-        return comboBox;
-    }
-
-    public void setComboBox(String comboBox) {
-        this.comboBox = comboBox;
-    }
-
-    public List<String> getComboBoxAvailableValues() {
-        return List.of("Option 1", "Option 2", "Option 3");
+    public void setTextArea(String text) {
+        this.text = text;
     }
 
     @UIDateField(position = 50, label = "DateField with @BindClearButton")
@@ -124,51 +101,31 @@ public class BindClearButtonPmo {
 
     @UIIntegerField(position = 80, label = "IntegerField with @BindClearButton")
     @BindClearButton
-    public int getIntegerField() {
+    public Integer getIntegerField() {
         return integerField;
     }
 
-    public void setIntegerField(int integerField) {
+    public void setIntegerField(Integer integerField) {
         this.integerField = integerField;
     }
 
     @UIDoubleField(position = 90, label = "DoubleField with @BindClearButton")
     @BindClearButton
-    public double getDoubleField() {
+    public Double getDoubleField() {
         return doubleField;
     }
 
-    public void setDoubleField(double doubleField) {
+    public void setDoubleField(Double doubleField) {
         this.doubleField = doubleField;
     }
 
     @UILongField(position = 100, label = "LongField with @BindClearButton")
     @BindClearButton
-    public long getLongField() {
+    public Long getLongField() {
         return longField;
     }
 
-    public void setLongField(long longField) {
+    public void setLongField(Long longField) {
         this.longField = longField;
-    }
-
-    @UIMultiSelect(position = 120, label = "MultiSelect with @BindClearButton")
-    @BindClearButton
-    public Set<SampleEnum> getMultiSelect() {
-        return multiSelect;
-    }
-
-    public void setMultiSelect(Set<SampleEnum> multiSelect) {
-        this.multiSelect = multiSelect;
-    }
-
-    public List<SampleEnum> getMultiSelectAvailableValues() {
-        return List.of(SampleEnum.values());
-    }
-
-    public enum SampleEnum {
-        VALUE1,
-        VALUE2,
-        VALUE3
     }
 }
