@@ -52,6 +52,18 @@
             "new": "method void org.linkki.testbench.WebDriverExtension::afterTestExecution(org.junit.jupiter.api.extension.ExtensionContext)",
             "exception": "java.lang.Exception",
             "justification": "Unnecessary throw"
+          },
+          {
+            "code": "java.method.returnTypeTypeParametersChanged",
+            "old": "method org.openqa.selenium.support.ui.ExpectedCondition<com.vaadin.flow.component.dialog.testbench.DialogElement> org.linkki.testbench.conditions.VaadinElementConditions::dialogDisplayed(java.lang.String)",
+            "new": "method org.openqa.selenium.support.ui.ExpectedCondition<org.linkki.testbench.pageobjects.OkCancelDialogElement> org.linkki.testbench.conditions.VaadinElementConditions::dialogDisplayed(java.lang.String)",
+            "justification": "LIN-4809/LIN-4817 DialogElement with multiple dialogs bug"
+          },
+          {
+            "code": "java.method.returnTypeChanged",
+            "old": "method com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement org.linkki.testbench.pageobjects.OkCancelDialogElement::getDialogLayout()",
+            "new": "method com.vaadin.testbench.TestBenchElement org.linkki.testbench.pageobjects.OkCancelDialogElement::getDialogLayout()",
+            "justification": "LIN-4809/LIN-4817 DialogElement with multiple dialogs bug"
           }
         ]
       }

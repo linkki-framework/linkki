@@ -17,8 +17,7 @@ package org.linkki.testbench.conditions;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import org.linkki.framework.ui.LinkkiApplicationTheme;
-import org.openqa.selenium.By;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
@@ -91,20 +90,29 @@ public class VaadinElementConditions {
         };
     }
 
-    public static ExpectedCondition<DialogElement> dialogDisplayed(String title) {
+    public static ExpectedCondition<OkCancelDialogElement> dialogDisplayed(String title) {
         return new ExpectedCondition<>() {
             @Override
-            public DialogElement apply(WebDriver driver) {
-                ElementQuery<DialogElement> query = new ElementQuery<>(DialogElement.class).context(driver);
+            public OkCancelDialogElement apply(WebDriver driver) {
+                var query = new ElementQuery<>(OkCancelDialogElement.class).context(driver);
                 return findFirst(query, this::matches);
             }
 
-            private boolean matches(DialogElement dialog) {
-                return dialog.isOpen()
-                        && dialog.getContext().findElement(By.className(LinkkiApplicationTheme.DIALOG_CAPTION))
-                                .getText().contentEquals(title);
+            private boolean matches(OkCancelDialogElement dialog) {
+                return dialog.isOpen() && dialog.getCaption().contentEquals(title);
             }
         };
+    }
+
+    public static ExpectedCondition<Boolean> dialogClosed(String title) {
+        return driver -> new ElementQuery<>(OkCancelDialogElement.class).context(driver)
+                .all()
+                .stream()
+                .noneMatch(dialog -> dialog.getCaption().contentEquals(title));
+    }
+
+    public static ExpectedCondition<Boolean> allDialogsClosed() {
+        return driver -> !new ElementQuery<>(DialogElement.class).context(driver).exists();
     }
 
     private static <T extends TestBenchElement> T findFirst(ElementQuery<T> query, Predicate<T> filter) {
