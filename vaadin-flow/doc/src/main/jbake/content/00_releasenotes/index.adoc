@@ -67,13 +67,6 @@ The following versions have been updated:
 
 |===
 
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4780
-* *Dialogs not rendered on top of each other* +
-Dialogs were not rendered correct on top of each other but intersected partially.
-This issue was resolved with Vaadin 25.0.7.
-
 ==== UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-4713
@@ -84,6 +77,19 @@ This change is reverted based on the common feedback that the clearing of the va
 // https://jira.convista.com/browse/LIN-4713
 * *BindClearButton* +
 A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set the clear button visible on UI components that implement `HasClearButton` interface.
+
+==== Other Improvements
+
+// https://jira.convista.com/browse/LIN-4713
+* *APT validation for @BindClearButton* +
+The annotation processor now ensures that `@BindClearButton` is only used with non-primitive return types, as the clear button requires nullable values.
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4780
+* *Dialogs not rendered on top of each other* +
+Dialogs were not rendered correct on top of each other but intersected partially.
+This issue was resolved with Vaadin 25.0.7.
 
 === Alpha Version 2.10.0-a20260310-01
 

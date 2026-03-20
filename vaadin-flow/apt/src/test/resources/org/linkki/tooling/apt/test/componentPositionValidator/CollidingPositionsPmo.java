@@ -1,6 +1,5 @@
 package org.linkki.tooling.apt.test.componentPositionValidator;
 
-
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;

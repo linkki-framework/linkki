@@ -126,7 +126,7 @@ public abstract class BaseAnnotationProcessorTest {
 
     protected static List<SourceFile> getSourceFiles(String... fileNames) {
         return Stream.of(fileNames)
-                .map(fileName -> getSourceFile(fileName))
+                .map(BaseAnnotationProcessorTest::getSourceFile)
                 .collect(Collectors.toList());
     }
 
@@ -146,7 +146,7 @@ public abstract class BaseAnnotationProcessorTest {
         verifyNo(Kind.ERROR);
     }
 
-    private final void verifyNo(Kind kind) {
+    private void verifyNo(Kind kind) {
         assertTrue(testMessager.getLogs().isEmpty(), "expected logs to be empty but was: " + testMessager.getLogs());
         verify(getMessager(), never()).printMessage(eq(kind), any(), any(), any());
         verify(getMessager(), never()).printMessage(eq(kind), any(), any());
