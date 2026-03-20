@@ -23,6 +23,12 @@
 
 === Version 2.9.5
 
+==== Other Improvements
+
+// https://jira.convista.com/browse/LIN-4713
+* *APT validation for @BindClearButton* +
+The annotation processor now ensures that `@BindClearButton` is only used with non-primitive return types, as the clear button requires nullable values.
+
 === Version 2.9.4
 
 ==== UI Annotations and Aspects

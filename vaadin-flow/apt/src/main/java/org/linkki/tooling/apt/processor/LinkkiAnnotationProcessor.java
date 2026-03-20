@@ -48,6 +48,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.linkki.tooling.apt.util.ElementUtils;
 import org.linkki.tooling.apt.util.ModelBuilder;
 import org.linkki.tooling.apt.validator.AspectMethodValidator;
+import org.linkki.tooling.apt.validator.BindClearButtonValidator;
 import org.linkki.tooling.apt.validator.BoundPropertyValidator;
 import org.linkki.tooling.apt.validator.DynamicFieldValidator;
 import org.linkki.tooling.apt.validator.ModelBindingValidator;
@@ -119,7 +120,8 @@ public class LinkkiAnnotationProcessor extends AbstractProcessor {
                             new ModelBindingValidator(options),
                             new DynamicFieldValidator(options, elementUtils),
                             new BoundPropertyValidator(options, types),
-                            new UITableColumnValidator(processingEnvironment));
+                            new UITableColumnValidator(processingEnvironment),
+                            new BindClearButtonValidator(processingEnvironment));
     }
 
     private ClassLoader getClassLoader(Map<String, String> options) {
