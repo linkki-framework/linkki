@@ -55,6 +55,8 @@
 
 === Alpha Version {vlinkki}
 
+=== Alpha Version 2.10.0-a20260324-01
+
 ==== Version Updates
 
 The following versions have been updated:
@@ -83,6 +85,10 @@ A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added t
 // https://jira.convista.com/browse/LIN-4713
 * *APT validation for @BindClearButton* +
 The annotation processor now ensures that `@BindClearButton` is only used with non-primitive return types, as the clear button requires nullable values.
+// https://jira.convista.com/browse/LIN-4770
+* *Documentation on limitations of unit UI testing with Karibu*
+Documentation was added to make limitations of unit UI testing with Karibu more clear. See section "<<karibu-limitations, Limitations of Karibu>>" in chapter "Unit UI testing with Karibu-Testing".
+
 
 ==== Bugfixes
 
