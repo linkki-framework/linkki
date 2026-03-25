@@ -55,6 +55,18 @@
 
 === Alpha Version {vlinkki}
 
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Spring Boot compatibility tested for                   | 4.0.4 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.4[Release Notes]) | 4.0.3
+
+|===
+
 === Alpha Version 2.10.0-a20260324-01
 
 ==== Version Updates
@@ -74,7 +86,8 @@ The following versions have been updated:
 // https://jira.convista.com/browse/LIN-4713
 * *UIDateField and UIDateTimeField are no longer created with clear button by default* +
 In version 2.9.0, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
-This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations. To add a clear button to these fields, the new  <<bind-clear-button, `@BindClearButton`>> annotation can be used.
+This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
+To add a clear button to these fields, the new  <<bind-clear-button, `@BindClearButton`>> annotation can be used.
 
 // https://jira.convista.com/browse/LIN-4713
 * *BindClearButton* +
@@ -87,8 +100,8 @@ A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added t
 The annotation processor now ensures that `@BindClearButton` is only used with non-primitive return types, as the clear button requires nullable values.
 // https://jira.convista.com/browse/LIN-4770
 * *Documentation on limitations of unit UI testing with Karibu*
-Documentation was added to make limitations of unit UI testing with Karibu more clear. See section "<<karibu-limitations, Limitations of Karibu>>" in chapter "Unit UI testing with Karibu-Testing".
-
+Documentation was added to make limitations of unit UI testing with Karibu more clear.
+See section "<<karibu-limitations, Limitations of Karibu>>" in chapter "Unit UI testing with Karibu-Testing".
 
 ==== Bugfixes
 
