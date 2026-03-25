@@ -18,6 +18,19 @@
 // | Logback                       | 1.5.32    | 1.5.28
 // |===
 
+=== Version 2.7.104
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Spring Boot                   | 3.5.12 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.12[Release Notes])    | 3.5.11
+|===
+
 === Version 2.7.103
 
 ==== Version Updates
