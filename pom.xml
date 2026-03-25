@@ -53,7 +53,7 @@
         <surefire.directory>surefire-reports</surefire.directory>
 
         <junit.version>5.14.3</junit.version>
-        <mockito.version>5.22.0</mockito.version>
+        <mockito.version>5.23.0</mockito.version>
         <assertj.version>3.27.7</assertj.version>
         <hamcrest.version>3.0</hamcrest.version>
         <awaitility.version>4.3.0</awaitility.version>
