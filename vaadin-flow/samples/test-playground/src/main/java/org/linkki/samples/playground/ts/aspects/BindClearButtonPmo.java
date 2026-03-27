@@ -50,21 +50,21 @@ public class BindClearButtonPmo {
     @UITextField(position = 20, label = "TextField with @BindClearButton")
     @BindClearButton
     public String getTextField() {
-        return text;
+        return getTextFieldWithout();
     }
 
     public void setTextField(String text) {
-        this.text = text;
+        setTextFieldWithout(text);
     }
 
     @UITextArea(position = 30, label = "TextArea with @BindClearButton")
     @BindClearButton
     public String getTextArea() {
-        return text;
+        return getTextFieldWithout();
     }
 
     public void setTextArea(String text) {
-        this.text = text;
+        setTextFieldWithout(text);
     }
 
     @UIDateField(position = 50, label = "DateField with @BindClearButton")

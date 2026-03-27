@@ -34,7 +34,7 @@ public class BindClearButtonValidator extends MethodAnnotationValidator<BindClea
     @Override
     public void validate(BindClearButton annotation, ExecutableElement method) {
         if (method.getReturnType().getKind().isPrimitive()) {
-            String message = Messages.getString(BIND_CLEAR_BUTTON_WITH_PRIMITIVE);
+            var message = Messages.getString(BIND_CLEAR_BUTTON_WITH_PRIMITIVE);
             env.getMessager().printMessage(Diagnostic.Kind.ERROR, message);
         }
     }
