@@ -5,7 +5,7 @@
     font-weight: 400;
 }
 /* Make --linkki-input-background take effect */
-:not([readonly]):not([invalid])::part(input-field) {
+:not([readonly]):not([invalid]):not([disabled])::part(input-field) {
     background-color: var(--linkki-input-background);
 }
 /* Make hover background more visible */

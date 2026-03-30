@@ -67,6 +67,12 @@ The following versions have been updated:
 
 |===
 
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4812
+* *Disabled input fields not changing their background color* +
+Input fields did not turn to a lighter gray when disabled.
+
 === Alpha Version 2.10.0-a20260324-01
 
 ==== Version Updates
