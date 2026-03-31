@@ -57,6 +57,8 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 
 /**
  * Marks a method which is carried out when the {@link UIButton} is clicked.
+ * <p>
+ * Use UIOpenDialogButton instead if clicking the dialog's OK button should also update the enclosing binding context.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -66,11 +68,15 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 @LinkkiPositioned
 public @interface UIButton {
 
-    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    /**
+     * Mandatory attribute that defines the order in which UI-Elements are displayed
+     */
     @LinkkiPositioned.Position
     int position();
 
-    /** Provides a description label next to the button */
+    /**
+     * Provides a description label next to the button
+     */
     String label() default "";
 
     /**
@@ -85,11 +91,13 @@ public @interface UIButton {
      * Despite in other annotations like {@link BindCaption} the default here is
      * {@link CaptionType#STATIC} (and NOT {@link CaptionType#AUTO} because it is a common use case
      * to have a button with only an icon but no caption.
-     * 
+     *
      */
     CaptionType captionType() default CaptionType.STATIC;
 
-    /** Defines if an UI-Component is editable, using values of {@link EnabledType} */
+    /**
+     * Defines if an UI-Component is editable, using values of {@link EnabledType}
+     */
     EnabledType enabled() default ENABLED;
 
     /**
@@ -97,10 +105,14 @@ public @interface UIButton {
      */
     VisibleType visible() default VISIBLE;
 
-    /** Defines the button's icon, using constants in {@link VaadinIcon} */
+    /**
+     * Defines the button's icon, using constants in {@link VaadinIcon}
+     */
     VaadinIcon icon() default VaadinIcon.PLUS;
 
-    /** If <code>true</code>, the button will be displayed with the defined {@link #icon()} */
+    /**
+     * If <code>true</code>, the button will be displayed with the defined {@link #icon()}
+     */
     boolean showIcon() default false;
 
     /**
@@ -109,7 +121,7 @@ public @interface UIButton {
      * <li>{@link ButtonVariant#LUMO_PRIMARY} for primary buttons</li>
      * <li>{@link ButtonVariant#LUMO_TERTIARY_INLINE} for inline buttons (no background)</li>
      * </ul>
-     * 
+     *
      * @see ButtonVariant
      */
     ButtonVariant[] variants() default {};
