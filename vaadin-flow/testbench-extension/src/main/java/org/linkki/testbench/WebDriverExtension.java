@@ -34,13 +34,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vaadin.testbench.TestBench;
+import com.vaadin.testbench.TestBenchDriverProxy;
 
 /**
  * JUnit test extension for Vaadin Testbench UI tests.
  * <p>
  * Create a static field annotated with {@link RegisterExtension} in your test in order to use this
  * extension, e.g.:
- * 
+ *
  * <pre>
  * {@code @RegisterExtension}
  * {@code
@@ -61,16 +62,24 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
     /**
      * Creates a {@link WebDriverExtension} with the given context path. The fully qualified URL is
      * built by using the context path together with the {@link DriverProperties}.
-     * 
+     *
      * @param contextPath the context path that is used to build the fully qualified URL
      */
     public WebDriverExtension(String contextPath) {
-        this(DriverProperties.isHeadless(), DriverProperties.getTestUrl(contextPath, ""));
+        this("", contextPath);
+    }
+
+    /**
+     * Creates a {@link WebDriverExtension} for a given system. The name is used as a suffix to
+     * retrieve the system properties, i.e. test.port.systemName.
+     */
+    public WebDriverExtension(String systemName, String contextPath) {
+        this(DriverProperties.isHeadless(), DriverProperties.getTestUrl(systemName, contextPath, ""));
     }
 
     /**
      * Constructor to explicitly specify the headless mode and the fully qualified URL.
-     * 
+     *
      * @param headless <code>true</code> for headless mode activated
      * @param initialUrl the fully qualified URL
      */
@@ -152,29 +161,26 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
         var locale = Locale.forLanguageTag(config.locale());
 
         if (driver.get() == null) {
-            WebDriver webDriver;
-            try {
-                webDriver = browserType.getWebdriver(locale);
-            } catch (SessionNotCreatedException e1) {
-                LOGGER.debug("Creating Webdriver failed with {}", e1.getMessage(), e1);
-                // retry
-                try {
-                    webDriver = browserType.getWebdriver(locale);
-                } catch (SessionNotCreatedException e2) {
-                    LOGGER.debug("Creating Webdriver failed in retry (1) with {}", e1.getMessage(), e1);
-                    try {
-                        webDriver = browserType.getWebdriver(locale);
-                    } catch (SessionNotCreatedException e3) {
-                        LOGGER.debug("Creating Webdriver failed in retry (2) with {}", e1.getMessage(), e1);
-                        webDriver = browserType.getWebdriver(locale);
-                    }
-                }
-            }
-            createTestBenchDriver(webDriver);
+            var webDriver = createWebDriver(browserType, locale);
+            var testbenchDriver = createTestBenchDriver(webDriver);
+            driver.set(testbenchDriver);
         }
     }
 
-    private void createTestBenchDriver(WebDriver webDriver) {
+    private WebDriver createWebDriver(BrowserType browserType, Locale locale) {
+        SessionNotCreatedException lastException = null;
+        for (var attempt = 1; attempt <= 3; attempt++) {
+            try {
+                return browserType.getWebdriver(locale);
+            } catch (SessionNotCreatedException e) {
+                lastException = e;
+                LOGGER.debug("Creating Webdriver failed (attempt {}) with {}", attempt, e.getMessage(), e);
+            }
+        }
+        throw lastException;
+    }
+
+    private TestBenchDriverProxy createTestBenchDriver(WebDriver webDriver) {
         var newDriver = TestBench.createDriver(webDriver);
         newDriver.manage().window().setSize(new Dimension(1440, 900));
 
@@ -182,7 +188,7 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
         new WebDriverWait(newDriver, Duration.ofSeconds(10))
                 .until(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
                         .toString().equals("complete"));
-        driver.set(newDriver);
+        return newDriver;
     }
 
     private UITestConfiguration getConfiguration(ExtensionContext context) {

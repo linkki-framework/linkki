@@ -77,6 +77,14 @@ Two new methods have been added to `VaadinElementConditions`:
 In addition, all methods in `OkCancelDialogElement` are improved for the case that multiple dialogs are opened. +
 Consider using `$(OkCancelDialogElement.class)` instead of `$(DialogElement.class)` wherever applicable.
 
+// https://jira.convista.com/browse/LIN-4831
+* *Support for multiple deployments in Testbench tests* +
+`WebDriverExtension` now accepts a `systemName` parameter that scopes all
+<<driver-properties-multiple-deployments, DriverProperties>> lookups to individual system properties.
+For example, a `WebDriverExtension` created with `systemName` `"systemA"` reads `test.hostname.systemA`,
+`test.port.systemA`, and `test.protocol.systemA` instead of the default `test.hostname` etc.
+This allows different test classes to target different deployments without interfering with each other.
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4812

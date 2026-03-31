@@ -12,6 +12,8 @@ pipeline {
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
+        F10_DEPLOYMENT_HOST = "${PROJECT_ID}-linkki-f10-sample.dockerhost.i.faktorzehn.de"
+        F10_DEPLOYMENT_URL = "http://${F10_DEPLOYMENT_HOST}/linkki-f10-sample/ui"
         BASE_IMAGE = 'spring:26.1-java25'
         SUITE_VERSION = '26.1'
     }
@@ -66,6 +68,7 @@ pipeline {
         stage('Wait for Server') {
             steps {
                 waitForServer "${DEPLOYMENT_URL}"
+                waitForServer "${F10_DEPLOYMENT_URL}"
             }
         }
 
@@ -103,7 +106,7 @@ pipeline {
             }
 
             environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME}'
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME} -Dtest.hostname.f10=${F10_DEPLOYMENT_HOST} -Dtest.port.f10=80'
             }
         }
     }

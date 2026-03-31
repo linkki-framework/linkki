@@ -131,6 +131,8 @@
                             <test.headless>${test.headless}</test.headless>
                             <test.hostname>${test.hostname}</test.hostname>
                             <test.path>${test.path}</test.path>
+                            <test.hostname.f10>${test.hostname.f10}</test.hostname.f10>
+                            <test.port.f10>${test.port.f10}</test.port.f10>
                         </systemPropertyVariables>
                         <forkCount>4</forkCount>
                         <reuseForks>false</reuseForks>

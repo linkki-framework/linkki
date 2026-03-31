@@ -10,5 +10,16 @@
         <option name="selectedJavaProfile" value="valid 'org.eclipse.jdt.core.prefs' config" />
       </ProjectSpecificProfile>
     </option>
+    <option name="selectedGlobalProfile">
+      <Settings>
+        <option name="formatter" value="ECLIPSE" />
+        <option name="id" value="1725964250263" />
+        <option name="importOrderConfigFilePath" value="$PROJECT_DIR$/../faktorzehn-build/eclipse/.settings/org.eclipse.jdt.ui.prefs" />
+        <option name="importOrderFromFile" value="true" />
+        <option name="name" value="f10" />
+        <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../faktorzehn-build/eclipse/.settings/org.eclipse.jdt.core.prefs" />
+        <option name="selectedJavaProfile" value="valid 'org.eclipse.jdt.core.prefs' config" />
+      </Settings>
+    </option>
   </component>
 </project>

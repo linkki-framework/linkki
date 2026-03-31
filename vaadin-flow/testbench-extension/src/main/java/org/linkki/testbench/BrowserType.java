@@ -39,19 +39,19 @@ public enum BrowserType {
         public WebDriver getWebdriver(Locale locale) {
             setChromeDriverSystemProperty();
 
-            ChromeOptions options = new ChromeOptions();
+            var options = new ChromeOptions();
             options.addArguments("--disable-search-engine-choice-screen");
 
             // Make driver ignore beforeunload events
             options.enableBiDi();
             options.setCapability("unhandledPromptBehavior", Map.of("alert", "ignore",
-                    "beforeUnload", "ignore",
-                    "confirm", "ignore",
-                    "default", "ignore"));
+                                                                    "beforeUnload", "ignore",
+                                                                    "confirm", "ignore",
+                                                                    "default", "ignore"));
 
             options.setExperimentalOption("prefs", Map.of("intl.accept_languages", locale.getLanguage()));
 
-            LoggingPreferences logs = new LoggingPreferences();
+            var logs = new LoggingPreferences();
             logs.enable(LogType.PERFORMANCE, Level.ALL);
             options.setCapability("goog:loggingPrefs", logs);
 
@@ -75,17 +75,18 @@ public enum BrowserType {
                                                                     "confirm", "ignore",
                                                                     "default", "ignore"));
 
-            var url = DriverProperties.getTestUrl("", "");
-            options.addArguments("--unsafely-treat-insecure-origin-as-secure=" + url);
+            options.addArguments("--unsafely-treat-insecure-origin-as-secure="
+                    + String.join(",", DriverProperties.getAllTestBaseUrls()));
 
             options.setExperimentalOption("prefs", Map.of("intl.accept_languages", locale.getLanguage()));
 
-            LoggingPreferences logs = new LoggingPreferences();
+            var logs = new LoggingPreferences();
             logs.enable(LogType.PERFORMANCE, Level.ALL);
             options.setCapability("goog:loggingPrefs", logs);
 
             var driver = new ChromeDriver(options);
-            LOGGER.info("Chrome driver version: " + driver.getCapabilities().getCapability("browserVersion"));
+            LOGGER.log(Level.INFO, "Chrome driver version: {0}",
+                       driver.getCapabilities().getCapability("browserVersion"));
             return driver;
         }
     };
@@ -93,7 +94,7 @@ public enum BrowserType {
     private static final Logger LOGGER = Logger.getLogger(BrowserType.class.getName());
 
     protected void setChromeDriverSystemProperty() {
-        String property = "webdriver.chrome.driver";
+        var property = "webdriver.chrome.driver";
         if (isNull(System.getProperty(property))) {
             File driver = getDriverForCurrentOS();
             if (!driver.exists()) {
@@ -108,7 +109,7 @@ public enum BrowserType {
     }
 
     private File getDriverForCurrentOS() {
-        File driverDirectory = new File(new File(System.getProperty("user.home"), ".vaadin"), "drivers");
+        var driverDirectory = new File(new File(System.getProperty("user.home"), ".vaadin"), "drivers");
         if (System.getProperty("os.name").startsWith("Windows")) {
             return new File(driverDirectory, "chromedriver.exe");
         } else {

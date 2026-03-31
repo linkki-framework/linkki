@@ -4,6 +4,7 @@
 
 [[ui-testing]]
 === UI Testing with linkki Extension for Vaadin TestBench
+
 UI Testing of linkki components is based on the https://vaadin.com/testbench[Vaadin TestBench] that uses Selenium.
 
 IMPORTANT: A Vaadin TestBench license is needed to run linkki UI tests!
@@ -21,11 +22,12 @@ IMPORTANT: A Vaadin TestBench license is needed to run linkki UI tests!
 ----
 
 ==== Example Usage
+
 This example tests the text of a `LinkkiText` component on a website at /app/home.
 
 [source,java]
 ----
-public class LinkkiUiTest extends TestBenchTestCase {
+public class LinkkiUiTest extends AbstractLinkkiUiTest {
 
     public static final String DEFAULT_CONTEXT_PATH = "app";
 
@@ -34,7 +36,7 @@ public class LinkkiUiTest extends TestBenchTestCase {
 
     @BeforeEach
     public void setUp() {
-        setDriver(driverExtension.getDriver());
+        setCurrentExtension(driverExtension);
     }
 
     @Test
@@ -53,14 +55,37 @@ public class LinkkiUiTest extends TestBenchTestCase {
 }
 ----
 
+[[driver-properties-multiple-deployments]]
 ==== `DriverProperties`
-`DriverProperties` can be used to build the URI for the application to be tested and uses the following system properties:
+
+`DriverProperties` can be used to build the URI for the application to be tested.
+It uses the following system properties, where `<systemName>` is an optional suffix that scopes the property to a named deployment:
 
 |===
-| *Property*        | *Description*                     | *Default*
-| test.protocol     | Protocol                          | http
-| test.hostname     | Hostname                          | localhost
-| test.port         | Port                              | 8080
-| test.path         | Path                              | -
-| test.headless     | Run browser in headless mode      | false
+| *Property*                        | *Description*                     | *Default*
+| test.protocol[.<systemName>]      | Protocol                          | http
+| test.hostname[.<systemName>]      | Hostname                          | localhost
+| test.port[.<systemName>]          | Port                              | 8080
+| test.path[.<systemName>]          | Path                              | -
+| test.headless                     | Run browser in headless mode      | false
 |===
+
+[[multiple-deployments]]
+==== Testing Multiple Deployments
+
+To test multiple deployments in the same test suite, create one
+`WebDriverExtension` per system:
+
+[source,java]
+----
+@RegisterExtension
+protected static WebDriverExtension systemADriver = new WebDriverExtension("systemA", SYSTEM_A_CONTEXT_PATH);
+
+@RegisterExtension
+protected static WebDriverExtension systemBDriver = new WebDriverExtension("systemB", SYSTEM_B_CONTEXT_PATH);
+----
+
+Each extension resolves its base URL from the system-scoped properties
+`test.hostname.<systemName>`, `test.port.<systemName>`, and `test.protocol.<systemName>`.
+
+AbstractLinkkiUiTest provides a `setCurrentExtension` method to control, which deployment is targeted next.

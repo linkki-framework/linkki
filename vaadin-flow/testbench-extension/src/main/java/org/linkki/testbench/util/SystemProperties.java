@@ -13,6 +13,7 @@
  */
 package org.linkki.testbench.util;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -47,6 +48,12 @@ class SystemProperties {
      */
     static Optional<String> get(String property) {
         return isSet(property) ? Optional.of(System.getProperty(property)) : Optional.empty();
+    }
+
+    static List<String> getPropertyNamesWithPrefix(String prefix) {
+        return System.getProperties().stringPropertyNames().stream()
+                .filter(key -> key.startsWith(prefix))
+                .toList();
     }
 
     /**
