@@ -25,7 +25,8 @@ import com.vaadin.flow.router.BeforeLeaveObserver;
 
 public class ReactRouterTestView extends VerticalLayout implements BeforeEnterObserver, BeforeLeaveObserver {
 
-    public static final String CAPTION = "LIN-3846";
+    public static final String LIN_3846 = "LIN-3846";
+    public static final String CAPTION = LIN_3846 + " :: History state changes with React router";
 
     private static final long serialVersionUID = 1L;
 

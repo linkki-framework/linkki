@@ -33,7 +33,7 @@ public class ComboBoxVanishingValueTest extends AbstractLinkkiUiTest {
     @Test
     public void testValueOnRefreshWithSameAvailbleValues() {
         goToView(BugCollectionView.ROUTE);
-        openTab(ComboBoxVanishingValuePmo.CAPTION);
+        openTab(ComboBoxVanishingValuePmo.LIN_1486);
 
         ComboBoxElement comboBox = $(LinkkiSectionElement.class).id("ComboBoxVanishingValuePmo")
                 .$(ComboBoxElement.class).id(ComboBoxVanishingValuePmo.PROPERTY_CHOICE);

@@ -27,6 +27,7 @@ import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo.SectionRowPmo;
 @UISection
 public class SectionTablePmo implements ContainerPmo<SectionRowPmo> {
 
+    public static final String LIN_1797_SECTION = OnlyTablePmo.LIN_1797 + "-section";
     public static final String CAPTION = OnlyTablePmo.LIN_1797 + " :: @BindCaption on Table with @UISection";
     private static final List<SectionRowPmo> ROW = Collections.singletonList(new SectionRowPmo());
 

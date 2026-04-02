@@ -30,7 +30,8 @@ import org.linkki.util.handler.Handler;
 @UISection(caption = ComboBoxVanishingValuePmo.CAPTION)
 public class ComboBoxVanishingValuePmo {
 
-    public static final String CAPTION = "LIN-1486";
+    public static final String LIN_1486 = "LIN-1486";
+    public static final String CAPTION = LIN_1486 + " :: ComboBox value after changing choices";
     public static final String PROPERTY_CHOICE = "choice";
     public static final String PROPERTY_CHANGE_CHOICES = "changeChoices";
     public static final String PROPERTY_UPDATE_BINDING_CONTEXT = "updateBindingContext";

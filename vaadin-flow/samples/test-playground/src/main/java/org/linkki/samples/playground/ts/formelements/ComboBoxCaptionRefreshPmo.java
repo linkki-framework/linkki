@@ -29,6 +29,9 @@ import org.linkki.core.ui.layout.annotation.UISection;
 @UISection(caption = "@BindComboBoxDynamicItemCaption")
 public class ComboBoxCaptionRefreshPmo {
 
+    public static final String ID = "BindComboBoxDynamicItemCaption";
+    public static final String CAPTION = "@BindComboBoxDynamicItemCaption";
+
     public static final String PROPERTY_CHOICE = "choice";
     public static final String PROPERTY_CHANGE_CHOICES_VALUES = "changeChoicesValues";
 

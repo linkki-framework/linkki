@@ -30,7 +30,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 @UISection(caption = TextfieldWithEnterButtonPmo.CAPTION)
 public class TextfieldWithEnterButtonPmo {
 
-    public static final String CAPTION = "LIN-2555";
+    public static final String LIN_2555 = "LIN-2555";
+    public static final String CAPTION = LIN_2555 + " :: Changed value notification";
 
     private String text = "initialText";
 

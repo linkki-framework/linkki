@@ -27,19 +27,19 @@ linkki-section > div[slot="content"] > vaadin-form-item {
 
 /* deprecated. Use @BindPlaceholder instead */
 .placeholder-label {
-   font-style: italic;
-   opacity: 0.7;
+    font-style: italic;
+    opacity: 0.7;
 }
 
 linkki-section vaadin-form-item .placeholder-label {
-  position: relative;
-  left: calc(-1 * var(--linkki-form-item-label-width, 8em));
+    position: relative;
+    left: calc(-1 * var(--linkki-form-item-label-width, 8em));
 }
 
 [theme~="card-sections"] .linkki-main-area linkki-section,
 .linkki-main-area [theme~="card-sections"] linkki-section,
-vaadin-dialog-overlay[theme~="card-sections"] linkki-section,
-vaadin-dialog-overlay [theme~="card-sections"] linkki-section,
+vaadin-dialog[theme~="card-sections"] linkki-section,
+vaadin-dialog [theme~="card-sections"] linkki-section,
 linkki-section[theme~="card"] {
     --linkki-section-background: linear-gradient(var(--lumo-contrast-5pct), var(--lumo-contrast-5pct)), linear-gradient(var(--lumo-base-color), var(--lumo-base-color));
     --linkki-section-padding: var(--lumo-space-m);

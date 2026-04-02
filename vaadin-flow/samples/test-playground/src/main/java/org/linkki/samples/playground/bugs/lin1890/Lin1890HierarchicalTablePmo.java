@@ -22,8 +22,11 @@ import java.util.stream.IntStream;
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "LIN-1890")
+@UISection(caption = Lin1890HierarchicalTablePmo.CAPTION)
 public class Lin1890HierarchicalTablePmo extends SimpleTablePmo<StringTreeNode, Lin1890HierarchicalRowPmo> {
+
+    public static final String LIN_1890 = "LIN-1890";
+    public static final String CAPTION = LIN_1890 + " :: Hierarchical table";
 
     private static final int PAGE_LENGTH = 15;
 

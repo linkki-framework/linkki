@@ -19,8 +19,11 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "LIN-1608")
+@UISection(caption = PmoReadonlyModelNotReadonlyPmo.CAPTION)
 public class PmoReadonlyModelNotReadonlyPmo {
+
+    public static final String LIN_1608 = "LIN-1608";
+    public static final String CAPTION = LIN_1608 + " :: PMO with model binding";
 
     public static final String ID_TEXT = "text";
 

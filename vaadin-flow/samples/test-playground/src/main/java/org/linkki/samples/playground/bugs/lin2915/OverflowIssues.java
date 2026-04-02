@@ -29,6 +29,9 @@ import com.vaadin.flow.dom.Style;
 
 public class OverflowIssues extends VerticalLayout {
 
+    public static final String LIN_2915 = "LIN-2915";
+    public static final String CAPTION = LIN_2915 + " :: Overflow issues with controls";
+
     private static final long serialVersionUID = 1L;
 
     public OverflowIssues() {

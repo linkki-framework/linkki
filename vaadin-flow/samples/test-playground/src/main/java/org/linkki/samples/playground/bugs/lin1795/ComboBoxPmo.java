@@ -29,7 +29,8 @@ import org.linkki.core.ui.layout.annotation.UISection;
 @UISection(caption = ComboBoxPmo.CAPTION)
 public class ComboBoxPmo implements PresentationModelObject {
 
-    public static final String CAPTION = "LIN-1795";
+    public static final String LIN_1795 = "LIN-1795";
+    public static final String CAPTION = LIN_1795 + " :: Dynamic ComboBox with null value";
 
     private String value = "not available value";
     private String availableValues;

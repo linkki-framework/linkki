@@ -29,7 +29,8 @@ import org.linkki.core.util.HtmlContent;
 @UISection(caption = ComboBoxNewInstancePmo.CAPTION)
 public class ComboBoxNewInstancePmo {
 
-    public static final String CAPTION = "LIN-2200";
+    public static final String LIN_2200 = "LIN-2200";
+    public static final String CAPTION = LIN_2200 + " :: ComboBox with new instances without equals";
 
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
@@ -38,7 +39,7 @@ public class ComboBoxNewInstancePmo {
             .mapToObj(i -> SECURE_RANDOM.nextDouble())
             .map(Choice::new)
             .toList();
-    private Choice choice = choices.get(0);
+    private Choice choice = choices.getFirst();
 
     @UILabel(position = 5)
     public HtmlContent getDescription() {

@@ -27,7 +27,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class OverlappingDialogHeadersBug extends VerticalLayout {
 
-    public static final String CAPTION = "LIN-4780";
+    public static final String LIN_4780 = "LIN-4780";
+    public static final String CAPTION = LIN_4780 + " :: Overlapping nested dialogs";
     private static final String CLOSE_BUTTON_TEXT = "Close";
 
     @Serial

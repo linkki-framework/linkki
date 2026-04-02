@@ -33,7 +33,8 @@ import org.linkki.core.util.HtmlContent;
 @UISection(caption = EmptyLabelComponentsPmo.CAPTION)
 public class EmptyLabelComponentsPmo {
 
-    public static final String CAPTION = "LIN-3884";
+    public static final String LIN_3884 = "LIN-3884";
+    public static final String CAPTION = LIN_3884 + " :: Required indicator with empty label";
 
     @ModelObject
     private final TestPmo testPmo = new TestPmo();

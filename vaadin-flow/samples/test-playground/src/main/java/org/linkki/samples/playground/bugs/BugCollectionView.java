@@ -20,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
@@ -42,6 +41,7 @@ import org.linkki.samples.playground.bugs.lin3531.BindMessagesOnGridColumnsBug;
 import org.linkki.samples.playground.bugs.lin3846.ReactRouterTestView;
 import org.linkki.samples.playground.bugs.lin3884.EmptyLabelComponentsPmo;
 import org.linkki.samples.playground.bugs.lin4780.OverlappingDialogHeadersBug;
+import org.linkki.samples.playground.bugs.lin4808.VariantCardSectionsDialogBug;
 import org.linkki.samples.playground.ts.formelements.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
@@ -68,56 +68,69 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
     public BugCollectionView(FrontendDependencyInjectionTestInterface frontendDependencyInjectionTest) {
         super(Orientation.VERTICAL);
 
-        addTabSheets(createTabSheet(ComboBoxCaptionRefreshPmo::new),
-                     createTabSheet(bc -> new ComboBoxVanishingValuePmo(bc::modelChanged)),
-                     createTabSheet(ComboBoxNewInstancePmo::new),
-                     createTabSheet(PmoReadonlyModelNotReadonlyPmo::new),
-                     createTabSheet(DoubleClickPmo::new),
-                     createTabSheet(ComboBoxPmo::new),
-                     LinkkiTabSheet.builder(OnlyTablePmo.LIN_1797)
-                             .caption(createCaptionLink(OnlyTablePmo.LIN_1797, OnlyTablePmo.CAPTION))
-                             .content(() -> new PmoBasedSectionFactory().createSection(new OnlyTablePmo(),
-                                                                                       new BindingContext()))
-                             .build(),
-                     createTabSheet(SectionTablePmo::new),
-                     createTabSheet(Lin1890HierarchicalTablePmo::new),
-                     createTabSheet(TriangleTablePmo::new),
-                     createTabSheet(TextfieldWithEnterButtonPmo::new),
-                     LinkkiTabSheet.builder(TabSheetContentWithText.CAPTION)
-                             .caption(createCaptionLink(TabSheetContentWithText.CAPTION,
-                                                        TabSheetContentWithText.CAPTION))
-                             .content(TabSheetContentWithText::new)
-                             .build(),
-                     createTabSheet(MassValuesComboBoxPmo::new),
-                     LinkkiTabSheet.builder("LIN-2915")
-                             .caption(createCaptionLink("LIN-2915", "LIN-2915"))
-                             .content(OverflowIssues::new)
-                             .build(),
-                     LinkkiTabSheet.builder("LIN-2867")
-                             .caption(createCaptionLink("LIN-2867", "LIN-2867"))
-                             .content(FocusringBug::new)
-                             .build(),
-                     LinkkiTabSheet.builder(FrontendDependencyInjectionTestInterface.ID)
-                             .caption(createCaptionLink(FrontendDependencyInjectionTestInterface.ID,
-                                                        FrontendDependencyInjectionTestInterface.CAPTION))
-                             .content(() -> new VerticalLayout(frontendDependencyInjectionTest.createComponent(),
-                                     VaadinUiCreator.createComponent(frontendDependencyInjectionTest.createPmo(),
-                                                                     new BindingContext())))
-                             .build(),
-                     LinkkiTabSheet.builder("LIN-3531")
-                             .caption(createCaptionLink("LIN-3531", "LIN-3531"))
-                             .content(BindMessagesOnGridColumnsBug::new)
-                             .build(),
-                     createTabSheet(EmptyLabelComponentsPmo::new),
-                     LinkkiTabSheet.builder("LIN-3846")
-                             .caption(createCaptionLink("LIN-3846", "LIN-3846"))
-                             .content(ReactRouterTestView::new)
-                             .build(),
-                     LinkkiTabSheet.builder(OverlappingDialogHeadersBug.CAPTION)
-                             .caption(createCaptionLink(OverlappingDialogHeadersBug.CAPTION,
-                                                        OverlappingDialogHeadersBug.CAPTION))
-                             .content(OverlappingDialogHeadersBug::new)
-                             .build());
+        addTabSheets(createPmoTabSheet(ComboBoxCaptionRefreshPmo.ID,
+                                       ComboBoxCaptionRefreshPmo.CAPTION,
+                                       ComboBoxCaptionRefreshPmo::new),
+                     createPmoTabSheet(ComboBoxVanishingValuePmo.LIN_1486,
+                                       ComboBoxVanishingValuePmo.CAPTION,
+                                       bc -> new ComboBoxVanishingValuePmo(bc::modelChanged)),
+                     createPmoTabSheet(ComboBoxNewInstancePmo.LIN_2200,
+                                       ComboBoxNewInstancePmo.CAPTION,
+                                       ComboBoxNewInstancePmo::new),
+                     createPmoTabSheet(PmoReadonlyModelNotReadonlyPmo.LIN_1608,
+                                       PmoReadonlyModelNotReadonlyPmo.CAPTION,
+                                       PmoReadonlyModelNotReadonlyPmo::new),
+                     createPmoTabSheet(DoubleClickPmo.LIN_1738,
+                                       DoubleClickPmo.CAPTION,
+                                       DoubleClickPmo::new),
+                     createPmoTabSheet(ComboBoxPmo.LIN_1795,
+                                       ComboBoxPmo.CAPTION,
+                                       ComboBoxPmo::new),
+                     createTabSheet(OnlyTablePmo.LIN_1797, OnlyTablePmo.CAPTION,
+                                    () -> new PmoBasedSectionFactory().createSection(new OnlyTablePmo(),
+                                                                                     new BindingContext())),
+                     createPmoTabSheet(SectionTablePmo.LIN_1797_SECTION,
+                                       SectionTablePmo.CAPTION,
+                                       SectionTablePmo::new),
+                     createPmoTabSheet(Lin1890HierarchicalTablePmo.LIN_1890,
+                                       Lin1890HierarchicalTablePmo.CAPTION,
+                                       Lin1890HierarchicalTablePmo::new),
+                     createPmoTabSheet(TriangleTablePmo.LIN_1917,
+                                       TriangleTablePmo.CAPTION,
+                                       TriangleTablePmo::new),
+                     createPmoTabSheet(TextfieldWithEnterButtonPmo.LIN_2555,
+                                       TextfieldWithEnterButtonPmo.CAPTION,
+                                       TextfieldWithEnterButtonPmo::new),
+                     createTabSheet(TabSheetContentWithText.LIN_2567,
+                                    TabSheetContentWithText.CAPTION, TabSheetContentWithText::new),
+                     createPmoTabSheet(MassValuesComboBoxPmo.LIN_2622,
+                                       MassValuesComboBoxPmo.CAPTION,
+                                       MassValuesComboBoxPmo::new),
+                     createTabSheet(OverflowIssues.LIN_2915,
+                                    OverflowIssues.CAPTION, OverflowIssues::new),
+                     createTabSheet(FocusringBug.LIN_2867,
+                                    FocusringBug.CAPTION, FocusringBug::new),
+                     createTabSheet(FrontendDependencyInjectionTestInterface.ID,
+                                    FrontendDependencyInjectionTestInterface.CAPTION,
+                                    () -> new VerticalLayout(
+                                            frontendDependencyInjectionTest.createComponent(),
+                                            VaadinUiCreator.createComponent(
+                                                                            frontendDependencyInjectionTest.createPmo(),
+                                                                            new BindingContext()))),
+                     createTabSheet(BindMessagesOnGridColumnsBug.LIN_3531,
+                                    BindMessagesOnGridColumnsBug.CAPTION,
+                                    BindMessagesOnGridColumnsBug::new),
+                     createPmoTabSheet(EmptyLabelComponentsPmo.LIN_3884,
+                                       EmptyLabelComponentsPmo.CAPTION,
+                                       EmptyLabelComponentsPmo::new),
+                     createTabSheet(ReactRouterTestView.LIN_3846,
+                                    ReactRouterTestView.CAPTION, ReactRouterTestView::new),
+                     createTabSheet(OverlappingDialogHeadersBug.LIN_4780,
+                                    OverlappingDialogHeadersBug.CAPTION,
+                                    OverlappingDialogHeadersBug::new),
+                     createTabSheet(VariantCardSectionsDialogBug.LIN_4808,
+                                    VariantCardSectionsDialogBug.CAPTION,
+                                    VariantCardSectionsDialogBug::new));
     }
 
     @Override
@@ -127,33 +140,36 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
         }
     }
 
-    private LinkkiTabSheet createTabSheet(Supplier<Object> pmoCreation) {
-        return createTabSheet(bc -> pmoCreation.get());
-    }
-
-    private LinkkiTabSheet createTabSheet(Function<BindingContext, Object> pmoCreation) {
-        BindingContext bindingContext = new BindingContext();
-        Object pmo = pmoCreation.apply(bindingContext);
-        Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
-
-        String caption;
-        if (component instanceof LinkkiSection) {
-            caption = ((LinkkiSection)component).getCaption();
-        } else {
-            caption = pmo.getClass().getSimpleName();
-        }
-        String id = toId(caption);
+    private LinkkiTabSheet createPmoTabSheet(String id, String caption, Supplier<Object> pmoCreation) {
+        var bindingContext = new BindingContext();
+        var pmo = pmoCreation.get();
+        var component = VaadinUiCreator.createComponent(pmo, bindingContext);
         return LinkkiTabSheet.builder(id)
                 .caption(createCaptionLink(id, caption))
                 .content(() -> new VerticalLayout(component))
                 .build();
     }
 
-    private Component createCaptionLink(String id, String caption) {
-        return new Anchor(ROUTE + "/" + id, caption);
+    private LinkkiTabSheet createPmoTabSheet(String id,
+            String caption,
+            Function<BindingContext, Object> pmoCreation) {
+        var bindingContext = new BindingContext();
+        var pmo = pmoCreation.apply(bindingContext);
+        var component = VaadinUiCreator.createComponent(pmo, bindingContext);
+        return LinkkiTabSheet.builder(id)
+                .caption(createCaptionLink(id, caption))
+                .content(() -> new VerticalLayout(component))
+                .build();
     }
 
-    private String toId(String caption) {
-        return caption.replaceAll("[^a-zA-Z0-9\\-\\_]", "-");
+    private LinkkiTabSheet createTabSheet(String id, String caption, Supplier<Component> content) {
+        return LinkkiTabSheet.builder(id)
+                .caption(createCaptionLink(id, caption))
+                .content(content)
+                .build();
+    }
+
+    private Component createCaptionLink(String id, String caption) {
+        return new Anchor(ROUTE + "/" + id, caption);
     }
 }

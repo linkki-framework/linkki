@@ -24,7 +24,7 @@ class OkCancelElementTest extends PlaygroundUiTest {
     @Test
     void testDialogOverDialog() {
         goToView(BugCollectionView.ROUTE);
-        openTab(OverlappingDialogHeadersBug.CAPTION);
+        openTab(OverlappingDialogHeadersBug.LIN_4780);
         $(ButtonElement.class).withCaption("Open OkCancelDialog").single().click();
         var firstDialog = $(OkCancelDialogElement.class).withCondition(hasCaption("Caption")).single();
 

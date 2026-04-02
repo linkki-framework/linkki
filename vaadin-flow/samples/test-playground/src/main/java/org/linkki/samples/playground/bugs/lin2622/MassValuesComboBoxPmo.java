@@ -28,7 +28,8 @@ import org.linkki.core.ui.layout.annotation.UISection;
 @UISection(caption = MassValuesComboBoxPmo.CAPTION)
 public class MassValuesComboBoxPmo {
 
-    public static final String CAPTION = "LIN-2622";
+    public static final String LIN_2622 = "LIN-2622";
+    public static final String CAPTION = LIN_2622 + " :: ComboBox with many values";
     public static final String PROPERTY_MASS_VALUE = "massValue";
 
     // Need a list of more than 500 values

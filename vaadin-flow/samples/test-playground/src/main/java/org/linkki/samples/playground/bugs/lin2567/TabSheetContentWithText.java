@@ -22,7 +22,8 @@ import com.vaadin.flow.component.html.Span;
 
 public class TabSheetContentWithText extends Div {
 
-    public static final String CAPTION = "LIN-2567";
+    public static final String LIN_2567 = "LIN-2567";
+    public static final String CAPTION = LIN_2567 + " :: Tab sheet with Text components";
 
     private static final long serialVersionUID = 1L;
 

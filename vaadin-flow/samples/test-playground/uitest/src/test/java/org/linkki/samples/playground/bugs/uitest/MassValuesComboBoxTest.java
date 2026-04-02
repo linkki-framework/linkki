@@ -32,7 +32,7 @@ public class MassValuesComboBoxTest extends AbstractLinkkiUiTest {
     @Test
     public void testValueOnRefreshWithSameAvailableValues() {
         goToView(BugCollectionView.ROUTE);
-        openTab(MassValuesComboBoxPmo.CAPTION);
+        openTab(MassValuesComboBoxPmo.LIN_2622);
 
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(MassValuesComboBoxPmo.PROPERTY_MASS_VALUE);
 

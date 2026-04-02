@@ -33,7 +33,7 @@ class SetValueBeforeEnterButtonTest extends AbstractLinkkiUiTest {
     @Test
     void testSetValueBeforeEnterButton() {
         goToView(BugCollectionView.ROUTE);
-        openTab(TextfieldWithEnterButtonPmo.CAPTION);
+        openTab(TextfieldWithEnterButtonPmo.LIN_2555);
         TextFieldElement textFieldElement = $(TextFieldElement.class).id("text");
         textFieldElement.setValue("");
 

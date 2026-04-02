@@ -87,6 +87,10 @@ Input fields did not turn to a lighter gray when disabled.
 `OkCancelDialogElement` did not work correctly when multiple dialogs were open at the same time.
 Element queries for buttons, content area and message area now correctly scope to the respective dialog instead of matching elements from any open dialog.
 
+// https://jira.convista.com/browse/LIN-4808
+* *Card section theme not working in Dialogs* +
+The card section theme was no longer working for PMOs and nested PMOs in dialogs.
+
 === Alpha Version 2.10.0-a20260324-01
 
 ==== Version Updates

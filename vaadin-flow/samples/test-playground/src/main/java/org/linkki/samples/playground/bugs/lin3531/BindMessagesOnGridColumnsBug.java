@@ -23,6 +23,10 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class BindMessagesOnGridColumnsBug extends VerticalLayout {
+
+    public static final String LIN_3531 = "LIN-3531";
+    public static final String CAPTION = LIN_3531 + " :: @BindMessages on grid columns";
+
     @Serial
     private static final long serialVersionUID = 1L;
 

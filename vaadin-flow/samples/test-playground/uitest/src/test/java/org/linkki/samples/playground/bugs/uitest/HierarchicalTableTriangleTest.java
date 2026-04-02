@@ -33,7 +33,7 @@ public class HierarchicalTableTriangleTest extends AbstractLinkkiUiTest {
     @Test
     public void testTriangleIsShownAfterChildIsAdded() {
         goToView(BugCollectionView.ROUTE);
-        openTab(TriangleTablePmo.CAPTION);
+        openTab(TriangleTablePmo.LIN_1917);
 
         TreeGridElement gridElement = $(TreeGridElement.class).id("TriangleTablePmo_table");
 

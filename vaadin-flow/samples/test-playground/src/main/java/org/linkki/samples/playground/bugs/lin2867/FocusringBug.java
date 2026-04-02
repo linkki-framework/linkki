@@ -30,6 +30,9 @@ import com.vaadin.flow.dom.Style;
 
 public class FocusringBug extends VerticalLayout {
 
+    public static final String LIN_2867 = "LIN-2867";
+    public static final String CAPTION = LIN_2867 + " :: Focus rings on controls";
+
     private static final long serialVersionUID = 1L;
 
     public FocusringBug() {

@@ -38,7 +38,7 @@ public class ComboBoxNewInstanceTest extends AbstractLinkkiUiTest {
     @Test
     public void testValueOnResettingListItemValues() throws InterruptedException {
         goToView(BugCollectionView.ROUTE);
-        openTab(ComboBoxNewInstancePmo.CAPTION);
+        openTab(ComboBoxNewInstancePmo.LIN_2200);
 
         LinkkiSectionElement section = getSection(ComboBoxNewInstancePmo.class);
         section.$(ButtonElement.class).id("changeChoicesValues").click();

@@ -29,7 +29,8 @@ import org.linkki.util.handler.Handler;
 @UISection(caption = DoubleClickPmo.CAPTION)
 public class DoubleClickPmo implements PresentationModelObject {
 
-    public static final String CAPTION = "LIN-1738";
+    public static final String LIN_1738 = "LIN-1738";
+    public static final String CAPTION = LIN_1738 + " :: Double-click on open dialog button";
 
     @UILabel(position = 0)
     public String getDescription() {
