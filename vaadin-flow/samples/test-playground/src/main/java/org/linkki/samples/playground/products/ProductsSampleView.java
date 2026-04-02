@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.products;
 
+import java.io.Serial;
+
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
@@ -26,26 +28,20 @@ import com.vaadin.flow.router.Route;
 @PageTitle("F10 Products Sample Details")
 public class ProductsSampleView extends VerticalLayout {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private final ProductsSampleOverviewPage overviewPage;
-    private final ProductsSampleDetailsComponent detailsComponent;
-
     public ProductsSampleView() {
-        LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
-
-        overviewPage = new ProductsSampleOverviewPage();
-        detailsComponent = new ProductsSampleDetailsComponent();
+        var tabLayout = LinkkiTabLayout.newSidebarLayout();
 
         tabLayout.addTabSheets(
                                LinkkiTabSheet.builder("overview")
                                        .caption(VaadinIcon.INFO_CIRCLE.create())
-                                       .content(() -> new HeadlinePageLayout("Overview",
-                                               overviewPage))
-                                       .build(), //
+                                       .content(ProductSampleOverviewComponent::new)
+                                       .build(),
                                LinkkiTabSheet.builder("userdetails")
                                        .caption(VaadinIcon.USER.create())
-                                       .content(() -> detailsComponent)
+                                       .content(ProductsSampleDetailsComponent::new)
                                        .build());
 
         add(tabLayout);

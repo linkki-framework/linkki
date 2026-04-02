@@ -40,11 +40,11 @@ public abstract class ProductsSamplePmo {
     private final ProductsSampleModelObject sampleModelObject;
     private final String caption;
 
-    public ProductsSamplePmo(String caption) {
+    protected ProductsSamplePmo(String caption) {
         this(caption, new ProductsSampleModelObject());
     }
 
-    public ProductsSamplePmo(String caption, ProductsSampleModelObject sampleModelObject) {
+    protected ProductsSamplePmo(String caption, ProductsSampleModelObject sampleModelObject) {
         this.caption = caption;
         this.sampleModelObject = sampleModelObject;
     }
@@ -62,12 +62,8 @@ public abstract class ProductsSamplePmo {
     @UIFormSection(columns = 2)
     public static class HorizontalSamplePmo extends ProductsSamplePmo {
 
-        public HorizontalSamplePmo() {
-            super("Sample UIFormSection with 2 columns");
-        }
-
-        public HorizontalSamplePmo(String caption) {
-            super(caption);
+        public HorizontalSamplePmo(ProductsSampleModelObject sampleModelObject) {
+            super("Sample UIFormSection with 2 columns", sampleModelObject);
         }
 
         @UITextField(position = 10, label = "Property 1", modelAttribute = "property", width = "")
@@ -89,8 +85,8 @@ public abstract class ProductsSamplePmo {
     @UISection(layout = SectionLayout.FORM)
     public static class VerticalSamplePmo extends ProductsSamplePmo {
 
-        public VerticalSamplePmo() {
-            super("Sample UISection with layout Form");
+        public VerticalSamplePmo(ProductsSampleModelObject sampleModelObject) {
+            super("Sample UISection with layout Form", sampleModelObject);
         }
 
         public VerticalSamplePmo(String caption) {

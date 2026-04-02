@@ -14,6 +14,10 @@
 
 package org.linkki.samples.playground.products;
 
+import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+
 public class ProductsSampleModelObject {
 
     public static final String DEFAULT_VALUE_NAME = "Value of Name";
@@ -48,6 +52,17 @@ public class ProductsSampleModelObject {
 
     public String getProperty2() {
         return "Static Value of Property 2";
+    }
+
+    public MessageList validate() {
+        if (StringUtils.isEmpty(property)) {
+            return new MessageList();
+        } else {
+            return new MessageList(
+                    Message.newInfo("property1", "Validation: Property1 has value \"" + property + "\""),
+                    Message.newInfo("property2", "Validation: Property2 has value \"" + getProperty2() + "\""),
+                    Message.newWarning("warning", "Validation: Should be displayed before the infos"));
+        }
     }
 
 }

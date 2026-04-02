@@ -11,34 +11,30 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.linkki.samples.playground.products;
 
-import java.util.Arrays;
+import java.util.function.Consumer;
 
-import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
-import org.linkki.core.vaadin.component.page.AbstractPage;
+import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.util.Consumers;
 
-public class DefaultBindingManagerPage extends AbstractPage {
+public class ProductSampleBindingManager extends DefaultBindingManager {
 
-    private static final long serialVersionUID = 1L;
+    private Consumer<MessageList> messagesHandler = Consumers.nopConsumer();
 
-    private BindingManager bindingManager;
+    public ProductSampleBindingManager(ValidationService validationService) {
+        super(validationService);
+    }
 
-    public DefaultBindingManagerPage(Object... sectionPmos) {
-        this.bindingManager = new DefaultBindingManager();
-        Arrays.asList(sectionPmos).forEach(pmo -> addSection(pmo));
+    public void setMessagesHandler(Consumer<MessageList> messagesHandler) {
+        this.messagesHandler = messagesHandler;
     }
 
     @Override
-    public void createContent() {
-        // content is directly created in constructor
+    protected void updateMessages(MessageList messages) {
+        super.updateMessages(messages);
+        messagesHandler.accept(messages);
     }
-
-    @Override
-    protected BindingManager getBindingManager() {
-        return bindingManager;
-    }
-
 }

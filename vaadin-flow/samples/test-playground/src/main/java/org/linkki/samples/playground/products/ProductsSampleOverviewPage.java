@@ -14,34 +14,41 @@
 
 package org.linkki.samples.playground.products;
 
-import org.linkki.core.binding.manager.BindingManager;
-import org.linkki.core.binding.manager.DefaultBindingManager;
+import java.io.Serial;
+
 import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.vaadin.component.page.AbstractPage;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 public class ProductsSampleOverviewPage extends AbstractPage {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private final BindingManager bindingManager = new DefaultBindingManager();
+    private final ProductsSampleModelObject modelObject;
+    private final ProductSampleBindingManager bindingManager;
+
+    public ProductsSampleOverviewPage() {
+        this.modelObject = new ProductsSampleModelObject();
+        this.bindingManager = new ProductSampleBindingManager(modelObject::validate);
+    }
 
     @Override
     public void createContent() {
-        addSection(new ProductsSamplePmo.VerticalSamplePmo());
-        addSection(new ProductsSamplePmo.HorizontalSamplePmo());
+        addSection(new ProductsSamplePmo.VerticalSamplePmo(modelObject));
+        addSection(new ProductsSamplePmo.HorizontalSamplePmo(modelObject));
 
         // Two column layout
-        addSections(new ProductsSamplePmo.VerticalSamplePmo(), new ProductsSamplePmo.VerticalSamplePmo());
+        addSections(new ProductsSamplePmo.VerticalSamplePmo(modelObject),
+                    new ProductsSamplePmo.VerticalSamplePmo(modelObject));
 
         // Scroll and grow table section
-        LinkkiSection tableSection = addSection(new ProductsSampleTablePmo(100, 0));
+        var tableSection = addSection(new ProductsSampleTablePmo(100, 0));
         ComponentStyles.setOverflowAuto(tableSection);
         addAndExpand(tableSection);
     }
 
     @Override
-    protected BindingManager getBindingManager() {
+    protected ProductSampleBindingManager getBindingManager() {
         return bindingManager;
     }
 }

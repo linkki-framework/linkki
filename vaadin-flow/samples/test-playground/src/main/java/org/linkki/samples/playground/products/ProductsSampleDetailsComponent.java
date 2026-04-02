@@ -14,6 +14,9 @@
 
 package org.linkki.samples.playground.products;
 
+import static org.linkki.core.ui.creation.VaadinUiCreator.createComponent;
+
+import java.io.Serial;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -22,111 +25,129 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.ui.element.annotation.UIBadge;
+import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UIMenuButton;
+import org.linkki.core.ui.element.annotation.UIMenuList;
+import org.linkki.core.ui.layout.annotation.UICssLayout;
+import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.core.vaadin.component.base.LinkkiText;
+import org.linkki.core.vaadin.component.menu.MenuItemDefinition;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
-import org.linkki.framework.ui.component.Headline;
+import org.linkki.framework.ui.component.HeadlinePmo;
+import org.linkki.framework.ui.component.infotool.InfoTool;
+import org.linkki.util.Sequence;
+import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.accordion.Accordion;
-import com.vaadin.flow.component.accordion.AccordionPanel;
-import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.component.details.DetailsVariant;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.menubar.MenuBar;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayoutVariant;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 
 /**
  * Layout to display detailed content of a policy or offer.
  */
 public class ProductsSampleDetailsComponent extends VerticalLayout {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private final LinkkiTabLayout tabLayout;
-
     public ProductsSampleDetailsComponent() {
-
         setHeightFull();
         setSpacing(false);
 
-        add(createHeadline());
+        var modelObject = new ProductsSampleModelObject();
+        var bindingManager = new ProductSampleBindingManager(modelObject::validate);
 
-        tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
+        add(VaadinUiCreator.createComponent(new HeadlinePmo("Details", new HeadlineAdditionalTitlePmo(),
+                new HeadlineButtonsPmo()), bindingManager.getContext(HeadlinePmo.class)));
 
-        tabLayout.addTabSheets(
-                               LinkkiTabSheet.builder("tab1")
-                                       .caption("Just Sections")
-                                       .content(() -> new DefaultBindingManagerPage(
-                                               new ProductsSamplePmo.VerticalSamplePmo(),
-                                               new ProductsSamplePmo.VerticalSamplePmo(),
-                                               new ProductsSamplePmo.HorizontalSamplePmo(),
-                                               new ProductsSamplePmo.VerticalSamplePmo(),
-                                               new ProductsSamplePmo.VerticalSamplePmo()))
-                                       .build(),
-                               LinkkiTabSheet.builder("tab3")
-                                       .caption("Tables and Sections")
-                                       .content(() -> new DefaultBindingManagerPage(
-                                               new ProductsSamplePmo.VerticalSamplePmo(),
-                                               new ProductsSamplePmo.HorizontalSamplePmo(),
-                                               new ProductsSampleTablePmo(5, 0),
-                                               new ProductsSampleTablePmo(10, 0),
-                                               new ProductsSamplePmo.VerticalSamplePmo()))
-                                       .build());
+        var mainArea = createMainArea(bindingManager, modelObject);
+        var infoTools = new ProductSampleInfoToolComponent(
+                Sequence.of(
+                            new InfoTool("tool", "Tool", createComponent(new ProductsSamplePmo.VerticalSamplePmo(
+                                    ""), new BindingContext())),
+                            new InfoTool("table-tool", "Table",
+                                    createComponent(new AccordionTablePmo(), new BindingContext()))));
 
-        ComponentStyles.setFormItemLabelWidth(tabLayout, "15em");
-
-        Accordion accordion = new Accordion();
-        accordion.add(createPanel("Tool", VaadinIcon.LIST, new ProductsSamplePmo.VerticalSamplePmo("")));
-        accordion.add(createPanel("Table", VaadinIcon.TABLE, new AccordionTablePmo()));
-        VerticalLayout toolsArea = new VerticalLayout(accordion);
-        accordion.setSizeFull();
-
-        SplitLayout splitLayout = new SplitLayout(tabLayout, toolsArea);
+        var splitLayout = new SplitLayout(mainArea, infoTools);
         splitLayout.addThemeVariants(SplitLayoutVariant.LUMO_MINIMAL);
         splitLayout.setSplitterPosition(75);
-        splitLayout.setSizeFull();
+        splitLayout.addClassNames(LumoUtility.Width.FULL, LumoUtility.Flex.GROW, LumoUtility.Overflow.AUTO);
 
         add(splitLayout);
     }
 
-    private static Headline createHeadline() {
-        Headline headline = new Headline("Details");
-        headline.getContent().add(new Span("additional label"));
-        headline.getContent()
-                .add(new HorizontalLayout(createMenuBar("Header Button 1"),
-                        createMenuBar("Header Button 2"),
-                        createMenuBar("Header Button 3", "Item 1", "Item 2", "Item 3")));
-        return headline;
+    private Component createMainArea(ProductSampleBindingManager bindingManager,
+            ProductsSampleModelObject modelObject) {
+        var tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
+        tabLayout.addTabSheets(
+                               LinkkiTabSheet.builder("tab1")
+                                       .caption("Just Sections")
+                                       .content(() -> new ProductSamplePage(bindingManager,
+                                               new ProductsSamplePmo.VerticalSamplePmo(modelObject),
+                                               new ProductsSamplePmo.VerticalSamplePmo(modelObject),
+                                               new ProductsSamplePmo.HorizontalSamplePmo(modelObject),
+                                               new ProductsSamplePmo.VerticalSamplePmo(modelObject),
+                                               new ProductsSamplePmo.VerticalSamplePmo(modelObject)))
+                                       .build(),
+                               LinkkiTabSheet.builder("tab3")
+                                       .caption("Tables and Sections")
+                                       // attention: these are in the same binding context as tab1
+                                       // as the same page class is used
+                                       .content(() -> new ProductSamplePage(bindingManager,
+                                               new ProductsSamplePmo.VerticalSamplePmo(modelObject),
+                                               new ProductsSamplePmo.HorizontalSamplePmo(modelObject),
+                                               new ProductsSampleTablePmo(5, 0),
+                                               new ProductsSampleTablePmo(10, 0),
+                                               new ProductsSamplePmo.VerticalSamplePmo(modelObject)))
+                                       .build());
+        ComponentStyles.setFormItemLabelWidth(tabLayout, "15em");
+
+        var messagePanelLayout = new MessagesSplitLayout();
+        messagePanelLayout.setContentComponent(tabLayout);
+        bindingManager.setMessagesHandler(messagePanelLayout::displayMessages);
+
+        return messagePanelLayout;
     }
 
-    private static MenuBar createMenuBar(String caption, String... submenus) {
-        MenuBar menuBar = new MenuBar();
-        MenuItem item = menuBar.addItem(caption);
-        for (String subMenuCaption : submenus) {
-            item.getSubMenu().addItem(subMenuCaption);
+    @BindStyleNames(LumoUtility.Display.FLEX)
+    @UICssLayout
+    private static class HeadlineAdditionalTitlePmo {
+
+        @UIBadge(position = 0)
+        public String getBadge() {
+            return "badge";
         }
-        return menuBar;
     }
 
-    private AccordionPanel createPanel(String caption, VaadinIcon icon, Object pmo) {
-        LinkkiText toolCaption = new LinkkiText(caption, icon);
-        AccordionPanel accordionPanel = new AccordionPanel(toolCaption,
-                VaadinUiCreator.createComponent(pmo, new BindingContext()));
-        accordionPanel.addThemeVariants(DetailsVariant.LUMO_REVERSE);
-        return accordionPanel;
-    }
+    @UIHorizontalLayout
+    private static class HeadlineButtonsPmo {
 
-    LinkkiTabLayout getTabLayout() {
-        return tabLayout;
+        @UIMenuButton(position = 0, icon = VaadinIcon.BUTTON, caption = "menu button")
+        public void menuButton() {
+            // does nothing
+        }
+
+        @UIButton(position = 1, caption = "button")
+        public void button() {
+            // does nothing
+        }
+
+        @UIMenuList(position = 2, caption = "menu list")
+        public List<MenuItemDefinition> getMenuList() {
+            return List.of(new MenuItemDefinition("item 1", null, Handler.NOP_HANDLER),
+                           new MenuItemDefinition("item 2", null, Handler.NOP_HANDLER),
+                           new MenuItemDefinition("item 3", null, Handler.NOP_HANDLER));
+        }
     }
 
     @UISection
