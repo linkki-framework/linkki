@@ -41,6 +41,7 @@ import org.linkki.samples.playground.bugs.lin3531.BindMessagesOnGridColumnsBug;
 import org.linkki.samples.playground.bugs.lin3846.ReactRouterTestView;
 import org.linkki.samples.playground.bugs.lin3884.EmptyLabelComponentsPmo;
 import org.linkki.samples.playground.bugs.lin4780.OverlappingDialogHeadersBug;
+import org.linkki.samples.playground.bugs.lin4803.DialogMinWidthBug;
 import org.linkki.samples.playground.bugs.lin4808.VariantCardSectionsDialogBug;
 import org.linkki.samples.playground.ts.formelements.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
@@ -128,6 +129,9 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      createTabSheet(OverlappingDialogHeadersBug.LIN_4780,
                                     OverlappingDialogHeadersBug.CAPTION,
                                     OverlappingDialogHeadersBug::new),
+                     createTabSheet(DialogMinWidthBug.LIN_4803,
+                                    DialogMinWidthBug.CAPTION,
+                                    DialogMinWidthBug::new),
                      createTabSheet(VariantCardSectionsDialogBug.LIN_4808,
                                     VariantCardSectionsDialogBug.CAPTION,
                                     VariantCardSectionsDialogBug::new));
