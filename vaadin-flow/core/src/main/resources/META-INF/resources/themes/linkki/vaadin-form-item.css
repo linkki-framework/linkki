@@ -1,10 +1,12 @@
 vaadin-form-item {
     width: 100%;
 }
+
 /* label width */
 vaadin-form-item::part(label) {
     --_form-item-labels-aside: var(--linkki-form-item-label-width, var(--vaadin-form-layout-label-width, var(--vaadin-form-layout-label-width, 8em)));
 }
+
 /* label text alignment */
 vaadin-form-item:not([label-position='top'])::part(label) {
     display: flex;
@@ -12,10 +14,12 @@ vaadin-form-item:not([label-position='top'])::part(label) {
     text-align: var(--linkki-form-item-label-alignment, end);
     position: relative;
 }
+
 /* Make label overflow in ellipsis */
 vaadin-form-item > [slot="label"] {
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: normal;
 }
 
 /*
@@ -28,6 +32,7 @@ vaadin-form-item::part(required-indicator) {
      */
     min-height: 1em;
 }
+
 vaadin-form-item::part(required-indicator)::after {
     position: absolute;
     height: auto;

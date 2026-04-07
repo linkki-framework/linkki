@@ -95,6 +95,10 @@ The card section theme was no longer working for PMOs and nested PMOs in dialogs
 * *Default Dialog min-width not set* +
 The default dialog min-width of 400px was not applied.
 
+// https://jira.convista.com/browse/LIN-4798
+* *Long labels not abbreviated but wrapped* +
+Long labels of form items were not abbreviated with ".." but instead wrapped into multiple lines.
+
 === Alpha Version 2.10.0-a20260324-01
 
 ==== Version Updates
