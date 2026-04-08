@@ -76,7 +76,6 @@ Two new methods have been added to `VaadinElementConditions`:
 In addition, all methods in `OkCancelDialogElement` are improved for the case that multiple dialogs are opened. +
 Consider using `$(OkCancelDialogElement.class)` instead of `$(DialogElement.class)` wherever applicable.
 
-
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4812
@@ -90,6 +89,10 @@ Element queries for buttons, content area and message area now correctly scope t
 // https://jira.convista.com/browse/LIN-4808
 * *Card section theme not working in Dialogs* +
 The card section theme was no longer working for PMOs and nested PMOs in dialogs.
+
+// https://jira.convista.com/browse/LIN-4805
+* *Horizontal LinkkiTabLayouts getting padding when nested inside a vertical LinkkiTabLayout* +
+Horizontal LinkkiTabLayouts were getting the same padding as vertical LinkkiTabLayouts when they were nested inside one.
 
 // https://jira.convista.com/browse/LIN-4803
 * *Default Dialog min-width not set* +

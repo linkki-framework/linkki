@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.playground.bugs;
 
+import java.io.Serial;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -43,6 +44,7 @@ import org.linkki.samples.playground.bugs.lin3884.EmptyLabelComponentsPmo;
 import org.linkki.samples.playground.bugs.lin4780.OverlappingDialogHeadersBug;
 import org.linkki.samples.playground.bugs.lin4798.LongLabelPmo;
 import org.linkki.samples.playground.bugs.lin4803.DialogMinWidthBug;
+import org.linkki.samples.playground.bugs.lin4805.NestedTabLayoutBug;
 import org.linkki.samples.playground.bugs.lin4808.VariantCardSectionsDialogBug;
 import org.linkki.samples.playground.ts.formelements.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
@@ -65,6 +67,7 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
 
     public static final String NAME = "Bugs";
 
+    @Serial
     private static final long serialVersionUID = 5094485819774125238L;
 
     public BugCollectionView(FrontendDependencyInjectionTestInterface frontendDependencyInjectionTest) {
@@ -76,9 +79,6 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      createPmoTabSheet(ComboBoxVanishingValuePmo.LIN_1486,
                                        ComboBoxVanishingValuePmo.CAPTION,
                                        bc -> new ComboBoxVanishingValuePmo(bc::modelChanged)),
-                     createPmoTabSheet(ComboBoxNewInstancePmo.LIN_2200,
-                                       ComboBoxNewInstancePmo.CAPTION,
-                                       ComboBoxNewInstancePmo::new),
                      createPmoTabSheet(PmoReadonlyModelNotReadonlyPmo.LIN_1608,
                                        PmoReadonlyModelNotReadonlyPmo.CAPTION,
                                        PmoReadonlyModelNotReadonlyPmo::new),
@@ -100,6 +100,9 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      createPmoTabSheet(TriangleTablePmo.LIN_1917,
                                        TriangleTablePmo.CAPTION,
                                        TriangleTablePmo::new),
+                     createPmoTabSheet(ComboBoxNewInstancePmo.LIN_2200,
+                                       ComboBoxNewInstancePmo.CAPTION,
+                                       ComboBoxNewInstancePmo::new),
                      createPmoTabSheet(TextfieldWithEnterButtonPmo.LIN_2555,
                                        TextfieldWithEnterButtonPmo.CAPTION,
                                        TextfieldWithEnterButtonPmo::new),
@@ -108,10 +111,10 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      createPmoTabSheet(MassValuesComboBoxPmo.LIN_2622,
                                        MassValuesComboBoxPmo.CAPTION,
                                        MassValuesComboBoxPmo::new),
-                     createTabSheet(OverflowIssues.LIN_2915,
-                                    OverflowIssues.CAPTION, OverflowIssues::new),
                      createTabSheet(FocusringBug.LIN_2867,
                                     FocusringBug.CAPTION, FocusringBug::new),
+                     createTabSheet(OverflowIssues.LIN_2915,
+                                    OverflowIssues.CAPTION, OverflowIssues::new),
                      createTabSheet(FrontendDependencyInjectionTestInterface.ID,
                                     FrontendDependencyInjectionTestInterface.CAPTION,
                                     () -> new VerticalLayout(
@@ -122,20 +125,23 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                      createTabSheet(BindMessagesOnGridColumnsBug.LIN_3531,
                                     BindMessagesOnGridColumnsBug.CAPTION,
                                     BindMessagesOnGridColumnsBug::new),
+                     createTabSheet(ReactRouterTestView.LIN_3846,
+                                    ReactRouterTestView.CAPTION, ReactRouterTestView::new),
                      createPmoTabSheet(EmptyLabelComponentsPmo.LIN_3884,
                                        EmptyLabelComponentsPmo.CAPTION,
                                        EmptyLabelComponentsPmo::new),
-                     createTabSheet(ReactRouterTestView.LIN_3846,
-                                    ReactRouterTestView.CAPTION, ReactRouterTestView::new),
                      createTabSheet(OverlappingDialogHeadersBug.LIN_4780,
                                     OverlappingDialogHeadersBug.CAPTION,
                                     OverlappingDialogHeadersBug::new),
-                     createTabSheet(DialogMinWidthBug.LIN_4803,
-                                    DialogMinWidthBug.CAPTION,
-                                    DialogMinWidthBug::new),
                      createPmoTabSheet(LongLabelPmo.LIN_4798,
                                        LongLabelPmo.CAPTION,
                                        LongLabelPmo::new),
+                     createTabSheet(DialogMinWidthBug.LIN_4803,
+                                    DialogMinWidthBug.CAPTION,
+                                    DialogMinWidthBug::new),
+                     createTabSheet(NestedTabLayoutBug.LIN_4805,
+                                    NestedTabLayoutBug.CAPTION,
+                                    NestedTabLayoutBug::new),
                      createTabSheet(VariantCardSectionsDialogBug.LIN_4808,
                                     VariantCardSectionsDialogBug.CAPTION,
                                     VariantCardSectionsDialogBug::new));
