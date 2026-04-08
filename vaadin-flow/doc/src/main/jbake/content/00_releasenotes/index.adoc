@@ -263,7 +263,7 @@ The following versions have been updated:
 The update to Vaadin 25 not only brings an update of the tech stack, but also changes in build configuration and frontend styling.
 
 Below are the most notable changes for linkki applications.
-For a complete list of Vaadin 25 breaking changes and migration steps, please refer to the link:https://vaadin.com/docs/latest/flow/upgrading/v25[Vaadin 25 Upgrade Guide].
+For a complete list of Vaadin 25 breaking changes and migration steps, please refer to the link:https://vaadin.com/docs/v25/upgrading[Vaadin 25 Upgrade Guide].
 
 ====== Technical compatibilities
 
@@ -290,7 +290,7 @@ The default in new projects is that `mvn install` builds a production artifact w
 For development features, `com.vaadin/vaadin-dev` can be included as a dependency with `optional` scope.
 This module includes features that make the development faster such as live-reload.
 The server also sends more data to the browser to help troubleshoot problems in the server client communication.
-More details can be found in the https://vaadin.com/docs/latest/flow/configuration/development-mode[Vaadin documentation].
+More details can be found in the https://vaadin.com/docs/v25/flow/configuration/development-mode[Vaadin documentation].
 +
 *Migration*: For JEE projects, no changes are needed. +
 *In Spring Boot projects*, following changes should be made in all `pom.xml` that use `vaadin-maven-plugin`:
@@ -350,7 +350,7 @@ For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 them
 ** Consider adjusting the usage of `@CssImport`: If the annotation is not used to import a style sheet from a npm package, consider importing the stylesheet on `AppShellConfigurator` directly with `@StyleSheet`, and move it to `src/main/resources/META-INF/resources`.
 Alternatively, consider importing the stylesheet in CSS with `@import`.
 This makes it easier to understand which stylesheets are included by having all stylesheets at one place.
-For more details, see https://vaadin.com/docs/latest/styling/stylesheets[Vaadin documentation].
+For more details, see https://vaadin.com/docs/v25/styling/stylesheets[Vaadin documentation].
 * [.api-change]*Shadow DOM injection deactivated by default* +
 Shadow DOM injection is no longer activated by default.
 All shadow DOM injections in linkki theme are migrated.

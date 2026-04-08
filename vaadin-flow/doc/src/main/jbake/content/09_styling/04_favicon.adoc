@@ -7,7 +7,7 @@
 [[favicon]]
 === Favicon
 
-The favicon can be set in the https://vaadin.com/docs/latest/flow/advanced/modifying-the-bootstrap-page/#the-appshellconfigurator-configurepage-method[AppShellConfigurator] by adding the favicon in the method `configurePage`. 
+The favicon can be set in the https://vaadin.com/docs/v25/flow/advanced/modifying-the-bootstrap-page/#the-appshellconfigurator-configurepage-method[AppShellConfigurator] by adding the favicon in the method `configurePage`.
 
 .Setting favicon in AppShellConfigurator
 [source,java]

@@ -105,7 +105,7 @@ If the Faktor-IPS *linkki* extension is used, the `FormattedStringToDecimalConve
 [[label-async]]
 Displaying asynchronously retrieved values::
 If the value is retrieved asynchronously, e.g. from a REST service, the value can be displayed with `UILabel` by using the return type `CompletableFuture`.
-The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/v24/building-apps/deep-dives/presentation-layer/server-push[Server Push] is enabled.
+The value will then be displayed as soon as the future is completed if https://vaadin.com/docs/v25/flow/advanced/server-push[Server Push] is enabled.
 Note that the result of the `CompletableFuture` must be <<label-conversion,convertible to a `String`>>.
 
 HTML Content::
@@ -160,7 +160,7 @@ An icon can be placed to the left or to the right (default) of the link.
 [[ui-checkbox]]
 ==== UICheckbox
 
-The annotation https://vaadin.com/docs/latest/components/checkbox[`@UICheckbox`] creates a `com.vaadin.flow.component.checkbox.Checkbox` that is bound to a `boolean` property.
+The annotation `@UICheckbox` creates a https://vaadin.com/docs/v25/components/checkbox[com.vaadin.flow.component.checkbox.Checkbox] that is bound to a `boolean` property.
 
 Instead of a label on the left side of the UI element, checkboxes usually have a caption on the right.
 This caption must be set with the property `caption`.
@@ -172,7 +172,7 @@ When used in a table, the `label` is used as the column name while the `caption`
 [[ui-checkboxes]]
 ==== UICheckboxes
 
-The annotation `@UICheckboxes` creates a https://vaadin.com/docs/latest/components/checkbox[`com.vaadin.flow.component.checkbox.CheckboxGroup`], which is a group of related binary choices.
+The annotation `@UICheckboxes` creates a https://vaadin.com/docs/v25/components/checkbox[`com.vaadin.flow.component.checkbox.CheckboxGroup`], which is a group of related binary choices.
 
 Just like <<ui-checkbox, UICheckbox>>, the checkbox group has captions that need to be provided by an <<itemCaptionProvider, `ItemCaptionProvider`>>, which defaults to `DefaultCaptionProvider`.
 
@@ -188,7 +188,7 @@ include::{source-dir}/org/linkki/samples/playground/ts/formelements/CheckboxesPm
 [[ui-textfield]]
 ==== UITextField
 
-The annotation https://vaadin.com/docs/latest/components/text-field[`UITextfield`] corresponds to a `com.vaadin.flow.component.textfield.TextField` for text entry.
+The annotation `@UITextfield` corresponds to a https://vaadin.com/docs/v25/components/text-field[com.vaadin.flow.component.textfield.TextField] for text entry.
 It has two additional properties:
 
 * `maxLength: int`
@@ -200,7 +200,7 @@ The width is set to "100%" by default which means it grabs all available space.
 [[ui-textarea]]
 ==== UITextArea
 
-The annotation https://vaadin.com/docs/latest/components/text-area[`UITextArea`] corresponds to a `com.vaadin.flow.component.textfield.TextArea`.
+The annotation `@UITextArea` corresponds to a https://vaadin.com/docs/v25/components/text-area[com.vaadin.flow.component.textfield.TextArea].
 It is used for entering or displaying text that has more than one line. `UITextArea` has all the properties of the annotation `UITextfield`.
 In addition, it also has:
 
@@ -213,7 +213,7 @@ Its default value is `3em`.
 [[ui-numberfield]]
 ==== UIIntegerField, UIDoubleField and UILongField
 
-The annotations `@UIIntegerfield`, `@UIDoubleField` and `@UILongField` are https://vaadin.com/docs/latest/components/text-field[text fields] for displaying formatted numbers.
+The annotations `@UIIntegerfield`, `@UIDoubleField` and `@UILongField` are https://vaadin.com/docs/v25/components/text-field[text fields] for displaying formatted numbers.
 Like <<ui-textfield,`@UITextField`>> these annotations have the property `maxLength`.
 
 The format can be defined with the property `format: String`, using the notation from `java.text.NumberFormat`.
@@ -227,7 +227,7 @@ The documentation for the format definition can be looked up in the class `java.
 [[ui-datefield]]
 ==== UIDateField
 
-The `@UIDateField` annotation creates a date input field and is equivalent to https://vaadin.com/docs/latest/components/date-picker[`com.vaadin.flow.component.datepicker.DatePicker`].
+The annotation `@UIDateField` creates a date input field and is equivalent to https://vaadin.com/docs/v25/components/date-picker[`com.vaadin.flow.component.datepicker.DatePicker`].
 The date is formatted according to the language preference set in the user's browser.
 For example, using the German `Locale` will format the date as `dd.mm.yyyy`.
 The `UIDateField` allows multiple date formats to be set, and by default uses the same date format as the standard Vaadin date field, but also allows dates to be entered without punctuation, so for example `010420` becomes `01.04.2020`.
@@ -235,7 +235,7 @@ The `UIDateField` allows multiple date formats to be set, and by default uses th
 [[ui-timefield]]
 ==== UITimeField
 
-The annotation `@UITimeField` generates a time input field and corresponds to https://vaadin.com/docs/latest/components/time-picker[`com.vaadin.flow.component.datepicker.TimePicker`].
+The annotation `@UITimeField` generates a time input field and corresponds to https://vaadin.com/docs/v25/components/time-picker[`com.vaadin.flow.component.datepicker.TimePicker`].
 Values typed into the time field will automatically be converted to the format matching the `Locale` setting.
 E.g. `15:00` becomes `3:00 PM` when the `Locale` is English.
 
@@ -264,13 +264,13 @@ If an invalid value is used, an exception will be thrown by Vaadin.
 [[ui-datetimefield]]
 ==== UIDateTimeField
 
-The annotation `@UIDateTimeField` generates a date and time input field and corresponds to https://vaadin.com/docs/latest/components/date-time-picker[`com.vaadin.flow.component.datetimepicker.DateTimePicker`].
+The annotation `@UIDateTimeField` generates a date and time input field and corresponds to https://vaadin.com/docs/v25/components/date-time-picker[`com.vaadin.flow.component.datetimepicker.DateTimePicker`].
 It is used for selecting both a date and a time of day. `UIDateTimeField` has all the properties of the annotations <<ui-datefield, UIDateField>> and <<ui-timefield, UITimeField>>.
 
 [[ui-combobox]]
 ==== UIComboBox
 
-The annotation https://vaadin.com/docs/latest/components/combo-box[`@UIComboBox`] allows selection of a value from a list and corresponds to `com.vaadin.flow.component.combobox.ComboBox`.
+The annotation `@UIComboBox` allows selection of a value from a list and corresponds to https://vaadin.com/docs/v25/components/combo-box[com.vaadin.flow.component.combobox.ComboBox].
 It has three additional properties:
 
 * <<ui-combobox-content,`content: AvailableValuesType`>>
@@ -318,7 +318,7 @@ An alternative implementation class can be specified via the property `itemCapti
 TextAlign::
 The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop-down menu. `RIGHT` is recommended for numeric values.
 If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop-down list.
-Instead, an https://vaadin.com/docs/v24/styling/lumo/utility-classes#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
+Instead, an https://vaadin.com/docs/v25/styling/themes/lumo/utility-classes#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
 
 // For 2.7:
 // Remove if https://github.com/vaadin/web-components/issues/1280 is fixed
@@ -342,7 +342,7 @@ public class MyView extends Div {}
 [[ui-multiselect]]
 ==== UIMultiSelect
 
-The annotation https://vaadin.com/docs/latest/components/multi-select-combo-box[`@UIMultiSelect`] allows selection of multiple values from a list and corresponds to `com.vaadin.flow.component.combobox.MultiSelectComboBox`.
+The annotation `@UIMultiSelect` allows selection of multiple values from a list and corresponds to https://vaadin.com/docs/v25/components/multi-select-combo-box[com.vaadin.flow.component.combobox.MultiSelectComboBox].
 It has two properties known from the <<ui-combobox, `UIComboBox`>>:
 
 * <<ui-combobox-width,`width: String`>>
@@ -372,7 +372,7 @@ It has two properties known from the <<ui-combobox, `UIComboBox`>>:
 [[ui-radiobuttons]]
 ==== UIRadioButtons
 
-The annotation https://vaadin.com/docs/latest/components/radio-button[`@UIRadioButtons`] allows selection of a single value using a group of buttons and corresponds to `com.vaadin.flow.component.radiobutton.RadioButtonGroup`.
+The annotation `@UIRadioButtons` allows selection of a single value using a group of buttons and corresponds to https://vaadin.com/docs/v25/components/radio-button[com.vaadin.flow.component.radiobutton.RadioButtonGroup].
 Multiple values cannot be selected at the same time.
 
 * <<ui-combobox-content,`content: AvailableValuesType`>>
@@ -423,7 +423,7 @@ It returns the class of the UI*-Annotation for the UI control to be rendered.
 [[ui-badge]]
 ==== UIBadge
 
-The annotation `@UIBadge` creates a badge for displaying visually highlighted information and corresponds to a badge styled with https://vaadin.com/docs/latest/components/badge[Vaadin's badge theme variants].
+The annotation `@UIBadge` creates a badge for displaying visually highlighted information and corresponds to a badge styled with https://vaadin.com/docs/v25/components/badge[Vaadin's badge theme variants].
 
 The annotated method must return a value that is convertible to `String` with the <<itemCaptionProvider,`ItemCaptionProvider`>> defined in the annotation.
 
@@ -444,11 +444,11 @@ linkki provides the `BadgeVariant` class with common Vaadin badge variants:
 [[ui-button]]
 ==== UIButton
 
-The annotation https://vaadin.com/docs/latest/components/button[`@UIButton`] is used to mark the method that should be executed when the button is clicked.
-It corresponds to `com.vaadin.flow.component.button.Button`.
+The annotation `@UIButton` is used to mark the method that should be executed when the button is clicked.
+It corresponds to https://vaadin.com/docs/v25/components/button[com.vaadin.flow.component.button.Button].
 
 Since buttons are not bound to values and therefore have no corresponding PMO property, the name of the annotated method is used to determine the associated methods.
-The behavior is similar to the  <<domain-model-binding, domain model binding>>, although buttons have no property `modelAttribute`.
+The behavior is similar to the <<domain-model-binding, domain model binding>>, although buttons have no property `modelAttribute`.
 
 [source,java]
 ----
@@ -493,7 +493,7 @@ For the icon to be displayed the property `showIcon` must be set `true`.
 ===== Button Variants
 
 Depending on the function buttons must be styled differently. `com.vaadin.flow.component.button.ButtonVariant` offers different theme variants, such as primary or inline.
-For more information please refer to https://vaadin.com/components/vaadin-button/html-examples/button-theme-variants-demos[Vaadin Button Variants Documentation].
+For more information please refer to https://vaadin.com/docs/v25/components/button[Vaadin Button Variants Documentation].
 
 [[button-key-binding]]
 ===== Key Bindings

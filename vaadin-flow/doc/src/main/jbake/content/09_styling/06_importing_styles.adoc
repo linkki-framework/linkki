@@ -31,4 +31,4 @@ public class MyCustomComponent extends Component {
 
 TIP: In order to avoid large CSS files, it is recommended to split up style definitions into smaller, separate style files and then applied only on the corresponding classes in which they are used.
 
-For more information refer to https://vaadin.com/docs/latest/styling[Vaadin styling documentation]
+For more information refer to https://vaadin.com/docs/v25/styling[Vaadin styling documentation]

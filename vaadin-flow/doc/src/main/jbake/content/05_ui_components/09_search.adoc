@@ -161,7 +161,7 @@ include::{source-dir}/src/main/java/org/linkki/samples/playground/search/Context
 ----
 
 [NOTE]
-The https://vaadin.com/docs/latest/flow/routing/lifecycle[Vaadin Navigation Lifecycle] documentation proposes the usage of the `AfterNavigationEvent` to initialise the UI.
+The https://vaadin.com/docs/v25/flow/routing/lifecycle[Vaadin Navigation Lifecycle] documentation proposes the usage of the `AfterNavigationEvent` to initialise the UI.
 However, this event prevents redirecting to other sites.
 In cases where the search result should directly be opened, using the `BeforeEnterEvent` is preferable.
 

@@ -133,7 +133,7 @@ They are used to display validation messages,e.g. on fields or in notifications
 
 ===== Fonts
 
-https://vaadin.com/docs/v24/styling/lumo/lumo-style-properties/typography#lumo-font-family[Lumo default font family] is modified to make sure that Segoe UI as system font is preferred over Robot font.
+https://vaadin.com/docs/v25/styling/themes/lumo/lumo-style-properties/typography[Lumo default font family] is modified to make sure that Segoe UI as system font is preferred over Roboto font.
 
 ===== Interaction
 

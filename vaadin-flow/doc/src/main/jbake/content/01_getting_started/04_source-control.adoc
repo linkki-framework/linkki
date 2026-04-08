@@ -11,7 +11,7 @@
 [[gitignore]]
 ==== .gitignore
 
-According to https://vaadin.com/docs/latest/flow/configuration/source-control the following `.gitignore` is recommended.
+According to https://vaadin.com/docs/v25/flow/configuration/source-control the following `.gitignore` is recommended.
 
 Against the recommendation of Vaadin we also included the pre-compiled frontend files and resource in `src/main/bundles`.
 

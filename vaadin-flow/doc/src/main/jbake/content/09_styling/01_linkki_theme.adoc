@@ -5,7 +5,7 @@
 [[apply-linkki-theme]]
 === Applying the *linkki* theme
 
-A theme can be applied by adding the annotation `@Stylesheet` to a class that implements the interface `AppShellConfigurator`.
+A theme can be applied by adding the annotation `@StyleSheet` to a class that implements the interface `AppShellConfigurator`.
 The *linkki* theme can be referred using the constant `LinkkiTheme#STYLESHEET`.
 
 In a Spring Boot application, the application configuration class can be used as `AppShellConfigurator`.
@@ -13,7 +13,7 @@ In a Spring Boot application, the application configuration class can be used as
 .AppShellConfigurator in a Spring Boot application
 [source,java]
 ----
-@Stylesheet(LinkkiTheme.STYLESHEET)
+@StyleSheet(LinkkiTheme.STYLESHEET)
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer
                          implements AppShellConfigurator {
@@ -28,7 +28,7 @@ The only requirement for this class is to be in application scope.
 [source,java]
 ----
 @ApplicationScoped
-@Stylesheet(LinkkiTheme.STYLESHEET)
+@StyleSheet(LinkkiTheme.STYLESHEET)
 public class MyAppShellConfigurator implements AppShellConfigurator {
     ...
 }

@@ -10,48 +10,62 @@
 === Step 6: Filling the AddressPage with Model Binding
 
 [NOTE]
-This step introduces you to the concept of "Model Binding". You will also learn how to style buttons with `ButtonVariant` and change the size of a table column with `@UITableColumn`.
+This step introduces you to the concept of "Model Binding".
+You will also learn how to style buttons with `ButtonVariant` and change the size of a table column with `@UITableColumn`.
 
 The next step is to create and fill out the page that will display all addresses of a given partner in a table.
 
 .AddressPage
 image::{images}{images-folder-name}/address_initial.png[]
 
-First, you need to implement the table. Create the row PMO of the table and call it `AddressRowPmo`.
+First, you need to implement the table.
+Create the row PMO of the table and call it `AddressRowPmo`.
 
 ==== Model Binding Theory
 
-At this point, you already know how to use getters and setters. However, as you may have seen before, the more UI elements you use, the longer the PMO becomes, and the methods often only contain a delegation to the corresponding methods in the model object. To simplify the code in this case, linkki provides a mechanism called <<domain-model-binding, Model Binding>>.
+At this point, you already know how to use getters and setters.
+However, as you may have seen before, the more UI elements you use, the longer the PMO becomes, and the methods often only contain a delegation to the corresponding methods in the model object.
+To simplify the code in this case, linkki provides a mechanism called <<domain-model-binding, Model Binding>>.
 
 [NOTE]
-"Model Binding", shorthand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes. It can be used when the presentation model and the domain model have similar structure and properties.
+"Model Binding", shorthand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes.
+It can be used when the presentation model and the domain model have similar structure and properties.
 
-Basically, *linkki* will delegate getter and setter calls for you, based on the already existing methods in a so-called *_Model Object_* and an attribute called *_modelAttribute_*. For example, if you use a `BusinessPartner` as the model object and set `modelAttribute = "dateOfBirth"` in the `@UIDateField` annotation, *linkki* will delegate the getter and the setter calls of the `UIDateField` element for the property `dateOfBirth` to the ones defined within `BusinessPartner`.
+Basically, *linkki* will delegate getter and setter calls for you, based on the already existing methods in a so-called *_Model Object_* and an attribute called *_modelAttribute_*.
+For example, if you use a `BusinessPartner` as the model object and set `modelAttribute = "dateOfBirth"` in the `@UIDateField` annotation, *linkki* will delegate the getter and the setter calls of the `UIDateField` element for the property `dateOfBirth` to the ones defined within `BusinessPartner`.
 
 [TIP]
-Note that you still need to write a method and annotate it with e.g. `@UIDateField` so that *linkki* knows which UI elements to create. However, the method won't be executed because *linkki* calls the *_Model Objects_* methods instead. Hence, the methods return type can be `void` and the method can be left empty.
+Note that you still need to write a method and annotate it with e.g. `@UIDateField` so that *linkki* knows which UI elements to create.
+However, the method won't be executed because *linkki* calls the *_Model Objects_* methods instead.
+Hence, the methods return type can be `void` and the method can be left empty.
 
 ==== Model Binding Practice
 
-You can now apply the theory by using model binding in the `AddressRowPmo`. Take a look at the <<tutorial-domain-model>> and implement it as follows:
+You can now apply the theory by using model binding in the `AddressRowPmo`.
+Take a look at the <<tutorial-domain-model>> and implement it as follows:
 
 . Create and implement a getter method for the property `address` with the signature `Address getAddress()`.
-. Annotate it with `@ModelObject`. 
+. Annotate it with `@ModelObject`.
 . Create an empty method with the signature `public void street()`.
-. Annotate it with `@UITextField`. The label should be set to "Street" and the model attribute should be set to "street".
+. Annotate it with `@UITextField`.
+The label should be set to "Street" and the model attribute should be set to "street".
 . Create an empty method with the signature `public void streetNumber()`.
-. Annotate it with `@UITextField`. The label should be set to "Number" and the model attribute should be set to "streetNumber".
+. Annotate it with `@UITextField`.
+The label should be set to "Number" and the model attribute should be set to "streetNumber".
 . Create an empty method with the signature `public void postalCode()`.
-. Annotate it with `@UITextField`. The label should be set to "Postal Code" and the model attribute should be set to "postalCode".
+. Annotate it with `@UITextField`.
+The label should be set to "Postal Code" and the model attribute should be set to "postalCode".
 . Create an empty method with the signature `public void city()`.
-. Annotate it with `@UITextField`. The label should be set to "City" and the model attribute should be set to "city".
+. Annotate it with `@UITextField`.
+The label should be set to "City" and the model attribute should be set to "city".
 . Create an empty method with the signature `public void country()`.
-. Annotate it with `@UITextField`. The label should be set to "Country" and the model attribute should be set to "country".
+. Annotate it with `@UITextField`.
+The label should be set to "Country" and the model attribute should be set to "country".
 
 The finished implementation should look like this:
 
 .AddressRowPmo.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/pmo/dialog/AddressPmo.java[tags=modelBinding1]
     public AddressRowPmo(Address address) {
@@ -62,7 +76,8 @@ include::{source-dir}/pmo/dialog/AddressPmo.java[tags=modelBinding2]
 
 ==== Adding a delete button and styling it using `ButtonVariant`
 
-The next step is to add delete buttons to the rows, so that the user is able to delete addresses. Note that you will implement the delete method itself in the address page later.
+The next step is to add delete buttons to the rows, so that the user is able to delete addresses.
+Note that you will implement the delete method itself in the address page later.
 
 Even if the delete buttons are in a table, the implementation stays the same and is done in the row PMO class as follows:
 
@@ -73,12 +88,13 @@ Even if the delete buttons are in a table, the implementation stays the same and
 ... The attribute `captionType` to `CaptionType.NONE`.
 ... The attribute `showIcon` to `true`.
 ... The attribute `icon` to `VaadinIcon.TRASH`.
-.. Style the button by setting the attribute `variants` to `{ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL}`. Just like the icon, the `ButtonVariant` is a https://vaadin.com/docs/latest/components/button[Vaadin component].
+.. Style the button by setting the attribute `variants` to `{ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL}`.
+Just like the icon, the `ButtonVariant` is a https://vaadin.com/docs/v25/components/button[Vaadin component].
 
 The finished implementation should look like this:
 
 .AddressRowPmo.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/pmo/table/AddressRowPmo.java[tags=deleteButton]
 ----
@@ -96,12 +112,13 @@ Create and implement the address page as follows:
 
 . Create a new `AbstractPage` called `AddressPage`, initialize it as you did in <<tutorial-search-page, Step 1>>.
 . Create and implement the method `deleteAddress` that takes an `Address` as argument and delete it using the method `BusinessPartner.removeAddress`.
-. Add the `AddressTablePmo` in the `createContent` method. Use the method `BusinessPartner.getAddresses()` to get the addresses of a partner.
+. Add the `AddressTablePmo` in the `createContent` method.
+Use the method `BusinessPartner.getAddresses()` to get the addresses of a partner.
 
 The finished implementation should look like this:
 
 .AddressPage.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
     private final BusinessPartner partner;
     
@@ -120,7 +137,7 @@ Finally, update `PartnerDetailsView` to add the `AddressPage` the same way as in
 The finished implementation should look like this:
 
 .PartnerDetailsView.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 include::{source-dir}/view/PartnerDetailsView.java[tags=createAddressPage]
 ----
@@ -137,7 +154,7 @@ To resize a column, go to `AddressRowPmo`, use the annotation <<ui-tables, `@UIT
 The finished implementation should look like this:
 
 .AddressRowPmo.java
-[source, java, indent=0]
+[source,java,indent=0]
 ----
 @UITableColumn(width = 50)
 @UIButton(...)

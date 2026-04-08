@@ -369,7 +369,7 @@ The following configuration options are available for `IconType`:
 |=== 
 
 TIP: The class `VaadinIcon` contains many Icons for easy use.
-The Vaadin documentation includes a https://vaadin.com/components/vaadin-icons/java-examples#all-icons[reference page listing all available icons] as well as documentation how to https://vaadin.com/docs/latest/flow/application/resources#icons[Icons].
+The Vaadin documentation includes a https://vaadin.com/docs/v25/components/icons[reference page listing all available icons].
 
 IMPORTANT: Since annotations do not support a `null` value and `VaadinIcon` do not have a "NO_ICON" we cannot really specify "no icon" to automatically use a dynamic one.
 Hence we decided to use a quite uncommon icon (NATIVE_BUTTON) as default.
@@ -578,7 +578,7 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindSl
 [[bind-helper-text]]
 ===== Helper Text
 
-The annotation `@BindHelperText` can be used to display a https://vaadin.com/docs/latest/components/text-field#helper[helper text] on UI elements.
+The annotation `@BindHelperText` can be used to display a https://vaadin.com/docs/v25/components/text-field#helper[helper text] on UI elements.
 
 It has two properties:
 
@@ -621,7 +621,7 @@ The value can be any valid CSS height value, such as `"100px"`, `"50%"`, or `"10
 [[bind-clear-button]]
 ===== Clear Button
 
-The annotation `@BindClearButton` can be used to make the https://vaadin.com/docs/latest/components/date-picker#basic-features[clear button] visible on UI components like `UITextField`, `UIDateField`, etc.
+The annotation `@BindClearButton` can be used to make the https://vaadin.com/docs/v25/components/date-picker#basic-features[clear button] visible on UI components like `UITextField`, `UIDateField`, etc.
 Clicking on the clear button sets the field value to `null`.
 
 [NOTE]

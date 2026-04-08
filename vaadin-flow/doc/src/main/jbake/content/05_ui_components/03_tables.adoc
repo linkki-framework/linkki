@@ -18,20 +18,26 @@ In both cases, the columns of the table are defined in a <<ui-row-pmo, row PMO>>
 
 [[ui-row-pmo]]
 ==== Definition of the table structure with a row PMO
-The structure of the table is defined in a PMO class, whose instances represent rows in the table. Thus, these classes are called "row PMOs".
+
+The structure of the table is defined in a PMO class, whose instances represent rows in the table.
+Thus, these classes are called "row PMOs".
 
 Row PMO classes are just like other PMOs, but is not annotated with a layout annotation such as `@UISection`.
 Each <<ui-element,UI element>> in the row PMO defines a column in the table.
 
 .Example implementation of a row PMO
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
-Every PMO property specifies the setup of the column as well as the concrete field inside the table's cell. Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
+Every PMO property specifies the setup of the column as well as the concrete field inside the table's cell.
+Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
 
-IMPORTANT: The properties of a table column are described using the properties in the row PMO. But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are multiple rows). Hence, all bindings are directed to the row PMO class. That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the row PMO.
+IMPORTANT: The properties of a table column are described using the properties in the row PMO.
+But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are multiple rows).
+Hence, all bindings are directed to the row PMO class.
+That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the row PMO.
 
 [[ui-table-column]]
 ===== Column configuration using @UITableColumn
@@ -39,29 +45,36 @@ IMPORTANT: The properties of a table column are described using the properties i
 The annotation `@UITableColumn`  can be used on annotated methods to customize additions aspects of a table column.
 
 Column width::
-You can use the properties `width` (in pixels) and `flexGrow` to modify the column size. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
+You can use the properties `width` (in pixels) and `flexGrow` to modify the column size.
+The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns.
+If `flexGrow` is set to 0, the column has a fixed `width`.
 
 [[collapsible-columns]]
 Collapsible columns::
-The property `collapsible` can make a column collapsible, i.e. the user can toggle the visibility of a column. It also defines if a collapsible column should be initially collapsed.
+The property `collapsible` can make a column collapsible, i.e. the user can toggle the visibility of a column.
+It also defines if a collapsible column should be initially collapsed.
 +
-WARNING: This feature only works if the table is created inside a <<layout-section, section>>. If there are any collapsible columns in the table, a right aligned header menu is displayed in the created section with which the user can toggle the visibility of a collapsible column.
+WARNING: This feature only works if the table is created inside a <<layout-section, section>>.
+If there are any collapsible columns in the table, a right aligned header menu is displayed in the created section with which the user can toggle the visibility of a collapsible column.
 +
 NOTE: Setting the visibility of a column programmatically after the `GridSection` has already been created should be done using `GridSection#setColumnVisible(String columnKey, boolean visible)` instead of `Grid#getColumnByKey()` to make sure that the checked state of its `MenuItem` is set correctly!
 
 [[sortable-columns]]
 Sortable columns::
-The property `sortable` allows the column to be sorted. The data type of the column value must implement `Comparable`, which defines the order in which the values are sorted.
+The property `sortable` allows the column to be sorted.
+The data type of the column value must implement `Comparable`, which defines the order in which the values are sorted.
 +
 WARNING: Model bindings (`modelAttribute`) can not be used with sortable columns, a getter method must be used.
 
 Text alignment::
-It is possible to customize text alignment inside of individual columns by setting the `textAlign` value of the `@UITableColumn` annotation. The alignment also applies to the header and footer of the column.
+It is possible to customize text alignment inside of individual columns by setting the `textAlign` value of the `@UITableColumn` annotation.
+The alignment also applies to the header and footer of the column.
 
 [[ui-container-pmo]]
 ==== Defining a table with Container PMO
 
-The interface `ContainerPMO` can be used to define a table. A container PMO defines the row PMOs that should be rendered in the table, as well as additional table properties such as the table height and table selection behavior.
+The interface `ContainerPMO` can be used to define a table.
+A container PMO defines the row PMOs that should be rendered in the table, as well as additional table properties such as the table height and table selection behavior.
 
 A table component can be created from a container PMO by using `GridComponentCreator`.
 
@@ -71,32 +84,47 @@ A table component can be created from a container PMO by using `GridComponentCre
 include::{source-dir-doc}/org/linkki/doc/UiCreatorSample.java[tags=createTable]
 ----
 
-Alternatively, the container PMO can be annotated with `@UISection` to display the table in a `TableSection`. The section caption then functions as a caption for the table.
+Alternatively, the container PMO can be annotated with `@UISection` to display the table in a `TableSection`.
+The section caption then functions as a caption for the table.
 
 [[ui-container-pmo-interface]]
 ===== ContainerPmo Interface
 
-In general, a container PMO has to implement the interface `ContainerPmo<ROW>`. The type parameter `ROW` is the row PMO class that defines the table structure.
+In general, a container PMO has to implement the interface `ContainerPmo<ROW>`.
+The type parameter `ROW` is the row PMO class that defines the table structure.
 
-The method `List<ROW> getItems()` is called by the `ContainerBinding` to add the elements to the table. It should always return the same instance of `List<ROW>` as long as the items do not change. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
+The method `List<ROW> getItems()` is called by the `ContainerBinding` to add the elements to the table.
+It should always return the same instance of `List<ROW>` as long as the items do not change.
+The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
 
-By overriding the default method `int getPageLength()` the number of rows shown can be controlled. By default, 15 rows are shown. It is a common practice to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
+By overriding the default method `int getPageLength()` the number of rows shown can be controlled.
+By default, 15 rows are shown.
+It is a common practice to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table.
+If `0` is returned the table grows dynamically with the content, without limit.
 
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=page-length]
 ----
 
-The column structure of the table is determined by the <<ui-row-pmo, row PMO>> class, which is returned by the method `Class<? extends ROW> getItemPmoClass`. In the default implementation the class of the generic parameter `ROW` is returned. To support tables which are configured with other components for the cells, the method can be overwritten and return a subclass of `ROW`.
+The column structure of the table is determined by the <<ui-row-pmo, row PMO>> class, which is returned by the method `Class<? extends ROW> getItemPmoClass`.
+In the default implementation the class of the generic parameter `ROW` is returned.
+To support tables which are configured with other components for the cells, the method can be overwritten and return a subclass of `ROW`.
 
-If the table should support the adding of items, the `default` method `Optional<ButtonPmo> getAddItemButtonPmo` must be overwritten. How a `ButtonPmo` is created is described in the chapter <<button-pmo, ButtonPmo>>.
+If the table should support the adding of items, the `default` method `Optional<ButtonPmo> getAddItemButtonPmo` must be overwritten.
+How a `ButtonPmo` is created is described in the chapter <<button-pmo, ButtonPmo>>.
 
 [[ui-simple-table-pmo]]
 ===== SimpleTablePmo
 
-Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo<MO, ROW>` may be extended. It defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply takes a model object and creates a row PMO for it and is only called once for every model object. A simple example may look like this:
+Most commonly, the row PMO objects are converted from a list of model objects.
+In this case, the abstract class `org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo<MO, ROW>` may be extended.
+It defines a constructor that requires the list or the supplier for the list of model objects.
+Additionally the method `createRow(MO)` needs to be implemented.
+This method simply takes a model object and creates a row PMO for it and is only called once for every model object.
+A simple example may look like this:
 
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/binding/pmo/SimpleContactTablePmo.java[tags=simpleContactTablePmo]
 ----
@@ -106,7 +134,8 @@ The `SimpleTablePmo` is an abstract convenience implementation of the `Container
 [[ui-table-component]]
 ==== Creating a table using @UITableComponent
 
-A table component can be defined inside a <<layout, layout>> by using the annotation `@UITableComponent`. The annotated method provides the row PMOs that are displayed in the table.
+A table component can be defined inside a <<layout, layout>> by using the annotation `@UITableComponent`.
+The annotated method provides the row PMOs that are displayed in the table.
 
 As the generic type of the return type is erased at runtime, the row PMO class needs to be provided to the annotation.
 
@@ -123,7 +152,8 @@ As the generic type of the return type is erased at runtime, the row PMO class n
 
 If the return type is a `CompletableFuture`, the items of the table are set asynchronously.
 This is particularly useful if the rows of the table are being retrieved form external systems.
-Note that link:https://vaadin.com/docs/latest/advanced/server-push[server push] should be enabled if the changes should be reflected to the UI immediately. Otherwise, the changes are shown with the next server roundtrip.
+Note that link:https://vaadin.com/docs/v25/flow/advanced/server-push[server push] should be enabled if the changes should be reflected to the UI immediately.
+Otherwise, the changes are shown with the next server roundtrip.
 
 [TIP]
 ====
@@ -138,7 +168,8 @@ If any thread local information such as authentication tokens are needed for fet
 [[ui-simple-item-supplier]]
 ==== SimpleItemSupplier
 
-The `SimpleItemSupplier<PMO, MO>` is used to only create a new `List<PMO>`, if a row was changed. When using `ContainerPmo` interface directly, `SimpleItemSupplier` should be used if the displayed rows may change dynamically.
+The `SimpleItemSupplier<PMO, MO>` is used to only create a new `List<PMO>`, if a row was changed.
+When using `ContainerPmo` interface directly, `SimpleItemSupplier` should be used if the displayed rows may change dynamically.
 
 The instantiating is done with two parameters
 
@@ -146,7 +177,7 @@ The instantiating is done with two parameters
 * `mo2pmoMapping` of type `Function<MO, PMO>` is called for the creation of a PMO for a model object
 
 .Example initializing of a SimpleItemSupplier
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=item-supplier]
 ----
@@ -154,21 +185,26 @@ include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.
 [[ui-hierarchical-table]]
 ==== Hierarchical tables
 
-Sometimes, the data in a table should be grouped for presentation, for example when summarizing values over certain categories. In that case, the data represents a tree-like structure with parent-child-relationships between rows. The resulting table will be a Vaadin `TreeTable` which allows collapsing and showing the child-rows of a row.
+Sometimes, the data in a table should be grouped for presentation, for example when summarizing values over certain categories.
+In that case, the data represents a tree-like structure with parent-child-relationships between rows.
+The resulting table will be a Vaadin `TreeTable` which allows collapsing and showing the child-rows of a row.
 
 .Hierarchical table
 image::{images}{images-folder-name}/treetable.png[A hierarchical table,align="center"]
 
-This can be realized by using `org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo<PMO>`, row PMOs that contain further rows as children. It is possible to use multiple subclasses for row PMOs, using `HierarchicalRowPmo` only for collapsible rows. To indicate that the table contains hierarchical rows, the <<ui-container-pmo,ContainerPmo>> should return `true` in the method `isHierarchical()`. By default, this method returns `true` if `getItemPmoClass()` returns a class that implements `HierarchicalRowPmo`, which means that all rows are collapsible.
+This can be realized by using `org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo<PMO>`, row PMOs that contain further rows as children.
+It is possible to use multiple subclasses for row PMOs, using `HierarchicalRowPmo` only for collapsible rows.
+To indicate that the table contains hierarchical rows, the <<ui-container-pmo,ContainerPmo>> should return `true` in the method `isHierarchical()`.
+By default, this method returns `true` if `getItemPmoClass()` returns a class that implements `HierarchicalRowPmo`, which means that all rows are collapsible.
 
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/treetable/fixed/SummarizingPersonRowPmo.java[tags=hierarchical-row-pmo]
 ----
 
 If the order of the rows might change due to user input, you should use a <<ui-simple-item-supplier,`SimpleItemSupplier`>> as with the <<ui-container-pmo,`ContainerPmo`>> to avoid recreating the PMOs for unchanged rows.
 
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/treetable/dynamic/CategoryRowPmo.java[tags=hierarchical-row-pmo-with-simple-item-supplier]
 ----
@@ -180,7 +216,8 @@ The utility class `HierarchicalTableUtil` can be used to modify a `TreeGrid` aft
 It provides methods to expand or collapse nodes up to a configurable level or based on a given condition.
 
 [NOTE]
-`HierarchicalTableUtil` cannot be used in the PMO. It needs to be used after the creation of the component using an PMO.
+`HierarchicalTableUtil` cannot be used in the PMO.
+It needs to be used after the creation of the component using an PMO.
 
 .Example for expanding the first level of items if they contain more than one child item
 [source,java]
@@ -191,21 +228,23 @@ HierarchicalTableUtil.expandNodesIf(treeGrid, 1, rowPmo -> rowPmo.getChildRows()
 [[ui-selectable-table]]
 ==== Row selection in tables
 
-By default, table rows are not selectable. If table row selection should be possible,
-the `ContainerPmo` implementation should implement either the `SelectableTablePmo` interface for single selection or the `MultiSelectableTablePmo` interface for multiple selections.
+By default, table rows are not selectable.
+If table row selection should be possible, the `ContainerPmo` implementation should implement either the `SelectableTablePmo` interface for single selection or the `MultiSelectableTablePmo` interface for multiple selections.
 
 When implementing the `SelectableTablePmo` interface, it requires three methods:
 
 * `ROW getSelection()`: returns the selected row
 * `setSelection(ROW)`: sets the new selected row
-* `onDoubleClick()`: executes action when a double click is made on the selected row. It is safe to assume that `setSelection(ROW)` is already called.
+* `onDoubleClick()`: executes action when a double click is made on the selected row.
+It is safe to assume that `setSelection(ROW)` is already called.
 
 When implementing the `MultiSelectableTablePmo` interface, it requires only two methods:
 
 * `Set<ROW> getSelection()`: returns the selected rows
 * `setSelection(Set<ROW>)`: sets the new selected rows
 
-However, in scenarios where selection is needed for visual reasons only, the `@BindTableSelection(visualOnly = true)` annotation can be applied. This allows tables to be made selectable without the need to implement any interface.
+However, in scenarios where selection is needed for visual reasons only, the `@BindTableSelection(visualOnly = true)` annotation can be applied.
+This allows tables to be made selectable without the need to implement any interface.
 
 .Example for a selectable table
 [source,java]
@@ -220,7 +259,7 @@ include::{source-dir}/org/linkki/samples/playground/table/selection/VisualOnlySe
 ----
 
 .Example result
-image::{images}{images-folder-name}/selectable_table.png[Selectable table, align="center"]
+image::{images}{images-folder-name}/selectable_table.png[Selectable table,align="center"]
 
 .Example for a multi selectable table
 [source,java]
@@ -229,31 +268,41 @@ include::{source-dir}/org/linkki/samples/playground/table/selection/PlaygroundMu
 ----
 
 .Example result
-image::{images}{images-folder-name}/multi_selectable_table.png[Multi-Selectable table, align="center"]
+image::{images}{images-folder-name}/multi_selectable_table.png[Multi-Selectable table,align="center"]
 
 [[ui-placeholder-table]]
 ==== Placeholder
-To display informative placeholder text when a table is devoid of data, leverage the `@BindPlaceholder` annotation. This annotation serves to notify users about the absence of items within the table. For a comprehensive understanding of placeholder configuration, refer to the <<placeholder, Placeholder Configuration>> section for detailed explanations and behaviors.
+
+To display informative placeholder text when a table is devoid of data, leverage the `@BindPlaceholder` annotation.
+This annotation serves to notify users about the absence of items within the table.
+For a comprehensive understanding of placeholder configuration, refer to the <<placeholder, Placeholder Configuration>> section for detailed explanations and behaviors.
 
 [[ui-table-footer]]
 ==== Table footer
 
-By overriding the `default` method `getFooterPmo()` a footer row is generated. The implementation of the interface `TableFooterPmo` must implement the method `getFooterText(String column)`.
+By overriding the `default` method `getFooterPmo()` a footer row is generated.
+The implementation of the interface `TableFooterPmo` must implement the method `getFooterText(String column)`.
 
-The parameter `column` is the ID of the column for which the text should be displayed. An example for this would be a sum of all items from a column.
+The parameter `column` is the ID of the column for which the text should be displayed.
+An example for this would be a sum of all items from a column.
 
-[source, java]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarTablePmo.java[tags=table-footer]
 ----
 
-TIP: The `ContainerPMO` can be annotated with `@BindStyleNames` and `LinkkiApplicationTheme#GRID_FOOTER_BOLD` to make the table footer text bold. This is particularly useful for columns which have a footer to show the sum of numbers.
+TIP: The `ContainerPMO` can be annotated with `@BindStyleNames` and `LinkkiApplicationTheme#GRID_FOOTER_BOLD` to make the table footer text bold.
+This is particularly useful for columns which have a footer to show the sum of numbers.
 To make the column right aligned use the `textAlign` property of `@UITableColumn`.
 
 [[button-pmo]]
 ==== ButtonPmo
+
 The interface <<ui-container-pmo, `ContainerPmo`>> provides a method `getAddItemButtonPmo()`, by which a plus button can be added besides the name of the table.
 
 [[customizing-columns-of-existing-table]]
 ==== Customizing columns of an existing table
-An existing table can be reused and extended by subclassing the table and row PMO. Note, however, that both `createRow` as well as `getItemPmoClass` must be overwritten in the table PMO subclass or else the table will still show the columns of the super row PMO. You can find an example implementation <<howto-customize-existing-tables, here>>.
+
+An existing table can be reused and extended by subclassing the table and row PMO.
+Note, however, that both `createRow` as well as `getItemPmoClass` must be overwritten in the table PMO subclass or else the table will still show the columns of the super row PMO.
+You can find an example implementation <<howto-customize-existing-tables, here>>.
