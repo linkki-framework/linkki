@@ -63,7 +63,8 @@ The following versions have been updated:
 |===
 | Dependency                    | New version                                                                        | Previous version
 
-| Spring Boot compatibility tested for                   | 4.0.4 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.4[Release Notes]) | 4.0.3
+| Vaadin                        | 25.0.8 (link:https://github.com/vaadin/platform/releases/tag/25.0.8[Release Notes]) | 25.0.7
+| Spring Boot compatibility tested for                   | 4.0.5 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.5[Release Notes]) | 4.0.3
 
 |===
 
