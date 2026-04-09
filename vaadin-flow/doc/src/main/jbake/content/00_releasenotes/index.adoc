@@ -31,7 +31,8 @@ The following versions have been updated:
 |===
 | Dependency                    | New version                                                                        | Previous version
 
-| Spring Boot compatibility tested for | 3.5.12 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.11[Release Notes]) | 3.5.11
+| Vaadin                        | 24.9.14 (link:https://github.com/vaadin/platform/releases/tag/24.9.14[Release Notes]) | 24.9.13
+| Spring Boot compatibility tested for | 3.5.13 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.13[Release Notes]) | 3.5.11
 |===
 
 === Version 2.9.5
