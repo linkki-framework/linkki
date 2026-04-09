@@ -8,6 +8,19 @@
 
 == Release Notes
 
+=== Version 2.8.5
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Spring Boot compatibility tested for | 3.5.12 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.13[Release Notes]) | 3.5.12
+|===
+
 === Version 2.8.4
 
 ==== Version Updates
