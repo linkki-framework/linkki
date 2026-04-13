@@ -140,6 +140,19 @@ pipeline {
                     }
                 }
 
+                stage('Check Doc links') {
+                    steps {
+                            sh '''
+                              if grep -R -n "/latest" vaadin-flow/doc/src/main/jbake/content/; then
+                                echo "Mentions of /latest in URLs have been found. Please use the actual version instead."
+                                exit 1
+                              else
+                                echo "OK. no mention of /latest has been found."
+                              fi
+                            '''
+                    }
+                }
+
                 stage('Deployment and UI Test') {
                     stages {
                         stage('Remove Docker Network') {
