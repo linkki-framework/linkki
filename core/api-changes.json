@@ -31,12 +31,20 @@
       }
     }
   ],
-  "2.9.0": [
+  "2.10.0": [
     {
       "extension": "revapi.differences",
       "configuration": {
         "ignore": true,
         "differences": [
+          {
+            "code": "java.method.visibilityIncreased",
+            "old": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(org.linkki.core.binding.descriptor.property.BoundProperty, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>, org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler)",
+            "new": "method void org.linkki.core.binding.descriptor.BindingDescriptor::<init>(org.linkki.core.binding.descriptor.property.BoundProperty, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>, org.linkki.core.binding.descriptor.messagehandler.LinkkiMessageHandler)",
+            "oldVisibility": "private",
+            "newVisibility": "public",
+            "justification": "LIN-4781/LIN-4840 Expose constructor to allow custom message handlers"
+          }
         ]
       }
     }

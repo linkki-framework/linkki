@@ -8,6 +8,11 @@
             ".* com\\.vaadin\\.flow\\..*",
             ".*org\\.junit\\.jupiter\\.api\\..*"
           ]
+        },
+        "archives": {
+          "exclude": [
+            "org.linkki-framework:linkki-core:jar.*"
+          ]
         }
       }
     },

@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
@@ -40,6 +42,8 @@ import org.linkki.core.vaadin.component.menu.MenuItemDefinition;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.framework.ui.component.HeadlinePmo;
+import org.linkki.framework.ui.component.MessageUiComponents;
+import org.linkki.framework.ui.component.MessagesSplitLayout;
 import org.linkki.framework.ui.component.infotool.InfoTool;
 import org.linkki.util.Sequence;
 import org.linkki.util.handler.Handler;
@@ -65,7 +69,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         setSpacing(false);
 
         var modelObject = new ProductsSampleModelObject();
-        var bindingManager = new ProductSampleBindingManager(modelObject::validate);
+        var bindingManager = new DefaultBindingManager(modelObject::validate);
 
         add(VaadinUiCreator.createComponent(new HeadlinePmo("Details", new HeadlineAdditionalTitlePmo(),
                 new HeadlineButtonsPmo()), bindingManager.getContext(HeadlinePmo.class)));
@@ -86,7 +90,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         add(splitLayout);
     }
 
-    private Component createMainArea(ProductSampleBindingManager bindingManager,
+    private Component createMainArea(BindingManager bindingManager,
             ProductsSampleModelObject modelObject) {
         var tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
         tabLayout.addTabSheets(
@@ -114,7 +118,9 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
 
         var messagePanelLayout = new MessagesSplitLayout();
         messagePanelLayout.setContentComponent(tabLayout);
-        bindingManager.setMessagesHandler(messagePanelLayout::displayMessages);
+
+        MessageUiComponents.handleMessagesAfterValidation(messagePanelLayout,
+                                                          bindingManager.getContext("messages-context"));
 
         return messagePanelLayout;
     }
@@ -130,19 +136,19 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
     }
 
     @UIHorizontalLayout
-    private static class HeadlineButtonsPmo {
+    public static class HeadlineButtonsPmo {
 
-        @UIMenuButton(position = 0, icon = VaadinIcon.BUTTON, caption = "menu button")
+        @UIMenuButton(position = 0, icon = VaadinIcon.BUTTON, caption = "UIMenuButton", showIcon = false)
         public void menuButton() {
             // does nothing
         }
 
-        @UIButton(position = 1, caption = "button")
+        @UIButton(position = 1, caption = "UIButton")
         public void button() {
             // does nothing
         }
 
-        @UIMenuList(position = 2, caption = "menu list")
+        @UIMenuList(position = 2, caption = "UIMenuList", showIcon = false)
         public List<MenuItemDefinition> getMenuList() {
             return List.of(new MenuItemDefinition("item 1", null, Handler.NOP_HANDLER),
                            new MenuItemDefinition("item 2", null, Handler.NOP_HANDLER),

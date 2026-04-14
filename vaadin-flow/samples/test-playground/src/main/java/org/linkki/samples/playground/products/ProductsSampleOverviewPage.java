@@ -16,6 +16,8 @@ package org.linkki.samples.playground.products;
 
 import java.io.Serial;
 
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 
@@ -25,11 +27,11 @@ public class ProductsSampleOverviewPage extends AbstractPage {
     private static final long serialVersionUID = 1L;
 
     private final ProductsSampleModelObject modelObject;
-    private final ProductSampleBindingManager bindingManager;
+    private final BindingManager bindingManager;
 
     public ProductsSampleOverviewPage() {
         this.modelObject = new ProductsSampleModelObject();
-        this.bindingManager = new ProductSampleBindingManager(modelObject::validate);
+        this.bindingManager = new DefaultBindingManager(modelObject::validate);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class ProductsSampleOverviewPage extends AbstractPage {
     }
 
     @Override
-    protected ProductSampleBindingManager getBindingManager() {
+    protected BindingManager getBindingManager() {
         return bindingManager;
     }
 }

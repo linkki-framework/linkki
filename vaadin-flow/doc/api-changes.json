@@ -1,3 +1,14 @@
 {
-    
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "archives": {
+          "exclude": [
+            "org.linkki-framework:linkki-core:jar.*"
+          ]
+        }
+      }
+    }
+  ]
 }

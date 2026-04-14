@@ -14,14 +14,17 @@
 
 package org.linkki.samples.playground.products;
 
-import static com.vaadin.flow.dom.Style.Overflow.HIDDEN;
-
 import java.io.Serial;
 import java.util.List;
 import java.util.Optional;
 
+import org.linkki.core.binding.descriptor.BindingDescriptor;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.framework.ui.component.Headline;
+import org.linkki.framework.ui.component.MessagesPanel;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -45,13 +48,19 @@ public class ProductSampleOverviewComponent extends VerticalLayout {
         var splitLayout = new SplitLayout();
         splitLayout.setOrientation(SplitLayout.Orientation.VERTICAL);
         splitLayout.setWidthFull();
-        splitLayout.getStyle().setOverflow(HIDDEN);
+        splitLayout.getStyle().setMinHeight("0");
         splitLayout.getStyle().setFlexGrow("1");
         var messagesComponent = new MessagesPanel();
-        page.getBindingManager().setMessagesHandler(messages -> {
-            messagesComponent.showMessages(messages);
-            updateMessagePanelVisibility(messages, splitLayout);
-        });
+
+        page.getBindingManager().getContext("messages-context")
+                .bind(new Object(), new BindingDescriptor(BoundProperty.empty(), List.of(),
+                        ((messages, componentWrapper, propertyDispatcher) -> {
+                            var comp = (MessagesPanel)componentWrapper.getComponent();
+                            comp.showMessages(messages);
+                            updateMessagePanelVisibility(messages, splitLayout);
+                            return new MessageList();
+                        })),
+                      new NoLabelComponentWrapper(messagesComponent));
 
         splitLayout.addToPrimary(page);
         splitLayout.addToSecondary(messagesComponent);

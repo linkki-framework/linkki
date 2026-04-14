@@ -528,7 +528,6 @@ public class KaribuUtils {
                             : GridKt._getFormatted(grid, i, columnKey))
                     .toList();
         }
-
     }
 
     /**

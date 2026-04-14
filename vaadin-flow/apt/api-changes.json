@@ -8,6 +8,11 @@
                         ".* org\\.linkki\\.core\\..*",
                         ".* org\\.linkki\\.util\\..*"
                     ]
+                },
+                "archives": {
+                    "exclude": [
+                        "org.linkki-framework:linkki-core:jar.*"
+                    ]
                 }
             }
         }

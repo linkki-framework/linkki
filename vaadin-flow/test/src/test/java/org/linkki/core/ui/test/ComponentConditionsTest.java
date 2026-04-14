@@ -15,10 +15,12 @@
 package org.linkki.core.ui.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.not;
 import static org.linkki.core.ui.test.ComponentConditions.anyChildSatisfying;
 import static org.linkki.core.ui.test.ComponentConditions.anyVisibleChildOfType;
 import static org.linkki.core.ui.test.ComponentConditions.childOf;
 import static org.linkki.core.ui.test.ComponentConditions.exactlyOneVisibleChildOfType;
+import static org.linkki.core.ui.test.ComponentConditions.visible;
 
 import org.junit.jupiter.api.Test;
 
@@ -70,7 +72,6 @@ class ComponentConditionsTest {
         assertThat(child)
                 .doesNotHave(anyChildSatisfying(Div.class::isInstance, "is an instance of Div"));
     }
-
 
     @Test
     void testOneVisibleChildSatisfying() {
@@ -166,5 +167,15 @@ class ComponentConditionsTest {
             assertThat(e.getMessage())
                     .contains("any visible child", "H3", "text", "css");
         }
+    }
+
+    @Test
+    void testVisible() {
+        var visibleComponent = new Div();
+        var invisibleComponent = new Div();
+        invisibleComponent.setVisible(false);
+
+        assertThat(visibleComponent).is(visible());
+        assertThat(invisibleComponent).is(not(visible()));
     }
 }

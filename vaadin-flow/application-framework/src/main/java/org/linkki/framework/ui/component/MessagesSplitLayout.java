@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.playground.products;
+package org.linkki.framework.ui.component;
 
 import java.io.Serial;
 import java.util.Optional;
@@ -24,8 +24,9 @@ import com.vaadin.flow.component.splitlayout.SplitLayoutVariant;
 import com.vaadin.flow.dom.Style;
 
 /**
- * Display a content component and a collapsible panel displaying messages. The message panel is
- * hidden when no messages are present and shown automatically when messages are available.
+ * Display a content component and a collapsible panel displaying messages. Upon
+ * {@link #displayMessages(MessageList)}, the message panel is hidden when no messages are present
+ * and shown when messages are available.
  * 
  * @since 2.10.0
  */
@@ -51,9 +52,14 @@ public class MessagesSplitLayout extends SplitLayout {
     private MessagesSplitLayout(double splitterPosition) {
         this.splitterPosition = splitterPosition;
         getStyle().setFlexGrow("1");
+        getStyle().setMinHeight("0");
         setOrientation(Orientation.VERTICAL);
     }
 
+    /**
+     * Use the given component as content. Replaces the current one if a content component already
+     * exists.
+     */
     public void setContentComponent(Component contentComponent) {
         if (getPrimaryComponent() != null) {
             getPrimaryComponent().removeFromParent();
@@ -62,6 +68,10 @@ public class MessagesSplitLayout extends SplitLayout {
         contentComponent.getStyle().setOverflow(Style.Overflow.AUTO);
     }
 
+    /**
+     * Use the given component as message component. Replaces the current one if a message component
+     * already exists.
+     */
     public void setMessageComponent(MessagesPanel messageComponent) {
         if (getSecondaryComponent() != null) {
             getSecondaryComponent().removeFromParent();

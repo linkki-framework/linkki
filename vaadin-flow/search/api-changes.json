@@ -10,6 +10,11 @@
             ".*org\\.jsoup\\..*"
           ],
           "justification": "already handled in linkki"
+        },
+        "archives": {
+          "exclude": [
+            "org.linkki-framework:linkki-core:jar.*"
+          ]
         }
       }
     }

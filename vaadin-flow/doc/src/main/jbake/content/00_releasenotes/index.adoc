@@ -27,7 +27,7 @@
 
 // |===
 
-// ==== UI Annotations and Aspects
+// ==== Components, UI Annotations and Aspects
 
 // // https://jira.convista.com/browse/LIN-????
 // * *Description* +
@@ -68,6 +68,23 @@ The following versions have been updated:
 
 |===
 
+==== Components, UI Annotations and Aspects
+
+// https://jira.convista.com/browse/LIN-4781
+* *New components for displaying validation messages* +
+A new `MessagesPanel` component is introduced to display a list of messages.
+It can be used standalone or within the new `MessagesSplitLayout`, which combines a content component with a collapsible message panel.
+In `MessagesSplitLayout`, the message panel is automat automatically hidden when no messages are present and is shown when messages are available. +
+The utility class `MessageUiComponents` was extended with a method that creates a `MessagesPanel` that displays the validations messages after validation automatically. +
+Another new method `handleMessagesAfterValidation` can be used with a `MessagesSplitLayout` to update split position additionally. +
+New documentation is added accordingly, see section <<message-components, Message Components>>. +
+*Migration*:
++
+** Check existing usages of `MessageUiComponents#createMessageTable`:
+*** If the component should only update after validation, consider using `createValidationMessagesPanel` instead.
+*** If the component does not need any update, consider using `MessagesPanel` directly.
+** If a custom `SplitLayout` was used to display validation messages in the secondary component, consider migrating to `MessagesSplitLayout` (see <<message-components, documentation>>).
+
 ==== Testing
 
 // https://jira.convista.com/browse/LIN-4809
@@ -75,8 +92,7 @@ The following versions have been updated:
 Two new methods have been added to `VaadinElementConditions`:
 `dialogClosed(String title)` waits until no dialog with the given title is open and `allDialogsClosed()` waits until all dialogs are closed.
 In addition, all methods in `OkCancelDialogElement` are improved for the case that multiple dialogs are opened. +
-Consider using `$(OkCancelDialogElement.class)` instead of `$(DialogElement.class)` wherever applicable.
-
+*Migration*: Consider using `$(OkCancelDialogElement.class)` instead of `$(DialogElement.class)` wherever applicable.
 // https://jira.convista.com/browse/LIN-4831
 * *Support for multiple deployments in Testbench tests* +
 `WebDriverExtension` now accepts a `systemName` parameter that scopes all
@@ -85,31 +101,32 @@ For example, a `WebDriverExtension` created with `systemName` `"systemA"` reads 
 `test.port.systemA`, and `test.protocol.systemA` instead of the default `test.hostname` etc.
 This allows different test classes to target different deployments without interfering with each other.
 
+==== Other Improvements
+
+// https://jira.convista.com/browse/LIN-4781
+* Documentation and migration guide was added for the changed scrolling behavior of `SplitLayout` in Vaadin 25. (See "Scrolling in SplitLayout" in section "Vaadin 25 Update" of version 2.10.0-a20250202-03)
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4812
-* *Disabled input fields not changing their background color* +
+* *Vaadin 25 regression - Disabled input fields not changing their background color* +
 Input fields did not turn to a lighter gray when disabled.
 // https://jira.convista.com/browse/LIN-4809
-* *`OkCancelDialogElement` and `VaadinElementConditions#dialogDisplayed` fixed for multiple dialogs* +
+* *Vaadin 25 regression - `OkCancelDialogElement` and `VaadinElementConditions#dialogDisplayed` fixed for multiple dialogs* +
 `OkCancelDialogElement` did not work correctly when multiple dialogs were open at the same time.
 Element queries for buttons, content area and message area now correctly scope to the respective dialog instead of matching elements from any open dialog.
-
 // https://jira.convista.com/browse/LIN-4808
-* *Card section theme not working in Dialogs* +
+* *Vaadin 25 regression - Card section theme not working in Dialogs* +
 The card section theme was no longer working for PMOs and nested PMOs in dialogs.
-
 // https://jira.convista.com/browse/LIN-4805
-* *Horizontal LinkkiTabLayouts getting padding when nested inside a vertical LinkkiTabLayout* +
+* *Vaadin 25 regression - Horizontal LinkkiTabLayouts getting padding when nested inside a vertical LinkkiTabLayout* +
 Horizontal LinkkiTabLayouts were getting the same padding as vertical LinkkiTabLayouts when they were nested inside one.
-
 // https://jira.convista.com/browse/LIN-4803
-* *Default Dialog min-width not set* +
+* *Vaadin 25 regression - Default Dialog min-width not set* +
 The default dialog min-width of 400px was not applied.
-
 // https://jira.convista.com/browse/LIN-4798
-* *Long labels not abbreviated but wrapped* +
-Long labels of form items were not abbreviated with ".." but instead wrapped into multiple lines.
+* *Vaadin 25 regression - Long labels not abbreviated but wrapped* +
+Long labels of form items were not abbreviated with "..." but instead wrapped into multiple lines.
 
 === Alpha Version 2.10.0-a20260324-01
 
@@ -125,14 +142,13 @@ The following versions have been updated:
 
 |===
 
-==== UI Annotations and Aspects
+==== Components, UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-4713
 * *UIDateField and UIDateTimeField are no longer created with clear button by default* +
 In version 2.9.0, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
 This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
 To add a clear button to these fields, the new  <<bind-clear-button, `@BindClearButton`>> annotation can be used.
-
 // https://jira.convista.com/browse/LIN-4713
 * *BindClearButton* +
 A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set the clear button visible on UI components that implement `HasClearButton` interface.
@@ -150,7 +166,7 @@ See section "<<karibu-limitations, Limitations of Karibu>>" in chapter "Unit UI 
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4780
-* *Dialogs not rendered on top of each other* +
+* *Vaadin 25 regression - Dialogs not rendered on top of each other* +
 Dialogs were not rendered correct on top of each other but intersected partially.
 This issue was resolved with Vaadin 25.0.7.
 
@@ -172,7 +188,7 @@ The following versions have been updated:
 
 |===
 
-==== UI Annotations and Aspects
+==== Components, UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-4658
 * *UIBadge* +
@@ -194,10 +210,10 @@ This makes it possible to test for browser alert again, e.g. using `ExpectedCond
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4561
-* *Styling: selected rows are not highlighted* +
+* *Vaadin 25 regression: selected rows are not highlighted* +
 Selected rows are not displayed anymore since Vaadin 25 upgrade.
 // https://jira.convista.com/browse/LIN-4755
-* *Styling: scrollbars appear in form items* +
+* *Vaadin 25 regression: scrollbars appear in form items* +
 Labels in `vaadin-form-item` were not aligned correctly after the Vaadin update.
 
 === Alpha Version 2.10.0-a20260306-01
@@ -238,7 +254,7 @@ For headlines that are created as Vaadin components, a new method `addToTitle(Co
 
 === Alpha Version 2.10.0-a20260205-01
 
-==== Other Improvements
+==== Components, UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-2733
 * [.api-change]*Adding components to the title component of a <<headline,headline>>* +
@@ -348,7 +364,7 @@ With the introduction of a new theme, variants that only work with Lumo theme ar
 * [.api-change]*Stylesheets* +
 The annotation `@Theme` is deprecated.
 Instead, themes are loaded by `@StyleSheet`. +
-For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 theme>>, a new `STYLESHEET` constant was added to `LinkkiTheme` and `F10ProductTheme`.
+For the <<apply-linkki-theme, linkki theme>> and the <<apply-f10-theme, F10 theme>>, a new `STYLESHEET` constant was added to `LinkkiTheme` and `F10ProductTheme`. +
 *Migration*:
 ** Replace existing `@Theme` declarations for linkki or f10-product theme with `@StyleSheet(LinkkiTheme.STYLESHEET)` or `@StyleSheet(F10ProductTheme.STYLESHEET)`.
 ** Make sure that the class that is annotated with `StyleSheet` is indeed covered by the value of `@EnableVaadin`.
@@ -373,6 +389,13 @@ Note that the linkki theme does not work with Aura theme at the moment.
 Some web components are reworked in this version, most notably overlays (including dialogs).
 Methods provided by the linkki TestBench extension such as `$(OkCancelDialogElement.class)` are adjusted accordingly.
 Other selectors used in UI tests and CSS styling may need to be adjusted.
+* [.api-change]*Scrolling in SplitLayouts* +
+In Vaadin 25, the scrolling behavior of `SplitLayout` was changed deliberately.
+Primary and secondary components do not scroll automatically anymore. +
+*Migration*: Check all existing usages of `SplitLayout` if the scrolling behavior is still correct.
+If the primary and secondary component should scroll, it may be necessary to add `overflow: auto` to the components.
+This can be done with `LumoUtility.Overflow.AUTO` or `getStyle().setOverflow(AUTO)`. +
+If the split layout is in a flex container, it may also be necessary to add `min-height: 0` to the `SplitLayout` itself.
 
 === Alpha Version 2.10.0-a20260202-02
 

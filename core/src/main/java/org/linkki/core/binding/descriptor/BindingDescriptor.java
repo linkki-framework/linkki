@@ -45,8 +45,7 @@ public final class BindingDescriptor {
     private final LinkkiMessageHandler messageHandler;
 
     /**
-     * Constructs a {@link BindingDescriptor} consisting of the given {@link BoundProperty} and
-     * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
+     * Creates a new {@link BindingDescriptor} with {@link DefaultMessageHandler}.
      */
     public BindingDescriptor(BoundProperty boundProperty, LinkkiAspectDefinition... aspectDefinitions) {
         this.boundProperty = requireNonNull(boundProperty, "boundProperty must not be null");
@@ -56,19 +55,17 @@ public final class BindingDescriptor {
     }
 
     /**
-     * Constructs a {@link BindingDescriptor} consisting of the given {@link BoundProperty} and
-     * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
+     * Creates a new {@link BindingDescriptor} with {@link DefaultMessageHandler}.
      */
     public BindingDescriptor(BoundProperty boundProperty, List<LinkkiAspectDefinition> aspectDefinitions) {
         this(boundProperty, aspectDefinitions, new DefaultMessageHandler());
     }
 
-    private BindingDescriptor(BoundProperty boundProperty, List<LinkkiAspectDefinition> aspectDefinitions,
+    public BindingDescriptor(BoundProperty boundProperty, List<LinkkiAspectDefinition> aspectDefinitions,
             LinkkiMessageHandler messageHandler) {
-        this.boundProperty = requireNonNull(boundProperty, "boundProperty must not be null");
-        this.aspectDefinitions = new ArrayList<>(
-                requireNonNull(aspectDefinitions, "aspectDefinitions must not be null"));
-        this.messageHandler = requireNonNull(messageHandler, "messageHandler must not be null");
+        this.boundProperty = requireNonNull(boundProperty);
+        this.aspectDefinitions = new ArrayList<>(requireNonNull(aspectDefinitions));
+        this.messageHandler = requireNonNull(messageHandler);
     }
 
     /**

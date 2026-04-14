@@ -10,6 +10,11 @@
             ".* org\\.faktorips\\..*",
             ".* com\\.vaadin\\.flow\\..*"
           ]
+        },
+        "archives": {
+          "exclude": [
+            "org.linkki-framework:linkki-core:jar.*"
+          ]
         }
       }
     },

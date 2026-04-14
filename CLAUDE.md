@@ -25,6 +25,8 @@ framework application.
 - **No mocks** - use real implementations or test doubles only when absolutely necessary
 - Integration tests over unit tests with mocks
 - Test realistic scenarios
+- Use methods from linkki-vaadin-flow-test and karibut-testing when possible 
+- Naming convention for test methods: test[Method name]_[Condition]
 
 **Documentation**
 

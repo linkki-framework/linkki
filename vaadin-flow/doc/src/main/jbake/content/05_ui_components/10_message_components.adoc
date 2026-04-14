@@ -1,0 +1,64 @@
+:jbake-title: Message Components
+:jbake-type: section
+:jbake-status: published
+
+[[message-components]]
+=== Message Components
+
+NOTE: Dependency <<_linkki_application_framework, `linkki-application-framework`>> is needed.
+
+By default, messages are displays on the field with the matching invalid object property automatically (see <<displaying-validation-messages, Displaying Validation Messages>>).
+
+However, some messages do not refer to a field directly.
+Also, it may be useful to see all validation messages at one glance.
+For these scenarios, linkki provides several components and utility methods.
+
+==== Display a single message
+
+A single messages can be displayed by using `MessageUiComponents#createMessageComponent`.
+The resulting component not only displays the text, but also use an icon with styling to consistently display the severity.
+
+==== Display messages as a list
+
+To display a message list without update, use the component `MessagesPanel`.
+
+If the messages list should be updated upon binding update, use `#createMessageTable` methods in `MessageUiComponent`.
+
+[WARNING]
+====
+Note that these methods update the supplied messages upon binding update, not after validation.
+
+To update messages after validation, use `#createValidationMessagesPanel` instead.
+====
+
+==== Display messages after each validation
+
+The `#createValidationMessagesPanel` method can be used to display all messages from a `BindingManager`.
+This method requires two arguments: a caption and a `BindingContext` that is managed by the `BindingManager` whose validation messages should be displayed.
+
+[source,java]
+----
+var messagesBindingContext = bindingManager.getContext("messages-context");
+var messagesPanel = createValidationMessagesPanel("", bindingContext);
+----
+
+[NOTE]
+====
+The messages panel can be used with any binding context of the binding manager.
+However, it is recommended to use a separate binding context to make it easier to find the binding while debugging.
+
+The name can be chosen arbitrarily.
+As binding contexts are identified by name in a binding manager, chose a name that does not collide with other existing binding context names, which are typically qualified class names.
+====
+
+Alternatively, the messages can be displayed as the secondary component of a split layout.
+For this use case, the class `MessagesSplitLayout` can be used. `MessagesUiComponent#handleMessagesAfterValidation` then makes sure that the messages are updated after validation.
+It also hides the messages panel if there are no messages.
+
+[source,java]
+----
+ var messagePanelLayout = new MessagesSplitLayout();
+ messagePanelLayout.setContentComponent(contentLayout);
+
+ MessageUiComponents.handleMessagesAfterValidation(messagePanelLayout, bindingManager.getContext("messages-context"));
+----

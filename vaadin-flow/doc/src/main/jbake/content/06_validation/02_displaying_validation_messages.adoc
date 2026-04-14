@@ -6,11 +6,14 @@
 [[displaying-validation-messages]]
 === Displaying Validation Messages
 
-By default *linkki* marks UI elements bound to invalid <<object-properties, ObjectProperties>>. The input field bound to the referenced `ObjectProperty` shows a colored border and background. The message itself is displayed underneath the component. 
+Validation messages can be displayed on a field, or in a separate component.
 
-`MessageUiComponents` provides utility methods to display validation messages. The `#createMessageTable` method can be used to display all messages from a `BindingManager`. This method requires two arguments: a messages supplier and a `BindingContext`. The `getFilteredMessages` method of the `ValidationService` should be used as messages supplier. The `BindingContext` must be registered as a `UiUpdateObserver` for the component to correctly update. 
+==== Displaying validation messages on the field
 
-[source, java]
-----
-include::{source-dir-messages}/org/linkki/samples/playground/ts/messages/MessageTableSection.java[tags=messages-component]
-----
+By default, *linkki* marks UI elements bound to invalid <<object-properties, ObjectProperties>>.
+The input field bound to the referenced `ObjectProperty` shows a colored border and background.
+The message itself is displayed underneath the component.
+
+==== Display messages in a separate component
+
+There are several classes and utility methods that are provided to display messages in a separate component. See section <<message-components, Message Components>> in chapter "UI Components".

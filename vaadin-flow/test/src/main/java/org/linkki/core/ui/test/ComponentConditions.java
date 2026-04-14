@@ -125,4 +125,14 @@ public class ComponentConditions {
                 null, null, null, null, null, new HashMap<>(),
                 new ArrayList<>());
     }
+
+    /**
+     * Returns a condition that checks whether a component is {@link Component#isVisible() visible}.
+     *
+     * @since 2.10.0
+     */
+    public static Condition<Component> visible() {
+        return new Condition<>(Component::isVisible, "visible");
+    }
+
 }
