@@ -104,10 +104,16 @@ This allows different test classes to target different deployments without inter
 ==== Other Improvements
 
 // https://jira.convista.com/browse/LIN-4781
-* Documentation and migration guide was added for the changed scrolling behavior of `SplitLayout` in Vaadin 25. (See "Scrolling in SplitLayout" in section "Vaadin 25 Update" of version 2.10.0-a20250202-03)
+* Documentation and migration guide was added for the changed scrolling behavior of `SplitLayout` in Vaadin 25. (See "Scrolling in SplitLayout" in section "Vaadin 25 Update" of version 2.10.0-a20250202-03) +
++
+IMPORTANT: Any component using SplitLayout should be checked if it's overflowing properly.
 
 ==== Bugfixes
 
+// https://jira.convista.com/browse/LIN-4781
+* *Vaadin 25 regression - Content of SearchLayout does not overflow* +
+The content of either part of the SearchLayout does no longer overflow like it used to.
+To counter this change in behavior SearchLayout sets the CSS-Property `min-heigt` to 0.
 // https://jira.convista.com/browse/LIN-4812
 * *Vaadin 25 regression - Disabled input fields not changing their background color* +
 Input fields did not turn to a lighter gray when disabled.
@@ -392,7 +398,8 @@ Other selectors used in UI tests and CSS styling may need to be adjusted.
 * [.api-change]*Scrolling in SplitLayouts* +
 In Vaadin 25, the scrolling behavior of `SplitLayout` was changed deliberately.
 Primary and secondary components do not scroll automatically anymore. +
-*Migration*: Check all existing usages of `SplitLayout` if the scrolling behavior is still correct.
++
+IMPORTANT: Check all existing usages of `SplitLayout` if the scrolling behavior is still correct.
 If the primary and secondary component should scroll, it may be necessary to add `overflow: auto` to the components.
 This can be done with `LumoUtility.Overflow.AUTO` or `getStyle().setOverflow(AUTO)`. +
 If the split layout is in a flex container, it may also be necessary to add `min-height: 0` to the `SplitLayout` itself.

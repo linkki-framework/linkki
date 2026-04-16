@@ -54,6 +54,7 @@ public class SearchLayout extends LitTemplate implements HasSize {
         requireNonNull(splitLayout, "splitLayout should be mapped from template by ID");
         splitLayout.setSplitterPosition(25);
         splitLayout.addThemeVariants(SplitLayoutVariant.LUMO_SMALL);
+        splitLayout.getStyle().setMinHeight("0");
         setSizeFull();
     }
 }
