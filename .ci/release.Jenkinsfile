@@ -14,6 +14,7 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'linkki'
+        NETWORK_NAME = "network-${PROJECT_ID}"
         PROJECT_ID = "${PROJECT_NAME}-${params.RELEASE_VERSION.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
@@ -42,6 +43,12 @@ pipeline {
                 junit "**/target/surefire-reports/*.xml"
                 recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
                 jacoco sourceInclusionPattern: '**/*.java'
+            }
+        }
+
+        stage('Remove Docker Network') {
+            steps {
+                deleteDockerNetwork "${NETWORK_NAME}"
             }
         }
 
