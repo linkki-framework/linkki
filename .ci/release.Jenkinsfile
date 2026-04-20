@@ -114,7 +114,12 @@ pipeline {
             steps {
                 script {
                     uploadRelease() {
-                        uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false
+                        def latestFinalReleaseTag = sh(
+                            script: "git tag | grep -E '^[0-9]+\\.[0-9]+\\.[0-9]+\$' | sort -V | tail -1",
+                            returnStdout: true
+                        ).trim()
+                        def updateLatest = latestFinalReleaseTag == params.RELEASE_VERSION
+                        uploadDocumentation project: 'linkki', folder: 'vaadin-flow/doc/target/doc/html', legacyMode: false, updateLatest: updateLatest
 
                         // only publish final releases (no rcs & milestones) on maven central
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
