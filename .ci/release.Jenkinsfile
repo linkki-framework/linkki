@@ -15,6 +15,11 @@ pipeline {
     environment {
         PROJECT_NAME = 'linkki'
         PROJECT_ID = "${PROJECT_NAME}-${params.RELEASE_VERSION.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
+        DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
+        DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
+        DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
+        F10_DEPLOYMENT_HOST = "${PROJECT_ID}-linkki-f10-sample.dockerhost.i.faktorzehn.de"
+        F10_DEPLOYMENT_URL = "http://${F10_DEPLOYMENT_HOST}/linkki-f10-sample/ui"
         BASE_IMAGE = 'spring:26.1'
         SUITE_VERSION = '26.1'
     }
@@ -48,12 +53,17 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh 'bash -x .ci/docker_setup.sh ${PROJECT_ID} ${BASE_IMAGE}'
+                sh 'cp vaadin-flow/samples/test-playground/target/linkki-sample-test-playground-vaadin-flow.war .ci/docker/playground/'
+                sh 'cp vaadin-flow/samples/linkki-f10-sample/target/linkki-f10-sample.jar .ci/docker/linkki-f10-sample/'
+                dir('.ci/docker') {
+                    sh "docker compose -f docker-compose.yml -f docker-compose.resources.yml -p ${PROJECT_ID} up -d --build"
+                }
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Sample Deployments</h3>
                     <ul>
-                        <li><a href='http://${env:PROJECT_ID}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow'>Playground</a></li>
+                        <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
+                        <li><a href='http://${PROJECT_ID}-linkki-f10-sample.dockerhost.i.faktorzehn.de/linkki-f10-sample/ui' target="_blank">Linkki F10 Sample</a></li>
                     </ul>
                 """
             }
@@ -62,7 +72,7 @@ pipeline {
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
-                waitForServer "http://${PROJECT_ID}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow"
+                waitForServer "${DEPLOYMENT_URL}"
             }
         }
 
