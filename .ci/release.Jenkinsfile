@@ -106,7 +106,7 @@ pipeline {
             }
 
             environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${PROJECT_ID}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin-flow'
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=${DEPLOYMENT_HOST} -Dtest.port=80 -Dtest.path=${DEPLOYMENT_NAME} -Dtest.hostname.f10=${F10_DEPLOYMENT_HOST} -Dtest.port.f10=80'
             }
         }
 
