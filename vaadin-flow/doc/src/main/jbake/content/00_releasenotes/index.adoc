@@ -21,6 +21,19 @@
 // | Logback                       | 1.5.32 | 1.5.26
 // |===
 
+=== Version 2.9.7
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Faktor-IPS                    | 26.1.2.release (link:https://doc.faktorzehn.org/faktor-ips/26.1/[Release Notes]) | 26.1.1-release
+|===
+
 === Version 2.9.6
 
 ==== Version Updates
