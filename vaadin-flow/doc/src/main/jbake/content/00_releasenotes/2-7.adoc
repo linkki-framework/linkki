@@ -18,6 +18,8 @@
 // | Logback                       | 1.5.32    | 1.5.28
 // |===
 
+=== Version 2.7.105
+
 === Version 2.7.104
 
 ==== Version Updates
