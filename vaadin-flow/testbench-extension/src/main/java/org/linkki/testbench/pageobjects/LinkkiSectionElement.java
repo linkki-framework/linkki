@@ -58,7 +58,7 @@ public class LinkkiSectionElement extends TestBenchElement {
     }
 
     public ElementQuery<ButtonElement> getCloseToggle() {
-        return $(ButtonElement.class).withAttribute("slot", "close-toggle");
+        return $(ButtonElement.class).withAttribute("slot", "close-toggle").withoutAttribute("hidden");
     }
 
     public ElementQuery<TestBenchElement> getHeaderComponents() {
@@ -90,9 +90,8 @@ public class LinkkiSectionElement extends TestBenchElement {
     }
 
     public Optional<String> getPlaceholderText() {
-        var contentOfAfter =
-                executeScript("return window.getComputedStyle(arguments[0],'::after').getPropertyValue('content')",
-                              getContent()).toString();
+        var contentOfAfter = executeScript("return window.getComputedStyle(arguments[0],'::after').getPropertyValue('content')",
+                                           getContent()).toString();
         var strippedContent = StringUtils.strip(contentOfAfter, "\"");
         return StringUtils.isBlank(strippedContent) || "none".equals(strippedContent)
                 ? Optional.empty()

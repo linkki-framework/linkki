@@ -62,6 +62,20 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version                                                                        | Previous version
+| Faktor-IPS                    | 26.7.0.a20260413-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260413-01/01_releasenotes/index.html[Release Notes]) | 26.7.0.a20260217-01
+| Vaadin                        | 25.0.9 (link:https://github.com/vaadin/platform/releases/tag/25.0.9[Release Notes]) | 25.0.8
+
+|===
+
+=== Alpha Version 2.10.0-20260421-01
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
 
 | Vaadin                        | 25.0.8 (link:https://github.com/vaadin/platform/releases/tag/25.0.8[Release Notes]) | 25.0.7
 | Spring Boot compatibility tested for                   | 4.0.5 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.5[Release Notes]) | 4.0.3

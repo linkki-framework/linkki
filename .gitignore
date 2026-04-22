@@ -71,3 +71,4 @@
 .asciidoctorconfig.adoc
 com.vaadin.designer.prefs
 .flattened-pom.xml
+/.metadata/
