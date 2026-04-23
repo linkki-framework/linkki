@@ -52,24 +52,17 @@
         <apt.tests.skip>false</apt.tests.skip>
         <surefire.directory>surefire-reports</surefire.directory>
 
+        <!-- Compile dependencies -->
+        <commons-lang3.version>3.20.0</commons-lang3.version>
+
+        <!-- Test dependencies -->
         <junit.version>6.0.3</junit.version>
         <mockito.version>5.23.0</mockito.version>
         <assertj.version>3.27.7</assertj.version>
         <hamcrest.version>3.0</hamcrest.version>
         <awaitility.version>4.3.0</awaitility.version>
-        <checkstyle.version>13.4.0</checkstyle.version>
-        <commons-lang3.version>3.20.0</commons-lang3.version>
-        <commons-io.version>2.21.0</commons-io.version>
-        <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
-        <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
-        <spotbugs.version>4.9.8</spotbugs.version>
-        <logback.version>1.5.32</logback.version>
 
-        <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
-        <revapi-java.version>0.28.4</revapi-java.version>
-
-        <!-- Maven plugin versions -->
-        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+        <!-- Maven plugins -->
         <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
         <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
@@ -78,15 +71,20 @@
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
         <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
-        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
         <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
-        <spotbugs-maven-plugin.version>4.9.8.3</spotbugs-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <build-helper-maven-plugin.version>3.6.1</build-helper-maven-plugin.version>
+        <!-- Code analysis plugins -->
+        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+        <checkstyle.version>13.4.0</checkstyle.version>
+        <spotbugs-maven-plugin.version>4.9.8.3</spotbugs-maven-plugin.version>
+        <spotbugs.version>4.9.8</spotbugs.version>
+        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <versions-maven-plugin.version>2.21.0</versions-maven-plugin.version>
+        <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
+        <revapi-java.version>0.28.4</revapi-java.version>
 
-        <!-- Sonarqube properties -->
+        <!-- SonarQube properties -->
         <sonar.host.url>https://sonarqube.faktorzehn.de</sonar.host.url>
         <sonar.exclusions>
             **/VAADIN/themes/**/*.*,
@@ -459,11 +457,6 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${maven-gpg-plugin.version}</version>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
                     <version>${flatten-maven-plugin.version}</version>
@@ -550,11 +543,6 @@
                 <version>${awaitility.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.github.spotbugs</groupId>
@@ -572,23 +560,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
-                <version>${jakarta.servlet-api.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.annotation</groupId>
-                <artifactId>jakarta.annotation-api</artifactId>
-                <version>${jakarta.annotation-api.version}</version>
-                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
