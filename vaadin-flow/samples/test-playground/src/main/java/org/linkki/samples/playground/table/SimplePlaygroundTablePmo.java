@@ -24,27 +24,43 @@ import org.linkki.core.ui.layout.annotation.UISection;
 
 public abstract class SimplePlaygroundTablePmo extends PlaygroundTablePmo {
 
-    public SimplePlaygroundTablePmo(List<TableModelObject> modelObjects) {
+    private final int pageLength;
+
+    private SimplePlaygroundTablePmo(int pageLength, List<TableModelObject> modelObjects) {
         super(() -> modelObjects, () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
-                o -> modelObjects.remove(o));
+                modelObjects::remove);
+        this.pageLength = pageLength;
+    }
+
+    protected SimplePlaygroundTablePmo(int pageLength) {
+        this(pageLength, IntStream.range(1, 2)
+                .mapToObj(TableModelObject::new)
+                .collect(Collectors.toList()));
     }
 
     @Override
     public int getPageLength() {
-        return 3;
+        return pageLength;
     }
 
     // tag::bindPlaceholder-tablePmo[]
     @BindPlaceholder("No rows present.")
-    @UISection(caption = "@BindPlaceholder(\"No rows present.\")")
+    @UISection(caption = "@BindPlaceholder(\"No rows present.\") with fixed page length")
     public static class TableWithPlaceholderPmo extends SimplePlaygroundTablePmo {
         // end::bindPlaceholder-tablePmo[]
-        public TableWithPlaceholderPmo() {
-            super(IntStream.range(1, 2)
-                    .mapToObj(TableModelObject::new)
-                    .collect(Collectors.toList()));
-        }
 
+        public TableWithPlaceholderPmo() {
+            super(3);
+        }
+    }
+
+    @BindPlaceholder("No rows present.")
+    @UISection(caption = "@BindPlaceholder(\"No rows present.\") with page length 0")
+    public static class TableWithPlaceholderNoPageLengthPmo extends SimplePlaygroundTablePmo {
+
+        public TableWithPlaceholderNoPageLengthPmo() {
+            super(0);
+        }
     }
 
     @UISection(caption = "Inherited @BindPlaceholder")
@@ -58,18 +74,14 @@ public abstract class SimplePlaygroundTablePmo extends PlaygroundTablePmo {
     @UISection(caption = "@BindPlaceholder(value = \"\", placeholderType = PlaceholderType.STATIC)")
     public static class TableWithEmptyPlaceholderPmo extends SimplePlaygroundTablePmo {
         public TableWithEmptyPlaceholderPmo() {
-            super(IntStream.range(1, 2)
-                    .mapToObj(TableModelObject::new)
-                    .collect(Collectors.toList()));
+            super(3);
         }
     }
 
     @UISection(caption = "Without @BindPlaceholder")
     public static class TableWithoutPlaceholderPmo extends SimplePlaygroundTablePmo {
         public TableWithoutPlaceholderPmo() {
-            super(IntStream.range(1, 2)
-                    .mapToObj(TableModelObject::new)
-                    .collect(Collectors.toList()));
+            super(3);
         }
     }
 }

@@ -3,9 +3,10 @@ vaadin-grid,
 vaadin-grid::part(cell) {
     background-image: var(--linkki-grid-background, var(--lumo-base-color));
 }
+
 vaadin-grid::part(selected-row-cell) {
     /* Reapply shadow DOM styling, otherwise :part(cell) would overwrite selection color */
-    background-image: linear-gradient(var(--_lumo-grid-selected-row-color),var(--_lumo-grid-selected-row-color));
+    background-image: linear-gradient(var(--_lumo-grid-selected-row-color), var(--_lumo-grid-selected-row-color));
 }
 
 /* Header styling */
@@ -24,15 +25,17 @@ vaadin-grid::part(footer-cell) {
  * Empty state
  */
 vaadin-grid[has-placeholder]:not([has-items]) {
+    visibility: hidden;
+    min-height: var(--_grid-min-height);
+
     /* override fixed inline height */
     height: unset !important;
 }
+
 vaadin-grid[has-placeholder]:not([has-items])::part(row) {
     display: none;
 }
-vaadin-grid[has-placeholder]:not([has-items]) {
-    visibility: hidden;
-}
+
 vaadin-grid[has-placeholder]:not([has-items])::before {
     visibility: visible;
     content: var(--placeholder, "");

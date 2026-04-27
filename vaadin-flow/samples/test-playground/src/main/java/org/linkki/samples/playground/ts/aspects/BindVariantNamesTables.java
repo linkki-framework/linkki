@@ -14,13 +14,9 @@
 
 package org.linkki.samples.playground.ts.aspects;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import org.linkki.core.ui.aspects.annotation.BindVariantNames;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo;
-import org.linkki.samples.playground.table.TableModelObject;
 
 public class BindVariantNamesTables {
 
@@ -32,20 +28,19 @@ public class BindVariantNamesTables {
     @UISection(caption = "Table with 'no row border' variant")
     @BindVariantNames(value = { "no-row-borders" })
     public static class BindVariantNamesTablePmoNoBorder extends SimplePlaygroundTablePmo {
+        // end::bindVariantNames[]
         public BindVariantNamesTablePmoNoBorder() {
-            super(IntStream.range(1, 2)
-                    .mapToObj(TableModelObject::new)
-                    .collect(Collectors.toList()));
+            super(3);
         }
+
+        // tag::bindVariantNames[]
     }
     // end::bindVariantNames[]
 
     @UISection(caption = "Table without any variant")
     public static class BindVariantNamesTablePmoWithoutVariant extends SimplePlaygroundTablePmo {
         public BindVariantNamesTablePmoWithoutVariant() {
-            super(IntStream.range(1, 2)
-                    .mapToObj(TableModelObject::new)
-                    .collect(Collectors.toList()));
+            super(3);
         }
     }
 }

@@ -37,6 +37,7 @@ import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.table.NumberFooterTablePmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
+import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderNoPageLengthPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
 import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.table.SortableTablePmo;
@@ -373,8 +374,10 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC004, DynamicFieldsSection::create)
                                        .testCase(TC005, new NumberFooterTablePmo())
                                        .testCase(TC006, new TableWithPlaceholderPmo(),
+                                                 new TableWithPlaceholderNoPageLengthPmo(),
                                                  new TableWithInheritedPlaceholderPmo(),
-                                                 new TableWithEmptyPlaceholderPmo(), new TableWithoutPlaceholderPmo())
+                                                 new TableWithEmptyPlaceholderPmo(),
+                                                 new TableWithoutPlaceholderPmo())
                                        .testCase(TC007, new VaryingAlignmentTablePmo()).testCase(TC008, () -> {
                                            GridSection section = (GridSection)VaadinUiCreator
                                                    .createComponent(new CollapsibleColumnTablePmo(),
