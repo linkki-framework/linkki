@@ -46,6 +46,7 @@ import org.linkki.samples.playground.bugs.lin4798.LongLabelPmo;
 import org.linkki.samples.playground.bugs.lin4803.DialogMinWidthBug;
 import org.linkki.samples.playground.bugs.lin4805.NestedTabLayoutBug;
 import org.linkki.samples.playground.bugs.lin4808.VariantCardSectionsDialogBug;
+import org.linkki.samples.playground.bugs.lin4849.GridVariantRowStripesBug;
 import org.linkki.samples.playground.ts.formelements.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
@@ -144,7 +145,10 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                                     NestedTabLayoutBug::new),
                      createTabSheet(VariantCardSectionsDialogBug.LIN_4808,
                                     VariantCardSectionsDialogBug.CAPTION,
-                                    VariantCardSectionsDialogBug::new));
+                                    VariantCardSectionsDialogBug::new),
+                     createTabSheet(GridVariantRowStripesBug.LIN_4849,
+                                    GridVariantRowStripesBug.CAPTION,
+                                    GridVariantRowStripesBug::new));
     }
 
     @Override
