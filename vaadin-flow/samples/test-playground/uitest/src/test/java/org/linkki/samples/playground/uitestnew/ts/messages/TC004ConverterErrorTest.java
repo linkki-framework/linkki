@@ -56,7 +56,7 @@ class TC004ConverterErrorTest extends PlaygroundUiTest {
     private void verifyNoErrorMessage(TestBenchElement element) {
         assertThat(element.hasAttribute("invalid")).isFalse();
         DivElement validationMessage = element.$(DivElement.class)
-                .withAttribute("slot", "error-message").first();
+                .withAttribute("slot", "error-message").single();
 
         assertThat(validationMessage.isDisplayed()).isFalse();
     }

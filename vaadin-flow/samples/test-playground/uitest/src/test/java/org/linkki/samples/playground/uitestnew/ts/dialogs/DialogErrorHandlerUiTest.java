@@ -14,14 +14,14 @@
 
 package org.linkki.samples.playground.uitestnew.ts.dialogs;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.conditions.VaadinElementConditions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.dialog.testbench.DialogElement;
@@ -36,9 +36,10 @@ class DialogErrorHandlerUiTest extends PlaygroundUiTest {
     @Test
     void testErrorParameter() {
         $(ButtonElement.class).id("showExceptionDialog").click();
-        $(DialogElement.class).waitForFirst();
+        waitUntil(VaadinElementConditions.elementDisplayed($(DialogElement.class)));
         clickButton("okButton");
 
-        assertThat(getDriver().getCurrentUrl().contains(DialogErrorHandler.ERROR_PARAM), is(true));
+        assertThat(getDriver().getCurrentUrl())
+                .contains(DialogErrorHandler.ERROR_PARAM);
     }
 }

@@ -38,7 +38,7 @@ public class TC002IpsUIDecimalFieldTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC002);
-        section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
+        section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).single();
     }
 
     @Test

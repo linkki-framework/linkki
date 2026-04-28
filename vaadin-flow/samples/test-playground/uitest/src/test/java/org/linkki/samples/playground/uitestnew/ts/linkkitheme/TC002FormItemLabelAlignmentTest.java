@@ -42,7 +42,7 @@ class TC002FormItemLabelAlignmentTest extends PlaygroundUiTest {
 
         var label = testCaseSection.$(LinkkiSectionElement.class).id("BasicElementsLayoutLabelStartPmo")
                 .getContent()
-                .$("vaadin-form-item").first()
+                .$("vaadin-form-item").get(0)
                 .$(DivElement.class).id("label");
         assertThat(label.getCssValue("text-align")).isEqualTo("start");
     }
@@ -54,7 +54,7 @@ class TC002FormItemLabelAlignmentTest extends PlaygroundUiTest {
 
         var label = testCaseSection.$(LinkkiSectionElement.class).id("BasicElementsLayoutBehaviorUiSectionPmo")
                 .getContent()
-                .$("vaadin-form-item").first()
+                .$("vaadin-form-item").get(0)
                 .$(DivElement.class).id("label");
         assertThat(label.getCssValue("text-align")).isEqualTo("end");
     }

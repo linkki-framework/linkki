@@ -47,7 +47,7 @@ class HeadlineTest extends AbstractLinkkiUiTest {
                 .findElement(By.tagName("h2")).getText();
 
         assertThat(reportListHeadline, containsString("Report List"));
-        assertThat(reportListHeadline, containsString(String.valueOf($(GridElement.class).first().getRowCount())));
+        assertThat(reportListHeadline, containsString(String.valueOf($(GridElement.class).single().getRowCount())));
 
         openTab("CreateReport");
 
@@ -60,7 +60,7 @@ class HeadlineTest extends AbstractLinkkiUiTest {
                 .findElement(By.tagName("h2")).getText();
 
         assertThat(reportListHeadline, containsString("Report List"));
-        assertThat(reportListHeadline, containsString(String.valueOf($(GridElement.class).first().getRowCount())));
+        assertThat(reportListHeadline, containsString(String.valueOf($(GridElement.class).single().getRowCount())));
     }
 
     private void addReport() {

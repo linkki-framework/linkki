@@ -41,13 +41,13 @@ class TC003HeadlineTest extends PlaygroundUiTest {
     void testHeadlineComponent() {
         var headline = testCaseSection.$(HorizontalLayoutElement.class).id("headline-component");
 
-        assertThat(headline.$(H2Element.class).first().getText())
+        assertThat(headline.$(H2Element.class).single().getText())
                 .as("Title is still shown although children are added to the title")
                 .contains("Headline Component");
-        assertThat(headline.$(LinkkiTextElement.class).first().getRect().getX())
+        assertThat(headline.$(LinkkiTextElement.class).single().getRect().getX())
                 .as("Components added with addToTitle should be directly after the headline text with a gap")
                 .isCloseTo(706, offset(1));
-        assertThat(headline.$(ButtonElement.class).first().getLocation().getX())
+        assertThat(headline.$(ButtonElement.class).single().getLocation().getX())
                 .as("Components added with getContent().add should be right aligned")
                 .isGreaterThan(1000);
     }

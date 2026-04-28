@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -52,7 +51,7 @@ class TC001LocalizationTest {
         }
     }
 
-    private abstract class BaseTC001LocalizationTest extends PlaygroundUiTest {
+    private static abstract class BaseTC001LocalizationTest extends PlaygroundUiTest {
 
         protected TestCaseComponentElement testCaseSection;
         protected LinkkiSectionElement section;
@@ -70,14 +69,15 @@ class TC001LocalizationTest {
         void setup() {
             testCaseSection = goToTestCase(TestScenarioView.TS003, TestScenarioView.TC001);
 
-            section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
+            section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).single();
             allFormItems = section.$("vaadin-form-item").all();
         }
 
         @Test
         void testLocalizedLabelsOfAllElements() {
-            assertThat(allFormItems.stream()//
-                    .map(e -> e.$(NativeLabelElement.class).first().getText()))
+            assertThat(allFormItems.stream()
+                    .flatMap(e -> e.$(NativeLabelElement.class).all().stream())
+                    .map(NativeLabelElement::getText))
                             .allSatisfy(e -> Strings.CS.contains(e, localizedPrefix));
         }
 

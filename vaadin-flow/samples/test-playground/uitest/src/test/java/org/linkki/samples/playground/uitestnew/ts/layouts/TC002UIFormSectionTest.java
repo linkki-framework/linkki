@@ -31,9 +31,9 @@ class TC002UIFormSectionTest extends TC001AbstractSectionTest {
 
     @Test
     void testFormSection_FormItemLabelWidth() {
-        DivElement label = getTestCaseSection().$(LinkkiSectionElement.class).first()
+        DivElement label = getTestCaseSection().$(LinkkiSectionElement.class).single()
                 .getContent()
-                .$("vaadin-form-item").first()
+                .$("vaadin-form-item").get(0)
                 .$(DivElement.class).id("label");
 
         assertThat(label.getCssValue("width")).isEqualTo("200px");

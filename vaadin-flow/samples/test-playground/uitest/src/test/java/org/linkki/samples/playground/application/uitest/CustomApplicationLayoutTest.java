@@ -14,8 +14,7 @@
 
 package org.linkki.samples.playground.application.uitest;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,6 @@ import org.linkki.samples.playground.uitest.AbstractLinkkiUiTest;
 
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
-import com.vaadin.testbench.ElementQuery;
 
 class CustomApplicationLayoutTest extends AbstractLinkkiUiTest {
 
@@ -36,22 +34,22 @@ class CustomApplicationLayoutTest extends AbstractLinkkiUiTest {
 
     @Test
     void testApplicationLayout_HeaderExists() {
-        ElementQuery<HorizontalLayoutElement> appHeader = $(HorizontalLayoutElement.class)
+        var appHeader = $(HorizontalLayoutElement.class)
                 .withAttribute("class", LinkkiApplicationTheme.APPLICATION_HEADER);
-        assertThat(appHeader.first().isDisplayed(), is(true));
+        assertThat(appHeader.single().isDisplayed()).isTrue();
     }
 
     @Test
     void testApplicationLayout_FooterExists() {
-        ElementQuery<HorizontalLayoutElement> appHeader = $(HorizontalLayoutElement.class)
+        var appHeader = $(HorizontalLayoutElement.class)
                 .withAttribute("class", LinkkiApplicationTheme.APPLICATION_FOOTER);
-        assertThat(appHeader.first().isDisplayed(), is(true));
+        assertThat(appHeader.single().isDisplayed()).isTrue();
     }
 
     @Test
     void testApplicationLayout_MenuExists() {
-        MenuBarElement menu = $(MenuBarElement.class)
+        var menu = $(MenuBarElement.class)
                 .id(LinkkiApplicationTheme.APPLICATION_MENU);
-        assertThat(menu.isDisplayed(), is(true));
+        assertThat(menu.isDisplayed()).isTrue();
     }
 }

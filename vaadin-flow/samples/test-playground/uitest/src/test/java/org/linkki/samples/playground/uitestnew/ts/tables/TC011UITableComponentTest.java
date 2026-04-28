@@ -76,8 +76,8 @@ class TC011UITableComponentTest extends PlaygroundUiTest {
 
         waitUntil(d -> table.getRowCount() > 1, 60);
 
-        var ageField = table.$(TextFieldElement.class).first();
-        var likeButton = table.$(ButtonElement.class).first();
+        var ageField = table.$(TextFieldElement.class).get(0);
+        var likeButton = table.$(ButtonElement.class).get(0);
         ageField.focus();
 
         waitUntil(d -> ageField.hasAttribute("focused"), 10);

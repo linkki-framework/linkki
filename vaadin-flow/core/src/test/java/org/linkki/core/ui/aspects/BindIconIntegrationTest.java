@@ -14,15 +14,10 @@
 
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -44,6 +39,8 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 class BindIconIntegrationTest {
 
     private static final String ABACUS_ICON_NAME = "vaadin:abacus";
@@ -53,38 +50,38 @@ class BindIconIntegrationTest {
 
     @Test
     void testAspectBindIconAnnotation_Static_withButton() {
-        List<Component> uiElements = createUiElements(new TestPmoWithStaticIcon());
+        var uiElements = createUiElements(new TestPmoWithStaticIcon());
 
-        Component button = uiElements.get(1);
-        assertThat(button, is(instanceOf(Button.class)));
-        Component icon = getIcon((Button)button).get();
-        assertThat(icon, is(instanceOf(Icon.class)));
-        assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
+        var button = uiElements.get(1);
+        assertThat(button).isInstanceOf(Button.class);
+        var icon = getIcon((Button)button);
+        assertThat(icon).isInstanceOf(Icon.class);
+        assertThat(getIconAttribute(icon)).isEqualTo(ABACUS_ICON_NAME);
     }
 
     @Test
     void testAspectBindIconAnnotation_Static_withLink() {
-        List<Component> uiElements = createUiElements(new TestPmoWithStaticIcon());
+        var uiElements = createUiElements(new TestPmoWithStaticIcon());
 
-        Component uiLink = uiElements.get(2);
-        assertThat(uiLink, is(instanceOf(LinkkiAnchor.class)));
-        assertThat(((LinkkiAnchor)uiLink).getIcon(), is(VaadinIcon.ACADEMY_CAP));
+        var uiLink = uiElements.get(2);
+        assertThat(uiLink).isInstanceOf(LinkkiAnchor.class);
+        assertThat(((LinkkiAnchor)uiLink).getIcon()).isEqualTo(VaadinIcon.ACADEMY_CAP);
     }
 
     @Test
     void testAspectBindIconAnnotation_Auto_withButton() {
-        TestPmoWithAutoIcon pmo = new TestPmoWithAutoIcon(VaadinIcon.ABACUS);
-        Component button = createUiElements(pmo).get(1);
+        var pmo = new TestPmoWithAutoIcon(VaadinIcon.ABACUS);
+        var button = createUiElements(pmo).get(1);
 
-        assertThat(button, is(instanceOf(Button.class)));
-        Component icon = getIcon((Button)button).get();
-        assertThat(icon, is(instanceOf(Icon.class)));
-        assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
+        assertThat(button).isInstanceOf(Button.class);
+        var icon = getIcon((Button)button);
+        assertThat(icon).isInstanceOf(Icon.class);
+        assertThat(getIconAttribute(icon)).isEqualTo(ABACUS_ICON_NAME);
 
         pmo.setIcon(null);
         bindingContext.modelChanged();
 
-        assertThat(getIcon((Button)button).isPresent(), is(false));
+        assertThat(getIcon((Button)button)).isNull();
     }
 
     @Test
@@ -92,13 +89,13 @@ class BindIconIntegrationTest {
         TestPmoWithAutoIcon pmo = new TestPmoWithAutoIcon(VaadinIcon.ABACUS);
         Component link = createUiElements(pmo).get(2);
 
-        assertThat(link, is(instanceOf(LinkkiAnchor.class)));
-        assertThat(((LinkkiAnchor)link).getIcon(), is(VaadinIcon.ABACUS));
+        assertThat(link).isInstanceOf(LinkkiAnchor.class);
+        assertThat(((LinkkiAnchor)link).getIcon()).isEqualTo(VaadinIcon.ABACUS);
 
         pmo.setIcon(null);
         bindingContext.modelChanged();
 
-        assertThat(((LinkkiAnchor)link).getIcon(), is(nullValue()));
+        assertThat(((LinkkiAnchor)link).getIcon()).isNull();
     }
 
     @Test
@@ -106,17 +103,17 @@ class BindIconIntegrationTest {
         TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.ABACUS);
 
         Component button = createUiElements(pmo).get(1);
-        assertThat(button, is(instanceOf(Button.class)));
-        Component icon = getIcon((Button)button).get();
-        assertThat(icon, is(instanceOf(Icon.class)));
-        assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
+        assertThat(button).isInstanceOf(Button.class);
+        Component icon = getIcon((Button)button);
+        assertThat(icon).isInstanceOf(Icon.class);
+        assertThat(getIconAttribute(icon)).isEqualTo(ABACUS_ICON_NAME);
 
         pmo.setIcon(VaadinIcon.AIRPLANE);
         bindingContext.modelChanged();
 
         // Icon on button changed
-        icon = getIcon((Button)button).get();
-        assertThat(getIconAttribute(icon), is(AIRPLANE_ICON_NAME));
+        icon = getIcon((Button)button);
+        assertThat(getIconAttribute(icon)).isEqualTo(AIRPLANE_ICON_NAME);
     }
 
     @Test
@@ -124,37 +121,37 @@ class BindIconIntegrationTest {
         TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.ABACUS);
         Component link = createUiElements(pmo).get(2);
 
-        assertThat(link, is(instanceOf(LinkkiAnchor.class)));
-        assertThat(((LinkkiAnchor)link).getIcon(), is(VaadinIcon.ABACUS));
+        assertThat(link).isInstanceOf(LinkkiAnchor.class);
+        assertThat(((LinkkiAnchor)link).getIcon()).isEqualTo(VaadinIcon.ABACUS);
 
         pmo.setIcon(VaadinIcon.AIRPLANE);
         bindingContext.modelChanged();
 
         // Icon on link changed
-        assertThat(((LinkkiAnchor)link).getIcon(), is(VaadinIcon.AIRPLANE));
+        assertThat(((LinkkiAnchor)link).getIcon()).isEqualTo(VaadinIcon.AIRPLANE);
     }
 
     @Test
-    public void testAspectBindIconAnnotation_Dynamic_withMethodMissing() {
+    void testAspectBindIconAnnotation_Dynamic_withMethodMissing() {
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
 
-        assertThrows(LinkkiBindingException.class,
-                     () -> UiCreator
-                             .createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
-                             .toList());
+        assertThatExceptionOfType(LinkkiBindingException.class)
+                .isThrownBy(() -> UiCreator
+                        .createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
+                        .toList());
     }
 
     private List<Component> createUiElements(Object pmo) {
-
         return UiCreator.createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
-                .map(VaadinComponentWrapper::getComponent).collect(Collectors.toList());
+                .map(VaadinComponentWrapper::getComponent).toList();
     }
 
-    private Optional<Component> getIcon(Button parent) {
-        return parent.getChildren().findFirst();
+    @CheckForNull
+    private Component getIcon(Button parent) {
+        return parent.getPrefixComponent();
     }
 
-    private String getIconAttribute(Component icon) {
+    private String getIconAttribute(@CheckForNull Component icon) {
         if (icon == null) {
             return null;
         }

@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.linkki.testbench.pageobjects.OkCancelDialogElement;
@@ -34,45 +33,45 @@ class OkCancelDialogMessageTest extends PlaygroundUiTest {
 
     @BeforeEach
     void goToTestCaseAndOpenDialog() {
-        TestCaseComponentElement testCase = goToTestCaseByUrl(TestScenarioView.TS011, TestScenarioView.TC008);
+        var testCase = goToTestCaseByUrl(TestScenarioView.TS011, TestScenarioView.TC008);
         testCase.$(ButtonElement.class).id("button").click();
-        dialog = $(OkCancelDialogElement.class).waitForFirst();
+        dialog = $(OkCancelDialogElement.class).single();
     }
 
     @Test
     void testShowMessageOnInfo() {
-        $(ComboBoxElement.class).first().selectByText(Severity.INFO.name());
+        dialog.$(ComboBoxElement.class).id("severity").selectByText(Severity.INFO.name());
 
         assertThat(dialog.isMessageAreaPresent(Severity.INFO)).isTrue();
     }
 
     @Test
     void testShowMessageOnWarning() {
-        $(ComboBoxElement.class).first().selectByText(Severity.WARNING.name());
+        dialog.$(ComboBoxElement.class).id("severity").selectByText(Severity.WARNING.name());
 
         assertThat(dialog.isMessageAreaPresent(Severity.WARNING)).isTrue();
     }
 
     @Test
     void testShowMessageOnError() {
-        $(ComboBoxElement.class).first().selectByText(Severity.ERROR.name());
+        dialog.$(ComboBoxElement.class).id("severity").selectByText(Severity.ERROR.name());
 
         assertThat(dialog.isMessageAreaPresent(Severity.ERROR)).isTrue();
     }
 
     @Test
     void testHideIndicatorIfMessageResolves() {
-        $(ComboBoxElement.class).first().selectByText(Severity.ERROR.name());
+        dialog.$(ComboBoxElement.class).id("severity").selectByText(Severity.ERROR.name());
         assertThat(dialog.isMessageAreaPresent(Severity.ERROR)).isTrue();
 
-        $(ComboBoxElement.class).first().clear();
+        dialog.$(ComboBoxElement.class).id("severity").clear();
 
         assertThat(dialog.isMessageAreaPresent()).isFalse();
     }
 
     @Test
     void testLinebreakOnLongMessage() {
-        $(ComboBoxElement.class).first().selectByText(Severity.INFO.name());
+        dialog.$(ComboBoxElement.class).id("severity").selectByText(Severity.INFO.name());
         int heightForShortMessage = dialog.getMessageArea().getSize().getHeight();
 
         $(CheckboxElement.class).id("showLongValidationMessage").setChecked(true);

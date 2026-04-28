@@ -39,7 +39,7 @@ public class LinkkiTextElement extends TestBenchElement implements HasLabel {
     }
 
     public IconElement getIcon() {
-        return getIconQuery().first();
+        return getIconQuery().single();
     }
 
     public boolean hasIcon() {

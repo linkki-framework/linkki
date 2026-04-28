@@ -39,11 +39,11 @@ class SetFormItemLabelWidthTest extends PlaygroundUiTest {
         LinkkiSectionElement section = getSection(SetFormItemLabelWidthDialogPmo.class);
         section.$(ButtonElement.class).id("showDialog").click();
 
-        OkCancelDialogElement dialogElement = $(OkCancelDialogElement.class).waitForFirst();
+        OkCancelDialogElement dialogElement = $(OkCancelDialogElement.class).single();
         DivElement label = dialogElement
-                .$(LinkkiSectionElement.class).first()
+                .$(LinkkiSectionElement.class).single()
                 .getContent()
-                .$("vaadin-form-item").first()
+                .$("vaadin-form-item").single()
                 .$(DivElement.class).id("label");
 
         assertThat(label.getCssValue("width")).isEqualTo("240px");

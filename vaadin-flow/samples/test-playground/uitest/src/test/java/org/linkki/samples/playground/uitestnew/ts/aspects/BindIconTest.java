@@ -14,8 +14,7 @@
 
 package org.linkki.samples.playground.uitestnew.ts.aspects;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +40,7 @@ class BindIconTest extends PlaygroundUiTest {
     private TestCaseComponentElement section;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         section = goToTestCase(TestScenarioView.TS008, TestScenarioView.TC007);
     }
 
@@ -50,10 +49,10 @@ class BindIconTest extends PlaygroundUiTest {
      */
     @Test
     void testBindIcon_withButton() {
-        ButtonElement button = section.$(ButtonElement.class).id("staticButton");
+        var button = section.$(ButtonElement.class).id("staticButton");
 
-        WebElement icon = getIconElement(button);
-        assertThat(icon.getDomAttribute("icon"), is(VAADIN_STATIC_ICON));
+        var icon = getIconElement(button);
+        assertThat(icon.getDomAttribute("icon")).isEqualTo(VAADIN_STATIC_ICON);
     }
 
     /**
@@ -63,19 +62,19 @@ class BindIconTest extends PlaygroundUiTest {
     void testBindIcon_withButton_dynamic() {
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
 
-        ButtonElement button = section.$(ButtonElement.class).id("dynamicButton");
-        assertThat(getIconElement(button).getDomAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        var button = section.$(ButtonElement.class).id("dynamicButton");
+        assertThat(getIconElement(button).getDomAttribute("icon")).isEqualTo(VAADIN_MOBILE_ICON);
 
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.DOWNLOAD.toString());
-        assertThat(getIconElement(button).getDomAttribute("icon"), is(VAADIN_DOWNLOAD_ICON));
+        assertThat(getIconElement(button).getDomAttribute("icon")).isEqualTo(VAADIN_DOWNLOAD_ICON);
     }
 
     @Test
     void testBindIcon_withLinkAndIconOnly() {
         var anchor = section.$(LinkkiTextElement.class).id(STATIC_LINK);
 
-        assertThat(anchor.getText(), is("Text"));
-        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_STATIC_ICON));
+        assertThat(anchor.getText()).isEqualTo("Text");
+        assertThat(anchor.getIcon().getDomAttribute("icon")).isEqualTo(VAADIN_STATIC_ICON);
     }
 
     @Test
@@ -83,14 +82,14 @@ class BindIconTest extends PlaygroundUiTest {
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
 
         var anchor = section.$(LinkkiTextElement.class).id(DYNAMIC_LINK);
-        assertThat(anchor.getText(), is("Text"));
-        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(anchor.getText()).isEqualTo("Text");
+        assertThat(anchor.getIcon().getDomAttribute("icon")).isEqualTo(VAADIN_MOBILE_ICON);
 
         selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
-        assertThat(anchor.getIcon().getDomAttribute("icon"), is(VAADIN_MOBILE_ICON));
+        assertThat(anchor.getIcon().getDomAttribute("icon")).isEqualTo(VAADIN_MOBILE_ICON);
     }
 
     private WebElement getIconElement(ButtonElement element) {
-        return element.$(IconElement.class).first();
+        return element.$(IconElement.class).single();
     }
 }

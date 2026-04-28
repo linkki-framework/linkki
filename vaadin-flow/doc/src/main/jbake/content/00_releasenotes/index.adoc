@@ -53,7 +53,31 @@
 // * [.api-change] *Description* +
 // Text
 
+
 === Alpha Version {vlinkki}
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+| Vaadin                        | 25.1.5 (link:https://github.com/vaadin/platform/releases/tag/25.1.5[Release Notes]) | 25.0.11
+
+|===
+
+Vaadin 25.1 brings some breaking changes:
+
+* Vaadin now uses Jackson 3.1 for all JSON functionalities. Due to compatibility issues, *Spring Boot 4.0.4* or later is now required.
+* Variants that work in both Aura and Lumo themes are now renamed, e.g. `ButtonVariant.LUMO_PRIMARY` was renamed to `ButtonVariant.PRIMARY`.
+* In Testbench, methods `first()` and `waitForFirst()` are now deprecated and marked for removal. (link:https://github.com/vaadin/testbench/issues/1729[Vaadin issue])
+** For `first()`: replacing with `single()` may not always suffice — consider using `id()`, making the query context more specific, or using `get(int)` (especially in tables where multiple elements are expected).
+** For `waitForFirst()`: replace with `single()` directly, or use `waitUntil` with `VaadinElementConditions.elementDisplayed`.
+
+For all changes in Vaadin, see link:https://github.com/vaadin/platform/releases/tag/25.1.0[Vaadin release notes].
+
+=== Alpha Version 2.10.0-a20260608-01
 
 ==== Version Updates
 

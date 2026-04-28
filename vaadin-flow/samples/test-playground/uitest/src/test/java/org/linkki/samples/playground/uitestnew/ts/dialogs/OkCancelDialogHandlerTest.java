@@ -129,7 +129,7 @@ class OkCancelDialogHandlerTest extends PlaygroundUiTest {
 
     private OkCancelDialogElement openDialog(String dialogButton) {
         $(ButtonElement.class).id(dialogButton).click();
-        return $(OkCancelDialogElement.class).waitForFirst();
+        return $(OkCancelDialogElement.class).single();
     }
 
     private int getOkCount() {

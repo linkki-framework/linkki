@@ -66,7 +66,7 @@ class QuestionAndConfirmationDialogTest extends PlaygroundUiTest {
 
     private OkCancelDialogElement openDialog(String buttonId) {
         $(ButtonElement.class).id(buttonId).click();
-        return $(OkCancelDialogElement.class).waitForFirst();
+        return $(OkCancelDialogElement.class).single();
     }
 
 }

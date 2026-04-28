@@ -23,7 +23,7 @@ public class LinkkiThemeTest extends PlaygroundUiTest {
         var pmo = testCaseSection.$(LinkkiSectionElement.class).id("BasicElementsLayoutLabelStartPmo");
         var enabled = pmo.$(CheckboxElement.class).id("allElementsEnabled");
 
-        var inputField = pmo.$(TextFieldElement.class).id("text").$("vaadin-input-container").first();
+        var inputField = pmo.$(TextFieldElement.class).id("text").$("vaadin-input-container").single();
         assertThat(inputField.getDomAttribute("part")).isEqualTo("input-field");
 
         enabled.setChecked(true);

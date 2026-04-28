@@ -134,8 +134,8 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
         GridElement selectableTable = getGrid(PlaygroundSelectableTablePmo.class);
         selectableTable.getRow(0).select();
 
-        LinkkiSectionElement section = $(LinkkiSectionElement.class).withId("PlaygroundSelectableTablePmo").first();
-        section.$(ButtonElement.class).withId("add").first().click();
+        LinkkiSectionElement section = $(LinkkiSectionElement.class).withId("PlaygroundSelectableTablePmo").single();
+        section.$(ButtonElement.class).withId("add").single().click();
 
         selectableTable.scrollToRow(selectableTable.getRowCount() - 1);
         assertThat(selectableTable.getRow(selectableTable.getRowCount() - 1).isSelected(), is(true));

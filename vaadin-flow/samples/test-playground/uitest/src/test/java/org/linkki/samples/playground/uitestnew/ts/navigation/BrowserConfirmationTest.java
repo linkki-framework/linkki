@@ -92,7 +92,7 @@ class BrowserConfirmationTest extends PlaygroundUiTest {
 
         clickMenuItemById("playground");
 
-        var dialog = $(OkCancelDialogElement.class).first();
+        var dialog = $(OkCancelDialogElement.class).single();
         dialog.clickOnCancel();
         assertThat(textField().getValue()).isEqualTo("3");
     }
@@ -104,7 +104,7 @@ class BrowserConfirmationTest extends PlaygroundUiTest {
 
         clickMenuItemById("playground");
 
-        var dialog = $(OkCancelDialogElement.class).first();
+        var dialog = $(OkCancelDialogElement.class).single();
         dialog.clickOnOk();
 
         assertThat(getDriver().getCurrentUrl()).endsWith("/playground");

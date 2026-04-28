@@ -85,7 +85,7 @@ class BindLabelTest extends PlaygroundUiTest {
                 .findElement(By.xpath(".."))
                 .$(NativeLabelElement.class)
                 .withAttributeContaining("class", "linkki-label-caption")
-                .first();
+                .single();
         assertThat(label).isNotNull();
         return label.getText();
     }

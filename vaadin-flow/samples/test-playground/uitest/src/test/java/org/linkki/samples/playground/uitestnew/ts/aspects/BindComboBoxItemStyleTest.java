@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +35,7 @@ import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.html.testbench.InputTextElement;
 
 class BindComboBoxItemStyleTest extends PlaygroundUiTest {
+
     private TestCaseComponentElement testCaseSection;
 
     @BeforeEach
@@ -71,7 +71,7 @@ class BindComboBoxItemStyleTest extends PlaygroundUiTest {
                 .isEqualTo(Arrays.stream(TextColor.values())
                         .map(TextColor::getStyleName)
                         .map(Set::of)
-                        .collect(Collectors.toList()));
+                        .toList());
 
         comboBox.closePopup();
     }
@@ -81,7 +81,7 @@ class BindComboBoxItemStyleTest extends PlaygroundUiTest {
         var section = testCaseSection.$(LinkkiSectionElement.class)
                 .id(BindComboBoxItemStyleWithComboBoxPmo.class.getSimpleName());
         var comboBox = section.$(ComboBoxElement.class).id("alignedText");
-        assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("end");
+        assertThat(comboBox.$(InputTextElement.class).single().getCssValue("text-align")).isEqualTo("end");
 
         comboBox.openPopup();
 
@@ -120,7 +120,7 @@ class BindComboBoxItemStyleTest extends PlaygroundUiTest {
                 .isEqualTo(Arrays.stream(TextColor.values())
                         .map(TextColor::getStyleName)
                         .map(Set::of)
-                        .collect(Collectors.toList()));
+                        .toList());
 
         comboBox.closePopup();
     }

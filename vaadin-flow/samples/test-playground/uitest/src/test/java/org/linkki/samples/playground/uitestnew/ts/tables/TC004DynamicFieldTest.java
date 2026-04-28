@@ -57,7 +57,7 @@ class TC004DynamicFieldTest extends PlaygroundUiTest {
         // Select standard car type
         clickButton(BUTTON_PMO);
 
-        var dialog = $(DialogElement.class).waitForFirst();
+        var dialog = $(DialogElement.class).single();
         dialog.$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Standard");
 
         // Must be a Textfield
@@ -74,12 +74,12 @@ class TC004DynamicFieldTest extends PlaygroundUiTest {
         GridElement selectableTable = $(GridElement.class).id(CAR_TABLE_PMO);
 
         // Test, if in first row, with cartype 'Standard', the retention is a Textfield
-        assertThat(selectableTable.getCell(0, 2).$(ComboBoxElement.class).first().getSelectedText(), is("Standard"));
-        assertThat(selectableTable.getCell(0, 3).$(TextFieldElement.class).first(), is(not(nullValue())));
+        assertThat(selectableTable.getCell(0, 2).$(ComboBoxElement.class).single().getSelectedText(), is("Standard"));
+        assertThat(selectableTable.getCell(0, 3).$(TextFieldElement.class).single(), is(not(nullValue())));
 
         // Test, if in first row, with cartype 'Premium', the retention is a Combobox
-        assertThat(selectableTable.getCell(1, 2).$(ComboBoxElement.class).first().getSelectedText(), is("Premium"));
-        assertThat(selectableTable.getCell(1, 3).$(ComboBoxElement.class).first(), is(not(nullValue())));
+        assertThat(selectableTable.getCell(1, 2).$(ComboBoxElement.class).single().getSelectedText(), is("Premium"));
+        assertThat(selectableTable.getCell(1, 3).$(ComboBoxElement.class).single(), is(not(nullValue())));
     }
 
     @Test
@@ -91,7 +91,7 @@ class TC004DynamicFieldTest extends PlaygroundUiTest {
 
         // Add premium car type
         clickButton(BUTTON_PMO);
-        DialogElement dialogElement = $(DialogElement.class).waitForFirst();
+        DialogElement dialogElement = $(DialogElement.class).single();
         dialogElement.$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Premium");
         dialogElement.$(TextFieldElement.class).id(MAKE).setValue("Fiat");
         dialogElement.$(ComboBoxElement.class).id(MODEL).selectByText("Sonstige");

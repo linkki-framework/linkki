@@ -42,7 +42,7 @@ class OkCancelDialogSizeTest extends PlaygroundUiTest {
         section.$(TextFieldElement.class).id("height").setValue("600px");
         section.$(ButtonElement.class).id("showDialog").click();
 
-        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).waitForFirst();
+        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).single();
         var dialogWidth = dialog.getSize().getWidth();
         var dialogHeight = dialog.getSize().getHeight();
 

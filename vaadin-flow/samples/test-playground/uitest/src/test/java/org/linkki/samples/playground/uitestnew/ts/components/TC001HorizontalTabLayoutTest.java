@@ -20,55 +20,53 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Point;
 
-import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.html.testbench.SpanElement;
 import com.vaadin.flow.component.icon.testbench.IconElement;
+import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 
 class TC001HorizontalTabLayoutTest extends PlaygroundUiTest {
 
-    private TestCaseComponentElement testCaseSection;
-    private DivElement section;
+    private VerticalLayoutElement testLayout;
 
     @BeforeEach
     void goToTestCase() {
-        testCaseSection = goToTestCase(TestScenarioView.TS010, TestScenarioView.TC001);
-        section = testCaseSection.getContentWrapper().$(DivElement.class).first();
+        var testCaseSection = goToTestCase(TestScenarioView.TS010, TestScenarioView.TC001);
+        testLayout = testCaseSection.getContentWrapper().$(VerticalLayoutElement.class).id("horizontal-layout-tab");
     }
 
     @Test
     void testHorizontalTabs() {
-        TabElement tab1 = section.$(TabElement.class).id("horizontal-tab1");
-        TabElement tab2 = section.$(TabElement.class).id("horizontal-tab2");
+        TabElement tab1 = testLayout.$(TabElement.class).id("horizontal-tab1");
+        TabElement tab2 = testLayout.$(TabElement.class).id("horizontal-tab2");
 
         assertThat(tab1.getLocation().y, is(tab2.getLocation().y));
     }
 
     @Test
     void testTabHasIcon() {
-        TabElement tab = section.$(TabElement.class).id("horizontal-tab2");
+        var tab = testLayout.$(TabElement.class).id("horizontal-tab2");
 
-        IconElement icon = tab.$(IconElement.class).first();
+        IconElement icon = tab.$(IconElement.class).single();
 
         assertThat(icon.getDomAttribute("icon"), is("vaadin:plus"));
     }
 
     @Test
     void testContentReplacedInSamePosition() {
-        TabElement tab1 = section.$(TabElement.class).id("horizontal-tab1");
-        TabElement tab2 = section.$(TabElement.class).id("horizontal-tab2");
+        TabElement tab1 = testLayout.$(TabElement.class).id("horizontal-tab1");
+        TabElement tab2 = testLayout.$(TabElement.class).id("horizontal-tab2");
 
         tab1.click();
-        SpanElement content1 = section.$(SpanElement.class).id("horizontal-content1");
+        SpanElement content1 = testLayout.$(SpanElement.class).id("horizontal-content1");
         assertThat(content1.isDisplayed(), is(true));
         Point location1 = content1.getLocation();
         tab2.click();
-        SpanElement content2 = section.$(SpanElement.class).id("horizontal-content2");
+        SpanElement content2 = testLayout.$(SpanElement.class).id("horizontal-content2");
         assertThat(content2.isDisplayed(), is(true));
         Point location2 = content2.getLocation();
 

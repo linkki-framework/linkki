@@ -28,7 +28,9 @@ public abstract class PlaygroundUiTest extends AbstractLinkkiUiTest {
 
     protected TestCaseComponentElement goToTestCase(String testScenarioId, String testCaseId) {
         getDriver().navigate().refresh();
-        var testScenarioSelector = $(TestScenarioSelectorElement.class).waitForFirst();
+
+        var testScenarioSelector = waitUntil(VaadinElementConditions
+                .elementDisplayed($(TestScenarioSelectorElement.class)));
         var testCaseSelector = testScenarioSelector.selectTestScenario(testScenarioId);
         return testCaseSelector.selectTestCase(testCaseId);
     }

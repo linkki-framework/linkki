@@ -44,13 +44,14 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            25.0.11
+            25.1.5
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <karibu.version>2.7.0</karibu.version>
 
         <!-- Test dependencies -->
         <spring-boot.version>4.0.5</spring-boot.version>
+        <asm.version>9.7.1</asm.version>
         <logback.version>1.5.34</logback.version>
     </properties>
 
@@ -89,6 +90,12 @@
                 <groupId>com.github.mvysny.kaributesting</groupId>
                 <artifactId>karibu-testing-v24</artifactId>
                 <version>${karibu.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>${asm.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

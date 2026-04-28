@@ -39,7 +39,7 @@ public class TC005IpsPropertyDispatcherEnabledTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC005);
-        section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
+        section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).single();
     }
 
     @Test
@@ -66,7 +66,7 @@ public class TC005IpsPropertyDispatcherEnabledTest extends PlaygroundUiTest {
     @Test
     void testDialog_IpsDispatcher() {
         $(ButtonElement.class).id("showDialogWithBindingManager").click();
-        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).waitForFirst();
+        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).single();
 
         assertTrue(dialog.isOpen());
 

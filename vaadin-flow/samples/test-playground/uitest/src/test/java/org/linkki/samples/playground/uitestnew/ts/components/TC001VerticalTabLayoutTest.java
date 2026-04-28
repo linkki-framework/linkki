@@ -51,7 +51,7 @@ class TC001VerticalTabLayoutTest extends PlaygroundUiTest {
     void testTabHasIcon() {
         TabElement tab = testCaseSection.$(TabElement.class).id("vertical-tab2");
 
-        IconElement icon = tab.$(IconElement.class).first();
+        IconElement icon = tab.$(IconElement.class).single();
 
         assertThat(icon.getDomAttribute("icon"), is("vaadin:plus"));
     }

@@ -37,7 +37,7 @@ class VariantCardSectionsDialogTest extends AbstractLinkkiUiTest {
         goToView(BugCollectionView.ROUTE);
         openTab(VariantCardSectionsDialogBug.LIN_4808);
 
-        $(ButtonElement.class).withCaption(VariantCardSectionsDialogBug.BUTTON_CAPTION_OPEN_DIALOG_PMO).first().click();
+        $(ButtonElement.class).withCaption(VariantCardSectionsDialogBug.BUTTON_CAPTION_OPEN_DIALOG_PMO).single().click();
 
         DialogElement dialog = findDialog(VariantCardSectionsDialogBug.DIALOG_CAPTION_PMO);
 
@@ -51,7 +51,7 @@ class VariantCardSectionsDialogTest extends AbstractLinkkiUiTest {
         goToView(BugCollectionView.ROUTE);
         openTab(VariantCardSectionsDialogBug.LIN_4808);
 
-        $(ButtonElement.class).withCaption(VariantCardSectionsDialogBug.BUTTON_CAPTION_OPEN_DIALOG_NESTED_PMOS).first()
+        $(ButtonElement.class).withCaption(VariantCardSectionsDialogBug.BUTTON_CAPTION_OPEN_DIALOG_NESTED_PMOS).single()
                 .click();
 
         DialogElement dialog = findDialog(VariantCardSectionsDialogBug.DIALOG_CAPTION_NESTED_PMOS);

@@ -74,7 +74,7 @@ class TC007UIComboBoxTest extends PlaygroundUiTest {
         comboBox.openPopup();
 
         // should be 'left' but Vaadin set 'start' instead
-        assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("start");
+        assertThat(comboBox.$(InputTextElement.class).single().getCssValue("text-align")).isEqualTo("start");
         $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last()
                 .getCssValue("text-align")).isEqualTo("left"));
 
@@ -87,7 +87,7 @@ class TC007UIComboBoxTest extends PlaygroundUiTest {
 
         comboBox.openPopup();
 
-        assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("center");
+        assertThat(comboBox.$(InputTextElement.class).single().getCssValue("text-align")).isEqualTo("center");
         $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last()
                 .getCssValue("text-align")).isEqualTo("center"));
 
@@ -101,7 +101,7 @@ class TC007UIComboBoxTest extends PlaygroundUiTest {
         comboBox.openPopup();
 
         // should be 'right' but Vaadin set 'end' instead
-        assertThat(comboBox.$(InputTextElement.class).first().getCssValue("text-align")).isEqualTo("end");
+        assertThat(comboBox.$(InputTextElement.class).single().getCssValue("text-align")).isEqualTo("end");
         $("vaadin-combo-box-item").all().forEach(i -> assertThat(i.$(DivElement.class).last()
                 .getCssValue("text-align")).isEqualTo("right"));
 

@@ -35,7 +35,7 @@ class OkCancelDialogOverflowTest extends PlaygroundUiTest {
     @Test
     void testOverflow() {
         $(ButtonElement.class).id(OkCancelDialogOverflowPmo.SHOW_DIALOG_BUTTON_ID).click();
-        OkCancelDialogElement dialogElement = $(OkCancelDialogElement.class).waitForFirst();
+        OkCancelDialogElement dialogElement = $(OkCancelDialogElement.class).single();
 
         // Content area has height 100%. If it overflows correctly, it should have a significantly
         // lower

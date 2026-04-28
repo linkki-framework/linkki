@@ -34,9 +34,9 @@ class DialogMinWidthTest extends AbstractLinkkiUiTest {
         goToView(BugCollectionView.ROUTE);
         openTab(DialogMinWidthBug.LIN_4803);
 
-        $(ButtonElement.class).withCaption("Open Dialog").first().click();
+        $(ButtonElement.class).withCaption("Open Dialog").single().click();
 
-        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).waitForFirst();
+        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).single();
         assertThat(dialog.getSize().getWidth()).isGreaterThanOrEqualTo(400);
     }
 }

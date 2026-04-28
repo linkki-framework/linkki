@@ -46,10 +46,10 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
 
     @Test
     void testEmptyHeaderShouldTakeNoSpace() {
-        LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
-        DivElement content = section.getContent();
+        var section = getSection(NotClosableSectionPmo.class);
+        var content = section.getContent();
 
-        content.$(TextFieldElement.class).withId("caption").first().setValue("");
+        content.$(TextFieldElement.class).withLabel("").id("caption").setValue("");
         content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(false);
         content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(false);
 
@@ -61,7 +61,7 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
         LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
         DivElement content = section.getContent();
 
-        content.$(TextFieldElement.class).withId("caption").first().setValue("FooBaa");
+        content.$(TextFieldElement.class).withLabel("").withId("caption").single().setValue("FooBaa");
         content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(true);
         content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(true);
 
@@ -78,13 +78,13 @@ class SectionHeaderBehaviorTest extends PlaygroundUiTest {
         LinkkiSectionElement section = getSection(NotClosableSectionPmo.class);
         DivElement content = section.getContent();
 
-        content.$(TextFieldElement.class).withId("caption").first().setValue("Foobaa");
+        content.$(TextFieldElement.class).withLabel("").withId("caption").single().setValue("Foobaa");
         content.$(DivElement.class).id("button1").$(CheckboxElement.class).id("visible").setChecked(true);
         content.$(DivElement.class).id("button2").$(CheckboxElement.class).id("visible").setChecked(true);
 
         int size = section.getHeader().getSize().getHeight();
 
-        content.$(TextFieldElement.class).withId("caption").first().setValue("");
+        content.$(TextFieldElement.class).withLabel("").withId("caption").single().setValue("");
 
         assertThat(section.getHeader().getSize().getHeight()).isEqualTo(size);
     }

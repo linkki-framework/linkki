@@ -13,6 +13,8 @@
  */
 package org.linkki.samples.playground.uitest;
 
+import static org.linkki.testbench.conditions.VaadinElementConditions.elementDisplayed;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,7 +78,8 @@ public abstract class AbstractLinkkiUiTest extends AbstractBrowserTestBase {
 
     public void goToView(String viewName) {
         getDriver().navigate().to(DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, viewName));
-        $(TestBenchElement.class).withAttributeContaining("class", "linkki-main-area").waitForFirst();
+        waitUntil(elementDisplayed($(TestBenchElement.class)
+                .withAttributeContaining("class", "linkki-main-area")));
     }
 
     /**
@@ -240,7 +243,7 @@ public abstract class AbstractLinkkiUiTest extends AbstractBrowserTestBase {
         String contextMenuItemTag = "vaadin-menu-bar-item";
 
         try {
-            return waitUntil($ -> {
+            return waitUntil(driver -> {
                 for (WebElement e : findElements(By.tagName(contextMenuItemTag))) {
                     if (text.equals(e.getText())) {
                         return e;

@@ -34,7 +34,7 @@ public class FrontendDependenciesUITest extends PlaygroundUiTest {
         // should have grey (#eee/238/238/238) background
         assertThat(pmoWithCssImport.getCssValue("background-color"), is("rgba(238, 238, 238, 1)"));
         // element should be displayed
-        assertThat($("component-with-custom-resource").first().getText(), is("caption in resource"));
+        assertThat($("component-with-custom-resource").single().getText(), is("caption in resource"));
     }
 
 }

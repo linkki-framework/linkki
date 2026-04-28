@@ -14,8 +14,7 @@
 
 package org.linkki.samples.playground.uitestnew.ts.aspects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +28,6 @@ import org.openqa.selenium.NoSuchElementException;
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.InputTextElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
-import com.vaadin.testbench.ElementQuery;
 
 class BindReadOnlyBehaviorUiTest extends PlaygroundUiTest {
 
@@ -42,69 +40,69 @@ class BindReadOnlyBehaviorUiTest extends PlaygroundUiTest {
 
     @Test
     void testBindReadOnlyBehavior_GivenReadOnly_WhenWritable_Writable() {
-        LinkkiSectionElement section = testcase.$(LinkkiSectionElement.class).all().get(1);
+        var section = testcase.$(LinkkiSectionElement.class).all().get(1);
 
-        TextFieldElement textfield = section.$(TextFieldElement.class).id("writableTextField");
+        var textfield = section.$(TextFieldElement.class).id("writableTextField");
         // TextFieldElement leads in this test to a empty value
-        InputTextElement input = textfield.$(InputTextElement.class).first();
+        var input = textfield.$(InputTextElement.class).single();
         input.setValue("text");
 
-        assertThat(input.getValue(), is("text"));
+        assertThat(input.getValue()).isEqualTo("text");
     }
 
     @Test
     void testBindReadOnlyBehavior_GivenWritable_WhenWritable_Writable() {
-        LinkkiSectionElement section = testcase.$(LinkkiSectionElement.class).all().get(0);
+        var section = testcase.$(LinkkiSectionElement.class).all().get(0);
 
-        TextFieldElement textfield = section.$(TextFieldElement.class).id("writableTextField");
+        var textfield = section.$(TextFieldElement.class).id("writableTextField");
         // TextFieldElement leads in this test to a empty value
-        InputTextElement input = textfield.$(InputTextElement.class).first();
+        var input = textfield.$(InputTextElement.class).single();
         input.setValue("text");
 
-        assertThat(input.getValue(), is("text"));
+        assertThat(input.getValue()).isEqualTo("text");
     }
 
     @Test
     void testBindReadOnlyBehavior_GivenReadOnly_WhenDisabled_Disabled() {
-        LinkkiSectionElement section = testcase.$(LinkkiSectionElement.class).all().get(1);
+        var section = testcase.$(LinkkiSectionElement.class).all().get(1);
 
-        ButtonElement button = section.$(ButtonElement.class).id("disabledButton");
+        var button = section.$(ButtonElement.class).id("disabledButton");
 
-        assertThat(button.isEnabled(), is(false));
+        assertThat(button.isEnabled()).isFalse();
     }
 
     @Test
     void testBindReadOnlyBehavior_GivenWritable_WhenDisabled_Enabled() {
-        LinkkiSectionElement section = testcase.$(LinkkiSectionElement.class).all().get(0);
+        var section = testcase.$(LinkkiSectionElement.class).all().get(0);
 
-        ButtonElement button = section.$(ButtonElement.class).id("disabledButton");
+        var button = section.$(ButtonElement.class).id("disabledButton");
 
-        assertThat(button.isEnabled(), is(true));
+        assertThat(button.isEnabled()).isTrue();
     }
 
     @Test
     void testBindReadOnlyBehavior_GivenReadOnly_WhenInvisible_Invisible() {
-        LinkkiSectionElement section = testcase.$(LinkkiSectionElement.class).all().get(1);
+        var section = testcase.$(LinkkiSectionElement.class).all().get(1);
 
-        ElementQuery<ButtonElement> button = section.$(ButtonElement.class);
+        var button = section.$(ButtonElement.class);
 
         assertThrows(NoSuchElementException.class, () -> button.id("invisibleButton"));
     }
 
     @Test
     void testBindReadOnlyBehavior_GivenWritable_WhenInvisible_Visible() {
-        LinkkiSectionElement section = testcase.$(LinkkiSectionElement.class).all().get(0);
+        var section = testcase.$(LinkkiSectionElement.class).all().get(0);
 
-        ButtonElement button = section.$(ButtonElement.class).id("invisibleButton");
+        var button = section.$(ButtonElement.class).id("invisibleButton");
 
-        assertThat(button.isDisplayed(), is(true));
+        assertThat(button.isDisplayed()).isTrue();
     }
 
     @Test
     void testBindReadOnlyBehavior_GivenWritable_WhenInvisibleIfWritable_NoButtonsDisplayed() {
-        LinkkiSectionElement section = testcase.$(LinkkiSectionElement.class).all().get(0);
+        var section = testcase.$(LinkkiSectionElement.class).all().get(0);
 
-        ElementQuery<ButtonElement> button = section.$(ButtonElement.class);
+        var button = section.$(ButtonElement.class);
 
         assertThrows(NoSuchElementException.class, () -> button.id("invisibleIfWritableButtonDefaultInvisible"));
         assertThrows(NoSuchElementException.class, () -> button.id("invisibleIfWritableButtonDefaultVisible"));
@@ -112,14 +110,14 @@ class BindReadOnlyBehaviorUiTest extends PlaygroundUiTest {
 
     @Test
     void testBindReadOnlyBehavior_GivenReadOnly_WhenInvisibleIfWritable_OneButtonDisplayed() {
-        LinkkiSectionElement section = testcase.$(LinkkiSectionElement.class).all().get(1);
+        var section = testcase.$(LinkkiSectionElement.class).all().get(1);
 
-        ElementQuery<ButtonElement> button = section.$(ButtonElement.class);
-        ButtonElement button2 = section.$(ButtonElement.class).id("invisibleIfWritableButtonDefaultVisible");
+        var button = section.$(ButtonElement.class);
+        var button2 = section.$(ButtonElement.class).id("invisibleIfWritableButtonDefaultVisible");
 
         assertThrows(NoSuchElementException.class,
                      () -> button.id("invisibleIfWritableButtonDefaultInvisible"));
-        assertThat(button2.isDisplayed(), is(true));
+        assertThat(button2.isDisplayed()).isTrue();
     }
 
 }

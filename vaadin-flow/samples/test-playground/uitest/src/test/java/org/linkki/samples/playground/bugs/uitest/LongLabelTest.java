@@ -36,7 +36,7 @@ class LongLabelTest extends AbstractLinkkiUiTest {
 
         var section = getSection(LongLabelPmo.class);
         var formItem = section.getContent().$(FormItemElement.class).last();
-        var label = formItem.$(NativeLabelElement.class).withTextContaining("TextField").first();
+        var label = formItem.$(NativeLabelElement.class).withTextContaining("TextField").single();
 
         int labelHeight = label.getSize().getHeight();
 

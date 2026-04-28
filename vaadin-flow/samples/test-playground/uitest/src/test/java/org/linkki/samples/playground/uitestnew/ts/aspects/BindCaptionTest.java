@@ -14,8 +14,7 @@
 
 package org.linkki.samples.playground.uitestnew.ts.aspects;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
@@ -24,116 +23,114 @@ import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
-import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.H4Element;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
-import com.vaadin.testbench.TestBenchElement;
 
-public class BindCaptionTest extends PlaygroundUiTest {
+class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
-    public void testSectionCaption() {
+    void testSectionCaption() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC002);
-        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
-        TextFieldElement captionField = section.$(TextFieldElement.class)
+        var section = getSection(BindCaptionWithoutButtonPmo.class);
+        var captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
 
         captionField.setValue("section caption");
 
-        assertThat(section.getCaption(), is("section caption"));
+        assertThat(section.getCaption()).isEqualTo("section caption");
     }
 
     @Test
-    public void testSectionCaption_WithEditButton() {
+    void testSectionCaption_WithEditButton() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC003);
-        LinkkiSectionElement section = getSection(BindCaptionWithEditButtonPmo.class);
-        TextFieldElement captionField = section.$(TextFieldElement.class)
+        var section = getSection(BindCaptionWithEditButtonPmo.class);
+        var captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
 
         captionField.setValue("section caption");
 
-        assertThat(section.getCaption(), is("section caption"));
+        assertThat(section.getCaption()).isEqualTo("section caption");
     }
 
     @Test
-    public void testSectionCaption_WithSectionHeaderButton() {
+    void testSectionCaption_WithSectionHeaderButton() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC004);
-        LinkkiSectionElement section = getSection(BindCaptionWithSectionHeaderButtonPmo.class);
-        TextFieldElement captionField = section.$(TextFieldElement.class)
+        var section = getSection(BindCaptionWithSectionHeaderButtonPmo.class);
+        var captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
 
         captionField.setValue("section caption");
 
-        assertThat(section.getCaption(), is("section caption"));
+        assertThat(section.getCaption()).isEqualTo("section caption");
     }
 
     @Test
-    public void testSectionCaption_WithCloseButton() {
+    void testSectionCaption_WithCloseButton() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC005);
-        LinkkiSectionElement section = getSection(BindCaptionWithCloseButtonPmo.class);
-        TextFieldElement captionField = section.$(TextFieldElement.class)
+        var section = getSection(BindCaptionWithCloseButtonPmo.class);
+        var captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
 
         captionField.setValue("section caption");
 
-        assertThat(section.getCaption(), is("section caption"));
+        assertThat(section.getCaption()).isEqualTo("section caption");
     }
 
     @Test
-    public void testSectionCaption_EmptyCaptionHidesElement() {
+    void testSectionCaption_EmptyCaptionHidesElement() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC002);
-        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
-        TextFieldElement captionField = section.$(TextFieldElement.class)
+        var section = getSection(BindCaptionWithoutButtonPmo.class);
+        var captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
 
         captionField.setValue("");
 
-        assertThat(section.$(H4Element.class).first().isDisplayed(), is(false));
+        assertThat(section.$(H4Element.class).single().isDisplayed()).isFalse();
     }
 
     @Test
-    public void testSectionCaption_ButtonStaysVisibleWithEmptyCaption() {
+    void testSectionCaption_ButtonStaysVisibleWithEmptyCaption() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC004);
-        LinkkiSectionElement section = getSection(BindCaptionWithSectionHeaderButtonPmo.class);
-        TextFieldElement captionField = section.$(TextFieldElement.class)
+        var section = getSection(BindCaptionWithSectionHeaderButtonPmo.class);
+        var captionField = section.$(TextFieldElement.class)
                 .id(BindCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
-        TestBenchElement button = section.getHeaderComponents().id("callAnAmbulance");
+        var button = section.getHeaderComponents().id("callAnAmbulance");
 
         captionField.setValue("");
 
-        assertThat(section.$(H4Element.class).first().isDisplayed(), is(false));
-        assertThat(button.isDisplayed(), is(true));
+        assertThat(section.$(H4Element.class).single().isDisplayed()).isFalse();
+        assertThat(button.isDisplayed()).isTrue();
     }
 
     @Test
-    public void testButtonCaption() {
+    void testButtonCaption() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC002);
-        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
-        TextFieldElement captionField = section.getContent().$(TextFieldElement.class)
+        var section = getSection(BindCaptionWithoutButtonPmo.class);
+        var captionField = section.getContent().$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
-        ButtonElement button = section.getContent().$(ButtonElement.class)
+        var button = section.getContent().$(ButtonElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_BUTTON);
 
         captionField.setValue("button caption");
 
-        assertThat(button.getText(), is("button caption"));
+        assertThat(button.getText()).isEqualTo("button caption");
     }
 
     @Test
-    public void testCheckboxCaption() {
+    void testCheckboxCaption() {
         goToTestCase(TestScenarioView.TS008, TestScenarioView.TC002);
-        LinkkiSectionElement section = getSection(BindCaptionWithoutButtonPmo.class);
-        TextFieldElement captionField = section.getContent().$(TextFieldElement.class)
+        var section = getSection(BindCaptionWithoutButtonPmo.class);
+        var captionField = section.getContent().$(TextFieldElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
-        CheckboxElement checkbox = section.getContent().$(CheckboxElement.class)
+        var checkbox = section.getContent().$(CheckboxElement.class)
                 .id(BindCaptionWithoutButtonPmo.PROPERTY_CHECKBOX);
 
         captionField.setValue("checkbox caption");
 
-        assertThat(checkbox.getText(), is("checkbox caption"));
+        assertThat(checkbox.getText()).isEqualTo("checkbox caption");
     }
 
 }

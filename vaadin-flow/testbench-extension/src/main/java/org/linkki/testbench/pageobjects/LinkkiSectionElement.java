@@ -16,7 +16,6 @@ package org.linkki.testbench.pageobjects;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.vaadin.component.section.LinkkiSection;
@@ -36,11 +35,11 @@ import com.vaadin.testbench.elementsbase.Element;
 public class LinkkiSectionElement extends TestBenchElement {
 
     public String getCaption() {
-        return $(H4Element.class).first().getText();
+        return $(H4Element.class).single().getText();
     }
 
     public DivElement getContent() {
-        return $(DivElement.class).withAttribute("slot", "content").first();
+        return $(DivElement.class).withAttribute("slot", "content").single();
     }
 
     /**
@@ -50,10 +49,10 @@ public class LinkkiSectionElement extends TestBenchElement {
     public List<TestBenchElement> getContentComponents() {
         if (LinkkiSection.THEME_VARIANT_FORM.equals(getDomAttribute("theme"))) {
             return getContent().findElements(By.cssSelector("vaadin-form-item > :not(label)")).stream()
-                    .map(TestBenchElement.class::cast).collect(Collectors.toList());
+                    .map(TestBenchElement.class::cast).toList();
         } else {
             return getContent().findElements(By.cssSelector("*")).stream().map(TestBenchElement.class::cast)
-                    .collect(Collectors.toList());
+                    .toList();
         }
     }
 
@@ -70,18 +69,18 @@ public class LinkkiSectionElement extends TestBenchElement {
     }
 
     public DivElement getHeader() {
-        return $(DivElement.class).withAttribute("class", "linkki-section-header").first();
+        return $(DivElement.class).withAttribute("class", "linkki-section-header").single();
     }
 
     public void close() {
         if (getCloseToggle().exists() && isOpen()) {
-            getCloseToggle().first().click();
+            getCloseToggle().single().click();
         }
     }
 
     public void open() {
         if (getCloseToggle().exists() && !isOpen()) {
-            getCloseToggle().first().click();
+            getCloseToggle().single().click();
         }
     }
 

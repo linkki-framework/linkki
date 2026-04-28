@@ -88,7 +88,7 @@ class DialogTest extends AbstractLinkkiUiTest {
         DialogElement dialog = findDialog("Awesome dialog");
 
         assertThat(dialog.$(VerticalLayoutElement.class).withAttribute("class", OkCancelDialog.CLASS_NAME_CONTENT_AREA)
-                .first().getText(),
+                .single().getText(),
                    is("This is awesome!"));
         assertThat(dialog.$(ButtonElement.class).id(OK_BUTTON).getText(), is("Hell yeah"));
         assertThat(dialog.$(ButtonElement.class).id("cancelButton").getText(), is("Not really"));
@@ -165,7 +165,7 @@ class DialogTest extends AbstractLinkkiUiTest {
     }
 
     private void closeInitialDialog() {
-        OkCancelDialogElement okCancelDialogElement = $(OkCancelDialogElement.class).waitForFirst();
+        OkCancelDialogElement okCancelDialogElement = $(OkCancelDialogElement.class).single();
         confirmDialog(okCancelDialogElement);
         assertThat($(NotificationElement.class).all().size(), is(0));
         assertThat($(DialogElement.class).all().size(), is(0));

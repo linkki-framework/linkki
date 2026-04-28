@@ -26,18 +26,18 @@ import org.linkki.testbench.pageobjects.LinkkiSectionElement;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class BindStyleNamesTest extends PlaygroundUiTest {
+class BindStyleNamesTest extends PlaygroundUiTest {
     private TestCaseComponentElement testCaseSection;
 
     @BeforeEach
-    public void goToTestCase() {
+    void goToTestCase() {
         testCaseSection = goToTestCase(TestScenarioView.TS008, TestScenarioView.TC008);
     }
 
     @Test
-    public void testDynamic_EmptyStyleName() {
-        TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
-                .first();
+    void testDynamic_EmptyStyleName() {
+        var textField = testCaseSection.$(TextFieldElement.class)
+                .single();
         textField.setValue(" ");
         textField.sendKeys("\t");
 
@@ -45,9 +45,9 @@ public class BindStyleNamesTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testDynamic_SingleStyleName() {
-        TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
-                .first();
+    void testDynamic_SingleStyleName() {
+        var textField = testCaseSection.$(TextFieldElement.class)
+                .single();
         textField.setValue("aCustomStyleName");
         textField.sendKeys("\t");
 
@@ -55,9 +55,9 @@ public class BindStyleNamesTest extends PlaygroundUiTest {
     }
 
     @Test
-    public void testDynamic_MultipleStyleNames() {
-        TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
-                .first();
+    void testDynamic_MultipleStyleNames() {
+        var textField = testCaseSection.$(TextFieldElement.class)
+                .single();
         textField.setValue("aCustomStyleName anotherOne");
         textField.sendKeys("\t");
 
@@ -66,7 +66,7 @@ public class BindStyleNamesTest extends PlaygroundUiTest {
 
     @Test
     void testPmoStyleNames() {
-        LinkkiSectionElement label = getSection(BindStyleNamesPmo.class);
+        var label = getSection(BindStyleNamesPmo.class);
         assertThat(label.getClassNames()).contains("style1", "style2", "style3");
     }
 }

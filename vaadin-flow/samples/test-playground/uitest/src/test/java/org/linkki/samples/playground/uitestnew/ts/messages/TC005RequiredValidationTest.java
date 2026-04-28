@@ -37,7 +37,7 @@ class TC005RequiredValidationTest extends PlaygroundUiTest {
 
     @Test
     void testRequiredIndicator_WithBindingManager_DisplaysValidationResult() {
-        var element = $(TestBenchElement.class).id(WITH_BINDING_MANAGER).$(TextFieldElement.class).first();
+        var element = $(TestBenchElement.class).id(WITH_BINDING_MANAGER).$(TextFieldElement.class).single();
         assertThat(element.hasAttribute("invalid")).isFalse();
         assertThat(getErrorMessageComponent(element).isDisplayed()).isFalse();
 
@@ -56,6 +56,6 @@ class TC005RequiredValidationTest extends PlaygroundUiTest {
 
     private TestBenchElement getErrorMessageComponent(TestBenchElement element) {
         return element.$(DivElement.class)
-                .withAttribute("slot", "error-message").first();
+                .withAttribute("slot", "error-message").single();
     }
 }

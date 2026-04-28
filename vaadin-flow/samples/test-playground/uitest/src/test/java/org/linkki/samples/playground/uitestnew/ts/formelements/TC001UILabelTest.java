@@ -28,6 +28,7 @@ import org.linkki.testbench.pageobjects.LinkkiTextElement;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.combobox.testbench.MultiSelectComboBoxElement;
+import com.vaadin.flow.component.icon.testbench.IconElement;
 
 class TC001UILabelTest extends PlaygroundUiTest {
 
@@ -38,8 +39,8 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_HtmlContent() {
-        LinkkiTextElement label =
-                $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class).id("htmlContentLabel");
+        LinkkiTextElement label = $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class)
+                .id("htmlContentLabel");
 
         assertThat(label.getLabel()).isEqualTo("Label with HTML Content");
 
@@ -52,8 +53,8 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_SanitizeHtmlContent() {
-        LinkkiTextElement label =
-                $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class).id("sanitizedHtmlContentLabel");
+        LinkkiTextElement label = $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class)
+                .id("sanitizedHtmlContentLabel");
         assertThat(label.getLabel()).isEqualTo("Label with sanitized HTML content");
         assertThat(label.findElements(By.tagName("iframe"))).isEmpty();
         assertThat(label.findElements(By.tagName("b"))).hasSize(1);
@@ -75,8 +76,8 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_NotHtmlContent() {
-        LinkkiTextElement label =
-                $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class).id("notHtmlContentLabel");
+        LinkkiTextElement label = $("div").id("htmlContentPropertyLabelPmo").$(LinkkiTextElement.class)
+                .id("notHtmlContentLabel");
 
         assertThat(label.getText()).isEqualTo("<b>NOT</b> HTML Content");
         assertThat(label.findElements(By.tagName("b"))).isEmpty();
@@ -93,11 +94,11 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
     @Test
     void testLabel_CustomStyle_RightAligned() {
-        var label = $(LinkkiTextElement.class).withId("rightAlignedLabel").first();
+        var label = $(LinkkiTextElement.class).withLabel("Right-aligned label with custom style").single();
 
         assertThat(label.getCssValue("text-align")).isEqualTo("right");
         assertThat(label.getCssValue("color")).isEqualTo("rgba(128, 0, 128, 1)");
-        assertThat(label.$("span").first().getCssValue("color")).isEqualTo("rgba(128, 0, 128, 1)");
+        assertThat(label.$("span").single().getCssValue("color")).isEqualTo("rgba(128, 0, 128, 1)");
     }
 
     @Test
@@ -106,7 +107,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("text-info");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
     }
 
@@ -116,7 +117,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("text-warning");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(189, 164, 0, 1)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(189, 164, 0, 1)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
     }
 
@@ -126,7 +127,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("text-error");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(202, 21, 12, 1)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(202, 21, 12, 1)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
     }
 
@@ -136,7 +137,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("icon-info");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color"))
                 .isEqualTo("rgba(26, 117, 230, 1)");
     }
@@ -147,7 +148,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("icon-warning");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(255, 204, 0, 1)");
     }
 
@@ -157,7 +158,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("icon-error");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(24, 39, 57, 0.94)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(226, 29, 18, 1)");
     }
 
@@ -167,7 +168,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("text-info", "icon-info");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
     }
 
@@ -177,7 +178,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("text-warning", "icon-warning");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(189, 164, 0, 1)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(189, 164, 0, 1)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(255, 204, 0, 1)");
     }
 
@@ -187,7 +188,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("text-error", "icon-error");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(202, 21, 12, 1)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(202, 21, 12, 1)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(226, 29, 18, 1)");
     }
 
@@ -197,7 +198,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("text-success", "icon-info");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(10, 118, 55, 1)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color")).isEqualTo("rgba(10, 118, 55, 1)");
         assertThat(linkkiTextElement.$("vaadin-icon").get(1).getCssValue("color")).isEqualTo("rgba(26, 117, 230, 1)");
     }
 
@@ -207,10 +208,12 @@ class TC001UILabelTest extends PlaygroundUiTest {
 
         selectStyles("text-success", "icon-info");
 
-        assertThat(linkkiTextElement.$("span").first().getCssValue("color")).isEqualTo("rgba(10, 118, 55, 1)");
-        // linkki text inner icon has text color but not icon-text-color applied to the additional
-        // icon
-        assertThat(linkkiTextElement.$("vaadin-icon").first().getCssValue("color")).isEqualTo("rgba(10, 118, 55, 1)");
+        assertThat(linkkiTextElement.$("span").single().getCssValue("color"))
+                .isEqualTo("rgba(10, 118, 55, 1)");
+        assertThat(linkkiTextElement.$(IconElement.class).withAttribute("icon", "lumo:arrow-down").single()
+                .getCssValue("color"))
+                        .as("inner icon has text color but not icon-text-color applied to the prefix icon")
+                        .isEqualTo("rgba(10, 118, 55, 1)");
     }
 
     private void selectStyles(String... elementsToSelect) {

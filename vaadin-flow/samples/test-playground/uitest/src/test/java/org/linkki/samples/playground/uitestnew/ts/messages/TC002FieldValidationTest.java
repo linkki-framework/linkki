@@ -72,8 +72,8 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
 
         // datetimePicker consists of two separate elements
         var dateTimePicker = $(DateTimePickerElement.class).id(PROPERTY_DATE_TIME_FIELD);
-        var datePicker = dateTimePicker.$(DatePickerElement.class).first();
-        var timePicker = dateTimePicker.$(TimePickerElement.class).first();
+        var datePicker = dateTimePicker.$(DatePickerElement.class).single();
+        var timePicker = dateTimePicker.$(TimePickerElement.class).single();
 
         allElements = List.of(textField, combobox, multiselect, dateTimePicker);
         allSingleElements = List.of(textField, combobox, multiselect, datePicker, timePicker);
@@ -280,7 +280,7 @@ class TC002FieldValidationTest extends PlaygroundUiTest {
 
     private void assertNotInvalid(TestBenchElement element) {
         assertThat(element.hasAttribute("invalid")).isFalse();
-        var errorMessages = element.$(DivElement.class).withAttribute("slot", "error-message").first();
+        var errorMessages = element.$(DivElement.class).withAttribute("slot", "error-message").single();
         assertThat(errorMessages.hasAttribute("hidden")).isTrue();
         assertThat(errorMessages.getText()).isEmpty();
     }

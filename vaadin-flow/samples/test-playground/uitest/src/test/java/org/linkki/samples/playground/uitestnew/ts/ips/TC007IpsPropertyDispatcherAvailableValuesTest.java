@@ -36,7 +36,7 @@ class TC007IpsPropertyDispatcherAvailableValuesTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         testCaseSection = goToTestCase(TestScenarioView.TS004, TestScenarioView.TC007);
-        section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
+        section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).single();
     }
 
     @Test
@@ -49,7 +49,7 @@ class TC007IpsPropertyDispatcherAvailableValuesTest extends PlaygroundUiTest {
     @Test
     void testDialog_Visibility_with_IpsDispatcher() {
         $(ButtonElement.class).id("showDialogWithBindingManager").click();
-        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).waitForFirst();
+        OkCancelDialogElement dialog = $(OkCancelDialogElement.class).single();
 
         assertTrue(dialog.isOpen());
 

@@ -39,7 +39,7 @@ public class UISectionHeaderTest extends PlaygroundUiTest {
     void setup() {
         testCaseSection = goToTestCase(TestScenarioView.TS002, TestScenarioView.TC001);
 
-        section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
+        section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).single();
 
         label = section.$(LinkkiTextElement.class).id("label");
     }

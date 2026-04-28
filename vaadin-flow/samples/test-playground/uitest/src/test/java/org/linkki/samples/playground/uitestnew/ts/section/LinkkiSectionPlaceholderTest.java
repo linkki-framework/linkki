@@ -44,7 +44,7 @@ class LinkkiSectionPlaceholderTest extends PlaygroundUiTest {
         var section = getSection(SectionsWithPlaceholder.SectionWithPlaceholderPmo.class);
         assertPlaceholder(section, "This section contains no visible child elements.");
 
-        section.getHeaderComponents(CheckboxElement.class).first().click();
+        section.getHeaderComponents(CheckboxElement.class).single().click();
 
         assertPlaceholderIsEmpty(section);
     }
