@@ -15,96 +15,150 @@
 package org.linkki.samples.playground.uitestnew.ts.navigation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
+import org.linkki.testbench.pageobjects.OkCancelDialogElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.dialog.testbench.DialogElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 class BrowserConfirmationTest extends PlaygroundUiTest {
 
+    private String originalTab;
+
     @BeforeEach
-    void goToTestCase() {
-        goToTestCase(TestScenarioView.TS019, TestScenarioView.TC001);
+    void goToAndClearConfirmView() {
+        originalTab = getDriver().getWindowHandle();
+        getDriver().switchTo().newWindow(WindowType.TAB);
+        goToTestCase();
+        waitForEditButton().click();
+        editValue(Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE);
+        waitForSaveButton().click();
+        assertThat(textField().getValue()).isEmpty();
+    }
+
+    @AfterEach
+    void closeTab() {
+        getDriver().close();
+        getDriver().switchTo().window(originalTab);
     }
 
     @Test
-    void testBrowserConfirmationDialog() {
-        $(ButtonElement.class).id("goToView").click();
-
-        // wait for new view to be shown
-        waitForElementVisible(By.ById.id("EditSaveButtonPmo"));
-
-        // reload page without confirmation
+    void testNoBrowserConfirmationOnReload() {
         reload();
-
+        var targetLocator = getDriver().switchTo();
+        assertThrows(NoAlertPresentException.class, targetLocator::alert);
         waitForElementVisible(By.ById.id("EditSaveButtonPmo"));
+    }
 
-        // start edit mode and enter '2' as value
-        editButton().click();
-        valueField().sendKeys("2");
+    @Test
+    void testBrowserConfirmationOnReload_Dismiss() {
+        waitForEditButton().click();
+        editValue("2");
 
-        // reload page and check that browser confirmation dialog is shown
         reload();
-
         waitUntil(ExpectedConditions.alertIsPresent());
-
-        // abort dialog
         getDriver().switchTo().alert().dismiss();
 
-        // still on the same page and value is '2'
-        assertThat(valueField().getValue()).isEqualTo("2");
+        assertThat(textField().getValue()).isEqualTo("2");
+    }
 
-        // reload page and confirm dialog
+    @Test
+    void testBrowserConfirmationOnReload_Accept() {
+        waitForEditButton().click();
+        editValue("2");
+
         reload();
         waitUntil(ExpectedConditions.alertIsPresent());
         getDriver().switchTo().alert().accept();
 
-        // page was reloaded and value is empty
-        waitForElementVisible(By.ById.id("EditSaveButtonPmo"));
-        assertThat(valueField().getValue()).isEmpty();
+        assertThat(textField().getValue()).isEmpty();
+    }
 
-        // enter edit mode and enter value '3'
-        valueField().sendKeys("3");
+    @Test
+    void testNavigationConfirmation_Cancel() {
+        waitForEditButton().click();
+        editValue("3");
 
-        // click menu item and check that custom confirmation dialog is shown
         clickMenuItemById("playground");
 
-        // abort dialog and check that value is still '3'
-        var dialog = $(DialogElement.class).first();
-        dialog.$(ButtonElement.class).id("cancelButton").click();
-        assertThat(valueField().getValue()).isEqualTo("3");
+        var dialog = $(OkCancelDialogElement.class).first();
+        dialog.clickOnCancel();
+        assertThat(textField().getValue()).isEqualTo("3");
+    }
 
-        // go back and confirm dialog
+    @Test
+    void testNavigationConfirmation_Confirm() {
+        waitForEditButton().click();
+        editValue("3");
+
         clickMenuItemById("playground");
-        dialog = $(DialogElement.class).first();
-        dialog.$(ButtonElement.class).id("okButton").click();
 
-        // check that we are on the main page again
+        var dialog = $(OkCancelDialogElement.class).first();
+        dialog.clickOnOk();
+
         assertThat(getDriver().getCurrentUrl()).endsWith("/playground");
 
+        goToTestCase();
+        assertThat(textField().getValue()).isEmpty();
+    }
+
+    @Test
+    void testNoConfirmationAfterSave() {
+        waitForEditButton().click();
+        editValue("2");
+        waitForSaveButton().click();
+        waitForEditButton();
+
+        reload();
+        waitUntilViewIsLoaded();
+
+        clickMenuItemById("playground");
+        assertThat(getDriver().getCurrentUrl()).endsWith("/playground");
     }
 
     private void reload() {
         getDriver().navigate().refresh();
     }
 
-    private TextFieldElement valueField() {
+    private void goToTestCase() {
+        goToTestCaseByUrl(TestScenarioView.TS019, TestScenarioView.TC001);
+        $(ButtonElement.class).id("goToView").click();
+    }
+
+    private void editValue(String value) {
+        waitUntilViewIsLoaded();
+        waitUntil(ExpectedConditions
+                .elementToBeClickable($(ButtonElement.class).id("save")));
+        $(TextFieldElement.class).id("value").sendKeys(value);
+    }
+
+    private TextFieldElement textField() {
+        waitUntilViewIsLoaded();
         return $(TextFieldElement.class).id("value");
     }
 
-    private ButtonElement editButton() {
-        return $(ButtonElement.class).id("edit");
+    private ButtonElement waitForEditButton() {
+        return (ButtonElement)waitUntil(ExpectedConditions
+                .elementToBeClickable($(ButtonElement.class).id("edit")));
     }
 
-    private ButtonElement saveButton() {
-        return $(ButtonElement.class).id("save");
+    private ButtonElement waitForSaveButton() {
+        return (ButtonElement)waitUntil(ExpectedConditions
+                .elementToBeClickable($(ButtonElement.class).id("save")));
     }
 
+    private void waitUntilViewIsLoaded() {
+        waitForElementVisible(By.ById.id("EditSaveButtonPmo"));
+    }
 }
