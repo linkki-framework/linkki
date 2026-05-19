@@ -20,6 +20,14 @@
 
 === Version 2.7.105
 
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Vaadin                        | 24.9.17 (link:https://github.com/vaadin/platform/releases/tag/24.9.17[Release Notes]) | 24.9.14
+| Spring Boot                   | 3.5.14 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.14[Release Notes])    | 3.5.13
+|===
+
 === Version 2.7.104
 
 ==== Version Updates
@@ -30,8 +38,8 @@ The following versions have been updated:
 |===
 | Dependency | New version | Previous version
 
-| Vaadin                        | 24.9.17 (link:https://github.com/vaadin/platform/releases/tag/24.9.17[Release Notes]) | 24.9.13
-| Spring Boot                   | 3.5.14 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.14[Release Notes])    | 3.5.11
+| Vaadin                        | 24.9.14 (link:https://github.com/vaadin/platform/releases/tag/24.9.14[Release Notes]) | 24.9.13
+| Spring Boot                   | 3.5.13 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.13[Release Notes])    | 3.5.11
 |===
 
 === Version 2.7.103
