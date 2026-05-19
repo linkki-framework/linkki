@@ -14,7 +14,7 @@
     <name>linkki Annotation Processor</name>
 
     <properties>
-        <commons-io.version>2.21.0</commons-io.version>
+        <commons-io.version>2.22.0</commons-io.version>
     </properties>
 
     <dependencies>
