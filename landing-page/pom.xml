@@ -26,7 +26,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>validate</id>
+                        <id>checkstyle</id>
                         <phase>none</phase>
                     </execution>
                 </executions>
