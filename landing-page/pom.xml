@@ -17,12 +17,20 @@
 
         <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
         <wagon-ssh.version>3.5.3</wagon-ssh.version>
-
-        <checkstyle.skip>true</checkstyle.skip>
     </properties>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>wagon-maven-plugin</artifactId>
