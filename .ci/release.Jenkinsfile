@@ -99,8 +99,8 @@ pipeline {
 
                         // only publish final releases (no rcs & milestones) on maven central
                         if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
-                            deployToMavenCentral(releaseJobURL: "https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_Release_MavenCentral_Publish/build",
-                                                 dropJobURL: "https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki_Release_MavenCentral_Drop/build",
+                            deployToMavenCentral(releaseJobURL: "https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki%20Release%20MavenCentral%20Publish/",
+                                                 dropJobURL: "https://druiden-ci.faktorzehn.dev/view/linkki/job/linkki%20Release%20MavenCentral%20Drop/",
                                                  commands: ['mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc -Dmaven.test.skip=true'])
                         } else {
                             sh 'mvn javadoc:jar source:jar deploy -Ddoc.user=doc'
