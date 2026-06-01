@@ -11,7 +11,7 @@
 
     <artifactId>linkki-vaadin-flow-component</artifactId>
     <packaging>jar</packaging>
-    <name>linkki Custom Components for Vaadin Flow</name>
+    <name>linkki Vaadin Flow Components</name>
 
     <dependencies>
         <dependency>

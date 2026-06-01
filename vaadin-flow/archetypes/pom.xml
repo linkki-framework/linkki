@@ -13,7 +13,7 @@
 
     <packaging>pom</packaging>
 
-    <name>linkki Archetypes with Vaadin Flow</name>
+    <name>linkki Vaadin Flow Archetypes</name>
 
     <properties>
         <maven-archetype-plugin.version>3.4.1</maven-archetype-plugin.version>

@@ -12,7 +12,7 @@
 
     <artifactId>linkki-application-framework-vaadin-flow</artifactId>
     <packaging>jar</packaging>
-    <name>linkki Application Framework for Vaadin Flow</name>
+    <name>linkki Vaadin Flow Application Framework</name>
 
     <dependencies>
         <dependency>

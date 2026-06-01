@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>linkki-vaadin-flow-testbench-extension</artifactId>
-    <name>linkki Vaadin Flow Testbench extension</name>
+    <name>linkki Vaadin Flow Testbench Extension</name>
     <description>Extension for the Vaadin Testbench</description>
 
     <properties>

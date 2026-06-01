@@ -8,8 +8,8 @@
     </parent>
 
     <artifactId>linkki-test</artifactId>
-    <name>linkki Test</name>
-    <description>linkki Test Project</description>
+    <name>linkki Test Utils</name>
+    <description>Utilities for Tests in linkki</description>
 
     <dependencies>
         <dependency>

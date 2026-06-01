@@ -9,8 +9,8 @@
     </parent>
 
     <artifactId>linkki-vaadin-flow-test</artifactId>
-    <name>linkki Vaadin Flow Test</name>
-    <description>linkki Test Utilities for Vaadin Flow</description>
+    <name>linkki Vaadin Flow Test Utils</name>
+    <description>Utilities for projects using linkki Vaadin Flow</description>
 
     <dependencies>
         <dependency>

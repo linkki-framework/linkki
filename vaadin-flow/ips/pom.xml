@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>linkki-ips-vaadin-flow</artifactId>
-    <name>linkki Extension for Faktor-IPS with Vaadin Flow</name>
+    <name>linkki Vaadin Flow for Faktor-IPS</name>
 
     <properties>
         <faktorips.version>26.7.0.rc01</faktorips.version>

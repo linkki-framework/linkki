@@ -23,7 +23,7 @@
 
     <artifactId>linkki-core-documentation-vaadin-flow</artifactId>
 
-    <name>Linkki Core Documentation - Vaadin Flow</name>
+    <name>linkki Documentation</name>
 
     <dependencies>
         <dependency>

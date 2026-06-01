@@ -13,7 +13,7 @@
     <artifactId>linkki-archetype-spring-application-vaadin-flow</artifactId>
     <packaging>maven-archetype</packaging>
 
-    <name>linkki Spring Boot Archetype with Vaadin Flow</name>
+    <name>linkki Vaadin Flow Archetype - Spring Boot</name>
 
     <dependencies>
         <!-- Required for integration test, dependency is needed for modules 

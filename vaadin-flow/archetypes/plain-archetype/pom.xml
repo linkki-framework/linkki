@@ -13,7 +13,7 @@
     <artifactId>linkki-archetype-plain-application-vaadin-flow</artifactId>
     <packaging>maven-archetype</packaging>
 
-    <name>linkki Plain Archetype with Vaadin Flow</name>
+    <name>linkki Vaadin Flow Archetype - Plain</name>
 
     <dependencies>
         <!-- Required for integration test, dependency is needed for modules 

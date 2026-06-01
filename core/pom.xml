@@ -9,7 +9,8 @@
 
     <artifactId>linkki-core</artifactId>
     <packaging>jar</packaging>
-    <name>linkki Databinding and Core Framework</name>
+    <name>linkki Core</name>
+    <description>Core module of linkki data binding framework</description>
 
     <dependencies>
         <dependency>

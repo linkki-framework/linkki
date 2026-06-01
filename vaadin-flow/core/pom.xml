@@ -11,7 +11,7 @@
 
     <artifactId>linkki-core-vaadin-flow</artifactId>
     <packaging>jar</packaging>
-    <name>linkki Databinding and Core Framework for Vaadin Flow</name>
+    <name>linkki Vaadin Flow</name>
 
     <dependencies>
         <dependency>
