@@ -5,13 +5,13 @@
       "configuration": {
         "elements": {
           "exclude": [
-            ".* com\\.vaadin\\.flow\\..*",
             ".*org\\.junit\\.jupiter\\.api\\..*"
           ]
         },
         "archives": {
           "exclude": [
-            "org.linkki-framework:linkki-core:jar.*"
+            "org.linkki-framework:linkki-core:jar.*",
+            "com.vaadin:.*"
           ]
         }
       }
@@ -24,91 +24,31 @@
           {
             "regex": true,
             "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.assertj\\.core\\..*",
-            "justification": "AssertJ is used in the API"
-          },
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".* com\\.github\\.mvysny\\.kaributesting\\..*",
-            "justification": "Karibu is used in the API"
-          },
-          {
-            "code": "java.class.externalClassExposedInAPI",
-            "new": "interface kotlin.jvm.functions.Function0<R>",
-            "justification": "Karibu is used in the API which uses Kotlin"
+            "justification": "Not API breaking"
           },
           {
             "regex": true,
             "code": "java.annotation.attributeValueChanged",
-            "annotationType": "kotlin\\.Metadata",
-            "justification": "LIN-4260 Exclude kotlin metadata"
+            "annotationType": "kotlin\\..*",
+            "justification": "Ignore kotlin API breaks"
           },
           {
             "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".* jakarta\\.servlet\\..*",
-            "justification": "LIN-3470"
+            "code": "java\\.missing\\.(old|new)Class",
+            "justification": "Not API breaking"
+          },
+          {
+            "regex": true,
+            "code": "java.class.nonPublicPartOfAPI",
+            "package": "^(?!.*linkki).*$",
+            "justification": "Binary compatible"
           },
           {
             "regex": true,
             "code": "java.annotation.attributeValueChanged",
-            "annotationType": "kotlin\\.jvm..*",
-            "attribute": "value",
-            "justification": "LIN-4260 Exclude kotlin metadata"
-          }
-        ]
-      }
-    }
-  ],
-  "2.9.0": [
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "code": "java.annotation.added",
-            "new": "field org.junit.jupiter.api.extension.MediaType.APPLICATION_JSON_UTF_8",
-            "annotation": "@org.apiguardian.api.API(status = org.apiguardian.api.API.Status.DEPRECATED, since = \"5.14\")",
-            "justification": "JTS-2566 Version updated to 5.14.0"
-          },
-          {
-            "code": "java.class.nonFinalClassInheritsFromNewClass",
-            "new": "class org.junit.jupiter.api.extension.MediaType",
-            "superClass": "org.junit.jupiter.api.MediaType",
-            "justification": "JTS-2566 Version updated to 5.14.0"
-          },
-          {
-            "code": "java.class.removed",
-            "old": "class org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration",
-            "justification": "LIN-4635 KaribuConfiguration was moved to top-level because it is now also used by the new utility class KaribuUI."
-          },
-          {
-            "code": "java.method.parameterTypeParameterChanged",
-            "old": "parameter void org.linkki.core.ui.test.CustomInstantiatorMockServlet::<init>(com.github.mvysny.kaributesting.v10.Routes, ===java.util.Map<org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration.ClassKey, java.util.function.Supplier<?>>===)",
-            "new": "parameter void org.linkki.core.ui.test.CustomInstantiatorMockServlet::<init>(com.github.mvysny.kaributesting.v10.Routes, ===java.util.Map<org.linkki.core.ui.test.CustomInstantiatorMockServlet.ClassKey, java.util.function.Supplier<?>>===)",
-            "parameterIndex": "1",
-            "justification": "LIN-4635 KaribuConfiguration was moved to top-level because it is now also used by the new utility class KaribuUI."
-          },
-          {
-            "code": "java.method.parameterTypeParameterChanged",
-            "old": "parameter org.linkki.core.ui.test.KaribuUIExtension org.linkki.core.ui.test.KaribuUIExtension::withConfiguration(===java.util.function.Consumer<org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration>===)",
-            "new": "parameter org.linkki.core.ui.test.KaribuUIExtension org.linkki.core.ui.test.KaribuUIExtension::withConfiguration(===java.util.function.Consumer<org.linkki.core.ui.test.KaribuConfiguration>===)",
-            "parameterIndex": "0",
-            "justification": "LIN-4635 KaribuConfiguration was moved to top-level because it is now also used by the new utility class KaribuUI."
-          },
-          {
-            "code": "java.method.parameterTypeChanged",
-            "old": "parameter org.linkki.core.ui.test.KaribuUIExtension org.linkki.core.ui.test.KaribuUIExtension::withConfiguration(===org.linkki.core.ui.test.KaribuUIExtension.KaribuConfiguration===)",
-            "new": "parameter org.linkki.core.ui.test.KaribuUIExtension org.linkki.core.ui.test.KaribuUIExtension::withConfiguration(===org.linkki.core.ui.test.KaribuConfiguration===)",
-            "parameterIndex": "0",
-            "justification": "LIN-4635 KaribuConfiguration was moved to top-level because it is now also used by the new utility class KaribuUI."
-          },
-          {
-            "code": "java.field.removedWithConstant",
-            "old": "field org.linkki.core.ui.test.KaribuUIExtension.PROPERTY_PRODUCTION_MODE",
-            "justification": "LIN-4635 Moved to new utility class KaribuUI"
+            "annotationType": "com.vaadin.flow.component.dependency.NpmPackage.*",
+            "package": ".*com\\.vaadin\\.flow\\..*",
+            "justification": "Binary compatible, only affects frontend bundle"
           }
         ]
       }

@@ -3,14 +3,10 @@
     {
       "extension": "revapi.filter",
       "configuration": {
-        "elements": {
-          "exclude": [
-            ".* com\\.vaadin\\.flow\\..*"
-          ]
-        },
         "archives": {
           "exclude": [
-            "org.linkki-framework:linkki-core:jar.*"
+            "org.linkki-framework:linkki-core:jar.*",
+            "com.vaadin:.*"
           ]
         }
       }
@@ -23,14 +19,26 @@
           {
             "regex": true,
             "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.linkki\\.core\\..*",
-            "justification": "LIN-2651/LIN-2652"
+            "new": "^(?!.*org\\.linkki).*$",
+            "justification": "Ignore for classes in dependencies"
           },
           {
             "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.linkki\\.util\\..*",
-            "justification": "LIN-2651/LIN-2652"
+            "code": "java.class.nonPublicPartOfAPI",
+            "package": "^(?!.*linkki).*$",
+            "justification": "Binary compatible"
+          },
+          {
+            "regex": true,
+            "code": "java.annotation.attributeValueChanged",
+            "annotationType": "com.vaadin.flow.component.dependency.NpmPackage.*",
+            "package": ".*com\\.vaadin\\.flow\\..*",
+            "justification": "Binary compatible, only affects frontend bundle"
+          },
+          {
+            "regex": true,
+            "code": "java\\.missing\\.(old|new)Class",
+            "justification": "Not API breaking"
           }
         ]
       }
@@ -43,13 +51,22 @@
         "ignore": true,
         "differences": [
           {
-            "ignore": true,
+            "regex": true,
+            "code": "java.method.numberOfParametersChanged",
+            "new": ".*Component::scrollIntoView.*",
+            "justification": "Vaadin 25.0"
+          },
+          {
+            "code": "java.method.removed",
+            "old": "method com.vaadin.flow.shared.Registration com.vaadin.flow.component.shared.HasClientValidation::addClientValidatedEventListener(com.vaadin.flow.component.ComponentEventListener<com.vaadin.flow.component.shared.HasClientValidation.ClientValidatedEvent>) @ org.linkki.core.vaadin.component.base.LinkkiCheckBox",
+            "justification": "Vaadin 25.0 https://github.com/vaadin/flow-components/pull/7583"
+          },
+          {
             "code": "java.class.removed",
             "old": "class org.linkki.core.ui.nested.annotation.UINestedComponent.NestedAspecDefinitionCreator",
             "justification": "LIN-2733/LIN-4698"
           },
           {
-            "ignore": true,
             "code": "java.annotation.attributeValueChanged",
             "old": "@interface org.linkki.core.ui.nested.annotation.UINestedComponent",
             "new": "@interface org.linkki.core.ui.nested.annotation.UINestedComponent",

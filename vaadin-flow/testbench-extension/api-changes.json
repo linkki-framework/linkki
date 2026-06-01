@@ -1,37 +1,36 @@
 {
   "all-versions": [
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.openqa\\.selenium\\..*",
-            "justification": "Selenium is used in the API"
-          },
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.junit\\.jupiter\\.api\\..*",
-            "justification": "JUnit is used in the API"
-          },
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*com\\.vaadin\\..*",
-            "justification": "Vaadin is used in the API"
-          },
-          {
-            "regex": true,
-            "code": "java.class.externalClassExposedInAPI",
-            "new": ".*org\\.linkki\\.core\\..*",
-            "justification": "linkki is used in the API"
-          }
-        ]
-      }
-    }
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "differences": [
+                    {
+                        "regex": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "justification": "Not API breaking"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.class.nonPublicPartOfAPI",
+                        "package": "^(?!.*linkki).*$",
+                        "justification": "Binary compatible"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java.annotation.attributeValueChanged",
+                        "annotationType": "com.vaadin.flow.component.dependency.NpmPackage.*",
+                        "package": ".*com\\.vaadin\\.flow\\..*",
+                        "justification": "Binary compatible, only affects frontend bundle"
+                    },
+                    {
+                        "regex": true,
+                        "code": "java\\.missing\\.(old|new)Class",
+                        "justification": "Not API breaking"
+                    }
+                ]
+            }
+        }
   ],
   "2.10.0": [
     {
