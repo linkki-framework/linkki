@@ -63,6 +63,25 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version                                                                        | Previous version
+| Vaadin                        | 25.2.0-beta1 (link:https://github.com/vaadin/platform/releases/tag/25.2.0-beta1[Release Notes]) | 25.1.5
+
+|===
+
+The update to Vaadin 25.2 brings some API changes:
+
+* `TreeDataProvider` is no longer returned by `TreeGrid#getDataProvider()`.
+Tree data must now be accessed via `TreeGrid#getTreeData()` directly. +
+*Migration*: Replace any cast of `TreeGrid#getDataProvider()` to `TreeDataProvider` with a direct call to `TreeGrid#getTreeData()`.
+
+=== Alpha Version 2.10.0-a20260608-02
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
 | Vaadin                        | 25.1.5 (link:https://github.com/vaadin/platform/releases/tag/25.1.5[Release Notes]) | 25.0.11
 
 |===

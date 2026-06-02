@@ -15,8 +15,6 @@
 package org.linkki.core.ui.creation.table;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,107 +27,113 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
 
 import com.vaadin.flow.component.treegrid.TreeGrid;
-import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider;
 
-public class TreeGridComponentWrapperTest {
+class TreeGridComponentWrapperTest {
 
     @Test
     void testSetItems() {
-        TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
-        List<Row> items = Arrays.asList(new Row(), new Row());
+        var treeGrid = new TreeGrid<Row>();
+        var componentWrapper = new TreeGridComponentWrapper<>(treeGrid);
+        var items = Arrays.asList(new Row(), new Row());
 
         componentWrapper.setItems(items);
 
-        TreeDataProvider<Row> treeDataProvider = (TreeDataProvider<Row>)componentWrapper.getComponent()
-                .getDataProvider();
-        assertThat(treeDataProvider.getTreeData().getRootItems(), is(items));
+        assertThat(treeGrid.getTreeData().getRootItems()).isEqualTo(items);
     }
 
     @Test
     void testSetItems_CheckUpdateEvent() {
         var eventCount = new AtomicInteger(0);
-        TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
-        List<Row> items = Arrays.asList(new Row(), new Row());
-        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount.incrementAndGet());
+        var treeGrid = new TreeGrid<Row>();
+        var componentWrapper = new TreeGridComponentWrapper<>(treeGrid);
+        var items = Arrays.asList(new Row(), new Row());
+        treeGrid.getDataProvider()
+                .addDataProviderListener(event -> eventCount.incrementAndGet());
 
         componentWrapper.setItems(items);
 
-        assertThat(eventCount.get(), is(1));
+        assertThat(eventCount.get()).isEqualTo(1);
     }
 
     @Test
     void testSetItems_CheckUpdateEventOnChange() {
         var eventCount = new AtomicInteger(0);
-        TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
-        List<Row> items = Arrays.asList(new Row(), new Row());
-        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount.incrementAndGet());
+        var treeGrid = new TreeGrid<Row>();
+        var componentWrapper = new TreeGridComponentWrapper<>(treeGrid);
+        var items = Arrays.asList(new Row(), new Row());
+        treeGrid.getDataProvider()
+                .addDataProviderListener(event -> eventCount.incrementAndGet());
         componentWrapper.setItems(items);
         eventCount.set(0);
 
         items.set(0, new Row());
         componentWrapper.setItems(items);
 
-        assertThat(eventCount.get(), is(1));
+        assertThat(eventCount.get()).isEqualTo(1);
     }
 
     @Test
     void testSetItems_WithChildren() {
-        TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
-        List<Row> items = Arrays.asList(new Row(new Row(), new Row()), new Row(new Row(new Row())));
+        var treeGrid = new TreeGrid<Row>();
+        var componentWrapper = new TreeGridComponentWrapper<>(treeGrid);
+        var items = Arrays.asList(new Row(new Row(), new Row()), new Row(new Row(new Row())));
 
         componentWrapper.setItems(items);
 
-        TreeDataProvider<Row> treeDataProvider = (TreeDataProvider<Row>)componentWrapper.getComponent()
-                .getDataProvider();
-        assertThat(treeDataProvider.getTreeData().getRootItems(), is(items));
-        assertThat(treeDataProvider.getTreeData().getChildren(items.get(0)), is(items.get(0).children));
-        assertThat(treeDataProvider.getTreeData().getChildren(items.get(1)), is(items.get(1).children));
-        assertThat(treeDataProvider.getTreeData().getChildren(items.get(1).children.get(0)),
-                   is(items.get(1).children.get(0).children));
+        assertThat(treeGrid.getTreeData().getRootItems()).isEqualTo(items);
+        assertThat(treeGrid.getTreeData().getChildren(items.get(0))).isEqualTo(items.get(0).children);
+        assertThat(treeGrid.getTreeData().getChildren(items.get(1))).isEqualTo(items.get(1).children);
+        assertThat(treeGrid.getTreeData().getChildren(items.get(1).children.getFirst()))
+                .isEqualTo(items.get(1).children.getFirst().children);
     }
 
     @Test
     void testSetItems_WithChildren_CheckUpdateEventOnChange() {
-        TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
-        List<Row> items = Arrays.asList(new Row(new Row(), new Row()), new Row(new Row(new Row())));
+        var treeGrid = new TreeGrid<Row>();
+        var componentWrapper = new TreeGridComponentWrapper<>(treeGrid);
+        var items = Arrays.asList(new Row(new Row(), new Row()), new Row(new Row(new Row())));
         var eventCount = new AtomicInteger(0);
-        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount.incrementAndGet());
+        treeGrid.getDataProvider()
+                .addDataProviderListener(event -> eventCount.incrementAndGet());
         componentWrapper.setItems(items);
         eventCount.set(0);
 
-        items.get(0).children.set(0, new Row());
+        items.getFirst().children.set(0, new Row());
         componentWrapper.setItems(items);
 
-        assertThat(eventCount.get(), is(1));
+        assertThat(eventCount.get()).isEqualTo(1);
     }
 
     @Test
     void testSetItems_DoNotUpdateForUnchangedList() {
-        TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
-        List<Row> items = Arrays.asList(new Row(), new Row());
+        var treeGrid = new TreeGrid<Row>();
+        var componentWrapper = new TreeGridComponentWrapper<>(treeGrid);
+        var items = Arrays.asList(new Row(), new Row());
         var eventCount = new AtomicInteger(0);
-        componentWrapper.getComponent().getDataProvider().addDataProviderListener($ -> eventCount.incrementAndGet());
+        treeGrid.getDataProvider()
+                .addDataProviderListener(event -> eventCount.incrementAndGet());
 
         // call setItems twice
         componentWrapper.setItems(items);
         componentWrapper.setItems(items);
 
-        assertThat(eventCount.get(), is(1));
+        assertThat(eventCount.get()).isEqualTo(1);
     }
 
     @Test
     void testHasItemsAttribute() {
-        TreeGridComponentWrapper<Integer> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
+        var treeGrid = new TreeGrid<Integer>();
+        var componentWrapper = new TreeGridComponentWrapper<>(treeGrid);
 
-        assertThat(componentWrapper.getComponent().getElement().hasAttribute("has-items")).isFalse();
+        assertThat(treeGrid.getElement().hasAttribute("has-items")).isFalse();
 
         componentWrapper.setItems(Arrays.asList(1, 2, 3));
 
-        assertThat(componentWrapper.getComponent().getElement().hasAttribute("has-items")).isTrue();
+        assertThat(treeGrid.getElement().hasAttribute("has-items")).isTrue();
 
         componentWrapper.setItems(Collections.emptyList());
 
-        assertThat(componentWrapper.getComponent().getElement().hasAttribute("has-items")).isFalse();
+        assertThat(treeGrid.getElement().hasAttribute("has-items")).isFalse();
     }
 
     private static class Row implements HierarchicalRowPmo<Row> {
