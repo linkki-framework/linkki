@@ -67,6 +67,13 @@ The following versions have been updated:
 
 |===
 
+==== Components, UI Annotations and Aspects
+
+// https://jira.convista.com/browse/LIN-4281
+* *`@UIMultiSelect`: new attribute `autoExpand`* +
+The new attribute `autoExpand` of type `MultiSelectComboBox.AutoExpandMode` allows configuring the automatic expansion of the field when many chips are selected.
+The default value is `NONE` for backwards compatibility.
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4849

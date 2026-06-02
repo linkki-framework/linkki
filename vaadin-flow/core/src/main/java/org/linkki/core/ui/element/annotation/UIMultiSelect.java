@@ -132,6 +132,15 @@ public @interface UIMultiSelect {
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
     /**
+     * Defines the auto-expand behavior of the field when multiple chips are selected. The default
+     * is {@link MultiSelectComboBox.AutoExpandMode#NONE}, which means the field does not expand.
+     * <p>
+     * See {@link MultiSelectComboBox#setAutoExpand(MultiSelectComboBox.AutoExpandMode)} for
+     * details.
+     */
+    MultiSelectComboBox.AutoExpandMode autoExpand() default MultiSelectComboBox.AutoExpandMode.NONE;
+
+    /**
      * Aspect definition creator for the {@link UIMultiSelect} annotation.
      */
     class MultiSelectAspectCreator implements AspectDefinitionCreator<UIMultiSelect> {
@@ -166,6 +175,7 @@ public @interface UIMultiSelect {
                 multiselect.setItemLabelGenerator(ItemCaptionProvider
                         .instantiate(annotation::itemCaptionProvider)::getUnsafeCaption);
                 multiselect.setWidth(annotation.width());
+                multiselect.setAutoExpand(annotation.autoExpand());
                 return multiselect;
             };
         }

@@ -40,12 +40,14 @@ import org.linkki.core.ui.element.annotation.UIMultiSelectIntegrationTest.MultiS
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.test.KaribuUtils;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.core.ui.wrapper.VaadinComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
+import com.vaadin.flow.component.combobox.MultiSelectComboBox.AutoExpandMode;
 import com.vaadin.flow.data.provider.Query;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -70,8 +72,8 @@ class UIMultiSelectIntegrationTest
         var multiselect = getDynamicComponent();
 
         assertThat(getAllowedValues(multiselect)).contains(TestEnum.ONE,
-                TestEnum.TWO,
-                TestEnum.THREE);
+                                                           TestEnum.TWO,
+                                                           TestEnum.THREE);
         assertThat(multiselect.isClearButtonVisible()).isTrue();
     }
 
@@ -79,20 +81,20 @@ class UIMultiSelectIntegrationTest
     void testStaticAvailableValues() {
         MultiSelectComboBox<TestEnum> multiselect = getStaticComponent();
         assertThat(getAllowedValues(multiselect)).contains(TestEnum.ONE, TestEnum.TWO,
-                TestEnum.THREE);
+                                                           TestEnum.THREE);
     }
 
     @Test
     void testDynamicAvailableValues() {
         assertThat(getAllowedValues(getDynamicComponent())).contains(TestEnum.ONE, TestEnum.TWO,
-                TestEnum.THREE);
+                                                                     TestEnum.THREE);
 
         List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.remove(TestEnum.ONE);
         getDefaultPmo().setValueAvailableValues(availableValues);
         modelChanged();
         assertThat(getAllowedValues(getDynamicComponent())).contains(TestEnum.TWO,
-                TestEnum.THREE);
+                                                                     TestEnum.THREE);
     }
 
     @Test
@@ -108,7 +110,7 @@ class UIMultiSelectIntegrationTest
         NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
 
         BindingContext bindingContext = new BindingContext();
-        Function<Object, NoLabelComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper((Component) c);
+        Function<Object, NoLabelComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper((Component)c);
 
         var component = UiCreator.createUiElements(pmo, bindingContext, wrapperCreator);
 
@@ -194,14 +196,31 @@ class UIMultiSelectIntegrationTest
         assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2)).isEqualTo("Foo");
     }
 
+    @Test
+    void testAutoExpand_Default() {
+        assertThat(getDynamicComponent().getAutoExpand()).isEqualTo(AutoExpandMode.NONE);
+    }
+
+    @Test
+    void testAutoExpand_Vertical() {
+        var pmo = new AutoExpandTestPmo();
+        var bindingContext = new BindingContext();
+        var component = (MultiSelectComboBox<?>)UiCreator
+                .createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
+                .map(VaadinComponentWrapper::getComponent)
+                .findFirst()
+                .orElseThrow();
+        assertThat(component.getAutoExpand())
+                .isEqualTo(AutoExpandMode.VERTICAL);
+    }
+
     @Override
     protected MultiSelectTestModelObject getDefaultModelObject() {
-        return (MultiSelectTestModelObject) super.getDefaultModelObject();
+        return (MultiSelectTestModelObject)super.getDefaultModelObject();
     }
 
     private static List<TestEnum> getAllowedValues(MultiSelectComboBox<TestEnum> multiSelectComboBox) {
-        return multiSelectComboBox.getDataProvider().fetch(new Query<>())
-                .collect(Collectors.toList());
+        return multiSelectComboBox.getDataProvider().fetch(new Query<>()).toList();
     }
 
     @UISection
@@ -301,6 +320,18 @@ class UIMultiSelectIntegrationTest
                 return value.getName();
             }
 
+        }
+    }
+
+    protected static class AutoExpandTestPmo {
+
+        @UIMultiSelect(position = 1, autoExpand = AutoExpandMode.VERTICAL)
+        public Set<TestEnum> getValue() {
+            return Collections.emptySet();
+        }
+
+        public List<TestEnum> getValueAvailableValues() {
+            return List.of(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE);
         }
     }
 }

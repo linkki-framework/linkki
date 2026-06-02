@@ -22,6 +22,8 @@ import java.util.Set;
 import org.linkki.core.ui.element.annotation.UIMultiSelect;
 import org.linkki.core.ui.layout.annotation.UISection;
 
+import com.vaadin.flow.component.combobox.MultiSelectComboBox;
+
 @UISection
 public class MultiSelectPmo {
 
@@ -42,13 +44,23 @@ public class MultiSelectPmo {
         return days;
     }
 
+    public void setDays(Set<Day> days) {
+        this.days = days;
+    }
+
     @UIMultiSelect(position = 10, label = "Selected Days")
     public Set<Day> getSelectedDays() {
         return getDays();
     }
 
-    public void setDays(Set<Day> days) {
-        this.days = days;
+    @UIMultiSelect(position = 20, label = "Days (auto expand)",
+            autoExpand = MultiSelectComboBox.AutoExpandMode.VERTICAL)
+    public Set<Day> getAutoExpandDays() {
+        return getDays();
+    }
+
+    public void setAutoExpandDays(Set<Day> days) {
+        setDays(days);
     }
 
     public Collection<Day> getDaysAvailableValues() {
@@ -56,6 +68,10 @@ public class MultiSelectPmo {
     }
 
     public Collection<Day> getSelectedDaysAvailableValues() {
+        return getDaysAvailableValues();
+    }
+
+    public Collection<Day> getAutoExpandDaysAvailableValues() {
         return getDaysAvailableValues();
     }
 
