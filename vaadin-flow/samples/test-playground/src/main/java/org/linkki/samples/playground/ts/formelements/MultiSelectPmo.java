@@ -34,7 +34,7 @@ public class MultiSelectPmo {
         THURSDAY,
         FRIDAY,
         SATURDAY,
-        SUNDAY;
+        SUNDAY
     }
 
     private Set<Day> days = new HashSet<>();
@@ -63,6 +63,15 @@ public class MultiSelectPmo {
         setDays(days);
     }
 
+    @UIMultiSelect(position = 30, label = "Days (selected items on top)", selectedItemsOnTop = true)
+    public Set<Day> getDaysOnTop() {
+        return getDays();
+    }
+
+    public void setDaysOnTop(Set<Day> days) {
+        setDays(days);
+    }
+
     public Collection<Day> getDaysAvailableValues() {
         return Arrays.asList(Day.values());
     }
@@ -72,6 +81,10 @@ public class MultiSelectPmo {
     }
 
     public Collection<Day> getAutoExpandDaysAvailableValues() {
+        return getDaysAvailableValues();
+    }
+
+    public Collection<Day> getDaysOnTopAvailableValues() {
         return getDaysAvailableValues();
     }
 

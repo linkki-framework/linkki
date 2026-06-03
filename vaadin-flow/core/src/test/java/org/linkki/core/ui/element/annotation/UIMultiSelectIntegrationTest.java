@@ -197,6 +197,25 @@ class UIMultiSelectIntegrationTest
     }
 
     @Test
+    void testSelectedItemsOnTop_default() {
+        assertThat(getDynamicComponent().isSelectedItemsOnTop()).isFalse();
+        assertThat(getStaticComponent().isSelectedItemsOnTop()).isFalse();
+    }
+
+    @Test
+    void testSelectedItemsOnTop_enabled() {
+        var pmo = new SelectedItemsOnTopPmo();
+        var bindingContext = new BindingContext();
+        var component = (MultiSelectComboBox<?>)UiCreator
+                .createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
+                .map(VaadinComponentWrapper::getComponent)
+                .findFirst()
+                .orElseThrow();
+
+        assertThat(component.isSelectedItemsOnTop()).isTrue();
+    }
+
+    @Test
     void testAutoExpand_Default() {
         assertThat(getDynamicComponent().getAutoExpand()).isEqualTo(AutoExpandMode.NONE);
     }
@@ -326,6 +345,18 @@ class UIMultiSelectIntegrationTest
     protected static class AutoExpandTestPmo {
 
         @UIMultiSelect(position = 1, autoExpand = AutoExpandMode.VERTICAL)
+        public Set<TestEnum> getValue() {
+            return Collections.emptySet();
+        }
+
+        public List<TestEnum> getValueAvailableValues() {
+            return List.of(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE);
+        }
+    }
+
+    protected static class SelectedItemsOnTopPmo {
+
+        @UIMultiSelect(position = 1, selectedItemsOnTop = true)
         public Set<TestEnum> getValue() {
             return Collections.emptySet();
         }

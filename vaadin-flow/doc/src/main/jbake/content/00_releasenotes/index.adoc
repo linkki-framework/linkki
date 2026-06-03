@@ -73,6 +73,10 @@ The following versions have been updated:
 * *`@UIMultiSelect`: new attribute `autoExpand`* +
 The new attribute `autoExpand` of type `MultiSelectComboBox.AutoExpandMode` allows configuring the automatic expansion of the field when many chips are selected.
 The default value is `NONE` for backwards compatibility.
+// https://jira.convista.com/browse/LIN-4427
+* *`@UIMultiSelect`: new attribute `selectedItemsOnTop`* +
+The new attribute `selectedItemsOnTop` can be set to move selected items to the top of the dropdown list.
+The default value is false for backwards compatibility.
 
 ==== Bugfixes
 

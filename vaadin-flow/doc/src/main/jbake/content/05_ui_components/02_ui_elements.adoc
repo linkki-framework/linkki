@@ -348,11 +348,13 @@ It has two properties known from the <<ui-combobox, `UIComboBox`>>:
 * <<ui-combobox-width,`width: String`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>>
 
-It also has the following property:
+It also has the following properties:
 
 * `autoExpand: MultiSelectComboBox.AutoExpandMode` — Controls the automatic expansion of the field when many chips are selected.
 The default is `NONE`.
 See the https://vaadin.com/api/platform/com/vaadin/flow/component/combobox/MultiSelectComboBox.AutoExpandMode.html[Vaadin API documentation] for available values.
+* `selectedItemsOnTop: boolean` — Can be set to move selected items to the top of the dropdown list.
+The default is `false`.
 
 The getter and setter for the selected values have to be of type `Set<T>`.
 This implies that there is no guaranteed order of the selected values.

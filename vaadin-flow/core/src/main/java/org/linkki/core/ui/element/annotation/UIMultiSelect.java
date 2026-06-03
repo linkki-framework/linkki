@@ -54,6 +54,7 @@ import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
+import com.vaadin.flow.component.combobox.MultiSelectComboBox.AutoExpandMode;
 
 /**
  * Creates a {@link MultiSelectComboBox} that allows the selection of multiple values with the
@@ -65,7 +66,7 @@ import com.vaadin.flow.component.combobox.MultiSelectComboBox;
  * Unlike the content of a {@link UIComboBox}, the content of a {@link UIMultiSelect} is set to
  * {@link AvailableValuesType#DYNAMIC} and therefore a method
  * {@code get[PropertyName]AvailableValues()} is always required. The type of this method can any
- * kind of {@link Collection}. But keep in mind that some sub-types of {@link Collection} do not
+ * kind of {@link Collection}. But keep in mind that some subtypes of {@link Collection} do not
  * provide any ordering guarantees.
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -88,7 +89,7 @@ public @interface UIMultiSelect {
     String label() default DERIVED_BY_LINKKI;
 
     /**
-     * Defines if an UI-Component is editable, using values of {@link EnabledType}
+     * Defines if a UI-Component is editable, using values of {@link EnabledType}
      */
     EnabledType enabled() default ENABLED;
 
@@ -133,12 +134,18 @@ public @interface UIMultiSelect {
 
     /**
      * Defines the auto-expand behavior of the field when multiple chips are selected. The default
-     * is {@link MultiSelectComboBox.AutoExpandMode#NONE}, which means the field does not expand.
+     * is {@link AutoExpandMode#NONE}, which means the field does not expand.
      * <p>
-     * See {@link MultiSelectComboBox#setAutoExpand(MultiSelectComboBox.AutoExpandMode)} for
-     * details.
+     * See {@link MultiSelectComboBox#setAutoExpand(AutoExpandMode)} for details.
      */
-    MultiSelectComboBox.AutoExpandMode autoExpand() default MultiSelectComboBox.AutoExpandMode.NONE;
+    AutoExpandMode autoExpand() default AutoExpandMode.NONE;
+
+    /**
+     * Specifies whether selected items are shown at the top of the dropdown list.
+     * <p>
+     * Defaults to {@code false}.
+     */
+    boolean selectedItemsOnTop() default false;
 
     /**
      * Aspect definition creator for the {@link UIMultiSelect} annotation.
@@ -172,6 +179,7 @@ public @interface UIMultiSelect {
             return pmo -> {
                 MultiSelectComboBox<?> multiselect = ComponentFactory.newMultiSelect();
                 multiselect.setClearButtonVisible(true);
+                multiselect.setSelectedItemsOnTop(annotation.selectedItemsOnTop());
                 multiselect.setItemLabelGenerator(ItemCaptionProvider
                         .instantiate(annotation::itemCaptionProvider)::getUnsafeCaption);
                 multiselect.setWidth(annotation.width());
