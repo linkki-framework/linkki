@@ -41,6 +41,7 @@ import java.util.HashMap;
 @IpsAttributes({ "string" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions",
         defaultLocale = "en")
+@IpsGenerated
 public class IpsModelObjectChild extends IpsModelObject {
 
     /**

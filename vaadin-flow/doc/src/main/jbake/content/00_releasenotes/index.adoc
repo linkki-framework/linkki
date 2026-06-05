@@ -64,6 +64,7 @@ The following versions have been updated:
 | Dependency                    | New version                                                                        | Previous version
 | Vaadin                        | 25.0.11 (link:https://github.com/vaadin/platform/releases/tag/25.0.11[Release Notes]) | 25.0.9
 | Spring Boot compatibility tested for                   | 4.0.6 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.6[Release Notes]) | 4.0.5
+| Faktor-IPS                    | 26.7.0.rc01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-rc01/01_releasenotes/index.html[Release Notes]) | 26.7.0.a20260413-01
 
 |===
 

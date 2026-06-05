@@ -35,6 +35,7 @@ import org.w3c.dom.Element;
 @IpsAttributes({ "foo", "valueSetInclNull", "valueSetExclNull", "emptyValueSet", "valueSetRangeOfIntInclNull",
         "valueSetRangeOfIntExclNull", "valueSetIntUnrestricted", "valueSetNotDiscrete" })
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
+@IpsGenerated
 public class TestIpsObject extends AbstractModelObject {
 
     /**
@@ -144,7 +145,7 @@ public class TestIpsObject extends AbstractModelObject {
      */
     @IpsAllowedValues("valueSetRangeOfIntInclNull")
     public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_INCL_NULL =
-            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), true);
+            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), true, false, false);
 
     /**
      * The default value for valueSetRangeOfIntInclNull.
@@ -168,7 +169,7 @@ public class TestIpsObject extends AbstractModelObject {
      */
     @IpsAllowedValues("valueSetRangeOfIntExclNull")
     public static final IntegerRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_RANGE_OF_INT_EXCL_NULL =
-            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), false);
+            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(5), Integer.valueOf(1), false, false, false);
 
     /**
      * The default value for valueSetRangeOfIntExclNull.
@@ -216,7 +217,7 @@ public class TestIpsObject extends AbstractModelObject {
      */
     @IpsAllowedValues("valueSetNotDiscrete")
     public static final DoubleRange MAX_ALLOWED_RANGE_FOR_VALUE_SET_NOT_DISCRETE =
-            DoubleRange.valueOf(Double.valueOf(1), Double.valueOf(100), (Double)null, false);
+            DoubleRange.valueOf(Double.valueOf(1), Double.valueOf(100), (Double)null, false, false, false);
 
     /**
      * The default value for valueSetNotDiscrete.

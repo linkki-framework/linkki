@@ -54,6 +54,7 @@ import java.util.HashMap;
         "emptyStringValueSet" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions",
         defaultLocale = "en")
+@IpsGenerated
 public class IpsModelObject extends AbstractModelObject implements ICopySupport {
 
     /**
@@ -69,7 +70,8 @@ public class IpsModelObject extends AbstractModelObject implements ICopySupport 
      */
     @IpsAllowedValues("decimal")
     public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL =
-            DecimalRange.valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false);
+            DecimalRange.valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false, false,
+                                 false);
     /**
      * The default value for decimal.
      *
@@ -236,7 +238,7 @@ public class IpsModelObject extends AbstractModelObject implements ICopySupport 
      */
     @IpsAllowedValues("integerRangeValueSet")
     public static final IntegerRange MAX_ALLOWED_RANGE_FOR_INTEGER_RANGE_VALUE_SET =
-            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(100), Integer.valueOf(5), true);
+            IntegerRange.valueOf(Integer.valueOf("0"), Integer.valueOf(100), Integer.valueOf(5), true, false, false);
 
     /**
      * The default value for integerRangeValueSet.
