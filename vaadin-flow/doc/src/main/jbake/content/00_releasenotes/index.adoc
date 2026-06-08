@@ -20,7 +20,7 @@
 // |===
 // | Dependency                    | New version                                                                        | Previous version
 //
-// | Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.04
+// | Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.4
 // | Karibu                        | 2.6.2 | 2.6.1
 // | Logback                       | 1.5.29 | 1.5.27
 // | Spring Boot compatibility tested for | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
@@ -54,7 +54,9 @@
 // Text
 
 
-=== Alpha Version {vlinkki}
+=== Version {vlinkki}
+
+The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
 
 ==== Version Updates
 
@@ -63,321 +65,13 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version                                                                        | Previous version
-| Vaadin                        | 25.2.0-beta1 (link:https://github.com/vaadin/platform/releases/tag/25.2.0-beta1[Release Notes]) | 25.1.5
-
-|===
-
-The update to Vaadin 25.2 brings some API changes:
-
-* `TreeDataProvider` is no longer returned by `TreeGrid#getDataProvider()`.
-Tree data must now be accessed via `TreeGrid#getTreeData()` directly. +
-*Migration*: Replace any cast of `TreeGrid#getDataProvider()` to `TreeDataProvider` with a direct call to `TreeGrid#getTreeData()`.
-
-=== Alpha Version 2.10.0-a20260608-02
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-| Vaadin                        | 25.1.5 (link:https://github.com/vaadin/platform/releases/tag/25.1.5[Release Notes]) | 25.0.11
-
-|===
-
-Vaadin 25.1 brings some breaking changes:
-
-* Vaadin now uses Jackson 3.1 for all JSON functionalities. Due to compatibility issues, *Spring Boot 4.0.4* or later is now required.
-* Variants that work in both Aura and Lumo themes are now renamed, e.g. `ButtonVariant.LUMO_PRIMARY` was renamed to `ButtonVariant.PRIMARY`.
-* In Testbench, methods `first()` and `waitForFirst()` are now deprecated and marked for removal. (link:https://github.com/vaadin/testbench/issues/1729[Vaadin issue])
-** For `first()`: replacing with `single()` may not always suffice — consider using `id()`, making the query context more specific, or using `get(int)` (especially in tables where multiple elements are expected).
-** For `waitForFirst()`: replace with `single()` directly, or use `waitUntil` with `VaadinElementConditions.elementDisplayed`.
-
-For all changes in Vaadin, see link:https://github.com/vaadin/platform/releases/tag/25.1.0[Vaadin release notes].
-
-=== Alpha Version 2.10.0-a20260608-01
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-| Vaadin                        | 25.0.11 (link:https://github.com/vaadin/platform/releases/tag/25.0.11[Release Notes]) | 25.0.9
-| Spring Boot compatibility tested for                   | 4.0.6 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.6[Release Notes]) | 4.0.5
-| Faktor-IPS                    | 26.7.0.rc01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-rc01/01_releasenotes/index.html[Release Notes]) | 26.7.0.a20260413-01
-
-|===
-
-==== Components, UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-4281
-* *`@UIMultiSelect`: new attribute `autoExpand`* +
-The new attribute `autoExpand` of type `MultiSelectComboBox.AutoExpandMode` allows configuring the automatic expansion of the field when many chips are selected.
-The default value is `NONE` for backwards compatibility.
-// https://jira.convista.com/browse/LIN-4427
-* *`@UIMultiSelect`: new attribute `selectedItemsOnTop`* +
-The new attribute `selectedItemsOnTop` can be set to move selected items to the top of the dropdown list.
-The default value is false for backwards compatibility.
-
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4849
-* *Vaadin 25 regression - GridVariant stripes are overridden* +
-Every second row of a grid did not turn dark when applying the theme "row-stripes".
-// https://jira.convista.com/browse/LIN-4862
-* *Vaadin 25 regression - Grid placeholder scrollable* +
-Grid placeholders were scrollable for grids with page length 0 and no items.
-
-=== Alpha Version 2.10.0-a20260421-01
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-| Faktor-IPS                    | 26.7.0.a20260413-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260413-01/01_releasenotes/index.html[Release Notes]) | 26.7.0.a20260217-01
-| Vaadin                        | 25.0.9 (link:https://github.com/vaadin/platform/releases/tag/25.0.9[Release Notes]) | 25.0.8
-
-|===
-
-=== Alpha Version 2.10.0-20260421-01
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-
-| Vaadin                        | 25.0.8 (link:https://github.com/vaadin/platform/releases/tag/25.0.8[Release Notes]) | 25.0.7
-| Spring Boot compatibility tested for                   | 4.0.5 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.5[Release Notes]) | 4.0.3
-
-|===
-
-==== Components, UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-4781
-* *New components for displaying validation messages* +
-A new `MessagesPanel` component is introduced to display a list of messages.
-It can be used standalone or within the new `MessagesSplitLayout`, which combines a content component with a collapsible message panel.
-In `MessagesSplitLayout`, the message panel is automat automatically hidden when no messages are present and is shown when messages are available. +
-The utility class `MessageUiComponents` was extended with a method that creates a `MessagesPanel` that displays the validations messages after validation automatically. +
-Another new method `handleMessagesAfterValidation` can be used with a `MessagesSplitLayout` to update split position additionally. +
-New documentation is added accordingly, see section <<message-components, Message Components>>. +
-*Migration*:
-+
-** Check existing usages of `MessageUiComponents#createMessageTable`:
-*** If the component should only update after validation, consider using `createValidationMessagesPanel` instead.
-*** If the component does not need any update, consider using `MessagesPanel` directly.
-** If a custom `SplitLayout` was used to display validation messages in the secondary component, consider migrating to `MessagesSplitLayout` (see <<message-components, documentation>>).
-
-==== Testing
-
-// https://jira.convista.com/browse/LIN-4809
-* *Better support for dialogs in Testbench tests* +
-Two new methods have been added to `VaadinElementConditions`:
-`dialogClosed(String title)` waits until no dialog with the given title is open and `allDialogsClosed()` waits until all dialogs are closed.
-In addition, all methods in `OkCancelDialogElement` are improved for the case that multiple dialogs are opened. +
-*Migration*: Consider using `$(OkCancelDialogElement.class)` instead of `$(DialogElement.class)` wherever applicable.
-// https://jira.convista.com/browse/LIN-4831
-* *Support for multiple deployments in Testbench tests* +
-`WebDriverExtension` now accepts a `systemName` parameter that scopes all
-<<driver-properties-multiple-deployments, DriverProperties>> lookups to individual system properties.
-For example, a `WebDriverExtension` created with `systemName` `"systemA"` reads `test.hostname.systemA`,
-`test.port.systemA`, and `test.protocol.systemA` instead of the default `test.hostname` etc.
-This allows different test classes to target different deployments without interfering with each other.
-
-==== Other Improvements
-
-// https://jira.convista.com/browse/LIN-4781
-* Documentation and migration guide was added for the changed scrolling behavior of `SplitLayout` in Vaadin 25. (See "Scrolling in SplitLayout" in section "Vaadin 25 Update" of version 2.10.0-a20250202-03) +
-+
-IMPORTANT: Any component using SplitLayout should be checked if it's overflowing properly.
-
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4781
-* *Vaadin 25 regression - Content of SearchLayout does not overflow* +
-The content of either part of the SearchLayout does no longer overflow like it used to.
-To counter this change in behavior SearchLayout sets the CSS-Property `min-heigt` to 0.
-// https://jira.convista.com/browse/LIN-4812
-* *Vaadin 25 regression - Disabled input fields not changing their background color* +
-Input fields did not turn to a lighter gray when disabled.
-// https://jira.convista.com/browse/LIN-4809
-* *Vaadin 25 regression - `OkCancelDialogElement` and `VaadinElementConditions#dialogDisplayed` fixed for multiple dialogs* +
-`OkCancelDialogElement` did not work correctly when multiple dialogs were open at the same time.
-Element queries for buttons, content area and message area now correctly scope to the respective dialog instead of matching elements from any open dialog.
-// https://jira.convista.com/browse/LIN-4808
-* *Vaadin 25 regression - Card section theme not working in Dialogs* +
-The card section theme was no longer working for PMOs and nested PMOs in dialogs.
-// https://jira.convista.com/browse/LIN-4805
-* *Vaadin 25 regression - Horizontal LinkkiTabLayouts getting padding when nested inside a vertical LinkkiTabLayout* +
-Horizontal LinkkiTabLayouts were getting the same padding as vertical LinkkiTabLayouts when they were nested inside one.
-// https://jira.convista.com/browse/LIN-4803
-* *Vaadin 25 regression - Default Dialog min-width not set* +
-The default dialog min-width of 400px was not applied.
-// https://jira.convista.com/browse/LIN-4798
-* *Vaadin 25 regression - Long labels not abbreviated but wrapped* +
-Long labels of form items were not abbreviated with "..." but instead wrapped into multiple lines.
-
-=== Alpha Version 2.10.0-a20260324-01
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-
-| Vaadin                        | 25.0.7 (link:https://github.com/vaadin/platform/releases/tag/25.0.7[Release Notes]) | 25.0.6
-
-|===
-
-==== Components, UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-4713
-* *UIDateField and UIDateTimeField are no longer created with clear button by default* +
-In version 2.9.0, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
-This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
-To add a clear button to these fields, the new  <<bind-clear-button, `@BindClearButton`>> annotation can be used.
-// https://jira.convista.com/browse/LIN-4713
-* *BindClearButton* +
-A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set the clear button visible on UI components that implement `HasClearButton` interface.
-
-==== Other Improvements
-
-// https://jira.convista.com/browse/LIN-4713
-* *APT validation for @BindClearButton* +
-The annotation processor now ensures that `@BindClearButton` is only used with non-primitive return types, as the clear button requires nullable values.
-// https://jira.convista.com/browse/LIN-4770
-* *Documentation on limitations of unit UI testing with Karibu*
-Documentation was added to make limitations of unit UI testing with Karibu more clear.
-See section "<<karibu-limitations, Limitations of Karibu>>" in chapter "Unit UI testing with Karibu-Testing".
-
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4780
-* *Vaadin 25 regression - Dialogs not rendered on top of each other* +
-Dialogs were not rendered correct on top of each other but intersected partially.
-This issue was resolved with Vaadin 25.0.7.
-
-=== Alpha Version 2.10.0-a20260310-01
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-
-| Vaadin                        | 25.0.6 (link:https://github.com/vaadin/platform/releases/tag/25.0.6[Release Notes]) | 25.0.5
-| Faktor-IPS                    | 26.7.0.a20260217-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260217-01/01_releasenotes/index.html[Release Notes]) | 26.7.0.a20260119-01
-| Karibu                        | 2.7.0  | 2.6.1
-| Logback                       | 1.5.32 | 1.5.29
-| Spring Boot compatibility tested for | 4.0.3 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.3[Release Notes]) | 4.0.2
-
-|===
-
-==== Components, UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-4658
-* *UIBadge* +
-A new annotation `@UIBadge` has been added to create badges for displaying visually highlighted information.
-For more information see <<ui-badge, UIBadge>>.
-
-==== Testing
-
-* *TestBench Extension: better handling of exceptions from WebDriver* +
-`SessionNotCreatedException` that can occur during driver creation are now retried.
-In addition, web drivers in `WebDriverExtension` are now thread local, which should reduce `NoSuchSessionException`, improving the stability of parallel UI tests executions.
-// https://jira.convista.com/browse/LIN-4782
-* *TestBench Extension: support testing for browser alert* +
-With Chromedriver 126+, chrome driver automatically consume alerts created during `onbeforeUnload` which is used in `HasBrowserConfigration` when executed in headless mode.
-This makes it impossible to test these scenarios.
-In this version, additional options are added to the chrome driver that start with linkki TestBench extension.
-This makes it possible to test for browser alert again, e.g. using `ExpectedCondition.alertIsPresent`.
-
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4561
-* *Vaadin 25 regression: selected rows are not highlighted* +
-Selected rows are not displayed anymore since Vaadin 25 upgrade.
-// https://jira.convista.com/browse/LIN-4755
-* *Vaadin 25 regression: scrollbars appear in form items* +
-Labels in `vaadin-form-item` were not aligned correctly after the Vaadin update.
-
-=== Alpha Version 2.10.0-a20260306-01
-
-This version should not be used as it contains incomplete bug fixes.
-
-=== Alpha Version 2.10.0-a20260219-01
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-
-| Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.4
-| Spring Boot                   | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
-| Karibu                        | 2.6.2 | 2.6.1
-| Logback                       | 1.5.29 | 1.5.27
-
-|===
-
-==== UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-2733
-* *Support for additional components in Headlines* +
-The existing annotation <<uiHeadline, `UIHeadline`>> has been extended and can now be used on methods returning either a String or a `HeadlinePmo`.
-A `HeadlinePmo` can be used as return value if additional components should be added to the title or at the end of the headline.
-These components can be provided as PMOs to the `HeadlinePmo`. +
-Component added using the additional PMOs are updated within the same binding context in which the headline is created.
-+
-Alternatively, `HeadlinePmo` can also be used directly with `VaadinUiCreator` to create a Headline.
-+
-For more detailed information, see documentation of <<uiHeadline, `UIHeadline`>>.
-+
-For headlines that are created as Vaadin components, a new method `addToTitle(Component)` can be used to add components directly behind the title.
-
-=== Alpha Version 2.10.0-a20260205-01
-
-==== Components, UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-2733
-* [.api-change]*Adding components to the title component of a <<headline,headline>>* +
-Components can now be added directly into the `<h2>` element using the new method `Headline#addToTitle(Component)`.
-Components added via this method are preserved when `setTitle()` is called.
-
-=== Alpha Version 2.10.0-a20260202-03
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-
-| Faktor-IPS                    | 26.7.0.a20260119-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260119-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
-| Vaadin                        | 25.0.4 (link:https://github.com/vaadin/platform/releases/tag/25.0.4[Release Notes]) | 24.9.8
-| Spring Boot                   | 4.0.1 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.1[Release Notes]) | 3.5.9
+| Vaadin                        | 25.2.0-beta1 (link:https://github.com/vaadin/platform/releases/tag/25.2.0-beta1[Release Notes]) | 24.9.8
+| Faktor-IPS                    | 26.7.0.rc01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-rc01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
+| Karibu                        | 2.7.0  | 2.5.0
+| Spring Boot compatibility tested for                   | 4.0.6 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.6[Release Notes]) | 3.5.9
 | Spring Framework              | 7.0.2 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 6.2.15
-| Karibu                        | 2.6.1 | 2.5.0
 | JUnit                         | 6.0.2 (link:https://docs.junit.org/6.0.2/release-notes.html[Release Notes]) | 5.14.2
 | Vaadin TestBench              | 10.0.0 | 8.x
-| Logback                       | 1.5.27 | 1.5.21
-
 |===
 
 ===== Vaadin 25 Update
@@ -390,7 +84,7 @@ For a complete list of Vaadin 25 breaking changes and migration steps, please re
 ====== Technical compatibilities
 
 * *Spring Boot 4* +
-Vaadin 25 uses *Spring Boot 4* and *Spring Framework 7*.
+Vaadin 25 uses *Spring Boot 4.0.4+* and *Spring Framework 7*.
 This is a major version jump from Spring Boot 3.5.
 Please refer to link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide[Spring Boot 4.0 Migration Guide] for more information.
 * *JakartaEE 11* +
@@ -399,7 +93,8 @@ Vaadin 25 is compatible with *Jakarta EE 11*.
 Frontend builds now require *Node.js 24 or later* for development.
 * *JUnit* +
 All linkki test libraries now use *JUnit 6*.
-Apart from the Java 21 requirement, which is already mandatory since linkki 2.8, there should be no breaking API changes.+ For detailed changes and improvements, see https://docs.junit.org/6.0.2/release-notes.html[JUnit 6 release notes]. +
+Apart from the Java 21 requirement, which is already mandatory since linkki 2.8, there should be no breaking API changes. +
+For detailed changes and improvements, see https://docs.junit.org/6.0.2/release-notes.html[JUnit 6 release notes]. +
 If you encounter any incompatibilities while using JUnit 5, please don't hesitate to contact us.
 * *Selenium* +
 Vaadin TestBench now uses Selenium 4.39.0.
@@ -457,6 +152,20 @@ If the usage does not match the specification, use a different element such as `
 With the introduction of a new theme, variants that only work with Lumo theme are renamed, e.g. `DetailsVariant.FILLED` to `DetailsVariant.LUMO_FILLED`. +
 *Migration*: Check the deprecation Javadoc and replace the constants accordingly.
 
+[.api-change]
+.Vaadin 25.1
+* Vaadin now uses Jackson for all JSON functionalities. Due to compatibility issues, *Spring Boot 4.0.4* or later is now required.
+* Variants that work in both Aura and Lumo themes are now renamed, e.g. `ButtonVariant.LUMO_PRIMARY` was renamed to `ButtonVariant.PRIMARY`.
+* In Testbench, methods `first()` and `waitForFirst()` are now deprecated and marked for removal. (link:https://github.com/vaadin/testbench/issues/1729[Vaadin issue])
+** For `first()`: replacing with `single()` may not always suffice — consider using `id()`, making the query context more specific, or using `all().getFirst()` (especially in tables where multiple elements are expected).
+** For `waitForFirst()`: replace with `single()` directly, or use `waitUntil` with `VaadinElementConditions.elementDisplayed`.
+
+[.api-change]
+.Vaadin 25.2
+* `TreeDataProvider` is no longer returned by `TreeGrid#getDataProvider()`.
+Tree data must now be accessed via `TreeGrid#getTreeData()` directly. +
+*Migration*: Replace any cast of `TreeGrid#getDataProvider()` to `TreeDataProvider` with a direct call to `TreeGrid#getTreeData()`.
+
 ===== Frontend Changes
 
 * [.api-change]*Stylesheets* +
@@ -496,46 +205,105 @@ If the primary and secondary component should scroll, it may be necessary to add
 This can be done with `LumoUtility.Overflow.AUTO` or `getStyle().setOverflow(AUTO)`. +
 If the split layout is in a flex container, it may also be necessary to add `min-height: 0` to the `SplitLayout` itself.
 
-=== Alpha Version 2.10.0-a20260202-02
+===== Vaadin Release Notes and Migration Guide
 
-This version only contains internal version updates as preparation for the update to Vaadin 25.
+For all changes in Vaadin, see Vaadin release notes for link:https://github.com/vaadin/platform/releases/tag/25.0.0[Version 25.0.0],
+link:https://github.com/vaadin/platform/releases/tag/25.1.0[Version 25.1.0], link:https://github.com/vaadin/platform/releases/tag/25.2.0-beta1[Version 25.2.0-beta1]
+as well as the link:https://vaadin.com/docs/v25/upgrading[Vaadin 25 migration guide].
 
-=== Alpha Version 2.10.0-a20260202-01
+==== Components, UI Annotations and Aspects
 
-==== Version Updates
+// https://jira.convista.com/browse/LIN-4781
+* *New components for displaying validation messages* +
+A new `MessagesPanel` component is introduced to display a list of messages.
+It can be used standalone or within the new `MessagesSplitLayout`, which combines a content component with a collapsible message panel.
+In `MessagesSplitLayout`, the message panel is automatically hidden when no messages are present and is shown when messages are available. +
+The utility class `MessageUiComponents` was extended with a method that creates a `MessagesPanel` that displays the validations messages after validation automatically. +
+Another new method `handleMessagesAfterValidation` can be used with a `MessagesSplitLayout` to update split position additionally. +
+New documentation is added accordingly, see section <<message-components, Message Components>>. +
+*Migration*:
++
+** Check existing usages of `MessageUiComponents#createMessageTable`:
+*** If the component should only update after validation, consider using `createValidationMessagesPanel` instead.
+*** If the component does not need any update, consider using `MessagesPanel` directly.
+** If a custom `SplitLayout` was used to display validation messages in the secondary component, consider migrating to `MessagesSplitLayout` (see <<message-components, documentation>>).
+// https://jira.convista.com/browse/LIN-4658
+* *UIBadge* +
+A new annotation `@UIBadge` has been added to create badges for displaying visually highlighted information.
+For more information see <<ui-badge, UIBadge>>.
+// https://jira.convista.com/browse/LIN-2733
+* *Support for additional components in Headlines* +
+The existing annotation <<uiHeadline, `UIHeadline`>> has been extended and can now be used on methods returning either a String or a `HeadlinePmo`.
+A `HeadlinePmo` can be used as return value if additional components should be added to the title or at the end of the headline.
+These components can be provided as PMOs to the `HeadlinePmo`. +
+Component added using the additional PMOs are updated within the same binding context in which the headline is created.
++
+Alternatively, `HeadlinePmo` can also be used directly with `VaadinUiCreator` to create a Headline.
++
+For more detailed information, see documentation of <<uiHeadline, `UIHeadline`>>.
++
+For headlines that are created as Vaadin components, a new method `addToTitle(Component)` can be used to add components directly behind the title.
+// https://jira.convista.com/browse/LIN-2733
+* *Adding components to the title component of a <<headline,headline>>* +
+Components can now be added directly into the `<h2>` element using the new method `Headline#addToTitle(Component)`.
+Components added via this method are preserved when `setTitle()` is called.
+// https://jira.convista.com/browse/LIN-4713
+* *UIDateField and UIDateTimeField are no longer created with clear button by default* +
+In version 2.9.0, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
+This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
+To add a clear button to these fields, the new <<bind-clear-button, `@BindClearButton`>> annotation can be used.
+// https://jira.convista.com/browse/LIN-4713
+* *BindClearButton* +
+A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set the clear button visible on UI components that implement `HasClearButton` interface.
+// https://jira.convista.com/browse/LIN-4281
+* *`@UIMultiSelect`: new attribute `autoExpand`* +
+The new attribute `autoExpand` of type `MultiSelectComboBox.AutoExpandMode` allows configuring the automatic expansion of the field when many chips are selected.
+The default value is `NONE` for backwards compatibility.
+// https://jira.convista.com/browse/LIN-4427
+* *`@UIMultiSelect`: new attribute `selectedItemsOnTop`* +
+The new attribute `selectedItemsOnTop` can be set to move selected items to the top of the dropdown list.
+The default value is false for backwards compatibility.
 
-The following versions have been updated:
+==== Testing
 
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-
-| Faktor-IPS | 26.7.0.a20260119-01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-a20260119-01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
-| Vaadin                        | 24.9.10 (link:https://github.com/vaadin/platform/releases/tag/24.9.10[Release Notes]) | 24.9.8
-| Spring Boot | 3.5.10 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.10[Release Notes]) | 3.5.9
-|===
+// https://jira.convista.com/browse/LIN-4809
+* *Better support for dialogs in Testbench tests* +
+Two new methods have been added to `VaadinElementConditions`:
+`dialogClosed(String title)` waits until no dialog with the given title is open and `allDialogsClosed()` waits until all dialogs are closed.
+In addition, all methods in `OkCancelDialogElement` are improved for the case that multiple dialogs are opened. +
+*Migration*: Consider using `$(OkCancelDialogElement.class)` instead of `$(DialogElement.class)` wherever applicable.
+// https://jira.convista.com/browse/LIN-4831
+* *Support for multiple deployments in Testbench tests* +
+`WebDriverExtension` now accepts a `systemName` parameter that scopes all
+<<driver-properties-multiple-deployments, DriverProperties>> lookups to individual system properties.
+For example, a `WebDriverExtension` created with `systemName` `"systemA"` reads `test.hostname.systemA`,
+`test.port.systemA`, and `test.protocol.systemA` instead of the default `test.hostname` etc.
+This allows different test classes to target different deployments without interfering with each other.
+* *TestBench Extension: better handling of exceptions from WebDriver* +
+`SessionNotCreatedException` that can occur during driver creation are now retried.
+In addition, web drivers in `WebDriverExtension` are now thread local, which should reduce `NoSuchSessionException`, improving the stability of parallel UI tests executions.
+// https://jira.convista.com/browse/LIN-4782
+* *TestBench Extension: support testing for browser alert* +
+With Chromedriver 126+, chrome driver automatically consume alerts created during `onbeforeUnload` which is used in `HasBrowserConfigration` when executed in headless mode.
+This makes it impossible to test these scenarios.
+In this version, additional options are added to the chrome driver that start with linkki TestBench extension.
+This makes it possible to test for browser alert again, e.g. using `ExpectedCondition.alertIsPresent`.
 
 ==== Other Improvements
 
+// https://jira.convista.com/browse/LIN-4713
+* *APT validation for @BindClearButton* +
+The annotation processor now ensures that `@BindClearButton` is only used with non-primitive return types, as the clear button requires nullable values.
+// https://jira.convista.com/browse/LIN-4770
+* *Documentation on limitations of unit UI testing with Karibu*
+Documentation was added to make limitations of unit UI testing with Karibu more clear.
+See section "<<karibu-limitations, Limitations of Karibu>>" in chapter "Unit UI testing with Karibu-Testing".
 // https://jira.convista.com/browse/LIN-4711
 * *Remove of linkki internal shadow DOM injections* +
 All internal shadow DOM injections that are used by linkki theme are removed.
-Shadow DOM injection will be deactivated by default in Vaadin 25. If shadow DOM injections are used currently, consider removing them and use selectors such as `part` instead. +
+Shadow DOM injection is deactivated by default in Vaadin 25. If shadow DOM injections are used currently, consider removing them and use selectors such as `part` instead. +
 This change should not cause any visual breaks.
 If you encounter any unexpected styling or UI test problems, please don't hesitate to contact us.
-
-=== Alpha Version 2.10.0-a20260116-01
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-
-| Vaadin                        | 24.9.9 (link:https://github.com/vaadin/platform/releases/tag/24.9.9[Release Notes]) | 24.9.8
-|===
 
 ==== Bugfixes
 
