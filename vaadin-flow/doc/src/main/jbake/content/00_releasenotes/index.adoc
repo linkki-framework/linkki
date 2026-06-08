@@ -69,7 +69,7 @@ The following versions have been updated:
 | Faktor-IPS                    | 26.7.0.rc01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-rc01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
 | Karibu                        | 2.7.0  | 2.5.0
 | Spring Boot compatibility tested for                   | 4.0.6 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.6[Release Notes]) | 3.5.9
-| Spring Framework              | 7.0.2 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 6.2.15
+| Spring Framework              | 7.0.7 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 6.2.15
 | JUnit                         | 6.0.2 (link:https://docs.junit.org/6.0.2/release-notes.html[Release Notes]) | 5.14.2
 | Vaadin TestBench              | 10.0.0 | 8.x
 |===
