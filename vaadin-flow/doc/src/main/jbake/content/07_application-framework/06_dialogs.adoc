@@ -39,13 +39,12 @@ Sometimes, a value or a grid item should not be edited directly.
 Instead, a dialog should be opened upon a button click in which the user can edit the value in a more complex form.
 To implement this use case, `BindingContext#modelChanged` often needs to be passed to the PMO to update the underlying `BindingContext` after the OK button was clicked.
 
+===== @UIOpenDialogButton with DialogPmo
+
 The UI annotation `@UIOpenDialogButton` resolves this inconvenience.
 The annotated method returns a `DialogPmo` that is used to create the dialog that is opened upon button click.
 For use with a Faktor-IPS model object, the abstract class <<ips-dialog-pmo, `IpsDialogPmo`>> provides a partial implementation of `DialogPmo`.
 When the user clicks on the OK button, the underlying `BindingContext` is updated automatically.
-
-Alternatively, the annotated method can also return `Function<Handler, OkCancelDialog>` for cases where the dialog is not defined with a PMO.
-The function's argument is the model changed handler that updates the binding context and the created dialog must make sure that this handler is called when the OK button is clicked.
 
 .Dialog created with `@UIOpenDialogButton`
 [source,java]
@@ -74,4 +73,20 @@ By default, no validation is executed.
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=dialogPmo]
+----
+
+===== @UIOpenDialogButton with a Function
+
+Alternatively, the annotated method can also return `Function<Handler, OkCancelDialog>` for cases where the dialog is not defined with a PMO.
+The function's argument is the model changed handler that updates the binding context and the created dialog must make sure that this handler is called when the OK button is clicked.
+
+This is useful when:
+
+* The dialog needs to be customized, which requires direct control over the dialog creation
+* An existing dialog that was not created with a `DialogPmo` should be reused
+
+.Dialog created with `@UIOpenDialogButton` using `Function<Handler, OkCancelDialog>`
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/dialogs/UIOpenDialogButtonPmo.java[tags=uiOpenDialogButtonWithFunction]
 ----

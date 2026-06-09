@@ -83,12 +83,14 @@ public class UIOpenDialogButtonPmo {
     }
     // end::uiOpenDialogButton[]
 
+    // tag::uiOpenDialogButtonWithFunction[]
     @UIOpenDialogButton(position = 40, caption = "UIOpenDialogButton with Function<Handler, OkCancelDialog>")
     public Function<Handler, OkCancelDialog> getConfirmation() {
         return update -> new ConfirmationDialog("ConfirmationDialog",
                 update.compose(this::saveNewZeroModelObject),
                 new Text("Create a new model object with decimal = 0."));
     }
+    // end::uiOpenDialogButtonWithFunction[]
 
     private void saveNewZeroModelObject() {
         var newModelObject = new IpsModelObject();
