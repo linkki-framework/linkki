@@ -154,7 +154,8 @@ With the introduction of a new theme, variants that only work with Lumo theme ar
 
 [.api-change]
 .Vaadin 25.1
-* Vaadin now uses Jackson for all JSON functionalities. Due to compatibility issues, *Spring Boot 4.0.4* or later is now required.
+* Vaadin now uses Jackson for all JSON functionalities.
+Due to compatibility issues, *Spring Boot 4.0.4* or later is now required.
 * Variants that work in both Aura and Lumo themes are now renamed, e.g. `ButtonVariant.LUMO_PRIMARY` was renamed to `ButtonVariant.PRIMARY`.
 * In Testbench, methods `first()` and `waitForFirst()` are now deprecated and marked for removal. (link:https://github.com/vaadin/testbench/issues/1729[Vaadin issue])
 ** For `first()`: replacing with `single()` may not always suffice — consider using `id()`, making the query context more specific, or using `all().getFirst()` (especially in tables where multiple elements are expected).
@@ -252,9 +253,6 @@ Components added via this method are preserved when `setTitle()` is called.
 In version 2.9.0, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
 This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
 To add a clear button to these fields, the new <<bind-clear-button, `@BindClearButton`>> annotation can be used.
-// https://jira.convista.com/browse/LIN-4713
-* *BindClearButton* +
-A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set the clear button visible on UI components that implement `HasClearButton` interface.
 // https://jira.convista.com/browse/LIN-4281
 * *`@UIMultiSelect`: new attribute `autoExpand`* +
 The new attribute `autoExpand` of type `MultiSelectComboBox.AutoExpandMode` allows configuring the automatic expansion of the field when many chips are selected.
@@ -263,6 +261,13 @@ The default value is `NONE` for backwards compatibility.
 * *`@UIMultiSelect`: new attribute `selectedItemsOnTop`* +
 The new attribute `selectedItemsOnTop` can be set to move selected items to the top of the dropdown list.
 The default value is false for backwards compatibility.
+// https://jira.convista.com/browse/LIN-4713
+* *BindClearButton* +
+A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set the clear button visible on UI components that implement `HasClearButton` interface.
+// https://jira.convista.com/browse/LIN-1876
+* *BindValueChangeMode* +
+A new annotation `@BindValueChangeMode` has been added to allow processing the value of a field while still tipping, which for example can make search fields more responsive.
+For more information see <<bind-value-change-mode, BindValueChangeMode>>
 
 ==== Testing
 

@@ -26,10 +26,10 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UITextField;
-
-import com.vaadin.flow.component.button.ButtonVariant;
 import org.linkki.samples.playground.search.service.SampleSearchParameters;
 import org.linkki.search.annotation.UISearchCriteriaGroup;
+
+import com.vaadin.flow.component.button.ButtonVariant;
 
 // tag::sampleSearchParametersPmo[]
 public class SampleSearchParametersPmo {

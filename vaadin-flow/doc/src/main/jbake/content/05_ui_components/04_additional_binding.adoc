@@ -173,6 +173,7 @@ It is also very easy to create additional <<creating-aspects, custom aspect anno
 | `<<bind-height, @BindHeight>>` | Set height of a component
 | `<<bind-width, @BindWidth>>` | Set width of a component
 | `<<bind-clear-button, @BindClearButton>>` | Set clear button visibility on UI components
+| `<<bind-value-change-mode, @BindValueChangeMode>>` | Set `ValueChangeMode` of a component
 |===
 
 [[tooltips]]
@@ -634,3 +635,22 @@ Additionally, the property getter must return a non-primitive type (e.g., `Integ
 Note that it does not work with `UIComboBox`, as the visibility of the clear button there is determined by the available values (i.e., whether `null` is allowed).
 For `UIMultiSelect`, a clear button is always available.
 ====
+
+[[bind-value-change-mode]]
+===== Value change mode
+
+The annotation `BindValueChangeMode` can be used to set the value change mode of a UI component.
+It has a single property `value`, which takes the `ValueChangeMode` that the component should be set to.
+For example, it can be useful when applying it on an input field for a search filter.
+
+[Note]
+====
+This annotation can only be used with UI components that implement `HasValueChangeMode` interface.
+Therefore, components like `UICheckbox` or `UIRadioButtons` cannot be used with `BindValueChangeMode`.
+====
+
+.`@BindValueChangeMode` on a text field
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindValueChangeModePmo.java[tags=bindValueChangeMode]
+----
