@@ -36,7 +36,7 @@ public class LinkHrefAspectDefinition extends ModelToUiAspectDefinition<String> 
     }
 
     @Override
-    public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         LinkkiAnchor link = (LinkkiAnchor)componentWrapper.getComponent();
         return href -> Optional.ofNullable(href)
                 .map(StringUtils::trimToNull)

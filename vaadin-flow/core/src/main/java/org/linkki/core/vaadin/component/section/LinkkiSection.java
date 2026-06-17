@@ -249,18 +249,6 @@ public class LinkkiSection extends HtmlComponent implements HasCaption, HasPlace
     }
 
     /**
-     * @return the content of this section
-     * @implSpec Implementations of this method have to return the section's content, which is the
-     *           {@link Component} added to the section. The section's header is not part of the
-     *           content and has to be excluded.
-     * @deprecated use {@link #getContentWrapper()} instead.
-     */
-    @Deprecated(since = "2.0.0")
-    protected Component getSectionContent() {
-        return content;
-    }
-
-    /**
      * Returns the section's content. The section's header is not part of the content.
      *
      * @return the content of this section

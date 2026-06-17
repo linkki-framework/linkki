@@ -50,14 +50,4 @@ public class BaseSection extends LinkkiSection {
         getContentWrapper().add(component);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @deprecated Use {@link #getContentWrapper()} instead.
-     */
-    @Deprecated(since = "2.0.0")
-    @Override
-    public Component getSectionContent() {
-        return getContentWrapper();
-    }
 }

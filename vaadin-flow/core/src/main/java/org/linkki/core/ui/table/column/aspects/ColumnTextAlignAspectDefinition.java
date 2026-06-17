@@ -12,10 +12,9 @@
  * the License.
  */
 
-package org.linkki.core.ui.table.aspects;
+package org.linkki.core.ui.table.column.aspects;
 
 import org.linkki.core.ui.aspects.types.TextAlignment;
-import org.linkki.core.ui.table.column.aspects.StaticColumnAspectDefinition;
 
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid.Column;

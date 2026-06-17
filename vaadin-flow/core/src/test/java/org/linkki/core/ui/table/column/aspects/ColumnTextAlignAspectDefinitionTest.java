@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.linkki.core.ui.table.aspects;
+package org.linkki.core.ui.table.column.aspects;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

@@ -76,7 +76,7 @@ public @interface BindValueChangeMode {
         }
 
         @Override
-        public Consumer<ValueChangeMode> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        protected Consumer<ValueChangeMode> createComponentValueSetter(ComponentWrapper componentWrapper) {
             var hasValueChangeMode = (HasValueChangeMode)componentWrapper.getComponent();
             return hasValueChangeMode::setValueChangeMode;
         }

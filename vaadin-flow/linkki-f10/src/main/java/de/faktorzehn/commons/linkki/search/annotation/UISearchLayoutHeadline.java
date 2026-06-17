@@ -78,7 +78,7 @@ public @interface UISearchLayoutHeadline {
                 }
 
                 @Override
-                public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+                protected Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
                     return t -> ((Headline)componentWrapper.getComponent()).setTitle(t);
                 }
             };

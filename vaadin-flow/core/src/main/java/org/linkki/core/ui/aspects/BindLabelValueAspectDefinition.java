@@ -48,7 +48,7 @@ public class BindLabelValueAspectDefinition extends ModelToUiAspectDefinition<Ob
     }
 
     @Override
-    public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
         HasText label = (HasText)componentWrapper.getComponent();
         return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v));
     }

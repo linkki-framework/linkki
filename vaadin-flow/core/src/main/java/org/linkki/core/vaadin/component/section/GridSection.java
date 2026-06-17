@@ -116,15 +116,6 @@ public class GridSection extends LinkkiSection {
         return COLMENU_ID_PREFIX + "-" + column.getKey();
     }
 
-    /**
-     * @deprecated Use {@link #getGrid()} instead.
-     */
-    @Deprecated(since = "2.0.0")
-    @Override
-    public Grid<?> getSectionContent() {
-        return getGrid();
-    }
-
     @Override
     public String toString() {
         return "GridSection based on " + (getGrid() == null ? null : getGrid().getId());

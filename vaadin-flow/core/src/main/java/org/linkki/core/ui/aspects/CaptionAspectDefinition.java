@@ -66,18 +66,15 @@ public class CaptionAspectDefinition extends ModelToUiAspectDefinition<String> {
     }
 
     @Override
-    public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Object component = componentWrapper.getComponent();
 
-        if (component instanceof HasCaption) {
-            return caption -> ((HasCaption)component).setCaption(caption);
-        } else if (component instanceof HasText) {
-            return caption -> ((HasText)component).setText(caption);
-        } else if (component instanceof Checkbox) {
-            return caption -> ((Checkbox)component).setLabel(caption);
-        } else {
-            return Consumers.nopConsumer();
-        }
+        return switch (component) {
+            case HasCaption hasCaption -> hasCaption::setCaption;
+            case HasText hasText -> hasText::setText;
+            case Checkbox checkbox -> checkbox::setLabel;
+            default -> Consumers.nopConsumer();
+        };
     }
 
     @Override

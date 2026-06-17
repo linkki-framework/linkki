@@ -55,7 +55,7 @@ public class TooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
     }
 
     @Override
-    public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         return componentWrapper::setTooltip;
     }
 

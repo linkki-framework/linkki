@@ -48,7 +48,7 @@ public class LinkTargetAspectDefinition extends ModelToUiAspectDefinition<String
     }
 
     @Override
-    public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         LinkkiAnchor link = (LinkkiAnchor)componentWrapper.getComponent();
         return link::setTarget;
     }

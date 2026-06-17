@@ -121,7 +121,7 @@ public @interface UISearchTable {
          * Copied from {@link ColumnBasedComponentFooterAspectDefinition}
          */
         @Override
-        public Consumer<Optional<TableFooterPmo>> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        protected Consumer<Optional<TableFooterPmo>> createComponentValueSetter(ComponentWrapper componentWrapper) {
             return footerPmo -> {
                 final Grid<?> grid = (Grid<?>)componentWrapper.getComponent();
                 if (footerPmo.isPresent()) {
@@ -172,7 +172,7 @@ public @interface UISearchTable {
          * Copied from {@link AbstractGridComponentWrapper#setPageLength(int)}
          */
         @Override
-        public Consumer<Integer> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        protected Consumer<Integer> createComponentValueSetter(ComponentWrapper componentWrapper) {
             return pageLength -> {
                 var table = (Grid<?>)componentWrapper.getComponent();
                 if (pageLength < 1 && !table.isAllRowsVisible()) {

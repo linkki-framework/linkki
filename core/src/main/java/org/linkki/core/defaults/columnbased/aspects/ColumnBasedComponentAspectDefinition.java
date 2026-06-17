@@ -52,7 +52,7 @@ public abstract class ColumnBasedComponentAspectDefinition<ROW, VALUE, WRAPPER e
     }
 
     @Override
-    public Consumer<VALUE> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<VALUE> createComponentValueSetter(ComponentWrapper componentWrapper) {
         @SuppressWarnings("unchecked")
         WRAPPER tableComponentWrapper = (WRAPPER)componentWrapper;
         return v -> valueSetter.accept(tableComponentWrapper, v);

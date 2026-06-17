@@ -45,7 +45,7 @@ public class IconPositionAspectDefinition extends StaticModelToUiAspectDefinitio
     }
 
     @Override
-    public Consumer<IconPosition> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<IconPosition> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Object linkkiText = componentWrapper.getComponent();
         if (linkkiText instanceof LinkkiText) {
             return ((LinkkiText)linkkiText)::setIconPosition;

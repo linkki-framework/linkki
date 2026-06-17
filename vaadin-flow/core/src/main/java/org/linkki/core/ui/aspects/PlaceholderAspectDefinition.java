@@ -67,7 +67,7 @@ public class PlaceholderAspectDefinition extends ModelToUiAspectDefinition<Strin
      *           should have no effect on components that do not support a placeholder.
      */
     @Override
-    public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Component component = (Component)componentWrapper.getComponent();
         return placeholder -> {
             if (component instanceof Grid<?>) {

@@ -17,7 +17,6 @@ package org.linkki.samples.playground.application;
 import java.util.List;
 
 import org.linkki.core.binding.Binder;
-import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
@@ -76,8 +75,4 @@ public class ReportListPage extends AbstractPage implements AfterTabSelectedObse
 
     // end::afterTabSelected[]
 
-    @Override
-    public BindingContext getBindingContext() {
-        return super.getBindingContext();
-    }
 }

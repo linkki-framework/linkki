@@ -120,7 +120,7 @@ public class ButtonPmoBinder {
         }
 
         @Override
-        public Consumer<Icon> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        protected Consumer<Icon> createComponentValueSetter(ComponentWrapper componentWrapper) {
             return ((Button)componentWrapper.getComponent())::setIcon;
         }
 
@@ -138,7 +138,7 @@ public class ButtonPmoBinder {
         }
 
         @Override
-        public Consumer<Collection<String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        protected Consumer<Collection<String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
             return l -> l.forEach(((Button)componentWrapper.getComponent())::addClassName);
         }
 

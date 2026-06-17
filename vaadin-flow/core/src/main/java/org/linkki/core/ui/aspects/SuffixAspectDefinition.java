@@ -65,7 +65,7 @@ public class SuffixAspectDefinition extends ModelToUiAspectDefinition<String> {
      *           Component which implements from {@link HasSuffix} interface
      */
     @Override
-    public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Object component = componentWrapper.getComponent();
 
         if (component instanceof HasSuffix field) {

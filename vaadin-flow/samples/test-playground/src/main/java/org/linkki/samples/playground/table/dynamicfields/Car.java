@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.playground.table.dynamicfields;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Car implements Serializable {
@@ -22,6 +23,7 @@ public class Car implements Serializable {
     public static final String PROPERTY_MODEL = "model";
     public static final String PROPERTY_RETENTION = "retention";
 
+    @Serial
     private static final long serialVersionUID = -4013282509907331553L;
 
     private CarType carType;
@@ -39,7 +41,7 @@ public class Car implements Serializable {
         this.carType = carType;
     }
 
-    protected void setCarType(CarType carType) {
+    public void setCarType(CarType carType) {
         this.carType = carType;
     }
 

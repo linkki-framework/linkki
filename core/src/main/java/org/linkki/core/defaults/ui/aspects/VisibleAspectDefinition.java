@@ -61,7 +61,7 @@ public class VisibleAspectDefinition implements LinkkiAspectDefinition {
         };
     }
 
-    public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
         return componentWrapper::setVisible;
     }
 

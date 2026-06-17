@@ -53,7 +53,7 @@ public class BindReadOnlyAspectDefinition extends ModelToUiAspectDefinition<Bool
     }
 
     @Override
-    public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
         HasValue<?, ?> field = (HasValue<?, ?>)componentWrapper.getComponent();
         return readOnly -> field.setReadOnly(field.isReadOnly() || readOnly);
     }

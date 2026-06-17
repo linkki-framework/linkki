@@ -270,47 +270,36 @@ public @interface UIComboBox {
             }
 
             @Override
-            public Consumer<TextAlignment> createComponentValueSetter(ComponentWrapper componentWrapper) {
+            protected Consumer<TextAlignment> createComponentValueSetter(ComponentWrapper componentWrapper) {
                 return ta -> setTextAlign(componentWrapper, ta);
             }
 
             private void setTextAlign(ComponentWrapper componentWrapper, TextAlignment alignment) {
                 if (alignment != TextAlignment.DEFAULT) {
-                    String style = getStyle(alignment);
-                    new BindComboBoxItemStyleAspectDefinition(getStyle(alignment))
-                            .createComponentValueSetter(componentWrapper)
-                            .accept($ -> style);
+                    BindComboBoxItemStyleAspectDefinition.applyStaticStyle(componentWrapper, getStyle(alignment));
                     ComboBox<?> comboBox = (ComboBox<?>)componentWrapper.getComponent();
                     comboBox.addThemeVariants(getVariant(alignment));
                 }
             }
 
             private ComboBoxVariant getVariant(TextAlignment alignment) {
-                switch (alignment) {
+                return switch (alignment) {
                     // Vaadin names the variants LEFT/CENTER/RIGHT but uses css value
                     // start/center/end
-                    case LEFT:
-                        return ComboBoxVariant.LUMO_ALIGN_LEFT;
-                    case CENTER:
-                        return ComboBoxVariant.LUMO_ALIGN_CENTER;
-                    case RIGHT:
-                        return ComboBoxVariant.LUMO_ALIGN_RIGHT;
-                    default:
-                        throw new IllegalArgumentException("Invalid text alignment: " + alignment.name());
-                }
+                    case LEFT -> ComboBoxVariant.LUMO_ALIGN_LEFT;
+                    case CENTER -> ComboBoxVariant.LUMO_ALIGN_CENTER;
+                    case RIGHT -> ComboBoxVariant.LUMO_ALIGN_RIGHT;
+                    default -> throw new IllegalArgumentException("Invalid text alignment: " + alignment.name());
+                };
             }
 
             private String getStyle(TextAlignment alignment) {
-                switch (alignment) {
-                    case LEFT:
-                        return "text-left";
-                    case CENTER:
-                        return "text-center";
-                    case RIGHT:
-                        return "text-right";
-                    default:
-                        throw new IllegalArgumentException("Invalid text alignment: " + alignment.name());
-                }
+                return switch (alignment) {
+                    case LEFT -> "text-left";
+                    case CENTER -> "text-center";
+                    case RIGHT -> "text-right";
+                    default -> throw new IllegalArgumentException("Invalid text alignment: " + alignment.name());
+                };
             }
         }
     }

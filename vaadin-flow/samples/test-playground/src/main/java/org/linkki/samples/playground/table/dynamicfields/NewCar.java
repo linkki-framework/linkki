@@ -13,8 +13,11 @@
  */
 package org.linkki.samples.playground.table.dynamicfields;
 
+import java.io.Serial;
+
 public class NewCar extends Car {
 
+    @Serial
     private static final long serialVersionUID = 4977380506562953332L;
 
     @Override

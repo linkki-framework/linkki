@@ -81,7 +81,7 @@ public @interface BindAutoFocus {
         }
 
         @Override
-        public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        protected Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
             if (componentWrapper.getComponent() instanceof HasValue
                     && !((HasValue<?, ?>)componentWrapper.getComponent()).isReadOnly()
                     && componentWrapper.getComponent() instanceof HasElement) {

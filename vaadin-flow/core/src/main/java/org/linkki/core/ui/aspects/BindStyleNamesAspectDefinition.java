@@ -69,7 +69,7 @@ public class BindStyleNamesAspectDefinition extends ModelToUiAspectDefinition<Ob
     }
 
     @Override
-    public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Object wrappedComponent = componentWrapper.getComponent();
         if (!(wrappedComponent instanceof HasStyle)) {
             throw new IllegalArgumentException(

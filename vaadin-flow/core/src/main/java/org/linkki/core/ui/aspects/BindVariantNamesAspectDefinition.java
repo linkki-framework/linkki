@@ -45,7 +45,7 @@ public class BindVariantNamesAspectDefinition extends StaticModelToUiAspectDefin
     }
 
     @Override
-    public Consumer<List<String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<List<String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
         if (componentWrapper.getComponent() instanceof HasElement component) {
             return component.getElement().getThemeList()::addAll;
         } else {

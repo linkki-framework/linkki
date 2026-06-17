@@ -67,6 +67,13 @@ The following versions have been updated:
 | JUnit                         | 6.1.0 (link:https://docs.junit.org/6.1.0/release-notes.html[Release Notes]) | 6.0.2
 |===
 
+==== Other Improvements
+
+* [.api-change] *Removal of deprecated `getSectionContent()` in `LinkkiSection`, `BaseSection` and `GridSection`* +
+The method `getSectionContent()`, deprecated since 2.0.0, has been removed. Use `getContentWrapper()` instead.
+* [.api-change] *`ColumnTextAlignAspectDefinition` and `ColumnSortableAspectDefinition` moved to `table/column/aspects`* +
+Both classes have been moved from `org.linkki.core.ui.table.aspects` to `org.linkki.core.ui.table.column.aspects`.
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4906
@@ -89,8 +96,8 @@ The following versions have been updated:
 | Vaadin                        | 25.2.0-beta1 (link:https://github.com/vaadin/platform/releases/tag/25.2.0-beta1[Release Notes]) | 24.9.8
 | Faktor-IPS                    | 26.7.0.rc01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-rc01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
 | Karibu                        | 2.7.0  | 2.5.0
-| Spring Boot compatibility tested for                   | 4.0.6 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.6[Release Notes]) | 3.5.9
-| Spring Framework              | 7.0.7 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 6.2.15
+| Spring Boot compatibility tested for                   | 4.0.7 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.6[Release Notes]) | 3.5.9
+| Spring Framework              | 7.0.8 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 6.2.15
 | JUnit                         | 6.0.2 (link:https://docs.junit.org/6.0.2/release-notes.html[Release Notes]) | 5.14.2
 | Vaadin TestBench              | 10.0.0 | 8.x
 |===

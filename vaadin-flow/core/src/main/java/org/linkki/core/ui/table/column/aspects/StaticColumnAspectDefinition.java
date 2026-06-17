@@ -34,8 +34,8 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn;
 public abstract class StaticColumnAspectDefinition<VALUE_TYPE>
         extends StaticModelToUiAspectDefinition<VALUE_TYPE> {
 
-    private String name;
-    private BiConsumer<GridColumnWrapper, VALUE_TYPE> valueSetter;
+    private final String name;
+    private final BiConsumer<GridColumnWrapper, VALUE_TYPE> valueSetter;
 
     private VALUE_TYPE value;
 
@@ -56,7 +56,7 @@ public abstract class StaticColumnAspectDefinition<VALUE_TYPE>
     }
 
     @Override
-    public Consumer<VALUE_TYPE> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<VALUE_TYPE> createComponentValueSetter(ComponentWrapper componentWrapper) {
         GridColumnWrapper columnWrapper = (GridColumnWrapper)componentWrapper;
         return v -> valueSetter.accept(columnWrapper, v);
     }

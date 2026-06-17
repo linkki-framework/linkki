@@ -16,6 +16,7 @@ package org.linkki.samples.playground.ips.model;
 
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.faktorips.runtime.IRuntimeRepository;
 import org.faktorips.runtime.IValidationContext;
 import org.faktorips.runtime.validation.GenericRelevanceValidation;
@@ -54,6 +55,7 @@ import java.util.HashMap;
         "emptyStringValueSet" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions",
         defaultLocale = "en")
+@SuppressFBWarnings
 @IpsGenerated
 public class IpsModelObject extends AbstractModelObject implements ICopySupport {
 

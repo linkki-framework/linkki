@@ -49,6 +49,14 @@
             "code": "java.method.numberOfParametersChanged",
             "new": ".*Component::scrollIntoView.*",
             "justification": "Vaadin 25.0"
+          },
+          {
+            "regex": true,
+            "code": "java.method.visibilityReduced",
+            "new": "method .* org\\.linkki\\.search\\.annotation\\..*::createComponentValueSetter\\(org\\.linkki\\.core\\.binding\\.wrapper\\.ComponentWrapper\\)",
+            "oldVisibility": "public",
+            "newVisibility": "protected",
+            "justification": "createComponentValueSetter is an internal implementation detail of AspectDefinitions and should not be part of the public API"
           }
         ]
       }

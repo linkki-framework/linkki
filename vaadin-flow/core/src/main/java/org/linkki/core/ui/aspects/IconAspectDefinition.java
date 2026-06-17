@@ -60,7 +60,7 @@ public class IconAspectDefinition extends ModelToUiAspectDefinition<VaadinIcon> 
     }
 
     @Override
-    public Consumer<VaadinIcon> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<VaadinIcon> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Component component = (Component)componentWrapper.getComponent();
         if (component instanceof Button) {
             return icon -> {

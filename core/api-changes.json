@@ -39,6 +39,22 @@
             "oldVisibility": "private",
             "newVisibility": "public",
             "justification": "LIN-4781/LIN-4840 Expose constructor to allow custom message handlers"
+          },
+          {
+            "regex": true,
+            "code": "java.method.visibilityReduced",
+            "new": "method .* org\\.linkki\\.core\\.defaults\\..*::createComponentValueSetter\\(org\\.linkki\\.core\\.binding\\.wrapper\\.ComponentWrapper\\)",
+            "oldVisibility": "public",
+            "newVisibility": "protected",
+            "justification": "createComponentValueSetter is an internal implementation detail of AspectDefinitions and should not be part of the public API"
+          },
+          {
+            "regex": true,
+            "code": "java.method.visibilityReduced",
+            "new": "method .* org\\.linkki\\.core\\.defaults\\.ui\\.aspects\\.EnabledAspectDefinition::handleNullValue\\(.*\\)",
+            "oldVisibility": "public",
+            "newVisibility": "protected",
+            "justification": "handleNullValue is an internal implementation detail of AspectDefinitions and should not be part of the public API"
           }
         ]
       }

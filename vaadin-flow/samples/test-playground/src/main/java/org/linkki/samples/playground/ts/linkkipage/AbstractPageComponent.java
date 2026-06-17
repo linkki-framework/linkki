@@ -23,12 +23,9 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.page.AbstractPage;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.H4;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class AbstractPageComponent {
 
@@ -50,13 +47,6 @@ public class AbstractPageComponent {
         // can't use the same component twice, it will be filtered out
         page.addHorizontally(VaadinUiCreator.createComponent(pmo, bindingContext),
                              VaadinUiCreator.createComponent(pmo, bindingContext));
-
-        page.add(new H4("addSections"));
-        page.addSections(pmo, pmo);
-
-        page.add(new H4("addSection x 2"));
-        page.addSection(pmo);
-        page.addSection(pmo);
 
         return page;
     }
@@ -83,16 +73,6 @@ public class AbstractPageComponent {
         @Override
         public void createContent() {
             // does nothing
-        }
-
-        @Override
-        public void addSections(@NonNull Object... pmos) {
-            super.addSections(pmos);
-        }
-
-        @Override
-        public LinkkiSection addSection(Object pmo) {
-            return super.addSection(pmo);
         }
 
         @Override

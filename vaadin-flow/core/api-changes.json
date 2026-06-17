@@ -75,6 +75,38 @@
             "oldValue": "org.linkki.core.ui.nested.annotation.UINestedComponent.NestedAspecDefinitionCreator.class",
             "newValue": "org.linkki.core.ui.nested.annotation.UINestedComponent.NestedAspectDefinitionCreator.class",
             "justification": "LIN-2733/LIN-4698"
+          },
+          {
+            "regex": true,
+            "code": "java.method.visibilityReduced",
+            "new": "method .* org\\.linkki\\.core\\.ui\\..*::createComponentValueSetter\\(org\\.linkki\\.core\\.binding\\.wrapper\\.ComponentWrapper\\)",
+            "oldVisibility": "public",
+            "newVisibility": "protected",
+            "justification": "createComponentValueSetter is an internal implementation detail of AspectDefinitions and should not be part of the public API"
+          },
+          {
+            "regex": true,
+            "code": "java.method.visibilityReduced",
+            "new": "method .* org\\.linkki\\.core\\.ui\\..*::handleNullValue\\(.*\\)",
+            "oldVisibility": "public",
+            "newVisibility": "protected",
+            "justification": "handleNullValue is an internal implementation detail of AspectDefinitions and should not be part of the public API"
+          },
+          {
+            "regex": true,
+            "code": "java.method.removed",
+            "old": "method .* org\\.linkki\\.core\\.vaadin\\.component\\.section\\..*::getSectionContent\\(\\)",
+            "justification": "getSectionContent() was deprecated since 2.0.0 and has been removed."
+          },
+          {
+            "code": "java.class.removed",
+            "old": "class org.linkki.core.ui.table.aspects.ColumnSortableAspectDefinition",
+            "justification": "Moved to org.linkki.core.ui.table.column.aspects"
+          },
+          {
+            "code": "java.class.removed",
+            "old": "class org.linkki.core.ui.table.aspects.ColumnTextAlignAspectDefinition",
+            "justification": "Moved to org.linkki.core.ui.table.column.aspects"
           }
         ]
       }

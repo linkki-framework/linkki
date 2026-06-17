@@ -40,7 +40,7 @@ public class BindClosableAspectDefinition extends StaticModelToUiAspectDefinitio
     }
 
     @Override
-    public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
         if (componentWrapper.getComponent() instanceof LinkkiSection component) {
             return initiallyClosed -> {
                 component.setClosable(true);

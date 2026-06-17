@@ -49,12 +49,12 @@ public class EnabledAspectDefinition extends ModelToUiAspectDefinition<Boolean> 
     }
 
     @Override
-    public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
         return componentWrapper::setEnabled;
     }
 
     @Override
-    public void handleNullValue(Consumer<Boolean> componentValueSetter, ComponentWrapper componentWrapper) {
+    protected void handleNullValue(Consumer<Boolean> componentValueSetter, ComponentWrapper componentWrapper) {
         // this case can only occur if the valueGetter is implemented in the model instead of the
         // PMO
         componentValueSetter.accept(false);

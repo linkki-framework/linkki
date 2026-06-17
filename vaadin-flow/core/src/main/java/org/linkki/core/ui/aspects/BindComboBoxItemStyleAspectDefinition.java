@@ -69,7 +69,7 @@ public class BindComboBoxItemStyleAspectDefinition extends StaticModelToUiAspect
     }
 
     @Override
-    public Consumer<Function<Object, String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<Function<Object, String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
         @SuppressWarnings("unchecked")
         var comboBox = (ComboBoxBase<?, Object, Object>)componentWrapper.getComponent();
         return f -> comboBox
@@ -78,4 +78,13 @@ public class BindComboBoxItemStyleAspectDefinition extends StaticModelToUiAspect
                         .withProperty(LABEL, comboBox.getItemLabelGenerator()::apply));
     }
 
+    /**
+     * Applies a single static style class to all items of the combo box wrapped by the given
+     * {@code componentWrapper}.
+     */
+    public static void applyStaticStyle(ComponentWrapper componentWrapper, String style) {
+        new BindComboBoxItemStyleAspectDefinition(style)
+                .createComponentValueSetter(componentWrapper)
+                .accept(s -> style);
+    }
 }

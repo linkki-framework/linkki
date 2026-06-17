@@ -54,7 +54,7 @@ public class ElementAttributeAspectDefinition extends StaticModelToUiAspectDefin
     }
 
     @Override
-    public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    protected Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         return v -> ((Component)componentWrapper.getComponent()).getElement().setAttribute(attribute, value);
     }
 }
