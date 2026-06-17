@@ -19,8 +19,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <spotbugs.version>4.9.8</spotbugs.version>
-        <spring-boot.version>3.5.14</spring-boot.version>
-        <spring-framework.version>6.2.18</spring-framework.version>
+        <spring-boot.version>3.5.15</spring-boot.version>
+        <spring-framework.version>6.2.19</spring-framework.version>
         <checkstyle.version>10.20.2</checkstyle.version>
         <commons-fileupload2.version>2.0.0-M4</commons-fileupload2.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
@@ -30,14 +30,14 @@
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 
         <!-- Maven plugin versions -->
-        <vaadin-maven-plugin.version>24.9.17</vaadin-maven-plugin.version>
+        <vaadin-maven-plugin.version>24.9.18</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <spotbugs-maven-plugin.version>4.9.8.3</spotbugs-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.9.8.5</spotbugs-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
     </properties>
