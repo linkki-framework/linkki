@@ -1,6 +1,7 @@
 /* Solid background for card sections */
 vaadin-grid {
     --vaadin-grid-cell-background: var(--linkki-grid-background);
+    background-color: var(--linkki-grid-background, var(--lumo-base-color));
 }
 
 [theme~="card-sections"] .linkki-main-area linkki-section, .linkki-main-area [theme~="card-sections"] linkki-section, vaadin-dialog[theme~="card-sections"] linkki-section, vaadin-dialog [theme~="card-sections"] linkki-section, linkki-section[theme~="card"] {
