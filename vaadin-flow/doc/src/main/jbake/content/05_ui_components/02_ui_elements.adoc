@@ -334,7 +334,6 @@ Ideally on a parent route layout that is used by all routes.
 [source,java]
 ----
 @JsModule("./src/focus-first-item-combo-box-mixin.js")
-@JsModule("./src/focus-first-item-combo-box-scroller.js")
 @Route("my")
 public class MyView extends Div {}
 ----

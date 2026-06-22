@@ -82,6 +82,14 @@ Vaadin 25 introduced its own `info` theme variant for notifications with a visua
 To avoid unintended visual changes, info notifications created by `NotificationUtil` no longer apply the `info` theme name.
 Warning and error notifications are unaffected and continue to use Vaadin's `warning` and `error` theme variants.
 
+
+// https://jira.convista.com/browse/LIN-4520
+* *Exceptions for Comboboxes in Grids* +
+<<ui-combobox, Comboboxes>> in Grids were causing exceptions during lazy-loading.
+This was fixed for projects using the <<application-framework, application framework>>.
+Projects that imported the <<ui-combobox-focus-first, focus-first scripts>> for ComboBoxes manually, must remove the `@JsModule` call to import `focus-first-item-combo-box-scroller.js`.
+
+
 === Version 2.10.0-rc01
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
