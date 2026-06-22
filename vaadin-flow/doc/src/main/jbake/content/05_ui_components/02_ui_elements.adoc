@@ -352,7 +352,7 @@ It also has the following properties:
 
 * `autoExpand: MultiSelectComboBox.AutoExpandMode` — Controls the automatic expansion of the field when many chips are selected.
 The default is `NONE`.
-See the https://vaadin.com/api/platform/com/vaadin/flow/component/combobox/MultiSelectComboBox.AutoExpandMode.html[Vaadin API documentation] for available values.
+See the https://vaadin.com/docs/v25/components/multi-select-combo-box#auto-expand[Vaadin documentation] for available values.
 * `selectedItemsOnTop: boolean` — Can be set to move selected items to the top of the dropdown list.
 The default is `false`.
 
