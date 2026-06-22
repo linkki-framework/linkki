@@ -304,6 +304,21 @@
                     <configuration>
                         <optimizeBundle>false</optimizeBundle>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-frontend</goal>
+                            </goals>
+                            <phase>compile</phase>
+                        </execution>
+                        <execution>
+                            <id>clean-frontend</id>
+                            <goals>
+                                <goal>clean-frontend</goal>
+                            </goals>
+                            <phase>clean</phase>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
