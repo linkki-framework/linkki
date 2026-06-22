@@ -28,13 +28,32 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 @CssImport("./styles/linkki-notification.css")
 public class NotificationUtil {
 
+    /**
+     * Not used anymore.
+     * 
+     * @deprecated see {@link NotificationVariant}
+     */
+    @Deprecated(since = "2.10.0", forRemoval = true)
     public static final String LINKKI_NOTIFICATION_INFO = "info";
+    /**
+     * Not used anymore.
+     *
+     * @deprecated see {@link NotificationVariant}
+     */
+    @Deprecated(since = "2.10.0", forRemoval = true)
     public static final String LINKKI_NOTIFICATION_WARNING = "warning";
+    /**
+     * Not used anymore.
+     *
+     * @deprecated see {@link NotificationVariant}
+     */
+    @Deprecated(since = "2.10.0", forRemoval = true)
     public static final String LINKKI_NOTIFICATION_ERROR = "error";
     public static final int DEFAULT_DURATION_INFO = 3000;
     public static final int DEFAULT_DURATION_WARNING = 6000;
@@ -140,26 +159,28 @@ public class NotificationUtil {
         content.add(new H3(title));
         content.add(components);
 
-        Notification notification = new Notification(content);
+        var notification = createNotification(content);
         if (severity == Severity.INFO) {
-            prepareNotification(notification, infoDuration, LINKKI_NOTIFICATION_INFO);
+            notification.setDuration(infoDuration);
         } else if (severity == Severity.WARNING) {
-            prepareNotification(notification, warningDuration, LINKKI_NOTIFICATION_WARNING);
+            notification.setDuration(warningDuration);
+            notification.setThemeVariants(NotificationVariant.WARNING);
         } else if (severity == Severity.ERROR) {
-            prepareNotification(notification, 0, LINKKI_NOTIFICATION_ERROR);
+            notification.setDuration(0);
+            notification.setThemeVariants(NotificationVariant.ERROR);
         }
 
         return notification;
     }
 
-    private static void prepareNotification(Notification notification, int duration, String themeName) {
-        notification.setDuration(duration);
-        notification.addThemeName(themeName);
+    private static Notification createNotification(Component contentComponent) {
+        var notification = new Notification(contentComponent);
         notification.setPosition(Position.TOP_CENTER);
 
-        Button closeButton = new Button(NlsText.getString("NotificationUtil.CloseButtonCaption"),
+        var closeButton = new Button(NlsText.getString("NotificationUtil.CloseButtonCaption"),
                 e -> notification.close());
         notification.add(closeButton);
+        return notification;
     }
 
     private static Div createContent(String description) {

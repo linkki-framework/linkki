@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.test;
 
+import static com.github.mvysny.kaributesting.v10.LocatorJ._find;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._fireValueChange;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.awaitility.Awaitility.await;
@@ -397,17 +398,18 @@ public class KaribuUtils {
         }
 
         public static Severity getSeverity(Notification notification) {
+            if (_find(notification, Component.class, s -> s.withClasses("linkki-notification-content")).isEmpty()) {
+                throw new AssertionError(
+                        "No severity theme found on the notification. " +
+                                "This is probably because the Notification is not created with NotificationUtil.");
+            }
             var themeNames = notification.getThemeNames();
             if (themeNames.contains(Severity.ERROR.name().toLowerCase())) {
                 return Severity.ERROR;
             } else if (themeNames.contains(Severity.WARNING.name().toLowerCase())) {
                 return Severity.WARNING;
-            } else if (themeNames.contains(Severity.INFO.name().toLowerCase())) {
-                return Severity.INFO;
             } else {
-                throw new AssertionError(
-                        "No severity theme found on the notification. " +
-                                "This is probably because the Notification is not created with NotificationUtil.");
+                return Severity.INFO;
             }
         }
 

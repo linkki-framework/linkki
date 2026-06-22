@@ -16,9 +16,6 @@ package org.linkki.framework.ui.notification;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_ERROR;
-import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_INFO;
-import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_WARNING;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,24 +65,17 @@ class NotificationUtilTest {
     }
 
     @Test
-    void testCreateNotification_InfoTheme() {
-        Notification notification = NotificationUtil.createNotification(Severity.INFO, "title", new Div());
-
-        assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_INFO), is(true));
-    }
-
-    @Test
     void testCreateNotification_WarningTheme() {
         Notification notification = NotificationUtil.createNotification(Severity.WARNING, "title", new Div());
 
-        assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_WARNING), is(true));
+        assertThat(notification.hasThemeName("warning"), is(true));
     }
 
     @Test
     void testCreateNotification_ErrorTheme() {
         Notification notification = NotificationUtil.createNotification(Severity.ERROR, "title", new Div());
 
-        assertThat(notification.hasThemeName(LINKKI_NOTIFICATION_ERROR), is(true));
+        assertThat(notification.hasThemeName("error"), is(true));
         assertThat(hasCloseButton(notification), is(true));
     }
 

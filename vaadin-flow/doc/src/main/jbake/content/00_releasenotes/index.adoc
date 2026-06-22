@@ -53,7 +53,6 @@
 // * [.api-change] *Description* +
 // Text
 
-
 === Version {vlinkki}
 
 ==== Version Updates
@@ -67,6 +66,14 @@ The following versions have been updated:
 | Spring Boot compatibility tested for                   | 4.1.0 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.0[Release Notes]) | 4.0.6
 | JUnit                         | 6.1.0 (link:https://docs.junit.org/6.1.0/release-notes.html[Release Notes]) | 6.0.2
 |===
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4906
+* *Vaadin 25 regression: `NotificationUtil` info notifications has info color as background* +
+Vaadin 25 introduced its own `info` theme variant for notifications with a visual style that differs from the linkki notification styling.
+To avoid unintended visual changes, info notifications created by `NotificationUtil` no longer apply the `info` theme name.
+Warning and error notifications are unaffected and continue to use Vaadin's `warning` and `error` theme variants.
 
 === Version 2.10.0-rc01
 
@@ -182,6 +189,13 @@ Tree data must now be accessed via `TreeGrid#getTreeData()` directly. +
 *Migration*: Replace any cast of `TreeGrid#getDataProvider()` to `TreeDataProvider` with a direct call to `TreeGrid#getTreeData()`.
 
 ===== Frontend Changes
+
+// https://jira.convista.com/browse/LIN-4906
+* *`NotificationUtil` info notifications no longer apply the `info` theme* +
+Vaadin 25 introduced its own `info` theme variant for notifications with a visual style that differs from the linkki notification styling.
+To avoid unintended visual changes, info notifications created by `NotificationUtil` no longer apply the `info` theme name.
+Warning and error notifications are unaffected and continue to use Vaadin's `warning` and `error` theme variants.
+See <<notifications, Notifications documentation>> for more information.
 
 * [.api-change]*Stylesheets* +
 The annotation `@Theme` is deprecated.
