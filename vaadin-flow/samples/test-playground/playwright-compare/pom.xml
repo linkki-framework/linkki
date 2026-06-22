@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.linkki-framework.samples</groupId>
+    <artifactId>linkki-sample-test-playground-playwright-compare</artifactId>
+    <version>2.10.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>linkki Vaadin Flow Samples :: Playwright Visual Comparison</name>
+    <description>
+        Compares two deployments of the linkki test playground by navigating all TS/TC tabs,
+        interacting with controls, taking screenshots, and generating a diff report in target.
+        Run with: mvn test -Dcompare.url.test=http://... -Dcompare.url.reference=http://...
+    </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>21</java.version>
+
+        <playwright.version>1.60.0</playwright.version>
+        <junit.version>6.1.0</junit.version>
+        <assertj.version>3.27.7</assertj.version>
+        <spotbugs.version>4.9.8</spotbugs.version>
+
+        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+
+        <compare.url.reference>
+            http://linkki-master.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow/playground
+        </compare.url.reference>
+        <compare.headless>true</compare.headless>
+        <compare.output.dir>${project.build.directory}/playwright-compare</compare.output.dir>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>${playwright.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>${spotbugs.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>jsr305</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <compare.url.test>${compare.url.test}</compare.url.test>
+                        <compare.url.reference>${compare.url.reference}</compare.url.reference>
+                        <compare.headless>${compare.headless}</compare.headless>
+                        <compare.output.dir>${compare.output.dir}</compare.output.dir>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
