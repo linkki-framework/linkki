@@ -16,11 +16,12 @@ You can either add the required dependencies to an existing project or use one o
 
 ==== linkki-bom
 
-The linkki BOM in `linkki-bom` groups all dependency versions that are known to be valid and tested to work together for linkki projects. This will reduce the developers’ pain of having to test the compatibility of different versions and reduce the chances to have version mismatches.
+The linkki BOM in `linkki-bom` groups all dependency versions that are known to be valid and tested to work together for linkki projects.
+This will reduce the developers’ pain of having to test the compatibility of different versions and reduce the chances to have version mismatches.
 
 To create a *linkki* project, just add this linkki BOM and any of the following dependencies depending on the feature set you need.
-
-[source, xml]
+ 
+[source,xml]
 ----
 include::{sample-parent-dir}/pom.xml[tags=linkki-bom]
 ----
@@ -85,7 +86,8 @@ In addition to the *linkki* dependency, a *linkki* application with Vaadin may r
 
 image::{images}{images-folder-name}/app_structure.png[]
 
-`BusinessPartner`:: A spring specific class which allows our project to be run as a Java application. This class will not be found in the plain archetype.
+`BusinessPartner`:: A spring specific class which allows our project to be run as a Java application.
+This class will not be found in the plain archetype.
 
 `BusinessPartnerInfo`:: Defines basic information about our *linkki* application.
 
@@ -93,7 +95,9 @@ image::{images}{images-folder-name}/app_structure.png[]
 
 `BusinessPartnerLayout`:: Uses the `BusinessPartnerConfig` class to provide information for our application.
 
-`HelloPmo`:: Defines a section on the webpage which is used in the UI of the application. You can apply annotations like `@UITextfield` to your methods to create specific UI elements. For more information about creating a UI see <<ui-element, UI elements>>.
+`HelloPmo`:: Defines a section on the webpage which is used in the UI of the application.
+You can apply annotations like `@UITextfield` to your methods to create specific UI elements.
+For more information about creating a UI see <<ui-element, UI elements>>.
 
 `BusinessPartnerPage`:: Allows displaying and editing data in a certain layout and can consist of so called sections defined with multiple PMOs.
 

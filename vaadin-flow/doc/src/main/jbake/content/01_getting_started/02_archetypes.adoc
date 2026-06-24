@@ -7,7 +7,9 @@
 [[maven-archetypes]]
 === Maven Archetypes
 
-linkki can be used for a <<maven-archetypes-plain, plain Vaadin web application>> or with <<maven-archetypes-spring, Spring Boot>>. For each of those options, there is a matching Maven archetype that creates a new project with all necessary dependencies and some sample code to get started. They can be created from a command line.
+linkki can be used for a <<maven-archetypes-plain, plain Vaadin web application>> or with <<maven-archetypes-spring, Spring Boot>>.
+For each of those options, there is a matching Maven archetype that creates a new project with all necessary dependencies and some sample code to get started.
+They can be created from a command line.
 
 [[maven-archetypes-plain]]
 ==== Plain linkki
