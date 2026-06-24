@@ -68,7 +68,7 @@ public class FieldValidationPmo {
     private String textFieldValue = StringUtils.EMPTY;
     private String comboBoxValue = "Sample";
     private Set<String> multiSelectValues = Collections.emptySet();
-    private LocalDateTime dateTimeFieldValue = LocalDateTime.now();
+    private LocalDateTime dateTimeFieldValue = LocalDateTime.of(2000, 1, 1, 12, 0);
 
     public static Component createComponent() {
         var pmo = new FieldValidationPmo();

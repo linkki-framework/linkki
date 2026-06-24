@@ -21,7 +21,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.table.PlaygroundTablePmo;
+import org.linkki.samples.playground.ts.table.PlaygroundTablePmo;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;

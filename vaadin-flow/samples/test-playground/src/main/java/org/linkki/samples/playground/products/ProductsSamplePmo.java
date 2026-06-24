@@ -18,7 +18,7 @@ import static org.linkki.core.defaults.ui.aspects.types.AvailableValuesType.DYNA
 import static org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode.INITIALLY_COLLAPSED;
 
 import java.math.RoundingMode;
-import java.security.SecureRandom;
+import java.util.Random;
 import java.util.List;
 
 import org.faktorips.values.Decimal;
@@ -110,7 +110,7 @@ public abstract class ProductsSamplePmo {
 
     public static class RowSamplePmo extends ProductsSamplePmo {
 
-        private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+        private static final Random RANDOM = new Random(42);
 
         private final List<Decimal> decimalOptions = List.of(Decimal.valueOf(0), Decimal.valueOf(100),
                                                              Decimal.valueOf(200));
@@ -119,7 +119,7 @@ public abstract class ProductsSamplePmo {
 
         public RowSamplePmo(ProductsSampleModelObject sampleModelObject) {
             super("", sampleModelObject);
-            decimal = Decimal.valueOf(SECURE_RANDOM.nextDouble() * 1000).round(2, RoundingMode.HALF_UP);
+            decimal = Decimal.valueOf(RANDOM.nextDouble() * 1000).round(2, RoundingMode.HALF_UP);
             decimalSelection = decimalOptions.get(0);
         }
 

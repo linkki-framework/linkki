@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.table.columnwidth.ColumnWidthTablePmo;
+import org.linkki.samples.playground.ts.table.columnwidth.ColumnWidthTablePmo;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 

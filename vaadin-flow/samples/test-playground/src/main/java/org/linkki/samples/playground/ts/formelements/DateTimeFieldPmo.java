@@ -24,7 +24,7 @@ import org.linkki.core.ui.layout.annotation.UISection;
 public class DateTimeFieldPmo {
 
     private String textFieldOne;
-    private LocalDateTime dateTime = LocalDateTime.now();
+    private LocalDateTime dateTime = LocalDateTime.of(2000, 1, 1, 12, 0);
     private String textFieldTwo;
 
     @UITextField(position = 10, label = "Text field to test tabbing")

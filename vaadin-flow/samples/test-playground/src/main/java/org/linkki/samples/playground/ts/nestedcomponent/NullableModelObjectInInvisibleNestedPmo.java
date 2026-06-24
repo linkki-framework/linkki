@@ -25,8 +25,8 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.framework.ui.notifications.NotificationUtil;
-import org.linkki.samples.playground.table.PlaygroundTablePmo;
-import org.linkki.samples.playground.table.TableModelObject;
+import org.linkki.samples.playground.ts.table.PlaygroundTablePmo;
+import org.linkki.samples.playground.ts.table.TableModelObject;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
 

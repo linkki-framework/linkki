@@ -16,7 +16,7 @@ package org.linkki.samples.playground.ts.aspects;
 
 import org.linkki.core.ui.aspects.annotation.BindVariantNames;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo;
 
 public class BindVariantNamesTables {
 

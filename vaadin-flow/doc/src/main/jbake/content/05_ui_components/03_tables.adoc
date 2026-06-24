@@ -199,14 +199,14 @@ By default, this method returns `true` if `getItemPmoClass()` returns a class th
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/treetable/fixed/SummarizingPersonRowPmo.java[tags=hierarchical-row-pmo]
+include::{source-dir}/org/linkki/samples/playground/ts/treetable/fixed/SummarizingPersonRowPmo.java[tags=hierarchical-row-pmo]
 ----
 
 If the order of the rows might change due to user input, you should use a <<ui-simple-item-supplier,`SimpleItemSupplier`>> as with the <<ui-container-pmo,`ContainerPmo`>> to avoid recreating the PMOs for unchanged rows.
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/treetable/dynamic/CategoryRowPmo.java[tags=hierarchical-row-pmo-with-simple-item-supplier]
+include::{source-dir}/org/linkki/samples/playground/ts/treetable/dynamic/CategoryRowPmo.java[tags=hierarchical-row-pmo-with-simple-item-supplier]
 ----
 
 [[ui-utilities-treegrid]]
@@ -249,13 +249,13 @@ This allows tables to be made selectable without the need to implement any inter
 .Example for a selectable table
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/table/selection/PlaygroundSelectableTablePmo.java[tags=selectable-table]
+include::{source-dir}/org/linkki/samples/playground/ts/table/selection/PlaygroundSelectableTablePmo.java[tags=selectable-table]
 ----
 
 .Example for a visual only selectable table
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/table/selection/VisualOnlySelectableTablePmo.java[tags=selectable-table]
+include::{source-dir}/org/linkki/samples/playground/ts/table/selection/VisualOnlySelectableTablePmo.java[tags=selectable-table]
 ----
 
 .Example result
@@ -264,7 +264,7 @@ image::{images}{images-folder-name}/selectable_table.png[Selectable table,align=
 .Example for a multi selectable table
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/table/selection/PlaygroundMultiSelectableTablePmo.java[tags=multi-selectable-table]
+include::{source-dir}/org/linkki/samples/playground/ts/table/selection/PlaygroundMultiSelectableTablePmo.java[tags=multi-selectable-table]
 ----
 
 .Example result
@@ -288,7 +288,7 @@ An example for this would be a sum of all items from a column.
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarTablePmo.java[tags=table-footer]
+include::{source-dir}/org/linkki/samples/playground/ts/table/dynamicfields/CarTablePmo.java[tags=table-footer]
 ----
 
 TIP: The `ContainerPMO` can be annotated with `@BindStyleNames` and `LinkkiApplicationTheme#GRID_FOOTER_BOLD` to make the table footer text bold.

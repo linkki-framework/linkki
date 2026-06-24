@@ -25,9 +25,9 @@ import org.linkki.core.ui.layout.annotation.UISection;
 public class TimeFieldPmo {
 
     private String textFieldOne;
-    private LocalTime time = LocalTime.now();
+    private LocalTime time = LocalTime.of(12, 0);
     private String textFieldTwo;
-    private LocalTime timeWithSecondPrecision = LocalTime.now();
+    private LocalTime timeWithSecondPrecision = LocalTime.of(12, 0);
 
     @UITextField(position = 10, label = "Field to test tabbing")
     public String getTextFieldOne() {

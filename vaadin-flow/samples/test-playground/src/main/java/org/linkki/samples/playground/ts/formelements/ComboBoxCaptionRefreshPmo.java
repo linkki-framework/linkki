@@ -14,10 +14,8 @@
 
 package org.linkki.samples.playground.ts.formelements;
 
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
@@ -35,14 +33,12 @@ public class ComboBoxCaptionRefreshPmo {
     public static final String PROPERTY_CHOICE = "choice";
     public static final String PROPERTY_CHANGE_CHOICES_VALUES = "changeChoicesValues";
 
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
-    private List<Choice> choices = IntStream.range(0, 20)
-            .mapToObj(i -> SECURE_RANDOM.nextDouble())
-            .map(Choice::new)
-            .collect(Collectors.toList());
-    private Choice choice = choices.get(0);
+    private final List<Choice> choices = IntStream.range(0, 20)
+            .mapToObj(i -> new Choice((double)i))
+            .toList();
+    private Choice choice = choices.getFirst();
 
     @BindComboBoxDynamicItemCaption
     @UIComboBox(position = 10, label = "choices", content = AvailableValuesType.DYNAMIC)
@@ -60,7 +56,8 @@ public class ComboBoxCaptionRefreshPmo {
 
     @UIButton(position = 20, caption = "Change combo box item values")
     public void changeChoicesValues() {
-        choices.forEach(c -> c.setValue(SECURE_RANDOM.nextDouble() + COUNTER.getAndIncrement()));
+        int base = COUNTER.addAndGet(choices.size());
+        IntStream.range(0, choices.size()).forEach(i -> choices.get(i).setValue((double)(base + i)));
         choice = choices.get(0);
     }
 

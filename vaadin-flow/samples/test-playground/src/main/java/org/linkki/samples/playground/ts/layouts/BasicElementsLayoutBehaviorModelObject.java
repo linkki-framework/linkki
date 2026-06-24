@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -61,13 +61,13 @@ public class BasicElementsLayoutBehaviorModelObject {
     private int intValue = 42;
     private double doubleValue = 47.11;
     private LocalDate date = LocalDate.now();
-    private LocalDateTime dateTime = LocalDateTime.now();
+    private LocalDateTime dateTime = LocalDateTime.of(2000, 1, 1, 12, 0);
     private boolean booleanValue = true;
     private String secret = "secret";
     private BigDecimal bigDecimal = BigDecimal.valueOf(1234567890L, 5);
     private Decimal decimalValue = Decimal.valueOf(1234567890L, 5);
     private SampleEnum enumValue;
-    private Set<SampleEnum> enumValues = Collections.emptySet();
+    private Set<SampleEnum> enumValues = EnumSet.noneOf(SampleEnum.class);
 
     public enum SampleEnum {
 

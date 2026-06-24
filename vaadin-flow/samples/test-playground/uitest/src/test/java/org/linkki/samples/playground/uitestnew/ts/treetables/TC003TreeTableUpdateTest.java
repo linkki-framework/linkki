@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.treetable.TreeTableUpdateNodePmo;
+import org.linkki.samples.playground.ts.treetable.TreeTableUpdateNodePmo;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 

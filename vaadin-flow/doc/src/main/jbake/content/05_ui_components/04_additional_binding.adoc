@@ -446,7 +446,7 @@ It is however possible to set an new placeholder in a subclass.
 .`@BindPlaceholder` on table PMO
 [source,java]
 ----
-include::{source-dir-playground}/org/linkki/samples/playground/table/SimplePlaygroundTablePmo.java[tags=bindPlaceholder-tablePmo]
+include::{source-dir-playground}/org/linkki/samples/playground/ts/table/SimplePlaygroundTablePmo.java[tags=bindPlaceholder-tablePmo]
 ----
 
 TIP: `@BindPlaceholder(value = "", placeholderType = PlaceholderType.STATIC)` will hide empty tables without showing any replacement text.

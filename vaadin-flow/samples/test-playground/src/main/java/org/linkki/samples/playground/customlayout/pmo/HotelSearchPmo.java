@@ -13,8 +13,8 @@
  */
 package org.linkki.samples.playground.customlayout.pmo;
 
-import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.util.Random;
 
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIDateField;
@@ -28,7 +28,7 @@ import com.vaadin.flow.component.notification.Notification;
 @UIHorizontalLayout
 public class HotelSearchPmo {
 
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final Random RANDOM = new Random(42);
     private int noOfGuests;
     private LocalDate arrival;
     private LocalDate depature;
@@ -63,7 +63,7 @@ public class HotelSearchPmo {
 
     @UIButton(position = 40, caption = "Send", icon = VaadinIcon.PAPERPLANE, showIcon = true)
     public void send() {
-        int numberOfBeds = SECURE_RANDOM.nextInt() * 10;
+        int numberOfBeds = RANDOM.nextInt() * 10;
         Notification.show(String.format("Thank you for your request!" + " We have %d bed%s available!", numberOfBeds,
                                         numberOfBeds == 1 ? "" : "s"));
     }

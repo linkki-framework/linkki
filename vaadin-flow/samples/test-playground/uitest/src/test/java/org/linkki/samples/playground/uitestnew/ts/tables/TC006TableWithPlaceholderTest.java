@@ -19,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.aspects.PlaceholderAspectDefinition;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
-import org.linkki.samples.playground.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
 import org.linkki.samples.playground.ts.TestScenarioView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 

@@ -15,7 +15,7 @@
 package org.linkki.samples.playground.ts.components.tablayout;
 
 import java.io.Serial;
-import java.security.SecureRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import org.linkki.core.binding.BindingContext;
@@ -40,7 +40,7 @@ public class AfterTabSelectedComponent extends LinkkiTabLayout {
 
     @Serial
     private static final long serialVersionUID = 4832515058793367536L;
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     private String value;
 
@@ -60,7 +60,7 @@ public class AfterTabSelectedComponent extends LinkkiTabLayout {
     }
 
     private void changeValue() {
-        value = String.valueOf(SECURE_RANDOM.nextInt());
+        value = "value " + COUNTER.getAndIncrement();
     }
 
     private static class ComponentWithAfterTabSelectedObserver extends Div implements AfterTabSelectedObserver {

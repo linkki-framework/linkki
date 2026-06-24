@@ -14,8 +14,8 @@
 
 package org.linkki.samples.playground.bugs.lin2200;
 
-import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -32,11 +32,11 @@ public class ComboBoxNewInstancePmo {
     public static final String LIN_2200 = "LIN-2200";
     public static final String CAPTION = LIN_2200 + " :: ComboBox with new instances without equals";
 
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final Random RANDOM = new Random(42);
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     private List<Choice> choices = IntStream.range(0, 20)
-            .mapToObj(i -> SECURE_RANDOM.nextDouble())
+            .mapToObj(i -> RANDOM.nextDouble())
             .map(Choice::new)
             .toList();
     private Choice choice = choices.getFirst();
@@ -63,7 +63,7 @@ public class ComboBoxNewInstancePmo {
 
     @UIButton(position = 20, caption = "Change values")
     public void changeChoicesValues() {
-        choices.forEach(c -> c.setValue(SECURE_RANDOM.nextDouble() + COUNTER.getAndIncrement()));
+        choices.forEach(c -> c.setValue(RANDOM.nextDouble() + COUNTER.getAndIncrement()));
         choice = choices.get(0);
     }
 

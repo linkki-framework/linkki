@@ -16,6 +16,7 @@ package org.linkki.samples.playground.ts.formelements;
 
 import static org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +46,7 @@ public class CheckboxesPmo {
     }
 
     public Set<CheckboxesValues> getCheckboxesValuesAvailableValues() {
-        return Set.of(CheckboxesValues.values());
+        return EnumSet.allOf(CheckboxesValues.class);
     }
     // end::checkboxes[]
 
@@ -60,7 +61,7 @@ public class CheckboxesPmo {
     }
 
     public Set<CheckboxesValues> getDisabledCheckboxesValuesAvailableValues() {
-        return Set.of(CheckboxesValues.values());
+        return EnumSet.allOf(CheckboxesValues.class);
     }
 
     @UICheckboxes(position = 20, label = "Required Checkboxes", required = RequiredType.REQUIRED,
@@ -74,7 +75,7 @@ public class CheckboxesPmo {
     }
 
     public Set<CheckboxesValues> getRequiredCheckboxesValuesAvailableValues() {
-        return Set.of(CheckboxesValues.values());
+        return EnumSet.allOf(CheckboxesValues.class);
     }
 
     @BindReadOnly(ReadOnlyType.ALWAYS)
@@ -89,7 +90,7 @@ public class CheckboxesPmo {
     }
 
     public Set<CheckboxesValues> getReadOnlyCheckboxesValuesAvailableValues() {
-        return Set.of(CheckboxesValues.values());
+        return EnumSet.allOf(CheckboxesValues.class);
     }
 
     @UICheckboxes(position = 40, label = "Horizontal Checkboxes", checkboxesAlignment = AlignmentType.HORIZONTAL,
@@ -103,7 +104,7 @@ public class CheckboxesPmo {
     }
 
     public Set<CheckboxesValues> getHorizontalCheckboxesValuesAvailableValues() {
-        return Set.of(CheckboxesValues.values());
+        return EnumSet.allOf(CheckboxesValues.class);
     }
 
     public enum CheckboxesValues {
