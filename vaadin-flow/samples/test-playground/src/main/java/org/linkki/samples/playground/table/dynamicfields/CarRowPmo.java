@@ -13,7 +13,7 @@
  */
 package org.linkki.samples.playground.table.dynamicfields;
 
-import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
@@ -26,10 +26,10 @@ public class CarRowPmo extends CarPmo {
     }
 
     @UITableColumn(width = 200)
+    @BindReadOnly
     @UIComboBox(position = 25,
             label = "Car Type",
-            modelAttribute = Car.PROPERTY_CAR_TYPE,
-            enabled = EnabledType.DISABLED)
+            modelAttribute = Car.PROPERTY_CAR_TYPE)
     public void carType() {
         /* model binding */
     }

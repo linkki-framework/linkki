@@ -21,14 +21,14 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.util.handler.Handler;
 
 @UISection
-public class NewCarSectionPmo extends CarPmo {
+public class CarSectionPmo extends CarPmo {
 
     private static final long serialVersionUID = 6118622651214201674L;
 
     private final List<Car> carStorage;
     private final Handler afterOkAction;
 
-    public NewCarSectionPmo(Car car, List<Car> carStorage, Handler afterOkAction) {
+    public CarSectionPmo(Car car, List<Car> carStorage, Handler afterOkAction) {
         super(car);
         this.carStorage = carStorage;
         this.afterOkAction = afterOkAction;

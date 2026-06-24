@@ -39,7 +39,7 @@ public class DynamicFieldsSection {
 
         return new PmoBasedSectionFactory()
                 .createSection(new CarTablePmo(carStorage,
-                        () -> new NewCarDialog(carStorage, bindingContext::modelChanged)),
+                        () -> new CarDialog(carStorage, bindingContext::modelChanged)),
                                bindingContext);
     }
 

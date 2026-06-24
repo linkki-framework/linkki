@@ -26,14 +26,14 @@ public class CarTypeSectionPmo implements PresentationModelObject, Serializable 
 
     private static final long serialVersionUID = 2629334795264678052L;
 
-    private final NewCar car;
+    private final Car car;
 
-    public CarTypeSectionPmo(NewCar car) {
+    public CarTypeSectionPmo(Car car) {
         this.car = car;
     }
 
     @ModelObject
-    public NewCar getCar() {
+    public Car getCar() {
         return car;
     }
 

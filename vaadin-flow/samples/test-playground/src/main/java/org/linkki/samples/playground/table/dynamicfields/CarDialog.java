@@ -22,14 +22,14 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class NewCarDialog extends Dialog {
+public class CarDialog extends Dialog {
 
     private static final long serialVersionUID = -6187152700037744469L;
 
     private final List<Car> carStorage;
     private final Handler afterSaveAction;
 
-    public NewCarDialog(List<Car> carStorage, Handler afterSaveAction) {
+    public CarDialog(List<Car> carStorage, Handler afterSaveAction) {
         this.carStorage = carStorage;
         this.afterSaveAction = afterSaveAction;
 
@@ -41,18 +41,18 @@ public class NewCarDialog extends Dialog {
         layout.setMargin(false);
         layout.setSpacing(false);
 
-        NewCar car = new NewCar();
+        var car = new Car();
 
         layout.add(VaadinUiCreator.createComponent(new CarTypeSectionPmo(car),
                                                    new BindingContextBuilder().name("car-type")
-                                                           .afterUpdateHandler(() -> addNewCarSection(layout, car))
+                                                           .afterUpdateHandler(() -> addCarSection(layout, car))
                                                            .build()));
         add(layout);
 
         open();
     }
 
-    private void addNewCarSection(VerticalLayout layout, NewCar car) {
+    private void addCarSection(VerticalLayout layout, Car car) {
 
         if (layout.getComponentCount() > 1) {
             layout.remove(layout.getComponentAt(1));
@@ -63,7 +63,7 @@ public class NewCarDialog extends Dialog {
             car.setRetention(null);
         }
 
-        layout.add(VaadinUiCreator.createComponent(new NewCarSectionPmo(car, this.carStorage, this::close),
+        layout.add(VaadinUiCreator.createComponent(new CarSectionPmo(car, this.carStorage, this::close),
                                                    new BindingContextBuilder().name("new-car")
                                                            .afterUpdateHandler(afterSaveAction)
                                                            .build()));
