@@ -62,16 +62,17 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version                                                                        | Previous version
-| Vaadin                        | 25.2.0-rc1 (link:https://github.com/vaadin/platform/releases/tag/25.2.0-rc1[Release Notes]) | 25.2.0-beta1
+| Vaadin                        | 25.2.0 (link:https://github.com/vaadin/platform/releases/tag/25.2.0[Release Notes]) | 25.2.0-beta1
 | Spring Boot compatibility tested for                   | 4.1.0 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.0[Release Notes]) | 4.0.6
 | JUnit                         | 6.1.0 (link:https://docs.junit.org/6.1.0/release-notes.html[Release Notes]) | 6.0.2
 |===
 
 ==== Other Improvements
 
-* [.api-change] *Removal of deprecated `getSectionContent()` in `LinkkiSection`, `BaseSection` and `GridSection`* +
-The method `getSectionContent()`, deprecated since 2.0.0, has been removed. Use `getContentWrapper()` instead.
-* [.api-change] *`ColumnTextAlignAspectDefinition` and `ColumnSortableAspectDefinition` moved to `table/column/aspects`* +
+* [.api-change]*Removal of deprecated `getSectionContent()` in `LinkkiSection`, `BaseSection` and `GridSection`* +
+The method `getSectionContent()`, deprecated since 2.0.0, has been removed.
+Use `getContentWrapper()` instead.
+* [.api-change]*`ColumnTextAlignAspectDefinition` and `ColumnSortableAspectDefinition` moved to `table/column/aspects`* +
 Both classes have been moved from `org.linkki.core.ui.table.aspects` to `org.linkki.core.ui.table.column.aspects`.
 
 ==== Bugfixes
@@ -81,16 +82,15 @@ Both classes have been moved from `org.linkki.core.ui.table.aspects` to `org.lin
 Vaadin 25 introduced its own `info` theme variant for notifications with a visual style that differs from the linkki notification styling.
 To avoid unintended visual changes, info notifications created by `NotificationUtil` no longer apply the `info` theme name.
 Warning and error notifications are unaffected and continue to use Vaadin's `warning` and `error` theme variants.
-
 // https://jira.convista.com/browse/LIN-4520
 * *Exceptions for Comboboxes in Grids* +
 <<ui-combobox, Comboboxes>> in Grids were causing exceptions during lazy-loading.
 This was fixed for projects using the <<application-framework, application framework>>.
 Projects that imported the <<ui-combobox-focus-first, focus-first scripts>> for ComboBoxes manually, must remove the `@JsModule` call to import `focus-first-item-combo-box-scroller.js`.
-
 // https://jira.convista.com/browse/LIN-4905
 * *Vaadin 25.0 Regression: Fixed white space at the bottom of linkki tables* +
-When the page background color differs from white, a white area was visible below the last row of a grid. This has been fixed.
+When the page background color differs from white, a white area was visible below the last row of a grid.
+This has been fixed.
 
 === Version 2.10.0-rc01
 
@@ -251,7 +251,8 @@ If the primary and secondary component should scroll, it may be necessary to add
 This can be done with `LumoUtility.Overflow.AUTO` or `getStyle().setOverflow(AUTO)`. +
 If the split layout is in a flex container, it may also be necessary to add `min-height: 0` to the `SplitLayout` itself.
 * [.api-change]*Styling of Grids changed* +
-The styling of vaadin-grid elements has changed. This may break custom selectors that apply styling to grids.
+The styling of vaadin-grid elements has changed.
+This may break custom selectors that apply styling to grids.
 
 ===== Vaadin Release Notes and Migration Guide
 
