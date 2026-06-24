@@ -1,0 +1,40 @@
+:jbake-title: Maven Build
+:jbake-type: section
+:jbake-status: published
+
+:vaadin-dir: ../../../../..
+:images-folder-name: 01_getting_started
+
+[[maven-build]]
+=== Maven Build
+
+linkki uses Vaadin and thus needs to configure the build as described in the link:https://vaadin.com/docs/v25/flow/production/production-build#plugin-goals-and-goal-parameters[Vaadin documentation].
+
+*How to configure the vaadin-maven-plugin?*
+
+- `prepare-frontend` is automatically used with `build-frontend` and should be omitted.
+- `clean-frontend` can be used when maintaining multiple versions of Vaadin, e.g., in different hotfix branches.
+Although it comes with longer build times, this will clean up any incompatible frontend dependency artifacts and fetch them anew.
+
+*How to build from console*
+
+- `mvn clean package` and `mvn clean install` will create a production build and link:https://docs.spring.io/spring-boot/reference/using/devtools.html[omit any development dependencies] that are declared optional.
+(Note that this only applies for spring projects.)
+
+*How to start in development mode?*
+
+- Start the main application in your IDE
+- Use `mvn spring-boot:run` from the command line
+
+*How to start in production mode?*
+
+Build the application via `mvn clean package`. Then start the generated JAR file using one of the following methods:
+
+- Terminal: Run `java -jar target/<application>.jar`.
+- IntelliJ: link:https://www.jetbrains.com/help/idea/compiling-applications.html#run_packaged_jar[Start the generated JAR file from IntelliJ].
+
+*How do I determine if the application is running in development or production mode?*
+
+- Server console: On start, the application will write to the console in which mode it was started.
+- Browser console: In production mode, you should see less log entries.
+In particular, you should not see any logs regarding server round trips and how long each took.

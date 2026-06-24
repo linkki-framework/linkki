@@ -12,11 +12,17 @@ As implicated in <<databinding,Data Binding with PMOs>> a *linkki* application u
 
 image::{images}{images-folder-name}/layers.png[]
 
-This image intends to highlight where the presentation model layer is situated with respect to UI and domain model. 
+This image intends to highlight where the presentation model layer is situated with respect to UI and domain model.
 
-The rightmost layer is some kind of a persistence layer, for example a database. To the left are the domain model layer, the presentation model layer and finally the UI. The UI data binding works between the UI and the presentation model. It is responsible for keeping them in sync. 
+The rightmost layer is some kind of a persistence layer, for example a database.
+To the left are the domain model layer, the presentation model layer and finally the UI.
+The UI data binding works between the UI and the presentation model.
+It is responsible for keeping them in sync.
 
-Very often the presentation model and the domain model have similar structure and properties. In that case the "model binding" can be used. "Model Binding", short-hand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes. It is aimed at the "simple" case of UI binding, in which properties from the domain model are directly presented in the UI, meaning that no special formatting or conversion needs to take place before the value can be shown.
+Very often the presentation model and the domain model have similar structure and properties.
+In that case the "model binding" can be used.
+"Model Binding", short-hand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes.
+It is aimed at the "simple" case of UI binding, in which properties from the domain model are directly presented in the UI, meaning that no special formatting or conversion needs to take place before the value can be shown.
 
 To use this feature, the UI needs to be created using a <<layout, layout annotation>>, and the instance field or the getter method for the model object in the PMO needs to be marked with the `@ModelObject` annotation:
 
@@ -37,12 +43,14 @@ For example, the `firstname` property from the model can be used without convers
 include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=pojo-binding]
 ----
 
-In this case the getter method ensures a direct delegation to the model attribute. Therefore, the same behavior can be achieved using the model binding:
+In this case the getter method ensures a direct delegation to the model attribute.
+Therefore, the same behavior can be achieved using the model binding:
 
 [source,java]
 ----
 include::{source-dir}/org/linkki/doc/PersonSectionPmo_modelBinding.java[tags=model-binding]
 ----
+
 Model binding avoids unnecessary code dealing with delegation and is thus a "shortcut".
 
 .Model Binding
@@ -51,38 +59,60 @@ image::{images}{images-folder-name}/ModelBinding.png[]
 [[model-attribute-names]]
 ==== Names of Model Attributes
 
-To use the model binding feature, the property `modelAttribute` must be set in the <<ui-element,UI Annotation>>. The data type of the property is `String`. The value of `modelAttribute` defines the name of the corresponding property in the domain model class. If no matching property exists in the domain model class, an exception is thrown during generation of the UI.
+To use the model binding feature, the property `modelAttribute` can be set in the <<ui-element,UI Annotation>>.
 
-If `modelAttribute` is given, *linkki* ignores the return value and the body of the method in the PMO. Therefore the method body can remain empty and the return type be `void`. The data binding will skip the PMO method and call the corresponding method in the domain model directly.
+The value of `modelAttribute` defines the name of the corresponding property in the domain model class.
+If it is left empty (default) or doesn't exist in the domain model class, then the pmo property is used.
+If no matching property exists in the domain model class, an exception is thrown during generation of the UI.
 
-In the example above the method in the `PersonSectionPmo` is called `firstName()`. In the domain model, however, it is called `firstname` or `getFirstname()`. It is possible to name properties in PMO and domain model differently.
+If a matching property exists in the domain model class, the PMO method body can remain empty with return type `void`.
+In that case, the data binding calls the getter and setter of the domain model directly.
+If the PMO provides its own non-void getter for the property, the PMO getter takes precedence over the domain model getter for reading the value.
 
-TIP: *linkki* searches the model for all required methods. If the setter method exists in the model but needs to be ignored in the UI, the shortcut cannot be used. Model attributes can also be set on annotated getter methods. In that case *linkki* searches for all methods in the model that it can't find in the PMO.
+In the example above the method in the `PersonSectionPmo` is called `firstName()`.
+In the domain model, however, it is called `firstname` or `getFirstname()`.
+It is possible to name properties in PMO and domain model differently.
 
-If the `modelAttribute` is set in the annotation of a non getter method, the whole method name is treated as a PMO property. This name is then used to bind <<ui-properties,UI Properties>> such as <<enabled,enabled state>>, <<visible,visibility>> or <<ui-combobox-content,available values>>.
+TIP: *linkki* searches the model for all required methods.
+If the setter method exists in the model but needs to be ignored in the UI, the shortcut cannot be used.
+Model attributes can also be set on annotated getter methods.
+In that case *linkki* searches for all methods in the model that it can't find in the PMO.
+
+If the `modelAttribute` is set in the annotation of a non-getter method, the whole method name is treated as a PMO property.
+This name is then used to bind <<ui-properties,UI Properties>> such as <<enabled,enabled state>>, <<visible,visibility>> or <<ui-combobox-content,available values>>.
 
 ==== Multiple Model Objects
 
-Model binding can also be used if a PMO has multiple model objects. In this case, the property `modelObject` can be set in the UI annotation. The value of `modelObject` defines which model object of the PMO should be used for model binding. As identifier of model objects the name given in the `@ModelObject` annotation is used.
+Model binding can also be used if a PMO has multiple model objects.
+In this case, the property `modelObject` can be set in the UI annotation.
+The value of `modelObject` defines which model object of the PMO should be used for model binding.
+As identifier of model objects the name given in the `@ModelObject` annotation is used.
 
 [source,java]
 ----
 include::{source-dir}/org/linkki/doc/ContractSectionPmo.java[tags=class]
 ----
 
-In the example above the annotation of `firstNameInsuredPerson()` defines that the property `firstname` on model object `IP` shall be called. To determine the value for the presentation on the UI, the data binding proceeds as follows:
+In the example above the annotation of `firstNameInsuredPerson()` defines that the property `firstname` on model object `IP` shall be called.
+To determine the value for the presentation on the UI, the data binding proceeds as follows:
 
 * Call the method `getInsuredPerson()` on the PMO, as that method is annotated with `@ModelObject("IP")`
 * Save the returned Person object
 * Call the getter method for `firstname` on the found Person object
 
-If the annotation contains no property `modelObject`, the method annotated with `@ModelObject` (without name) is called. Correspondingly the model object for `firstNamePolicyHolder()` is determined via `getPolicyHolder()`.
+If the annotation contains no property `modelObject`, the method annotated with `@ModelObject` (without name) is called.
+Correspondingly the model object for `firstNamePolicyHolder()` is determined via `getPolicyHolder()`.
 
 [[null-model-object]]
 ==== `null` Model Object
 
-If model object is `null` upon update of an aspect, `null` will be returned as value. That means, `PropertyDispatcher#pull` returns `null`. This can then be handled in the UI updater created in `LinkkiApsectDefinition#createUiupdater`.
+If model object is `null` upon update of an aspect, `null` will be returned as value.
+That means, `PropertyDispatcher#pull` returns `null`.
+This can then be handled in the UI updater created in `LinkkiApsectDefinition#createUiupdater`.
 
-Aspect definitions that are provided by linkki handle the `null` value accordingly. In case of the value aspect, the field value is cleared if the model object is `null`. Boolean valued aspects such as enabled or visible are set to `false`.
+Aspect definitions that are provided by linkki handle the `null` value accordingly.
+In case of the value aspect, the field value is cleared if the model object is `null`.
+Boolean valued aspects such as enabled or visible are set to `false`.
 
-When using `ModelToUiAspectDefinition`, the method `#handleNullItem` can be overridden to define the `null` handling. The behavior defaults to calling the component value setter created by `#createComponentValueSetter` with `null`.
+When using `ModelToUiAspectDefinition`, the method `#handleNullItem` can be overridden to define the `null` handling.
+The behavior defaults to calling the component value setter created by `#createComponentValueSetter` with `null`.
