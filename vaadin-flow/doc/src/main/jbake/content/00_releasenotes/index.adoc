@@ -62,6 +62,14 @@
 A new constructor `InfoToolsComponent(Sequence<T> tools)` has been added that opens all tools by default.
 The existing constructor `InfoToolsComponent(Sequence<T> tools, Sequence<T> defaultTools)` remains available for cases where only a subset of tools should be open by default.
 
+==== Other Improvements
+
+// https://jira.convista.com/browse/LIN-4925
+* [.api-change]*`logback-test.xml` in `linkki-vaadin-flow-testbench-extension` no longer affects downstream projects* +
+The `logback-test.xml` was packaged into the JAR with `root level="TRACE"`, causing excessive logging in downstream projects.
+The file has been removed and is no longer included in the JAR.
+Downstream projects have to provide their own logging configuration now, if required.
+
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4940
