@@ -47,6 +47,8 @@ html {
     --linkki-empty-state-font-style: italic;
     --linkki-empty-state-text-color: var(--lumo-secondary-text-color);
 
+    --linkki-lumo-contrast-5pct-solid: color-mix(in srgb, var(--lumo-base-color) 95%, rgb(from var(--lumo-contrast-5pct) r g b / 100%) 5%);
+
     /* loading indicator on the bottom of the page */
     --linkki-loading-indicator-top: auto;
     --linkki-loading-indicator-bottom: 0;

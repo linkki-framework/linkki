@@ -41,6 +41,6 @@ linkki-section vaadin-form-item .placeholder-label {
 vaadin-dialog[theme~="card-sections"] linkki-section,
 vaadin-dialog [theme~="card-sections"] linkki-section,
 linkki-section[theme~="card"] {
-    --linkki-section-background: color-mix(in srgb, var(--lumo-base-color) 95%, rgb(from var(--lumo-contrast-5pct) r g b / 100%) 5%);
+    --linkki-section-background: var(--linkki-lumo-contrast-5pct-solid);
     --linkki-section-padding: var(--lumo-space-m);
 }

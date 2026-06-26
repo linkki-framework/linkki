@@ -1,0 +1,3 @@
+vaadin-details[theme~="filled"] {
+    --linkki-section-background: var(--linkki-lumo-contrast-5pct-solid);
+}

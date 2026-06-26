@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import org.linkki.core.binding.manager.UiUpdateObserver;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.util.Sequence;
@@ -37,6 +38,7 @@ import com.vaadin.flow.router.Location;
  *
  * @since 2.8.0
  */
+@CssImport("./styles/linkki-info-tools-component.css")
 public class InfoToolsComponent<T extends InfoTool> extends VerticalLayout
         implements UiUpdateObserver, AfterNavigationObserver {
 
