@@ -29,6 +29,8 @@ import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
+import org.linkki.samples.playground.compare.TestCaseResult.Difference;
+
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.ScreenshotAnimations;
@@ -100,12 +102,11 @@ public class PlaywrightHelper {
     }
 
     /**
-     * Captures screenshots of both pages once each, compares pixels, writes files only if they
-     * differ. Does the same for expanded (overflow:visible) screenshots as a separate scenario.
-     * Returns a diff message, or null if both normal and expanded are identical.
+     * Captures screenshots of both pages, compares pixels, writes files only if they differ.
+     * Returns a {@link Difference} with the given label, or {@code null} if identical.
      */
     @CheckForNull
-    public static String checkDiffByScreenshot(Page testPage,
+    public static Difference checkDiffByScreenshot(Page testPage,
             Page referencePage,
             Path outputDir,
             String label,
@@ -115,23 +116,23 @@ public class PlaywrightHelper {
         var opts = BASE_SCREENSHOT_OPS
                 .setClip(contentOffsetX, contentOffsetY,
                          vp.width - contentOffsetX, vp.height - contentOffsetY);
-        // Move mouse off content to avoid hover state differences
+        // Move mouse off content to avoid hover state differences; sync scroll position to test page
         testPage.mouse().move(0, 0);
         referencePage.mouse().move(0, 0);
+        syncScroll(testPage, referencePage);
         var testBytes = testPage.screenshot(opts);
         var refBytes = referencePage.screenshot(opts);
-        @CheckForNull
         var differentPixel = hasDifferentPixel(testBytes, refBytes, 0, 0);
         if (differentPixel != null) {
             writeToFile(testBytes, outputDir, label, TEST_LABEL);
             writeToFile(refBytes, outputDir, label, REFERENCE_LABEL);
-            return "[%s]: Visual difference: %s".formatted(label, differentPixel);
+            return new Difference(label, "Visual difference: " + differentPixel);
         }
         return null;
     }
 
     @CheckForNull
-    public static String checkDiffByScreenshotFullPage(Page testPage,
+    public static Difference checkDiffByScreenshotFullPage(Page testPage,
             Page referencePage,
             Path outputDir,
             String label,
@@ -146,15 +147,13 @@ public class PlaywrightHelper {
         var refBytes = referencePage.screenshot(ops);
         removeExpandStyle(testPage);
         removeExpandStyle(referencePage);
-        @CheckForNull
         var differentPixel = hasDifferentPixel(testBytes, refBytes, contentOffsetX, contentOffsetY);
         if (differentPixel != null) {
             writeToFile(testBytes, outputDir, label, "expanded", TEST_LABEL);
             writeToFile(refBytes, outputDir, label, "expanded", REFERENCE_LABEL);
-            return "[%s]: Visual difference (full page): %s".formatted(label, differentPixel);
-        } else {
-            return null;
+            return new Difference(label, "Visual difference (full page): " + differentPixel);
         }
+        return null;
     }
 
     @CheckForNull
@@ -174,7 +173,7 @@ public class PlaywrightHelper {
             if (exceedsTolerance(pixelsA[i], pixelsB[i])) {
                 var c1 = new Color(pixelsA[i]);
                 var c2 = new Color(pixelsB[i]);
-                return "Pixel at (%d,%d) differs: test=rgb(%d,%d,%d) ref=rgb(%d,%d,%d)"
+                return "Pixel at (%d,%d) differs: test=#%02x%02x%02x ref=#%02x%02x%02x"
                         .formatted(startX + i % w, startY + i / w,
                                 c1.getRed(), c1.getGreen(), c1.getBlue(),
                                 c2.getRed(), c2.getGreen(), c2.getBlue());
@@ -214,6 +213,21 @@ public class PlaywrightHelper {
         }
     }
 
+    static void scrollToTop(Page page) {
+        setContentScroll(page, 0);
+    }
+
+    private static void syncScroll(Page source, Page target) {
+        var scrollTop = ((Number)source.evaluate(
+                "document.getElementById('content-wrapper')?.scrollTop ?? 0")).intValue();
+        setContentScroll(target, scrollTop);
+    }
+
+    private static void setContentScroll(Page page, int scrollTop) {
+        page.evaluate("var e=document.getElementById('content-wrapper');if(e)e.scrollTop=%d;"
+                .formatted(scrollTop));
+    }
+
     private static void injectExpandStyle(Page page) {
         page.evaluate("document.head.insertAdjacentHTML('beforeend',"
                 + "'<style id=\"pw-exp\">* { overflow: visible !important; max-height: none !important; }</style>')");
@@ -224,27 +238,27 @@ public class PlaywrightHelper {
     }
 
     /**
-     * Returns diff messages for items present on one side but missing on the other.
+     * Returns differences for items present on one side but missing on the other.
      */
-    public static List<String> getDifferences(List<String> testItems,
+    public static List<Difference> getDifferences(List<String> testItems,
             List<String> referenceItems,
             String itemLabel) {
-        var diffs = new ArrayList<String>();
+        var diffs = new ArrayList<Difference>();
         var onlyTest = new HashSet<>(testItems);
         referenceItems.forEach(onlyTest::remove);
         var onlyReference = new HashSet<>(referenceItems);
         testItems.forEach(onlyReference::remove);
-        onlyTest.forEach(i -> diffs.add("[%s]: '%s' present on %s but missing on %s"
-                .formatted(itemLabel, i, TEST_LABEL, REFERENCE_LABEL)));
-        onlyReference.forEach(i -> diffs.add("[%s]: '%s' present on %s but missing on %s"
-                .formatted(itemLabel, i, REFERENCE_LABEL, TEST_LABEL)));
+        onlyTest.forEach(i -> diffs.add(new Difference(itemLabel,
+                "'%s' present on %s but missing on %s".formatted(i, TEST_LABEL, REFERENCE_LABEL))));
+        onlyReference.forEach(i -> diffs.add(new Difference(itemLabel,
+                "'%s' present on %s but missing on %s".formatted(i, REFERENCE_LABEL, TEST_LABEL))));
         return diffs;
     }
 
     /**
      * Compares the {@code innerText} of the TC content locator on both pages line by line.
      */
-    public static List<String> checkDiffByInnerText(Locator testLocator, Locator refLocator, String label) {
+    public static List<Difference> checkDiffByInnerText(Locator testLocator, Locator refLocator, String label) {
         var testInnerText = lines(testLocator.innerText());
         var refInnerText = lines(refLocator.innerText());
         return getDifferences(testInnerText, refInnerText, label);

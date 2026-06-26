@@ -19,10 +19,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import org.linkki.samples.playground.compare.TestCaseResult.Difference;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Writes a minimal HTML comparison report with collapsible sections and side-by-side screenshots.
@@ -34,6 +41,8 @@ public class TestReportWriter {
 
     static final String RESULTS_FILE = "results.txt";
 
+    private static final Pattern PIXEL_PATTERN = Pattern.compile("Pixel at \\((\\d+),(\\d+)\\)");
+
     private TestReportWriter() {
         // utility
     }
@@ -44,7 +53,7 @@ public class TestReportWriter {
     }
 
     private static void writeToText(Path outputDir, List<TestCaseResult> diffs, String testUrl, String referenceUrl) {
-        var lines = new java.util.ArrayList<String>();
+        var lines = new ArrayList<String>();
         lines.add(testUrl + "|" + referenceUrl);
         diffs.forEach(d -> lines.add(d.toStringLine()));
         try {
@@ -56,7 +65,7 @@ public class TestReportWriter {
 
     public static void writeToHtml(Path outputDir) throws IOException {
         var lines = Files.readAllLines(outputDir.resolve(RESULTS_FILE));
-        var meta = lines.get(0).split("\\|", 2);
+        var meta = lines.getFirst().split("\\|", 2);
         var diffs = lines.subList(1, lines.size()).stream()
                 .map(TestCaseResult::fromStringLine)
                 .toList();
@@ -91,42 +100,65 @@ public class TestReportWriter {
                 .shots{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
                 .shots>div{flex:1;min-width:280px}
                 .shots img{max-width:100%;border:1px solid #ccc}
-                .lbl{font-size:.8em;color:#666;margin-bottom:2px}
+                .lbl{font-size:.8em;color:#666;margin-bottom:2px;margin-top:8px}
                 .img-toggle{position:relative;cursor:pointer;display:inline-block}
                 .img-toggle .ref-img{display:none;position:absolute;top:0;left:0;max-width:100%}
                 .img-toggle.show-ref .ref-img{display:block}
                 .img-toggle.show-ref .test-img{visibility:hidden}
                 .img-toggle::before{content:'test — click to show reference';font-size:.75em;color:#fff;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:3px;position:absolute;top:4px;left:4px;z-index:1;pointer-events:none}
                 .img-toggle.show-ref::before{content:'reference — click to show test'}
+                .color-swatch{display:inline-block;width:12px;height:12px;border:1px solid #999;vertical-align:middle;margin-right:2px}
+                .img-toggle.show-crosshair::after{content:'';position:absolute;inset:0;background:linear-gradient(red,red) var(--ch-x,-9999px) 0/1px 100% no-repeat,linear-gradient(red,red) 0 var(--ch-y,-9999px)/100% 1px no-repeat;pointer-events:none;z-index:3}
                 </style></head><body>
                 """);
 
         w.printf("<h2>Playground Comparison — %s</h2>%n", timestamp);
         w.printf("<p><strong>test:</strong> <a href='%s'>%s</a></p>%n", testUrl, testUrl);
         w.printf("<p><strong>reference:</strong> <a href='%s'>%s</a></p>%n", referenceUrl, referenceUrl);
-        w.printf("<p>%d tabs checked, <strong>%d differ</strong></p>%n",
-                diffs.size(), totalWithDiffs);
+        w.printf("<p>%d tabs checked, <strong>%d differ</strong></p>%n", diffs.size(), totalWithDiffs);
 
-        for (var theme : Theme.values()) {
-            var themeDiffs = diffs.stream().filter(d -> theme == d.theme()).toList();
+        // Group by theme combination; section order follows result order
+        var byTheme = new LinkedHashMap<String, List<TestCaseResult>>();
+        for (var d : diffs) {
+            byTheme.computeIfAbsent(d.themes().toString(), k -> new ArrayList<>()).add(d);
+        }
+
+        for (var themeEntry : byTheme.entrySet()) {
+            var themeDiffs = themeEntry.getValue();
             var themeWithDiffs = themeDiffs.stream().filter(TestCaseResult::hasDifferences).count();
 
             w.printf("<details><summary>Theme: %s &nbsp;<span class='%s'>(%d/%d differ)</span></summary>%n",
-                    capitalize(theme.label()), themeWithDiffs > 0 ? "diff" : "ok",
+                    capitalize(themeEntry.getKey()), themeWithDiffs > 0 ? "diff" : "ok",
                     themeWithDiffs, themeDiffs.size());
 
             for (var d : themeDiffs) {
-                var label = d.tsId() + (d.tcId() != null ? "/" + d.tcId() : "");
+                var tcLabel = d.tsId() + (d.tcId() != null ? "/" + d.tcId() : "");
                 var hasDiff = d.hasDifferences();
 
-                w.printf("<details><summary>%s &nbsp;<span class='%s'>%s</span></summary>%n",
-                        label, hasDiff ? "diff" : "ok", hasDiff ? "differs" : "OK");
+                if (!hasDiff) {
+                    w.printf("<p><span class='ok'>✓</span> %s</p>%n", tcLabel);
+                    continue;
+                }
 
-                if (hasDiff) {
+                w.printf("<details><summary>%s &nbsp;<span class='diff'>differs</span></summary>%n", tcLabel);
+
+                var prefix = d.tsId() + "-" + (d.tcId() != null ? d.tcId() : d.tsId())
+                        + "-" + PlaywrightHelper.sanitize(d.themes().toString()) + "-";
+                var screenshots = loadScreenshots(outputDir, prefix);
+                var diffsByLabel = d.differences().stream()
+                        .collect(Collectors.groupingBy(Difference::label, LinkedHashMap::new, Collectors.toList()));
+
+                for (var entry : diffsByLabel.entrySet()) {
+                    var label = entry.getKey();
+                    var shortLabel = label.startsWith(prefix) ? label.substring(prefix.length()) : label;
+                    w.printf("<p class='lbl'>%s</p>%n", shortLabel);
                     w.println("<ul class='diff'>");
-                    for (var diff : d.differences()) w.printf("<li>%s</li>%n", escapeHtml(diff));
+                    entry.getValue().forEach(diff -> w.printf("<li>%s</li>%n", renderDiffMessage(diff.message())));
                     w.println("</ul>");
-                    writeScreenshots(w, d, outputDir, theme.label());
+                    var sides = screenshots.get(shortLabel);
+                    if (sides != null) {
+                        writeScreenshotPair(w, sides.get(TEST_LABEL), sides.get(REFERENCE_LABEL), outputDir);
+                    }
                 }
 
                 w.println("</details>");
@@ -135,60 +167,61 @@ public class TestReportWriter {
             w.println("</details>"); // theme
         }
 
-        w.println("</body></html>");
+        w.print("""
+                <script>
+                function toggleCrosshair(btn,px,py){
+                    var t=btn.closest('ul').nextElementSibling;
+                    if(t&&t.classList.toggle('show-crosshair')){
+                        var img=t.querySelector('img');
+                        t.style.setProperty('--ch-x',(px/img.naturalWidth*100)+'%');
+                        t.style.setProperty('--ch-y',(py/img.naturalHeight*100)+'%');
+                        btn.textContent='hide pixel position';
+                    } else { btn.textContent='show pixel position'; }
+                }
+                </script>
+                </body></html>
+                """);
     }
 
-    private static void writeScreenshots(PrintWriter w, TestCaseResult d, Path outputDir, String themeSuffix) {
-        var tsId = d.tsId();
-        var tcId = d.tcId();
-        var prefix = tsId + "-" + (tcId != null ? tcId : tsId) + "-" + themeSuffix + "-";
-
-        // All screenshots (initial, interaction, expanded) — pair test and reference side by side
-        try {
-            var byInteraction = new TreeMap<String, Map<String, Path>>();
-            Files.list(outputDir)
-                    .filter(p -> {
-                        var name = p.getFileName().toString();
-                        return name.startsWith(prefix) && name.endsWith(".png");
-                    })
-                    .forEach(p -> {
-                        var name = p.getFileName().toString().replace(".png", "");
-                        // Name format: <prefix>-<interaction>-<side>  (e.g. TS001-TC001-default-tab-FORM-test)
-                        var side = name.endsWith("-" + TEST_LABEL) ? TEST_LABEL : REFERENCE_LABEL;
-                        var suffix = name.substring(prefix.length(), name.length() - side.length() - 1);
-                        byInteraction.computeIfAbsent(suffix, k -> new LinkedHashMap<>()).put(side, p);
-                    });
-
-            for (var entry : byInteraction.entrySet()) {
-                var sides = entry.getValue();
-                var testPath = sides.get(TEST_LABEL);
-                var refPath = sides.get(REFERENCE_LABEL);
-                w.printf("<p class='lbl'>%s</p>%n", entry.getKey());
-                if (testPath != null && refPath != null
-                        && Files.exists(testPath) && Files.exists(refPath)) {
-                    var testRel = outputDir.relativize(testPath).toString().replace('\\', '/');
-                    var refRel = outputDir.relativize(refPath).toString().replace('\\', '/');
-                    w.printf("<div class='img-toggle' onclick=\"this.classList.toggle('show-ref')\">%n");
-                    w.printf("<img class='test-img' src='%s'>%n", testRel);
-                    w.printf("<img class='ref-img' src='%s'>%n", refRel);
-                    w.println("</div>");
-                } else {
-                    w.println("<div class='shots'>");
-                    writeImg(w, testPath, TEST_LABEL, outputDir);
-                    writeImg(w, refPath, REFERENCE_LABEL, outputDir);
-                    w.println("</div>");
-                }
-            }
+    private static Map<String, Map<String, Path>> loadScreenshots(Path outputDir, String prefix) {
+        try (var stream = Files.list(outputDir)) {
+            var result = new TreeMap<String, Map<String, Path>>();
+            stream.filter(p -> {
+                var name = p.getFileName().toString();
+                return name.startsWith(prefix) && name.endsWith(".png");
+            }).forEach(p -> {
+                var name = p.getFileName().toString().replace(".png", "");
+                var side = name.endsWith("-" + TEST_LABEL) ? TEST_LABEL : REFERENCE_LABEL;
+                var key = name.substring(prefix.length(), name.length() - side.length() - 1);
+                result.computeIfAbsent(key, k -> new LinkedHashMap<>()).put(side, p);
+            });
+            return result;
         } catch (IOException e) {
-            // ignore missing dir
+            return Map.of();
         }
     }
 
-    private static void writeImg(PrintWriter w, Path path, String label, Path outputDir) {
+    private static void writeScreenshotPair(PrintWriter w, @CheckForNull Path testPath,
+            @CheckForNull Path refPath, Path outputDir) {
+        if (testPath != null && refPath != null && Files.exists(testPath) && Files.exists(refPath)) {
+            var testRel = outputDir.relativize(testPath).toString().replace('\\', '/');
+            var refRel = outputDir.relativize(refPath).toString().replace('\\', '/');
+            w.printf("<div class='img-toggle' onclick=\"this.classList.toggle('show-ref')\">%n");
+            w.printf("<img class='test-img' src='%s'>%n", testRel);
+            w.printf("<img class='ref-img' src='%s'>%n", refRel);
+            w.println("</div>");
+        } else {
+            w.println("<div class='shots'>");
+            writeImg(w, testPath, TEST_LABEL, outputDir);
+            writeImg(w, refPath, REFERENCE_LABEL, outputDir);
+            w.println("</div>");
+        }
+    }
+
+    private static void writeImg(PrintWriter w, @CheckForNull Path path, String label, Path outputDir) {
         w.printf("<div><div class='lbl'>%s</div>%n", label);
         if (path != null && Files.exists(path)) {
-            var rel = outputDir.relativize(path).toString().replace('\\', '/');
-            w.printf("<img src='%s'></div>%n", rel);
+            w.printf("<img src='%s'></div>%n", outputDir.relativize(path).toString().replace('\\', '/'));
         } else {
             w.println("<em>n/a</em></div>");
         }
@@ -198,7 +231,16 @@ public class TestReportWriter {
         return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 
-    private static String escapeHtml(String s) {
-        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
+    /** Renders a diff message: color swatches for hex codes, pixel toggle button if applicable. */
+    private static String renderDiffMessage(String message) {
+        var withSwatches = message.replaceAll("#([0-9a-fA-F]{6})",
+                "<span class='color-swatch' style='background:#$1'></span>#$1");
+        var m = PIXEL_PATTERN.matcher(message);
+        if (m.find()) {
+            withSwatches += " <button onclick='toggleCrosshair(this,%s,%s)'>show pixel position</button>"
+                    .formatted(m.group(1), m.group(2));
+        }
+        return withSwatches;
     }
+
 }

@@ -34,23 +34,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.linkki.samples.playground.compare.TestCaseResult.Difference;
 
 import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.Browser.NewContextOptions;
 import com.microsoft.playwright.BrowserType.LaunchOptions;
 import com.microsoft.playwright.CLI;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Orchestrates the comparison of two playground deployments across all TS/TC tabs and themes.
+ * Orchestrates the comparison of two playground deployments across all TS/TC tabs and theme
+ * combinations.
+ * <p>
+ * Thread-safe for concurrent {@link #compareTestCases} calls: each call creates its own
+ * {@link Playwright} and {@link Browser} instance via a {@link ThreadLocal}.
  */
 public class PlaygroundComparisonEngine implements AutoCloseable {
 
@@ -64,10 +71,12 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
     private final String referenceDeploymentUrl;
     private final Path outputDir;
 
-    private Playwright playwright;
-    private Browser browser;
-    private BrowserContext testDeploymentContext;
-    private BrowserContext referenceDeploymentContext;
+    private final ThreadLocal<Playwright> threadPlaywright = ThreadLocal.withInitial(
+            () -> Playwright.create(new Playwright.CreateOptions()
+                    .setEnv(Map.of("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD", "1"))));
+    private final ThreadLocal<Browser> threadBrowser = ThreadLocal.withInitial(
+            () -> threadPlaywright.get().chromium().launch(new LaunchOptions().setHeadless(true)));
+    private final CopyOnWriteArrayList<Playwright> playwrights = new CopyOnWriteArrayList<>();
 
     public PlaygroundComparisonEngine(String testDeploymentUrl, String referenceDeploymentUrl, Path outputDir) {
         this.testDeploymentUrl = testDeploymentUrl;
@@ -88,28 +97,36 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
         } catch (IOException e) {
             throw new RuntimeException("Cannot prepare output dir: " + outputDir, e);
         }
-        playwright = Playwright.create(new Playwright.CreateOptions()
-                .setEnv(Map.of("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD", "1")));
-        var executablePath = playwright.chromium().executablePath();
-        if (executablePath == null || !Files.exists(Path.of(executablePath))) {
-            try {
-                CLI.main(new String[] { "install", "chromium" });
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException("Failed to install Chromium", e);
+        // Install browser if needed (single-threaded, before parallel tests start)
+        try (var pw = Playwright.create(new Playwright.CreateOptions()
+                .setEnv(Map.of("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD", "1")))) {
+            var executablePath = pw.chromium().executablePath();
+            if (executablePath == null || !Files.exists(Path.of(executablePath))) {
+                try {
+                    CLI.main(new String[] { "install", "chromium" });
+                } catch (IOException | InterruptedException e) {
+                    throw new RuntimeException("Failed to install Chromium", e);
+                }
             }
         }
-        browser = playwright.chromium().launch(new LaunchOptions().setHeadless(true));
-        var contextOptions = new Browser.NewContextOptions()
-                .setViewportSize(1920, 1080)
-                .setLocale("de-DE");
-        testDeploymentContext = browser.newContext(contextOptions);
-        referenceDeploymentContext = browser.newContext(contextOptions);
         checkDeploymentReachable(testDeploymentUrl, TEST_LABEL);
         checkDeploymentReachable(referenceDeploymentUrl, REFERENCE_LABEL);
     }
 
+    private Browser browser() {
+        var browser = threadBrowser.get();
+        // track playwright instances for cleanup
+        playwrights.addIfAbsent(threadPlaywright.get());
+        return browser;
+    }
+
+    private NewContextOptions contextOptions() {
+        return new NewContextOptions().setViewportSize(1920, 1080).setLocale("de-DE");
+    }
+
     private void checkDeploymentReachable(String url, String label) {
-        try (var page = browser.newPage()) {
+        try (var context = browser().newContext(contextOptions());
+                var page = context.newPage()) {
             var response = page.navigate(url);
             if (response == null || response.status() != 200) {
                 var status = response == null ? "no response" : String.valueOf(response.status());
@@ -122,14 +139,7 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
 
     @Override
     public void close() {
-        if (testDeploymentContext != null)
-            testDeploymentContext.close();
-        if (referenceDeploymentContext != null)
-            referenceDeploymentContext.close();
-        if (browser != null)
-            browser.close();
-        if (playwright != null)
-            playwright.close();
+        playwrights.forEach(Playwright::close);
     }
 
     public Path getOutputDir() {
@@ -145,16 +155,19 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
     }
 
     public List<String> discoverTsTabs() {
-        try (var page = testDeploymentContext.newPage()) {
+        try (var context = browser().newContext(contextOptions());
+                var page = context.newPage()) {
             navigateSafely(page, testDeploymentUrl);
             return discoverTsTabs(page);
         }
     }
 
-    public List<TestCaseResult> compareTestCases(String tsId, Theme theme) {
-        try (var testPage = testDeploymentContext.newPage();
-                var referencePage = referenceDeploymentContext.newPage()) {
-            return compareTs(testPage, referencePage, tsId, theme);
+    public List<TestCaseResult> compareTestCases(String tsId, EnumSet<Theme> themes) {
+        try (var testContext = browser().newContext(contextOptions());
+                var referenceContext = browser().newContext(contextOptions());
+                var testPage = testContext.newPage();
+                var referencePage = referenceContext.newPage()) {
+            return compareTs(testPage, referencePage, tsId, themes);
         }
     }
 
@@ -192,14 +205,14 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
         }
     }
 
-    private List<TestCaseResult> compareTs(Page testPage, Page referencePage, String tsId, Theme theme) {
-        log("  %s [%s]%n", tsId, theme.label());
+    private List<TestCaseResult> compareTs(Page testPage, Page referencePage, String tsId, EnumSet<Theme> themes) {
+        log("  %s [%s]%n", tsId, themes);
         var results = new ArrayList<TestCaseResult>();
 
         // Navigate directly to first TC candidate to discover the TC tab list.
         // TC tabs are visible on any TC page, so no separate TS-level navigation needed.
-        navigateAndActivateTheme(testPage, testDeploymentUrl + "/" + tsId, theme);
-        navigateAndActivateTheme(referencePage, referenceDeploymentUrl + "/" + tsId, theme);
+        navigateAndActivateThemes(testPage, testDeploymentUrl + "/" + tsId, themes);
+        navigateAndActivateThemes(referencePage, referenceDeploymentUrl + "/" + tsId, themes);
 
         // Query content offset after first successful navigation — same for all TCs in this TS
         var contentOffsetX = ((Number)testPage.evaluate(
@@ -216,7 +229,7 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
 
         if (allTcTabs.isEmpty()) {
             // No TC sub-tabs — compare the TS page directly (already loaded)
-            results.add(comparePage(testPage, referencePage, tsId, tsId, theme, contentOffsetX, contentOffsetY));
+            results.add(comparePage(testPage, referencePage, tsId, tsId, themes, contentOffsetX, contentOffsetY));
             return results;
         }
 
@@ -226,17 +239,17 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
             var inReference = tcTabsReference.contains(tcId);
 
             if (!inTest || !inReference) {
-                var diff = new TestCaseResult(tsId, tcId, theme, List.of("Tab %s missing on %s", tcId,
-                                                                         !inTest ? TEST_LABEL : REFERENCE_LABEL));
-                results.add(diff);
+                results.add(new TestCaseResult(tsId, tcId, themes,
+                        List.of(new Difference("", "Tab %s missing on %s"
+                                .formatted(tcId, !inTest ? TEST_LABEL : REFERENCE_LABEL)))));
                 continue;
             }
 
             if (!"TC001".equals(tcId)) {
-                navigateAndActivateTheme(testPage, testDeploymentUrl + "/" + tsId + "/" + tcId, theme);
-                navigateAndActivateTheme(referencePage, referenceDeploymentUrl + "/" + tsId + "/" + tcId, theme);
+                navigateAndActivateThemes(testPage, testDeploymentUrl + "/" + tsId + "/" + tcId, themes);
+                navigateAndActivateThemes(referencePage, referenceDeploymentUrl + "/" + tsId + "/" + tcId, themes);
             }
-            results.add(comparePage(testPage, referencePage, tsId, tcId, theme, contentOffsetX, contentOffsetY));
+            results.add(comparePage(testPage, referencePage, tsId, tcId, themes, contentOffsetX, contentOffsetY));
         }
 
         return results;
@@ -246,37 +259,38 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
             Page referencePage,
             String tsId,
             String tcId,
-            Theme theme,
+            EnumSet<Theme> themes,
             int contentOffsetX, int contentOffsetY) {
         log("    %s/%s%n", tsId, tcId);
-        var prefix = tsId + "-" + tcId + "-" + theme.label();
+        var prefix = tsId + "-" + tcId + "-" + sanitize(themes.toString());
 
-        var differences = new ArrayList<>(checkDiffByInnerText(getTestComponent(testPage), getTestComponent(referencePage), prefix));
+        var differences = new ArrayList<Difference>(
+                checkDiffByInnerText(getTestComponent(testPage), getTestComponent(referencePage), prefix));
 
-        @CheckForNull
-        var screenShotDiff = checkDiffByScreenshot(testPage, referencePage, outputDir, prefix + "--initial",
-                                                   contentOffsetX, contentOffsetY);
-        Optional.ofNullable(screenShotDiff).ifPresent(differences::add);
-        @CheckForNull
-        var screenShotFullPageDiff = checkDiffByScreenshotFullPage(testPage, referencePage, outputDir,
-                                                                   prefix + "--initial",
-                                                                   contentOffsetX, contentOffsetY);
-        Optional.ofNullable(screenShotFullPageDiff).ifPresent(differences::add);
+        PlaywrightHelper.scrollToTop(testPage);
+        PlaywrightHelper.scrollToTop(referencePage);
+        var viewportDiff = checkDiffByScreenshot(testPage, referencePage, outputDir, prefix + "--initial",
+                                                  contentOffsetX, contentOffsetY);
+        Optional.ofNullable(viewportDiff).ifPresent(differences::add);
+        if (viewportDiff == null) {
+            Optional.ofNullable(checkDiffByScreenshotFullPage(testPage, referencePage, outputDir, prefix + "--initial",
+                                                              contentOffsetX, contentOffsetY)).ifPresent(differences::add);
+        }
 
         differences.addAll(interactTabs(testPage, referencePage, prefix, contentOffsetX, contentOffsetY));
         differences.addAll(interactCheckboxes(testPage, referencePage, prefix, contentOffsetX, contentOffsetY));
         differences.addAll(interactButtons(testPage, referencePage, prefix, contentOffsetX, contentOffsetY));
 
-        return new TestCaseResult(tsId, tcId, theme, differences);
+        return new TestCaseResult(tsId, tcId, themes, differences);
     }
 
-    private List<String> interactTabs(Page testPage,
+    private List<Difference> interactTabs(Page testPage,
             Page referencePage,
             String prefix,
             int contentOffsetX, int contentOffsetY) {
         var testTextContent = getTextContent(getTestComponent(testPage), "vaadin-tab");
         var referenceTextContent = getTextContent(getTestComponent(referencePage), "vaadin-tab");
-        var differences = new ArrayList<>(getDifferences(testTextContent, referenceTextContent, "Tab"));
+        var differences = new ArrayList<Difference>(getDifferences(testTextContent, referenceTextContent, "Tab"));
 
         for (var tabText : union(testTextContent, referenceTextContent)) {
             clickTab(testPage, this::getTestComponent, tabText);
@@ -284,24 +298,21 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
 
             var tabLabel = prefix + "-tab-" + sanitize(tabText);
             differences.addAll(checkDiffByInnerText(getTestComponent(testPage), getTestComponent(referencePage), tabLabel));
-
-            var visualDifference = checkDiffByScreenshot(testPage, referencePage, outputDir,
-                                                         tabLabel, contentOffsetX, contentOffsetY);
-            if (visualDifference != null) {
-                differences.add(visualDifference);
-            }
+            Optional.ofNullable(checkDiffByScreenshot(testPage, referencePage, outputDir,
+                                                       tabLabel, contentOffsetX, contentOffsetY))
+                    .ifPresent(differences::add);
         }
         return differences;
     }
 
-    private List<String> interactCheckboxes(Page testPage,
+    private List<Difference> interactCheckboxes(Page testPage,
             Page referencePage,
             String prefix,
             int contentOffsetX, int contentOffsetY) {
         var testRoot = testPage.locator(TC_CONTENT).last();
         var referenceRoot = referencePage.locator(TC_CONTENT).last();
 
-        var differences = new ArrayList<String>();
+        var differences = new ArrayList<Difference>();
         var testTextContent = getTextContent(testRoot, "vaadin-checkbox");
         var referenceTextContent = getTextContent(referenceRoot, "vaadin-checkbox");
         differences.addAll(getDifferences(testTextContent, referenceTextContent, "Checkbox"));
@@ -310,11 +321,10 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
         for (var label : common) {
             clickCheckboxByLabel(testPage, this::getTestComponent, label);
             clickCheckboxByLabel(referencePage, this::getTestComponent, label);
-            var vdChk = checkDiffByScreenshot(testPage, referencePage, outputDir,
-                                              prefix + "-chk-" + sanitize(label), contentOffsetX, contentOffsetY);
-            if (vdChk != null) {
-                differences.add(vdChk);
-            }
+            Optional.ofNullable(checkDiffByScreenshot(testPage, referencePage, outputDir,
+                                                       prefix + "-chk-" + sanitize(label),
+                                                       contentOffsetX, contentOffsetY))
+                    .ifPresent(differences::add);
 
             // restore
             clickCheckboxByLabel(testPage, this::getTestComponent, label);
@@ -327,11 +337,11 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
     /**
      * Interact with buttons and return the differences.
      */
-    private List<String> interactButtons(Page testPage,
+    private List<Difference> interactButtons(Page testPage,
             Page referencePage,
             String prefix,
             int contentOffsetX, int contentOffsetY) {
-        var differences = new ArrayList<String>();
+        var differences = new ArrayList<Difference>();
 
         var buttonsTest = visibleButtonTexts(getTestComponent(testPage));
         var buttonsRef = visibleButtonTexts(getTestComponent(referencePage));
@@ -348,11 +358,10 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
                     navigateSafely(referencePage, refUrlBefore);
                     continue;
                 }
-                var vdBtn = checkDiffByScreenshot(testPage, referencePage, outputDir,
-                                                  prefix + "-btn-" + sanitize(buttonText), contentOffsetX, contentOffsetY);
-                if (vdBtn != null) {
-                    differences.add(vdBtn);
-                }
+                Optional.ofNullable(checkDiffByScreenshot(testPage, referencePage, outputDir,
+                                                           prefix + "-btn-" + sanitize(buttonText),
+                                                           contentOffsetX, contentOffsetY))
+                        .ifPresent(differences::add);
                 closeAnyDialog(testPage);
                 closeAnyDialog(referencePage);
             }
@@ -360,23 +369,23 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
         return differences;
     }
 
-    /** Navigate, wait for playground, then activate theme. Returns false if navigation failed. */
-    private void navigateAndActivateTheme(Page page, String url, Theme theme) {
+    /** Navigates to {@code url}, waits for Vaadin, then activates each theme variant in the set. */
+    private void navigateAndActivateThemes(Page page, String url, EnumSet<Theme> themes) {
         navigateSafely(page, url);
-        theme.activate(page);
+        themes.forEach(theme -> theme.activate(page));
     }
 
     private Locator getTestComponent(Page page) {
         return page.locator(TC_CONTENT).last();
     }
 
-    private Set<String> union(List<String> a, List<String> b) {
+    private static Set<String> union(List<String> a, List<String> b) {
         var set = new HashSet<>(a);
         set.addAll(b);
         return set;
     }
 
-    private Set<String> intersection(List<String> a, List<String> b) {
+    private static Set<String> intersection(List<String> a, List<String> b) {
         var set = new HashSet<>(a);
         set.retainAll(b);
         return set;
