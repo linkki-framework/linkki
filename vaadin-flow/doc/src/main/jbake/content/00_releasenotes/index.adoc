@@ -55,6 +55,14 @@
 
 === Version {vlinkki}
 
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4937
+* *Wrong Vaadin Version in bom.xml* +
+The bom.xml uses Vaadin version 25.2.0 now instead of 25.2.0-rc01.
+
+=== Version 2.10.0-rc02
+
 ==== Version Updates
 
 The following versions have been updated:
