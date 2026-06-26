@@ -116,6 +116,7 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
                 throw new IllegalStateException(
                         "Deployment '" + label + "' not reachable at " + url + " (HTTP " + status + ")");
             }
+            PlaywrightHelper.waitForVaadin(page);
         }
     }
 
