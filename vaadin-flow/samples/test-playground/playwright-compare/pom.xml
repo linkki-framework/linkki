@@ -28,11 +28,6 @@
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 
-        <compare.url.reference>
-            http://linkki-master.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin-flow/playground
-        </compare.url.reference>
-        <compare.headless>true</compare.headless>
-        <compare.output.dir>${project.build.directory}/playwright-compare</compare.output.dir>
     </properties>
 
     <dependencies>
@@ -81,14 +76,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <systemPropertyVariables>
-                        <compare.url.test>${compare.url.test}</compare.url.test>
-                        <compare.url.reference>${compare.url.reference}</compare.url.reference>
-                        <compare.headless>${compare.headless}</compare.headless>
-                        <compare.output.dir>${compare.output.dir}</compare.output.dir>
-                    </systemPropertyVariables>
-                </configuration>
             </plugin>
         </plugins>
     </build>
