@@ -55,7 +55,19 @@
 
 === Version {vlinkki}
 
+==== Components, UI Annotations and Aspects
+
+// https://jira.convista.com/browse/LIN-4936
+* *New convenience constructor for `InfoToolsComponent`* +
+A new constructor `InfoToolsComponent(Sequence<T> tools)` has been added that opens all tools by default.
+The existing constructor `InfoToolsComponent(Sequence<T> tools, Sequence<T> defaultTools)` remains available for cases where only a subset of tools should be open by default.
+
 ==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4940
+* *Wrong background color of `InfoToolsComponent` tools containing grids* +
+Tools in `InfoToolsComponent` that contain grids were not rendered with the correct background color.
+This has been fixed by extracting the color calculation into a dedicated CSS variable `--linkki-lumo-contrast-5pct-solid`.
 
 // https://jira.convista.com/browse/LIN-4937
 * *Wrong Vaadin Version in bom.xml* +

@@ -49,6 +49,16 @@ public class InfoToolsComponent<T extends InfoTool> extends VerticalLayout
     private final Sequence<T> tools;
     private final Sequence<T> defaultTools;
 
+    /**
+     * Creates a new component with all tools open by default.
+     * 
+     * @since 2.10.0
+     */
+    public InfoToolsComponent(Sequence<T> tools) {
+        this(tools, tools);
+        getAllToolDetails().forEach(d -> d.setOpened(true));
+    }
+
     public InfoToolsComponent(Sequence<T> tools, Sequence<T> defaultTools) {
         this.tools = tools;
         this.defaultTools = defaultTools;
@@ -72,8 +82,8 @@ public class InfoToolsComponent<T extends InfoTool> extends VerticalLayout
     }
 
     private Details createTool(InfoTool tool) {
-        LinkkiText caption = new LinkkiText(tool.getCaption(), null);
-        Details details = new Details(caption, tool.getComponent());
+        var caption = new LinkkiText(tool.getCaption(), null);
+        var details = new Details(caption, tool.getComponent());
         details.setWidthFull();
         details.setId(tool.getId());
         details.addThemeVariants(DetailsVariant.LUMO_FILLED);
@@ -87,15 +97,14 @@ public class InfoToolsComponent<T extends InfoTool> extends VerticalLayout
     protected void onOpenedChange(OpenedChangeEvent event) {
         if (event.isFromClient()) {
             updateUrlParameters();
-            // need to update all tools because there might be URLs in other tools (for example in
-            // the
-            // history tool) which need to be updated to include the changed URL parameters.
+            // Update all tools. There might be URLs in other tools (for example in
+            // the history tool) which need to be updated to include the changed URL parameters.
             uiUpdated();
         }
     }
 
     private void updateUrlParameters() {
-        List<String> openToolIds = getOpenedTools()
+        var openToolIds = getOpenedTools()
                 .map(Details::getId)
                 .flatMap(Optional::stream)
                 .toList();
@@ -169,5 +178,4 @@ public class InfoToolsComponent<T extends InfoTool> extends VerticalLayout
                 .filter(Details.class::isInstance)
                 .map(Details.class::cast);
     }
-
 }

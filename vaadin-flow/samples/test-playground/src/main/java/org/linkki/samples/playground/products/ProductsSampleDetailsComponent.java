@@ -45,6 +45,7 @@ import org.linkki.framework.ui.component.HeadlinePmo;
 import org.linkki.framework.ui.component.MessageUiComponents;
 import org.linkki.framework.ui.component.MessagesSplitLayout;
 import org.linkki.framework.ui.component.infotool.InfoTool;
+import org.linkki.framework.ui.component.infotool.InfoToolsComponent;
 import org.linkki.util.Sequence;
 import org.linkki.util.handler.Handler;
 
@@ -75,7 +76,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
                 new HeadlineButtonsPmo()), bindingManager.getContext(HeadlinePmo.class)));
 
         var mainArea = createMainArea(bindingManager, modelObject);
-        var infoTools = new ProductSampleInfoToolComponent(
+        var infoTools = new InfoToolsComponent<>(
                 Sequence.of(
                             new InfoTool("tool", "Tool", createComponent(new ProductsSamplePmo.VerticalSamplePmo(
                                     ""), new BindingContext())),

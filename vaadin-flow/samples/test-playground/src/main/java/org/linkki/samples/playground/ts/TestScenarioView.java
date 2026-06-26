@@ -72,6 +72,7 @@ import org.linkki.samples.playground.ts.aspects.BindVariantNamesTables.BindVaria
 import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
 import org.linkki.samples.playground.ts.aspects.BindWidthPmo;
 import org.linkki.samples.playground.ts.components.HeadlineLayout;
+import org.linkki.samples.playground.ts.components.InfoToolsComponentLayout;
 import org.linkki.samples.playground.ts.components.board.SampleBoardView;
 import org.linkki.samples.playground.ts.components.futureaware.CustomFutureAwarePmo;
 import org.linkki.samples.playground.ts.components.tablayout.TabOverviewLayout;
@@ -359,6 +360,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC001, TabOverviewLayout::new)
                                        .testCase(TC002, SampleBoardView.getNavigationPmo())
                                        .testCase(TC003, HeadlineLayout::new)
+                                       .testCase(TC004, InfoToolsComponentLayout::new)
                                        .createTabSheet(),
                                TestScenario.id(TS011)
                                        .testCase(TC001, OkCancelDialogHandlerPmo::create)
