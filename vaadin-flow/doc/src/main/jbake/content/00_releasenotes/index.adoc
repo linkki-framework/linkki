@@ -55,87 +55,6 @@
 
 === Version {vlinkki}
 
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-| Vaadin                        | 25.2.1 (link:https://github.com/vaadin/platform/releases/tag/25.2.1[Release Notes]) | 25.2.0
-| Faktor-IPS                    | 26.7.0.release (link:https://doc.faktorzehn.org/faktor-ips/26.7/01_releasenotes/index.html[Release Notes]) | 26.1.0.rc01
-| JUnit                         | 6.1.1 (link:https://docs.junit.org/6.1.0/release-notes.html[Release Notes]) | 6.1.0
-|===
-
-=== Version 2.10.0-rc03
-
-==== Components, UI Annotations and Aspects
-
-// https://jira.convista.com/browse/LIN-4936
-* *New convenience constructor for `InfoToolsComponent`* +
-A new constructor `InfoToolsComponent(Sequence<T> tools)` has been added that opens all tools by default.
-The existing constructor `InfoToolsComponent(Sequence<T> tools, Sequence<T> defaultTools)` remains available for cases where only a subset of tools should be open by default.
-
-==== Other Improvements
-
-// https://jira.convista.com/browse/LIN-4925
-* [.api-change]*`logback-test.xml` in `linkki-vaadin-flow-testbench-extension` no longer affects downstream projects* +
-The `logback-test.xml` was packaged into the JAR with `root level="TRACE"`, causing excessive logging in downstream projects.
-The file has been removed and is no longer included in the JAR.
-Downstream projects have to provide their own logging configuration now, if required.
-
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4940
-* *Wrong background color of `InfoToolsComponent` tools containing grids* +
-Tools in `InfoToolsComponent` that contain grids were not rendered with the correct background color.
-This has been fixed by extracting the color calculation into a dedicated CSS variable `--linkki-lumo-contrast-5pct-solid`.
-
-// https://jira.convista.com/browse/LIN-4937
-* *Wrong Vaadin Version in bom.xml* +
-The bom.xml uses Vaadin version 25.2.0 now instead of 25.2.0-rc01.
-
-=== Version 2.10.0-rc02
-
-==== Version Updates
-
-The following versions have been updated:
-
-[cols="a,a,a"]
-|===
-| Dependency                    | New version                                                                        | Previous version
-| Vaadin                        | 25.2.0 (link:https://github.com/vaadin/platform/releases/tag/25.2.0[Release Notes]) | 25.2.0-beta1
-| Spring Boot compatibility tested for                   | 4.1.0 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.0[Release Notes]) | 4.0.6
-| JUnit                         | 6.1.0 (link:https://docs.junit.org/6.1.0/release-notes.html[Release Notes]) | 6.0.2
-|===
-
-==== Other Improvements
-
-* [.api-change]*Removal of deprecated `getSectionContent()` in `LinkkiSection`, `BaseSection` and `GridSection`* +
-The method `getSectionContent()`, deprecated since 2.0.0, has been removed.
-Use `getContentWrapper()` instead.
-* [.api-change]*`ColumnTextAlignAspectDefinition` and `ColumnSortableAspectDefinition` moved to `table/column/aspects`* +
-Both classes have been moved from `org.linkki.core.ui.table.aspects` to `org.linkki.core.ui.table.column.aspects`.
-
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4906
-* *Vaadin 25 regression: `NotificationUtil` info notifications has info color as background* +
-Vaadin 25 introduced its own `info` theme variant for notifications with a visual style that differs from the linkki notification styling.
-To avoid unintended visual changes, info notifications created by `NotificationUtil` no longer apply the `info` theme name.
-Warning and error notifications are unaffected and continue to use Vaadin's `warning` and `error` theme variants.
-// https://jira.convista.com/browse/LIN-4520
-* *Exceptions for Comboboxes in Grids* +
-<<ui-combobox, Comboboxes>> in Grids were causing exceptions during lazy-loading.
-This was fixed for projects using the <<application-framework, application framework>>.
-Projects that imported the <<ui-combobox-focus-first, focus-first scripts>> for ComboBoxes manually, must remove the `@JsModule` call to import `focus-first-item-combo-box-scroller.js`.
-// https://jira.convista.com/browse/LIN-4905
-* *Vaadin 25.0 Regression: Fixed white space at the bottom of linkki tables* +
-When the page background color differs from white, a white area was visible below the last row of a grid.
-This has been fixed.
-
-=== Version 2.10.0-rc01
-
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
 
 ==== Version Updates
@@ -145,13 +64,12 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version                                                                        | Previous version
-| Vaadin                        | 25.2.0-beta1 (link:https://github.com/vaadin/platform/releases/tag/25.2.0-beta1[Release Notes]) | 24.9.8
-| Faktor-IPS                    | 26.7.0.rc01 (link:https://doc.faktorzehn.org/faktor-ips/26.7.0-rc01/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
+| Vaadin                        | 25.2.1 (link:https://github.com/vaadin/platform/releases/tag/25.2.1[Release Notes]) | 24.9.8
+| Faktor-IPS                    | 26.7.0.release (link:https://doc.faktorzehn.org/faktor-ips/26.7.0/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
 | Karibu                        | 2.7.0  | 2.5.0
-| Spring Boot compatibility tested for                   | 4.0.7 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.6[Release Notes]) | 3.5.9
+| Spring Boot compatibility tested for                   | 4.1.0 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.0[Release Notes]) | 3.5.9
 | Spring Framework              | 7.0.8 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 6.2.15
-| JUnit                         | 6.0.2 (link:https://docs.junit.org/6.0.2/release-notes.html[Release Notes]) | 5.14.2
-| Vaadin TestBench              | 10.0.0 | 8.x
+| JUnit                         | 6.1.1 (link:https://docs.junit.org/6.1.1/release-notes.html[Release Notes]) | 5.14.2
 |===
 
 ===== Vaadin 25 Update
@@ -164,7 +82,7 @@ For a complete list of Vaadin 25 breaking changes and migration steps, please re
 ====== Technical compatibilities
 
 * *Spring Boot 4* +
-Vaadin 25 uses *Spring Boot 4.0.4+* and *Spring Framework 7*.
+Vaadin 25 uses *Spring Boot 4.1+* and *Spring Framework 7*.
 This is a major version jump from Spring Boot 3.5.
 Please refer to link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide[Spring Boot 4.0 Migration Guide] for more information.
 * *JakartaEE 11* +
@@ -174,7 +92,7 @@ Frontend builds now require *Node.js 24 or later* for development.
 * *JUnit* +
 All linkki test libraries now use *JUnit 6*.
 Apart from the Java 21 requirement, which is already mandatory since linkki 2.8, there should be no breaking API changes. +
-For detailed changes and improvements, see https://docs.junit.org/6.0.2/release-notes.html[JUnit 6 release notes]. +
+For detailed changes and improvements, see https://docs.junit.org/6.1.1/release-notes.html[JUnit 6 release notes]. +
 If you encounter any incompatibilities while using JUnit 5, please don't hesitate to contact us.
 * *Selenium* +
 Vaadin TestBench now uses Selenium 4.39.0.
@@ -225,7 +143,7 @@ Some well-known ones include:
 
 * *Label component deprecation* +
 `com.vaadin.flow.component.html.Label` has been deprecated as the naming is confusing, making the component often misused in cases, where a `<label>` element should not be used. +
-*Migration*: To ensure that `<label>` should really be used, check if the usages is correct according to the https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label[specification]. +
+*Migration*: To ensure that `<label>` should really be used, check if the usage is correct according to the https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label[specification]. +
 If this is the case, use `com.vaadin.flow.component.html.NativeLabel` instead. +
 If the usage does not match the specification, use a different element such as `Text` or `Span` instead.
 * *Renaming of variant constants* +
@@ -273,7 +191,7 @@ For more details, see https://vaadin.com/docs/v25/styling/stylesheets[Vaadin doc
 * [.api-change]*Shadow DOM injection deactivated by default* +
 Shadow DOM injection is no longer activated by default.
 All shadow DOM injections in linkki theme are migrated.
-*Migration*: For any exiting shadow DOM injections, consider migrating them by using `:part` selector instead.
+*Migration*: For any existing shadow DOM injections, consider migrating them by using `:part` selector instead.
 Vaadin documentation provides common CSS selectors for most components, see e.g. https://vaadin.com/docs/v25/components/grid/styling[documentation for Grid]. +
 If shadow DOM injection is still needed, the feature flag https://vaadin.com/docs/v25/flow/configuration/feature-flags#experimental-feature-flags[`themeComponentStyles`] must be set to activate the feature.
 Note that the property must be declared in the web application module directly.
@@ -299,7 +217,7 @@ This may break custom selectors that apply styling to grids.
 ===== Vaadin Release Notes and Migration Guide
 
 For all changes in Vaadin, see Vaadin release notes for link:https://github.com/vaadin/platform/releases/tag/25.0.0[Version 25.0.0],
-link:https://github.com/vaadin/platform/releases/tag/25.1.0[Version 25.1.0], link:https://github.com/vaadin/platform/releases/tag/25.2.0-beta1[Version 25.2.0-beta1]
+link:https://github.com/vaadin/platform/releases/tag/25.1.0[Version 25.1.0], link:https://github.com/vaadin/platform/releases/tag/25.2.0[Version 25.2.0]
 as well as the link:https://vaadin.com/docs/v25/upgrading[Vaadin 25 migration guide].
 
 ==== Components, UI Annotations and Aspects
@@ -309,7 +227,7 @@ as well as the link:https://vaadin.com/docs/v25/upgrading[Vaadin 25 migration gu
 A new `MessagesPanel` component is introduced to display a list of messages.
 It can be used standalone or within the new `MessagesSplitLayout`, which combines a content component with a collapsible message panel.
 In `MessagesSplitLayout`, the message panel is automatically hidden when no messages are present and is shown when messages are available. +
-The utility class `MessageUiComponents` was extended with a method that creates a `MessagesPanel` that displays the validations messages after validation automatically. +
+The utility class `MessageUiComponents` was extended with a method that creates a `MessagesPanel` that displays the validation messages after validation automatically. +
 Another new method `handleMessagesAfterValidation` can be used with a `MessagesSplitLayout` to update split position additionally. +
 New documentation is added accordingly, see section <<message-components, Message Components>>. +
 *Migration*:
@@ -318,6 +236,10 @@ New documentation is added accordingly, see section <<message-components, Messag
 *** If the component should only update after validation, consider using `createValidationMessagesPanel` instead.
 *** If the component does not need any update, consider using `MessagesPanel` directly.
 ** If a custom `SplitLayout` was used to display validation messages in the secondary component, consider migrating to `MessagesSplitLayout` (see <<message-components, documentation>>).
+// https://jira.convista.com/browse/LIN-4936
+* *New convenience constructor for `InfoToolsComponent`* +
+A new constructor `InfoToolsComponent(Sequence<T> tools)` has been added that opens all tools by default.
+The existing constructor `InfoToolsComponent(Sequence<T> tools, Sequence<T> defaultTools)` remains available for cases where only a subset of tools should be open by default.
 // https://jira.convista.com/browse/LIN-4658
 * *UIBadge* +
 A new annotation `@UIBadge` has been added to create badges for displaying visually highlighted information.
@@ -327,7 +249,7 @@ For more information see <<ui-badge, UIBadge>>.
 The existing annotation <<uiHeadline, `UIHeadline`>> has been extended and can now be used on methods returning either a String or a `HeadlinePmo`.
 A `HeadlinePmo` can be used as return value if additional components should be added to the title or at the end of the headline.
 These components can be provided as PMOs to the `HeadlinePmo`. +
-Component added using the additional PMOs are updated within the same binding context in which the headline is created.
+Components added using the additional PMOs are updated within the same binding context in which the headline is created.
 +
 Alternatively, `HeadlinePmo` can also be used directly with `VaadinUiCreator` to create a Headline.
 +
@@ -356,7 +278,7 @@ The default value is false for backwards compatibility.
 A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set the clear button visible on UI components that implement `HasClearButton` interface.
 // https://jira.convista.com/browse/LIN-1876
 * *BindValueChangeMode* +
-A new annotation `@BindValueChangeMode` has been added to allow processing the value of a field while still tipping, which for example can make search fields more responsive.
+A new annotation `@BindValueChangeMode` has been added to allow processing the value of a field while still typing, which for example can make search fields more responsive.
 For more information see <<bind-value-change-mode, BindValueChangeMode>>
 
 ==== Testing
@@ -379,7 +301,7 @@ This allows different test classes to target different deployments without inter
 In addition, web drivers in `WebDriverExtension` are now thread local, which should reduce `NoSuchSessionException`, improving the stability of parallel UI tests executions.
 // https://jira.convista.com/browse/LIN-4782
 * *TestBench Extension: support testing for browser alert* +
-With Chromedriver 126+, chrome driver automatically consume alerts created during `onbeforeUnload` which is used in `HasBrowserConfigration` when executed in headless mode.
+With Chromedriver 126+, chrome driver automatically consumes alerts created during `onbeforeUnload` which is used in `HasBrowserConfiguration` when executed in headless mode.
 This makes it impossible to test these scenarios.
 In this version, additional options are added to the chrome driver that start with linkki TestBench extension.
 This makes it possible to test for browser alert again, e.g. using `ExpectedCondition.alertIsPresent`.
@@ -399,9 +321,24 @@ All internal shadow DOM injections that are used by linkki theme are removed.
 Shadow DOM injection is deactivated by default in Vaadin 25. If shadow DOM injections are used currently, consider removing them and use selectors such as `part` instead. +
 This change should not cause any visual breaks.
 If you encounter any unexpected styling or UI test problems, please don't hesitate to contact us.
+* [.api-change]*Removal of deprecated `getSectionContent()` in `LinkkiSection`, `BaseSection` and `GridSection`* +
+The method `getSectionContent()`, deprecated since 2.0.0, has been removed.
+Use `getContentWrapper()` instead.
+* [.api-change]*`ColumnTextAlignAspectDefinition` and `ColumnSortableAspectDefinition` moved to `table/column/aspects`* +
+Both classes have been moved from `org.linkki.core.ui.table.aspects` to `org.linkki.core.ui.table.column.aspects` as other aspects for table columns are also there.
+// https://jira.convista.com/browse/LIN-4925
+* [.api-change]*`logback-test.xml` in `linkki-vaadin-flow-testbench-extension` no longer affects downstream projects* +
+The `logback-test.xml` was packaged into the JAR with `root level="TRACE"`, causing excessive logging in downstream projects.
+The file has been removed and is no longer included in the JAR.
+Downstream projects have to provide their own logging configuration now, if required.
 
 ==== Bugfixes
 
 // https://jira.convista.com/browse/LIN-4520
 * *linkki-apt validation for all linkki annotations* +
 <<linkki-apt,linkki-apt>> can now fully validate usages of all linkki standard annotations.
+// https://jira.convista.com/browse/LIN-4906
+* *Exceptions for Comboboxes in Grids* +
+<<ui-combobox, Comboboxes>> in Grids were causing exceptions during lazy-loading.
+This was fixed for projects using the <<application-framework, application framework>>.
+Projects that imported the <<ui-combobox-focus-first, focus-first scripts>> for ComboBoxes manually, must remove the `@JsModule` call to import `focus-first-item-combo-box-scroller.js`.
