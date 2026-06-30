@@ -35,7 +35,6 @@ import org.w3c.dom.Element;
 @IpsAttributes({ "foo", "valueSetInclNull", "valueSetExclNull", "emptyValueSet", "valueSetRangeOfIntInclNull",
         "valueSetRangeOfIntExclNull", "valueSetIntUnrestricted", "valueSetNotDiscrete" })
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
-@IpsGenerated
 public class TestIpsObject extends AbstractModelObject {
 
     /**

@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="26.7.a20260413-01"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="26.7"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -143,6 +143,9 @@
 
    <!--Whether additional annotations should be generated on all methods or only on @generated ones, therefore excluding @restrainedmodifiable methods. Handwritten, @restrainedmodifiable methods can be excluded from the 'Generate additional annotations' setting, for instance, if they should be included in code coverage.-->
    <Property name="additionalAnnotationsLocation" value="GeneratedAndRestrainedModifiable"/>
+
+   <!--Define the qualified names of annotations which are added for every generated field and constant. Multiple annotations are separated by semicolon.-->
+   <Property name="additionalAnnotationsForFields" value=""/>
   </IpsArtefactBuilderSetConfig>
  </IpsArtefactBuilderSet>
 

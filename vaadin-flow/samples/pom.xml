@@ -22,15 +22,15 @@
 
         <!-- Compile dependencies -->
         <spring-boot.version>4.1.0</spring-boot.version>
-        <spring-framework.version>7.0.7</spring-framework.version>
+        <spring-framework.version>7.0.8</spring-framework.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 
         <!-- Test dependencies -->
-        <logback.version>1.5.34</logback.version>
+        <logback.version>1.5.37</logback.version>
 
         <!-- Maven plugin versions -->
-        <vaadin-maven-plugin.version>25.2.0</vaadin-maven-plugin.version>
+        <vaadin-maven-plugin.version>25.2.1</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>

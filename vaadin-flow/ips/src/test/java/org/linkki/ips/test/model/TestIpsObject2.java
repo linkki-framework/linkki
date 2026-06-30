@@ -15,7 +15,6 @@ import org.w3c.dom.Element;
  */
 @IpsPolicyCmptType(name = "TestIpsObject2")
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
-@IpsGenerated
 public class TestIpsObject2 extends TestIpsObject {
 
     /**
