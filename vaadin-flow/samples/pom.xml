@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>21</java.version>
         <spotbugs.version>4.9.8</spotbugs.version>
-        <spring-boot.version>3.5.15</spring-boot.version>
+        <spring-boot.version>3.5.16</spring-boot.version>
         <spring-framework.version>6.2.19</spring-framework.version>
         <checkstyle.version>13.4.2</checkstyle.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
