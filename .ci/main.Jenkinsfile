@@ -89,7 +89,7 @@ pipeline {
             }
 
             steps {
-                build job: 'linkki_version-overview', wait: false
+                build job: 'linkki-Version-Overview', wait: false
             }
         }
 
