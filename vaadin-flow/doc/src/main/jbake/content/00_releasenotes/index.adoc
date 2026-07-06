@@ -16,42 +16,103 @@
 
 // The following versions have been updated:
 
+// // Only track dependencies that are relevant for downstream projects
 // [cols="a,a,a"]
 // |===
 // | Dependency                    | New version                                                                        | Previous version
 //
 // | Vaadin                        | 25.0.5 (link:https://github.com/vaadin/platform/releases/tag/25.0.5[Release Notes]) | 25.0.4
 // | Karibu                        | 2.6.2 | 2.6.1
-// | Logback                       | 1.5.29 | 1.5.27
 // | Spring Boot compatibility tested for | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
-
 // |===
 
 // ==== Components, UI Annotations and Aspects
 
 // // https://jira.convista.com/browse/LIN-????
+// * [.api-change] *Description* +
+// Text
+// // https://jira.convista.com/browse/LIN-????
 // * *Description* +
 // Text
+
+// // https://jira.convista.com/browse/LIN-4714
+// * [.api-change] *Vaadin now uses Jackson for all JSON functionalities* +
+// Due to compatibility issues, *Spring Boot 4.0.4* or later is now required.
+// * Variants that work in both Aura and Lumo themes are now renamed, e.g. `ButtonVariant.LUMO_PRIMARY` was renamed to `ButtonVariant.PRIMARY`.
+// * In Testbench, methods `first()` and `waitForFirst()` are now deprecated and marked for removal. (link:https://github.com/vaadin/testbench/issues/1729[Vaadin issue])
+// ** For `first()`: replacing with `single()` may not always suffice — consider using `id()`, making the query context more specific, or using `all().getFirst()` (especially in tables where multiple elements are expected).
+// ** For `waitForFirst()`: replace with `single()` directly, or use `waitUntil` with `VaadinElementConditions.elementDisplayed`.
+// // https://jira.convista.com/browse/LIN-4781
+// * *New components for displaying validation messages* +
+// A new `MessagesPanel` component is introduced to display a list of messages.
+// It can be used standalone or within the new `MessagesSplitLayout`, which combines a content component with a collapsible message panel.
+// In `MessagesSplitLayout`, the message panel is automatically hidden when no messages are present and is shown when messages are available. +
+// The utility class `MessageUiComponents` was extended with a method that creates a `MessagesPanel` that displays the validation messages after validation automatically. +
+// Another new method `handleMessagesAfterValidation` can be used with a `MessagesSplitLayout` to update split position additionally. +
+// New documentation is added accordingly, see section <<message-components, Message Components>>. +
+// +
+// *Migration*:
+// +
+// ** Check existing usages of `MessageUiComponents#createMessageTable`:
+// *** If the component should only update after validation, consider using `createValidationMessagesPanel` instead.
+// *** If the component does not need any update, consider using `MessagesPanel` directly.
+// ** If a custom `SplitLayout` was used to display validation messages in the secondary component, consider migrating to `MessagesSplitLayout` (see <<message-components, documentation>>).
 
 // ==== Testing
 
 // // https://jira.convista.com/browse/LIN-????
-// * [.api-change] *Beschreibung* +
+// * [.api-change] *Description* +
+// Text
+// // https://jira.convista.com/browse/LIN-????
+// * *Description* +
 // Text
 
+// // https://jira.convista.com/browse/LIN-4635
+// * [.api-change] *New utility class for set-up: KaribuUI* +
+// linkki provides `KaribuUIExtension` that can be used with `@ExtendWith` or `@RegisterExtension` to set up the Vaadin UI for Karibu testing.
+// However, this only works well for test classes in which the set-up is the same for each method. +
+// This version introduces a new utility class <<karibu-ui,`KaribuUI`>> that can be used to set up and tear down explicitly by method call.
+// This can be used to create a different set-up for each method, as well as test classes that do not tear down after each method, but only once for the whole class. +
+// With this change, the configuration class `KaribuConfiguration` was moved to the top level.
+// Static imports of this class may need to be adjusted.
+// If the static method `withDefaults` is currently used with `KaribuUIExtension.withConfigution` (`KaribuUIExtension.withConfiguration(withDefaults().setSomething())`, consider changing the usage to `KaribuUIExtension.withConfiguration(config -> config.setSomething())`.
+// // https://jira.convista.com/browse/LIN-4831
+// * *Support for multiple deployments in Testbench tests* +
+// `WebDriverExtension` now accepts a `systemName` parameter that scopes all
+// <<driver-properties-multiple-deployments, DriverProperties>> lookups to individual system properties.
+// For example, a `WebDriverExtension` created with `systemName` `"systemA"` reads `test.hostname.systemA`,
+// `test.port.systemA`, and `test.protocol.systemA` instead of the default `test.hostname` etc.
+// This allows different test classes to target different deployments without interfering with each other.
+
+// ==== Other Improvements
+
 // // https://jira.convista.com/browse/LIN-????
-// * *Beschreibung* +
+// * [.api-change] *Description* +
 // Text
+// // https://jira.convista.com/browse/LIN-????
+// * *Description* +
+// Text
+
+// // https://jira.convista.com/browse/LIN-4925
+// * [.api-change]*`logback-test.xml` in `linkki-vaadin-flow-testbench-extension` no longer affects downstream projects* +
+// The `logback-test.xml` was packaged into the JAR with `root level="TRACE"`, causing excessive logging in downstream projects.
+// The file has been removed and is no longer included in the JAR.
+// Downstream projects have to provide their own logging configuration now, if required.
+// // https://jira.convista.com/browse/LIN-4770
+// * *Documentation on limitations of unit UI testing with Karibu*
+// Documentation was added to make limitations of unit UI testing with Karibu more clear.
+// See section "<<karibu-limitations, Limitations of Karibu>>" in chapter "Unit UI testing with Karibu-Testing".
+
+// ==== Bugfixes
 
 // // https://jira.convista.com/browse/LIN-????
 // * *Description* +
 // Text
 
-// ==== Bugfixes
-
-// // https://jira.convista.com/browse/LIN-????
-// * [.api-change] *Description* +
-// Text
+// // https://jira.convista.com/browse/LIN-4906
+// * *Exceptions for Comboboxes in Grids* +
+// <<ui-combobox, Comboboxes>> in Grids were causing exceptions during lazy-loading.
+// This was fixed for projects using the <<application-framework, application framework>>.
 
 === Version {vlinkki}
 
