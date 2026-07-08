@@ -81,24 +81,3 @@ include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-ips-vaadin-flow
 ----
 
 In addition to the *linkki* dependency, a *linkki* application with Vaadin may require a Vaadin Spring Boot starter.
-
-=== Initial project structure
-
-image::{images}{images-folder-name}/app_structure.png[]
-
-`BusinessPartner`:: A spring specific class which allows our project to be run as a Java application.
-This class will not be found in the plain archetype.
-
-`BusinessPartnerInfo`:: Defines basic information about our *linkki* application.
-
-`BusinessPartnerConfig`:: Provides an instance of our `BusinessPartnerInfo` class and provides `ApplicationMenuItemDefinition` items to create an `ApplicationMenu` for the `ApplicationHeader`.
-
-`BusinessPartnerLayout`:: Uses the `BusinessPartnerConfig` class to provide information for our application.
-
-`HelloPmo`:: Defines a section on the webpage which is used in the UI of the application.
-You can apply annotations like `@UITextfield` to your methods to create specific UI elements.
-For more information about creating a UI see <<ui-element, UI elements>>.
-
-`BusinessPartnerPage`:: Allows displaying and editing data in a certain layout and can consist of so called sections defined with multiple PMOs.
-
-`BusinessPartnerView`:: Defines the entrypoint of a our main page.

@@ -43,3 +43,60 @@ mvn spring-boot:run
 ----
 
 The application can then be viewed at `http://localhost:8080/`
+
+=== Initial project structure
+
+Both archetypes produce the same basic project structure, differing only in the class used to start the application.
+The following overview uses `Demo` as the example application name.
+
+[cols="1,1", frame=none, grid=none]
+|===
+a|.Plain archetype
+....
+demo-plain/
+└── src/main/
+    ├── java/
+    │   ├── DemoAppShellConfigurator.java
+    │   ├── ui/
+    │   │   ├── DemoApplicationConfig.java
+    │   │   ├── DemoApplicationInfo.java
+    │   │   └── DemoApplicationLayout.java
+    │   └── view/
+    │       ├── DemoPage.java
+    │       ├── DemoView.java
+    │       └── HelloPmo.java
+    └── resources/
+        └── simplelogger.properties
+....
+a|.Spring archetype
+....
+demo-spring/
+└── src/main/
+    ├── java/
+    │   ├── DemoApplication.java
+    │   ├── ui/
+    │   │   ├── DemoApplicationConfig.java
+    │   │   ├── DemoApplicationInfo.java
+    │   │   └── DemoApplicationLayout.java
+    │   └── view/
+    │       ├── DemoPage.java
+    │       ├── DemoView.java
+    │       └── HelloPmo.java
+    └── resources/
+        └── application.properties
+....
+|===
+
+`DemoApplicationInfo`:: Defines basic information about the *linkki* application such as name, version, description, and copyright.
+
+`DemoApplicationConfig`:: Implements `ApplicationConfig` to provide the `DemoApplicationInfo` and the application menu items.
+
+`DemoApplicationLayout`:: Extends `ApplicationLayout` and uses `DemoApplicationConfig` to set up the overall page layout including header and footer.
+
+`HelloPmo`:: A PMO (Presentation Model Object) that defines a section with a text field, a label, and a button.
+Annotations like `@UITextField` are used to declare UI elements.
+For more information see <<ui-element, UI elements>>.
+
+`DemoPage`:: Extends `AbstractPage` and defines the page content by adding sections from PMOs such as `HelloPmo`.
+
+`DemoView`:: Defines the entrypoint of the main page.
