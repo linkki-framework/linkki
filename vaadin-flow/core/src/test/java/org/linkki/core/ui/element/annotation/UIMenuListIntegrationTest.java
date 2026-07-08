@@ -220,6 +220,46 @@ class UIMenuListIntegrationTest {
         assertThat(menuList.getCaption()).isEqualTo("MenuListWithDefaultProperties");
     }
 
+    @Test
+    void testMenuList_DynamicSubmenuItems() {
+        var menuButton = (SingleItemMenuBar)layout.getComponentAt(8);
+        var nestedItem = menuButton.getItems().get(0).getSubMenu().getItems().get(0)
+                .getSubMenu().getItems().get(0);
+
+        testPmo.setSubMenuDynamicVisible(true);
+        testPmo.setSubMenuDynamicEnabled(true);
+        bindingContext.modelChanged();
+        assertThat(nestedItem.isVisible()).isTrue();
+        assertThat(nestedItem.isEnabled()).isTrue();
+
+        testPmo.setSubMenuDynamicVisible(false);
+        testPmo.setSubMenuDynamicEnabled(true);
+        bindingContext.modelChanged();
+        assertThat(nestedItem.isVisible()).isFalse();
+        assertThat(nestedItem.isEnabled()).isTrue();
+
+        testPmo.setSubMenuDynamicVisible(true);
+        testPmo.setSubMenuDynamicEnabled(false);
+        bindingContext.modelChanged();
+        assertThat(nestedItem.isVisible()).isTrue();
+        assertThat(nestedItem.isEnabled()).isFalse();
+    }
+
+    @Test
+    void testMenuList_WithSubmenu() {
+        SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(7);
+        menuList.setId("submenu-test");
+        var topLevelItems = menuList.getItems().get(0).getSubMenu().getItems();
+
+        assertThat(topLevelItems).hasSize(2);
+        assertThat(topLevelItems.get(0).getText()).isEqualTo(MenuListTestPmo.MENU_ITEM1_TEXT);
+        assertThat(topLevelItems.get(1).getText()).isEqualTo("Nested");
+
+        var nestedItems = topLevelItems.get(1).getSubMenu().getItems();
+        assertThat(nestedItems).hasSize(1);
+        assertThat(nestedItems.get(0).getText()).isEqualTo(MenuListTestPmo.MENU_ITEM2_TEXT);
+    }
+
     @UIVerticalLayout
     public static class MenuListTestPmo {
 
@@ -302,6 +342,35 @@ class UIMenuListIntegrationTest {
         @UIMenuList(position = 6)
         public List<MenuItemDefinition> getMenuListWithDefaultProperties() {
             return Collections.emptyList();
+        }
+
+        @UIMenuList(position = 7, caption = "Submenu Test")
+        public List<MenuItemDefinition> getMenuListWithSubmenu() {
+            var nestedItem = MenuItemDefinition.builder(MENU_ITEM2_ID)
+                    .caption(MENU_ITEM2_TEXT)
+                    .command(() -> setDummyValue(MENU_ITEM2_TEXT))
+                    .build();
+            var submenuParent = MenuItemDefinition.builder("nested")
+                    .caption("Nested")
+                    .subItems(List.of(nestedItem))
+                    .build();
+            return List.of(
+                    MenuItemDefinition.builder(MENU_ITEM1_ID)
+                            .caption(MENU_ITEM1_TEXT)
+                            .command(() -> setDummyValue(MENU_ITEM1_TEXT))
+                            .build(),
+                    submenuParent);
+        }
+
+        @UIMenuList(position = 8, caption = "Dynamic Submenu Test")
+        public List<MenuItemDefinition> getDynamicSubmenuList() {
+            var nestedItem = MenuItemDefinition.builder("nested-item")
+                    .visibleIf(subMenuDynamicVisible)
+                    .enabledIf(subMenuDynamicEnabled)
+                    .build();
+            return List.of(MenuItemDefinition.builder("parent")
+                    .subItems(List.of(nestedItem))
+                    .build());
         }
 
         private void setDummyValue(String value) {

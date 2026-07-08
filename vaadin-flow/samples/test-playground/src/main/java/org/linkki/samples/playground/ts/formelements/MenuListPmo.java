@@ -37,6 +37,8 @@ public class MenuListPmo {
 
     private boolean allowNewGames = true;
     private boolean showExistingGames = false;
+    private boolean showMultiplayerOptions = true;
+    private boolean allowMultiplayer = true;
 
     @SectionHeader
     @UICheckBox(position = -10,
@@ -57,6 +59,26 @@ public class MenuListPmo {
 
     public void setAllowNewGames(boolean allowNewGames) {
         this.allowNewGames = allowNewGames;
+    }
+
+    @SectionHeader
+    @UICheckBox(position = -30, caption = "Show multiplayer options?")
+    public boolean isShowMultiplayerOptions() {
+        return showMultiplayerOptions;
+    }
+
+    public void setShowMultiplayerOptions(boolean showMultiplayerOptions) {
+        this.showMultiplayerOptions = showMultiplayerOptions;
+    }
+
+    @SectionHeader
+    @UICheckBox(position = -40, caption = "Allow multiplayer?")
+    public boolean isAllowMultiplayer() {
+        return allowMultiplayer;
+    }
+
+    public void setAllowMultiplayer(boolean allowMultiplayer) {
+        this.allowMultiplayer = allowMultiplayer;
     }
 
     @UIMenuList(position = 30,
@@ -112,5 +134,37 @@ public class MenuListPmo {
         menuItems.add(new MenuItemDefinition("Tertiary Menu Item", VaadinIcon.HOME,
                 () -> Notification.show("Tertiary item clicked"), "tertiaryMenuId"));
         return menuItems;
+    }
+
+    @UIMenuList(position = 70,
+            label = "Menu List with submenus (use checkboxes above to toggle nested item state)",
+            caption = "Game",
+            showIcon = true,
+            icon = VaadinIcon.GAMEPAD)
+    public List<MenuItemDefinition> getSubmenuDemo() {
+        var hostItem = MenuItemDefinition.builder("host-game")
+                .caption("Host game")
+                .icon(VaadinIcon.CONNECT)
+                .command(() -> Notification.show("Hosting game"))
+                .visibleIf(showMultiplayerOptions)
+                .enabledIf(allowMultiplayer)
+                .build();
+        var joinItem = MenuItemDefinition.builder("join-game")
+                .caption("Join game")
+                .icon(VaadinIcon.RANDOM)
+                .command(() -> Notification.show("Joining game"))
+                .visibleIf(showMultiplayerOptions)
+                .enabledIf(allowMultiplayer)
+                .build();
+        var multiplayerItem = MenuItemDefinition.builder("multiplayer")
+                .caption("Multiplayer")
+                .subItems(List.of(hostItem, joinItem))
+                .build();
+        var quickPlayItem = MenuItemDefinition.builder("quick-play")
+                .caption("Quick Play")
+                .icon(VaadinIcon.PLAY)
+                .command(() -> Notification.show("Quick Play"))
+                .build();
+        return List.of(quickPlayItem, multiplayerItem);
     }
 }

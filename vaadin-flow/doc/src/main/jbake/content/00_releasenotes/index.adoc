@@ -117,3 +117,11 @@
 === Version {vlinkki}
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.10/00_releasenotes/#_version_2_10_0[version 2.10.0].
+
+==== Components, UI Annotations and Aspects
+
+// https://jira.convista.com/browse/LIN-4885
+* *`UIMenuList` supports submenus* +
+`MenuItemDefinition` now supports nested sub-items via `MenuItemDefinition.Builder#subItems(List)`.
+A MenuItemDefinition with sub-items acts as a submenu parent instead of a leaf action item.
+Submenus are rendered and updated recursively, with `enabled` and `visible` state propagated at all levels.

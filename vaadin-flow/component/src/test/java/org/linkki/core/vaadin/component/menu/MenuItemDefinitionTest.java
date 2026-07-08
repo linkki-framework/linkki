@@ -17,6 +17,8 @@ package org.linkki.core.vaadin.component.menu;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.linkki.util.handler.Handler;
 
@@ -70,5 +72,26 @@ class MenuItemDefinitionTest {
 
         assertThat(itemDefinition.isVisible()).isTrue();
         assertThat(itemDefinition.isEnabled()).isTrue();
+    }
+
+    @Test
+    void testBuilder_WithSubItems() {
+        var child = MenuItemDefinition.builder("child").caption("Child").build();
+
+        var parent = MenuItemDefinition.builder("parent")
+                .caption("Parent")
+                .subItems(List.of(child))
+                .build();
+
+        assertThat(parent.isSubmenu()).isTrue();
+        assertThat(parent.getSubItems()).containsExactly(child);
+    }
+
+    @Test
+    void testBuilder_NoSubItems_IsSubmenuFalse() {
+        var itemDefinition = MenuItemDefinition.builder("id").build();
+
+        assertThat(itemDefinition.isSubmenu()).isFalse();
+        assertThat(itemDefinition.getSubItems()).isEmpty();
     }
 }

@@ -14,11 +14,13 @@
 
 package org.linkki.core.vaadin.component.menu;
 
+import static java.util.stream.Collectors.toMap;
+
 import java.io.Serial;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.linkki.core.vaadin.component.HasCaption;
 import org.linkki.core.vaadin.component.HasIcon;
@@ -28,6 +30,7 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
@@ -118,16 +121,30 @@ public class SingleItemMenuBar extends Composite<MenuBar> implements HasCaption,
      *            {@linkplain MenuItemDefinition#getCommand() command}.
      */
     public void createSubMenuItems(List<MenuItemDefinition> itemDefinitions, Handler modelChanged) {
-        var subMenu = theItem.getSubMenu();
-        for (var itemDefinition : itemDefinitions) {
-            var subMenuItem = subMenu.addItem(itemDefinition.getCaption());
-            subMenuItem.setId(getSubMenuItemId(itemDefinition));
-            setSubMenuItemIcon(subMenuItem, itemDefinition);
-            subMenuItem.setVisible(itemDefinition.isVisible());
-            subMenuItem.setEnabled(itemDefinition.isEnabled());
-            subMenuItem.addClickListener(event -> {
-                if (subMenuItem.isVisible() && subMenuItem.isEnabled()) {
-                    itemDefinition.getCommand().andThen(modelChanged).apply();
+        var rootId = theItem.getId().orElse("");
+        createItems(itemDefinitions, modelChanged, theItem.getSubMenu(), rootId);
+    }
+
+    private void createItems(List<MenuItemDefinition> definitions,
+            Handler modelChanged,
+            SubMenu subMenu,
+            String parentId) {
+        definitions.forEach(def -> createItem(def, modelChanged, subMenu, parentId));
+    }
+
+    private void createItem(MenuItemDefinition menuItem, Handler modelChanged, SubMenu subMenu, String parentId) {
+        var item = subMenu.addItem(menuItem.getCaption());
+        var itemId = parentId.isEmpty() ? menuItem.getId() : (parentId + "-" + menuItem.getId());
+        item.setId(itemId);
+        setSubMenuItemIcon(item, menuItem);
+        item.setVisible(menuItem.isVisible());
+        item.setEnabled(menuItem.isEnabled());
+        if (menuItem.isSubmenu()) {
+            createItems(menuItem.getSubItems(), modelChanged, item.getSubMenu(), itemId);
+        } else {
+            item.addClickListener(event -> {
+                if (item.isVisible() && item.isEnabled()) {
+                    menuItem.getCommand().andThen(modelChanged).apply();
                 }
             });
         }
@@ -154,16 +171,26 @@ public class SingleItemMenuBar extends Composite<MenuBar> implements HasCaption,
      * {@link MenuItemDefinition}s.
      * <p>
      * Items are mapped to definitions using their IDs. Items without corresponding definitions are
-     * not updated, definitions without corresponding items are ignored.
+     * not updated, definitions without corresponding items are ignored. Nested submenus are updated
+     * recursively.
      */
     public void updateSubMenuItems(List<MenuItemDefinition> itemDefinitions) {
-        var itemDefinitionById = itemDefinitions.stream()
-                .collect(Collectors.toMap(this::getSubMenuItemId, Function.identity()));
-        theItem.getSubMenu()
-                .getItems()
-                .forEach(item -> item.getId().map(itemDefinitionById::get).ifPresent(itemDefinition -> {
-                    item.setVisible(itemDefinition.isVisible());
-                    item.setEnabled(itemDefinition.isEnabled());
+        var rootId = theItem.getId().orElse("");
+        updateItems(itemDefinitions, theItem.getSubMenu(), rootId);
+    }
+
+    private void updateItems(List<MenuItemDefinition> definitions, SubMenu subMenu, String parentId) {
+        Map<String, MenuItemDefinition> definitionById = definitions.stream()
+                .collect(toMap(def -> parentId.isEmpty() ? def.getId() : (parentId + "-" + def.getId()),
+                               Function.identity()));
+        subMenu.getItems().forEach(item -> item.getId()
+                .map(definitionById::get)
+                .ifPresent(def -> {
+                    item.setVisible(def.isVisible());
+                    item.setEnabled(def.isEnabled());
+                    if (def.isSubmenu()) {
+                        updateItems(def.getSubItems(), item.getSubMenu(), item.getId().orElse(""));
+                    }
                 }));
     }
 }

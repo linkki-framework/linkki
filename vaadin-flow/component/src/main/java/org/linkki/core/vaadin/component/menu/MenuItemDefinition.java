@@ -16,6 +16,8 @@ package org.linkki.core.vaadin.component.menu;
 
 import static org.linkki.util.Objects.requireNonNull;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.Strings;
@@ -42,6 +44,7 @@ public class MenuItemDefinition {
     private final String id;
     private final boolean visible;
     private final boolean enabled;
+    private final List<MenuItemDefinition> subItems;
 
     /**
      * Creates a new menu item that executes the given command on click.
@@ -51,7 +54,7 @@ public class MenuItemDefinition {
      * @param command command to execute on click
      */
     public MenuItemDefinition(String caption, @CheckForNull VaadinIcon icon, Handler command) {
-        this(caption, icon, command, captionToId(caption));
+        this(captionToId(caption), caption, icon, command, true, true, Collections.emptyList());
     }
 
     /**
@@ -62,10 +65,10 @@ public class MenuItemDefinition {
      * @param icon an optional {@link VaadinIcon icon} for the menu
      * @param command command to execute on click
      * @param id id for the HTML element
-     * @since 22.6.0
+     * @since 2.8.0
      */
     public MenuItemDefinition(String caption, @CheckForNull VaadinIcon icon, Handler command, String id) {
-        this(id, caption, icon, command, true, true);
+        this(id, caption, icon, command, true, true, Collections.emptyList());
     }
 
     /**
@@ -78,19 +81,22 @@ public class MenuItemDefinition {
      * @param command command to execute on click
      * @param visible whether the menu item is visible
      * @param enabled whether the menu item is enabled
-     * @since 23.6.0
+     * @param subItems nested sub-menu items; non-empty makes this item a submenu parent
+     * @since 2.8.0
      */
     private MenuItemDefinition(String id, String caption,
             @CheckForNull VaadinIcon icon,
             Handler command,
             boolean visible,
-            boolean enabled) {
+            boolean enabled,
+            List<MenuItemDefinition> subItems) {
         this.caption = caption;
         this.icon = icon;
         this.command = command;
         this.id = id;
         this.visible = visible;
         this.enabled = enabled;
+        this.subItems = subItems;
     }
 
     public String getCaption() {
@@ -116,6 +122,25 @@ public class MenuItemDefinition {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    /**
+     * Returns the nested sub-menu items. Non-empty means this item is a submenu parent.
+     *
+     * @since 2.11.0
+     */
+    public List<MenuItemDefinition> getSubItems() {
+        return subItems;
+    }
+
+    /**
+     * Returns {@code true} if this item has sub-items and acts as a submenu parent rather than a
+     * leaf action item.
+     *
+     * @since 2.11.0
+     */
+    public boolean isSubmenu() {
+        return !subItems.isEmpty();
     }
 
     /**
@@ -149,6 +174,7 @@ public class MenuItemDefinition {
         private Handler command = Handler.NOP_HANDLER;
         private boolean visible = true;
         private boolean enabled = true;
+        private List<MenuItemDefinition> subItems = Collections.emptyList();
 
         private Builder(String id) {
             this.id = id;
@@ -206,8 +232,19 @@ public class MenuItemDefinition {
             return this;
         }
 
+        /**
+         * Defines nested sub-menu items. When sub-items are present, this item acts as a submenu
+         * parent and its {@linkplain #command(Handler) command} is not executed on click.
+         *
+         * @since 2.11.0
+         */
+        public Builder subItems(List<MenuItemDefinition> subItems) {
+            this.subItems = requireNonNull(subItems, "subItems must not be null");
+            return this;
+        }
+
         public MenuItemDefinition build() {
-            return new MenuItemDefinition(id, caption, icon, command, visible, enabled);
+            return new MenuItemDefinition(id, caption, icon, command, visible, enabled, subItems);
         }
     }
 }

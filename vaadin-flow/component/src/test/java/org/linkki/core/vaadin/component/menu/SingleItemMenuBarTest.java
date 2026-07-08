@@ -167,6 +167,80 @@ class SingleItemMenuBarTest {
                 .containsExactly(false, true);
     }
 
+    @Test
+    void testCreateSubMenuItems_WithNestedSubmenu() {
+        var menuBar = new SingleItemMenuBar("caption");
+        menuBar.setId("root");
+
+        var child1 = MenuItemDefinition.builder("child1").caption("Child 1")
+                .command(() -> {
+                }).build();
+        var child2 = MenuItemDefinition.builder("child2").caption("Child 2")
+                .command(() -> {
+                }).build();
+        var parent = MenuItemDefinition.builder("parent").caption("Parent")
+                .subItems(List.of(child1, child2))
+                .build();
+
+        menuBar.createSubMenuItems(List.of(parent), Handler.NOP_HANDLER);
+
+        var topLevelItems = menuBar.getItems().get(0).getSubMenu().getItems();
+        assertThat(topLevelItems).hasSize(1);
+        assertThat(topLevelItems.get(0).getId()).hasValue("root-parent");
+
+        var nestedItems = topLevelItems.get(0).getSubMenu().getItems();
+        assertThat(nestedItems).hasSize(2);
+        assertThat(nestedItems.get(0).getId()).hasValue("root-parent-child1");
+        assertThat(nestedItems.get(1).getId()).hasValue("root-parent-child2");
+        assertThat(nestedItems.get(0).getText()).isEqualTo("Child 1");
+        assertThat(nestedItems.get(1).getText()).isEqualTo("Child 2");
+    }
+
+    @Test
+    void testUpdateSubMenuItems_WithNestedSubmenu() {
+        var menuBar = new SingleItemMenuBar("caption");
+        menuBar.setId("root");
+
+        var child = MenuItemDefinition.builder("child").caption("Child").build();
+        var parent = MenuItemDefinition.builder("parent").caption("Parent")
+                .subItems(List.of(child))
+                .build();
+        menuBar.createSubMenuItems(List.of(parent), Handler.NOP_HANDLER);
+
+        var updatedChild = MenuItemDefinition.builder("child").visibleIf(false).enabledIf(false).build();
+        var updatedParent = MenuItemDefinition.builder("parent").caption("Parent")
+                .visibleIf(false)
+                .subItems(List.of(updatedChild))
+                .build();
+        menuBar.updateSubMenuItems(List.of(updatedParent));
+
+        var topItem = menuBar.getItems().get(0).getSubMenu().getItems().get(0);
+        assertThat(topItem.isVisible()).isFalse();
+
+        var nestedItem = topItem.getSubMenu().getItems().get(0);
+        assertThat(nestedItem.isVisible()).isFalse();
+        assertThat(nestedItem.isEnabled()).isFalse();
+    }
+
+    @Test
+    void testSubMenuItemId_Nested() {
+        var menuBar = new SingleItemMenuBar("caption");
+        menuBar.setId("bar");
+
+        var grandchild = MenuItemDefinition.builder("gc").caption("GC").build();
+        var child = MenuItemDefinition.builder("ch").caption("CH").subItems(List.of(grandchild)).build();
+        var parent = MenuItemDefinition.builder("p").caption("P").subItems(List.of(child)).build();
+        menuBar.createSubMenuItems(List.of(parent), Handler.NOP_HANDLER);
+
+        var level1 = menuBar.getItems().get(0).getSubMenu().getItems().get(0);
+        var level2 = level1.getSubMenu().getItems().get(0);
+        var level3 = level2.getSubMenu().getItems().get(0);
+
+        assertThat(level1.getId()).hasValue("bar-p");
+        assertThat(level2.getId()).hasValue("bar-p-ch");
+        assertThat(level3.getId()).hasValue("bar-p-ch-gc");
+    }
+
     private static class NopHandler implements Handler {
 
         @Override
