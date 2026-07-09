@@ -60,6 +60,7 @@ import org.linkki.samples.playground.ts.aspects.BindHeightPmo;
 import org.linkki.samples.playground.ts.aspects.BindHelperTextPmo;
 import org.linkki.samples.playground.ts.aspects.BindIconPmo;
 import org.linkki.samples.playground.ts.aspects.BindLabelPmo;
+import org.linkki.samples.playground.ts.aspects.BindFormItemLabelWidthPmo;
 import org.linkki.samples.playground.ts.aspects.BindPlaceholderPmo;
 import org.linkki.samples.playground.ts.aspects.BindReadOnlyBehaviorPmo;
 import org.linkki.samples.playground.ts.aspects.BindSlotPmo;
@@ -214,6 +215,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC020 = "TC020";
     public static final String TC021 = "TC021";
     public static final String TC022 = "TC022";
+    public static final String TC023 = "TC023";
 
     static final String ROUTE = "playground";
 
@@ -352,6 +354,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC020, new BindWidthPmo())
                                        .testCase(TC021, new BindClearButtonPmo())
                                        .testCase(TC022, new BindValueChangeModePmo())
+                                       .testCase(TC023, new BindFormItemLabelWidthPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())

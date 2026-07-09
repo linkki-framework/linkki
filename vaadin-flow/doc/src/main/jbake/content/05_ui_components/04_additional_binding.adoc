@@ -174,6 +174,7 @@ It is also very easy to create additional <<creating-aspects, custom aspect anno
 | `<<bind-width, @BindWidth>>` | Set width of a component
 | `<<bind-clear-button, @BindClearButton>>` | Set clear button visibility on UI components
 | `<<bind-value-change-mode, @BindValueChangeMode>>` | Set `ValueChangeMode` of a component
+| `<<bind-form-item-label-width, @BindFormItemLabelWidth>>` | Set label width of all form items of a layout
 |===
 
 [[tooltips]]
@@ -654,3 +655,10 @@ Therefore, components like `UICheckbox` or `UIRadioButtons` cannot be used with 
 ----
 include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindValueChangeModePmo.java[tags=bindValueChangeMode]
 ----
+
+[[bind-form-item-label-width]]
+===== Form-item label width
+
+The annotation `@BindFormItemLabelWidth` can be used to define the label width of form items of a specific layout.
+It has a single property `value`, which defines the width that should be applied to the layouts items.
+The value can be any valid CSS height value, but anything other unit than `"em"` or `"rem"` is strongly discouraged.

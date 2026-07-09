@@ -120,6 +120,10 @@ The release notes contain changes compared to link:https://doc.linkki-framework.
 
 ==== Components, UI Annotations and Aspects
 
+// https://jira.convista.com/browse/LIN-4875
+* [.api-change] *BindFormItemLabelWidth* +
+The new aspect `BindFormItemLabelWidth` allows changing the label width for all items within the annotated section.
+For more information see <<bind-form-item-label-width, BindFormItemLabelWidth>>
 // https://jira.convista.com/browse/LIN-4885
 * *`UIMenuList` supports submenus* +
 `MenuItemDefinition` now supports nested sub-items via `MenuItemDefinition.Builder#subItems(List)`.
