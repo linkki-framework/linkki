@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class ModelBindingValidatorTest extends BaseAnnotationProcessorTest {
+class ModelBindingValidatorTest extends AbstractAnnotationProcessorTest {
 
     @Nested
     @DisplayName(TESTS_THAT_EXPECT_A_COMPILATION_FAILURE)
@@ -43,7 +43,7 @@ public class ModelBindingValidatorTest extends BaseAnnotationProcessorTest {
                                               getSourceFile("modelBindingValidator/ModelAttributeMissingPmo.java"));
 
             compile(sources);
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertEquals(1, logs.size());
 
             String log = logs.get(0);
@@ -61,7 +61,7 @@ public class ModelBindingValidatorTest extends BaseAnnotationProcessorTest {
 
             compile(sourceFiles);
 
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertEquals(1, logs.size());
 
             String log = logs.get(0);

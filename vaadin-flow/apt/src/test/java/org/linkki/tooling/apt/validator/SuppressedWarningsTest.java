@@ -37,7 +37,7 @@ import org.junit.jupiter.api.TestFactory;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class SuppressedWarningsTest extends BaseAnnotationProcessorTest {
+class SuppressedWarningsTest extends AbstractAnnotationProcessorTest {
 
     @Override
     void setUp() throws IOException {
@@ -156,7 +156,7 @@ public class SuppressedWarningsTest extends BaseAnnotationProcessorTest {
             setUp();
             compile(asList(getSourceFile("Report.java"), getSourceFile("ReportType.java"),
                            getSourceFile("suppressedWarnings/UnsuppressedMissingAttributePmo.java")));
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertEquals(1, logs.size());
             String log = logs.get(0);
 

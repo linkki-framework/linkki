@@ -31,7 +31,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
+class CompilerOptionsTest extends AbstractAnnotationProcessorTest {
 
     private static final String ERROR = "ERROR";
     private static final String WARNING = "WARNING";
@@ -90,7 +90,7 @@ public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
             addLinkkiAptOption(AspectMethodValidator.MISSING_METHOD_ABSTRACT_TYPE, kind);
             compile(sourceFiles);
 
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertTrue(logs.stream().anyMatch(log -> isMissingDynamicMethodLog(log)));
         }
 
@@ -98,7 +98,7 @@ public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
             addLinkkiAptOption(AspectMethodValidator.MISSING_METHOD_ABSTRACT_TYPE, IGNORE);
             compile(sourceFiles);
 
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertTrue(logs.stream().noneMatch(log -> isMissingDynamicMethodLog(log)));
         }
 
@@ -130,7 +130,7 @@ public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
                 addLinkkiAptOption(ModelBindingValidator.IMPLICIT_MODEL_BINDING, IGNORE);
                 compile(sourceFiles);
 
-                List<String> logs = getLogs();
+                List<String> logs = getAnnotationProcessorLogs();
                 assertTrue(logs.stream().noneMatch(log -> isImplicitModelBindingLog(log, "type")));
             }
 
@@ -145,7 +145,7 @@ public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
                 addLinkkiAptOption(ModelBindingValidator.IMPLICIT_MODEL_BINDING, kind);
                 compile(sourceFiles);
 
-                List<String> logs = getLogs();
+                List<String> logs = getAnnotationProcessorLogs();
                 assertFalse(logs.isEmpty());
                 assertTrue(logs.stream().allMatch(log -> isImplicitModelBindingLog(log, "type")));
             }

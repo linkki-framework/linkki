@@ -17,6 +17,8 @@ package org.linkki.tooling.apt.test.dynamicMethodValidator;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.annotation.BindVisible;
+import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.framework.ui.dialogs.DialogPmo;
@@ -31,14 +33,22 @@ public class MissingDynamicMethodPmo {
         return null;
     }
 
+    // Test annotation from core
     @UITextField(position = 10, modelAttribute = "type", visible = VisibleType.DYNAMIC)
     public void type() {
         // model binding
     }
 
+    // Test annotation from application framework
     @UIOpenDialogButton(position = 20, captionType = CaptionType.DYNAMIC)
     public DialogPmo getDialog() {
         return null;
     }
 
+    // Test dynamic aspect with Bind annotation
+    @BindVisible
+    @UIButton(position = 30)
+    public void button() {
+        // does nothing
+    }
 }

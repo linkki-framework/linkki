@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class DynamicFieldValidatorTest extends BaseAnnotationProcessorTest {
+class DynamicFieldValidatorTest extends AbstractAnnotationProcessorTest {
 
     @Nested
     @DisplayName(TESTS_THAT_EXPECT_A_COMPILATION_FAILURE)
@@ -38,7 +38,7 @@ public class DynamicFieldValidatorTest extends BaseAnnotationProcessorTest {
                            getSourceFile("ReportType.java"),
                            getSourceFile("dynamicFieldsValidator/DynamicFieldsWithDifferentPositionsPmo.java")));
 
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             String msg = Messages.getString(DynamicFieldValidator.DYNAMIC_FIELD_MISMATCH);
             String propertyName = "component";
             assertThat(logs, containsError());

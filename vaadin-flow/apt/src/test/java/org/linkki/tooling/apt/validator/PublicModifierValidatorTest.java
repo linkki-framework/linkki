@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class PublicModifierValidatorTest extends BaseAnnotationProcessorTest {
+public class PublicModifierValidatorTest extends AbstractAnnotationProcessorTest {
 
     @Nested
     @DisplayName(TESTS_THAT_EXPECT_A_COMPILATION_FAILURE)
@@ -39,7 +39,7 @@ public class PublicModifierValidatorTest extends BaseAnnotationProcessorTest {
         void shouldFailWhenPublicModifierIsMissing() {
             compile(asList(getSourceFile("publicModifierValidator/PublicModifierMissingOnAnnotatedMethodPmo.java"),
                            getSourceFile("Person.java")));
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertThat(logs, containsError());
             assertThat(logs, hasMessage(String.format(msg, "label", PublicModifierValidator.NON_PUBLIC_METHOD)));
             assertThat(logs, hasMessage(String.format(msg, "getPerson", PublicModifierValidator.NON_PUBLIC_METHOD)));
@@ -51,7 +51,7 @@ public class PublicModifierValidatorTest extends BaseAnnotationProcessorTest {
             compile(asList(getSourceFile("publicModifierValidator/PublicModifierMissingOnAspectMethodPmo.java"),
                            getSourceFile("Person.java")));
 
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertThat(logs, containsError());
             assertThat(logs,
                        hasMessage(String.format(msg, "isFirstnameEnabled", PublicModifierValidator.NON_PUBLIC_METHOD)));
@@ -63,7 +63,7 @@ public class PublicModifierValidatorTest extends BaseAnnotationProcessorTest {
             compile(asList(getSourceFile("publicModifierValidator/PublicModifierMissingOnComponentTypeMethodPmo.java"),
                            getSourceFile("Person.java")));
 
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertThat(logs, containsError());
             assertThat(logs, hasMessage(String.format(msg, "getFirstnameComponentType",
                                                       PublicModifierValidator.NON_PUBLIC_METHOD)));

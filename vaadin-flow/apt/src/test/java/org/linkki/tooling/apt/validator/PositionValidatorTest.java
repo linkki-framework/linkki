@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class PositionValidatorTest extends BaseAnnotationProcessorTest {
+class PositionValidatorTest extends AbstractAnnotationProcessorTest {
 
     @Nested
     @DisplayName(TESTS_THAT_EXPECT_A_COMPILATION_FAILURE)
@@ -39,7 +39,7 @@ public class PositionValidatorTest extends BaseAnnotationProcessorTest {
                            getSourceFile("componentPositionValidator/CollidingPositionsPmo.java")));
 
             String msg = Messages.getString(PositionValidator.POSITION_CLASH);
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertThat(logs, containsError());
             assertThat(logs, hasMessage(String.format(msg.substring(0, msg.indexOf("property")), 10)));
         }

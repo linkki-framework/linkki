@@ -23,19 +23,13 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.Processor;
 import javax.tools.Diagnostic.Kind;
 
@@ -50,7 +44,7 @@ import org.linkki.tooling.apt.compiler.TestMessager;
 import org.linkki.tooling.apt.compiler.TestProcessor;
 import org.mockito.Mockito;
 
-public abstract class BaseAnnotationProcessorTest {
+public abstract class AbstractAnnotationProcessorTest {
 
     /**
      * Useful for local debugging, set <code>true</code> for more console output like compiler
@@ -61,22 +55,15 @@ public abstract class BaseAnnotationProcessorTest {
     public static final String TESTS_THAT_EXPECT_A_COMPILATION_FAILURE = "Tests that expect a compilation failure";
     public static final String TESTS_THAT_EXPECT_A_COMPILATION_SUCCESS = "Tests that expect a compilation success";
 
-    private Messager messager;
     private TestProcessor processorWrapper;
     private TestMessager testMessager;
     private TestCompiler compiler;
-    private final Writer logWriter = new CompilerLogWriter();
-
-    private Processor processor;
 
     @BeforeEach
     void setUp() throws IOException {
-        testMessager = new TestMessager(DEBUG_TO_CONSOLE);
-        messager = Mockito.spy(testMessager);
-        processor = createProcessor();
-        processorWrapper = new TestProcessor(processor, messager);
-        compiler = new TestCompiler();
-        compiler.setLogWriter(logWriter);
+        testMessager = Mockito.spy(new TestMessager(DEBUG_TO_CONSOLE));
+        processorWrapper = new TestProcessor(createProcessor(), testMessager);
+        compiler = new TestCompiler(DEBUG_TO_CONSOLE);
     }
 
     @AfterEach
@@ -84,11 +71,7 @@ public abstract class BaseAnnotationProcessorTest {
         compiler.cleanUp();
     }
 
-    protected final Messager getMessager() {
-        return messager;
-    }
-
-    protected final List<String> getLogs() {
+    protected final List<String> getAnnotationProcessorLogs() {
         return testMessager.getLogs();
     }
 
@@ -102,9 +85,13 @@ public abstract class BaseAnnotationProcessorTest {
 
     protected abstract Processor createProcessor();
 
-    protected boolean compile(List<SourceFile> sourceFiles) {
+    protected final boolean compile(List<SourceFile> sourceFiles) {
         try {
-            return getCompiler().compile(getProcessor(), sourceFiles);
+            var result = getCompiler().compile(getProcessor(), sourceFiles);
+            if (!result) {
+                fail(getCompiler().getLogs());
+            }
+            return true;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -113,7 +100,7 @@ public abstract class BaseAnnotationProcessorTest {
     protected static SourceFile getSourceFile(String testFile) {
         String fileName = "org/linkki/tooling/apt/test/" + testFile;
         File file = new File(
-                Objects.requireNonNull(BaseAnnotationProcessorTest.class.getClassLoader().getResource(fileName),
+                Objects.requireNonNull(AbstractAnnotationProcessorTest.class.getClassLoader().getResource(fileName),
                                        "File not found")
                         .getFile());
 
@@ -126,16 +113,8 @@ public abstract class BaseAnnotationProcessorTest {
 
     protected static List<SourceFile> getSourceFiles(String... fileNames) {
         return Stream.of(fileNames)
-                .map(BaseAnnotationProcessorTest::getSourceFile)
+                .map(AbstractAnnotationProcessorTest::getSourceFile)
                 .collect(Collectors.toList());
-    }
-
-    protected final void addClassPathOf(Class<?> clazz) {
-        compiler.addClassPathOf(clazz);
-    }
-
-    protected final void addClassPathsOf(Collection<Class<?>> classes) {
-        compiler.addClassPathsOf(classes);
     }
 
     protected final void verifyNoWarnings() {
@@ -148,8 +127,8 @@ public abstract class BaseAnnotationProcessorTest {
 
     private void verifyNo(Kind kind) {
         assertTrue(testMessager.getLogs().isEmpty(), "expected logs to be empty but was: " + testMessager.getLogs());
-        verify(getMessager(), never()).printMessage(eq(kind), any(), any(), any());
-        verify(getMessager(), never()).printMessage(eq(kind), any(), any());
+        verify(testMessager, never()).printMessage(eq(kind), any(), any(), any());
+        verify(testMessager, never()).printMessage(eq(kind), any(), any());
     }
 
     protected static boolean isOfKind(String log, Kind kind) {
@@ -206,39 +185,4 @@ public abstract class BaseAnnotationProcessorTest {
     protected final void addOutputToAptClasspath() {
         getCompiler().addOutputToAptClasspath();
     }
-
-    private final class CompilerLogWriter extends Writer {
-
-        private final Writer consoleWriter = new OutputStreamWriter(System.err);
-        private final Writer stringWriter = new StringWriter();
-
-        @Override
-        public void write(char[] cbuf, int off, int len) throws IOException {
-            if (DEBUG_TO_CONSOLE) {
-                consoleWriter.write(cbuf, off, len);
-            }
-            stringWriter.write(cbuf, off, len);
-        }
-
-        @Override
-        public void flush() throws IOException {
-            consoleWriter.flush();
-            stringWriter.flush();
-
-            var rawLog = stringWriter.toString();
-            var relevantOutput = Arrays.stream(rawLog.split("\n"))
-                    .filter(line -> !line.startsWith("Note: Annotation processing is enabled"))
-                    .collect(Collectors.joining("\n"));
-            if (relevantOutput.contains("error")) {
-                fail("Compiler Error:\n" + stringWriter);
-            }
-        }
-
-        @Override
-        public void close() throws IOException {
-            consoleWriter.close();
-            stringWriter.close();
-        }
-    }
-
 }

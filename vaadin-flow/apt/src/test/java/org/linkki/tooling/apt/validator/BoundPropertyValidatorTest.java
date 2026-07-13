@@ -32,11 +32,11 @@ import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class BoundPropertyValidatorTest extends BaseAnnotationProcessorTest {
+class BoundPropertyValidatorTest extends AbstractAnnotationProcessorTest {
 
     @BeforeEach
     @Override
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         super.setUp();
         addLinkkiAptOption(BoundPropertyValidator.SETTER_ONLY_IN_MODEL_OBJECT, Kind.ERROR.name());
     }
@@ -52,7 +52,7 @@ public class BoundPropertyValidatorTest extends BaseAnnotationProcessorTest {
                                               getSourceFile("boundPropertyValidator/NoSetterPmo.java"));
 
             compile(sources);
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertEquals(1, logs.size());
 
             String log = logs.get(0);
@@ -68,7 +68,7 @@ public class BoundPropertyValidatorTest extends BaseAnnotationProcessorTest {
                                               getSourceFile("boundPropertyValidator/NoSetterDifferentGetterNamePmo.java"));
 
             compile(sources);
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertEquals(1, logs.size());
 
             String log = logs.get(0);

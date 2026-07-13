@@ -14,14 +14,9 @@
 
 package org.linkki.tooling.apt.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import javax.annotation.processing.Processor;
 import javax.lang.model.element.VariableElement;
@@ -34,10 +29,9 @@ import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.tooling.apt.compiler.SourceFile;
-import org.linkki.tooling.apt.validator.BaseAnnotationProcessorTest;
+import org.linkki.tooling.apt.validator.AbstractAnnotationProcessorTest;
 
-public class ModelBuilderTest extends BaseAnnotationProcessorTest {
+class ModelBuilderTest extends AbstractAnnotationProcessorTest {
 
     private MockProcessorForModelCreation processor = null;
 
@@ -47,128 +41,90 @@ public class ModelBuilderTest extends BaseAnnotationProcessorTest {
     }
 
     @Test
-    public void shouldCreateNonEmptyPmo() {
-        testPmo(Arrays.asList("Person.java", "model/NonEmptyPmo.java"), pmo -> {
+    void shouldCreateNonEmptyPmo() {
+        var pmo = createTestPmo(List.of("Person.java", "model/NonEmptyPmo.java"));
 
-            List<AptModelObject> modelObjects = pmo.getModelObjects();
-            assertEquals(1, modelObjects.size());
+        assertThat(pmo.getModelObjects())
+                .map(o -> o.getAnnotation().name())
+                .containsExactly("modelObject");
 
-            AptModelObject modelObject = modelObjects.get(0);
-            assertEquals("modelObject", modelObject.getAnnotation().name());
+        var components = pmo.getComponents();
+        assertThat(components).map(AptComponent::isDynamicField)
+                .containsExactly(true, true);
 
-            List<AptComponent> components = pmo.getComponents();
-            assertEquals(2, components.size());
+        var firstnameComponent = components.getFirst();
+        assertThat(firstnameComponent.getComponentDeclarations()).satisfiesExactly(d -> {
+            assertThat(d.getPropertyName()).isEqualTo("firstname");
+            assertThat(annotationNameOf(d)).isEqualTo(UITextField.class.getSimpleName());
+            assertThat(d.getPosition()).isEqualTo(10);
+            assertThat(d.getLabel()).hasValue("firstname");
+            assertThat(d.getModelObject().map(o -> o.getAnnotation().name())).hasValue("modelObject");
+            assertThat(d.getModelAttribute().map(AptModelAttribute::getName)).hasValue("firstname");
+        }, d -> {
+            assertThat(d.getPropertyName()).isEqualTo("firstname");
+            assertThat(annotationNameOf(d)).isEqualTo(UITextArea.class.getSimpleName());
+            assertThat(d.getPosition()).isEqualTo(10);
+            assertThat(d.getLabel()).hasValue("firstname");
+            assertThat(d.getModelObject().map(o -> o.getAnnotation().name())).hasValue("modelObject");
+            assertThat(d.getModelAttribute().map(AptModelAttribute::getName)).hasValue("firstname");
+        });
+        assertThat(firstnameComponent.getAspectBindings()).satisfiesExactly(a -> {
+            assertThat(a.getName()).isEqualTo(BindReadOnly.class.getSimpleName());
+            assertThat(a.getAttributes()).satisfiesExactly(attr -> {
+                assertThat(attr.getName()).isEqualTo("value");
+                assertThat(((VariableElement)attr.getValue()).getSimpleName())
+                        .hasToString(ReadOnlyType.ALWAYS.name());
+            });
+        });
 
-            {
-                AptComponent component = components.get(0);
-                assertTrue(component.isDynamicField());
-                assertEquals(2, component.getComponentDeclarations().size());
-                assertEquals(1, component.getAspectBindings().size());
-
-                {
-                    AptComponentDeclaration componentDeclaration1 = component.getComponentDeclarations().get(0);
-                    assertEquals("firstname", componentDeclaration1.getPropertyName());
-                    String annotationName = componentDeclaration1.getAnnotationMirror().getAnnotationType().asElement()
-                            .getSimpleName().toString();
-                    assertEquals(UITextField.class.getSimpleName(), annotationName);
-                    assertEquals(10, componentDeclaration1.getPosition());
-                    assertEquals(Optional.of("firstname"), componentDeclaration1.getLabel());
-                    assertEquals(Optional.of("modelObject"),
-                                 componentDeclaration1.getModelObject().map(it -> it.getAnnotation().name()));
-                    assertEquals(Optional.of("firstname"),
-                                 componentDeclaration1.getModelAttribute().map(it -> it.getName()));
-                }
-
-                {
-                    AptComponentDeclaration componentDeclaration2 = component.getComponentDeclarations().get(1);
-                    assertEquals("firstname", componentDeclaration2.getPropertyName());
-                    String annotationName = componentDeclaration2.getAnnotationMirror().getAnnotationType().asElement()
-                            .getSimpleName().toString();
-                    assertEquals(UITextArea.class.getSimpleName(), annotationName);
-                    assertEquals(10, componentDeclaration2.getPosition());
-                    assertEquals(Optional.of("firstname"), componentDeclaration2.getLabel());
-                    assertEquals(Optional.of("modelObject"),
-                                 componentDeclaration2.getModelObject().map(it -> it.getAnnotation().name()));
-                    assertEquals(Optional.of("firstname"),
-                                 componentDeclaration2.getModelAttribute().map(it -> it.getName()));
-                }
-
-                AptAspectBinding aspectBinding = component.getAspectBindings().get(0);
-                assertEquals(BindReadOnly.class.getSimpleName(), aspectBinding.getName());
-                assertEquals(1, aspectBinding.getAttributes().size());
-
-                AptAttribute attribute = aspectBinding.getAttributes().get(0);
-                assertEquals("value", attribute.getName());
-                assertEquals(((VariableElement)attribute.getValue()).getSimpleName().toString(),
-                             ReadOnlyType.ALWAYS.name());
-            }
-
-            {
-
-                AptComponent component = components.get(1);
-                assertTrue(component.isDynamicField());
-                assertEquals(2, component.getComponentDeclarations().size());
-                assertEquals(2, component.getAspectBindings().size());
-
-                {
-                    AptComponentDeclaration componentDeclaration1 = component.getComponentDeclarations().get(0);
-                    assertEquals("lastname", componentDeclaration1.getPropertyName());
-                    String annotationName = componentDeclaration1.getAnnotationMirror().getAnnotationType().asElement()
-                            .getSimpleName().toString();
-                    assertEquals(UITextField.class.getSimpleName(), annotationName);
-                    assertEquals(20, componentDeclaration1.getPosition());
-                    assertEquals(Optional.of("lastname"), componentDeclaration1.getLabel());
-                    assertEquals(componentDeclaration1.getModelObject().map(it -> it.getAnnotation().name()),
-                                 Optional.of("modelObject"));
-                    assertEquals(componentDeclaration1.getModelAttribute().map(it -> it.getName()),
-                                 Optional.of("lastname"));
-                }
-
-                {
-                    AptComponentDeclaration componentDeclaration2 = component.getComponentDeclarations().get(1);
-                    assertEquals("lastname", componentDeclaration2.getPropertyName());
-                    String annotationName = componentDeclaration2.getAnnotationMirror().getAnnotationType().asElement()
-                            .getSimpleName().toString();
-                    assertEquals(UITextArea.class.getSimpleName(), annotationName);
-                    assertEquals(20, componentDeclaration2.getPosition());
-                    assertEquals(Optional.of("lastname"), componentDeclaration2.getLabel());
-                    assertEquals(componentDeclaration2.getModelObject().map(it -> it.getAnnotation().name()),
-                                 Optional.of("modelObject"));
-                }
-
-                AptAspectBinding aspectBinding = component.getAspectBindings().get(0);
-                assertEquals(BindTooltip.class.getSimpleName(), aspectBinding.getName());
-                assertEquals(2, aspectBinding.getAttributes().size());
-
-                AptAttribute attribute1 = aspectBinding.getAttributes().get(0);
-                assertEquals("value", attribute1.getName());
-                assertEquals("lastname", attribute1.getValue());
-
-                AptAttribute attribute2 = aspectBinding.getAttributes().get(1);
-                assertEquals("tooltipType", attribute2.getName());
-                assertEquals(((VariableElement)attribute2.getValue()).getSimpleName().toString(),
-                             TooltipType.AUTO.name());
-
-                AptAspectBinding aspectBindingVisible = component.getAspectBindings().get(1);
-                assertEquals(BindVisible.class.getSimpleName(), aspectBindingVisible.getName());
-                assertEquals(0, aspectBindingVisible.getAttributes().size());
-                assertTrue(aspectBindingVisible.getElement().getSimpleName().contentEquals("lastname"));
-                assertTrue(pmo.getElement().getEnclosedElements().stream()
-                        .filter(e -> e.getSimpleName().contentEquals("isLastnameVisible")).findFirst().isPresent());
-            }
+        var lastnameComponent = components.get(1);
+        assertThat(lastnameComponent.getComponentDeclarations()).satisfiesExactly(d -> {
+            assertThat(d.getPropertyName()).isEqualTo("lastname");
+            assertThat(annotationNameOf(d)).isEqualTo(UITextField.class.getSimpleName());
+            assertThat(d.getPosition()).isEqualTo(20);
+            assertThat(d.getLabel()).hasValue("lastname");
+            assertThat(d.getModelObject().map(o -> o.getAnnotation().name())).hasValue("modelObject");
+            assertThat(d.getModelAttribute().map(AptModelAttribute::getName)).hasValue("lastname");
+        }, d -> {
+            assertThat(d.getPropertyName()).isEqualTo("lastname");
+            assertThat(annotationNameOf(d)).isEqualTo(UITextArea.class.getSimpleName());
+            assertThat(d.getPosition()).isEqualTo(20);
+            assertThat(d.getLabel()).hasValue("lastname");
+            assertThat(d.getModelObject().map(o -> o.getAnnotation().name())).hasValue("modelObject");
+            assertThat(d.getModelAttribute().map(AptModelAttribute::getName)).hasValue("lastname");
+        });
+        assertThat(lastnameComponent.getAspectBindings()).satisfiesExactly(a -> {
+            assertThat(a.getName()).isEqualTo(BindTooltip.class.getSimpleName());
+            assertThat(a.getAttributes()).satisfiesExactly(attr -> {
+                assertThat(attr.getName()).isEqualTo("value");
+                assertThat(attr.getValue()).isEqualTo("lastname");
+            }, attr -> {
+                assertThat(attr.getName()).isEqualTo("tooltipType");
+                assertThat(((VariableElement)attr.getValue()).getSimpleName())
+                        .hasToString(TooltipType.AUTO.name());
+            });
+        }, a -> {
+            assertThat(a.getName()).isEqualTo(BindVisible.class.getSimpleName());
+            assertThat(a.getAttributes()).isEmpty();
+            assertThat(a.getElement().getSimpleName()).hasToString("lastname");
+            assertThat(pmo.getElement().getEnclosedElements())
+                    .anyMatch(e -> e.getSimpleName().contentEquals("isLastnameVisible"));
         });
     }
 
-    private void testPmo(List<String> sources, Consumer<AptPmo> testFunction) {
-        List<SourceFile> files = sources.stream()
-                .map(BaseAnnotationProcessorTest::getSourceFile)
-                .collect(Collectors.toList());
+    private static String annotationNameOf(AptComponentDeclaration d) {
+        return d.getAnnotationMirror().getAnnotationType().asElement().getSimpleName().toString();
+    }
+
+    private AptPmo createTestPmo(List<String> sources) {
+        var files = sources.stream()
+                .map(AbstractAnnotationProcessorTest::getSourceFile)
+                .toList();
 
         compile(files);
 
-        Optional<AptPmo> pmo = processor.getPmo();
-        assertTrue(pmo.isPresent(), "expected pmo to be present");
-        pmo.ifPresent(testFunction);
+        var pmo = processor.getPmo();
+        assertThat(pmo).isPresent();
+        return pmo.get();
     }
-
 }

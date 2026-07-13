@@ -24,7 +24,7 @@ import javax.annotation.processing.Processor;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-class UITableColumnValidatorTest extends BaseAnnotationProcessorTest {
+class UITableColumnValidatorTest extends AbstractAnnotationProcessorTest {
 
     @Test
     void noErrors() {
@@ -39,7 +39,7 @@ class UITableColumnValidatorTest extends BaseAnnotationProcessorTest {
         compile(asList(getSourceFile("Person.java"),
                        getSourceFile("tableColumn/ModelObjectRowPmo.java")));
 
-        List<String> logs = getLogs();
+        List<String> logs = getAnnotationProcessorLogs();
         assertThat(logs, containsError());
         assertThat(logs, hasMessage(Messages.getString(UITableColumnValidator.SORTABLE_METHOD_RETURNS_VOID)));
     }
@@ -49,7 +49,7 @@ class UITableColumnValidatorTest extends BaseAnnotationProcessorTest {
         compile(asList(getSourceFile("Person.java"),
                        getSourceFile("tableColumn/NonComparableRowPmo.java")));
 
-        List<String> logs = getLogs();
+        List<String> logs = getAnnotationProcessorLogs();
         assertThat(logs, containsError());
         assertThat(logs, hasMessage(Messages.getString(UITableColumnValidator.SORTABLE_RETURN_TYPE_NOT_COMPARABLE)));
     }

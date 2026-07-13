@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-class BindClearButtonValidatorTest extends BaseAnnotationProcessorTest {
+class BindClearButtonValidatorTest extends AbstractAnnotationProcessorTest {
 
     @Override
     protected Processor createProcessor() {
@@ -41,7 +41,7 @@ class BindClearButtonValidatorTest extends BaseAnnotationProcessorTest {
         void shouldFailWhenAnnotatingMethodWithPrimitiveReturnType() {
             compile(List.of(getSourceFile("bindClearButtonValidator/BindClearButtonWithPrimitiveTypePmo.java")));
 
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertThat(logs, containsError());
             assertThat(logs, hasMessage(Messages.getString(BIND_CLEAR_BUTTON_WITH_PRIMITIVE)));
         }

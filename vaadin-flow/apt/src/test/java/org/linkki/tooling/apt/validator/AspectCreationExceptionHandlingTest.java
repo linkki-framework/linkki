@@ -28,7 +28,7 @@ import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 import org.linkki.tooling.apt.util.DynamicMethodUtils;
 
-public class AspectCreationExceptionHandlingTest extends BaseAnnotationProcessorTest {
+class AspectCreationExceptionHandlingTest extends AbstractAnnotationProcessorTest {
 
     private static final String SOURCE_SUBFOLDER = "aspectCreationExceptionHandling/";
 
@@ -42,7 +42,7 @@ public class AspectCreationExceptionHandlingTest extends BaseAnnotationProcessor
     class CompilationSuccess {
 
         @Test
-        public void shouldOnlyWarnEvenIfAspectCreationThrowsException() {
+        void shouldOnlyWarnEvenIfAspectCreationThrowsException() {
             addOutputToAptClasspath();
             List<SourceFile> sources = getSourceFiles(
                                                       SOURCE_SUBFOLDER + "FailingAspectDefinition.java",
@@ -51,7 +51,7 @@ public class AspectCreationExceptionHandlingTest extends BaseAnnotationProcessor
 
             compile(sources);
 
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
             assertThat(logs, contains(Kind.WARNING));
             String warningMessage = Messages.getString(DynamicMethodUtils.ASPECT_CREATION_FAILED);
             assertThat(logs, hasMessage(String.format(warningMessage,

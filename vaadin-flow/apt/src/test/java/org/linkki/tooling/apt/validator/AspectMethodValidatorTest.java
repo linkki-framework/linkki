@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class AspectMethodValidatorTest extends BaseAnnotationProcessorTest {
+class AspectMethodValidatorTest extends AbstractAnnotationProcessorTest {
 
     @Nested
     @DisplayName(TESTS_THAT_EXPECT_A_COMPILATION_FAILURE)
@@ -36,14 +36,14 @@ public class AspectMethodValidatorTest extends BaseAnnotationProcessorTest {
         @Test
         @DisplayName("caused by missing is<PropertyName>Visible/get<PropertyName>Caption method")
         void shouldFailWhenAspectMethodIsNotPresent() {
-            List<SourceFile> sources = asList(
-                    getSourceFile("ReportType.java"),
-                    getSourceFile("Report.java"),
-                    getSourceFile("dynamicMethodValidator/MissingDynamicMethodPmo.java"));
+            var sources = asList(
+                                 getSourceFile("ReportType.java"),
+                                 getSourceFile("Report.java"),
+                                 getSourceFile("dynamicMethodValidator/MissingDynamicMethodPmo.java"));
 
             compile(sources);
-            List<String> logs = getLogs();
-            String msg = Messages.getString(AspectMethodValidator.MISSING_METHOD);
+            var logs = getAnnotationProcessorLogs();
+            var msg = Messages.getString(AspectMethodValidator.MISSING_METHOD);
             assertThat(logs, containsError());
             assertThat(logs, hasMessage(String.format(msg, "isTypeVisible", "type")));
             assertThat(logs, hasMessage(String.format(msg, "getDialogCaption", "dialog")));
@@ -57,9 +57,9 @@ public class AspectMethodValidatorTest extends BaseAnnotationProcessorTest {
         @DisplayName("visible/caption method is provided")
         void shouldSucceedWhenAspectMethodIsPresent() {
             List<SourceFile> sources = asList(
-                    getSourceFile("ReportType.java"),
-                    getSourceFile("Report.java"),
-                    getSourceFile("dynamicMethodValidator/DynamicMethodProvidedPmo.java"));
+                                              getSourceFile("ReportType.java"),
+                                              getSourceFile("Report.java"),
+                                              getSourceFile("dynamicMethodValidator/DynamicMethodProvidedPmo.java"));
             compile(sources);
             verifyNoErrors();
         }

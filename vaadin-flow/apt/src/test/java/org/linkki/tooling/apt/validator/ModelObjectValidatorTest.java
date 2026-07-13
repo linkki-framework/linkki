@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
-public class ModelObjectValidatorTest extends BaseAnnotationProcessorTest {
+class ModelObjectValidatorTest extends AbstractAnnotationProcessorTest {
 
     @Nested
     @DisplayName(TESTS_THAT_EXPECT_A_COMPILATION_FAILURE)
@@ -43,7 +43,7 @@ public class ModelObjectValidatorTest extends BaseAnnotationProcessorTest {
                                                       "modelObjectValidator/ModelObjectNameClashPmo.java");
 
             compile(sources);
-            List<String> logs = getLogs();
+            List<String> logs = getAnnotationProcessorLogs();
 
             assertThat(logs.size(), equalTo(2));
 
