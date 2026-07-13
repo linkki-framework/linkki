@@ -567,7 +567,7 @@ The menu item IDs in the example would have the IDs `menu-id1` and `menu-id2`, r
 IDs within a menu must be unique.
 If this is violated and multiple items share the same ID, an exception will be thrown.
 
-A menu item should show a caption and define a command that is executed when the item is clicked.
+A menu item should display a caption and must either define a command that is executed when clicked or contain a list of submenu items.
 Optionally, a menu item can be assigned an icon.
 
 [IMPORTANT]

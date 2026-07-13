@@ -150,12 +150,6 @@ public class SingleItemMenuBar extends Composite<MenuBar> implements HasCaption,
         }
     }
 
-    private String getSubMenuItemId(MenuItemDefinition itemDefinition) {
-        return theItem.getId()
-                .map(id -> id + "-" + itemDefinition.getId())
-                .orElse(itemDefinition.getId());
-    }
-
     private void setSubMenuItemIcon(MenuItem subMenuItem, MenuItemDefinition definition) {
         var subMenuIcon = definition.getIcon();
         if (subMenuIcon != null) {
