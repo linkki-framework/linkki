@@ -190,18 +190,16 @@ public class NotificationUtil {
     }
 
     private static Component createMessageListComponent(MessageList messages) {
-        VerticalLayout component = new VerticalLayout();
+        var component = new VerticalLayout();
         component.setClassName("linkki-notification-messagelist");
         component.setPadding(false);
         messages.forEach(m -> {
-            LinkkiText m2 = new LinkkiText();
-            m2.setText(HtmlSanitizer.sanitizeText(m.getText()), true);
-            if (m.getSeverity() == Severity.INFO) {
-                m2.setIcon(VaadinIcon.INFO_CIRCLE);
-            } else if (m.getSeverity() == Severity.WARNING) {
-                m2.setIcon(VaadinIcon.WARNING);
-            } else if (m.getSeverity() == Severity.ERROR) {
-                m2.setIcon(VaadinIcon.CLOSE_CIRCLE);
+            var m2 = new LinkkiText();
+            m2.setText(m.getText(), true);
+            switch (m.getSeverity()) {
+                case INFO -> m2.setIcon(VaadinIcon.INFO_CIRCLE);
+                case WARNING -> m2.setIcon(VaadinIcon.WARNING);
+                case ERROR -> m2.setIcon(VaadinIcon.CLOSE_CIRCLE);
             }
 
             component.add(m2);

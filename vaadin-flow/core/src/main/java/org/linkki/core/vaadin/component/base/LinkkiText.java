@@ -129,7 +129,7 @@ public class LinkkiText extends Component implements HasIcon, HasPrefix, HasSuff
      * @param html use the text as HTML content when <code>true</code>, use the text as plain text
      *            otherwise
      */
-    public void setText(String text, boolean html) {
+    public void setText(@CheckForNull String text, boolean html) {
         if (html) {
             var sanitizedText = HtmlSanitizer.sanitizeText(text);
             getContent().setText(null);

@@ -13,6 +13,8 @@
  */
 package org.linkki.testbench;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.Duration;
 import java.util.Locale;
 
@@ -186,8 +188,10 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
         newDriver.get(initialUrl);
         new WebDriverWait(newDriver, Duration.ofSeconds(10))
-                .until(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
-                        .toString().equals("complete"));
+                .until(d -> {
+                    var jsResult = ((JavascriptExecutor)d).executeScript("return document.readyState");
+                    return requireNonNull(jsResult).toString().equals("complete");
+                });
         return newDriver;
     }
 
