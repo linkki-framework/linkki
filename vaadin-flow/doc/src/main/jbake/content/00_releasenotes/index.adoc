@@ -118,6 +118,20 @@
 
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.10/00_releasenotes/#_version_2_10_0[version 2.10.0].
 
+==== Version Updates
+
+The following versions have been updated:
+
+// Only track dependencies that are relevant for downstream projects
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 25.2.3 (link:https://github.com/vaadin/platform/releases/tag/25.2.3[Release Notes]) | 25.2.1
+| Karibu                        | 2.7.1 | 2.7.0
+| JUnit                         | 6.1.2 (link:https://docs.junit.org/6.1.2/release-notes.html[Release Notes]) | 6.1.1
+|===
+
 ==== Components, UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-4626
@@ -132,3 +146,7 @@ The new aspect <<bind-form-item-label-width, `BindFormItemLabelWidth`>> allows c
 A MenuItemDefinition with sub-items acts as a submenu parent instead of a leaf action item.
 Submenus are rendered and updated recursively, with `enabled` and `visible` state propagated at all levels.
 For more information see <<ui-menulist, UIMenuList>>.
+// https://jira.convista.com/browse/JTS-3338
+* *`@UIOpenDialogButton`: dialog can now be shown conditionally* +
+The annotated method may now return `null` to indicate that no dialog should be opened under certain conditions.
+In this case, the binding context is still updated.

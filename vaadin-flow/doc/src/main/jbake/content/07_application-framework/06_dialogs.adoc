@@ -32,9 +32,6 @@ include::{source-dir}/org/linkki/samples/playground/dialogs/VerticalLayoutConten
 [[ui-open-dialog-button]]
 ==== Creating dialogs on button click
 
-[NOTE]
-Note that this annotation is an experimental feature that may be subject of API change in the near future.
-
 Sometimes, a value or a grid item should not be edited directly.
 Instead, a dialog should be opened upon a button click in which the user can edit the value in a more complex form.
 To implement this use case, `BindingContext#modelChanged` often needs to be passed to the PMO to update the underlying `BindingContext` after the OK button was clicked.
@@ -84,6 +81,7 @@ This is useful when:
 
 * The dialog needs to be customized, which requires direct control over the dialog creation
 * An existing dialog that was not created with a `DialogPmo` should be reused
+* The dialog should only be shown under certain conditions — the annotated method may return `null` in this case, which still triggers a binding context update
 
 .Dialog created with `@UIOpenDialogButton` using `Function<Handler, OkCancelDialog>`
 [source,java]

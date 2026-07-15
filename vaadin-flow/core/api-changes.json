@@ -111,5 +111,29 @@
         ]
       }
     }
+  ],
+  "2.11.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.annotation.added",
+            "old": "parameter void org.linkki.core.vaadin.component.base.LinkkiText::setText(===java.lang.String===, boolean)",
+            "new": "parameter void org.linkki.core.vaadin.component.base.LinkkiText::setText(===java.lang.String===, boolean)",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
+            "justification": "JTS-3298/JTS-3336 Fix potential null reference"
+          },
+          {
+            "code": "java.annotation.added",
+            "old": "parameter void org.linkki.core.vaadin.component.base.LinkkiText::setText(===java.lang.String===, boolean) @ org.linkki.core.vaadin.component.base.LinkkiAnchor",
+            "new": "parameter void org.linkki.core.vaadin.component.base.LinkkiText::setText(===java.lang.String===, boolean) @ org.linkki.core.vaadin.component.base.LinkkiAnchor",
+            "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
+            "justification": "JTS-3298/JTS-3336 Fix potential null reference"
+          }
+        ]
+      }
+    }
   ]
 }

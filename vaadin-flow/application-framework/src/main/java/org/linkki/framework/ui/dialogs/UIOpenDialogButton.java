@@ -13,7 +13,7 @@
  */
 package org.linkki.framework.ui.dialogs;
 
-import static org.linkki.util.Objects.requireNonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -59,16 +59,16 @@ import com.vaadin.flow.component.button.ButtonVariant;
  * <li>Return a {@link Function} that creates a {@link OkCancelDialog} from a {@link Handler}
  * (<code>public Function&lt;Handler, OkCancelDialog&gt; get[propertyName]()</code>). The argument
  * of the function is the model changed handler that will update the binding context. The created
- * dialog must make sure that this handler is called when the OK button is clicked.
+ * dialog must make sure that this handler is called when the OK button is clicked.<br/>
  * {@link Handler#compose(Consumer)} and {@link Handler#compose(Handler)} may come in handy.</li>
  * </ol>
  * <p>
- * To display an icon on the button use {@link org.linkki.core.ui.aspects.annotation.BindIcon}.
+ * The annotated method may return {@code null} to indicate that no dialog should be opened. In this
+ * case, the binding context is still updated.
  * <p>
- * Note that this annotation is an experimental feature that may be subject of API change in the
- * near future.
+ * To display an icon on the button use {@link org.linkki.core.ui.aspects.annotation.BindIcon}.
  *
- * @since 2.8.0 (experimental)
+ * @since 2.8.0
  */
 
 @LinkkiAspect(UIOpenDialogButton.DialogButtonAspectDefinitionCreator.class)
@@ -141,8 +141,9 @@ public @interface UIOpenDialogButton {
             var button = (Button)componentWrapper.getComponent();
             button.addClickListener(e -> {
                 var aspectValue = propertyDispatcher.pull(Aspect.of(VALUE_ASPECT_NAME));
-                requireNonNull(aspectValue, "Aspect method must not return null");
-                if (aspectValue instanceof DialogPmo dialogPmo) {
+                if (aspectValue == null) {
+                    modelChanged.apply();
+                } else if (aspectValue instanceof DialogPmo dialogPmo) {
                     var okHandler = dialogPmo.getOkHandler()
                             .andThen(modelChanged);
                     new PmoBasedDialogFactory(dialogPmo::validate, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
@@ -152,7 +153,8 @@ public @interface UIOpenDialogButton {
                     try {
                         @SuppressWarnings("unchecked")
                         var dialogCreator = (Function<Handler, OkCancelDialog>)aspectValue;
-                        dialogCreator.apply(modelChanged).open();
+                        var dialog = requireNonNull(dialogCreator.apply(modelChanged));
+                        dialog.open();
                     } catch (ClassCastException exception) {
                         throw new LinkkiBindingException(
                                 "Aspect method must either return a DialogPmo or a Function<Handler, OkCancelDialog>",

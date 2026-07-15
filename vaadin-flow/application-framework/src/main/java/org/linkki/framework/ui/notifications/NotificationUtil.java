@@ -96,12 +96,12 @@ public class NotificationUtil {
      */
     public static Notification show(String title, MessageList messages) {
         if (!messages.isEmpty()) {
-            Severity severity = messages.getSeverity().orElseThrow();
+            var severity = messages.getSeverity().orElseThrow();
             Notification notification = createNotification(severity, title, createMessageListComponent(messages));
             notification.open();
             return notification;
         } else {
-            Notification notification = createNotification(Severity.INFO, title);
+            var notification = createNotification(Severity.INFO, title);
             notification.open();
             return notification;
         }
@@ -116,7 +116,7 @@ public class NotificationUtil {
      * @return the shown notification
      */
     public static Notification showInfo(String title, String description) {
-        Notification notification = createNotification(Severity.INFO, title, createContent(description));
+        var notification = createNotification(Severity.INFO, title, createContent(description));
         notification.open();
         return notification;
     }
@@ -130,7 +130,7 @@ public class NotificationUtil {
      * @return the shown notification
      */
     public static Notification showWarning(String title, String description) {
-        Notification notification = createNotification(Severity.WARNING, title, createContent(description));
+        var notification = createNotification(Severity.WARNING, title, createContent(description));
         notification.open();
         return notification;
     }
@@ -143,7 +143,7 @@ public class NotificationUtil {
      * @return the shown notification
      */
     public static Notification showError(String title, String description) {
-        Notification notification = createNotification(Severity.ERROR, title, createContent(description));
+        var notification = createNotification(Severity.ERROR, title, createContent(description));
         notification.open();
         return notification;
     }
@@ -154,7 +154,7 @@ public class NotificationUtil {
      * @return the notification
      */
     public static Notification createNotification(Severity severity, String title, Component... components) {
-        Div content = new Div();
+        var content = new Div();
         content.addClassName("linkki-notification-content");
         content.add(new H3(title));
         content.add(components);
@@ -184,24 +184,22 @@ public class NotificationUtil {
     }
 
     private static Div createContent(String description) {
-        Div content = new Div();
+        var content = new Div();
         content.getElement().setProperty("innerHTML", HtmlSanitizer.sanitizeText(description));
         return content;
     }
 
     private static Component createMessageListComponent(MessageList messages) {
-        VerticalLayout component = new VerticalLayout();
+        var component = new VerticalLayout();
         component.setClassName("linkki-notification-messagelist");
         component.setPadding(false);
         messages.forEach(m -> {
-            LinkkiText m2 = new LinkkiText();
-            m2.setText(HtmlSanitizer.sanitizeText(m.getText()), true);
-            if (m.getSeverity() == Severity.INFO) {
-                m2.setIcon(VaadinIcon.INFO_CIRCLE);
-            } else if (m.getSeverity() == Severity.WARNING) {
-                m2.setIcon(VaadinIcon.WARNING);
-            } else if (m.getSeverity() == Severity.ERROR) {
-                m2.setIcon(VaadinIcon.CLOSE_CIRCLE);
+            var m2 = new LinkkiText();
+            m2.setText(m.getText(), true);
+            switch (m.getSeverity()) {
+                case INFO -> m2.setIcon(VaadinIcon.INFO_CIRCLE);
+                case WARNING -> m2.setIcon(VaadinIcon.WARNING);
+                case ERROR -> m2.setIcon(VaadinIcon.CLOSE_CIRCLE);
             }
 
             component.add(m2);

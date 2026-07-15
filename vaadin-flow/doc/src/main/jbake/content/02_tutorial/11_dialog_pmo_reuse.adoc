@@ -44,7 +44,7 @@ include::{source-dir}/pmo/dialog/AddressPmo.java[tags=addressPmo]
 
 ==== Implementing the dialog
 
-Now, we add a new class `AddAddressDialogPmo`, which inherits from <<uiOpenDialogButton, `DialogPmo`>>.
+Now, we add a new class `AddAddressDialogPmo`, which inherits from <<ui-open-dialog-button, `DialogPmo`>>.
 It wraps around our `AddressPmo` and provides dialog functionalities such as validation, method invocation when OK is pressed and setting a dialogs caption.
 Implement it as follows:
 
@@ -91,7 +91,7 @@ Finally, switch to `AddressTablePmo` to create the button that opens the dialog.
 
 [NOTE]
 There are alternatives for opening a <<dialogs, Dialog>>.
-However, using <<uiOpenDialogButton, `@UIOpenDialogButton`>> is the preferred way for creating dialogs on button press.
+However, using <<ui-open-dialog-button, `@UIOpenDialogButton`>> is the preferred way for creating dialogs on button press.
 
 .AddressTablePmo.java
 [source,java,indent=0]

@@ -14,6 +14,7 @@
 
 package org.linkki.framework.ui.dialogs;
 
+import static com.github.mvysny.kaributesting.v10.LocatorJ._assertNoDialogs;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._find;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
@@ -96,6 +97,55 @@ class UIOpenDialogButtonIntegrationTest {
     }
 
     @Test
+    void testDialogCreatorFunction_Null() {
+        @UISection
+        class TestPmo {
+
+            boolean showDialog;
+            final AtomicInteger counter = new AtomicInteger();
+
+            @UIOpenDialogButton(position = 1)
+            public Function<Handler, OkCancelDialog> getDialog() {
+                if (showDialog) {
+                    return modelChanged -> OkCancelDialog.builder("dialog caption")
+                            .okHandler(modelChanged.compose(counter::incrementAndGet))
+                            .build();
+                } else {
+                    counter.incrementAndGet();
+                    return null;
+                }
+            }
+        }
+
+        var testPmo = new TestPmo();
+        var modelChangedCounter = new AtomicInteger();
+        var bindingContext = new BindingContext.BindingContextBuilder()
+                .afterModelChangedHandler(modelChangedCounter::incrementAndGet).build();
+        var component = VaadinUiCreator.createComponent(testPmo, bindingContext);
+        assertThat(modelChangedCounter.get()).isZero();
+
+        _get(component, Button.class).click();
+
+        _assertNoDialogs();
+        assertThat(testPmo.counter.get()).isEqualTo(1);
+        assertThat(modelChangedCounter.get()).isOne();
+
+        testPmo.showDialog = true;
+
+        _get(component, Button.class).click();
+
+        assertThat(modelChangedCounter.get()).isOne();
+        var dialog = _get(Dialog.class);
+        assertThat(KaribuUtils.getComponentTree(dialog))
+                .contains("dialog caption");
+
+        Dialogs.clickOkButton();
+
+        assertThat(modelChangedCounter.get()).isEqualTo(2);
+        assertThat(testPmo.counter.get()).isEqualTo(2);
+    }
+
+    @Test
     void testDialogPmo_ModelChangedAfterDialogOk() {
         var sectionPmo = new TestSectionPmo();
         var section = VaadinUiCreator.createComponent(sectionPmo, new BindingContext());
@@ -118,6 +168,53 @@ class UIOpenDialogButtonIntegrationTest {
         assertThat(getTextContent(textField))
                 .as("The sections textfield should contain the value from the dialogs textfield after the ok button was pressed")
                 .isEqualTo("changed");
+    }
+
+    @Test
+    void testDialogPmo_Null() {
+        @UISection
+        class TestPmo {
+
+            boolean showDialog;
+            final AtomicInteger counter = new AtomicInteger();
+
+            @UIOpenDialogButton(position = 1)
+            public DialogPmo getDialog() {
+                if (showDialog) {
+                    return new TestDialogPmo(s -> counter.incrementAndGet());
+                } else {
+                    counter.incrementAndGet();
+                    return null;
+                }
+            }
+        }
+
+        var testPmo = new TestPmo();
+        var modelChangedCounter = new AtomicInteger();
+        var bindingContext = new BindingContext.BindingContextBuilder()
+                .afterModelChangedHandler(modelChangedCounter::incrementAndGet).build();
+        var component = VaadinUiCreator.createComponent(testPmo, bindingContext);
+        assertThat(modelChangedCounter.get()).isZero();
+
+        _get(component, Button.class).click();
+
+        _assertNoDialogs();
+        assertThat(testPmo.counter.get()).isEqualTo(1);
+        assertThat(modelChangedCounter.get()).isOne();
+
+        testPmo.showDialog = true;
+
+        _get(component, Button.class).click();
+
+        assertThat(modelChangedCounter.get()).isOne();
+        var dialog = _get(Dialog.class);
+        assertThat(KaribuUtils.getComponentTree(dialog))
+                .contains("Dialog Caption");
+
+        Dialogs.clickOkButton();
+
+        assertThat(modelChangedCounter.get()).isEqualTo(2);
+        assertThat(testPmo.counter.get()).isEqualTo(2);
     }
 
     @Test
