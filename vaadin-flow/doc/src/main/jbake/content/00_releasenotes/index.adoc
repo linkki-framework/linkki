@@ -19,7 +19,7 @@ The following versions have been updated:
 | Dependency | New version | Previous version
 
 | Spring Boot compatibility tested for | 3.5.16 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.16[Release Notes]) | 3.5.14
-| Logback                    | 1.5.37 | 1.5.32
+| Logback                    | 1.5.38 | 1.5.32
 |===
 
 === Version 2.8.4
