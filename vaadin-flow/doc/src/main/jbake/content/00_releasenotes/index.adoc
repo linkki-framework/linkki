@@ -122,13 +122,13 @@ The release notes contain changes compared to link:https://doc.linkki-framework.
 
 // https://jira.convista.com/browse/LIN-4626
 * *UIOpenDialogButton mit ButtonVariant*
-The annotation `UIOpenDialogButton` now has an attribute `variants` to define the variants of the button.
+The annotation <<ui-open-dialog-button, `UIOpenDialogButton`>> now has an attribute `variants` to define the variants of the button.
 // https://jira.convista.com/browse/LIN-4875
-* [.api-change] *BindFormItemLabelWidth* +
-The new aspect `BindFormItemLabelWidth` allows changing the label width for all items within the annotated section.
-For more information see <<bind-form-item-label-width, BindFormItemLabelWidth>>
+* *BindFormItemLabelWidth* +
+The new aspect <<bind-form-item-label-width, `BindFormItemLabelWidth`>> allows changing the label width for all items within the annotated section.
 // https://jira.convista.com/browse/LIN-4885
 * *`UIMenuList` supports submenus* +
 `MenuItemDefinition` now supports nested sub-items via `MenuItemDefinition.Builder#subItems(List)`.
 A MenuItemDefinition with sub-items acts as a submenu parent instead of a leaf action item.
 Submenus are rendered and updated recursively, with `enabled` and `visible` state propagated at all levels.
+For more information see <<ui-menulist, UIMenuList>>.
