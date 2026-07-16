@@ -618,6 +618,19 @@
 
     <profiles>
         <profile>
+            <id>skip-checks</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+                <checkstyle.skip>true</checkstyle.skip>
+                <spotbugs.skip>true</spotbugs.skip>
+                <jacoco.skip>true</jacoco.skip>
+                <revapi.skip>true</revapi.skip>
+                <enforcer.skip>true</enforcer.skip>
+                <flatten.skip>true</flatten.skip>
+            </properties>
+        </profile>
+        <profile>
             <id>MavenCentralRelease</id>
             <build>
                 <plugins>

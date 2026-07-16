@@ -20,6 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>21</java.version>
         <surefire.directory>surefire-reports</surefire.directory>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
 
         <!-- Compile dependencies -->
         <spring-boot.version>4.1.0</spring-boot.version>
@@ -392,6 +393,27 @@
         </pluginManagement>
 
     </build>
+
+    <profiles>
+        <profile>
+            <id>skip-checks</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+                <jacoco.skip>true</jacoco.skip>
+                <enforcer.skip>true</enforcer.skip>
+                <flatten.skip>true</flatten.skip>
+                <checkstyle.skip>true</checkstyle.skip>
+                <spotbugs.skip>true</spotbugs.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>skip-frontend</id>
+            <properties>
+                <vaadin.skip>true</vaadin.skip>
+            </properties>
+        </profile>
+    </profiles>
 
     <distributionManagement>
         <repository>

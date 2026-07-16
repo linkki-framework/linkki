@@ -26,11 +26,11 @@ class OkCancelElementTest extends PlaygroundUiTest {
         goToView(BugCollectionView.ROUTE);
         openTab(OverlappingDialogHeadersBug.LIN_4780);
         $(ButtonElement.class).withCaption("Open OkCancelDialog").single().click();
-        var firstDialog = $(OkCancelDialogElement.class).withCondition(hasCaption("Caption")).single();
-
-        firstDialog.$(ButtonElement.class).withCaption("Open nested OkCancelDialog").single().click();
+        $(OkCancelDialogElement.class).withCondition(hasCaption("Caption")).single()
+                .$(ButtonElement.class).withCaption("Open nested OkCancelDialog").single().click();
 
         assertThat($(OkCancelDialogElement.class).all()).hasSize(2);
+        var firstDialog = $(OkCancelDialogElement.class).withCondition(hasCaption("Caption")).single();
         assertThatNoException().isThrownBy(firstDialog::getOkButton);
         assertThatNoException().isThrownBy(firstDialog::getCancelButton);
         assertThatNoException().isThrownBy(firstDialog::getDialogLayout);

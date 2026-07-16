@@ -134,9 +134,6 @@
                             <test.hostname.f10>${test.hostname.f10}</test.hostname.f10>
                             <test.port.f10>${test.port.f10}</test.port.f10>
                         </systemPropertyVariables>
-                        <forkCount>4</forkCount>
-                        <reuseForks>false</reuseForks>
-                        <reportsDirectory>target/surefire-reports-${surefire.forkNumber}</reportsDirectory>
                     </configuration>
                 </plugin>
             </plugins>
