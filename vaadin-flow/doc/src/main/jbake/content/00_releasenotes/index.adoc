@@ -150,3 +150,11 @@ For more information see <<ui-menulist, UIMenuList>>.
 * *`@UIOpenDialogButton`: dialog can now be shown conditionally* +
 The annotated method may now return `null` to indicate that no dialog should be opened under certain conditions.
 In this case, the binding context is still updated.
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4967
+* *TreeGrid in Grid cell did not render content until user interaction* +
+A Vaadin regression caused `TreeGrid` components used inside `Grid` component columns to not display their content after the page loads.
+Content only appeared after the user interacted with the Grid (e.g. sorting a column).
+This is fixed by the Vaadin update to 25.2.3.
