@@ -116,6 +116,8 @@
 
 === Version {vlinkki}
 
+=== Version 2.11.0-a20260720-01
+
 The release notes contain changes compared to link:https://doc.linkki-framework.org/2.10/00_releasenotes/#_version_2_10_0[version 2.10.0].
 
 ==== Version Updates
