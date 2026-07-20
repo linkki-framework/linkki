@@ -344,3 +344,11 @@ Downstream projects have to provide their own logging configuration now, if requ
 <<ui-combobox, Comboboxes>> in Grids were causing exceptions during lazy-loading.
 This was fixed for projects using the <<application-framework, application framework>>.
 Projects that imported the <<ui-combobox-focus-first, focus-first scripts>> for ComboBoxes manually, must remove the `@JsModule` call to import `focus-first-item-combo-box-scroller.js`.
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4967
+* *TreeGrid in Grid cell did not render content until user interaction* +
+A Vaadin regression caused `TreeGrid` components used inside `Grid` component columns to not display their content after the page loads.
+Content only appeared after the user interacted with the Grid (e.g. sorting a column).
+This is fixed by the Vaadin update to 25.2.3.
