@@ -1,6 +1,7 @@
 library 'f10-jenkins-library@1.1_patches'
 library 'release-library@1.2'
 library 'maven-central-release-library@main'
+library 'druiden-jenkins-library@main'
 
 import groovy.json.JsonOutput
 
@@ -29,7 +30,16 @@ pipeline {
         stage('Prepare Release') {
             steps {
                 withMaven(publisherStrategy: 'EXPLICIT') {
-                    prepareRelease additionalModules: ['vaadin-flow/samples/test-playground/uitest']
+                    prepareRelease {
+                        additionalModule 'vaadin-flow/samples/test-playground/uitest'
+                        additionalDevelopmentAction {
+                            insertReleaseNotesVersion(
+                                params.RELEASE_VERSION,
+                                'vaadin-flow/doc/src/main/jbake/content/00_releasenotes/index.adoc',
+                                '{vlinkki}'
+                            )
+                        }
+                    }
                 }
             }
         }
