@@ -44,6 +44,24 @@
       }
     }
   ],
+  "2.10.2": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.annotation.added",
+            "old": "parameter void org\\.linkki\\.core\\.vaadin\\.component\\.base\\.LinkkiText::setText\\(===java\\.lang\\.String===, boolean\\).*",
+            "new": "parameter void org\\.linkki\\.core\\.vaadin\\.component\\.base\\.LinkkiText::setText\\(===java\\.lang\\.String===, boolean\\).*",
+            "annotation": "@edu\\.umd\\.cs\\.findbugs\\.annotations\\.CheckForNull",
+            "justification": "JTS-3298/JTS-3338 setText already handled null values; @CheckForNull makes this explicit in the API"
+          }
+        ]
+      }
+    }
+  ],
   "2.10.1": [
     {
       "extension": "revapi.differences",
