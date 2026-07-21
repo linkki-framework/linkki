@@ -403,9 +403,31 @@
                 <jacoco.skip>true</jacoco.skip>
                 <enforcer.skip>true</enforcer.skip>
                 <flatten.skip>true</flatten.skip>
-                <checkstyle.skip>true</checkstyle.skip>
-                <spotbugs.skip>true</spotbugs.skip>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>checkstyle</id>
+                                <phase/>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>spotbugs</id>
+                                <phase/>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>skip-frontend</id>

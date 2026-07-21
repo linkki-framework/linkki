@@ -9,6 +9,7 @@ pipeline {
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
         NETWORK_NAME = "network-${PROJECT_ID}"
+        MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
         DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
@@ -58,22 +59,28 @@ pipeline {
 
                 preBuildSteps()
 
-                withMaven(publisherStrategy: 'EXPLICIT') {
+                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                     dependsOn(credentials: 'gerrit_rest') {}
                 }
             }
         }
 
-        stage('Prepare for Deployment') {
+        stage('Bootstrap') {
             parallel {
-                stage('Fast Build') {
+                stage('Compile and Install') {
                     steps {
-                        withMaven(publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
-                            // Excluded modules:
-                            //   doc: slow jade generation, not needed for downstream stages
-                            //   linkki-codeanalysis: only needed as plugin dependency for checkstyle/spotbugs, which are unbound in skip-checks
-                            // skip-frontend: Vaadin plugin is not thread-safe; skipping allows all modules to build in parallel
+                        withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                            // Verifies compilation and installs artifacts into local Maven repo for downstream parallel stages.
+                            // Only exclude modules that are not required as compile-time dependencies by any other stage.
                             sh 'mvn -T 4 install -Pskip-checks,skip-frontend -pl "!vaadin-flow/doc,!linkki-codeanalysis" -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
+                        }
+                    }
+                }
+
+                stage('Install linkki-codeanalysis') {
+                    steps {
+                        withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                            sh 'mvn install -pl linkki-codeanalysis -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
                         }
                     }
                 }
@@ -91,10 +98,12 @@ pipeline {
                 stage('Check API and Javadoc') {
                     steps {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                            withMaven(publisherStrategy: 'EXPLICIT') {
+                            withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                 sh 'mvn -T 4 \
                                     -pl "!linkki-codeanalysis" \
-                                    validate org.revapi:revapi-maven-plugin:check javadoc:javadoc'
+                                    validate org.revapi:revapi-maven-plugin:check javadoc:javadoc \
+                                    -Dorg.slf4j.simpleLogger.showDateTime=true \
+                                    -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
                             }
                         }
                     }
@@ -104,9 +113,9 @@ pipeline {
                     stages {
                         stage('Full Build') {
                             steps {
-                                withMaven(publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                                     sh 'mvn -T 8 \
-                                        install \
+                                        verify \
                                         -pl "!vaadin-flow/doc" \
                                         -Drevapi.skip \
                                         -Dflatten.skip \
@@ -156,11 +165,13 @@ pipeline {
 
                 stage('Faktor-IPS Build') {
                     steps {
-                        withMaven(publisherStrategy: 'EXPLICIT') {
+                        withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn \
                                 -Pskip-checks \
                                 -pl org.linkki-framework:linkki-ips-vaadin-flow \
-                                faktorips:faktorips-clean faktorips:faktorips-build'
+                                faktorips:faktorips-clean faktorips:faktorips-build \
+                                -Dorg.slf4j.simpleLogger.showDateTime=true \
+                                -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
                         }
                     }
                 }
@@ -184,7 +195,7 @@ pipeline {
                         stage('Build Doc') {
                             steps {
                                 withMaven(publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
-                                    sh 'mvn -pl vaadin-flow/doc install -Drevapi.skip -Dflatten.skip'
+                                    sh 'mvn -pl vaadin-flow/doc package -Drevapi.skip -Dflatten.skip -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
                                 }
 
                                 archiveArtifacts 'vaadin-flow/doc/target/doc/**'
@@ -210,7 +221,7 @@ pipeline {
                                     // Rebuild samples with frontend in parallel. Separate invocation allows
                                     // parallel execution since each module runs as its own Maven process,
                                     // working around the Vaadin Maven plugin not being thread-safe.
-                                    sh 'mvn -T 4 install -Pskip-checks -pl vaadin-flow/samples -amd'
+                                    sh 'mvn -T 4 package -Pskip-checks -pl vaadin-flow/samples -amd -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
                                 }
                             }
                         }
@@ -243,7 +254,7 @@ pipeline {
 
                         stage('UI Test') {
                             steps {
-                                withMaven(publisherStrategy: 'EXPLICIT') {
+                                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
                                     sh 'mvn \
                                         -f vaadin-flow/samples/test-playground/uitest/pom.xml \
                                         test \
