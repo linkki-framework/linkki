@@ -85,7 +85,7 @@ pipeline {
 
                 script {
                     archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
-                    def result = junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
+                    def result = junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports/*.xml'
 
                     if (result.getFailCount() > 0) {
                         rtp parserName: 'HTML', nullAction: '1', stableText: """
