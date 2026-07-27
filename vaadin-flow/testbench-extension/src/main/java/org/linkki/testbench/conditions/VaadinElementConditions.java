@@ -16,8 +16,10 @@ package org.linkki.testbench.conditions;
 
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.logging.Logger;
 
 import org.linkki.testbench.pageobjects.OkCancelDialogElement;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
@@ -31,6 +33,8 @@ import com.vaadin.testbench.TestBenchElement;
  * {@link ExpectedCondition ExpectedConditions} related to Vaadin Testbench elements.
  */
 public class VaadinElementConditions {
+
+    private static final Logger LOGGER = Logger.getLogger(VaadinElementConditions.class.getName());
 
     private VaadinElementConditions() {
         // no instances
@@ -99,16 +103,28 @@ public class VaadinElementConditions {
             }
 
             private boolean matches(OkCancelDialogElement dialog) {
-                return dialog.isOpen() && dialog.getCaption().contentEquals(title);
+                try {
+                    return dialog.isOpen() && dialog.getCaption().contentEquals(title);
+                } catch (StaleElementReferenceException e) {
+                    LOGGER.fine(() -> "Stale element while checking if dialog '%s' is displayed, retrying: %s"
+                            .formatted(title, e.getMessage()));
+                    return false;
+                }
             }
         };
     }
 
     public static ExpectedCondition<Boolean> dialogClosed(String title) {
-        return driver -> new ElementQuery<>(OkCancelDialogElement.class).context(driver)
-                .all()
-                .stream()
-                .noneMatch(dialog -> dialog.getCaption().contentEquals(title));
+        return driver -> new ElementQuery<>(OkCancelDialogElement.class).context(driver).all().stream()
+                .noneMatch(dialog -> {
+                    try {
+                        return dialog.getCaption().contentEquals(title);
+                    } catch (StaleElementReferenceException e) {
+                        LOGGER.fine(() -> "Stale element while checking dialog '%s' closed, treating as closed: %s"
+                                .formatted(title, e.getMessage()));
+                        return false;
+                    }
+                });
     }
 
     public static ExpectedCondition<Boolean> allDialogsClosed() {
