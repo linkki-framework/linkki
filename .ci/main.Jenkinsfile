@@ -11,10 +11,6 @@ pipeline {
         NETWORK_NAME = "network-${PROJECT_ID}"
         CONTAINER_RETENTION = 'permanent-on'
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
-        DEPLOYMENT_HOST = "${PROJECT_ID}.dockerhost.i.faktorzehn.de"
-        DEPLOYMENT_URL = "http://${DEPLOYMENT_HOST}/${DEPLOYMENT_NAME}"
-        F10_DEPLOYMENT_HOST = "${PROJECT_ID}-linkki-f10-sample.dockerhost.i.faktorzehn.de"
-        F10_DEPLOYMENT_URL = "http://${F10_DEPLOYMENT_HOST}/linkki-f10-sample/ui"
         BASE_IMAGE = 'spring:26.1'
         SUITE_VERSION = '26.1'
     }
@@ -55,6 +51,12 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
+                script {
+                    env.DEPLOYMENT_URL = getContainerUrl(PROJECT_ID, DEPLOYMENT_NAME)
+                    env.DEPLOYMENT_HOST = env.DEPLOYMENT_URL.replaceAll('https?://([^/]+).*', '$1')
+                    env.F10_DEPLOYMENT_URL = getContainerUrl("${PROJECT_ID}-linkki-f10-sample", 'linkki-f10-sample/ui')
+                    env.F10_DEPLOYMENT_HOST = env.F10_DEPLOYMENT_URL.replaceAll('https?://([^/]+).*', '$1')
+                }
 
                 sh 'cp vaadin-flow/samples/test-playground/target/linkki-sample-test-playground-vaadin-flow.war .ci/docker/playground/'
                 sh 'cp vaadin-flow/samples/linkki-f10-sample/target/linkki-f10-sample.jar .ci/docker/linkki-f10-sample/'
@@ -65,8 +67,8 @@ pipeline {
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Sample Deployments</h3>
                     <ul>
-                        <li><a href='${DEPLOYMENT_URL}' target="_blank">Playground</a></li>
-                        <li><a href='http://${PROJECT_ID}-linkki-f10-sample.dockerhost.i.faktorzehn.de/linkki-f10-sample/ui' target="_blank">Linkki F10 Sample</a></li>
+                        <li><a href='${env.DEPLOYMENT_URL}' target="_blank">Playground</a></li>
+                        <li><a href='${env.F10_DEPLOYMENT_URL}' target="_blank">Linkki F10 Sample</a></li>
                     </ul>
                 """
             }
@@ -96,8 +98,8 @@ pipeline {
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
-                waitForServer "${DEPLOYMENT_URL}"
-                waitForServer "${F10_DEPLOYMENT_URL}"
+                waitForServer env.DEPLOYMENT_URL
+                waitForServer env.F10_DEPLOYMENT_URL
             }
         }
 
