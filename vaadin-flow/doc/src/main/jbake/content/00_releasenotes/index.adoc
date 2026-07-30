@@ -8,14 +8,17 @@
 
 == Release Notes
 
+// [tag::template-major-header]
 // === Version 2.10.0
-
+//
 // The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
+// [end::template-major-header]
 
+// [tag::template-version-updates]
 // ==== Version Updates
-
+// // Only list versions that are in compile scope, not plugins, and not only used in samples.
 // The following versions have been updated:
-
+//
 // [cols="a,a,a"]
 // |===
 // | Dependency                    | New version                                                                        | Previous version
@@ -24,36 +27,57 @@
 // | Karibu                        | 2.6.2 | 2.6.1
 // | Logback                       | 1.5.29 | 1.5.27
 // | Spring Boot compatibility tested for | 4.0.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.0.2[Release Notes]) | 4.0.1
-
 // |===
+// [end::template-version-updates]
 
+// [tag::template-components]
 // ==== Components, UI Annotations and Aspects
-
+//
 // // https://jira.convista.com/browse/LIN-????
 // * *Description* +
 // Text
+// [end::template-components]
 
+// [tag::template-testing]
 // ==== Testing
-
+//
 // // https://jira.convista.com/browse/LIN-????
 // * [.api-change] *Beschreibung* +
 // Text
-
+//
 // // https://jira.convista.com/browse/LIN-????
 // * *Beschreibung* +
 // Text
-
+//
 // // https://jira.convista.com/browse/LIN-????
 // * *Description* +
 // Text
+// [end::template-testing]
 
+// [tag::template-bugfixes]
 // ==== Bugfixes
-
+//
 // // https://jira.convista.com/browse/LIN-????
 // * [.api-change] *Description* +
 // Text
+// [end::template-bugfixes]
 
 === Version {vlinkki}
+
+==== Version Updates
+// Only list versions that are in compile scope, not plugins, and not only used in samples.
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 25.2.4 (link:https://github.com/vaadin/platform/releases/tag/25.2.4[Release Notes]) | 25.2.3
+| Karibu                        | 2.7.2 | 2.7.1
+| Faktor-IPS                    | 26.7.1.release (link:https://doc.faktorzehn.org/faktor-ips/26.7.1/01_releasenotes/index.html[Release Notes])  | 26.7.0.release
+|===
+
+=== Version 2.10.1
 
 ==== Version Updates
 
@@ -66,7 +90,6 @@ The following versions have been updated:
 | Vaadin                        | 25.2.3 (link:https://github.com/vaadin/platform/releases/tag/25.2.3[Release Notes]) | 25.2.1
 | Karibu                        | 2.7.1 | 2.7.0
 | JUnit                         | 6.1.2 (link:https://docs.junit.org/6.1.2/release-notes.html[Release Notes]) | 6.1.1
-
 |===
 
 ==== Components, UI Annotations and Aspects
@@ -75,6 +98,14 @@ The following versions have been updated:
 * *`@UIOpenDialogButton`: dialog can now be shown conditionally* +
 The annotated method may now return `null` to indicate that no dialog should be opened under certain conditions.
 In this case, the binding context is still updated.
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4967
+* *TreeGrid in Grid cell did not render content until user interaction* +
+A Vaadin regression caused `TreeGrid` components used inside `Grid` component columns to not display their content after the page loads.
+Content only appeared after the user interacted with the Grid (e.g. sorting a column).
+This is fixed by the Vaadin update to 25.2.3.
 
 === Version 2.10.0
 
@@ -170,7 +201,7 @@ Some well-known ones include:
 If this is the case, use `com.vaadin.flow.component.html.NativeLabel` instead. +
 If the usage does not match the specification, use a different element such as `Text` or `Span` instead.
 * *Renaming of variant constants* +
-With the introduction of a new theme, variants that only work with Lumo theme are renamed, e.g. `DetailsVariant.FILLED` to `DetailsVariant.LUMO_FILLED`. +
+With the introduction of a new theme, variants that only work with Lumo theme are renamed, .g. `DetailsVariant.FILLED` to `DetailsVariant.LUMO_FILLED`. +
 *Migration*: Check the deprecation Javadoc and replace the constants accordingly.
 
 [.api-change]
@@ -366,10 +397,3 @@ Downstream projects have to provide their own logging configuration now, if requ
 This was fixed for projects using the <<application-framework, application framework>>.
 Projects that imported the <<ui-combobox-focus-first, focus-first scripts>> for ComboBoxes manually, must remove the `@JsModule` call to import `focus-first-item-combo-box-scroller.js`.
 
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4967
-* *TreeGrid in Grid cell did not render content until user interaction* +
-A Vaadin regression caused `TreeGrid` components used inside `Grid` component columns to not display their content after the page loads.
-Content only appeared after the user interacted with the Grid (e.g. sorting a column).
-This is fixed by the Vaadin update to 25.2.3.
