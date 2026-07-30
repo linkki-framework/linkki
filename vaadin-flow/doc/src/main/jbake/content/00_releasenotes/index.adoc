@@ -22,6 +22,12 @@ The following versions have been updated:
 | Logback                    | 1.5.38 | 1.5.32
 |===
 
+==== Bugfixes
+
+// https://jira.convista.com/browse/JTS-3376
+* *Testbench tests not closing Chrome handles in headless mode* +
+Executing <<UI tests, ui-testing>> in headless mode spawned two ChromeDriver instances but only closed one at the end of each test.
+
 === Version 2.8.4
 
 ==== Version Updates
