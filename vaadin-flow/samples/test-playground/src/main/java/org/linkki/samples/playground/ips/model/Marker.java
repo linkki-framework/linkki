@@ -31,13 +31,11 @@ import org.faktorips.runtime.model.annotation.IpsEnumType;
         defaultLocale = "en")
 @IpsEnumType(name = "Marker",
         attributeNames = { "id", "name", "requiredInformationMissing", "technicalConstraintViolated" })
-@IpsGenerated
 public enum Marker implements IMarker {
 
     /**
      * @generated
      */
-    @IpsGenerated
     REQUIRED_INFORMATION_MISSING(
             "R",
             "Required Information Missing",
@@ -47,7 +45,6 @@ public enum Marker implements IMarker {
     /**
      * @generated
      */
-    @IpsGenerated
     TECHNICAL_CONSTRAINT_VIOLATED(
             "T",
             "Technical Constraint Violated",

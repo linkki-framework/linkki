@@ -127,7 +127,7 @@ The following versions have been updated:
 
 | Vaadin                        | 25.2.5 (link:https://github.com/vaadin/platform/releases/tag/25.2.5[Release Notes]) | 25.2.3
 | Karibu                        | 2.7.2 (link:https://github.com/mvysny/karibu-testing/releases/tag/2.7.2[Release Notes]) | 2.7.1
-| Faktor-IPS                    | 26.7.1 (link:https://doc.faktorzehn.org/faktor-ips/26.7/01_releasenotes/index.html#_version_26_7_1[Release Notes]) | 26.7.0
+| Faktor-IPS                    | 26.7.1-a20260729-01 (link:https://doc.faktorzehn.org/faktor-ips/27.1.0-a20260729-01/01_releasenotes/index.html#release_notes[Release Notes]) | 26.7.0
 |===
 
 ==== Other Improvements

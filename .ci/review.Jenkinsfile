@@ -162,9 +162,9 @@ pipeline {
                 stage('Faktor-IPS Build') {
                     steps {
                         withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn \
+                            sh 'mvn -T 4 \
                                 -Pskip-checks \
-                                -pl org.linkki-framework:linkki-ips-vaadin-flow \
+                                -pl vaadin-flow/ips,vaadin-flow/samples/test-playground \
                                 faktorips:faktorips-clean faktorips:faktorips-build \
                                 -Dorg.slf4j.simpleLogger.showDateTime=true \
                                 -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'

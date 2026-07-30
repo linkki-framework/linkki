@@ -14,16 +14,16 @@
 
 package org.linkki.samples.playground.ips.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.faktorips.runtime.ICopySupport;
+import org.faktorips.runtime.IModelObject;
 import org.faktorips.runtime.IRuntimeRepository;
 import org.faktorips.runtime.IValidationContext;
-import org.faktorips.runtime.validation.GenericRelevanceValidation;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.annotation.IpsGenerated;
 import org.faktorips.runtime.internal.AbstractModelObject;
-import org.faktorips.runtime.ICopySupport;
 import org.faktorips.runtime.internal.IpsStringUtils;
 import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
@@ -34,6 +34,7 @@ import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
 import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
+import org.faktorips.runtime.validation.GenericRelevanceValidation;
 import org.faktorips.values.Decimal;
 import org.faktorips.valueset.DecimalRange;
 import org.faktorips.valueset.IntegerRange;
@@ -41,8 +42,8 @@ import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
-import org.faktorips.runtime.IModelObject;
-import java.util.HashMap;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Implementation for IpsModelObject.
@@ -55,8 +56,6 @@ import java.util.HashMap;
         "emptyStringValueSet" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions",
         defaultLocale = "en")
-@SuppressFBWarnings
-@IpsGenerated
 public class IpsModelObject extends AbstractModelObject implements ICopySupport {
 
     /**
@@ -71,9 +70,8 @@ public class IpsModelObject extends AbstractModelObject implements ICopySupport 
      * @generated
      */
     @IpsAllowedValues("decimal")
-    public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL =
-            DecimalRange.valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false, false,
-                                 false);
+    public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL = DecimalRange
+            .valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false, false, false);
     /**
      * The default value for decimal.
      *
@@ -941,8 +939,11 @@ public class IpsModelObject extends AbstractModelObject implements ICopySupport 
      * continue validating, <code>false</code> otherwise.
      *
      * @generated
+     * @customizedAnnotations ADDED
      */
     @Override
+    @SuppressFBWarnings(value = "IAOM_DO_NOT_INCREASE_METHOD_ACCESSIBILITY",
+            justification = "Wrong visibility-modifier due to a bug in FIPS generator")
     @IpsGenerated
     public boolean validateSelf(MessageList ml, IValidationContext context) {
         if (!super.validateSelf(ml, context)) {
@@ -956,8 +957,11 @@ public class IpsModelObject extends AbstractModelObject implements ICopySupport 
      * Validates the object's children.
      *
      * @generated
+     * @customizedAnnotations ADDED
      */
     @Override
+    @SuppressFBWarnings(value = "IAOM_DO_NOT_INCREASE_METHOD_ACCESSIBILITY",
+            justification = "Wrong visibility-modifier due to a bug in FIPS generator")
     @IpsGenerated
     public void validateDependants(MessageList ml, IValidationContext context) {
         super.validateDependants(ml, context);

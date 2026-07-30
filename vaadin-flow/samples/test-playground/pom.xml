@@ -19,6 +19,7 @@
     <properties>
         <revapi.skip>true</revapi.skip>
         <javafaker.version>1.0.2</javafaker.version>
+        <faktorips.version>27.1.0.a20260729-01</faktorips.version>
     </properties>
 
     <dependencies>
@@ -162,5 +163,32 @@
                 <artifactId>vaadin-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.faktorips</groupId>
+                    <artifactId>faktorips-maven-plugin</artifactId>
+                    <version>${faktorips.version}</version>
+                    <configuration>
+                        <executionEnvironment>JavaSE-21</executionEnvironment>
+                        <!-- Eclipse 2026-06 -->
+                        <eclipseRepository>https://update.faktorzehn.org/p2repositories/2026-06/</eclipseRepository>
+                        <!-- Check for modifications after compiling -->
+                        <gitStatusPorcelain>
+                            <verbosity>quiet</verbosity>
+                        </gitStatusPorcelain>
+                        <m2eIgnorePlugins>
+                            <m2eIgnorePlugin>
+                                <groupId>com.vaadin</groupId>
+                                <artifactId>vaadin-maven-plugin</artifactId>
+                                <versionRange>[24,)</versionRange>
+                                <goals>prepare-frontend</goals>
+                            </m2eIgnorePlugin>
+                        </m2eIgnorePlugins>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

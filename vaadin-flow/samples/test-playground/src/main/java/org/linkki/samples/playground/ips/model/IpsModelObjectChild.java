@@ -14,6 +14,10 @@
 
 package org.linkki.samples.playground.ips.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.faktorips.runtime.IModelObject;
 import org.faktorips.runtime.IValidationContext;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.annotation.IpsGenerated;
@@ -28,9 +32,8 @@ import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
-import org.faktorips.runtime.IModelObject;
-import java.util.Map;
-import java.util.HashMap;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Implementation for IpsModelObjectChild.
@@ -41,7 +44,6 @@ import java.util.HashMap;
 @IpsAttributes({ "string" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions",
         defaultLocale = "en")
-@IpsGenerated
 public class IpsModelObjectChild extends IpsModelObject {
 
     /**
@@ -185,8 +187,11 @@ public class IpsModelObjectChild extends IpsModelObject {
      * continue validating, <code>false</code> otherwise.
      *
      * @generated
+     * @customizedAnnotations ADDED
      */
     @Override
+    @SuppressFBWarnings(value = "IAOM_DO_NOT_INCREASE_METHOD_ACCESSIBILITY",
+            justification = "Wrong visibility-modifier due to a bug in FIPS generator")
     @IpsGenerated
     public boolean validateSelf(MessageList ml, IValidationContext context) {
         if (!super.validateSelf(ml, context)) {
@@ -199,8 +204,11 @@ public class IpsModelObjectChild extends IpsModelObject {
      * Validates the object's children.
      *
      * @generated
+     * @customizedAnnotations ADDED
      */
     @Override
+    @SuppressFBWarnings(value = "IAOM_DO_NOT_INCREASE_METHOD_ACCESSIBILITY",
+            justification = "Wrong visibility-modifier due to a bug in FIPS generator")
     @IpsGenerated
     public void validateDependants(MessageList ml, IValidationContext context) {
         super.validateDependants(ml, context);

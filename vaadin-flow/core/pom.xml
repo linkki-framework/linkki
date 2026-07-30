@@ -11,7 +11,7 @@
 
     <artifactId>linkki-core-vaadin-flow</artifactId>
     <packaging>jar</packaging>
-    <name>linkki Vaadin Flow</name>
+    <name>linkki Vaadin Flow Core</name>
 
     <dependencies>
         <dependency>
@@ -70,6 +70,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
