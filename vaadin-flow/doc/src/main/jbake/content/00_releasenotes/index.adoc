@@ -8,6 +8,7 @@
 
 == Release Notes
 
+// [tag::template-version-updates]
 // ==== Version Updates
 //
 // The following versions have been updated:
@@ -18,10 +19,27 @@
 //
 // | Vaadin                        | 24.9.12 (link:https://github.com/vaadin/platform/releases/tag/24.9.12[Release Notes]) | 24.9.10
 // | Spring Boot compatibility tested for | 3.5.11 (link:https://github.com/spring-projects/spring-boot/releases/tag/v3.5.11[Release Notes]) | 3.5.10
-// | Logback                       | 1.5.32 | 1.5.26
+// | Faktor-IPS                    | 26.1.0.release (link:https://doc.faktorzehn.org/faktor-ips/26.1/[Release Notes]) | 25.7.0.release
+// | Karibu                        | 2.5.0  | 2.3.0
+// | Junit | 5.14.2 (link:https://docs.junit.org/5.14.2/release-notes/#release-notes-5.14.2[Release Notes])| 5.12.2
 // |===
+// [end::template-version-updates]
 
 === Version {vlinkki}
+
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 24.9.19 (link:https://github.com/vaadin/platform/releases/tag/24.9.19[Release Notes]) | 24.9.18
+|===
+
+WARNING:: Note that the Vaadin version used by this version needs commercial support.
+If you are a customer of Faktor Zehn and you are having any problems, please contact your Faktor Zehn representative.
 
 ==== Bugfixes
 
