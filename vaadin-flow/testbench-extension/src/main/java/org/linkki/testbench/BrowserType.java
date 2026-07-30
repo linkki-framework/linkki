@@ -70,7 +70,7 @@ public enum BrowserType {
 
             var driver = new ChromeDriver(options);
             LOGGER.info("Chrome driver version: " + driver.getCapabilities().getCapability("browserVersion"));
-            return new ChromeDriver(options);
+            return driver;
         }
     };
 
