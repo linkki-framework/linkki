@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vaadin.testbench.TestBench;
-import com.vaadin.testbench.TestBenchDriverProxy;
 
 /**
  * JUnit test extension for Vaadin Testbench UI tests.
@@ -51,7 +50,10 @@ import com.vaadin.testbench.TestBenchDriverProxy;
  * }
  * </pre>
  */
-public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback,
+public class WebDriverExtension implements BeforeAllCallback,
+        AfterAllCallback,
+        BeforeEachCallback,
+        AfterEachCallback,
         AfterTestExecutionCallback {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverExtension.class);
@@ -139,8 +141,7 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
         UITestConfiguration config = getConfiguration(context);
         if (!config.restartAfterEveryTest()) {
-            driver.get().quit();
-            driver.remove();
+            tearDown();
         }
     }
 
@@ -153,8 +154,7 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
         UITestConfiguration config = getConfiguration(context);
         if (config.restartAfterEveryTest()) {
-            driver.get().quit();
-            driver.remove();
+            tearDown();
         }
     }
 
@@ -164,12 +164,11 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
         if (driver.get() == null) {
             var webDriver = createWebDriver(browserType, locale);
-            var testbenchDriver = createTestBenchDriver(webDriver);
-            driver.set(testbenchDriver);
+            driver.set(setupDriver(webDriver));
         }
     }
 
-    private WebDriver createWebDriver(BrowserType browserType, Locale locale) {
+    protected WebDriver createWebDriver(BrowserType browserType, Locale locale) {
         SessionNotCreatedException lastException = null;
         for (var attempt = 1; attempt <= 3; attempt++) {
             try {
@@ -182,17 +181,32 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
         throw lastException;
     }
 
-    private TestBenchDriverProxy createTestBenchDriver(WebDriver webDriver) {
-        var newDriver = TestBench.createDriver(webDriver);
-        newDriver.manage().window().setSize(new Dimension(1440, 900));
+    protected WebDriver wrapWithTestBench(WebDriver webDriver) {
+        return TestBench.createDriver(webDriver);
+    }
 
-        newDriver.get(initialUrl);
-        new WebDriverWait(newDriver, Duration.ofSeconds(10))
-                .until(d -> {
-                    var jsResult = ((JavascriptExecutor)d).executeScript("return document.readyState");
-                    return requireNonNull(jsResult).toString().equals("complete");
-                });
+    @SuppressWarnings("checkstyle:IllegalCatch")
+    /* private */ WebDriver setupDriver(WebDriver webDriver) {
+        var newDriver = wrapWithTestBench(webDriver);
+        try {
+            newDriver.manage().window().setSize(new Dimension(1440, 900));
+            newDriver.get(initialUrl);
+            new WebDriverWait(newDriver, Duration.ofSeconds(10))
+                    .until(d -> {
+                        var jsResult = ((JavascriptExecutor)d).executeScript("return document.readyState");
+                        return requireNonNull(jsResult).toString().equals("complete");
+                    });
+        } catch (RuntimeException e) {
+            newDriver.quit();
+            throw e;
+        }
+
         return newDriver;
+    }
+
+    private void tearDown() {
+        driver.get().quit();
+        driver.remove();
     }
 
     private UITestConfiguration getConfiguration(ExtensionContext context) {

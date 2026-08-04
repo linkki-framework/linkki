@@ -8,7 +8,7 @@
 
 == Release Notes
 
-// === Version 2.10.0
+// === Version 2.11.0
 
 // The release notes contain changes compared to link:https://doc.linkki-framework.org/2.9/00_releasenotes/#_version_2_9_0[version 2.9.0].
 
@@ -120,7 +120,8 @@
 
 // https://jira.convista.com/browse/LIN-3402
 * *Support for records* +
-Records are now supported to be used as PMOs and model objects. The usage is explained in the chapter <<records, Records>>.
+Records are now supported to be used as PMOs and model objects.
+The usage is explained in the chapter <<records, Records>>.
 
 ==== Bugfixes
 
@@ -129,6 +130,9 @@ Records are now supported to be used as PMOs and model objects. The usage is exp
 A Vaadin regression caused `TreeGrid` components used inside `Grid` component columns to not display their content after the page loads.
 Content only appeared after the user interacted with the Grid (e.g. sorting a column).
 This is fixed by the Vaadin update to 25.2.3.
+// https://jira.convista.com/browse/JTS-3405
+* *Testbench tests not closing Chrome handles on error* +
+Errors during initialization of <<UI tests, ui-testing>> spawned Chrome handles but did not close them.
 
 === Version 2.11.0-a20260720-01
 
