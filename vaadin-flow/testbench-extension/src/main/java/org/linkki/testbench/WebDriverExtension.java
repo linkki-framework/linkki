@@ -13,9 +13,7 @@
  */
 package org.linkki.testbench;
 
-import java.time.Duration;
-import java.util.Locale;
-
+import com.vaadin.testbench.TestBench;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -23,20 +21,25 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.linkki.testbench.util.DriverProperties;
-import org.linkki.testbench.util.ScreenshotUtil;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.vaadin.testbench.TestBench;
+import java.time.Duration;
+import java.util.Locale;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * JUnit test extension for Vaadin Testbench UI tests.
  * <p>
  * Create a static field annotated with {@link RegisterExtension} in your test in order to use this
  * extension, e.g.:
- * 
+ *
  * <pre>
  * {@code @RegisterExtension}
  * {@code
@@ -44,17 +47,22 @@ import com.vaadin.testbench.TestBench;
  * }
  * </pre>
  */
-public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
+public class WebDriverExtension implements BeforeAllCallback,
+        AfterAllCallback,
+        BeforeEachCallback,
+        AfterEachCallback {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverExtension.class);
 
     private final boolean headless;
     private final String initialUrl;
 
-    private WebDriver driver;
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     /**
      * Creates a {@link WebDriverExtension} with the given context path. The fully qualified URL is
      * built by using the context path together with the {@link DriverProperties}.
-     * 
+     *
      * @param contextPath the context path that is used to build the fully qualified URL
      */
     public WebDriverExtension(String contextPath) {
@@ -63,7 +71,7 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
 
     /**
      * Constructor to explicitly specify the headless mode and the fully qualified URL.
-     * 
+     *
      * @param headless <code>true</code> for headless mode activated
      * @param initialUrl the fully qualified URL
      */
@@ -73,8 +81,9 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
     }
 
     public WebDriver getDriver() {
-        if (driver != null) {
-            return driver;
+        var driverInThread = driver.get();
+        if (driverInThread != null) {
+            return driverInThread;
         } else {
             throw new IllegalStateException("Driver has not been initialized");
         }
@@ -84,7 +93,7 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
     public void beforeAll(ExtensionContext context) {
         UITestConfiguration config = getConfiguration(context);
         if (!config.restartAfterEveryTest()) {
-            createDriver(config);
+            createTestBenchDriver(config);
         }
     }
 
@@ -92,51 +101,86 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback, 
     public void beforeEach(ExtensionContext context) {
         UITestConfiguration config = getConfiguration(context);
         if (config.restartAfterEveryTest()) {
-            createDriver(config);
+            createTestBenchDriver(config);
         }
     }
 
     @Override
     public void afterAll(ExtensionContext context) {
-        if (driver == null) {
+        if (driver.get() == null) {
             // driver setup might have failed
             return;
         }
 
         UITestConfiguration config = getConfiguration(context);
         if (!config.restartAfterEveryTest()) {
-            driver.quit();
+            tearDown();
         }
     }
 
     @Override
-    public void afterEach(ExtensionContext context) throws Exception {
-        if (driver == null) {
+    public void afterEach(ExtensionContext context) {
+        if (driver.get() == null) {
             // driver setup might have failed
             return;
         }
 
         UITestConfiguration config = getConfiguration(context);
-        boolean testFailed = context.getExecutionException().isPresent();
-
-        if (testFailed) {
-            ScreenshotUtil.takeScreenshot(driver, context.getDisplayName());
-        }
-
         if (config.restartAfterEveryTest()) {
-            driver.quit();
+            tearDown();
         }
     }
 
-    private void createDriver(UITestConfiguration config) {
-        BrowserType browserType = headless ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
-        driver = TestBench.createDriver(browserType.getWebdriver(Locale.forLanguageTag(config.locale())));
-        driver.manage().window().setSize(new Dimension(1440, 900));
+    private void createTestBenchDriver(UITestConfiguration config) {
+        var browserType = headless ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
+        var locale = Locale.forLanguageTag(config.locale());
 
-        driver.get(initialUrl);
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
-                        .toString().equals("complete"));
+        if (driver.get() == null) {
+            var webDriver = createWebDriver(browserType, locale);
+            driver.set(setupDriver(webDriver));
+        }
+    }
+
+    private WebDriver createWebDriver(BrowserType browserType, Locale locale) {
+        SessionNotCreatedException lastException = null;
+        for (var attempt = 1; attempt <= 3; attempt++) {
+            try {
+                return browserType.getWebdriver(locale);
+            } catch (SessionNotCreatedException e) {
+                lastException = e;
+                LOGGER.debug("Creating Webdriver failed (attempt {}) with {}", attempt, e.getMessage(), e);
+            }
+        }
+        throw lastException;
+    }
+
+    /* private */ WebDriver wrapWithTestBench(WebDriver webDriver) {
+        return TestBench.createDriver(webDriver);
+    }
+
+    /* private */ WebDriver setupDriver(WebDriver webDriver) {
+        var newDriver = wrapWithTestBench(webDriver);
+        // CSOFF: IllegalCatch
+        try {
+            newDriver.manage().window().setSize(new Dimension(1440, 900));
+            newDriver.get(initialUrl);
+            new WebDriverWait(newDriver, Duration.ofSeconds(10))
+                    .until(d -> {
+                        var jsResult = ((JavascriptExecutor)d).executeScript("return document.readyState");
+                        return requireNonNull(jsResult).toString().equals("complete");
+                    });
+        } catch (RuntimeException e) {
+            newDriver.quit();
+            throw e;
+        }
+        // CSON: IllegalCatch
+
+        return newDriver;
+    }
+
+    private void tearDown() {
+        driver.get().quit();
+        driver.remove();
     }
 
     private UITestConfiguration getConfiguration(ExtensionContext context) {
