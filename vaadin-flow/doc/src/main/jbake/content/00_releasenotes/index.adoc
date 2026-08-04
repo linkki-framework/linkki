@@ -46,6 +46,9 @@ If you are a customer of Faktor Zehn and you are having any problems, please con
 // https://jira.convista.com/browse/JTS-3376
 * *Testbench tests not closing Chrome handles in headless mode* +
 Executing <<ui-testing, UI tests>> in headless mode spawned two ChromeDriver instances but only closed one at the end of each test.
+// https://jira.convista.com/browse/JTS-3405
+* *Testbench tests not closing Chrome handles on error* +
+Errors during initialization of <<ui-testing, UI tests>> spawned Chrome handles but did not close them.
 
 === Version 2.9.10
 
