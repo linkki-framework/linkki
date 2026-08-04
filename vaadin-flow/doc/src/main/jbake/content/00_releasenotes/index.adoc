@@ -72,10 +72,16 @@ The following versions have been updated:
 |===
 | Dependency                    | New version                                                                        | Previous version
 
-| Vaadin                        | 25.2.4 (link:https://github.com/vaadin/platform/releases/tag/25.2.4[Release Notes]) | 25.2.3
+| Vaadin                        | 25.2.5 (link:https://github.com/vaadin/platform/releases/tag/25.2.5[Release Notes]) | 25.2.3
 | Karibu                        | 2.7.2 | 2.7.1
 | Faktor-IPS                    | 26.7.1.release (link:https://doc.faktorzehn.org/faktor-ips/26.7.1/01_releasenotes/index.html[Release Notes])  | 26.7.0.release
 |===
+
+==== Bugfixes
+
+// https://jira.convista.com/browse/JTS-3405
+* *Testbench tests not closing Chrome handles on error* +
+Errors during initialization of <<ui-testing, UI tests>> spawned Chrome handles but did not close them.
 
 === Version 2.10.1
 
