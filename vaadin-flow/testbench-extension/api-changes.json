@@ -67,23 +67,5 @@
         ]
       }
     }
-  ],
-  "2.11.0": [
-    {
-      "extension": "revapi.differences",
-      "configuration": {
-        "ignore": true,
-        "differences": [
-          {
-            "code": "java.method.visibilityIncreased",
-            "old": "method org.openqa.selenium.WebDriver org.linkki.testbench.WebDriverExtension::createWebDriver(org.linkki.testbench.BrowserType, java.util.Locale)",
-            "new": "method org.openqa.selenium.WebDriver org.linkki.testbench.WebDriverExtension::createWebDriver(org.linkki.testbench.BrowserType, java.util.Locale)",
-            "oldVisibility": "private",
-            "newVisibility": "protected",
-            "justification": "JTS-3383/JTS-3405 Fix orphaned chrome handles on webdriver initialization bug"
-          }
-        ]
-      }
-    }
   ]
 }
