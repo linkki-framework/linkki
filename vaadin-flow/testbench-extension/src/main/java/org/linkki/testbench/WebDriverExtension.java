@@ -168,7 +168,7 @@ public class WebDriverExtension implements BeforeAllCallback,
         }
     }
 
-    protected WebDriver createWebDriver(BrowserType browserType, Locale locale) {
+    private WebDriver createWebDriver(BrowserType browserType, Locale locale) {
         SessionNotCreatedException lastException = null;
         for (var attempt = 1; attempt <= 3; attempt++) {
             try {
@@ -181,7 +181,7 @@ public class WebDriverExtension implements BeforeAllCallback,
         throw lastException;
     }
 
-    protected WebDriver wrapWithTestBench(WebDriver webDriver) {
+    /* private */ WebDriver wrapWithTestBench(WebDriver webDriver) {
         return TestBench.createDriver(webDriver);
     }
 
