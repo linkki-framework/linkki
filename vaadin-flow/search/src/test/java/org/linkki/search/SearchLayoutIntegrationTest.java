@@ -6,10 +6,14 @@ import static org.linkki.core.ui.test.ComponentConditions.exactlyOneVisibleChild
 import static org.linkki.core.ui.test.KaribuUtils.getWithId;
 import static org.linkki.core.ui.test.KaribuUtils.Fields.setValue;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
@@ -29,6 +33,7 @@ import org.linkki.search.component.SearchInputLayout;
 import org.linkki.search.component.SearchResultLayout;
 import org.linkki.search.model.SimpleSearchController;
 
+import com.github.mvysny.kaributesting.v10.mock.MockNpmTemplateParser;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -37,6 +42,22 @@ import com.vaadin.flow.component.textfield.TextField;
 
 @ExtendWith(KaribuUIExtension.class)
 class SearchLayoutIntegrationTest {
+
+    @BeforeAll
+    static void registerFrontendLoader() {
+        MockNpmTemplateParser.Companion.getCustomLoaders().add((tag, url) -> {
+            String path = "META-INF/frontend/" + url.replaceFirst("^\\./", "");
+            try (InputStream stream = SearchLayoutIntegrationTest.class.getClassLoader()
+                    .getResourceAsStream(path)) {
+                if (stream == null) {
+                    return null;
+                }
+                return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                return null;
+            }
+        });
+    }
 
     private static final String EMPTY_SEARCH_ENTRY = "EMPTY";
     private static final String SEARCH_ENTRY = "SEARCH_NAME";
