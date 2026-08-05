@@ -190,7 +190,7 @@ pipeline {
                         }
                         stage('Build Doc') {
                             steps {
-                                withMaven(publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                                     sh 'mvn -pl vaadin-flow/doc package -Drevapi.skip -Dflatten.skip -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
                                 }
 
@@ -213,7 +213,7 @@ pipeline {
                     stages {
                         stage('Build Sample Frontend') {
                             steps {
-                                withMaven(publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
+                                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT', options: [artifactsPublisher()]) {
                                     // Rebuild samples with frontend in parallel. Separate invocation allows
                                     // parallel execution since each module runs as its own Maven process,
                                     // working around the Vaadin Maven plugin not being thread-safe.
