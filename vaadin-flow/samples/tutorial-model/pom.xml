@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework.tutorial</groupId>
@@ -40,7 +39,7 @@
 
         <!-- Code analysis plugins -->
         <spotbugs.version>4.10.3</spotbugs.version>
-        <checkstyle.version>13.8.0</checkstyle.version>
+        <checkstyle.version>13.9.0</checkstyle.version>
 
         <!-- Maven plugin versions -->
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
@@ -49,7 +48,7 @@
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <spotbugs-maven-plugin.version>4.10.3.0</spotbugs-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-        <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
+        <flatten-maven-plugin.version>1.8.0</flatten-maven-plugin.version>
         <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
     </properties>
 

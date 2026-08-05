@@ -116,6 +116,20 @@
 
 === Version {vlinkki}
 
+==== Version Updates
+
+The following versions have been updated:
+
+// Only track dependencies that are relevant for downstream projects
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 25.2.5 (link:https://github.com/vaadin/platform/releases/tag/25.2.5[Release Notes]) | 25.2.3
+| Karibu                        | 2.7.2 (link:https://github.com/mvysny/karibu-testing/releases/tag/2.7.2[Release Notes]) | 2.7.1
+| Faktor-IPS                    | 26.7.1 (link:https://doc.faktorzehn.org/faktor-ips/26.7/01_releasenotes/index.html#_version_26_7_1[Release Notes]) | 26.7.0
+|===
+
 ==== Other Improvements
 
 // https://jira.convista.com/browse/LIN-3402

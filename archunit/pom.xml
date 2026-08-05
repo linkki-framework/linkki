@@ -14,7 +14,7 @@
         <revapi.skip>true</revapi.skip>
         <sonar.skip>true</sonar.skip>
 
-        <archunit.version>1.4.2</archunit.version>
+        <archunit.version>1.5.0</archunit.version>
     </properties>
 
     <dependencies>

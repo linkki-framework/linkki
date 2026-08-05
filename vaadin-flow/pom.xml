@@ -44,15 +44,15 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            25.2.3
+            25.2.5
             <!-- end::vaadin-version[] -->
         </vaadin.version>
-        <karibu.version>2.7.1</karibu.version>
+        <karibu.version>2.7.2</karibu.version>
 
         <!-- Test dependencies -->
         <spring-boot.version>4.1.0</spring-boot.version>
         <asm.version>9.10.1</asm.version>
-        <logback.version>1.5.38</logback.version>
+        <logback.version>1.6.1</logback.version>
     </properties>
 
     <dependencyManagement>
