@@ -132,7 +132,7 @@ Content only appeared after the user interacted with the Grid (e.g. sorting a co
 This is fixed by the Vaadin update to 25.2.3.
 // https://jira.convista.com/browse/JTS-3405
 * *Testbench tests not closing Chrome handles on error* +
-Errors during initialization of <<UI tests, ui-testing>> spawned Chrome handles but did not close them.
+Errors during initialization of <<ui-testing,UI tests>> spawned Chrome handles but did not close them.
 
 === Version 2.11.0-a20260720-01
 
