@@ -115,7 +115,7 @@ pipeline {
                 }
 
                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
-                junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports-*/*.xml'
+                junit 'vaadin-flow/samples/test-playground/uitest/target/surefire-reports/*.xml'
             }
 
             environment {
