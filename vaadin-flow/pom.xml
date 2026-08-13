@@ -52,7 +52,7 @@
         <!-- Test dependencies -->
         <spring-boot.version>4.1.0</spring-boot.version>
         <asm.version>9.10.1</asm.version>
-        <logback.version>1.6.1</logback.version>
+        <logback.version>1.6.2</logback.version>
     </properties>
 
     <dependencyManagement>

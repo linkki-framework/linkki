@@ -116,6 +116,18 @@
 
 === Version {vlinkki}
 
+==== Version Updates
+
+The following versions have been updated:
+
+// Only track dependencies that are relevant for downstream projects
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| JUnit                         | 6.1.3 (link:https://docs.junit.org/6.1.3/release-notes.html[Release Notes]) | 6.1.2
+|===
+
 === Version 2.11.0-a20260810-01
 
 ==== Version Updates
