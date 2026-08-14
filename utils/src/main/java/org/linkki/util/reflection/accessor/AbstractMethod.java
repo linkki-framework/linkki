@@ -95,11 +95,11 @@ abstract sealed class AbstractMethod<T, I> permits ReadMethod, WriteMethod, Invo
      * references the method found via reflection.
      * <p>
      * If the method handle cannot be used due to multiple classloaders in play,
-     * {@link #fallbackReflectionCall(Method)} is called instead.
+     * {@code fallbackReflectionCall(Method)} is called instead.
      * <p>
      * The created function throws an {@link IllegalStateException} if any error occurs during
      * invocation. This makes sure that the behavior is consistent with
-     * {@link #fallbackReflectionCall(Method)}.
+     * {@code fallbackReflectionCall(Method)}.
      *
      * @throws IllegalArgumentException if the method cannot be found
      */
@@ -122,7 +122,7 @@ abstract sealed class AbstractMethod<T, I> permits ReadMethod, WriteMethod, Invo
 
     /**
      * Handles the exception that may be thrown when calling the method using method handle. Any
-     * exceptions that occur should be wrapped in {@link #errorCallingMethod(Throwable)}.
+     * exceptions that occur should be wrapped in {@code errorCallingMethod(Throwable)}.
      */
     protected abstract I handleExceptionForMethodHandle(I methodAsFunction);
 
@@ -173,7 +173,7 @@ abstract sealed class AbstractMethod<T, I> permits ReadMethod, WriteMethod, Invo
 
     /**
      * Creates a function that should call the method by using reflection API. Any exceptions that
-     * occur should be wrapped in {@link #errorCallingMethod(Throwable)}.
+     * occur should be wrapped in {@code errorCallingMethod(Throwable)}.
      */
     protected abstract I fallbackReflectionCall(Method method);
 }

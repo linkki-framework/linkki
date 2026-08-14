@@ -28,8 +28,8 @@ import java.util.function.Supplier;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Wrapper for a setter {@link Method}. {@link #isPresent()} can safely be accessed even if no write
- * method exists. {@link #writeValue(Object, Object)} will access the setter via
+ * Wrapper for a setter {@link Method}. {@code isPresent()} can safely be accessed even if no write
+ * method exists. {@code writeValue(Object, Object)} will access the setter via
  * {@link LambdaMetafactory} if possible, falling back to using reflection API.
  * 
  * @param <T> the type containing the property

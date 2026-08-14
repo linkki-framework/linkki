@@ -36,7 +36,7 @@ import com.vaadin.flow.server.Command;
  * {@link ApplicationHeader} that displays the application environment provided by the system
  * property {@value #PROPERTY_APPLICATION_ENVIRONMENT}. The {@link Span} displaying the property can
  * be styled with the class name {@value #STYLE_LABEL_APPLICATION_ENVIRONMENT}.
- * 
+ *
  * The class is abstract to implement the necessary details like {@link #getUsername()}.
  *
  * @deprecated Use {@link ApplicationHeader} or {@link UserAwareApplicationHeader} instead.
@@ -60,24 +60,25 @@ public abstract class CommonApplicationHeader extends ApplicationHeader {
 
     /**
      * The property is used to display the current environment in the {@link ApplicationHeader}.
-     * 
+     *
      * Returns the value of the property {@value #PROPERTY_APPLICATION_ENVIRONMENT} if it is set as
      * an application property or as environment variable or else an empty String.
-     * 
+     *
      * @apiNote Override {@link #getEnvironmentLabel()} to customize the presentation of the
      *          application environment.
      */
+    @Override
     public String getEnvironmentLabel() {
         String environment = System.getProperty(PROPERTY_APPLICATION_ENVIRONMENT,
-                                                System.getenv(PROPERTY_APPLICATION_ENVIRONMENT));
+                System.getenv(PROPERTY_APPLICATION_ENVIRONMENT));
         return StringUtils.defaultIfEmpty(environment, "");
     }
 
     /**
      * The property is used to display the current user in the {@link ApplicationHeader}.
-     * 
+     *
      * Returns the name of the current user.
-     * 
+     *
      * @apiNote Override {@link #getEnvironmentLabel()} to customize the presentation of the current
      *          user .
      */
@@ -86,7 +87,7 @@ public abstract class CommonApplicationHeader extends ApplicationHeader {
     /**
      * Adds a {@link Span} displaying the value of the {@value #PROPERTY_APPLICATION_ENVIRONMENT}
      * property if it is set in the environment.
-     * 
+     *
      * @apiNote Override {@link #createApplicationEnvironmentLabel(String)} to customize the
      *          presentation of the application environment.
      */
@@ -112,12 +113,13 @@ public abstract class CommonApplicationHeader extends ApplicationHeader {
      * <p>
      * This value will be handled as HTML content hence can contain HTML tags and attributes that
      * are whitelisted by the used {@link HtmlSanitizer#sanitizeText(String) HTML sanitizer}.
-     * 
+     *
      * @param applicationEnvironment the value of the system variable indicating the application
      *            environment (can be HTML content)
-     * 
+     *
      * @return a {@link Span} displaying the given {@code applicationEnvironment}
      */
+    @Override
     protected Span createApplicationEnvironmentLabel(String applicationEnvironment) {
         Span label = new Span();
         label.getElement().setProperty("innerHTML", HtmlSanitizer.sanitizeText(applicationEnvironment));
@@ -127,7 +129,7 @@ public abstract class CommonApplicationHeader extends ApplicationHeader {
 
     /**
      * Creates a user menu item in the given parent.
-     * 
+     *
      * @apiNote Override {@link #addUserMenuItems(MenuItem)} to add sub menu items to the created
      *          user menu.
      */
@@ -145,7 +147,7 @@ public abstract class CommonApplicationHeader extends ApplicationHeader {
      */
     protected void addUserMenuItems(MenuItem userMenu) {
         MenuItem logoutMenuItem = userMenu.getSubMenu().addItem(NlsText.getString(APPLICATIONHEADER_LOGOUT),
-                                                                newLogoutCommand()); // $NON-NLS-1$
+                newLogoutCommand()); // $NON-NLS-1$
         logoutMenuItem.setId(APPMENU_LOGOUT_ID);
     }
 
@@ -160,7 +162,7 @@ public abstract class CommonApplicationHeader extends ApplicationHeader {
 
     /**
      * Returns the logoutUrl. The default path is contextRootRelativePath + /logout
-     * 
+     *
      * @apiNote Override {@link #getLogoutUrl()} to customize the redirection to the logoutUrl.
      */
     protected String getLogoutUrl() {

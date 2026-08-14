@@ -17,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.time.Duration;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
@@ -178,7 +179,7 @@ public class WebDriverExtension implements BeforeAllCallback,
                 LOGGER.debug("Creating Webdriver failed (attempt {}) with {}", attempt, e.getMessage(), e);
             }
         }
-        throw lastException;
+        throw Objects.requireNonNull(lastException);
     }
 
     /* private */ WebDriver wrapWithTestBench(WebDriver webDriver) {

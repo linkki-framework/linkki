@@ -67,7 +67,7 @@ public class NotificationUtil {
 
     /**
      * Sets the duration in milliseconds for info notifications created using this class. The
-     * default is {@value DEFAULT_DURATION_INFO}. If the duration is less than/equal to 0, info
+     * default is {@value NotificationUtil#DEFAULT_DURATION_INFO}. If the duration is less than/equal to 0, info
      * notifications will not close automatically.
      * 
      * @see Notification#setDuration(int)
@@ -78,7 +78,7 @@ public class NotificationUtil {
 
     /**
      * Sets the duration in milliseconds for warning notifications created using this class. The
-     * default is {@value DEFAULT_DURATION_WARNING}. If the duration is less than/equal to 0,
+     * default is {@value NotificationUtil#DEFAULT_DURATION_WARNING}. If the duration is less than/equal to 0,
      * warning notifications will not close automatically.
      * 
      * @see Notification#setDuration(int)

@@ -96,8 +96,8 @@ class RecordPmoTest {
     @UISection
     record PmoWithModelObjectOnMethod(TestModelObject modelObject, @UITextField(position = 0) String textField) {
 
-        @ModelObject
         @Override
+        @ModelObject
         public TestModelObject modelObject() {
             return modelObject;
         }

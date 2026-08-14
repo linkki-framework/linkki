@@ -28,8 +28,8 @@ import java.util.function.Supplier;
 import org.linkki.util.BeanUtils;
 
 /**
- * Wrapper for a getter {@link Method}. {@link #isPresent()} can safely be accessed even if no read
- * method exists. {@link #readValue(Object)} will access the getter via {@link LambdaMetafactory} if
+ * Wrapper for a getter {@link Method}. {@code isPresent()} can safely be accessed even if no read
+ * method exists. {@code readValue(Object)} will access the getter via {@link LambdaMetafactory} if
  * possible, falling back to using reflection API.
  * 
  * @param <T> the type containing the property

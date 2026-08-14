@@ -66,7 +66,7 @@ public @interface UITableColumn {
      * available.
      * <p>
      * The returned integer defines how many parts of the excess space should be taken for this
-     * column. If not set, the flex-grow is set to {@value UNDEFINED_FLEX_GROW}.
+     * column. If not set, the flex-grow is set to {@value UITableColumn#UNDEFINED_FLEX_GROW}.
      * <p>
      * Note that if {@link #width()} is set, flex-grow will take effect in addition to
      * {@link #width()}. The column then has at least the defined width. If there is extra space, it

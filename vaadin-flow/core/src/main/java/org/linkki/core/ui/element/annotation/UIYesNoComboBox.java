@@ -203,7 +203,7 @@ public @interface UIYesNoComboBox {
     }
 
     /**
-     * @deprecated Use {@link DefaultCaptionProvider} instead.
+     * @deprecated Use {@code DefaultCaptionProvider} instead.
      */
     @Deprecated(since = "2.6.0")
     class BooleanCaptionProvider implements ItemCaptionProvider<Object> {

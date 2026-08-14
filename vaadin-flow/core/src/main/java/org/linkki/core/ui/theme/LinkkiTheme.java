@@ -16,7 +16,6 @@ package org.linkki.core.ui.theme;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
 /**
@@ -90,7 +89,7 @@ public class LinkkiTheme {
 
     /**
      * Style classes for {@link LinkkiText labels}. Additional text styles can be found in
-     * {@link LumoUtility.TextColor}.
+     * {@link com.vaadin.flow.theme.lumo.LumoUtility.TextColor}.
      *
      * @implNote The purpose of this utility class is to consolidate styling constants for the
      *           {@link LinkkiText} component. Future enhancements or modifications related to

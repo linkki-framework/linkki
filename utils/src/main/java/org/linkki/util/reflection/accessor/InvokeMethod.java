@@ -27,8 +27,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Wrapper for a void {@link Method} without parameters. {@link #isPresent()} can safely be accessed
- * even if the method to be invoked does not exist. {@link #invoke(Object)} will access the method
+ * Wrapper for a void {@link Method} without parameters. {@code isPresent()} can safely be accessed
+ * even if the method to be invoked does not exist. {@code invoke(Object)} will access the method
  * via {@link LambdaMetafactory} if possible, falling back to using reflection API.
  *
  * @param <T> the type containing the method

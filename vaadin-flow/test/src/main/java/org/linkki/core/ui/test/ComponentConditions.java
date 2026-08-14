@@ -24,7 +24,6 @@ import java.util.function.Predicate;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Condition;
 import org.assertj.core.presentation.Representation;
-import org.jetbrains.annotations.NotNull;
 import org.linkki.util.Consumers;
 
 import com.github.mvysny.kaributesting.v10.LocatorJ;
@@ -92,7 +91,7 @@ public class ComponentConditions {
                 "exactly one visible child matching type %s", displaySearchSpec(type, searchSpec));
     }
 
-    private static <T extends Component> @NotNull List<T> findChildren(Class<T> type,
+    private static <T extends Component> List<T> findChildren(Class<T> type,
             Consumer<SearchSpecJ<T>> searchSpec,
             Component c) {
         return c

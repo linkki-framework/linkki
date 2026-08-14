@@ -31,8 +31,8 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 /**
  * This class wraps a {@link PropertyDescriptor} for a bound class and a specified property
  * identified by its name. It could create a {@link WriteMethod} or {@link ReadMethod} object for
- * the bound class and property using the methods {@link #createWriteMethod()} and
- * {@link #createReadMethod()}.
+ * the bound class and property using the methods {@code createWriteMethod()} and
+ * {@code createReadMethod()}.
  * 
  * @param <T> the type containing the property
  * @param <V> the property's type

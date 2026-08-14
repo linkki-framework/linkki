@@ -50,20 +50,20 @@ public @interface BindTableSelection {
     /**
      * Controls the selection mode of the created table.
      * <ul>
-     * <li>{@link Grid.SelectionMode#SINGLE} - for single selection. requires:
+     * <li>{@link com.vaadin.flow.component.grid.Grid.SelectionMode#SINGLE} - for single selection. requires:
      * <ul>
      * <li>ROW getSelection()</li>
      * <li>void setSelection(ROW)</li>
      * <li>void onDoubleClick()</li>
      * </ul>
      * </li>
-     * <li>{@link Grid.SelectionMode#MULTI} - for multi selection. requires:
+     * <li>{@link com.vaadin.flow.component.grid.Grid.SelectionMode#MULTI} - for multi selection. requires:
      * <ul>
      * <li>{@literal Set<ROW>} getSelection()</li>
      * <li>void setSelection({@literal Set<ROW>})</li>
      * </ul>
      * </li>
-     * <li>{@link Grid.SelectionMode#NONE} - for no selection.</li>
+     * <li>{@link com.vaadin.flow.component.grid.Grid.SelectionMode#NONE} - for no selection.</li>
      * </ul>
      */
     Grid.SelectionMode selectionMode() default Grid.SelectionMode.SINGLE;

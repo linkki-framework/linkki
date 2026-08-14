@@ -66,7 +66,7 @@ public class KaribuUtils {
     /**
      * Returns the currently opened notification. If zero or multiple notifications are present, a
      * test failure is caused.
-     * 
+     *
      * @deprecated use {@link Notifications#get()} instead.
      */
     @Deprecated(since = "2.6.0")
@@ -77,7 +77,7 @@ public class KaribuUtils {
     /**
      * Returns the title of a notification, assuming that the first child of the notification is a
      * wrapper component that contains an H3 as title.
-     * 
+     *
      * @deprecated use {@link Notifications#getTitle(Notification)} instead.
      */
     @Deprecated(since = "2.6.0")
@@ -188,6 +188,7 @@ public class KaribuUtils {
             this.prettyPrintRow = prettyPrintRow;
         }
 
+        @Override
         public String toString() {
             return prettyPrintRow;
         }
@@ -249,7 +250,7 @@ public class KaribuUtils {
 
         /**
          * Simulates a browser refresh.
-         * 
+         *
          * @since 2.9.0
          */
         public static void refresh() {
@@ -521,7 +522,7 @@ public class KaribuUtils {
         }
 
         /**
-         * Returns a list of the texts displayed in each row of a {@link Grid.Column}.
+         * Returns a list of the texts displayed in each row of a {@link com.vaadin.flow.component.grid.Grid.Column}.
          */
         public static <T> List<String> getTextContentsInColumn(Grid<T> grid, String columnKey) {
             return IntStream.range(0, GridKt._size(grid))

@@ -112,6 +112,7 @@ public @interface UIOpenDialogButton {
 
     class DialogButtonComponentDefinitionCreator implements ComponentDefinitionCreator<UIOpenDialogButton> {
 
+        @Override
         public LinkkiComponentDefinition create(UIOpenDialogButton annotation, AnnotatedElement annotatedElement) {
             return pmo -> {
                 var button = ComponentFactory.newButton();
@@ -124,6 +125,7 @@ public @interface UIOpenDialogButton {
 
     class DialogButtonAspectDefinitionCreator implements AspectDefinitionCreator<UIOpenDialogButton> {
 
+        @Override
         public LinkkiAspectDefinition create(UIOpenDialogButton annotation) {
             return new CompositeAspectDefinition(
                     new OpenDialogButtonAspectDefinition(),
@@ -148,7 +150,7 @@ public @interface UIOpenDialogButton {
                             .andThen(modelChanged);
                     new PmoBasedDialogFactory(dialogPmo::validate, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
                             dialogPmo.getPropertyDispatcherFactory())
-                                    .openOkCancelDialog(dialogPmo.getCaption(), okHandler, dialogPmo.getContentPmo());
+                            .openOkCancelDialog(dialogPmo.getCaption(), okHandler, dialogPmo.getContentPmo());
                 } else {
                     try {
                         @SuppressWarnings("unchecked")
@@ -164,6 +166,7 @@ public @interface UIOpenDialogButton {
             });
         }
 
+        @Override
         public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
             return Handler.NOP_HANDLER;
         }

@@ -63,8 +63,6 @@ public class LinkkiAnchor extends LinkkiText implements Focusable<LinkkiAnchor> 
     }
 
     /**
-     * @see Anchor#setHref(AbstractStreamResource)
-     * 
      * @deprecated use {@link #setHref(DownloadHandler)} instead.
      */
     @SuppressWarnings("removal")

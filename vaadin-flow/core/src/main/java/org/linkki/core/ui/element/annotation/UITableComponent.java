@@ -109,6 +109,7 @@ public @interface UITableComponent {
         private static final String ATTR_HAS_ITEMS = "has-items";
         private static final String NAME = LinkkiAspectDefinition.VALUE_ASPECT_NAME;
 
+        @Override
         protected List<Object> getValueOnError() {
             return List.of();
         }
@@ -170,8 +171,8 @@ public @interface UITableComponent {
 
         private Grid.Column<?> createColumn(Grid<?> grid, Method method, BindingContext bindingContext) {
             var column = grid.addComponentColumn(row -> UiCreator
-                    .<Component, NoLabelComponentWrapper> createUiElement(method, row, bindingContext,
-                                                                          NoLabelComponentWrapper::new)
+                    .<Component, NoLabelComponentWrapper>createUiElement(method, row, bindingContext,
+                            NoLabelComponentWrapper::new)
                     .getComponent());
             column.setHeader(getHeaderText(rowPmoClass, method));
             return column;
@@ -179,8 +180,8 @@ public @interface UITableComponent {
 
         private String getHeaderText(Class<?> pmoRow, Method method) {
             return StaticValueNlsService.getInstance().getString(pmoRow, BeanUtils.getPropertyName(method),
-                                                                 LabelAspectDefinition.NAME,
-                                                                 LinkkiAspectDefinition.DERIVED_BY_LINKKI);
+                    LabelAspectDefinition.NAME,
+                    LinkkiAspectDefinition.DERIVED_BY_LINKKI);
         }
     }
 

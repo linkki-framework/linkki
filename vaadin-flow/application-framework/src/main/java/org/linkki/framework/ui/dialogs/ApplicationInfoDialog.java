@@ -27,7 +27,7 @@ import com.vaadin.flow.component.Component;
  * A dialog to present application information to the user.
  * 
  * @implNote Extend {@link ApplicationInfoPmo} and override
- *           {@link ApplicationHeader#createApplicationInfoPmo()} to customize the dialog.
+ *           {@link ApplicationHeader}'s {@code createApplicationInfoPmo()} to customize the dialog.
  */
 @SuppressWarnings("javadoc")
 public class ApplicationInfoDialog extends ConfirmationDialog {

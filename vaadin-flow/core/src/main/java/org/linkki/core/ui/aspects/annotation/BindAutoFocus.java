@@ -47,7 +47,7 @@ import com.vaadin.flow.dom.Element;
  * 
  * <b>Limitations:</b>
  * <ul>
- * <li>UI elements that can be {@link BindReadOnly.ReadOnlyType#DYNAMIC dynamically}
+ * <li>UI elements that can be {@link org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType#DYNAMIC dynamically}
  * {@link HasValue#isReadOnly() read-only} will also be highlighted.
  * <li>does not work in combination with {@link UIRadioButtons}
  * </ul>

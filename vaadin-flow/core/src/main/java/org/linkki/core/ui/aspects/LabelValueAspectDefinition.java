@@ -39,7 +39,7 @@ public class LabelValueAspectDefinition extends FutureAwareAspectDefinition<Obje
     /**
      * Creates a new {@link LabelValueAspectDefinition} using the
      * {@link DefaultLabelCaptionProvider}
-     * 
+     *
      * @since 2.5.0
      */
     public LabelValueAspectDefinition() {
@@ -50,7 +50,7 @@ public class LabelValueAspectDefinition extends FutureAwareAspectDefinition<Obje
      *
      * Creates a new {@link LabelValueAspectDefinition} using the provided
      * {@link ItemCaptionProvider}
-     * 
+     *
      * @since 2.5.0
      */
     public LabelValueAspectDefinition(ItemCaptionProvider<?> itemCaptionProvider) {
@@ -92,6 +92,7 @@ public class LabelValueAspectDefinition extends FutureAwareAspectDefinition<Obje
         return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v), v instanceof HtmlContent || htmlContent);
     }
 
+    @Override
     protected Object getValueOnError() {
         return null;
     }
