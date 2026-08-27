@@ -21,7 +21,7 @@
         <java.version>21</java.version>
 
         <playwright.version>1.60.0</playwright.version>
-        <junit.version>6.1.0</junit.version>
+        <junit.version>6.1.3</junit.version>
         <assertj.version>3.27.7</assertj.version>
         <spotbugs.version>4.9.8</spotbugs.version>
 
