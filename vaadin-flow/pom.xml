@@ -45,7 +45,7 @@
         <!-- this property must also be updated in samples-vaadin-flow -->
         <vaadin.version>
             <!-- tag::vaadin-version[] -->
-            25.2.5
+            25.2.6
             <!-- end::vaadin-version[] -->
         </vaadin.version>
         <karibu.version>2.7.2</karibu.version>

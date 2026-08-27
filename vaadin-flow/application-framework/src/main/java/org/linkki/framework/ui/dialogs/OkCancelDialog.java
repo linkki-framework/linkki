@@ -229,7 +229,9 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
                 }).apply();
             }
         });
-        okButton.addClickShortcut(Key.ENTER);
+        // allowEventsFromNestedModals needed due to regression in 25.2.6
+        // https://github.com/vaadin/flow/issues/25213
+        okButton.addClickShortcut(Key.ENTER).allowEventsFromNestedModals();
 
         if (cancelButton != null) {
             buttonArea.add(cancelButton);
