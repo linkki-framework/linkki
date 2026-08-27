@@ -125,7 +125,11 @@ The following versions have been updated:
 |===
 | Dependency                    | New version                                                                        | Previous version
 
+| Vaadin                        | 25.2.6 (link:https://github.com/vaadin/platform/releases/tag/25.2.6[Release Notes]) | 25.2.5
+| Faktor-IPS                    | 27.1.0-m01 (link:https://doc.faktorzehn.org/faktor-ips/27.1.0-a20260729-01/01_releasenotes/index.html#release_notes[Release Notes]) | 27.1.0-a20260729-01
 | JUnit                         | 6.1.3 (link:https://docs.junit.org/6.1.3/release-notes.html[Release Notes]) | 6.1.2
+| Spring Boot compatibility tested for | 4.1.1 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.1[Release Notes]) | 4.1.0
+| Spring Framework              | 7.0.9 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 7.0.8
 |===
 
 === Version 2.11.0-a20260810-01
@@ -141,7 +145,7 @@ The following versions have been updated:
 
 | Vaadin                        | 25.2.5 (link:https://github.com/vaadin/platform/releases/tag/25.2.5[Release Notes]) | 25.2.3
 | Karibu                        | 2.7.2 (link:https://github.com/mvysny/karibu-testing/releases/tag/2.7.2[Release Notes]) | 2.7.1
-| Faktor-IPS                    | 26.7.1-a20260729-01 (link:https://doc.faktorzehn.org/faktor-ips/27.1.0-a20260729-01/01_releasenotes/index.html#release_notes[Release Notes]) | 26.7.0
+| Faktor-IPS                    | 27.1.0-a20260729-01 (link:https://doc.faktorzehn.org/faktor-ips/27.1.0-a20260729-01/01_releasenotes/index.html#release_notes[Release Notes]) | 26.7.0
 |===
 
 ==== Other Improvements
