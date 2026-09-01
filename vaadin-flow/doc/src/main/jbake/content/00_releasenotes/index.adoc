@@ -70,8 +70,8 @@ The following versions have been updated:
 
 [cols="a,a,a"]
 |===
-| Dependency                    | New version
-| Previous version
+| Dependency                    | New version   | Previous version
+
 | Vaadin                        | 25.2.6 (link:https://github.com/vaadin/platform/releases/tag/25.2.6[Release Notes]) | 25.2.5
 | Spring Boot compatibility tested for                   | 4.1.1 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.1[Release Notes]) | 4.1.0
 | Spring Framework              | 7.0.9 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 7.0.8
@@ -140,6 +140,7 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version                                                                        | Previous version
+
 | Vaadin                        | 25.2.1 (link:https://github.com/vaadin/platform/releases/tag/25.2.1[Release Notes]) | 24.9.8
 | Faktor-IPS                    | 26.7.0.release (link:https://doc.faktorzehn.org/faktor-ips/26.7.0/01_releasenotes/index.html[Release Notes]) | 26.1.0.release
 | Karibu                        | 2.7.0  | 2.5.0
