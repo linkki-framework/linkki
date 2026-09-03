@@ -146,6 +146,11 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
     }
 
     @Test
+    void testGetCaption_NullValueUsesOverriddenNullCaption() {
+        assertThat(getComponentById("nullValueWithCustomNullCaption").getText()).isEqualTo("-");
+    }
+
+    @Test
     void testIconPosition() {
         assertThat(getDynamicComponent().getIconPosition()).isEqualTo(IconPosition.LEFT);
         assertThat(getStaticComponent().getIconPosition()).isEqualTo(IconPosition.RIGHT);
@@ -289,6 +294,11 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
             return NamedEnum.VALUE;
         }
 
+        @UILabel(position = 15, itemCaptionProvider = DashNullCaptionProvider.class)
+        public String getNullValueWithCustomNullCaption() {
+            return null;
+        }
+
         @UILabel(position = 11)
         public CompletableFuture<String> getValueFromCompletableFuture() {
             if (!exception) {
@@ -370,6 +380,14 @@ class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<LinkkiTe
         @Override
         public String toString() {
             return "toString";
+        }
+    }
+
+    public static class DashNullCaptionProvider extends UILabel.DefaultLabelCaptionProvider {
+
+        @Override
+        public String getNullCaption() {
+            return "-";
         }
     }
 }

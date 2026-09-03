@@ -140,6 +140,12 @@ The following versions have been updated:
 | Spring Framework              | 7.0.9 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 7.0.8
 |===
 
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4934
+* *`DefaultLabelCaptionProvider` did not call `getNullCaption()`* +
+`DefaultLabelCaptionProvider.getCaption()` now properly `getNullCaption()` for null values.
+
 === Version 2.11.0-a20260810-01
 
 ==== Version Updates

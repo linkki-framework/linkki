@@ -22,7 +22,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -119,7 +118,7 @@ public @interface UILabel {
      * <p>
      * HTML content is not compatible with some annotations that manipulate the resulting component,
      * like {@link BindIcon}.
-     * 
+     *
      * @deprecated Use {@link org.linkki.core.util.HtmlContent} as return type instead.
      */
     @Deprecated(since = "2.5.0")
@@ -135,7 +134,7 @@ public @interface UILabel {
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultLabelCaptionProvider.class;
 
-    static class DefaultLabelCaptionProvider implements ItemCaptionProvider<Object> {
+    class DefaultLabelCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
         public String getCaption(Object o) {
@@ -143,15 +142,15 @@ public @interface UILabel {
                 try {
                     Converter<String, Object> converter = LinkkiConverterRegistry.getCurrent()
                             .findConverter(String.class,
-                                           o.getClass());
+                                    o.getClass());
                     return converter.convertToPresentation(o,
-                                                           new ValueContext(new Binder<>(), UiFramework.getLocale()));
+                            new ValueContext(new Binder<>(), UiFramework.getLocale()));
                 } catch (IllegalArgumentException e) {
                     // no converter
                     return new DefaultCaptionProvider().getCaption(o);
                 }
             } else {
-                return StringUtils.EMPTY;
+                return getNullCaption();
             }
         }
     }
@@ -159,7 +158,7 @@ public @interface UILabel {
     /**
      * Aspect definition creator for the {@link UILabel} annotation.
      */
-    static class LabelAspectDefinitionCreator implements AspectDefinitionCreator<UILabel> {
+    class LabelAspectDefinitionCreator implements AspectDefinitionCreator<UILabel> {
 
         @SuppressWarnings("deprecation")
         @Override
@@ -173,7 +172,7 @@ public @interface UILabel {
         }
     }
 
-    static class LabelComponentDefinitionCreator implements ComponentDefinitionCreator<UILabel> {
+    class LabelComponentDefinitionCreator implements ComponentDefinitionCreator<UILabel> {
 
         @Override
         public LinkkiComponentDefinition create(UILabel annotation, AnnotatedElement annotatedElement) {
