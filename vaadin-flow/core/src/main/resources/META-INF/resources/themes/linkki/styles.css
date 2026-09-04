@@ -64,6 +64,7 @@ a:not([href]) {
     --linkki-input-background-hover: var(--lumo-contrast-20pct);
     --linkki-input-border-color-readonly: var(--lumo-contrast-20pct);
     --linkki-readonly-text-color: var(--lumo-body-text-color);
+    --linkki-empty-state-text-color: var(--lumo-secondary-text-color);
 
     --linkki-info-color: hsl(213, 80%, 64%);
     --linkki-info-color-50pct: hsl(213, 80%, 50%);

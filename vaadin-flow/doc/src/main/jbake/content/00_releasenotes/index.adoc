@@ -40,6 +40,12 @@ The following versions have been updated:
 
 |===
 
+==== Bugfixes
+
+// https://jira.convista.com/browse/LIN-4665
+* *Placeholder text color not visible in dark mode* +
+The empty state text color used for placeholders was not defined as a theme variable, causing insufficient contrast in dark mode.
+
 === Version 2.9.11
 
 ==== Version Updates
