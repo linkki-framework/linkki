@@ -116,6 +116,12 @@
 
 === Version {vlinkki}
 
+==== Bugfixes
+
+// https://faktorzehn.atlassian.net/browse/LIN-5018
+* *Card sections not readable with dark theme* +
+Card sections now have a background color with which the content is more readable.
+
 === Version 2.11.0-a20260901-01
 
 ==== Version Updates
