@@ -121,6 +121,9 @@
 // https://faktorzehn.atlassian.net/browse/LIN-5018
 * *Card sections not readable with dark theme* +
 Card sections now have a background color with which the content is more readable.
+// https://jira.convista.com/browse/LIN-4934
+* *`DefaultLabelCaptionProvider` did not call `getNullCaption()`* +
+`DefaultLabelCaptionProvider.getCaption()` now properly `getNullCaption()` for null values.
 
 === Version 2.11.0-a20260901-01
 
@@ -139,12 +142,6 @@ The following versions have been updated:
 | Spring Boot compatibility tested for | 4.1.1 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.1[Release Notes]) | 4.1.0
 | Spring Framework              | 7.0.9 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes])| 7.0.8
 |===
-
-==== Bugfixes
-
-// https://jira.convista.com/browse/LIN-4934
-* *`DefaultLabelCaptionProvider` did not call `getNullCaption()`* +
-`DefaultLabelCaptionProvider.getCaption()` now properly `getNullCaption()` for null values.
 
 === Version 2.11.0-a20260810-01
 
