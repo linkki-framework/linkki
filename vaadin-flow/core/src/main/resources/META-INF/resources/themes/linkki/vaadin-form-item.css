@@ -2,9 +2,11 @@ vaadin-form-item {
     width: 100%;
 }
 
-/* label width */
 vaadin-form-item::part(label) {
+    /* customizable label width */
     --_form-item-labels-aside: var(--linkki-form-item-label-width, var(--vaadin-form-layout-label-width, var(--vaadin-form-layout-label-width, 8em)));
+    /* Override vaadin default behavior that empty labels still take up space */
+    min-height: 0;
 }
 
 /* label text alignment */
@@ -25,16 +27,19 @@ vaadin-form-item > [slot="label"] {
 /*
  * Required indicator
  */
-vaadin-form-item::part(required-indicator) {
+vaadin-form-item[required]::part(label) {
+    padding-inline-end: 0;
+}
+vaadin-form-item[required]::part(required-indicator) {
+    right: -1em;
     /*
      * Ensure that the required indicator is visible even if the label is empty/ blank.
      * Without setting this min-height a scrollbar on the whole row appears.
      */
-    min-height: 1em;
+    min-height: 1em
 }
-
-vaadin-form-item::part(required-indicator)::after {
-    position: absolute;
+vaadin-form-item[required]::part(required-indicator)::after {
+    position: relative;
     height: auto;
     overflow: hidden;
 }

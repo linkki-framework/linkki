@@ -64,16 +64,23 @@
 
 === Version {vlinkki}
 
-==== Version Updates
 // Only list versions that are in compile scope, not plugins, and not only used in samples.
 The following versions have been updated:
 
 [cols="a,a,a"]
 |===
-| Dependency                    | New version   | Previous version
+| Dependency                    | New version                                                                        | Previous version
 
+| Vaadin                        | 25.2.8 (link:https://github.com/vaadin/platform/releases/tag/25.2.8[Release Notes]) | 25.2.6
 | Karibu                        | 2.7.3 | 2.7.2
+
 |===
+
+// https://github.com/vaadin/flow-components/issues/10141
+* *Testbench ComboBoxElement#getOptions opens popup but never closes it* +
+Calling ComboBoxElement#getOptions opens up a popup to read all available elements but never closes it.
+With Vaadin testbench 25.2.7, clicks on elements outside popups only close the popups but no longer propagate to the elements themselves.
+For now, this means that ComboBoxElement#getOptions should be followed by ComboBoxElement#closePopUp.
 
 ==== Bugfixes
 
