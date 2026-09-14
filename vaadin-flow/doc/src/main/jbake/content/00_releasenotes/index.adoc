@@ -116,6 +116,17 @@
 
 === Version {vlinkki}
 
+==== Version Updates
+// Only list versions that are in compile scope, not plugins, and not only used in samples.
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version   | Previous version
+
+| Karibu                        | 2.7.3 | 2.7.2
+|===
+
 ==== Bugfixes
 
 // https://faktorzehn.atlassian.net/browse/LIN-5018
@@ -124,6 +135,9 @@ Card sections now have a background color with which the content is more readabl
 // https://jira.convista.com/browse/LIN-4934
 * *`DefaultLabelCaptionProvider` did not call `getNullCaption()`* +
 `DefaultLabelCaptionProvider.getCaption()` now properly `getNullCaption()` for null values.
+// https://faktorzehn.atlassian.net/browse/LIN-5043
+* *Karibu tests failed to load frontend resources from `META-INF/frontend/src`* +
+Fixed by updating Karibu to the version listed above, which contains a workaround for loading resources from that location.
 
 === Version 2.11.0-a20260901-01
 
