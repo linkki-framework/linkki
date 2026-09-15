@@ -23,6 +23,7 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
+import org.linkki.samples.playground.bugs.comboboxdialog.ComboBoxOptionsTabsBug;
 import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
 import org.linkki.samples.playground.bugs.lin1608.PmoReadonlyModelNotReadonlyPmo;
 import org.linkki.samples.playground.bugs.lin1738.DoubleClickPmo;
@@ -148,7 +149,10 @@ public class BugCollectionView extends LinkkiTabLayout implements HasUrlParamete
                                     VariantCardSectionsDialogBug::new),
                      createTabSheet(GridVariantRowStripesBug.LIN_4849,
                                     GridVariantRowStripesBug.CAPTION,
-                                    GridVariantRowStripesBug::new));
+                                    GridVariantRowStripesBug::new),
+                     createTabSheet(ComboBoxOptionsTabsBug.ID,
+                                    ComboBoxOptionsTabsBug.CAPTION,
+                                    ComboBoxOptionsTabsBug::new));
     }
 
     @Override
