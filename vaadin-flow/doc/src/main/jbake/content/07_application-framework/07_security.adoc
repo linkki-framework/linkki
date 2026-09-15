@@ -12,7 +12,8 @@ The *linkki* application framework uses Vaadin, which is a server-side framework
 
 ==== HTTP response headers
 
-OWASP offers an https://owasp.org/www-project-secure-headers/#div-headers[overview of security-related HTTP-Headers], as well as a https://owasp.org/www-project-secure-headers/#div-bestpractices[recommendation]. These headers generally increase security by adding additional restrictions, so make sure you understand the impact before setting them.
+OWASP offers an https://owasp.github.io/www-project-secure-headers/best-practices/[overview of security-related HTTP-Headers].
+These headers generally increase security by adding additional restrictions, so make sure you understand the impact before setting them.
 
 NOTE: Vaadin already sets a few of these headers. The value of `Content-Security-Policy` may be reported as unsafe by some tools, this is https://vaadin.com/docs/latest/security/advanced-topics/frequent-issues/#content-security-policy-csp-set-to-unsafe-values[required for the client-side engine to start].
 
