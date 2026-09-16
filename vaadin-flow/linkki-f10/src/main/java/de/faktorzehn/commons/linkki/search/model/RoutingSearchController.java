@@ -14,7 +14,6 @@
 
 package de.faktorzehn.commons.linkki.search.model;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +43,8 @@ import de.faktorzehn.commons.linkki.search.util.ParamsUtil;
  * after navigation} step of the navigation lifecycle. In before enter it is possible to redirect to
  * another location, for example if there is only one search result, while after navigation is the
  * more common event to update the UI state. See.
- * https://vaadin.com/docs/latest/flow/routing/lifecycle for more details.
+ * <a href="https://vaadin.com/docs/v25/flow/routing/lifecycle">Vaadin documentation on
+ *  * routing</a> for more details.
  *
  * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.model.RoutingSearchController instead
  */
@@ -62,7 +62,7 @@ public class RoutingSearchController<PARAM, RESULT> implements SearchController<
 
     /**
      * Creates a RoutingSearchController.
-     * 
+     *
      * @param viewPath the {@link UI#navigate(String, QueryParameters) location} of the search view,
      *            most likely the value defined in the {@link Route} annotation
      * @param searchFunction a function that returns a search result for the given search parameters
@@ -85,14 +85,14 @@ public class RoutingSearchController<PARAM, RESULT> implements SearchController<
      * must be specified directly as query parameters. To transform a search parameter object to
      * {@code Map<String, List<String>>}, use the corresponding implementation of
      * {@link SearchParameterMapper#toQueryParameters(Object)}.
-     * 
+     *
      * @param path the {@link UI#navigate(String, QueryParameters) viewPath} of the search view,
      *            most likely the value defined in the {@link Route} annotation
      * @param queryParams the parameters to use for the search
      */
     public static void navigateTo(String path, Map<String, List<String>> queryParams) {
         Map<String, List<String>> params = ParamsUtil.removeEmptyValues(queryParams);
-        params.put(SUBMIT_PARAMETER, Arrays.asList("true"));
+        params.put(SUBMIT_PARAMETER, List.of("true"));
 
         UI.getCurrent().navigate(path, new QueryParameters(params));
     }
@@ -109,14 +109,14 @@ public class RoutingSearchController<PARAM, RESULT> implements SearchController<
      * <p>
      * A minimal implementation of <code>afterNavigation</code> in the search view could look like
      * this:
-     * 
+     *
      * <pre>
      * public void afterNavigation(AfterNavigationEvent event) {
      *     searchController.afterNavigation(event);
      *     bindingContext.modelChanged();
      * }
      * </pre>
-     * 
+     *
      * @param newLocation the {@link Location} you can get from either
      *            {@link BeforeEnterEvent#getLocation()} or from
      *            {@link AfterNavigationEvent#getLocation()} to pass the query parameters to the
