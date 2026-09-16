@@ -44,7 +44,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * after navigation} step of the navigation lifecycle. In before enter it is possible to redirect to
  * another location, for example if there is only one search result, while after navigation is the
  * more common event to update the UI state. See.
- * <a href="https://vaadin.com/docs/latest/flow/routing/lifecycle">Vaadin documentation on
+ * <a href="https://vaadin.com/docs/v25/flow/routing/lifecycle">Vaadin documentation on
  * routing</a> for more details.
  *
  * @since 2.8.0
@@ -63,7 +63,7 @@ public class RoutingSearchController<PARAM, RESULT> implements SearchController<
 
     /**
      * Creates a RoutingSearchController.
-     * 
+     *
      * @param viewPath the {@link UI#navigate(String, QueryParameters) location} of the search view,
      *            most likely the value defined in the {@link Route} annotation
      * @param searchFunction a function that returns a search result for the given search parameters
@@ -86,7 +86,7 @@ public class RoutingSearchController<PARAM, RESULT> implements SearchController<
      * must be specified directly as query parameters. To transform a search parameter object to
      * {@code Map<String, List<String>>}, use the corresponding implementation of
      * {@link SearchParameterMapper#toQueryParameters(Object)}.
-     * 
+     *
      * @param path the {@link UI#navigate(String, QueryParameters) viewPath} of the search view,
      *            most likely the value defined in the {@link Route} annotation
      * @param queryParams the parameters to use for the search
@@ -110,14 +110,14 @@ public class RoutingSearchController<PARAM, RESULT> implements SearchController<
      * <p>
      * A minimal implementation of <code>afterNavigation</code> in the search view could look like
      * this:
-     * 
+     *
      * <pre>
      * public void afterNavigation(AfterNavigationEvent event) {
      *     searchController.afterNavigation(event);
      *     bindingContext.modelChanged();
      * }
      * </pre>
-     * 
+     *
      * @param newLocation the {@link Location} you can get from either
      *            {@link BeforeEnterEvent#getLocation()} or from
      *            {@link AfterNavigationEvent#getLocation()} to pass the query parameters to the
