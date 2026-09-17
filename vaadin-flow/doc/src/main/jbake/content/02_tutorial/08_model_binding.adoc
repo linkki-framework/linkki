@@ -73,7 +73,7 @@ Even if the delete buttons are in a table, the implementation stays the same and
 ... The attribute `captionType` to `CaptionType.NONE`.
 ... The attribute `showIcon` to `true`.
 ... The attribute `icon` to `VaadinIcon.TRASH`.
-.. Style the button by setting the attribute `variants` to `{ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL}`. Just like the icon, the `ButtonVariant` is a https://vaadin.com/docs/latest/components/button[Vaadin component].
+.. Style the button by setting the attribute `variants` to `{ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL}`. Just like the icon, the `ButtonVariant` is a https://vaadin.com/docs/v24/components/button[Vaadin component].
 
 The finished implementation should look like this:
 

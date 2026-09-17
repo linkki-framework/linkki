@@ -254,7 +254,7 @@ Instead, `updateValue()` must be called manually, which can reduce unnecessary i
 * *Upload and download Handling* +
 A new API for file upload and download has been introduced.
 Users with custom components for upload or download may need to migrate to the new API.
-See the https://vaadin.com/docs/latest/flow/advanced/downloads[Vaadin documentation] for details.
+See the https://vaadin.com/docs/v24/flow/advanced/downloads[Vaadin documentation] for details.
 * *Static asset management with @NpmPackage* +
 `@NpmPackage` is used to declare static assets from npm packages.
 During build time, these asset files are copied into the frontend and no `theme.json` entries are needed.
