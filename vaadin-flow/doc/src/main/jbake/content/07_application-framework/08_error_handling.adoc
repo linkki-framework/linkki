@@ -19,7 +19,7 @@ The default error dialog displays following information about the exception:
 On confirmation, the user is redirected to the main application URL and an additional `errorOccurred` query parameter is added.
 This parameter enables the target view to react to the error.
 It can be useful to enable or disable certain features in `BeforeLeaveHandler#beforeLeave(BeforeLeaveEvent)` in case of an error.
-For more information refer to https://vaadin.com/docs/latest/flow/routing/lifecycle/#beforeleaveevent[Vaadin's BeforeLeaveEvent].
+For more information refer to https://vaadin.com/docs/v24/flow/routing/lifecycle/#beforeleaveevent[Vaadin's BeforeLeaveEvent].
 
 ==== Customizing the error handling behavior
 

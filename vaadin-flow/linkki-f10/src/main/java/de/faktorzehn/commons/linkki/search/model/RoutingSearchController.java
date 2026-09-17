@@ -44,7 +44,7 @@ import de.faktorzehn.commons.linkki.search.util.ParamsUtil;
  * after navigation} step of the navigation lifecycle. In before enter it is possible to redirect to
  * another location, for example if there is only one search result, while after navigation is the
  * more common event to update the UI state. See.
- * https://vaadin.com/docs/latest/flow/routing/lifecycle for more details.
+ * https://vaadin.com/docs/v24/flow/routing/lifecycle for more details.
  *
  * @deprecated moved to linkki-search-vaadin-flow. Use org.linkki.search.model.RoutingSearchController instead
  */

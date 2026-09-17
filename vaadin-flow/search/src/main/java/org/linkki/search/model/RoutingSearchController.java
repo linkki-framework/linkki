@@ -44,7 +44,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * after navigation} step of the navigation lifecycle. In before enter it is possible to redirect to
  * another location, for example if there is only one search result, while after navigation is the
  * more common event to update the UI state. See.
- * <a href="https://vaadin.com/docs/latest/flow/routing/lifecycle">Vaadin documentation on
+ * <a href="https://vaadin.com/docs/v24/flow/routing/lifecycle">Vaadin documentation on
  * routing</a> for more details.
  *
  * @since 2.8.0

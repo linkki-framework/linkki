@@ -20,7 +20,7 @@ image::{images}{images-folder-name}/detail_empty.png[]
 ==== Creating View to display partner details
 
 [NOTE]
-If you look at the implementation of `BusinessPartnerView`, you will notice the https://vaadin.com/docs/latest/routing/route[`@Route`] annotation. This is a *Vaadin* annotation and it is required for navigating between views. Note that the `value` attribute represents the URL. If `value` is "example", you can access this view using the URL "localhost:8080/example".
+If you look at the implementation of `BusinessPartnerView`, you will notice the https://vaadin.com/docs/v24/flow/routing/route[`@Route`] annotation. This is a *Vaadin* annotation and it is required for navigating between views. Note that the `value` attribute represents the URL. If `value` is "example", you can access this view using the URL "localhost:8080/example".
 
 Create the new view by creating a class called `PartnerDetailsView`, annotating it with `@Route` and doing the following steps:
 
@@ -63,9 +63,9 @@ You can now run your application and access your new view via "localhost:8080/Pa
 
 ==== Accessing `PartnerDetailsView` for a given partner
 
-The URL currently doesn't allow you to show the information of a specific partner. Therefore, you need to add a https://vaadin.com/docs/latest/routing/route-parameters[parameter] to the URL.
+The URL currently doesn't allow you to show the information of a specific partner. Therefore, you need to add a https://vaadin.com/docs/v24/flow/routing/route-parameters[parameter] to the URL.
 
-One way to achieve this is to have the view implement the interface https://vaadin.com/docs/latest/routing/route-parameters/#defining-route-parameters[`HasUrlParameter<String>`] and override the method `setParameter(BeforeEvent event, @OptionalParameter String parameter)`. You will implement this method later.
+One way to achieve this is to have the view implement the interface https://vaadin.com/docs/v24/flow/routing/route-parameters/#defining-route-parameters[`HasUrlParameter<String>`] and override the method `setParameter(BeforeEvent event, @OptionalParameter String parameter)`. You will implement this method later.
 
 .PartnerDetailsView.java
 [source, java, indent=0]
