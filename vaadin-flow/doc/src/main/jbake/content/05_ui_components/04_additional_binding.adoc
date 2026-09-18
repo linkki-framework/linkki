@@ -175,6 +175,7 @@ It is also very easy to create additional <<creating-aspects, custom aspect anno
 | `<<bind-clear-button, @BindClearButton>>` | Set clear button visibility on UI components
 | `<<bind-value-change-mode, @BindValueChangeMode>>` | Set `ValueChangeMode` of a component
 | `<<bind-form-item-label-width, @BindFormItemLabelWidth>>` | Set label width of all form items of a layout
+| `<<bind-badge-severity, @BindBadgeSeverity>>` | Dynamically set a badge's severity
 |===
 
 [[tooltips]]
@@ -662,3 +663,25 @@ include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindVa
 The annotation `@BindFormItemLabelWidth` can be used to define the label width of form items of a specific layout.
 It has a single property `value`, which defines the width that should be applied to the layouts items.
 The value can be any valid CSS height value, but anything other unit than `"em"` or `"rem"` is strongly discouraged.
+
+[[bind-badge-severity]]
+===== Badge Severity
+
+The severity of a <<ui-badge, `@UIBadge`>> can be set dynamically using the `@BindBadgeSeverity` annotation, instead of only statically via the `severity` attribute of `@UIBadge`.
+The annotation does not have any attributes. It always determines the value dynamically with the apsect method.
+
+[cols="1,9"]
+.BadgeSeverity
+|===
+|`INFO`     |Informational badge with default styling (*default*)
+|`SUCCESS`  |Success badge with positive styling
+|`WARNING`  |Warning badge for cautionary information
+|`ERROR`    |Error badge for critical information
+|`NONE`     |Neutral badge with contrast styling
+|===
+
+.`@BindBadgeSeverity` on a badge
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/ts/aspects/BindBadgeSeverityPmo.java[tags=bindBadgeSeverity]
+----

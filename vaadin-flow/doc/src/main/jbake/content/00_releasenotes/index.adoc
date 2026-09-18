@@ -127,6 +127,14 @@ The following versions have been updated:
 | Karibu                        | 2.7.3 | 2.7.2
 |===
 
+==== Components, UI Annotations and Aspects
+
+// https://faktorzehn.atlassian.net/browse/LIN-4839
+* *Dynamic severity for badges* +
+The new annotation `@BindBadgeSeverity` allows the severity of a badge (`@UIBadge`) to be determined dynamically from the presentation model, instead of only statically via `@UIBadge#severity()`.
+A method `get<PropertyName>BadgeSeverity()` returning a `BadgeSeverity` must be provided on the presentation model.
+=======
+
 ==== Bugfixes
 
 // https://faktorzehn.atlassian.net/browse/LIN-5018

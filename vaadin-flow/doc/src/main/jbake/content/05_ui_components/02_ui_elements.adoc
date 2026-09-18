@@ -449,6 +449,8 @@ linkki provides the `BadgeVariant` class with common Vaadin badge variants:
 * `BadgeVariant.SMALL`: Compact size
 * `BadgeVariant.PRIMARY`: Applies primary theme color
 
+TIP: To determine the severity dynamically from the presentation model instead of statically, use <<bind-badge-severity, `@BindBadgeSeverity`>>.
+
 [[ui-button]]
 ==== UIButton
 

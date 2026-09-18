@@ -34,33 +34,19 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
-import org.linkki.samples.playground.ts.table.NumberFooterTablePmo;
-import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
-import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
-import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithPlaceholderNoPageLengthPmo;
-import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
-import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
-import org.linkki.samples.playground.ts.table.SortableTablePmo;
-import org.linkki.samples.playground.ts.table.TableWithEmptyLabelColumnPmo;
-import org.linkki.samples.playground.ts.table.TableWithValidationSection;
-import org.linkki.samples.playground.ts.table.VaryingAlignmentTablePmo;
-import org.linkki.samples.playground.ts.table.collapsible.CollapsibleColumnTablePmo;
-import org.linkki.samples.playground.ts.table.columnwidth.ColumnWidthTablePmo;
-import org.linkki.samples.playground.ts.table.dynamicfields.DynamicFieldsSection;
-import org.linkki.samples.playground.ts.table.selection.SelectableTableSection;
-import org.linkki.samples.playground.ts.treetable.TreeTableSection;
 import org.linkki.samples.playground.ts.aspects.BindAutoFocusPmo;
+import org.linkki.samples.playground.ts.aspects.BindBadgeSeverityPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindClearButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindComboBoxItemStylePmo;
+import org.linkki.samples.playground.ts.aspects.BindFormItemLabelWidthPmo;
 import org.linkki.samples.playground.ts.aspects.BindHeightPmo;
 import org.linkki.samples.playground.ts.aspects.BindHelperTextPmo;
 import org.linkki.samples.playground.ts.aspects.BindIconPmo;
 import org.linkki.samples.playground.ts.aspects.BindLabelPmo;
-import org.linkki.samples.playground.ts.aspects.BindFormItemLabelWidthPmo;
 import org.linkki.samples.playground.ts.aspects.BindPlaceholderPmo;
 import org.linkki.samples.playground.ts.aspects.BindReadOnlyBehaviorPmo;
 import org.linkki.samples.playground.ts.aspects.BindSlotPmo;
@@ -155,7 +141,22 @@ import org.linkki.samples.playground.ts.section.SectionLayoutComponent;
 import org.linkki.samples.playground.ts.section.SectionThemeVariantPmo;
 import org.linkki.samples.playground.ts.section.SectionsWithPlaceholder;
 import org.linkki.samples.playground.ts.section.UiFormSectionMultiColumnComponentsPmo;
+import org.linkki.samples.playground.ts.table.NumberFooterTablePmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithEmptyPlaceholderPmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithInheritedPlaceholderPmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithPlaceholderNoPageLengthPmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithPlaceholderPmo;
+import org.linkki.samples.playground.ts.table.SimplePlaygroundTablePmo.TableWithoutPlaceholderPmo;
+import org.linkki.samples.playground.ts.table.SortableTablePmo;
+import org.linkki.samples.playground.ts.table.TableWithEmptyLabelColumnPmo;
+import org.linkki.samples.playground.ts.table.TableWithValidationSection;
 import org.linkki.samples.playground.ts.table.UITableComponentPmo;
+import org.linkki.samples.playground.ts.table.VaryingAlignmentTablePmo;
+import org.linkki.samples.playground.ts.table.collapsible.CollapsibleColumnTablePmo;
+import org.linkki.samples.playground.ts.table.columnwidth.ColumnWidthTablePmo;
+import org.linkki.samples.playground.ts.table.dynamicfields.DynamicFieldsSection;
+import org.linkki.samples.playground.ts.table.selection.SelectableTableSection;
+import org.linkki.samples.playground.ts.treetable.TreeTableSection;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.html.Div;
@@ -216,6 +217,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
     public static final String TC021 = "TC021";
     public static final String TC022 = "TC022";
     public static final String TC023 = "TC023";
+    public static final String TC024 = "TC024";
 
     static final String ROUTE = "playground";
 
@@ -355,6 +357,7 @@ public class TestScenarioView extends Div implements HasUrlParameter<String> {
                                        .testCase(TC021, new BindClearButtonPmo())
                                        .testCase(TC022, new BindValueChangeModePmo())
                                        .testCase(TC023, new BindFormItemLabelWidthPmo())
+                                       .testCase(TC024, new BindBadgeSeverityPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())
