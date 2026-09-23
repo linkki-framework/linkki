@@ -43,10 +43,10 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.theme.LinkkiTheme;
 import org.linkki.core.util.HtmlContent;
 import org.linkki.samples.playground.ips.model.Marker;
-
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.theme.lumo.LumoIcon;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 @UISection(layout = SectionLayout.VERTICAL)
 public class LabelPmo {
@@ -60,7 +60,7 @@ public class LabelPmo {
     }
 
     @UILabel(position = 50, label = "Label with a BigDecimal as Value")
-    @BindIcon(value = VaadinIcon.ACCORDION_MENU)
+    @BindIcon(value = VaadinIcon.MENU)
     @BindSuffix("%")
     public BigDecimal getBigDecimalLabel() {
         return BigDecimal.valueOf(12345.6789);
@@ -121,7 +121,7 @@ public class LabelPmo {
         return Set.of(CUSTOM_STYLE, LumoUtility.TextAlignment.RIGHT);
     }
 
-    @Deprecated
+    @SuppressWarnings("deprecation")
     @BindStyleNames
     @BindIcon(VaadinIcon.CIRCLE)
     @UILabel(position = 95, label = "Label with a dynamic style", htmlContent = true)
@@ -151,13 +151,13 @@ public class LabelPmo {
     }
 
     @UILabel(position = 100, label = "Label with an icon on the left")
-    @BindIcon(value = VaadinIcon.ABACUS)
+    @BindIcon(value = VaadinIcon.CALC)
     public String getIconLeftLabel() {
         return "Icon on the left";
     }
 
     @UILabel(position = 105, label = "Label with an icon on the right", iconPosition = IconPosition.RIGHT)
-    @BindIcon(value = VaadinIcon.ABACUS)
+    @BindIcon(value = VaadinIcon.CALC)
     public String getIconRightLabel() {
         return "Icon on the right";
     }
@@ -237,12 +237,12 @@ public class LabelPmo {
             return new HtmlContentReturnTypeLabelPmo();
         }
 
-        @Deprecated
+        @SuppressWarnings("deprecation")
         @UISection(caption = "Label with HtmlContent using htmlContent=true", layout = SectionLayout.VERTICAL)
-        public class HtmlContentPropertyLabelPmo {
+        public static class HtmlContentPropertyLabelPmo {
 
             @UILabel(position = 10, label = "Label with HTML Content", htmlContent = true)
-            @BindIcon(value = VaadinIcon.ACCORDION_MENU)
+            @BindIcon(value = VaadinIcon.MENU)
             @BindSuffix("%")
             public String getHtmlContentLabel() {
                 return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
@@ -273,7 +273,7 @@ public class LabelPmo {
 
             // tag::labelPmo-labelHtmlContent[]
             @UILabel(position = 10, label = "Label with HtmlContent")
-            @BindIcon(value = VaadinIcon.ACCORDION_MENU)
+            @BindIcon(value = VaadinIcon.MENU)
             @BindSuffix("%")
             public HtmlContent getHtmlContentLabel() {
                 return HtmlContent.builder()
@@ -312,7 +312,7 @@ public class LabelPmo {
     @UIHorizontalLayout
     public static class BooleanLabelPmo {
 
-        private Boolean value;
+        private Boolean value = null;
 
         @UIComboBox(position = 0, label = "Boolean Value")
         public Boolean getBooleanValue() {
@@ -323,9 +323,10 @@ public class LabelPmo {
             this.value = value;
         }
 
+        @CheckForNull
         @UILabel(position = 10, label = "Boolean Label")
         public Boolean getBooleanLabel() {
-            return value;
+            return getBooleanValue();
         }
     }
 }

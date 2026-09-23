@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.playground.uitest;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.linkki.testbench.conditions.VaadinElementConditions.elementDisplayed;
 
 import java.util.ArrayList;
@@ -294,7 +295,7 @@ public abstract class AbstractLinkkiUiTest extends AbstractBrowserTestBase {
      * @param dialog The {@link DialogElement dialog} to confirm and to close
      */
     public void confirmDialog(DialogElement dialog) {
-        ButtonElement okButton = dialog.$(ButtonElement.class).id("okButton");
+        var okButton = dialog.$(ButtonElement.class).id("okButton");
         okButton.click();
         waitUntil(VaadinElementConditions.isClosed(dialog));
     }

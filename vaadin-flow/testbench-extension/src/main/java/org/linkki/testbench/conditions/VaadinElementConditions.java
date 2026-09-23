@@ -158,6 +158,12 @@ public class VaadinElementConditions {
     }
 
     public static ExpectedCondition<Boolean> isClosed(DialogElement dialog) {
-        return driver -> !dialog.isOpen();
+        return driver -> {
+            try {
+                return !dialog.isDisplayed();
+            } catch (StaleElementReferenceException e) {
+                return true;
+            }
+        };
     }
 }

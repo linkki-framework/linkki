@@ -43,7 +43,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 class BindIconIntegrationTest {
 
-    private static final String ABACUS_ICON_NAME = "vaadin:abacus";
+    private static final String PLUS_ICON_NAME = "vaadin:plus";
     private static final String AIRPLANE_ICON_NAME = "vaadin:airplane";
 
     private final BindingContext bindingContext = new BindingContext();
@@ -56,7 +56,7 @@ class BindIconIntegrationTest {
         assertThat(button).isInstanceOf(Button.class);
         var icon = getIcon((Button)button);
         assertThat(icon).isInstanceOf(Icon.class);
-        assertThat(getIconAttribute(icon)).isEqualTo(ABACUS_ICON_NAME);
+        assertThat(getIconAttribute(icon)).isEqualTo(PLUS_ICON_NAME);
     }
 
     @Test
@@ -70,13 +70,13 @@ class BindIconIntegrationTest {
 
     @Test
     void testAspectBindIconAnnotation_Auto_withButton() {
-        var pmo = new TestPmoWithAutoIcon(VaadinIcon.ABACUS);
+        var pmo = new TestPmoWithAutoIcon(VaadinIcon.PLUS);
         var button = createUiElements(pmo).get(1);
 
         assertThat(button).isInstanceOf(Button.class);
         var icon = getIcon((Button)button);
         assertThat(icon).isInstanceOf(Icon.class);
-        assertThat(getIconAttribute(icon)).isEqualTo(ABACUS_ICON_NAME);
+        assertThat(getIconAttribute(icon)).isEqualTo(PLUS_ICON_NAME);
 
         pmo.setIcon(null);
         bindingContext.modelChanged();
@@ -86,11 +86,11 @@ class BindIconIntegrationTest {
 
     @Test
     void testAspectBindIconAnnotation_Auto_withLink() {
-        TestPmoWithAutoIcon pmo = new TestPmoWithAutoIcon(VaadinIcon.ABACUS);
+        TestPmoWithAutoIcon pmo = new TestPmoWithAutoIcon(VaadinIcon.PLUS);
         Component link = createUiElements(pmo).get(2);
 
         assertThat(link).isInstanceOf(LinkkiAnchor.class);
-        assertThat(((LinkkiAnchor)link).getIcon()).isEqualTo(VaadinIcon.ABACUS);
+        assertThat(((LinkkiAnchor)link).getIcon()).isEqualTo(VaadinIcon.PLUS);
 
         pmo.setIcon(null);
         bindingContext.modelChanged();
@@ -100,13 +100,13 @@ class BindIconIntegrationTest {
 
     @Test
     void testAspectBindIconAnnotation_Dynamic_withButton() {
-        TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.ABACUS);
+        TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.PLUS);
 
         Component button = createUiElements(pmo).get(1);
         assertThat(button).isInstanceOf(Button.class);
         Component icon = getIcon((Button)button);
         assertThat(icon).isInstanceOf(Icon.class);
-        assertThat(getIconAttribute(icon)).isEqualTo(ABACUS_ICON_NAME);
+        assertThat(getIconAttribute(icon)).isEqualTo(PLUS_ICON_NAME);
 
         pmo.setIcon(VaadinIcon.AIRPLANE);
         bindingContext.modelChanged();
@@ -118,11 +118,11 @@ class BindIconIntegrationTest {
 
     @Test
     void testAspectBindIconAnnotation_Dynamic_withLink() {
-        TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.ABACUS);
+        TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.PLUS);
         Component link = createUiElements(pmo).get(2);
 
         assertThat(link).isInstanceOf(LinkkiAnchor.class);
-        assertThat(((LinkkiAnchor)link).getIcon()).isEqualTo(VaadinIcon.ABACUS);
+        assertThat(((LinkkiAnchor)link).getIcon()).isEqualTo(VaadinIcon.PLUS);
 
         pmo.setIcon(VaadinIcon.AIRPLANE);
         bindingContext.modelChanged();
@@ -166,7 +166,7 @@ class BindIconIntegrationTest {
             return "";
         }
 
-        @BindIcon(VaadinIcon.ABACUS)
+        @BindIcon(VaadinIcon.PLUS)
         @UIButton(label = "Button static icon", position = 1)
         public String getButtonPropertyWithStaticIcon() {
             return "";

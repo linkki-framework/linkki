@@ -139,7 +139,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
     @UIHorizontalLayout
     public static class HeadlineButtonsPmo {
 
-        @UIMenuButton(position = 0, icon = VaadinIcon.BUTTON, caption = "UIMenuButton", showIcon = false)
+        @UIMenuButton(position = 0, icon = VaadinIcon.STAR, caption = "UIMenuButton", showIcon = false)
         public void menuButton() {
             // does nothing
         }

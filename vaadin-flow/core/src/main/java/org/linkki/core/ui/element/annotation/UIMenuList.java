@@ -123,7 +123,7 @@ public @interface UIMenuList {
     /**
      * Defines the menu button's icon, using constants in {@link VaadinIcon}
      */
-    VaadinIcon icon() default VaadinIcon.ELLIPSIS_DOTS_H;
+    VaadinIcon icon() default VaadinIcon.ELLIPSIS_H;
 
     /**
      * If <code>true</code>, the button will be displayed with the defined {@link #icon()}

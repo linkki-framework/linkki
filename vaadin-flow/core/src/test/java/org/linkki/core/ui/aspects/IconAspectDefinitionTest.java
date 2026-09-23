@@ -21,23 +21,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
-import org.linkki.core.vaadin.component.base.LinkkiAnchor;
-
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.dom.Element;
 
-public class IconAspectDefinitionTest {
+class IconAspectDefinitionTest {
 
     @Test
-    public void testCreateComponentValueSetter_Button() {
-        IconAspectDefinition iconAspectDefinition = new IconAspectDefinition(IconType.STATIC, VaadinIcon.ABACUS);
-        Button button = ComponentFactory.newButton();
-        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(button);
+    void testCreateComponentValueSetter_Button() {
+        var iconAspectDefinition = new IconAspectDefinition(IconType.STATIC, VaadinIcon.AIRPLANE);
+        var button = ComponentFactory.newButton();
+        var componentWrapper = new NoLabelComponentWrapper(button);
 
         Consumer<VaadinIcon> componentValueSetter = iconAspectDefinition.createComponentValueSetter(componentWrapper);
 
@@ -48,18 +44,18 @@ public class IconAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_Link() {
-        IconAspectDefinition iconAspectDefinition = new IconAspectDefinition(IconType.STATIC, VaadinIcon.ABACUS);
-        LinkkiAnchor anchor = ComponentFactory.newLink("");
+    void testCreateComponentValueSetter_Link() {
+        var iconAspectDefinition = new IconAspectDefinition(IconType.STATIC, VaadinIcon.AIRPLANE);
+        var anchor = ComponentFactory.newLink("");
 
         assertThat(anchor.getIcon(), is(nullValue()));
 
-        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(anchor);
+        var componentWrapper = new NoLabelComponentWrapper(anchor);
 
         Consumer<VaadinIcon> componentValueSetter = iconAspectDefinition.createComponentValueSetter(componentWrapper);
 
-        componentValueSetter.accept(VaadinIcon.ACCORDION_MENU);
-        assertThat(anchor.getIcon(), is(VaadinIcon.ACCORDION_MENU));
+        componentValueSetter.accept(VaadinIcon.CONNECT);
+        assertThat(anchor.getIcon(), is(VaadinIcon.CONNECT));
     }
 
     private String getIconAttribute(Element icon) {

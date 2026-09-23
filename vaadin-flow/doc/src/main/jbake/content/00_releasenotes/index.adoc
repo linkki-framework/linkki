@@ -116,15 +116,48 @@
 
 === Version {vlinkki}
 
-* *Incompatible Chromedriver Version*
-* The update to Vaadin 25.2.8 will come with an update of Selenium to 4.49.0.
-This may cause various exceptions when executing testbench UI tests that should resolve with using a more recent Chromedriver version (tested with 149).
+==== Version Updates
+// Only list versions that are in compile scope, not plugins, and not only used in samples.
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version   | Previous version
+
+| Vaadin                        | 25.3.1 (link:https://github.com/vaadin/platform/releases/tag/25.3.1[Release Notes]) | 25.2.6
+|===
+
+===== Vaadin 25.3
+
+Vaadin 25.3 introduced several changes that affect this release and may also affect downstream projects:
+
+* *Frontend styling of `vaadin-form-item`* +
+Vaadin reworked the internal styling of `vaadin-form-item`. Form items used in linkki layouts are not affected, as linkki's own styling was adjusted accordingly. Projects with custom CSS targeting `vaadin-form-item`'s required-indicator or label parts should check and adjust it if needed.
+* [.api-change]*Deprecated icons* +
+Several `VaadinIcon` entries are now deprecated (llink:https://github.com/vaadin/web-components/pull/12452[explanation from Vaadin]). +
+This changed the default icon of two linkki annotations:
+** `@BindIcon`: default changed from `VaadinIcon.NATIVE_BUTTON` to `VaadinIcon.SQUARE`
+** `@UIMenuList`: default changed from `VaadinIcon.ELLIPSIS_DOTS_H` to `VaadinIcon.ELLIPSIS_H`
++
+Projects that explicitly used `@BindIcon(VaadinIcon.SQUARE)` together with the default `iconType() == IconType.AUTO` need to set `iconType = IconType.STATIC` explicitly: `VaadinIcon.SQUARE` is now the sentinel value `@BindIcon` uses to detect "no icon set" (dynamic icon binding). See the `@BindIcon` javadoc. +
+All usages of deprecated icons need to be investigated as the canoncial substitute does not always express the same intention as the existing one.
+As Vaadin ist planning to migrate to link:https://lucide.dev/icons/[Lucide icons], it may be useful to consider if the corresponding Lucide icon still express the same meaning when choosing replacements.
+* [.api-change]*`TreeGrid` data provider* +
+`TreeDataProvider(TreeData)` is now deprecated in favor of `TreeDataProvider(TreeData, HierarchyFormat)`, because the single-argument constructor's default hierarchy format will change from `NESTED` to `FLATTENED` in Vaadin 26. linkki's `TreeGridComponentWrapper` was adjusted accordingly. Projects with their own `TreeGrid`/`TreeDataProvider` usage should switch to the two-argument constructor and pass `HierarchyFormat.NESTED` explicitly to keep the current behavior.
+* *Vaadin TestBench dialog behavior* +
+Vaadin TestBench 25.3 changed dialog-overlay DOM/timing behavior. This is mitigated internally in `OkCancelDialogElement.getDialogLayout()` and `VaadinElementConditions.isClosed(DialogElement)` (module `linkki-vaadin-flow-testbench-extension`). Projects with their own TestBench page objects or conditions for dialogs may be similarly affected and should verify against this Vaadin version. The most likely (but not confirmed) root cause is a combination of two Vaadin 25.3 web component changes: `vaadin-dialog`'s light DOM slot structure for its header/footer wrappers changed, and the shared overlay animation/attribute-timing logic was reworked, affecting all `vaadin-overlay`-based components including dialogs.
+* *Node.js 24 and version-specific install directories* +
+Vaadin 25.3 changed how it installs/manages Node.js: instead of a single `~/.vaadin/node/` directory, each version is now installed into `~/.vaadin/node-v<version>/`, and the `node.auto.update` configuration property was removed since it's no longer needed. Node.js 24+ is still required for building the frontend. Projects with their own Node.js provisioning/CI caching tied to the old layout or `node.auto.update` should adjust.
+* *Incompatible Chromedriver Version* +
+The Selenium version is updated to 4.49.0. This may cause various exceptions when executing testbench UI tests that should resolve with using a more recent Chromedriver version (tested with 149).
 
 ==== Other Improvements
 
 // https://jira.convista.com/browse/LIN-5056
-* *Removal of the module linkki-f10* +
-The module `linkki-f10`, which has been deprecated in version link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_integration_of_linkki_f10_functionalities_into_linkki[2.8.0], has now been removed.
+* [.api-change]*Removal of the module linkki-f10* +
+The module `linkki-f10`, which has been deprecated in version link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_integration_of_linkki_f10_functionalities_into_linkki[2.8.0], has now been removed. For migration guide, see release notes of version link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_integration_of_linkki_f10_functionalities_into_linkki[2.8.0].
+* [.api-change]*Removed deprecated `KaribuUtils` methods* +
+`KaribuUtils.getNotification()` and `KaribuUtils.getNotificationTitle(Notification)`, deprecated since linkki 2.6.0, have been removed. Use `KaribuUtils.Notifications.get()` and `KaribuUtils.Notifications.getTitle(Notification)` instead.
 // https://faktorzehn.atlassian.net/browse/JTS-3509
 * *Faster headless Chrome in Testbench tests* +
 `BrowserType.CHROME_HEADLESS` now starts Chrome with `--remote-debugging-pipe`, which reduces significant overhead in container environments.
@@ -138,7 +171,6 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version   | Previous version
-
 | Karibu                        | 2.7.3 | 2.7.2
 |===
 
@@ -152,7 +184,7 @@ A method `get<PropertyName>BadgeSeverity()` returning a `BadgeSeverity` must be 
 ==== Other Improvements
 
 // https://faktorzehn.atlassian.net/browse/LIN-4151
-* [.api-change] *`linkki-bom` no longer imports the Vaadin BOM* +
+* [.api-change]*`linkki-bom` no longer imports the Vaadin BOM* +
 Importing `linkki-bom` alone no longer pins the versions of Vaadin artifacts, since this could conflict with the Vaadin version managed by a consuming application's own parent POM. +
 Projects that relied on `linkki-bom` to manage Vaadin versions transitively must now import `com.vaadin:vaadin-bom` themselves, or otherwise pin the Vaadin artifact versions they use directly.
 

@@ -14,9 +14,10 @@
 
 package org.linkki.samples.playground.ts.linkkitext;
 
+import java.io.Serial;
+
 import org.linkki.core.ui.aspects.types.IconPosition;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
-
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.AnchorTarget;
@@ -27,31 +28,31 @@ public class LinkkiAnchorComponent extends VerticalLayout {
 
     private static final String HREF = "https://www.faktorzehn.com/de/";
 
+    @Serial
     private static final long serialVersionUID = 4770624919925533048L;
 
     public LinkkiAnchorComponent() {
-
-        FormLayout formLayout = new FormLayout();
-        LinkkiAnchor anchorWithIconLeft = new LinkkiAnchor();
+        var formLayout = new FormLayout();
+        var anchorWithIconLeft = new LinkkiAnchor();
         anchorWithIconLeft.setText("Anchor with icon on the left");
         anchorWithIconLeft.setHref(HREF);
-        anchorWithIconLeft.setIcon(VaadinIcon.ABACUS);
+        anchorWithIconLeft.setIcon(VaadinIcon.CALC);
         formLayout.add(anchorWithIconLeft);
 
-        LinkkiAnchor anchorWithIconRight = new LinkkiAnchor();
+        var anchorWithIconRight = new LinkkiAnchor();
         anchorWithIconRight.setText("Anchor with icon on the right");
         anchorWithIconRight.setHref(HREF);
         anchorWithIconRight.setIconPosition(IconPosition.RIGHT);
-        anchorWithIconRight.setIcon(VaadinIcon.ABACUS);
+        anchorWithIconRight.setIcon(VaadinIcon.CALC);
         formLayout.add(anchorWithIconRight);
 
-        LinkkiAnchor anchorWithTargetBlank = new LinkkiAnchor();
+        var anchorWithTargetBlank = new LinkkiAnchor();
         anchorWithTargetBlank.setText("Page in new tab");
         anchorWithTargetBlank.setHref(HREF);
         anchorWithTargetBlank.setTarget(AnchorTarget.BLANK);
         formLayout.add(anchorWithTargetBlank);
 
-        LinkkiAnchor anchorWithPrefixAndSuffix = new LinkkiAnchor();
+        var anchorWithPrefixAndSuffix = new LinkkiAnchor();
         anchorWithPrefixAndSuffix.setText("Anchor with prefix and suffix");
         anchorWithPrefixAndSuffix.setHref(HREF);
         anchorWithPrefixAndSuffix.setPrefixComponent(new Button("Prefix Button", VaadinIcon.AIRPLANE.create()));

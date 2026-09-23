@@ -17,7 +17,7 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <sonar.skip>true</sonar.skip>
 
-        <jade-maven-plugin.version>1.2.0</jade-maven-plugin.version>
+        <jade-maven-plugin.version>1.2.1-a20260910-03</jade-maven-plugin.version>
         <linkki-codeanalysis.version>non-existent</linkki-codeanalysis.version>
     </properties>
 

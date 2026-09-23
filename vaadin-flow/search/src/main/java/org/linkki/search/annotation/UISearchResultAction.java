@@ -69,7 +69,7 @@ public @interface UISearchResultAction {
         @Override
         public LinkkiComponentDefinition create(UISearchResultAction annotation,
                 AnnotatedElement annotatedElement) {
-            return pmo -> new SingleItemMenuBar("", VaadinIcon.ELLIPSIS_DOTS_H,
+            return pmo -> new SingleItemMenuBar("", VaadinIcon.ELLIPSIS_H,
                     new MenuBarVariant[] { MenuBarVariant.LUMO_TERTIARY_INLINE });
         }
     }

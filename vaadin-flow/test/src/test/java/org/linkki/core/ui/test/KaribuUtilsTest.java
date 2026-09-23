@@ -47,6 +47,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.treegrid.TreeGrid;
+import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider.HierarchyFormat;
+import com.vaadin.flow.data.provider.hierarchy.TreeData;
+import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.server.Command;
 import com.vaadin.flow.shared.communication.PushMode;
@@ -149,9 +152,11 @@ class KaribuUtilsTest {
     void testGetComponentTree_TreeGrid_RootItems() {
         var parent = new Div();
         var grid = new TreeGrid<String>();
-        grid.setItems(
-                      List.of("item1", "item2"),
-                      s -> s.length() < 10 ? List.of(s + "-sub1", s + "-sub2") : List.of());
+        var treeData = new TreeData<String>().addItems(
+                                                        List.of("item1", "item2"),
+                                                        s -> s.length() < 10 ? List.of(s + "-sub1", s + "-sub2")
+                                                                : List.of());
+        grid.setDataProvider(new TreeDataProvider<>(treeData, HierarchyFormat.NESTED));
         grid.addHierarchyColumn(s -> s + " - 1").setKey("column1");
         grid.addComponentHierarchyColumn(s -> {
             var textField = new TextField();
@@ -175,19 +180,21 @@ class KaribuUtilsTest {
                 .isEqualTo(2);
         assertThat(StringUtils.countMatches(printResult, "expanded"))
                 .as("There should be no expanded items in an unexpanded tree")
-                .isEqualTo(0);
+                .isZero();
         assertThat(StringUtils.countMatches(printResult, "isLeaf"))
                 .as("There should be no leaf items in the unexpanded tree")
-                .isEqualTo(0);
+                .isZero();
     }
 
     @Test
     void testGetComponentTree_TreeGrid_ExpandFirstSubTree() {
         var parent = new Div();
         var grid = new TreeGrid<String>();
-        grid.setItems(
-                      List.of("item1", "item2"),
-                      s -> s.length() < 12 ? List.of(s + "-sub1", s + "-sub2") : List.of());
+        var treeData = new TreeData<String>().addItems(
+                                                        List.of("item1", "item2"),
+                                                        s -> s.length() < 12 ? List.of(s + "-sub1", s + "-sub2")
+                                                                : List.of());
+        grid.setDataProvider(new TreeDataProvider<>(treeData, HierarchyFormat.NESTED));
         grid.addHierarchyColumn(s -> s + " - 1").setKey("column1");
         grid.addComponentHierarchyColumn(s -> {
             var textField = new TextField();
@@ -351,30 +358,26 @@ class KaribuUtilsTest {
     @Nested
     class NotificationsTests {
 
-        @SuppressWarnings("deprecation")
         @Test
         void testGetNotification() {
 
             Notification notification = new Notification();
             notification.open();
-            assertThat(KaribuUtils.getNotification()).isSameAs(notification);
+            assertThat(KaribuUtils.Notifications.get()).isSameAs(notification);
         }
 
-        @SuppressWarnings("deprecation")
         @Test
         void testGetNotification_NoNotifications() {
-            assertThrows(AssertionError.class, KaribuUtils::getNotification);
+            assertThrows(AssertionError.class, KaribuUtils.Notifications::get);
         }
 
-        @SuppressWarnings("deprecation")
         @Test
         void testGetNotification_MultipleNotifications() {
             new Notification().open();
             new Notification().open();
-            assertThrows(AssertionError.class, KaribuUtils::getNotification);
+            assertThrows(AssertionError.class, KaribuUtils.Notifications::get);
         }
 
-        @SuppressWarnings("deprecation")
         @Test
         void testGetNotificationTitle() {
             var content = new Div(new H3("notification title"));
@@ -382,7 +385,7 @@ class KaribuUtilsTest {
             var notification = new Notification(content);
             notification.open();
 
-            assertThat(KaribuUtils.getNotificationTitle(notification)).isEqualTo("notification title");
+            assertThat(KaribuUtils.Notifications.getTitle(notification)).isEqualTo("notification title");
         }
 
     }
@@ -732,9 +735,11 @@ class KaribuUtilsTest {
         @Test
         void testGetTextContentsInColumn_TreeGrid_RootItems() {
             var grid = new TreeGrid<String>();
-            grid.setItems(
-                          List.of("item1", "item2"),
-                          s -> s.length() < 6 ? List.of(s + "-sub1", s + "-sub2") : List.of());
+            var treeData = new TreeData<String>().addItems(
+                                                            List.of("item1", "item2"),
+                                                            s -> s.length() < 6 ? List.of(s + "-sub1", s + "-sub2")
+                                                                    : List.of());
+            grid.setDataProvider(new TreeDataProvider<>(treeData, HierarchyFormat.NESTED));
             grid.addColumn(new ComponentRenderer<>(s -> {
                 var textField = new TextField();
                 textField.setValue(s + " - 1");
@@ -755,9 +760,11 @@ class KaribuUtilsTest {
         @Test
         void testGetTextContentsInColumn_TreeGrid_ExpandSubFirstTree() {
             var grid = new TreeGrid<String>();
-            grid.setItems(
-                          List.of("item1", "item2"),
-                          s -> s.length() < 6 ? List.of(s + "-sub1", s + "-sub2") : List.of());
+            var treeData = new TreeData<String>().addItems(
+                                                            List.of("item1", "item2"),
+                                                            s -> s.length() < 6 ? List.of(s + "-sub1", s + "-sub2")
+                                                                    : List.of());
+            grid.setDataProvider(new TreeDataProvider<>(treeData, HierarchyFormat.NESTED));
             grid.addColumn(new ComponentRenderer<>(s -> {
                 var textField = new TextField();
                 textField.setValue(s + " - 1");

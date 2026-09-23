@@ -30,7 +30,7 @@ class LinkkiTextTest {
     void setup() {
         linkkiText = new LinkkiText();
         linkkiText.setText("Test text");
-        linkkiText.setIcon(VaadinIcon.ABACUS);
+        linkkiText.setIcon(VaadinIcon.AIRPLANE);
     }
 
     @Test
@@ -38,7 +38,7 @@ class LinkkiTextTest {
         linkkiText.setText("New test text");
 
         assertThat(linkkiText.getText()).isEqualTo("New test text");
-        assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.ABACUS);
+        assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.AIRPLANE);
     }
 
     @Test
@@ -71,9 +71,9 @@ class LinkkiTextTest {
 
     @Test
     void testSetIcon() {
-        linkkiText.setIcon(VaadinIcon.ADJUST);
+        linkkiText.setIcon(VaadinIcon.PLUS);
 
-        assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.ADJUST);
+        assertThat(linkkiText.getIcon()).isEqualTo(VaadinIcon.PLUS);
     }
 
     @Test

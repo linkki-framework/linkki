@@ -25,7 +25,7 @@ public class TabSheetExample {
 
     public void addNormalTabSheets() {
         // tag::createTabSheet[]
-        LinkkiTabLayout linkkiTabLayout = new LinkkiTabLayout();
+        var linkkiTabLayout = new LinkkiTabLayout();
         linkkiTabLayout.addTabSheet(LinkkiTabSheet.builder("tabSheetId")
                 .caption("Tab Sheet Caption")
                 .content(this::createTabContent)
@@ -35,9 +35,9 @@ public class TabSheetExample {
 
     public void addSidebarLayout() {
         // tag::createSidebar[]
-        LinkkiTabLayout linkkiTabLayout = LinkkiTabLayout.newSidebarLayout();
+        var linkkiTabLayout = LinkkiTabLayout.newSidebarLayout();
         linkkiTabLayout.addTabSheet(LinkkiTabSheet.builder("sidebarSheetId")
-                .caption(VaadinIcon.ABACUS.create())
+                .caption(VaadinIcon.AIRPLANE.create())
                 .description("Sidebar One")
                 .content(this::createSidebarContent)
                 .build());

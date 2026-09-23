@@ -66,7 +66,7 @@ class BindIconTest {
     void testCreateAspect_AutoStaticIcon() {
         BindIconAspectDefinitionCreator bindIconAspectDefinitionCreator = new BindIconAspectDefinitionCreator();
         var testObject = new Object() {
-            @BindIcon(VaadinIcon.ABACUS)
+            @BindIcon(VaadinIcon.AIRPLANE)
             public void testMethod() {
                 // nop
             }
@@ -76,12 +76,12 @@ class BindIconTest {
 
         Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
-        assertThat(aspect.getValue(), is(VaadinIcon.ABACUS));
+        assertThat(aspect.getValue(), is(VaadinIcon.AIRPLANE));
         assertThat(aspect.getName(), is(IconAspectDefinition.NAME));
     }
 
     @Test
-    void testCreateAspect_NativeButton() {
+    void testCreateAspect_DefaultButton() {
         BindIconAspectDefinitionCreator bindIconAspectDefinitionCreator = new BindIconAspectDefinitionCreator();
         var testObject = new Object() {
             @BindIcon(iconType = IconType.STATIC)
@@ -94,7 +94,7 @@ class BindIconTest {
 
         Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
-        assertThat(aspect.getValue(), is(VaadinIcon.NATIVE_BUTTON));
+        assertThat(aspect.getValue(), is(VaadinIcon.SQUARE));
         assertThat(aspect.getName(), is(IconAspectDefinition.NAME));
     }
 
@@ -102,7 +102,7 @@ class BindIconTest {
     void testCreateAspect_Static() {
         BindIconAspectDefinitionCreator bindIconAspectDefinitionCreator = new BindIconAspectDefinitionCreator();
         var testObject = new Object() {
-            @BindIcon(value = VaadinIcon.ABSOLUTE_POSITION, iconType = IconType.STATIC)
+            @BindIcon(value = VaadinIcon.TRASH, iconType = IconType.STATIC)
             public void testMethod() {
                 // nop
             }
@@ -112,7 +112,7 @@ class BindIconTest {
 
         Aspect<VaadinIcon> aspect = aspectDefinition.createAspect();
 
-        assertThat(aspect.getValue(), is(VaadinIcon.ABSOLUTE_POSITION));
+        assertThat(aspect.getValue(), is(VaadinIcon.TRASH));
         assertThat(aspect.getName(), is(IconAspectDefinition.NAME));
     }
 

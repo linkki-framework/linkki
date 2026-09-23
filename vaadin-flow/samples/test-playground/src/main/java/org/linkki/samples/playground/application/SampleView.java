@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.application;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class SampleView extends Div {
 
     public static final String NAME = "sample-layout";
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final List<Report> REPORTS = new ArrayList<>();
@@ -40,11 +42,11 @@ public class SampleView extends Div {
     public SampleView() {
         var tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.addTabSheets(LinkkiTabSheet.builder("CreateReport")
-                .caption(VaadinIcon.STAR_HALF_LEFT_O.create())
+                .caption(VaadinIcon.STAR_HALF.create())
                 .content(this::createReportPage)
                 .build(),
                                LinkkiTabSheet.builder("ReportList")
-                                       .caption(VaadinIcon.FILE_O.create())
+                                       .caption(VaadinIcon.FILE.create())
                                        .content(this::createReportListPage)
                                        .build());
         add(tabLayout);

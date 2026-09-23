@@ -24,8 +24,11 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import java.io.Serial;
+
 public class LinkkiTextComponent extends VerticalLayout {
 
+    @Serial
     private static final long serialVersionUID = 2720424951808627806L;
 
     public LinkkiTextComponent() {
@@ -70,7 +73,7 @@ public class LinkkiTextComponent extends VerticalLayout {
         var textWithIconRight = new LinkkiText();
         textWithIconRight.setIconPosition(IconPosition.RIGHT);
         textWithIconRight.setText("Label with an icon on the right");
-        textWithIconRight.setIcon(VaadinIcon.ABACUS);
+        textWithIconRight.setIcon(VaadinIcon.CALC);
         return textWithIconRight;
     }
 
@@ -88,13 +91,13 @@ public class LinkkiTextComponent extends VerticalLayout {
         actions.add(new Button("Set static text", e -> updateIconWithText(text)));
         actions.add(new Button("Set random text", e -> updateIconWithTextRandom(text)));
         actions.add(new Button("Remove Icon", e -> text.setIcon(null)));
-        actions.add(new Button("Set Icon", e -> text.setIcon(VaadinIcon.ABACUS)));
+        actions.add(new Button("Set Icon", e -> text.setIcon(VaadinIcon.CALC)));
         return actions;
     }
 
     private void updateIconWithText(LinkkiText text) {
         text.setText("Label with an icon on the left");
-        text.setIcon(VaadinIcon.ABACUS);
+        text.setIcon(VaadinIcon.CALC);
     }
 
     private void updateIconWithTextRandom(LinkkiText text) {

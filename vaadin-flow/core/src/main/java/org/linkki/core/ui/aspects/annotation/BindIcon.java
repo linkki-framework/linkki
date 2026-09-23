@@ -41,11 +41,11 @@ public @interface BindIcon {
      * 
      * @implNote To support the convenient way to just use @BindIcon and directly get a dynamic icon
      *           binding without specifying the {@link #iconType()} explicitly, we need a default
-     *           value. The icon {@link VaadinIcon#NATIVE_BUTTON} seems to be a quite useless icon.
-     *           However if it is necessary to use exactly this icon it is necessary to specify
+     *           value. The icon {@link VaadinIcon#SQUARE} seems to be a seldomly used icon.
+     *           However, if it is necessary to use exactly this icon it is necessary to specify
      *           {@link #iconType()} as {@link IconType#STATIC} explicitly.
      */
-    VaadinIcon value() default VaadinIcon.NATIVE_BUTTON;
+    VaadinIcon value() default VaadinIcon.SQUARE;
 
     /** Defines how the icon should be retrieved */
     IconType iconType() default IconType.AUTO;
@@ -59,7 +59,7 @@ public @interface BindIcon {
 
         @CheckForNull
         private VaadinIcon getValueConsiderDefault(BindIcon bindIcon) {
-            return bindIcon.iconType() == IconType.AUTO && VaadinIcon.NATIVE_BUTTON.equals(bindIcon.value())
+            return bindIcon.iconType() == IconType.AUTO && VaadinIcon.SQUARE == bindIcon.value()
                     ? null
                     : bindIcon.value();
         }

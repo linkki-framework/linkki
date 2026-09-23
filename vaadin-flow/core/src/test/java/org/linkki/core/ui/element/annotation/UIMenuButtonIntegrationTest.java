@@ -61,7 +61,7 @@ class UIMenuButtonIntegrationTest {
     @Test
     void testMenuButton_CaptionAppliedToMenuItem() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(0);
-        MenuItem theItem = menuButton.getItems().get(0);
+        MenuItem theItem = menuButton.getItems().getFirst();
 
         assertThat(menuButton.getCaption()).isEqualTo(MenuButtonTestPmo.BUTTON_CAPTION);
         assertThat(theItem.getText()).isEqualTo(MenuButtonTestPmo.BUTTON_CAPTION);
@@ -70,11 +70,11 @@ class UIMenuButtonIntegrationTest {
     @Test
     void testMenuButton_IconAppliedToMenuItem() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(0);
-        MenuItem theItem = menuButton.getItems().get(0);
+        MenuItem theItem = menuButton.getItems().getFirst();
 
-        assertThat(menuButton.getIcon()).isEqualTo(VaadinIcon.BUTTON);
+        assertThat(menuButton.getIcon()).isEqualTo(VaadinIcon.PLUS);
         Icon icon = (Icon)theItem.getChildren().toList().get(0);
-        assertThat(icon.getElement().getAttribute("icon")).isEqualTo("vaadin:button");
+        assertThat(icon.getElement().getAttribute("icon")).isEqualTo("vaadin:plus");
     }
 
     @Test
@@ -87,7 +87,7 @@ class UIMenuButtonIntegrationTest {
     @Test
     void testMenuButton_HideIcon() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(2);
-        MenuItem theItem = menuButton.getItems().get(0);
+        MenuItem theItem = menuButton.getItems().getFirst();
 
         // no icon
         List<Component> children = theItem.getChildren().toList();
@@ -98,7 +98,7 @@ class UIMenuButtonIntegrationTest {
     void testMenuButton_IconOverwrittenWithBindIcon() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(1);
 
-        assertThat(menuButton.getIcon()).isEqualTo(VaadinIcon.ABACUS);
+        assertThat(menuButton.getIcon()).isEqualTo(VaadinIcon.CALC);
     }
 
     @Test
@@ -124,7 +124,7 @@ class UIMenuButtonIntegrationTest {
     @Test
     void testMenuButton_Invoke() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(0);
-        MenuItem theItem = menuButton.getItems().get(0);
+        MenuItem theItem = menuButton.getItems().getFirst();
         assertThat(testPmo.getDummyValue()).isEmpty();
 
         ComponentUtil.fireEvent(theItem, new ClickEvent<>(theItem));
@@ -163,7 +163,7 @@ class UIMenuButtonIntegrationTest {
         private String dummyValue = "";
 
         @UIMenuButton(position = 2, captionType = CaptionType.DYNAMIC, caption = BUTTON_CAPTION, //
-                icon = VaadinIcon.BUTTON, enabled = EnabledType.DYNAMIC, variants = MenuBarVariant.LUMO_PRIMARY)
+                icon = VaadinIcon.PLUS, enabled = EnabledType.DYNAMIC, variants = MenuBarVariant.LUMO_PRIMARY)
         public void button() {
             dummyValue = BUTTON_CLICKED_VALUE;
         }
@@ -176,19 +176,19 @@ class UIMenuButtonIntegrationTest {
             return dynamicButtonCaption;
         }
 
-        @UIMenuButton(position = 3, caption = BUTTON_CAPTION, icon = VaadinIcon.BUTTON)
-        @BindIcon(VaadinIcon.ABACUS)
+        @UIMenuButton(position = 3, caption = BUTTON_CAPTION, icon = VaadinIcon.PLUS)
+        @BindIcon(VaadinIcon.CALC)
         @BindCaption(captionType = CaptionType.STATIC, value = BOUND_CAPTION)
         public void buttonWithBindAnnotations() {
             //
         }
 
-        @UIMenuButton(caption = BUTTON_CAPTION, icon = VaadinIcon.BUTTON, position = 4, showIcon = false)
+        @UIMenuButton(caption = BUTTON_CAPTION, icon = VaadinIcon.PLUS, position = 4, showIcon = false)
         public void buttonWithoutIcon() {
             //
         }
 
-        @UIMenuButton(position = 5, icon = VaadinIcon.BUTTON)
+        @UIMenuButton(position = 5, icon = VaadinIcon.PLUS)
         public void buttonWithDefaultProperties() {
             //
         }

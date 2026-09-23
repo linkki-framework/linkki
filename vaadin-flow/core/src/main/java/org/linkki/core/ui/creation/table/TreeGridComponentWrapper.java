@@ -21,6 +21,7 @@ import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.treegrid.TreeGrid;
+import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider.HierarchyFormat;
 import com.vaadin.flow.data.provider.hierarchy.TreeData;
 import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider;
 
@@ -37,7 +38,7 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
 
     public TreeGridComponentWrapper(TreeGrid<ROW> grid) {
         super(grid);
-        grid.setDataProvider(new TreeDataProvider<>(treeData));
+        grid.setDataProvider(new TreeDataProvider<>(treeData, HierarchyFormat.NESTED));
     }
 
     @Override

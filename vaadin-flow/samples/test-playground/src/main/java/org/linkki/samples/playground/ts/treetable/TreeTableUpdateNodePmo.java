@@ -60,7 +60,7 @@ public class TreeTableUpdateNodePmo implements ContainerPmo<SimpleTreeNodeRowPmo
             return text;
         }
 
-        @UIButton(position = 20, icon = VaadinIcon.PLUS_CIRCLE_O, showIcon = true, visible = VisibleType.DYNAMIC)
+        @UIButton(position = 20, icon = VaadinIcon.PLUS_CIRCLE, showIcon = true, visible = VisibleType.DYNAMIC)
         public void add() {
             children.add(new SimpleTreeNodeRowPmo("a child node of " + text, children::remove));
         }
@@ -69,7 +69,7 @@ public class TreeTableUpdateNodePmo implements ContainerPmo<SimpleTreeNodeRowPmo
             return true;
         }
 
-        @UIButton(position = 30, icon = VaadinIcon.MINUS_CIRCLE_O, showIcon = true, visible = VisibleType.DYNAMIC)
+        @UIButton(position = 30, icon = VaadinIcon.MINUS_CIRCLE, showIcon = true, visible = VisibleType.DYNAMIC)
         public void remove() {
             remove.accept(this);
         }

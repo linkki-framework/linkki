@@ -30,7 +30,6 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.vaadin.component.menu.MenuItemDefinition;
 import org.linkki.core.vaadin.component.menu.SingleItemMenuBar;
-
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
@@ -41,6 +40,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+@SuppressWarnings("deprecation")
 class UIMenuListIntegrationTest {
 
     private BindingContext bindingContext;
@@ -63,7 +63,7 @@ class UIMenuListIntegrationTest {
     @Test
     void testMenuList_CaptionAppliedToMenuItem() {
         SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(0);
-        MenuItem theItem = menuList.getItems().get(0);
+        MenuItem theItem = menuList.getItems().getFirst();
 
         assertThat(menuList.getCaption()).isEqualTo(MenuListTestPmo.LIST_CAPTION);
         assertThat(theItem.getText()).isEqualTo(MenuListTestPmo.LIST_CAPTION);
@@ -72,10 +72,10 @@ class UIMenuListIntegrationTest {
     @Test
     void testMenuList_IconAppliedToMenuItem() {
         SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(0);
-        MenuItem theItem = menuList.getItems().get(0);
+        MenuItem theItem = menuList.getItems().getFirst();
 
         assertThat(menuList.getIcon()).isEqualTo(VaadinIcon.LIST);
-        Icon icon = (Icon)theItem.getChildren().toList().get(0);
+        Icon icon = (Icon)theItem.getChildren().toList().getFirst();
         assertThat(icon.getElement().getAttribute("icon")).isEqualTo("vaadin:list");
     }
 
@@ -89,18 +89,17 @@ class UIMenuListIntegrationTest {
     @Test
     void testMenuList_HideIcon() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(2);
-        MenuItem theItem = menuButton.getItems().get(0);
+        MenuItem theItem = menuButton.getItems().getFirst();
 
         // no icon
-        List<Class<? extends Component>> collect = theItem.getChildren()
-                .<Class<? extends Component>> map(Component::getClass).toList();
+        List<Class<? extends Component>> collect = theItem.getChildren().map(Component::getClass).toList();
         assertThat(collect).contains(Text.class);
     }
 
     @Test
     void testMenuList_NullItems() {
         SingleItemMenuBar menuButton = (SingleItemMenuBar)layout.getComponentAt(3);
-        MenuItem theItem = menuButton.getItems().get(0);
+        MenuItem theItem = menuButton.getItems().getFirst();
 
         // no subitems
         assertThat(theItem.getSubMenu().getItems()).isEmpty();
@@ -110,7 +109,7 @@ class UIMenuListIntegrationTest {
     void testMenuList_IconOverwrittenWithBindIcon() {
         SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(1);
 
-        assertThat(menuList.getIcon()).isEqualTo(VaadinIcon.ABACUS);
+        assertThat(menuList.getIcon()).isEqualTo(VaadinIcon.AIRPLANE);
     }
 
     @Test
@@ -126,12 +125,12 @@ class UIMenuListIntegrationTest {
     @Test
     void testMenuList_MenuItemsCreated() {
         SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(0);
-        MenuItem theItem = menuList.getItems().get(0);
+        MenuItem theItem = menuList.getItems().getFirst();
 
         List<MenuItem> subItems = theItem.getSubMenu().getItems();
         assertThat(subItems).hasSize(2);
-        assertThat(subItems.get(0).getText()).isEqualTo(MenuListTestPmo.MENU_ITEM1_TEXT);
-        Icon icon1 = (Icon)subItems.get(0).getChildren().toList().get(0);
+        assertThat(subItems.getFirst().getText()).isEqualTo(MenuListTestPmo.MENU_ITEM1_TEXT);
+        Icon icon1 = (Icon)subItems.get(0).getChildren().toList().getFirst();
         assertThat(icon1.getElement().getAttribute("icon")).isEqualTo("vaadin:bug");
         assertThat(subItems.get(1).getText()).isEqualTo(MenuListTestPmo.MENU_ITEM2_TEXT);
         // no icon
@@ -141,7 +140,7 @@ class UIMenuListIntegrationTest {
     @Test
     void testMenuList_MenuItemsHandler() {
         SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(0);
-        MenuItem theItem = menuList.getItems().get(0);
+        MenuItem theItem = menuList.getItems().getFirst();
         MenuItem subItem = theItem.getSubMenu().getItems().get(1);
 
         ComponentUtil.fireEvent(subItem, new ClickEvent<>(subItem));
@@ -152,10 +151,10 @@ class UIMenuListIntegrationTest {
     @Test
     void testMenuList_IdsAppliedToMenuItems() {
         SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(0);
-        List<MenuItem> menuItems = menuList.getItems().get(0).getSubMenu().getItems();
+        List<MenuItem> menuItems = menuList.getItems().getFirst().getSubMenu().getItems();
 
-        assertThat(menuItems.get(0).getId()).hasValue("menuList-" + MenuListTestPmo.MENU_ITEM1_ID);
-        assertThat(menuItems.get(1).getId()).hasValue("menuList-" + MenuListTestPmo.MENU_ITEM2_ID);
+        assertThat(menuItems.get(0).getId().get()).contains("menuList-" + MenuListTestPmo.MENU_ITEM1_ID);
+        assertThat(menuItems.get(1).getId().get()).contains("menuList-" + MenuListTestPmo.MENU_ITEM2_ID);
     }
 
     @Test
@@ -175,7 +174,7 @@ class UIMenuListIntegrationTest {
     @Test
     void testMenuList_DynamicMenuItems() {
         var menuButton = (SingleItemMenuBar)layout.getComponentAt(4);
-        var theItem = menuButton.getItems().get(0);
+        var theItem = menuButton.getItems().getFirst();
         testPmo.setSubMenuDynamicVisible(true);
         testPmo.setSubMenuDynamicEnabled(true);
         bindingContext.modelChanged();
@@ -205,13 +204,13 @@ class UIMenuListIntegrationTest {
     void testMenuList_DefaultIcon() {
         SingleItemMenuBar menuListWithDefaultIcon = (SingleItemMenuBar)layout.getComponentAt(5);
 
-        // Verify that the default icon is VaadinIcon.ELLIPSIS_DOTS_H
-        assertThat(menuListWithDefaultIcon.getIcon()).isEqualTo(VaadinIcon.ELLIPSIS_DOTS_H);
+        // Verify the default icon
+        assertThat(menuListWithDefaultIcon.getIcon()).isEqualTo(VaadinIcon.ELLIPSIS_H);
 
         // Optionally, if you want to verify the actual icon attribute in the DOM:
-        MenuItem theItem = menuListWithDefaultIcon.getItems().get(0);
-        Icon icon = (Icon)theItem.getChildren().toList().get(0);
-        assertThat(icon.getElement().getAttribute("icon")).isEqualTo("vaadin:ellipsis-dots-h");
+        MenuItem theItem = menuListWithDefaultIcon.getItems().getFirst();
+        Icon icon = (Icon)theItem.getChildren().toList().getFirst();
+        assertThat(icon.getElement().getAttribute("icon")).isEqualTo("vaadin:ellipsis-h");
     }
 
     @Test
@@ -223,8 +222,8 @@ class UIMenuListIntegrationTest {
     @Test
     void testMenuList_DynamicSubmenuItems() {
         var menuButton = (SingleItemMenuBar)layout.getComponentAt(8);
-        var nestedItem = menuButton.getItems().get(0).getSubMenu().getItems().get(0)
-                .getSubMenu().getItems().get(0);
+        var nestedItem = menuButton.getItems().getFirst().getSubMenu().getItems().getFirst()
+                .getSubMenu().getItems().getFirst();
 
         testPmo.setSubMenuDynamicVisible(true);
         testPmo.setSubMenuDynamicEnabled(true);
@@ -249,7 +248,7 @@ class UIMenuListIntegrationTest {
     void testMenuList_WithSubmenu() {
         SingleItemMenuBar menuList = (SingleItemMenuBar)layout.getComponentAt(7);
         menuList.setId("submenu-test");
-        var topLevelItems = menuList.getItems().get(0).getSubMenu().getItems();
+        var topLevelItems = menuList.getItems().getFirst().getSubMenu().getItems();
 
         assertThat(topLevelItems).hasSize(2);
         assertThat(topLevelItems.get(0).getText()).isEqualTo(MenuListTestPmo.MENU_ITEM1_TEXT);
@@ -257,7 +256,7 @@ class UIMenuListIntegrationTest {
 
         var nestedItems = topLevelItems.get(1).getSubMenu().getItems();
         assertThat(nestedItems).hasSize(1);
-        assertThat(nestedItems.get(0).getText()).isEqualTo(MenuListTestPmo.MENU_ITEM2_TEXT);
+        assertThat(nestedItems.getFirst().getText()).isEqualTo(MenuListTestPmo.MENU_ITEM2_TEXT);
     }
 
     @UIVerticalLayout
@@ -296,7 +295,7 @@ class UIMenuListIntegrationTest {
         }
 
         @UIMenuList(caption = LIST_CAPTION, icon = VaadinIcon.LIST, position = 1)
-        @BindIcon(VaadinIcon.ABACUS)
+        @BindIcon(VaadinIcon.AIRPLANE)
         @BindCaption(captionType = CaptionType.STATIC, value = BOUND_CAPTION)
         public List<MenuItemDefinition> getMenuListWithBindAnnotations() {
             return List.of(

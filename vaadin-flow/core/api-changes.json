@@ -131,6 +131,22 @@
             "new": "parameter void org.linkki.core.vaadin.component.base.LinkkiText::setText(===java.lang.String===, boolean) @ org.linkki.core.vaadin.component.base.LinkkiAnchor",
             "annotation": "@edu.umd.cs.findbugs.annotations.CheckForNull",
             "justification": "JTS-3298/JTS-3336 Fix potential null reference"
+          },
+          {
+            "code": "java.method.defaultValueChanged",
+            "old": "method com.vaadin.flow.component.icon.VaadinIcon org.linkki.core.ui.aspects.annotation.BindIcon::value()",
+            "new": "method com.vaadin.flow.component.icon.VaadinIcon org.linkki.core.ui.aspects.annotation.BindIcon::value()",
+            "oldValue": "com.vaadin.flow.component.icon.VaadinIcon.NATIVE_BUTTON",
+            "newValue": "com.vaadin.flow.component.icon.VaadinIcon.SQUARE",
+            "justification": "JTS-3509/JTS-3520 Vaadin 25.3.0 deprecated VaadinIcon.NATIVE_BUTTON; SQUARE is now used as the sentinel value for BindIcon's dynamic-icon detection, see class javadoc"
+          },
+          {
+            "code": "java.method.defaultValueChanged",
+            "old": "method com.vaadin.flow.component.icon.VaadinIcon org.linkki.core.ui.element.annotation.UIMenuList::icon()",
+            "new": "method com.vaadin.flow.component.icon.VaadinIcon org.linkki.core.ui.element.annotation.UIMenuList::icon()",
+            "oldValue": "com.vaadin.flow.component.icon.VaadinIcon.ELLIPSIS_DOTS_H",
+            "newValue": "com.vaadin.flow.component.icon.VaadinIcon.ELLIPSIS_H",
+            "justification": "JTS-3509/JTS-3520 Vaadin 25.3.0 deprecated VaadinIcon.ELLIPSIS_DOTS_H in favor of ELLIPSIS_H"
           }
         ]
       }

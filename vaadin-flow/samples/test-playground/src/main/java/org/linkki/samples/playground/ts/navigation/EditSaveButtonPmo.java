@@ -66,7 +66,7 @@ public class EditSaveButtonPmo {
     }
 
     @UIButton(position = 20, captionType = CaptionType.STATIC, caption = "Save",
-            icon = VaadinIcon.CHECK_CIRCLE_O, showIcon = true)
+            icon = VaadinIcon.CHECK_CIRCLE, showIcon = true)
     @BindReadOnlyBehavior(ReadOnlyBehaviorType.INVISIBLE)
     public void save() {
         save.apply();

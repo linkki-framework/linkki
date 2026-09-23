@@ -64,28 +64,6 @@ public class KaribuUtils {
     }
 
     /**
-     * Returns the currently opened notification. If zero or multiple notifications are present, a
-     * test failure is caused.
-     *
-     * @deprecated use {@link Notifications#get()} instead.
-     */
-    @Deprecated(since = "2.6.0")
-    public static Notification getNotification() {
-        return Notifications.get();
-    }
-
-    /**
-     * Returns the title of a notification, assuming that the first child of the notification is a
-     * wrapper component that contains an H3 as title.
-     *
-     * @deprecated use {@link Notifications#getTitle(Notification)} instead.
-     */
-    @Deprecated(since = "2.6.0")
-    public static String getNotificationTitle(Notification notification) {
-        return Notifications.getTitle(notification);
-    }
-
-    /**
      * Returns the root component. If it is not of the given type, a test failure is caused.
      */
     public static <T extends Component> T getRootComponent(Class<T> type) {

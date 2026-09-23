@@ -57,10 +57,7 @@ public class OkCancelDialogElement extends DialogElement {
     }
 
     public TestBenchElement getDialogLayout() {
-        return getChildren().stream()
-                .filter(e -> !e.hasAttribute("slot")).findFirst()
-                .orElseThrow()
-                .findElement(By.className(OkCancelDialog.CLASS_NAME_DIALOG_LAYOUT));
+        return findElement(By.className(OkCancelDialog.CLASS_NAME_DIALOG_LAYOUT));
     }
 
     public ButtonElement getOkButton() {

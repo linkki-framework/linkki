@@ -29,15 +29,15 @@ class LinkkiAnchorTest {
 
     @Test
     void testAnchor() {
-        LinkkiAnchor anchor = new LinkkiAnchor();
+        var anchor = new LinkkiAnchor();
 
-        assertThat(anchor.getText()).isEqualTo("");
+        assertThat(anchor.getText()).isEmpty();
         assertThat(anchor.getIcon()).isNull();
     }
 
     @Test
     void testSetText() {
-        LinkkiAnchor anchor = new LinkkiAnchor();
+        var anchor = new LinkkiAnchor();
 
         anchor.setText("test");
 
@@ -46,7 +46,7 @@ class LinkkiAnchorTest {
 
     @Test
     void testSetText_KeepsExistingIcon() {
-        LinkkiAnchor anchor = new LinkkiAnchor();
+        var anchor = new LinkkiAnchor();
         anchor.setIcon(VaadinIcon.ARCHIVE);
 
         anchor.setText("test");
@@ -57,19 +57,19 @@ class LinkkiAnchorTest {
 
     @Test
     void testSetIcon() {
-        LinkkiAnchor anchor = new LinkkiAnchor();
+        var anchor = new LinkkiAnchor();
 
-        anchor.setIcon(VaadinIcon.ABACUS);
+        anchor.setIcon(VaadinIcon.PLUS);
 
-        assertThat(anchor.getIcon()).isEqualTo(VaadinIcon.ABACUS);
+        assertThat(anchor.getIcon()).isEqualTo(VaadinIcon.PLUS);
         assertThat(anchor.getPrefixComponent().getElement().getProperty("icon"))
-                .isEqualTo(VaadinIcon.ABACUS.create().getElement().getProperty("icon"));
+                .isEqualTo(VaadinIcon.PLUS.create().getElement().getProperty("icon"));
     }
 
     @Test
     void testSetIcon_RemovesPreviousIcon() {
-        LinkkiAnchor anchor = new LinkkiAnchor();
-        anchor.setIcon(VaadinIcon.ABACUS);
+        var anchor = new LinkkiAnchor();
+        anchor.setIcon(VaadinIcon.PLUS);
 
         anchor.setIcon(null);
 
@@ -78,7 +78,7 @@ class LinkkiAnchorTest {
 
     @Test
     void testSetIcon_KeepsExistingText() {
-        LinkkiAnchor anchor = new LinkkiAnchor();
+        var anchor = new LinkkiAnchor();
         anchor.setText("test");
 
         anchor.setIcon(VaadinIcon.ARCHIVE);

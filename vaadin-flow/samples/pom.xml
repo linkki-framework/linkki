@@ -24,25 +24,25 @@
 
         <!-- Compile dependencies -->
         <!-- this property must also be updated in linkki-vaadin-flow -->
-        <vaadin.version>25.2.6</vaadin.version>
+        <vaadin.version>25.3.1</vaadin.version>
         <spring-boot.version>4.1.1</spring-boot.version>
         <spring-framework.version>7.0.9</spring-framework.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 
         <!-- Maven plugin versions -->
-        <vaadin-maven-plugin.version>25.2.6</vaadin-maven-plugin.version>
-        <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+        <vaadin-maven-plugin.version>25.3.0</vaadin-maven-plugin.version>
+        <maven-compiler-plugin.version>3.16.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
-        <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-        <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
+        <maven-deploy-plugin.version>3.2.0</maven-deploy-plugin.version>
+        <maven-surefire-plugin.version>3.6.0</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
 
         <!-- Code analysis plugins -->
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <checkstyle.version>13.11.0</checkstyle.version>
-        <spotbugs-maven-plugin.version>4.10.4.0</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.10.4.1</spotbugs-maven-plugin.version>
         <spotbugs.version>4.10.4</spotbugs.version>
         <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
     </properties>

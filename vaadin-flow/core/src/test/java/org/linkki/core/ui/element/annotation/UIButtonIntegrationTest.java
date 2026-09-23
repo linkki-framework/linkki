@@ -47,7 +47,7 @@ class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button,
     void testStaticButtonProperties() {
         Button button = getDynamicComponent();
         assertThat(button.getIcon().getElement().getAttribute("icon"),
-                   is(VaadinIcon.ADJUST.create().getElement().getAttribute("icon")));
+                   is(VaadinIcon.CONTRAST.create().getElement().getAttribute("icon")));
 
         // TODO test for shortcut key - I see no possibility to get the configured shortcut
 
@@ -155,7 +155,7 @@ class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button,
         @UIButton(position = 10,
                 visible = VisibleType.DYNAMIC,
                 captionType = CaptionType.DYNAMIC,
-                icon = VaadinIcon.ADJUST,
+                icon = VaadinIcon.CONTRAST,
                 showIcon = true,
                 enabled = EnabledType.DYNAMIC,
                 shortcutKeyCode = KeyCode.ENTER)

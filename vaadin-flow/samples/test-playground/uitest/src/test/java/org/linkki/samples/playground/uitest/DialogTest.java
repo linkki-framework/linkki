@@ -52,7 +52,7 @@ class DialogTest extends AbstractLinkkiUiTest {
     void testDialogOnEntry() {
         getDriver().get(DriverProperties.getTestUrl(DEFAULT_CONTEXT_PATH, ""));
         clickMenuItemById("dialogs");
-        DialogElement dialog = findDialog("Entering dialog view");
+        var dialog = findDialog("Entering dialog view");
 
         assertThat($(DialogElement.class).all().size(), is(1));
 
@@ -65,7 +65,7 @@ class DialogTest extends AbstractLinkkiUiTest {
         closeInitialDialog();
         clickButton("showDialog");
 
-        DialogElement dialog = findDialog("Sample Dialog");
+        var dialog = findDialog("Sample Dialog");
 
         assertThat($(DialogElement.class).all().size(), is(1));
 
@@ -165,19 +165,15 @@ class DialogTest extends AbstractLinkkiUiTest {
     }
 
     private void closeInitialDialog() {
-        OkCancelDialogElement okCancelDialogElement = $(OkCancelDialogElement.class).single();
+        var okCancelDialogElement = $(OkCancelDialogElement.class).single();
         confirmDialog(okCancelDialogElement);
+        waitUntil(webDriver -> $(DialogElement.class).all().isEmpty());
         assertThat($(NotificationElement.class).all().size(), is(0));
         assertThat($(DialogElement.class).all().size(), is(0));
     }
 
     private void waitForNotificationsClosed() {
-        waitUntil(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver webDriver) {
-                return $(NotificationElement.class).all().isEmpty();
-            }
-        });
+        waitUntil(webDriver -> $(NotificationElement.class).all().isEmpty());
     }
 
     private void sendKeys(CharSequence... keys) {
