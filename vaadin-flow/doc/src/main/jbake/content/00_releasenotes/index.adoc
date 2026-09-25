@@ -133,7 +133,13 @@ The following versions have been updated:
 * *Dynamic severity for badges* +
 The new annotation `@BindBadgeSeverity` allows the severity of a badge (`@UIBadge`) to be determined dynamically from the presentation model, instead of only statically via `@UIBadge#severity()`.
 A method `get<PropertyName>BadgeSeverity()` returning a `BadgeSeverity` must be provided on the presentation model.
-=======
+
+==== Other Improvements
+
+// https://faktorzehn.atlassian.net/browse/LIN-4151
+* [.api-change] *`linkki-bom` no longer imports the Vaadin BOM* +
+Importing `linkki-bom` alone no longer pins the versions of Vaadin artifacts, since this could conflict with the Vaadin version managed by a consuming application's own parent POM. +
+Projects that relied on `linkki-bom` to manage Vaadin versions transitively must now import `com.vaadin:vaadin-bom` themselves, or otherwise pin the Vaadin artifact versions they use directly.
 
 ==== Bugfixes
 

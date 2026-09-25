@@ -22,6 +22,8 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
 
         <!-- Compile dependencies -->
+        <!-- this property must also be updated in linkki-vaadin-flow -->
+        <vaadin.version>25.2.6</vaadin.version>
         <spring-boot.version>4.1.1</spring-boot.version>
         <spring-framework.version>7.0.9</spring-framework.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
@@ -83,6 +85,22 @@
                 <scope>import</scope>
             </dependency>
             <!-- end::linkki-bom[] -->
+
+            <!-- linkki-bom no longer imports the Vaadin BOM (would collide with the Vaadin
+                 version managed by a consuming application's own parent), so the Vaadin
+                 artifacts used directly by the samples are pinned explicitly here instead -->
+            <!-- tag::vaadin-version[] -->
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-spring-boot-starter</artifactId>
+                <version>${vaadin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-dev</artifactId>
+                <version>${vaadin.version}</version>
+            </dependency>
+            <!-- end::vaadin-version[] -->
 
             <dependency>
                 <groupId>jakarta.servlet</groupId>

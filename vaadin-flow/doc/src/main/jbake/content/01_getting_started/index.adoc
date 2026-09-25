@@ -19,6 +19,9 @@ You can either add the required dependencies to an existing project or use one o
 The linkki BOM in `linkki-bom` groups all dependency versions that are known to be valid and tested to work together for linkki projects.
 This will reduce the developers’ pain of having to test the compatibility of different versions and reduce the chances to have version mismatches.
 
+NOTE: `linkki-bom` does *not* manage the version of Vaadin itself, since this could conflict with a Vaadin version already managed elsewhere, e.g. by a company-wide parent POM.
+If no such parent POM manages the Vaadin version for you, you have to pin the Vaadin artifacts you use directly, for example by importing `com.vaadin:vaadin-bom` or declaring an explicit `<version>` as shown below.
+
 To create a *linkki* project, just add this linkki BOM and any of the following dependencies depending on the feature set you need.
  
 [source,xml]
@@ -80,4 +83,10 @@ include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-search-vaadin-f
 include::{sample-parent-dir}/test-playground/pom.xml[tags=linkki-ips-vaadin-flow]
 ----
 
-In addition to the *linkki* dependency, a *linkki* application with Vaadin may require a Vaadin Spring Boot starter.
+In addition to the *linkki* dependency, a *linkki* application with Vaadin may require a Vaadin Spring Boot starter and `vaadin-dev`.
+As mentioned above, their versions are not managed by `linkki-bom` and must therefore be pinned explicitly:
+
+[source,xml]
+----
+include::{sample-parent-dir}/pom.xml[tags=vaadin-version]
+----
