@@ -23,7 +23,6 @@
         <module>testbench-extension</module>
         <module>apt</module>
         <module>archetypes</module>
-        <module>linkki-f10</module>
         <module>search</module>
         <module>doc</module>
         <!-- ATTENTION: the last module must not be one that is skipped during

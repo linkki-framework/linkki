@@ -116,6 +116,12 @@
 
 === Version {vlinkki}
 
+==== Other Improvements
+
+// https://jira.convista.com/browse/LIN-5056
+* *Removal of the module linkki-f10* +
+The module `linkki-f10`, which has been deprecated in version link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_integration_of_linkki_f10_functionalities_into_linkki[2.8.0], has now been removed.
+
 === Version 2.11.0-a20261005-01
 
 ==== Version Updates
