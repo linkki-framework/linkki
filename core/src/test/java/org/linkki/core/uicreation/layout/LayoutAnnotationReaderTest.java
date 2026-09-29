@@ -16,37 +16,30 @@ package org.linkki.core.uicreation.layout;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.linkki.test.matcher.Matchers.absent;
-import static org.linkki.test.matcher.Matchers.assertThat;
-import static org.linkki.test.matcher.Matchers.present;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 
-public class LayoutAnnotationReaderTest {
+class LayoutAnnotationReaderTest {
 
     @Test
-    public void testIsLayoutDefinition() {
-        assertThat(LayoutAnnotationReader.isLayoutDefinition(DummyPmo.class.getAnnotation(DummyLayout.class)));
-        assertThat(LayoutAnnotationReader.isLayoutDefinition(DummyLayout.class.getAnnotation(LinkkiLayout.class)),
-                   is(false));
+    void testIsLayoutDefinition() {
+        assertThat(LayoutAnnotationReader.isLayoutDefinition(DummyPmo.class.getAnnotation(DummyLayout.class))).isTrue();
+        assertThat(LayoutAnnotationReader.isLayoutDefinition(DummyLayout.class.getAnnotation(LinkkiLayout.class))).isFalse();
     }
 
     @Test
-    public void testFindLayoutDefinition() {
-        Optional<LinkkiLayoutDefinition> layoutDefinition = LayoutAnnotationReader.findLayoutDefinition(DummyPmo.class);
-        assertThat(layoutDefinition, is(present()));
-        assertThat(layoutDefinition.get(), is(instanceOf(DummyLayoutDefinition.class)));
+    void testFindLayoutDefinition() {
+        var layoutDefinition = LayoutAnnotationReader.findLayoutDefinition(DummyPmo.class);
+        assertThat(layoutDefinition).isPresent();
+        assertThat(layoutDefinition.get()).isInstanceOf(DummyLayoutDefinition.class);
 
-        assertThat(LayoutAnnotationReader.findLayoutDefinition(String.class), is(absent()));
+        assertThat(LayoutAnnotationReader.findLayoutDefinition(String.class)).isEmpty();
     }
 
     static class DummyLayoutDefinition implements LinkkiLayoutDefinition {

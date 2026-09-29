@@ -162,6 +162,12 @@ The module `linkki-f10`, which has been deprecated in version link:https://doc.l
 * *Faster headless Chrome in Testbench tests* +
 `BrowserType.CHROME_HEADLESS` now starts Chrome with `--remote-debugging-pipe`, which reduces significant overhead in container environments.
 
+// https://faktorzehn.atlassian.net/browse/LIN-5057
+* [.api-change]*`linkki-test` classes deprecated* +
+All classes of the `linkki-test` module are now deprecated. +
+The module `linkki-test` provides a handful of predefined matchers, which are not necessary anymore due to the rising popularity of AssertJ as an assertion framework.
+Hamcrest users can simply replace the deprecated matchers according to the replacement table below or by using matchers from a different library (i.e. `de.faktorzehn.commons.test.matcher.Matchers`).
+
 === Version 2.11.0-a20261005-01
 
 ==== Version Updates

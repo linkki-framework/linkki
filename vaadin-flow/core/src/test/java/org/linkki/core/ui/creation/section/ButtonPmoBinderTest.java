@@ -13,38 +13,25 @@
  */
 package org.linkki.core.ui.creation.section;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.linkki.test.matcher.Matchers.hasValue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.test.TestButtonPmo;
 
-import com.vaadin.flow.component.button.Button;
+class ButtonPmoBinderTest {
 
-public class ButtonPmoBinderTest {
-
-    private final PropertyDispatcher wrappedDispatcher = mock(PropertyDispatcher.class);
     private final BindingContext bindingContext = new BindingContext();
 
-    @BeforeEach
-    public void setUp() {
-        when(wrappedDispatcher.getProperty()).thenReturn(StringUtils.EMPTY);
-    }
-
     @Test
-    public void testButtonClickIsForwaredToPmo() {
-        ButtonPmo pmo = mock(ButtonPmo.class);
+    void testButtonClickIsForwaredToPmo() {
+        var pmo = mock(ButtonPmo.class);
         when(pmo.isEnabled()).thenReturn(true);
-        Button boundButton = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
+        var boundButton = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
 
         boundButton.click();
 
@@ -52,34 +39,34 @@ public class ButtonPmoBinderTest {
     }
 
     @Test
-    public void testUpdateFromPmo_PmoSublass() {
-        TestButtonPmo pmo = new TestButtonPmo();
-        Button button = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
+    void testUpdateFromPmo_PmoSublass() {
+        var pmo = new TestButtonPmo();
+        var button = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
 
         pmo.setEnabled(true);
         pmo.setVisible(true);
 
         bindingContext.modelChanged();
 
-        assertThat(button.isVisible(), is(true));
-        assertThat(button.isEnabled(), is(true));
+        assertThat(button.isVisible()).isTrue();
+        assertThat(button.isEnabled()).isTrue();
 
         pmo.setEnabled(false);
         pmo.setVisible(false);
 
         bindingContext.modelChanged();
 
-        assertThat(button.isVisible(), is(false));
-        assertThat(button.isEnabled(), is(false));
+        assertThat(button.isVisible()).isFalse();
+        assertThat(button.isEnabled()).isFalse();
     }
 
     @Test
-    public void testCreateBoundButton_Id() {
-        ButtonPmo pmo = mock(ButtonPmo.class);
+    void testCreateBoundButton_Id() {
+        var pmo = mock(ButtonPmo.class);
 
-        Button boundButton = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
+        var boundButton = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
 
-        assertThat(boundButton.getId(), hasValue("buttonPmo"));
+        assertThat(boundButton.getId()).hasValue("buttonPmo");
     }
 
 }

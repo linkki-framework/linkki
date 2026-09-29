@@ -19,6 +19,13 @@ import java.util.stream.Stream;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
+/**
+ * A matcher for streams.
+ * 
+ * @param <T> item
+ * @deprecated Use de.faktorzehn.commons.test.matcher.StreamMatcher instead.
+ */
+@Deprecated(since = "2.11.0")
 public class StreamMatcher<T> extends TypeSafeMatcher<Stream<T>> {
 
     private final Predicate<T> predicate;

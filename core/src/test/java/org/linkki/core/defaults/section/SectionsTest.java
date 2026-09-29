@@ -14,37 +14,34 @@
 
 package org.linkki.core.defaults.section;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.linkki.test.matcher.Matchers.absent;
-import static org.linkki.test.matcher.Matchers.hasValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.TestButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 
-public class SectionsTest {
+class SectionsTest {
 
     @Test
-    public void testGetSectionId() {
-        assertThat(Sections.getSectionId(new SectionPmoWithoutId()), is(SectionPmoWithoutId.class.getSimpleName()));
+    void testGetSectionId() {
+        assertThat(Sections.getSectionId(new SectionPmoWithoutId())).isEqualTo(SectionPmoWithoutId.class.getSimpleName());
 
-        TestSectionPmo testSectionPmo = new TestSectionPmo();
+        var testSectionPmo = new TestSectionPmo();
         testSectionPmo.setId("foo");
-        assertThat(Sections.getSectionId(testSectionPmo), is("foo"));
+        assertThat(Sections.getSectionId(testSectionPmo)).isEqualTo("foo");
     }
 
     @Test
-    public void testGetEditButtonPmo() {
-        assertThat(Sections.getEditButtonPmo(new SectionPmoWithoutId()), is(absent()));
-        assertThat(Sections.getEditButtonPmo(new DefaultPresentationModelObject()), is(absent()));
+    void testGetEditButtonPmo() {
+        assertThat(Sections.getEditButtonPmo(new SectionPmoWithoutId())).isEmpty();
+        assertThat(Sections.getEditButtonPmo(new DefaultPresentationModelObject())).isEmpty();
 
-        TestSectionPmo testSectionPmo = new TestSectionPmo();
-        assertThat(Sections.getEditButtonPmo(testSectionPmo), is(absent()));
+        var testSectionPmo = new TestSectionPmo();
+        assertThat(Sections.getEditButtonPmo(testSectionPmo)).isEmpty();
 
-        TestButtonPmo editButtonPmo = new TestButtonPmo();
+        var editButtonPmo = new TestButtonPmo();
         testSectionPmo.setEditButtonPmo(editButtonPmo);
-        assertThat(Sections.getEditButtonPmo(testSectionPmo), hasValue(editButtonPmo));
+        assertThat(Sections.getEditButtonPmo(testSectionPmo)).hasValue(editButtonPmo);
     }
 
     private static class SectionPmoWithoutId {

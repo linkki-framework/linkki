@@ -13,11 +13,8 @@
  */
 package org.linkki.util.reflection.accessor;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.linkki.test.matcher.Matchers.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -43,18 +40,18 @@ class PropertyAccessorTest {
 
     @Test
     void testGetPropertyValue() {
-        String propertyValue = stringAccessor.getPropertyValue(testObject);
+        var propertyValue = stringAccessor.getPropertyValue(testObject);
 
-        assertEquals(STRING_PROPERTY_INITIAL_VALUE, propertyValue);
+        assertThat(propertyValue).isEqualTo(STRING_PROPERTY_INITIAL_VALUE);
     }
 
     @Test
     void testSetPropertyValue() {
-        assertEquals(STRING_PROPERTY_INITIAL_VALUE, testObject.getStringProperty());
+        assertThat(testObject.getStringProperty()).isEqualTo(STRING_PROPERTY_INITIAL_VALUE);
 
         stringAccessor.setPropertyValue(testObject, "anotherValue");
 
-        assertEquals("anotherValue", testObject.getStringProperty());
+        assertThat(testObject.getStringProperty()).isEqualTo("anotherValue");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -68,12 +65,12 @@ class PropertyAccessorTest {
 
     @Test
     void testInvoke() {
-        assertThat(testObject.isBooleanProperty(), is(false));
+        assertThat(testObject.isBooleanProperty()).isFalse();
         var accessor = new PropertyAccessor<>(TestObject.class, TestObject.PROPERTY_DO_SOMETHING);
 
         accessor.invoke(testObject);
 
-        assertThat(testObject.isBooleanProperty(), is(true));
+        assertThat(testObject.isBooleanProperty()).isTrue();
     }
 
     @Test
@@ -83,16 +80,16 @@ class PropertyAccessorTest {
 
         var accessor = new PropertyAccessor<>(TestObject.class, TestObject.PROPERTY_BOOLEAN);
 
-        assertThat(accessor.getPropertyValue(instance), is(true));
+        assertThat(accessor.getPropertyValue(instance)).isEqualTo(true);
     }
 
     @Test
     void testConstructor_WrongProperty() {
         var propertyAccessor = new PropertyAccessor<>(Object.class, "doesNotExist");
 
-        assertThat(propertyAccessor.canRead(), is(false));
-        assertThat(propertyAccessor.canWrite(), is(false));
-        assertThat(propertyAccessor.canInvoke(), is(false));
+        assertThat(propertyAccessor.canRead()).isFalse();
+        assertThat(propertyAccessor.canWrite()).isFalse();
+        assertThat(propertyAccessor.canInvoke()).isFalse();
     }
 
     @Test
@@ -118,45 +115,44 @@ class PropertyAccessorTest {
         Object testObject2 = new TestObject();
         PropertyAccessor<Object, Object> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.PROPERTY_BOOLEAN);
-        assertThat(accessor.getPropertyValue(testObject2), is(false));
+        assertThat(accessor.getPropertyValue(testObject2)).isEqualTo(false);
 
         accessor.setPropertyValue(testObject2, true);
 
-        assertThat(accessor.getPropertyValue(testObject2), is(true));
+        assertThat(accessor.getPropertyValue(testObject2)).isEqualTo(true);
     }
 
     @Test
     void testIntProperty() {
-        TestObject testObject2 = new TestObject();
+        var testObject2 = new TestObject();
         PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.PROPERTY_INT);
-        assertEquals(42, accessor.getPropertyValue(testObject2).intValue());
+        assertThat(accessor.getPropertyValue(testObject2)).isEqualTo(42);
 
         accessor.setPropertyValue(testObject2, 23);
 
-        assertEquals(23, accessor.getPropertyValue(testObject2).intValue());
+        assertThat(accessor.getPropertyValue(testObject2)).isEqualTo(23);
     }
 
     @Test
     void testCanReadWriteInvoke() {
-        TestObject testObject2 = new TestObject();
         PropertyAccessor<TestObject, Long> propertyAccessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.PROPERTY_READ_ONLY_LONG);
 
-        assertThat((propertyAccessor.canWrite()), is(false));
-        assertThat(propertyAccessor.canRead());
-        assertThat(propertyAccessor.canInvoke(), is(false));
+        assertThat(propertyAccessor.canWrite()).isFalse();
+        assertThat(propertyAccessor.canRead()).isTrue();
+        assertThat(propertyAccessor.canInvoke()).isFalse();
 
-        Long propertyValue = propertyAccessor.getPropertyValue(testObject2);
-        assertEquals(42, propertyValue.longValue());
+        var testObject2 = new TestObject();
+        var propertyValue = propertyAccessor.getPropertyValue(testObject2);
+        assertThat(propertyValue).isEqualTo(42L);
     }
 
     @Test
     void testSetPropertyValue_readOnlyProperty() {
-        TestObject testObject2 = new TestObject();
-
         PropertyAccessor<TestObject, Long> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.PROPERTY_READ_ONLY_LONG);
+        var testObject2 = new TestObject();
 
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> accessor.setPropertyValue(testObject2, 5L));
@@ -167,7 +163,7 @@ class PropertyAccessorTest {
         PropertyAccessor<TestObject, Long> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.PROPERTY_READ_ONLY_LONG);
 
-        assertEquals(long.class, accessor.getValueClass());
+        assertThat(accessor.getValueClass()).isEqualTo(long.class);
     }
 
     @Test
@@ -175,12 +171,12 @@ class PropertyAccessorTest {
         PropertyAccessor<TestObject, Boolean> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.PROPERTY_BOOLEAN);
 
-        assertEquals(boolean.class, accessor.getValueClass());
+        assertThat(accessor.getValueClass()).isEqualTo(boolean.class);
     }
 
     @Test
     void testGetValueClassIllegalProperty() {
-        PropertyAccessor<TestObject, ?> accessor = new PropertyAccessor<>(TestObject.class, "illegalProperty");
+        var accessor = new PropertyAccessor<TestObject, Object>(TestObject.class, "illegalProperty");
 
         assertThatExceptionOfType(IllegalStateException.class)
                 .isThrownBy(accessor::getValueClass)
@@ -193,9 +189,9 @@ class PropertyAccessorTest {
         PropertyAccessor<TestObject, Long> propertyAccessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.PROPERTY_READ_ONLY_LONG);
 
-        Long propertyValue = propertyAccessor.getPropertyValue(testObject);
+        var propertyValue = propertyAccessor.getPropertyValue(new TestObject());
 
-        assertEquals(42, propertyValue.longValue());
+        assertThat(propertyValue).isEqualTo(42L);
     }
 
     /**
@@ -206,8 +202,8 @@ class PropertyAccessorTest {
         PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<>(TestInterfaceImpl.class,
                 TestInterface.RO_DEFAULT_METHOD);
         TestInterface testInterfaceImpl = new TestInterfaceImpl();
-        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
-        assertEquals("Hello", propertyValue);
+        var propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertThat(propertyValue).isEqualTo("Hello");
     }
 
     /**
@@ -219,8 +215,8 @@ class PropertyAccessorTest {
                 TestInterfaceImplSub.class,
                 TestInterface.RO_DEFAULT_METHOD);
         TestInterface testInterfaceImpl = new TestInterfaceImplSub();
-        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
-        assertEquals("Hello", propertyValue);
+        var propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertThat(propertyValue).isEqualTo("Hello");
     }
 
     /**
@@ -232,8 +228,8 @@ class PropertyAccessorTest {
                 TestInterfaceOverwriting.class,
                 TestInterface.RO_DEFAULT_METHOD);
         TestInterface testInterfaceImpl = new TestInterfaceOverwriting();
-        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
-        assertEquals("Hi", propertyValue);
+        var propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertThat(propertyValue).isEqualTo("Hi");
     }
 
     @Test
@@ -242,18 +238,18 @@ class PropertyAccessorTest {
                 OtherPackageTestObject.class,
                 TestInterface.RO_DEFAULT_METHOD);
         TestInterface testInterfaceImpl = new OtherPackageTestObject();
-        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
-        assertEquals("other", propertyValue);
+        var propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertThat(propertyValue).isEqualTo("other");
     }
 
     @Test
     void testDefaultMethod_OtherPackagePrivate() {
-        TestInterface testInterfaceImpl = OtherPackageTestObject.getPackagePrivateInstance();
+        var testInterfaceImpl = OtherPackageTestObject.getPackagePrivateInstance();
         PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<>(
                 testInterfaceImpl.getClass(),
                 TestInterface.RO_DEFAULT_METHOD);
-        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
-        assertEquals("otherPackage", propertyValue);
+        var propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertThat(propertyValue).isEqualTo("otherPackage");
     }
 
     @Test
@@ -263,7 +259,7 @@ class PropertyAccessorTest {
                 TestPublicSubclass.PROPERTY_ANSWER);
 
         int propertyValue = propertyAccessor.getPropertyValue(new TestPublicSubclass());
-        assertEquals(42, propertyValue);
+        assertThat(propertyValue).isEqualTo(42);
     }
 
     @Test
@@ -271,13 +267,13 @@ class PropertyAccessorTest {
         PropertyAccessor<TestGenericInterfaceImpl, String> propertyAccessor = new PropertyAccessor<>(
                 TestGenericInterfaceImpl.class,
                 "foo");
-        TestGenericInterfaceImpl testImpl = new TestGenericInterfaceImpl();
-        String propertyValue = propertyAccessor.getPropertyValue(testImpl);
-        assertEquals("bar", propertyValue);
+        var testImpl = new TestGenericInterfaceImpl();
+        var propertyValue = propertyAccessor.getPropertyValue(testImpl);
+        assertThat(propertyValue).isEqualTo("bar");
 
         propertyAccessor.setPropertyValue(testImpl, "baz");
         propertyValue = propertyAccessor.getPropertyValue(testImpl);
-        assertEquals("baz", propertyValue);
+        assertThat(propertyValue).isEqualTo("baz");
     }
 
     /**
@@ -300,10 +296,10 @@ class PropertyAccessorTest {
         PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.PROPERTY_INT);
         for (long l = 1000L; l <= 1_000_000_000L; l *= 1000) {
-            long start = System.currentTimeMillis();
+            var start = System.currentTimeMillis();
             for (int i = 0; i < l; i++) {
                 accessor.setPropertyValue(testObject, i);
-                assertThat(accessor.getPropertyValue(testObject), is(i));
+                assertThat(accessor.getPropertyValue(testObject)).isEqualTo(i);
             }
             System.out.println(l + " set/get-calls took " + (System.currentTimeMillis() - start) + "ms");
         }

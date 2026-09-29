@@ -14,9 +14,7 @@
 
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.linkki.test.matcher.Matchers.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -40,17 +38,17 @@ import com.vaadin.flow.data.provider.AbstractListDataView;
 import com.vaadin.flow.data.provider.HasListDataView;
 import com.vaadin.flow.data.provider.ListDataProvider;
 
-public class GenericAvailableValuesAspectDefinitionTest {
+class GenericAvailableValuesAspectDefinitionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testSetDataProvider_HasDataProvider() {
-        GenericAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition =
+    void testSetDataProvider_HasDataProvider() {
+        var hasItemsAvailableValuesAspectDefinition =
                 new GenericAvailableValuesAspectDefinition(
                         AvailableValuesType.DYNAMIC);
-        List<Object> list = new ArrayList<>();
         Component component = spy(new TestHasListDataView());
-        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(component, WrapperType.FIELD);
+        var componentWrapper = new NoLabelComponentWrapper(component, WrapperType.FIELD);
+        List<Object> list = new ArrayList<>();
 
         hasItemsAvailableValuesAspectDefinition.setDataProvider(componentWrapper, list);
 
@@ -58,61 +56,61 @@ public class GenericAvailableValuesAspectDefinitionTest {
     }
 
     @Test
-    public void testHandleNullItems_ComboBox_WithNullValue() {
-        GenericAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition =
+    void testHandleNullItems_ComboBox_WithNullValue() {
+        var hasItemsAvailableValuesAspectDefinition =
                 new GenericAvailableValuesAspectDefinition(
                         AvailableValuesType.DYNAMIC);
 
-        ComboBox<TestEnum> comboBox = new ComboBox<>();
+        var comboBox = new ComboBox<TestEnum>();
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(comboBox, WrapperType.FIELD);
 
         hasItemsAvailableValuesAspectDefinition
                 .handleNullItems(componentWrapper, new LinkedList<>(Arrays.asList(TestEnum.ONE, null)));
 
-        assertThat(comboBox.isAllowCustomValue());
+        assertThat(comboBox.isAllowCustomValue()).isTrue();
     }
 
     @Test
-    public void testHandleNullItems_ComboBox_NoNullValue() {
-        GenericAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition =
+    void testHandleNullItems_ComboBox_NoNullValue() {
+        var hasItemsAvailableValuesAspectDefinition =
                 new GenericAvailableValuesAspectDefinition(
                         AvailableValuesType.DYNAMIC);
 
-        ComboBox<TestEnum> comboBox = new ComboBox<>();
+        var comboBox = new ComboBox<TestEnum>();
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(comboBox, WrapperType.FIELD);
 
         hasItemsAvailableValuesAspectDefinition
                 .handleNullItems(componentWrapper, new LinkedList<>(Arrays.asList(TestEnum.TWO)));
 
-        assertThat(comboBox.isAllowCustomValue(), is(false));
+        assertThat(comboBox.isAllowCustomValue()).isFalse();
     }
 
     @Test
-    public void testHandleNullItems_NativeSelect_WithNull() {
-        GenericAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition =
+    void testHandleNullItems_NativeSelect_WithNull() {
+        var hasItemsAvailableValuesAspectDefinition =
                 new GenericAvailableValuesAspectDefinition(
                         AvailableValuesType.DYNAMIC);
 
-        Select<TestEnum> nativeSelect = new Select<>();
+        var nativeSelect = new Select<TestEnum>();
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(nativeSelect, WrapperType.FIELD);
         hasItemsAvailableValuesAspectDefinition
                 .handleNullItems(componentWrapper, new LinkedList<>(Arrays.asList(TestEnum.ONE, null)));
 
-        assertThat(nativeSelect.isEmptySelectionAllowed(), is(true));
+        assertThat(nativeSelect.isEmptySelectionAllowed()).isTrue();
     }
 
     @Test
-    public void testHandleNullItems_NativeSelect_NoNull() {
-        GenericAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition =
+    void testHandleNullItems_NativeSelect_NoNull() {
+        var hasItemsAvailableValuesAspectDefinition =
                 new GenericAvailableValuesAspectDefinition(
                         AvailableValuesType.DYNAMIC);
 
-        Select<TestEnum> nativeSelect = new Select<>();
+        var nativeSelect = new Select<TestEnum>();
         ComponentWrapper componentWrapper = new NoLabelComponentWrapper(nativeSelect, WrapperType.FIELD);
         hasItemsAvailableValuesAspectDefinition
                 .handleNullItems(componentWrapper, new LinkedList<>(Arrays.asList(TestEnum.TWO)));
 
-        assertThat(nativeSelect.isEmptySelectionAllowed(), is(false));
+        assertThat(nativeSelect.isEmptySelectionAllowed()).isFalse();
     }
 
     @Tag("test-has-data-provider")

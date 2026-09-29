@@ -13,7 +13,7 @@
  */
 package org.linkki.samples.playground.uitestnew;
 
-import static org.linkki.test.matcher.Matchers.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -49,14 +49,14 @@ class MultiDeploymentUiTest extends AbstractLinkkiUiTest {
     void testPlaygroundShowsTestScenario() {
         currentSystem = PLAYGROUND;
         goToView(SampleView.NAME);
-        assertThat($(TestBenchElement.class).withAttributeContaining("class", "linkki-main-area").exists());
+        assertThat($(TestBenchElement.class).withAttributeContaining("class", "linkki-main-area").exists()).isTrue();
     }
 
     @Test
     void f10SampleShowsApplication() {
         currentSystem = F10_SAMPLE;
         getDriver().navigate().to(DriverProperties.getTestUrl(F10_SAMPLE, F10_SAMPLE_CONTEXT_PATH, ""));
-        assertThat($(TestBenchElement.class).withAttributeContaining("class", "linkki-main-area").exists());
+        assertThat($(TestBenchElement.class).withAttributeContaining("class", "linkki-main-area").exists()).isTrue();
     }
 
 }

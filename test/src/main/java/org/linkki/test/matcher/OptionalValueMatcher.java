@@ -19,6 +19,13 @@ import java.util.Optional;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
+/**
+ * A matcher for {@link Optional}.
+ * 
+ * @param <T> the type of value
+ * @deprecated Use de.faktorzehn.commons.test.matcher.OptionalValueMatcher instead.
+ */
+@Deprecated(since = "2.11.0")
 public class OptionalValueMatcher<T> extends TypeSafeMatcher<Optional<? extends T>> {
 
     private T expectedValue;

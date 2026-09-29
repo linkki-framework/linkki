@@ -18,6 +18,13 @@ import java.util.function.Predicate;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
+/**
+ * A matcher to test for any predicate.
+ *
+ * @param <T> item
+ * @deprecated Use de.faktorzehn.commons.test.matcher.PredicateMatcher instead.
+ */
+@Deprecated(since = "2.11.0")
 public class PredicateMatcher<T> extends TypeSafeMatcher<T> {
 
     private final Predicate<T> predicate;

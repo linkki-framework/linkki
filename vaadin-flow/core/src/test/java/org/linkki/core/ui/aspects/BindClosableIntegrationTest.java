@@ -1,6 +1,6 @@
 package org.linkki.core.ui.aspects;
 
-import static org.linkki.test.matcher.Matchers.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -18,8 +18,8 @@ class BindClosableIntegrationTest {
         var pmo = new TestBindClosableDefaultPmo();
         var component = (LinkkiSection)VaadinUiCreator.createComponent(pmo, bindingContext);
 
-        assertThat(component.isClosable());
-        assertThat(component.isOpen());
+        assertThat(component.isClosable()).isTrue();
+        assertThat(component.isOpen()).isTrue();
     }
 
     @Test
@@ -28,8 +28,8 @@ class BindClosableIntegrationTest {
         var pmo = new TestBindClosableInitialTruePmo();
         var component = (LinkkiSection)VaadinUiCreator.createComponent(pmo, bindingContext);
 
-        assertThat(component.isClosable());
-        assertThat(component.isClosed());
+        assertThat(component.isClosable()).isTrue();
+        assertThat(component.isClosed()).isTrue();
     }
 
     @Test
@@ -38,8 +38,8 @@ class BindClosableIntegrationTest {
         var pmo = new TestBindClosableInitialFalsePmo();
         var component = (LinkkiSection)VaadinUiCreator.createComponent(pmo, bindingContext);
 
-        assertThat(component.isClosable());
-        assertThat(component.isOpen());
+        assertThat(component.isClosable()).isTrue();
+        assertThat(component.isOpen()).isTrue();
     }
 
     @BindClosable

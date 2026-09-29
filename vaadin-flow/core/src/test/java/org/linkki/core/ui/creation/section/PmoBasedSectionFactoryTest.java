@@ -13,10 +13,7 @@
  */
 package org.linkki.core.ui.creation.section;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.linkki.test.matcher.Matchers.hasValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -28,67 +25,64 @@ import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.BaseSection;
-import org.linkki.core.vaadin.component.section.LinkkiSection;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 
-public class PmoBasedSectionFactoryTest {
+class PmoBasedSectionFactoryTest {
 
     private final BindingContext bindingContext = new BindingContext("testBindingContext");
 
     @Test
-    public void testSetSectionId() {
-        LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(), bindingContext);
-        assertThat(section.getId(), hasValue("test-ID"));
+    void testSetSectionId() {
+        var section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(), bindingContext);
+        assertThat(section.getId()).hasValue("test-ID");
     }
 
     @Test
-    public void testSetSectionDefaultId() {
-        LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithoutID(), bindingContext);
-        assertThat(section.getId(), hasValue("SCCPmoWithoutID"));
+    void testSetSectionDefaultId() {
+        var section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithoutID(), bindingContext);
+        assertThat(section.getId()).hasValue("SCCPmoWithoutID");
     }
 
     @Test
-    public void testSetComponentId() {
-        BaseSection section = (BaseSection)PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(),
-                                                                                       bindingContext);
-        Component textField = TestUiUtil.getComponentAtIndex(0, section.getContentWrapper());
+    void testSetComponentId() {
+        var section = (BaseSection)PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(),
+                                                                               bindingContext);
+        var textField = TestUiUtil.getComponentAtIndex(0, section.getContentWrapper());
 
-        assertThat(textField.getId(), hasValue("testProperty"));
+        assertThat(textField.getId()).hasValue("testProperty");
     }
 
     @Test
-    public void testSectionWithDefaultLayout_shouldCreateFormSection() {
-        LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithoutID(), bindingContext);
-        assertThat(section, is(instanceOf(BaseSection.class)));
+    void testSectionWithDefaultLayout_shouldCreateFormSection() {
+        var section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithoutID(), bindingContext);
+        assertThat(section).isInstanceOf(BaseSection.class);
     }
 
     @Test
-    public void testSectionWithHorizontalLayout_shouldCreateHorizontalSection() {
-        LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithHorizontalLayout(),
-                                                                            bindingContext);
-        assertThat(section, is(instanceOf(BaseSection.class)));
+    void testSectionWithHorizontalLayout_shouldCreateHorizontalSection() {
+        var section = PmoBasedSectionFactory.createAndBindSection(new SectionWithHorizontalLayout(),
+                                                                  bindingContext);
+        assertThat(section).isInstanceOf(BaseSection.class);
     }
 
     @Test
-    public void testSectionWithoutAnnotation_usesDefaultValues() {
-        LinkkiSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithoutAnnotation(),
-                                                                            bindingContext);
-        assertThat(section, is(instanceOf(BaseSection.class)));
-        assertThat(section.getId(), hasValue(SectionWithoutAnnotation.class.getSimpleName()));
-        assertThat(section.getCaption(), is(""));
+    void testSectionWithoutAnnotation_usesDefaultValues() {
+        var section = PmoBasedSectionFactory.createAndBindSection(new SectionWithoutAnnotation(),
+                                                                  bindingContext);
+        assertThat(section).isInstanceOf(BaseSection.class);
+        assertThat(section.getId()).hasValue(SectionWithoutAnnotation.class.getSimpleName());
+        assertThat(section.getCaption()).isEmpty();
     }
 
     @Test
-    public void testCreateSectionHeader() {
-        SCCPmoWithID containerPmo = new SCCPmoWithID();
-        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
+    void testCreateSectionHeader() {
+        var factory = new PmoBasedSectionFactory();
 
-        LinkkiSection tableSection = factory.createSection(containerPmo, bindingContext);
+        var tableSection = factory.createSection(new SCCPmoWithID(), bindingContext);
 
-        assertThat(tableSection.getHeaderComponents().get(1), instanceOf(Button.class));
-        assertThat(((Button)tableSection.getHeaderComponents().get(1)).getText(), is("header button"));
+        assertThat(tableSection.getHeaderComponents().get(1)).isInstanceOf(Button.class);
+        assertThat(((Button)tableSection.getHeaderComponents().get(1)).getText()).isEqualTo("header button");
     }
 
     @UISection(caption = "Test")
