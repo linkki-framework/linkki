@@ -68,6 +68,8 @@ public enum BrowserType {
             options.addArguments("--headless=new");
             // supposed to solve "Time out receiving message from renderer: 600.000"
             options.addArguments("--disable-gpu");
+            // eliminates significant overhead in container environments
+            options.addArguments("--remote-debugging-pipe");
             // Make driver ignore beforeunload events
             options.enableBiDi();
             options.setCapability("unhandledPromptBehavior", Map.of("alert", "ignore",
