@@ -256,15 +256,17 @@ pipeline {
 
                         stage('UI Test') {
                             steps {
-                                withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                                    sh 'mvn \
-                                        -f vaadin-flow/samples/test-playground/uitest/pom.xml \
-                                        test \
-                                        -Dmaven.test.failure.ignore=true \
-                                        -Dsurefire.rerunFailingTestsCount=3 \
-                                        -Pheadless \
-                                        -Dorg.slf4j.simpleLogger.showDateTime=true \
-                                        -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
+                                withChrome('149') {
+                                    withMaven(mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                        sh 'mvn \
+                                            -f vaadin-flow/samples/test-playground/uitest/pom.xml \
+                                            test \
+                                            -Dmaven.test.failure.ignore=true \
+                                            -Dsurefire.rerunFailingTestsCount=3 \
+                                            -Pheadless \
+                                            -Dorg.slf4j.simpleLogger.showDateTime=true \
+                                            -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss'
+                                    }
                                 }
 
                                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'
