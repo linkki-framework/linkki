@@ -102,13 +102,15 @@ pipeline {
             }
 
             steps {
-                withMaven(publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn \
-                        -f vaadin-flow/samples/test-playground/uitest/pom.xml \
-                        test \
-                        -Dmaven.test.failure.ignore=true \
-                        -Dsurefire.rerunFailingTestsCount=3 \
-                        -Pheadless'
+                withChrome('149') {
+                    withMaven(publisherStrategy: 'EXPLICIT') {
+                        sh 'mvn \
+                            -f vaadin-flow/samples/test-playground/uitest/pom.xml \
+                            test \
+                            -Dmaven.test.failure.ignore=true \
+                            -Dsurefire.rerunFailingTestsCount=3 \
+                            -Pheadless'
+                    }
                 }
 
                 archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin-flow/samples/test-playground/uitest/target/error-screenshots/*.png'

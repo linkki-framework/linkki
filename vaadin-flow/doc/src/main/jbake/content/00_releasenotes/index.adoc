@@ -64,6 +64,10 @@
 
 === Version {vlinkki}
 
+* *Incompatible Chromedriver Version*
+* The update to Vaadin 25.2.8 came with an update of Selenium to 4.49.0.
+This may cause various exceptions when executing testbench UI tests that should resolve with using a more recent Chromedriver version (tested with 149).
+
 ==== Other Improvements
 
 // https://faktorzehn.atlassian.net/browse/JTS-3509
