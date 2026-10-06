@@ -17,9 +17,9 @@ import java.io.Serial;
 import java.util.Arrays;
 import java.util.List;
 
-import de.faktorzehn.commons.linkki.ui.menu.MenuItemDefinition;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.vaadin.component.menu.MenuItemDefinition;
 import org.linkki.samples.f10.SampleApplicationLayout;
 import org.linkki.samples.f10.search.SampleSearchParametersPmo;
 import org.linkki.samples.f10.search.SampleSearchResultRowPmo;
@@ -28,6 +28,9 @@ import org.linkki.samples.f10.search.service.SampleSearchParameters;
 import org.linkki.samples.f10.search.service.SampleSearchParametersMapper;
 import org.linkki.samples.f10.search.service.SampleSearchResult;
 import org.linkki.samples.f10.search.service.SampleSearchService;
+import org.linkki.search.SearchLayoutBuilder;
+import org.linkki.search.model.RoutingSearchController;
+import org.linkki.search.pmo.SearchLayoutPmo;
 
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -35,11 +38,6 @@ import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.Route;
 
-import de.faktorzehn.commons.linkki.search.SearchLayoutBuilder;
-import de.faktorzehn.commons.linkki.search.model.RoutingSearchController;
-import de.faktorzehn.commons.linkki.search.pmo.SearchLayoutPmo;
-
-@SuppressWarnings("deprecation")
 @Route(value = ContextFreeSearchView.NAME, layout = SampleApplicationLayout.class)
 public class ContextFreeSearchView extends VerticalLayout implements AfterNavigationObserver {
 

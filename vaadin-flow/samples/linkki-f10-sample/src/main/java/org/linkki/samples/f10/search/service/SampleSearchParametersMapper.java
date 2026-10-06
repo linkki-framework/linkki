@@ -18,8 +18,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.faktorzehn.commons.linkki.search.model.SearchParameterMapper;
-import de.faktorzehn.commons.linkki.search.util.ParamsUtil;
+import org.linkki.search.model.SearchParameterMapper;
+import org.linkki.search.util.ParamsUtil;
 
 @SuppressWarnings("deprecation")
 public class SampleSearchParametersMapper implements SearchParameterMapper<SampleSearchParameters> {

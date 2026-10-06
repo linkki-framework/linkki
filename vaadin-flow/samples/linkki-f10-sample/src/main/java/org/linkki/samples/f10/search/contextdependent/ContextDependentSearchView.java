@@ -18,12 +18,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import de.faktorzehn.commons.linkki.ui.menu.MenuItemDefinition;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.vaadin.component.menu.MenuItemDefinition;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.framework.ui.dialogs.DialogBindingManager;
@@ -36,6 +36,10 @@ import org.linkki.samples.f10.search.service.SampleModelObject;
 import org.linkki.samples.f10.search.service.SampleSearchParameters;
 import org.linkki.samples.f10.search.service.SampleSearchResult;
 import org.linkki.samples.f10.search.service.SampleSearchService;
+import org.linkki.search.SearchLayoutBuilder;
+import org.linkki.search.model.SearchController;
+import org.linkki.search.model.SimpleSearchController;
+import org.linkki.search.pmo.SearchLayoutPmo;
 import org.linkki.util.validation.ValidationMarker;
 
 import com.vaadin.flow.component.UI;
@@ -44,11 +48,6 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-
-import de.faktorzehn.commons.linkki.search.SearchLayoutBuilder;
-import de.faktorzehn.commons.linkki.search.model.SearchController;
-import de.faktorzehn.commons.linkki.search.model.SimpleSearchController;
-import de.faktorzehn.commons.linkki.search.pmo.SearchLayoutPmo;
 
 @SuppressWarnings("deprecation")
 @Route(value = ContextDependentSearchView.NAME, layout = SampleApplicationLayout.class)
@@ -74,8 +73,8 @@ public class ContextDependentSearchView extends VerticalLayout {
     private SearchController<SampleSearchParameters, SampleSearchResult> createSearchController() {
         var searchService = new SampleSearchService();
         return new SimpleSearchController<>(SampleSearchParameters::new,
-                searchService::search,
-                SampleSearchResult::getMessages);
+                                          searchService::search,
+                                          SampleSearchResult::getMessages);
     }
 
     private static OkCancelDialog createSearchDialog(
