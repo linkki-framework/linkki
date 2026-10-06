@@ -121,6 +121,9 @@
 // https://jira.convista.com/browse/LIN-5056
 * *Removal of the module linkki-f10* +
 The module `linkki-f10`, which has been deprecated in version link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_integration_of_linkki_f10_functionalities_into_linkki[2.8.0], has now been removed.
+// https://faktorzehn.atlassian.net/browse/JTS-3509
+* *Faster headless Chrome in Testbench tests* +
+`BrowserType.CHROME_HEADLESS` now starts Chrome with `--remote-debugging-pipe`, which reduces significant overhead in container environments.
 
 === Version 2.11.0-a20261005-01
 
