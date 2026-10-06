@@ -72,9 +72,11 @@ pipeline {
 
         stage('UI Test') {
             steps {
-                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                        -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                withChrome('117') {
+                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
+                        sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
+                            -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                    }
                 }
 
                 script {

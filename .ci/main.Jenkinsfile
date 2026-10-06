@@ -106,9 +106,11 @@ pipeline {
                             }
                         }
 
-                        withMaven(publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
-                                -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                        withChrome('117') {
+                            withMaven(publisherStrategy: 'EXPLICIT') {
+                                sh 'mvn -f vaadin-flow/samples/test-playground/uitest/pom.xml test \
+                                    -Dmaven.test.failure.ignore=true -Dsurefire.rerunFailingTestsCount=3'
+                            }
                         }
 
                         // check handles on chrome AFTER ui tests
