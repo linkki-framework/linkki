@@ -16,22 +16,21 @@ package org.linkki.samples.f10;
 import java.io.Serial;
 
 import org.linkki.framework.ui.application.ApplicationInfo;
+import org.linkki.framework.ui.application.UserAwareApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.application.menu.ThemeVariantToggleMenuItemDefinition;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.contextmenu.MenuItem;
 
-import de.faktorzehn.commons.linkki.CommonApplicationHeader;
 
-@SuppressWarnings("deprecation")
-public class SampleApplicationHeader extends CommonApplicationHeader {
+public class SampleApplicationHeader extends UserAwareApplicationHeader {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     public SampleApplicationHeader(ApplicationInfo applicationInfo,
-            Sequence<ApplicationMenuItemDefinition> menuItemDefinitions) {
+                                   Sequence<ApplicationMenuItemDefinition> menuItemDefinitions) {
         super(applicationInfo, menuItemDefinitions);
     }
 

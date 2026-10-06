@@ -23,8 +23,11 @@ import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UIMenuButton;
+import org.linkki.core.ui.element.annotation.UIMenuList;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
+import org.linkki.core.vaadin.component.menu.MenuItemDefinition;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
@@ -33,11 +36,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.notification.Notification;
 
-import de.faktorzehn.commons.linkki.ui.menu.MenuItemDefinition;
-import de.faktorzehn.commons.linkki.ui.menu.UIMenuButton;
-import de.faktorzehn.commons.linkki.ui.menu.UIMenuList;
-
-@SuppressWarnings("deprecation")
 public class SampleApplicationMainSection {
 
     private SampleApplicationMainSection() {

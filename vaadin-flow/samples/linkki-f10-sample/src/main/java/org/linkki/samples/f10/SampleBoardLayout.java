@@ -27,17 +27,16 @@ import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.board.BoardComponent;
+import org.linkki.core.vaadin.component.board.BoardLayout;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 
-import de.faktorzehn.commons.linkki.board.BoardComponent;
-import de.faktorzehn.commons.linkki.board.BoardLayout;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-@SuppressWarnings("deprecation")
 @Route(value = "board", layout = SampleApplicationLayout.class)
 public class SampleBoardLayout extends BoardLayout implements HasDynamicTitle {
 

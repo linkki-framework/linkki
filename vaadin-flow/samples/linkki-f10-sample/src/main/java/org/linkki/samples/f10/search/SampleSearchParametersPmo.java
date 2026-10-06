@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchCriteriaGroup;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.pmo.ModelObject;
@@ -31,8 +30,8 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import com.vaadin.flow.component.button.ButtonVariant;
 
 import org.linkki.samples.f10.search.service.SampleSearchParameters;
+import org.linkki.search.annotation.UISearchCriteriaGroup;
 
-@SuppressWarnings("deprecation")
 public class SampleSearchParametersPmo {
 
     public static final String SECTOR_FINANCE = "Finanz und Versicherung";

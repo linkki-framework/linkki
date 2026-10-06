@@ -16,19 +16,18 @@ package org.linkki.samples.f10.search;
 import java.time.LocalDate;
 import java.util.List;
 
-import de.faktorzehn.commons.linkki.search.annotation.UISearchResultAction;
-import de.faktorzehn.commons.linkki.ui.menu.MenuItemDefinition;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
+import org.linkki.core.vaadin.component.menu.MenuItemDefinition;
 import org.linkki.samples.f10.search.service.SampleModelObject;
+import org.linkki.search.annotation.UISearchResultAction;
 
-@SuppressWarnings("deprecation")
 public class SampleSearchResultRowPmo {
 
     private SampleModelObject modelObject;
-    private List<MenuItemDefinition> additionalActions;
+    private List<org.linkki.core.vaadin.component.menu.MenuItemDefinition> additionalActions;
 
     public SampleSearchResultRowPmo(SampleModelObject result,
             List<MenuItemDefinition> additionalActions) {
