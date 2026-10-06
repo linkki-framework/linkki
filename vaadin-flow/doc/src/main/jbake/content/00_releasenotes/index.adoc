@@ -27,6 +27,12 @@
 
 === Version {vlinkki}
 
+==== Other Improvements
+
+// https://faktorzehn.atlassian.net/browse/JTS-3509
+* *Faster headless Chrome in Testbench tests* +
+`BrowserType.CHROME_HEADLESS` now starts Chrome with `--remote-debugging-pipe`, which reduces significant overhead in container environments.
+
 === Version 2.9.13
 
 ==== Version Updates
