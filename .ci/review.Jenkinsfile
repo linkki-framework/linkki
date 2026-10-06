@@ -170,13 +170,15 @@ pipeline {
                                     }
                                 }
 
-                                withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
-                                    sh 'mvn \
-                                        -f vaadin-flow/samples/test-playground/uitest/pom.xml \
-                                        test \
-                                        -Dmaven.test.failure.ignore=true \
-                                        -Dsurefire.rerunFailingTestsCount=3 \
-                                        -T 6'
+                                withChrome('117') {
+                                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', mavenLocalRepo: '${MAVEN_REPOSITORY}', publisherStrategy: 'EXPLICIT') {
+                                        sh 'mvn \
+                                            -f vaadin-flow/samples/test-playground/uitest/pom.xml \
+                                            test \
+                                            -Dmaven.test.failure.ignore=true \
+                                            -Dsurefire.rerunFailingTestsCount=3 \
+                                            -T 6'
+                                    }
                                 }
 
                                 // check handles on chrome AFTER ui tests
