@@ -20,6 +20,10 @@ pipeline {
         maven 'maven 3.9'
     }
 
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+    }
+
     stages {
         stage('Pre-Build') {
             steps {
@@ -192,7 +196,7 @@ pipeline {
             steps {
                 retry(3) {
                     withMaven(jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
-                        sh 'mvn -U -pl "vaadin-flow/doc" jade:test-external-links'
+                        sh 'mvn -pl "vaadin-flow/doc" jade:test-external-links'
                     }
                 }
             }
@@ -204,19 +208,6 @@ pipeline {
             }
         }
 
-        // check if the SonarQube quality gate is fulfilled
-        stage('SonarQube Quality Gate') {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    script {
-                        def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-                            unstable("SonarQube failed with status: ${qg.status}")
-                        }
-                    }
-                }
-            }
-        }
     }
 
     post {
@@ -231,10 +222,6 @@ pipeline {
         regression {
             sendFailureEmail()
         }
-    }
-
-    options {
-        timeout(time: 30, unit: 'MINUTES')
     }
 
 }

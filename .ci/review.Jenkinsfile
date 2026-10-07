@@ -9,6 +9,7 @@ pipeline {
         BUILD_NAME = "${env.GERRIT_CHANGE_NUMBER}"
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
         NETWORK_NAME = "network-${PROJECT_ID}"
+        CONTAINER_RETENTION = 'discard'
         MAVEN_REPOSITORY = "${env.WORKSPACE}/.repository"
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         BASE_IMAGE = 'spring:26.1'
@@ -17,6 +18,10 @@ pipeline {
     tools {
         jdk 'OpenJDK 21'
         maven 'maven 3.9'
+    }
+
+    options {
+        timeout(time: 30, unit: 'MINUTES')
     }
 
     stages {
@@ -138,19 +143,6 @@ pipeline {
                                     steps {
                                         withMaven() {
                                             runSonarQubeAnalysis()
-                                        }
-                                    }
-                                }
-                                stage('Quality Gate') {
-                                    steps {
-                                        timeout(time: 1, unit: 'HOURS') {
-                                            script {
-                                                def qg = waitForQualityGate()
-                                                if (qg.status != 'OK') {
-                                                    unstable("SonarQube failed with status: ${qg.status}")
-                                                }
-                                                echo "Sonar Qube: https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&pullRequest=${env.GERRIT_CHANGE_NUMBER}"
-                                            }
                                         }
                                     }
                                 }
@@ -294,17 +286,18 @@ pipeline {
             }
         }
 
-        stage('Collect Results') {
-            steps {
-                junit '**/target/surefire-reports/*.xml'
-                recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
-                jacoco sourceInclusionPattern: '**/*.java'
-            }
-        }
     }
 
-    options {
-        timeout(time: 30, unit: 'MINUTES')
+    post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+            recordIssues([
+                    enabledForFailure: true,
+                    qualityGates     : [[threshold: 1, type: 'TOTAL', unstable: true]],
+                    tools            : [java(), javaDoc(), spotBugs(), checkStyle(), sonarQube()]
+            ])
+            jacoco sourceInclusionPattern: '**/*.java'
+        }
     }
 
 }

@@ -14,6 +14,10 @@ pipeline {
         SUITE_VERSION = '26.1'
     }
 
+    options {
+        timeout(time: 1, unit: 'HOURS')
+    }
+
     stages {
         stage('Pre-Build') {
             steps {
@@ -125,10 +129,6 @@ pipeline {
         regression {
             sendFailureEmail()
         }
-    }
-
-    options {
-        timeout(time: 1, unit: 'HOURS')
     }
 
 }

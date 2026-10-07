@@ -15,11 +15,17 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'linkki'
-        NETWORK_NAME = "network-${PROJECT_ID}"
         PROJECT_ID = "${PROJECT_NAME}-${params.RELEASE_VERSION.replaceAll(/[^A-Za-z0-9]/, '-').toLowerCase()}"
+        NETWORK_NAME = "network-${PROJECT_ID}"
+        CONTAINER_RETENTION = 'keep'
         DEPLOYMENT_NAME = "linkki-sample-test-playground-vaadin-flow"
         BASE_IMAGE = 'spring:26.1'
         SUITE_VERSION = '26.1'
+    }
+
+    options {
+        skipDefaultCheckout true
+        timeout(time: 1, unit: 'HOURS')
     }
 
     stages {
@@ -154,11 +160,6 @@ pipeline {
         unsuccessful {
             sendFailureEmail()
         }
-    }
-
-    options {
-        skipDefaultCheckout true
-        timeout(time: 1, unit: 'HOURS')
     }
 
 }
