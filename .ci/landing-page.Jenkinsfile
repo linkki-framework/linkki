@@ -18,6 +18,7 @@ pipeline {
             steps {
                 dir('landing-page') {
                     uploadDocumentation project: 'linkki-landing-page', folder: 'html'
+                }
             }
         }
     }
