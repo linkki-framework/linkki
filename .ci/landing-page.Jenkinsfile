@@ -17,10 +17,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('landing-page') {
-                    withMaven(maven: 'maven 3.9', jdk: 'OpenJDK 21', publisherStrategy: 'EXPLICIT') {
-                        sh 'mvn deploy -Ddoc.user=doc'
-                    }
-                }
+                    uploadDocumentation project: 'linkki-landing-page', folder: 'html'
             }
         }
     }

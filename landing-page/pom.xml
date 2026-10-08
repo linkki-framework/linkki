@@ -16,9 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.deploy.skip>true</maven.deploy.skip>
-
-        <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
-        <wagon-ssh.version>3.5.3</wagon-ssh.version>
     </properties>
 
     <build>
@@ -43,39 +40,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>wagon-maven-plugin</artifactId>
-                <version>${wagon-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>upload-documentation</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>upload</goal>
-                        </goals>
-                        <configuration>
-                            <commands>
-                                <command>rm -rf \
-                                    /var/www/linkki-framework.org/landing-page/*
-                                </command>
-                            </commands>
-                            <serverId>linkkidoc</serverId>
-                            <fromDir>html</fromDir>
-                            <includes>**/*</includes>
-                            <url>scp://doc@doc.linkki-framework.org:2004</url>
-                            <toDir>/var/www/linkki-framework.org/landing-page</toDir>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>${wagon-ssh.version}</version>
-            </extension>
-        </extensions>
     </build>
 </project>
