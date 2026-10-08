@@ -17,7 +17,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('landing-page') {
-                    uploadDocumentation project: 'linkki-landing-page', folder: 'html'
+                    withMaven(publisherStrategy: 'EXPLICIT') {
+                        uploadDocumentation project: 'linkki-landing-page', folder: 'html'
+                    }
                 }
             }
         }
