@@ -16,8 +16,6 @@ package org.linkki.core.ui.aspects;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Locale;
 import java.util.function.Consumer;
@@ -31,16 +29,17 @@ import org.linkki.core.util.HtmlContent;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.badge.Badge;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 import com.vaadin.flow.server.VaadinSession;
 
 @ExtendWith(KaribuUIExtension.class)
-public class LabelValueAspectDefinitionTest {
+class LabelValueAspectDefinitionTest {
 
     @Test
-    public void testCreateComponentValueSetter_SetsString() {
+    void testCreateComponentValueSetter_SetsString() {
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
@@ -52,7 +51,7 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_UsesToString() {
+    void testCreateComponentValueSetter_UsesToString() {
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
@@ -68,7 +67,7 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_UsesStandardConverter() {
+    void testCreateComponentValueSetter_UsesStandardConverter() {
         UI.getCurrent().setLocale(Locale.GERMAN);
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
@@ -80,7 +79,7 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
+    void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
         UI.getCurrent().setLocale(Locale.US);
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
@@ -92,7 +91,7 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_UsesCustomConverter() {
+    void testCreateComponentValueSetter_UsesCustomConverter() {
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
@@ -123,7 +122,7 @@ public class LabelValueAspectDefinitionTest {
 
     @SuppressWarnings("deprecation")
     @Test
-    public void testCreateComponentValueSetter_HtmlContent_deprecated() {
+    void testCreateComponentValueSetter_HtmlContent_deprecated() {
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition(true)
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
@@ -141,7 +140,7 @@ public class LabelValueAspectDefinitionTest {
     }
 
     @Test
-    public void testCreateComponentValueSetter_HtmlContent() {
+    void testCreateComponentValueSetter_HtmlContent() {
         LinkkiText label = new LinkkiText();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new NoLabelComponentWrapper(label));
@@ -155,9 +154,20 @@ public class LabelValueAspectDefinitionTest {
 
     }
 
+    @Test
+    void testCreateComponentValueSetter_ComponentHasText() {
+        var badge = new Badge();
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
+                .createComponentValueSetter(new NoLabelComponentWrapper(badge));
+
+        valueSetter.accept("foo");
+
+        assertThat(badge.getText(), is("foo"));
+    }
+
     private enum FooBar {
         FOO,
-        BAR;
+        BAR
     }
 
 }

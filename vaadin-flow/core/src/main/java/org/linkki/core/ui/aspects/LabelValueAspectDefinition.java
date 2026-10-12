@@ -23,6 +23,8 @@ import org.linkki.core.ui.element.annotation.UILabel.DefaultLabelCaptionProvider
 import org.linkki.core.util.HtmlContent;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 
+import com.vaadin.flow.component.HasText;
+
 /**
  * The value aspect for label components. The label is a read-only component, hence this aspect only
  * reads the value from model and updates the UI.
@@ -86,10 +88,17 @@ public class LabelValueAspectDefinition extends FutureAwareAspectDefinition<Obje
         return Aspect.of(NAME);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        var label = (LinkkiText)componentWrapper.getComponent();
-        return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v), v instanceof HtmlContent || htmlContent);
+        var component = componentWrapper.getComponent();
+        if (component instanceof LinkkiText label) {
+            return v -> label.setText(itemCaptionProvider.getUnsafeCaption(v),
+                                      v instanceof HtmlContent || htmlContent);
+        } else {
+            var hasText = (HasText)component;
+            return v -> hasText.setText(itemCaptionProvider.getUnsafeCaption(v));
+        }
     }
 
     @Override

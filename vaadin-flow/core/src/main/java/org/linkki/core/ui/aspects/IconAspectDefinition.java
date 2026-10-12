@@ -24,6 +24,7 @@ import org.linkki.core.vaadin.component.HasIcon;
 import org.linkki.util.Consumers;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.badge.Badge;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
@@ -62,15 +63,11 @@ public class IconAspectDefinition extends ModelToUiAspectDefinition<VaadinIcon> 
     @Override
     protected Consumer<VaadinIcon> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Component component = (Component)componentWrapper.getComponent();
-        if (component instanceof Button) {
-            return icon -> {
-                Button button = ((Button)component);
-                button.setIcon(icon != null ? icon.create() : null);
-            };
-        } else if (component instanceof HasIcon) {
-            return ((HasIcon)component)::setIcon;
-        } else {
-            return Consumers.nopConsumer();
-        }
+        return switch (component) {
+            case Button button -> icon -> button.setIcon(icon != null ? icon.create() : null);
+            case Badge badge -> icon -> badge.setIcon(icon != null ? icon.create() : null);
+            case HasIcon hasIcon -> hasIcon::setIcon;
+            case null, default -> Consumers.nopConsumer();
+        };
     }
 }

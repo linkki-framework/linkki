@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
+
+import com.vaadin.flow.component.badge.Badge;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.dom.Element;
 
@@ -40,7 +42,7 @@ class IconAspectDefinitionTest {
         componentValueSetter.accept(VaadinIcon.ACADEMY_CAP);
         assertThat(button.isIconAfterText(), is(false));
         assertThat(getIconAttribute(button.getIcon().getElement()),
-                   is(getIconAttribute(VaadinIcon.ACADEMY_CAP.create().getElement())));
+                is(getIconAttribute(VaadinIcon.ACADEMY_CAP.create().getElement())));
     }
 
     @Test
@@ -56,6 +58,23 @@ class IconAspectDefinitionTest {
 
         componentValueSetter.accept(VaadinIcon.CONNECT);
         assertThat(anchor.getIcon(), is(VaadinIcon.CONNECT));
+    }
+
+    @Test
+    void testCreateComponentValueSetter_Badge() {
+        var iconAspectDefinition = new IconAspectDefinition(IconType.STATIC, VaadinIcon.AIRPLANE);
+        var badge = new Badge();
+        Consumer<VaadinIcon> componentValueSetter = iconAspectDefinition
+                .createComponentValueSetter(new NoLabelComponentWrapper(badge));
+
+        componentValueSetter.accept(VaadinIcon.ACADEMY_CAP);
+
+        assertThat(getIconAttribute(badge.getIcon().getElement()),
+                is(getIconAttribute(VaadinIcon.ACADEMY_CAP.create().getElement())));
+
+        componentValueSetter.accept(null);
+
+        assertThat(badge.getIcon(), is(nullValue()));
     }
 
     private String getIconAttribute(Element icon) {

@@ -1,0 +1,22 @@
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.linkki.migrate.v2_11.MigrateUIBadgeVariants
+displayName: Migrate UIBadge variants to styles
+description: >-
+  Replaces UIBadge#variants with UIBadge#styles and maps the constants of BadgeVariant to BadgeStyleVariant.
+  Usages of BadgeVariant.PILL are marked and have to be removed manually, as the pill shape is the default.
+  BadgeStyleVariant.SQUARE has to be added manually where variants were set without BadgeVariant.PILL.
+recipeList:
+  - org.openrewrite.java.ChangeAnnotationAttributeName:
+      annotationType: org.linkki.core.ui.element.annotation.UIBadge
+      oldAttributeName: variants
+      newAttributeName: styles
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.linkki.core.ui.element.annotation.BadgeVariant.SMALL
+      fullyQualifiedConstantName: org.linkki.core.vaadin.component.BadgeStyleVariant.SMALL
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.linkki.core.ui.element.annotation.BadgeVariant.PRIMARY
+      fullyQualifiedConstantName: org.linkki.core.vaadin.component.BadgeStyleVariant.FILLED
+  - org.openrewrite.java.search.FindFields:
+      fullyQualifiedTypeName: org.linkki.core.ui.element.annotation.BadgeVariant
+      fieldName: PILL

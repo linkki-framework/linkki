@@ -15,10 +15,10 @@
 package org.linkki.samples.playground.ts.formelements;
 
 import org.linkki.core.ui.aspects.annotation.BindIcon;
-import org.linkki.core.ui.element.annotation.BadgeVariant;
 import org.linkki.core.ui.element.annotation.UIBadge;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.BadgeSeverity;
+import org.linkki.core.vaadin.component.BadgeStyleVariant;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 
@@ -51,9 +51,20 @@ public class BadgePmo {
     }
 
     @BindIcon(VaadinIcon.LOCK)
-    @UIBadge(position = 50, label = "Badge with icon and custom variants",
-            variants = { BadgeVariant.SMALL, BadgeVariant.PRIMARY })
+    @UIBadge(position = 50, label = "Badge with icon and custom styles",
+            styles = {BadgeStyleVariant.SMALL, BadgeStyleVariant.FILLED})
     public String getBadgeWithIcon() {
+        return "Badge";
+    }
+
+    @UIBadge(position = 60, label = "Square Badge", severity = BadgeSeverity.SUCCESS,
+            styles = BadgeStyleVariant.SQUARE)
+    public String getSquareBadge() {
+        return "Badge";
+    }
+
+    @UIBadge(position = 70, label = "Dot Badge", severity = BadgeSeverity.ERROR, styles = BadgeStyleVariant.DOT)
+    public String getDotBadge() {
         return "Badge";
     }
 

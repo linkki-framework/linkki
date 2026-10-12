@@ -116,6 +116,84 @@
 
 === Version {vlinkki}
 
+==== Components, UI Annotations and Aspects
+
+// https://faktorzehn.atlassian.net/browse/LIN-5086
+* [.api-change]*`@UIBadge` uses the Vaadin `Badge` component* +
+Vaadin 25 provides a dedicated `Badge` component with built-in support for colors, sizes and icons.
+<<ui-badge, `@UIBadge`>> now uses it instead of styling a `LinkkiText` with a theme, so that badges look consistent with the Vaadin themes and need less linkki-specific CSS. +
+To avoid naming confusion with the Vaadin class `BadgeVariant`, styles of a badge are now defined with the constants in the new class <<ui-badge-styles, `BadgeStyleVariant`>>.
+By default, no style is applied, which results in the pill shape of the Vaadin `Badge`, also representing the default behavior of `UIBadge`.
+The new style `SQUARE` provides slightly rounded corners instead, which corresponds to the previous badge style if "pill" is not set.
+This is not available in the Vaadin API anymore.
+The theme variant `DOT` of the Vaadin `Badge` is now also available in `BadgeStyleVariant`.
++
+.API Changes
+[cols="a,a"]
+|===
+| Previous | New
+
+| `@UIBadge` creates a `LinkkiText`
+| `@UIBadge` creates a `com.vaadin.flow.component.badge.Badge`
+
+| `UIBadge#variants` (`String[]`)
+| `UIBadge#styles` (`String[]`)
+
+| `ComponentFactory#newBadge(BadgeSeverity, String[])` returns a `LinkkiText`
+| `ComponentFactory#newBadge(BadgeSeverity, String[])` returns a `Badge`
+
+| `org.linkki.core.ui.element.annotation.BadgeVariant`
+| `org.linkki.core.ui.element.annotation.BadgeStyleVariant`
+
+| `BadgeVariant.PILL`
+| Removed, this is the default styling of a badge
+
+| `@UIBadge(variants = ...)` without `BadgeVariant.PILL`
+| `BadgeStyleVariant.SQUARE`
+|===
++
+.Migration
+[NOTE]
+====
+The OpenRewrite recipe `org.linkki.migrate.v2_11.MigrateUIBadgeVariants` replaces `UIBadge#variants` with `UIBadge#styles` and maps `BadgeVariant.SMALL` and `BadgeVariant.PRIMARY`.
+Run it before the linkki dependency of the project is updated, so that the old types are still available:
+
+[source,shell,subs="attributes"]
+----
+mvn org.openrewrite.maven:rewrite-maven-plugin:6.46.1:run \
+  -Drewrite.recipeArtifactCoordinates=org.linkki-framework:linkki-core-vaadin-flow:{vlinkki} \
+  -Drewrite.activeRecipes=org.linkki.migrate.v2_11.MigrateUIBadgeVariants
+----
+
+The recipe cannot migrate everything.
+The following changes have to be done manually:
+
+* Usages of `BadgeVariant.PILL` are marked by the recipe and have to be removed.
+* If `variants` was set without `BadgeVariant.PILL` (including an empty array), the badge had slightly rounded corners.
+Add `BadgeStyleVariant.SQUARE` to keep this appearance.
+
+The values are mapped as follows:
+
+[cols="a,a"]
+|===
+| Previous (`@UIBadge(variants = ...)`) | New (`@UIBadge(styles = ...)`)
+
+| `BadgeVariant.PILL`    | Remove, as the pill shape is the default
+| `BadgeVariant.SMALL`   | `BadgeStyleVariant.SMALL`
+| `BadgeVariant.PRIMARY` | `BadgeStyleVariant.FILLED`
+|===
+
+Further adjustments:
+
+* UI tests (e.g. TestBench or Karibu) that locate or cast a badge as `LinkkiText` or `linkki-text` need to use the `Badge` component or the `vaadin-badge` element instead.
+* CSS selectors that target badges via `linkki-text` or via the theme `badge` (e.g. `[theme~='badge']`) no longer match, since the `vaadin-badge` element is not created with the theme `badge`.
+The same applies to the old theme name `primary` (now `filled`), so selectors like `[theme~='primary']` need to be adjusted.
+Projects that style badges via custom CSS should check them visually.
+
+====
++
+NOTE: A `Badge` displays plain text only, so `HtmlContent` is no longer interpreted as HTML in a badge.
+
 === Version 2.11.0-a20261102-01
 
 ==== Version Updates
@@ -154,6 +232,11 @@ The JavaScript `focus-first-item-combo-box-mixin.js`, which was responsible for 
 ====
 Projects that import `focus-first-item-combo-box-mixin.js` themselves need to remove the import.
 ====
+
+===== Vaadin 25.3.4
+
+See <<release-notes-vaadin-25-3, Vaadin 25.3>> for the changes introduced with Vaadin 25.3.
+The icon deprecation described there was reverted in 25.3.4.
 
 === Version 2.11.0-a20261008-01
 

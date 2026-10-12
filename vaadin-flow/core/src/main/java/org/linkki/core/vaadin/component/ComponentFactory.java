@@ -32,10 +32,10 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.LinkkiComponentUtil;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
-import org.linkki.core.vaadin.component.base.LinkkiText;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.badge.Badge;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -73,7 +73,7 @@ public class ComponentFactory {
      * Creates a new horizontal line.
      */
     public static Component newHorizontalLine() {
-        Hr component = new Hr();
+        var component = new Hr();
         component.setWidth("100%");
         return component;
     }
@@ -82,7 +82,7 @@ public class ComponentFactory {
      * Creates a new {@link Anchor} with undefined width.
      */
     public static LinkkiAnchor newLink(String caption) {
-        LinkkiAnchor link = new LinkkiAnchor();
+        var link = new LinkkiAnchor();
         link.setText(caption);
         return link;
     }
@@ -92,7 +92,7 @@ public class ComponentFactory {
      * width.
      */
     public static TextField newTextField() {
-        TextField textField = new TextField();
+        var textField = new TextField();
         textField.setAutocomplete(Autocomplete.OFF);
         return textField;
     }
@@ -106,7 +106,7 @@ public class ComponentFactory {
      * is inferred by maxLength.
      */
     public static TextField newTextField(int maxLength, String width) {
-        TextField field = newTextField();
+        var field = newTextField();
         setMaxLengthAndWidth(field, maxLength, width);
 
         return field;
@@ -130,7 +130,7 @@ public class ComponentFactory {
      * Creates a new {@link TextField} to display numbers.
      */
     public static TextField newNumberField(int maxLength, String width, String pattern) {
-        TextField field = newTextField(maxLength, width);
+        var field = newTextField(maxLength, width);
         field.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT);
         field.setAllowedCharPattern(pattern);
         return field;
@@ -149,7 +149,7 @@ public class ComponentFactory {
 
         NumberFormat testFormatter = new DecimalFormat(pattern,
                 new DecimalFormatSymbols(UiFramework.getLocale()));
-        StringBuilder regexBuilder = new StringBuilder("[");
+        var regexBuilder = new StringBuilder("[");
         testFormatter.format(-1234567890).chars()
                 .forEach(regexBuilder::appendCodePoint);
         String enabledChars = regexBuilder.append("]").toString().replace(".", "\\.");
@@ -158,7 +158,7 @@ public class ComponentFactory {
     }
 
     public static TextArea newTextArea() {
-        TextArea textArea = new TextArea();
+        var textArea = new TextArea();
         LinkkiComponentUtil.preventEnterKeyPropagation(textArea);
         return textArea;
     }
@@ -216,7 +216,7 @@ public class ComponentFactory {
         checkboxes.setRenderer(new TextRenderer<>(
                 ItemCaptionProvider.instantiate(itemCaptionsProvider)::getUnsafeCaption));
 
-        if (alignmentType.equals(AlignmentType.VERTICAL)) {
+        if (alignmentType == AlignmentType.VERTICAL) {
             checkboxes.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
         }
         return checkboxes;
@@ -236,7 +236,7 @@ public class ComponentFactory {
                 v -> ItemCaptionProvider.instantiate(itemCaptionProvider).getUnsafeCaption(((Optional<Object>)v)
                         .orElse(null))));
 
-        if (alignmentType.equals(AlignmentType.VERTICAL)) {
+        if (alignmentType == AlignmentType.VERTICAL) {
             radioButtons.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
         }
         return radioButtons;
@@ -301,7 +301,7 @@ public class ComponentFactory {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
             throw new IllegalStateException("Creating a datetime field requires a UI with locale");
         }
-        DateTimePicker field = new DateTimePicker();
+        var field = new DateTimePicker();
         field.setDatePickerI18n(DatePickerI18nCreator.createI18n(UI.getCurrent().getLocale()));
         // there is no year zero https://en.wikipedia.org/wiki/Year_zero
         // DateTimePicker gets confused with year numbers below 1000 anyway
@@ -351,7 +351,7 @@ public class ComponentFactory {
     }
 
     public static Button newButton(Icon icon, Collection<String> styleNames) {
-        Button button = new Button(icon);
+        var button = new Button(icon);
         button.setTabIndex(-1);
         styleNames.forEach(button::addClassName);
         return button;
@@ -361,19 +361,18 @@ public class ComponentFactory {
      * Creates a plain {@link VerticalLayout} without spacing or margin.
      */
     public static VerticalLayout newPlainVerticalLayout() {
-        VerticalLayout layout = new VerticalLayout();
+        var layout = new VerticalLayout();
         layout.setSpacing(false);
         layout.setMargin(false);
         return layout;
     }
 
     /**
-     * Creates a new badge with the specified severity and variants.
+     * Creates a new badge with the specified severity and styles.
      */
-    public static LinkkiText newBadge(BadgeSeverity severity, String[] variants) {
-        var badge = new LinkkiText();
-        badge.getElement().getThemeList().add("badge");
-        Arrays.stream(variants).forEach(badge.getElement().getThemeList()::add);
+    public static Badge newBadge(BadgeSeverity severity, String[] styles) {
+        var badge = new Badge();
+        Arrays.stream(styles).forEach(badge.getElement().getThemeList()::add);
         if (severity.getVariantName() != null) {
             badge.getElement().getThemeList().add(severity.getVariantName());
         }

@@ -430,7 +430,7 @@ It returns the class of the UI*-Annotation for the UI control to be rendered.
 [[ui-badge]]
 ==== UIBadge
 
-The annotation `@UIBadge` creates a badge for displaying visually highlighted information and corresponds to a badge styled with https://vaadin.com/docs/v25/components/badge[Vaadin's badge theme variants].
+The annotation `@UIBadge` creates a badge for displaying visually highlighted information and corresponds to https://vaadin.com/docs/v25/components/badge[com.vaadin.flow.component.badge.Badge].
 
 The annotated method must return a value that is convertible to `String` with the <<itemCaptionProvider,`ItemCaptionProvider`>> defined in the annotation.
 
@@ -438,15 +438,24 @@ Severity::
 The attribute `severity` determines the badge's color scheme (background and text) based on semantic meaning.
 Available values are `INFO`, `SUCCESS`, `WARNING`, `ERROR`, and `NONE` (default).
 Each severity applies a corresponding color scheme.
+The neutral contrast appearance of the Vaadin `Badge` is used by `NONE`.
 
-Variants::
-The attribute `variants` applies additional styling modifications to the badge.
-Multiple variants can be combined by providing a String array.
-linkki provides the `BadgeVariant` class with common Vaadin badge variants:
- +
-* `BadgeVariant.PILL`: Rounded badge shape (default)
-* `BadgeVariant.SMALL`: Compact size
-* `BadgeVariant.PRIMARY`: Applies primary theme color
+[[ui-badge-styles]]Styles::
+The attribute `styles` applies additional styling modifications to the badge that are independent of the severity.
+Multiple styles can be combined by providing an array of the constants in `BadgeStyleVariant`:
++
+* `BadgeStyleVariant.SMALL`: Compact size
+* `BadgeStyleVariant.FILLED`: Filled background in the color of the severity
+* `BadgeStyleVariant.SQUARE`: Slightly rounded corners instead of the pill shape
+* `BadgeStyleVariant.DOT`: Small dot indicator, the content is visually hidden
++
+By default, no style is applied, so the badge has the pill shape of the Vaadin `Badge`.
++
+The corner radius of `SQUARE` can be customized with the CSS property `--linkki-badge-border-radius`.
+
+An icon can be added to the badge using <<icon, `@BindIcon`>>.
+
+NOTE: A badge displays plain text only. `HtmlContent` is not interpreted as HTML.
 
 TIP: To determine the severity dynamically from the presentation model instead of statically, use <<bind-badge-severity, `@BindBadgeSeverity`>>.
 

@@ -19,9 +19,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.annotation.BindBadgeSeverity;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.layout.annotation.UICssLayout;
 import org.linkki.core.vaadin.component.BadgeSeverity;
+import org.linkki.core.vaadin.component.BadgeStyleVariant;
+
+import com.vaadin.flow.component.badge.Badge;
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 class UIBadgeIntegrationTest {
 
@@ -35,15 +41,104 @@ class UIBadgeIntegrationTest {
         assertThat(badges)
                 .map(b -> b.getElement().getTextRecursively())
                 .containsExactly("Badge_Status", "Caption", "123", "DEFAULT");
+        assertThat(badges).allMatch(Badge.class::isInstance);
         assertThat(badges.getFirst().getElement().getThemeList())
-                .containsExactlyInAnyOrder("badge", BadgeVariant.SMALL, BadgeVariant.PRIMARY);
+                .containsExactlyInAnyOrder(BadgeStyleVariant.SMALL, BadgeStyleVariant.FILLED);
         assertThat(badges.get(1).getElement().getThemeList())
-                .containsExactlyInAnyOrder("badge", BadgeSeverity.NONE.getVariantName(), BadgeVariant.PILL);
+                .containsExactly(BadgeSeverity.NONE.getVariantName());
         assertThat(badges.get(2).getElement().getThemeList())
-                .containsExactlyInAnyOrder("badge", BadgeSeverity.ERROR.getVariantName(), BadgeVariant.PILL);
+                .containsExactly(BadgeSeverity.ERROR.getVariantName());
         assertThat(badges.getLast().getElement().getThemeList())
-                .containsExactlyInAnyOrder("badge", BadgeSeverity.WARNING.getVariantName(), BadgeVariant.PRIMARY,
-                                           BadgeVariant.SMALL);
+                .containsExactlyInAnyOrder(BadgeSeverity.WARNING.getVariantName(),
+                        BadgeStyleVariant.FILLED, BadgeStyleVariant.SMALL);
+    }
+
+    @Test
+    void testBadge_NoStylesByDefault() {
+        var component = VaadinUiCreator.createComponent(new NullValuePmo(), new BindingContext());
+
+        var badge = (Badge)component.getChildren().findFirst().orElseThrow();
+
+        assertThat(badge.getElement().getThemeList()).containsExactly(BadgeSeverity.NONE.getVariantName());
+    }
+
+    @Test
+    void testBadge_SquareStyle() {
+        var component = VaadinUiCreator.createComponent(new SquarePmo(), new BindingContext());
+
+        var badge = (Badge)component.getChildren().findFirst().orElseThrow();
+
+        assertThat(badge.getElement().getThemeList())
+                .containsExactlyInAnyOrder(BadgeStyleVariant.SQUARE, BadgeSeverity.SUCCESS.getVariantName());
+    }
+
+    @Test
+    void testBadge_DotStyle() {
+        var component = VaadinUiCreator.createComponent(new DotPmo(), new BindingContext());
+
+        var badge = (Badge)component.getChildren().findFirst().orElseThrow();
+
+        assertThat(badge.getElement().getThemeList())
+                .containsExactlyInAnyOrder(BadgeStyleVariant.DOT, BadgeSeverity.ERROR.getVariantName());
+    }
+
+    @Test
+    void testBadge_DynamicSeverity_KeepsStyles() {
+        var binding = new BindingContext();
+        var pmo = new DynamicSeverityWithStylePmo();
+        var component = VaadinUiCreator.createComponent(pmo, binding);
+        var badge = (Badge)component.getChildren().findFirst().orElseThrow();
+
+        pmo.severity = BadgeSeverity.ERROR;
+        binding.modelChanged();
+
+        assertThat(badge.getElement().getThemeList())
+                .containsExactlyInAnyOrder(BadgeStyleVariant.DOT, BadgeSeverity.ERROR.getVariantName());
+    }
+
+    @Test
+    void testBadge_NoLinkkiSpecificClassName() {
+        var component = VaadinUiCreator.createComponent(new NullValuePmo(), new BindingContext());
+
+        var badge = (Badge)component.getChildren().findFirst().orElseThrow();
+
+        assertThat(badge.getClassNames()).isEmpty();
+    }
+
+    @Test
+    void testBadge_WithIcon() {
+        var component = VaadinUiCreator.createComponent(new IconPmo(), new BindingContext());
+
+        var badge = (Badge)component.getChildren().findFirst().orElseThrow();
+
+        assertThat(badge.getText()).isEqualTo("With icon");
+        assertThat(badge.getIcon()).isNotNull();
+    }
+
+    @Test
+    void testBadge_NullValue() {
+        var component = VaadinUiCreator.createComponent(new NullValuePmo(), new BindingContext());
+
+        var badge = (Badge)component.getChildren().findFirst().orElseThrow();
+
+        assertThat(badge.getText()).isEmpty();
+    }
+
+    @Test
+    void testBadge_DynamicSeverity() {
+        var binding = new BindingContext();
+        var pmo = new DynamicSeverityPmo();
+        var component = VaadinUiCreator.createComponent(pmo, binding);
+        var badge = (Badge)component.getChildren().findFirst().orElseThrow();
+
+        assertThat(badge.getElement().getThemeList())
+                .containsExactly(BadgeSeverity.SUCCESS.getVariantName());
+
+        pmo.severity = BadgeSeverity.ERROR;
+        binding.modelChanged();
+
+        assertThat(badge.getElement().getThemeList())
+                .containsExactly(BadgeSeverity.ERROR.getVariantName());
     }
 
     @Test
@@ -78,7 +173,7 @@ class UIBadgeIntegrationTest {
             return modelObject;
         }
 
-        @UIBadge(position = 0, severity = BadgeSeverity.INFO, variants = { BadgeVariant.SMALL, BadgeVariant.PRIMARY })
+        @UIBadge(position = 0, severity = BadgeSeverity.INFO, styles = {BadgeStyleVariant.SMALL, BadgeStyleVariant.FILLED})
         public void status() {
             // model binding
         }
@@ -94,9 +189,78 @@ class UIBadgeIntegrationTest {
         }
 
         @UIBadge(position = 30, severity = BadgeSeverity.WARNING,
-                variants = { BadgeVariant.PRIMARY, BadgeVariant.SMALL })
+                styles = {BadgeStyleVariant.FILLED, BadgeStyleVariant.SMALL})
         public TestEnum getEnumBadge() {
             return TestEnum.DEFAULT;
+        }
+    }
+
+    @UICssLayout
+    static class IconPmo {
+
+        @BindIcon(VaadinIcon.LOCK)
+        @UIBadge(position = 0)
+        public String getBadge() {
+            return "With icon";
+        }
+    }
+
+    @UICssLayout
+    static class SquarePmo {
+
+        @UIBadge(position = 0, severity = BadgeSeverity.SUCCESS, styles = BadgeStyleVariant.SQUARE)
+        public String getBadge() {
+            return "Square";
+        }
+    }
+
+    @UICssLayout
+    static class DotPmo {
+
+        @UIBadge(position = 0, severity = BadgeSeverity.ERROR, styles = BadgeStyleVariant.DOT)
+        public String getBadge() {
+            return "Dot";
+        }
+    }
+
+    @UICssLayout
+    static class DynamicSeverityWithStylePmo {
+
+        private BadgeSeverity severity = BadgeSeverity.SUCCESS;
+
+        @BindBadgeSeverity
+        @UIBadge(position = 0, styles = BadgeStyleVariant.DOT)
+        public String getBadge() {
+            return "Dynamic";
+        }
+
+        public BadgeSeverity getBadgeBadgeSeverity() {
+            return severity;
+        }
+    }
+
+    @UICssLayout
+    static class NullValuePmo {
+
+        @UIBadge(position = 0)
+        public String getBadge() {
+            return null;
+        }
+    }
+
+    @UICssLayout
+    static class DynamicSeverityPmo {
+
+        private BadgeSeverity severity = BadgeSeverity.SUCCESS;
+
+        @BindBadgeSeverity
+        @UIBadge(position = 0)
+        public String getBadge() {
+            return "Dynamic";
+        }
+
+        public BadgeSeverity getBadgeBadgeSeverity() {
+            return severity;
         }
     }
 

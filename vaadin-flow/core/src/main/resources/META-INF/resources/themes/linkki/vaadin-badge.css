@@ -1,0 +1,3 @@
+vaadin-badge[theme~="square"] {
+    --vaadin-badge-border-radius: var(--linkki-badge-border-radius, var(--lumo-border-radius-s));
+}

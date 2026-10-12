@@ -147,6 +147,16 @@
             "oldValue": "com.vaadin.flow.component.icon.VaadinIcon.ELLIPSIS_DOTS_H",
             "newValue": "com.vaadin.flow.component.icon.VaadinIcon.ELLIPSIS_H",
             "justification": "JTS-3509/JTS-3520 Vaadin 25.3.0 deprecated VaadinIcon.ELLIPSIS_DOTS_H in favor of ELLIPSIS_H"
+          },
+          {
+            "code": "java.method.attributeRemovedFromAnnotationType",
+            "old": "method java.lang.String[] org.linkki.core.ui.element.annotation.UIBadge::variants()",
+            "justification": "LIN-5086 Renamed to UIBadge::styles() as the styles are no longer limited to the former BadgeVariant"
+          },
+          {
+            "code": "java.method.returnTypeChanged",
+            "new": "method com.vaadin.flow.component.badge.Badge org.linkki.core.vaadin.component.ComponentFactory::newBadge(org.linkki.core.vaadin.component.BadgeSeverity, java.lang.String[])",
+            "justification": "LIN-5086 ComponentFactory creates the Vaadin Badge instead of a LinkkiText"
           }
         ]
       }

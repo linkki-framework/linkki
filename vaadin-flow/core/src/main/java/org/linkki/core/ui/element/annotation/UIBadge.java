@@ -70,11 +70,12 @@ public @interface UIBadge {
     BadgeSeverity severity() default BadgeSeverity.NONE;
 
     /**
-     * Variants for the badge that define the styling.
+     * Styles for the badge that define its appearance independent of the {@link #severity()}. By
+     * default, no style is applied, which results in a pill-shaped badge.
      *
-     * @see BadgeVariant
+     * @see org.linkki.core.vaadin.component.BadgeStyleVariant
      */
-    String[] variants() default { BadgeVariant.PILL };
+    String[] styles() default {};
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model
@@ -97,7 +98,7 @@ public @interface UIBadge {
     class BadgeComponentDefinitionCreator implements ComponentDefinitionCreator<UIBadge> {
         @Override
         public LinkkiComponentDefinition create(UIBadge annotation, AnnotatedElement annotatedElement) {
-            return pmo -> ComponentFactory.newBadge(annotation.severity(), annotation.variants());
+            return pmo -> ComponentFactory.newBadge(annotation.severity(), annotation.styles());
         }
     }
 

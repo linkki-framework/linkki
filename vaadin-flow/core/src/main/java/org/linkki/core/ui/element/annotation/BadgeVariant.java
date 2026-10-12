@@ -14,9 +14,16 @@
 
 package org.linkki.core.ui.element.annotation;
 
+import org.linkki.core.vaadin.component.BadgeStyleVariant;
+
 /**
  * Variants that define the style of a badge.
+ *
+ * @deprecated Use {@link BadgeStyleVariant} instead. The name was easily confused with Vaadin's
+ *             {@code BadgeVariant}. {@link #PILL} has no replacement, as the pill shape is the default
+ *             of a badge.
  */
+@Deprecated(since = "2.11.0")
 public final class BadgeVariant {
 
     /**
