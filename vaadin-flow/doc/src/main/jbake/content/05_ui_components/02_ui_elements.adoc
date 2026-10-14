@@ -272,11 +272,12 @@ It is used for selecting both a date and a time of day. `UIDateTimeField` has al
 ==== UIComboBox
 
 The annotation `@UIComboBox` allows selection of a value from a list and corresponds to https://vaadin.com/docs/v25/components/combo-box[com.vaadin.flow.component.combobox.ComboBox].
-It has three additional properties:
+It has the following additional properties:
 
 * <<ui-combobox-content,`content: AvailableValuesType`>>
 * <<ui-combobox-width,`width: String`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>>
+* <<ui-combobox-partial-match-mode, `partialMatchMode: PartialMatchMode`>>
 
 [source,java]
 ----
@@ -315,29 +316,27 @@ An alternative implementation class can be specified via the property `itemCapti
 * `ToStringCaptionProvider`: uses the `toString()`method of the elements
 * `IdAndNameCaptionProvider` in <<fips-extension, linkki-ips>>: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
 
+[[ui-combobox-partial-match-mode]]
+link:https://vaadin.com/docs/v25/components/combo-box#partial-match-behavior[PartialMatchMode]::
+The property `partialMatchMode` defines which item is automatically selected, for example on Enter, if the typed text only partially matches the caption of an item.
+The item that would be selected is highlighted in the drop-down while typing.
+An exact match is always selected, regardless of the mode.
++
+[cols="3,11"]
+.PartialMatchMode
+|===
+|`FIRST_MATCH` |the first item of the filtered results is selected (*default*)
+|`ONLY_MATCH`  |an item is only selected if the filtered results contain exactly this one item
+|`NONE`        |no partial match is selected, only an exact match
+|===
++
+NOTE: The default `FIRST_MATCH` differs from the default of the Vaadin `ComboBox`, which is `NONE`.
+
 [[ui-combobox-textAlign]]
 TextAlign::
 The property `textAlign` specifies the text alignment of the value inside the combo box, and the values in the drop-down menu. `RIGHT` is recommended for numeric values.
 If custom styles are used via <<bind-combo-box-item-style,`@BindComboBoxItemStyle`>>, the `textAlignment` will not affect the drop-down list.
 Instead, an https://vaadin.com/docs/v25/styling/themes/lumo/utility-classes#text-alignment[appropriate CSS class] has to be set by `@BindComboBoxItemStyle`.
-
-// For 2.7:
-// Remove if https://github.com/vaadin/web-components/issues/1280 is fixed
-[[ui-combobox-focus-first]]
-Automatically focus first applicable item::
-By default, a Vaadin ComboBox only accepts text input that exactly matches an item.
-For example, in a combo box with the options "aa", "bb", typing in "a" would not select "aa", although it is the only one that matches the input. +
-To improve this behavior, linkki provides Javascripts that can be used to enhance the usability.
-If application framework is used, these scripts are executed automatically.
-Otherwise, these need to be imported by using `@JsModule`.
-Ideally on a parent route layout that is used by all routes.
-+
-[source,java]
-----
-@JsModule("./src/focus-first-item-combo-box-mixin.js")
-@Route("my")
-public class MyView extends Div {}
-----
 
 [[ui-multiselect]]
 ==== UIMultiSelect

@@ -29,6 +29,7 @@ import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.ips.decimalfield.FormattedStringToDecimalConverter;
 
+import com.vaadin.flow.component.combobox.PartialMatchMode;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValueContext;
 
@@ -60,11 +61,16 @@ public class ComboBoxPmo {
         return new BooleanValuePmo();
     }
 
+    @UINestedComponent(position = 60)
+    public PartialMatchPmo getPartialMatchPmo() {
+        return new PartialMatchPmo();
+    }
+
     public enum Direction {
         UP,
         DOWN,
         LEFT,
-        RIGHT;
+        RIGHT
     }
 
     @UISection(caption = "Alignment")
@@ -249,6 +255,64 @@ public class ComboBoxPmo {
 
         public void setObjectBoolean(Boolean objectBoolean) {
             this.objectBoolean = objectBoolean;
+        }
+    }
+
+    @UISection(caption = "Partial match mode")
+    public static class PartialMatchPmo {
+
+        private static final List<String> VALUES = List.of("Apple", "Apricot", "Banana");
+
+        private String firstMatch;
+        private String onlyMatch;
+        private String noneMatch;
+
+        @UIComboBox(position = 10,
+                label = "FIRST_MATCH",
+                content = AvailableValuesType.DYNAMIC,
+                partialMatchMode = PartialMatchMode.FIRST_MATCH)
+        public String getFirstMatch() {
+            return firstMatch;
+        }
+
+        public void setFirstMatch(String firstMatch) {
+            this.firstMatch = firstMatch;
+        }
+
+        public List<String> getFirstMatchAvailableValues() {
+            return VALUES;
+        }
+
+        @UIComboBox(position = 20,
+                label = "ONLY_MATCH",
+                content = AvailableValuesType.DYNAMIC,
+                partialMatchMode = PartialMatchMode.ONLY_MATCH)
+        public String getOnlyMatch() {
+            return onlyMatch;
+        }
+
+        public void setOnlyMatch(String onlyMatch) {
+            this.onlyMatch = onlyMatch;
+        }
+
+        public List<String> getOnlyMatchAvailableValues() {
+            return getFirstMatchAvailableValues();
+        }
+
+        @UIComboBox(position = 30,
+                label = "NONE",
+                content = AvailableValuesType.DYNAMIC,
+                partialMatchMode = PartialMatchMode.NONE)
+        public String getNoneMatch() {
+            return noneMatch;
+        }
+
+        public void setNoneMatch(String noneMatch) {
+            this.noneMatch = noneMatch;
+        }
+
+        public List<String> getNoneMatchAvailableValues() {
+            return getFirstMatchAvailableValues();
         }
     }
 

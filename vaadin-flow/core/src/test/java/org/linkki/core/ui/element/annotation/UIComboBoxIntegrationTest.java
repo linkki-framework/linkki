@@ -53,6 +53,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.ComboBoxVariant;
+import com.vaadin.flow.component.combobox.PartialMatchMode;
 import com.vaadin.flow.data.provider.Query;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -76,9 +77,9 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         ComboBox<TestEnum> comboBox = getDynamicComponent();
 
         assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE,
-                                                        TestEnum.TWO,
-                                                        TestEnum.THREE,
-                                                        TestEnum.EMPTY));
+                TestEnum.TWO,
+                TestEnum.THREE,
+                TestEnum.EMPTY));
         assertThat(comboBox.isClearButtonVisible(), is(false));
     }
 
@@ -92,9 +93,9 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         ComboBox<TestEnum> comboBox = getDynamicComponent();
 
         assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE,
-                                                        TestEnum.TWO,
-                                                        TestEnum.THREE,
-                                                        TestEnum.EMPTY));
+                TestEnum.TWO,
+                TestEnum.THREE,
+                TestEnum.EMPTY));
         assertThat(comboBox.isClearButtonVisible(), is(true));
     }
 
@@ -102,20 +103,20 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
     void testStaticAvailableValues() {
         ComboBox<TestEnum> staticComboBox = getStaticComponent();
         assertThat(getAllowedValues(staticComboBox), contains(TestEnum.ONE, TestEnum.TWO,
-                                                              TestEnum.THREE, TestEnum.EMPTY));
+                TestEnum.THREE, TestEnum.EMPTY));
     }
 
     @Test
     void testDynamicAvailableValues() {
         assertThat(getAllowedValues(getDynamicComponent()), contains(TestEnum.ONE, TestEnum.TWO,
-                                                                     TestEnum.THREE, TestEnum.EMPTY));
+                TestEnum.THREE, TestEnum.EMPTY));
 
         List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.remove(TestEnum.ONE);
         getDefaultPmo().setValueAvailableValues(availableValues);
         modelChanged();
         assertThat(getAllowedValues(getDynamicComponent()), contains(TestEnum.TWO,
-                                                                     TestEnum.THREE, TestEnum.EMPTY));
+                TestEnum.THREE, TestEnum.EMPTY));
     }
 
     @Test
@@ -135,7 +136,7 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         Function<Object, NoLabelComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper((Component)c);
 
         assertThrows(LinkkiBindingException.class, () -> UiCreator.createUiElements(pmo, bindingContext,
-                                                                                    wrapperCreator)
+                        wrapperCreator)
                 .count());
     }
 
@@ -257,6 +258,38 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
         assertThat(comboBox.getThemeNames()).contains(ComboBoxVariant.LUMO_ALIGN_RIGHT.getVariantName());
     }
 
+    @Test
+    void testPartialMatchMode_Default() {
+        assertThat(getDynamicComponent().getPartialMatchMode()).isEqualTo(PartialMatchMode.ONLY_MATCH);
+        assertThat(getStaticComponent().getPartialMatchMode()).isEqualTo(PartialMatchMode.ONLY_MATCH);
+    }
+
+    @Test
+    void testPartialMatchMode_FirstMatch() {
+        ComboBox<TestEnum> comboBox = getComponentById("firstMatch");
+
+        assertThat(comboBox.getPartialMatchMode()).isEqualTo(PartialMatchMode.FIRST_MATCH);
+    }
+
+    @Test
+    void testPartialMatchMode_None() {
+        ComboBox<TestEnum> comboBox = getComponentById("noneMatch");
+
+        assertThat(comboBox.getPartialMatchMode()).isEqualTo(PartialMatchMode.NONE);
+    }
+
+    @Test
+    void testPartialMatchMode_ClearButtonWithNullItem() {
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+        availableValues.add(null);
+        getDefaultPmo().setValueAvailableValues(availableValues);
+
+        modelChanged();
+
+        assertThat(getDynamicComponent().getPartialMatchMode()).isEqualTo(PartialMatchMode.ONLY_MATCH);
+        assertThat(getDynamicComponent().isClearButtonVisible()).isTrue();
+    }
+
     @Override
     protected ComboBoxTestModelObject getDefaultModelObject() {
         return (ComboBoxTestModelObject)super.getDefaultModelObject();
@@ -330,6 +363,16 @@ class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTest<Combo
 
         @UIComboBox(position = 12, textAlign = TextAlignment.RIGHT)
         public TestEnum getRightAlign() {
+            return TestEnum.ONE;
+        }
+
+        @UIComboBox(position = 20, partialMatchMode = PartialMatchMode.FIRST_MATCH)
+        public TestEnum getFirstMatch() {
+            return TestEnum.ONE;
+        }
+
+        @UIComboBox(position = 21, partialMatchMode = PartialMatchMode.NONE)
+        public TestEnum getNoneMatch() {
             return TestEnum.ONE;
         }
 

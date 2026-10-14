@@ -67,6 +67,7 @@ import org.linkki.core.vaadin.component.ComponentFactory;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.ComboBoxVariant;
+import com.vaadin.flow.component.combobox.PartialMatchMode;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
@@ -121,6 +122,17 @@ public @interface UIComboBox {
      * For example: "25em" or "100%".
      */
     String width() default "-1px";
+
+    /**
+     * Defines which item is automatically selected, for example on Enter, if the typed filter only
+     * partially matches the caption of an item. The item that would be selected is highlighted in the
+     * drop-down while typing. An exact match is always selected, regardless of the mode.
+     * <p>
+     * Note that the default differs from the Vaadin default {@link PartialMatchMode#NONE}.
+     *
+     * @see PartialMatchMode
+     */
+    PartialMatchMode partialMatchMode() default PartialMatchMode.ONLY_MATCH;
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model
@@ -313,6 +325,7 @@ public @interface UIComboBox {
                 comboBox.setItemLabelGenerator(ItemCaptionProvider
                         .instantiate(annotation::itemCaptionProvider)::getUnsafeCaption);
                 comboBox.setWidth(annotation.width());
+                comboBox.setPartialMatchMode(annotation.partialMatchMode());
                 return comboBox;
             };
         }

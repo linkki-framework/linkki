@@ -155,5 +155,22 @@
         ]
       }
     }
+  ],
+  "2.11.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.annotation.removed",
+            "old": "class org.linkki.framework.ui.application.ApplicationLayout",
+            "new": "class org.linkki.framework.ui.application.ApplicationLayout",
+            "annotation": "@com.vaadin.flow.component.dependency.JsModule(\".\/src\/focus-first-item-combo-box-mixin.js\")",
+            "justification": "LIN-5090 Remove focus-first script, replaced by partial match mode for combo boxes"
+          }
+        ]
+      }
+    }
   ]
 }
