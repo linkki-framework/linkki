@@ -21,7 +21,6 @@ import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTI
 import static org.linkki.framework.ui.notifications.NotificationUtil.LINKKI_NOTIFICATION_WARNING;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +33,7 @@ import org.linkki.core.ui.test.WithLocale;
 import org.linkki.framework.ui.notifications.NotificationUtil;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.dom.Element;
@@ -154,12 +154,11 @@ class NotificationUtilTest {
                 .findFirst()
                 .orElseThrow();
 
-        return content.getChildren().collect(Collectors.toList());
+        return content.getChildren().toList();
     }
 
     private boolean hasCloseButton(Notification notification) {
-        String expected = "<vaadin-button>\n Close\n</vaadin-button>";
         return notification.getChildren()
-                .anyMatch(c -> expected.equals(c.getElement().getOuterHTML()));
+                .anyMatch(c -> c instanceof Button button && "Close".equals(button.getText()));
     }
 }

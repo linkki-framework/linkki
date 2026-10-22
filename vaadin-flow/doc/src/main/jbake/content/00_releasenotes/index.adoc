@@ -10,6 +10,31 @@
 
 === Version {vlinkki}
 
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Vaadin | 24.7.17 (link:https://github.com/vaadin/platform/releases/tag/24.7.17[Release Notes]) | 24.7.15
+|===
+
+The update to Vaadin 24.7.17 brings a notable change:
+[.api-change]*HTML Sanitization* +
+The new Vaadin version updates the Jsoup version to 1.23.2 in which the HTML sanitization logic was modified.
+Some cases are now sanitized differently, for example:
+
+[cols="a,a,a"]
+|===
+|Input| Previous behavior | New sanitization behavior
+
+|`<b><iframe>Test</iframe></b>`|`<b>Test</b>`|`<b></b>`
+|`<b><i onload="alert('text');" />Test</b>`|`<b><i></i>Test</b>`|`<b><i>Test</i></b>`
+|`<iframe>` and other banned tags|strip tags|strip tags and remove entire content
+|===
+
 ==== Other Improvements
 
 // https://faktorzehn.atlassian.net/browse/JTS-3509
