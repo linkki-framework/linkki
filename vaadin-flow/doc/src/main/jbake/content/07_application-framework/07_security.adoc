@@ -13,7 +13,7 @@ The https://vaadin.com/docs/v25/flow/security/advanced-topics/architecture[Vaadi
 
 ==== HTTP response headers
 
-OWASP offers an https://owasp.github.io/secure-headers-project/best-practices/[overview of security-related HTTP-Headers].
+OWASP offers an https://secure-headers-project.owasp.org/best-practices/[overview of security-related HTTP-Headers].
 These headers generally increase security by adding additional restrictions, so make sure you understand the impact before setting them.
 
 NOTE: Vaadin already sets a few of these headers.
