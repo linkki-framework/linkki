@@ -10,6 +10,8 @@
 
 === Version {vlinkki}
 
+=== Version 2.8.6
+
 ==== Version Updates
 
 The following versions have been updated:
