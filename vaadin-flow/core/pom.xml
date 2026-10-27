@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>flow-build-tools</artifactId>
-            <version>${vaadin.version}</version>
+            <version>${flow-build-tools.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

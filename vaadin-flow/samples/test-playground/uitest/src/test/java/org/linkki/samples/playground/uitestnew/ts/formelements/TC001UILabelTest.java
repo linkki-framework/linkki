@@ -71,7 +71,7 @@ class TC001UILabelTest extends PlaygroundUiTest {
         assertThat(label.getLabel()).isEqualTo("Sanitized HTML content containing a Vaadin icon");
         assertThat(label.findElements(By.tagName("vaadin-icon"))).hasSize(1);
         assertThat(label.getHTMLContent()).startsWith("This text should end with a red plus icon " +
-                "<vaadin-icon icon=\"vaadin:plus\" style=\"fill:red\">");
+                "<vaadin-icon icon=\"vaadin:plus\" style=\"fill:red;color:red\">");
     }
 
     @Test

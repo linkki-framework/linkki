@@ -116,18 +116,42 @@
 
 === Version {vlinkki}
 
+==== Version Updates
+// Only list versions that are in compile scope, not plugins, and not only used in samples.
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version   | Previous version
+
+| Vaadin                        | 25.3.4 (link:https://github.com/vaadin/platform/releases/tag/25.3.4[Release Notes]) | 25.3.1
+| Faktor-IPS                    | 27.1.0.a20261013-01 (link:https://doc.faktorzehn.org/faktor-ips/27.1.0-a20261013-01/01_releasenotes/index.html#release_notes[Release Notes]) | 27.1.0.m01
+| Apache Commons Lang 3         | 3.21.0 (link:https://commons.apache.org/proper/commons-lang/changes.html#a3.21.0[Release Notes]) | 3.20.0
+| Spring Boot compatibility tested for | 4.1.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.2[Release Notes]) | 4.1.1
+|===
+
+===== Vaadin 25.3.4
+
+See <<release-notes-vaadin-25-3, Vaadin 25.3>> for the changes introduced with Vaadin 25.3.
+The icon deprecation described there was reverted in 25.3.4.
+
 ==== Components, UI Annotations and Aspects
 
 // https://faktorzehn.atlassian.net/browse/LIN-5060
-* *Partial match mode for `@UIComboBox`* +
+* [.api-change]*Partial match mode for `@UIComboBox`* +
 `@UIComboBox` has a new property `partialMatchMode` that uses the `PartialMatchMode` introduced in Vaadin 25.3.
 See section <<ui-combobox-partial-match-mode, PartialMatchMode>> for the available modes to configure the behavior. +
 The default is `ONLY_MATCH`.
-Thus, the previous behavior which highlighted the only remaining item of a combo box remains the same with the default value. 
+Thus, the previous behavior which highlighted the only remaining item of a combo box remains the same with the default value.
 However, the only match is not focused anymore when opening a combo box with a single item. +
 UI tests or users that type text into combo boxes or select the only item of a combo box using only Enter may be affected. +
-[.api-change]*Removed JavaScript for focusing the only item*: The JavaScript `focus-first-item-combo-box-mixin.js`, which was responsible for this behavior, has been removed together with the `@JsModule` annotation on `ApplicationLayout`.
-Projects that import this script themselves need to remove the import.
+The JavaScript `focus-first-item-combo-box-mixin.js`, which was responsible for focusing the only item, has been removed together with the `@JsModule` annotation on `ApplicationLayout`.
++
+.Migration
+[NOTE]
+====
+Projects that import `focus-first-item-combo-box-mixin.js` themselves need to remove the import.
+====
 
 === Version 2.11.0-a20261008-01
 
@@ -142,6 +166,7 @@ The following versions have been updated:
 | Vaadin                        | 25.3.1 (link:https://github.com/vaadin/platform/releases/tag/25.3.1[Release Notes]) | 25.2.6
 |===
 
+[[release-notes-vaadin-25-3]]
 ===== Vaadin 25.3
 
 Vaadin 25.3 introduced several changes that affect this release and may also affect downstream projects:
@@ -149,50 +174,76 @@ Vaadin 25.3 introduced several changes that affect this release and may also aff
 * *Frontend styling of `vaadin-form-item`* +
 Vaadin reworked the internal styling of `vaadin-form-item`.
 Form items used in linkki layouts are not affected, as linkki's own styling was adjusted accordingly.
-Projects with custom CSS targeting `vaadin-form-item`'s required-indicator or label parts should check and adjust it if needed.
 * [.api-change]*Deprecated icons* +
-Several `VaadinIcon` entries are now deprecated (llink:https://github.com/vaadin/web-components/pull/12452[explanation from Vaadin]). +
-This changed the default icon of two linkki annotations:
-** `@BindIcon`: default changed from `VaadinIcon.NATIVE_BUTTON` to `VaadinIcon.SQUARE`
-** `@UIMenuList`: default changed from `VaadinIcon.ELLIPSIS_DOTS_H` to `VaadinIcon.ELLIPSIS_H`
+Several `VaadinIcon` entries are planned to be deprecated (link:https://github.com/vaadin/web-components/pull/12452[explanation from Vaadin]).
 +
-Projects that explicitly used `@BindIcon(VaadinIcon.SQUARE)` together with the default `iconType() == IconType.AUTO` need to set `iconType = IconType.STATIC` explicitly: `VaadinIcon.SQUARE` is now the sentinel value `@BindIcon` uses to detect "no icon set" (dynamic icon binding).
-See the `@BindIcon` javadoc. +
-All usages of deprecated icons need to be investigated as the canoncial substitute does not always express the same intention as the existing one.
-As Vaadin ist planning to migrate to link:https://lucide.dev/icons/[Lucide icons], it may be useful to consider if the corresponding Lucide icon still express the same meaning when choosing replacements.
+WARNING: In Vaadin 25.3.1 these icons are already deprecated.
+Vaadin reverted the deprecation in 25.3.4, which is used by the newer linkki version.
+Thus, the deprecation and the changed default icons described in the following entries only apply to linkki versions using Vaadin 25.3.1 up to, but excluding, 25.3.4.
+* [.api-change]*Default icon of `@BindIcon` changed* +
+The default icon of `@BindIcon` changed from `VaadinIcon.NATIVE_BUTTON` to `VaadinIcon.SQUARE`.
+`VaadinIcon.SQUARE` is now the sentinel value `@BindIcon` uses to detect "no icon set" (dynamic icon binding).
+See the `@BindIcon` javadoc.
+* [.api-change]*Default icon of `@UIMenuList` changed* +
+The default icon of `@UIMenuList` changed from `VaadinIcon.ELLIPSIS_DOTS_H` to `VaadinIcon.ELLIPSIS_H`.
 * [.api-change]*`TreeGrid` data provider* +
 `TreeDataProvider(TreeData)` is now deprecated in favor of `TreeDataProvider(TreeData, HierarchyFormat)`, because the single-argument constructor's default hierarchy format will change from `NESTED` to `FLATTENED` in Vaadin 26. linkki's `TreeGridComponentWrapper` was adjusted accordingly.
-Projects with their own `TreeGrid`/`TreeDataProvider` usage should switch to the two-argument constructor and pass `HierarchyFormat.NESTED` explicitly to keep the current behavior.
 * *Vaadin TestBench dialog behavior* +
 Vaadin TestBench 25.3 changed dialog-overlay DOM/timing behavior.
 This is mitigated internally in `OkCancelDialogElement.getDialogLayout()` and `VaadinElementConditions.isClosed(DialogElement)` (module `linkki-vaadin-flow-testbench-extension`).
-Projects with their own TestBench page objects or conditions for dialogs may be similarly affected and should verify against this Vaadin version.
 The most likely (but not confirmed) root cause is a combination of two Vaadin 25.3 web component changes: `vaadin-dialog`'s light DOM slot structure for its header/footer wrappers changed, and the shared overlay animation/attribute-timing logic was reworked, affecting all `vaadin-overlay`-based components including dialogs.
 * *Node.js 24 and version-specific install directories* +
 Vaadin 25.3 changed how it installs/manages Node.js: instead of a single `~/.vaadin/node/` directory, each version is now installed into `~/.vaadin/node-v<version>/`, and the `node.auto.update` configuration property was removed since it's no longer needed.
 Node.js 24+ is still required for building the frontend.
-Projects with their own Node.js provisioning/CI caching tied to the old layout or `node.auto.update` should adjust.
 * *Incompatible Chromedriver Version* +
-The Selenium version is updated to 4.49.0. This may cause various exceptions when executing testbench UI tests that should resolve with using a more recent Chromedriver version (tested with 149).
+The Selenium version is updated to 4.49.0.
+This may cause various exceptions when executing TestBench UI tests with an older Chromedriver version.
+
+.Migration Vaadin 25.3
+[NOTE]
+====
+* *`vaadin-form-item`:* Projects with custom CSS targeting `vaadin-form-item`'s required-indicator or label parts should check and adjust it if needed.
+* *`@BindIcon`:* Projects that explicitly used `@BindIcon(VaadinIcon.SQUARE)` together with the default `iconType() == IconType.AUTO` need to set `iconType = IconType.STATIC` explicitly.
+* *Deprecated icons:* All usages of deprecated icons need to be investigated as the canonical substitute does not always express the same intention as the existing one.
+As Vaadin is planning to migrate to link:https://lucide.dev/icons/[Lucide icons], it may be useful to consider if the corresponding Lucide icon still expresses the same meaning when choosing replacements.
+* *`TreeGrid`:* Projects with their own `TreeGrid`/`TreeDataProvider` usage should switch to the two-argument constructor and pass `HierarchyFormat.NESTED` explicitly to keep the current behavior.
+* *TestBench dialogs:* Projects with their own TestBench page objects or conditions for dialogs may be similarly affected and should verify against this Vaadin version.
+* *Node.js:* Projects with their own Node.js provisioning/CI caching tied to the old layout or `node.auto.update` should adjust.
+* *Chromedriver:* Use a more recent Chromedriver version (tested with 149).
+====
 
 ==== Other Improvements
 
 // https://jira.convista.com/browse/LIN-5056
 * [.api-change]*Removal of the module linkki-f10* +
 The module `linkki-f10`, which has been deprecated in version link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_integration_of_linkki_f10_functionalities_into_linkki[2.8.0], has now been removed.
++
+.Migration
+[NOTE]
+====
 For migration guide, see release notes of version link:https://doc.linkki-framework.org/2.8/00_releasenotes/#_integration_of_linkki_f10_functionalities_into_linkki[2.8.0].
+====
 * [.api-change]*Removed deprecated `KaribuUtils` methods* +
 `KaribuUtils.getNotification()` and `KaribuUtils.getNotificationTitle(Notification)`, deprecated since linkki 2.6.0, have been removed.
++
+.Migration
+[NOTE]
+====
 Use `KaribuUtils.Notifications.get()` and `KaribuUtils.Notifications.getTitle(Notification)` instead.
+====
 // https://faktorzehn.atlassian.net/browse/JTS-3509
 * *Faster headless Chrome in Testbench tests* +
 `BrowserType.CHROME_HEADLESS` now starts Chrome with `--remote-debugging-pipe`, which reduces significant overhead in container environments.
-
 // https://faktorzehn.atlassian.net/browse/LIN-5057
 * [.api-change]*`linkki-test` classes deprecated* +
 All classes of the `linkki-test` module are now deprecated. +
 The module `linkki-test` provides a handful of predefined matchers, which are not necessary anymore due to the rising popularity of AssertJ as an assertion framework.
-Hamcrest users can simply replace the deprecated matchers according to the replacement table below or by using matchers from a different library (i.e. `de.faktorzehn.commons.test.matcher.Matchers`).
++
+.Migration
+[NOTE]
+====
+Hamcrest users can simply replace the deprecated matchers with AssertJ assertions or by using matchers from a different library (i.e. `de.faktorzehn.commons.test.matcher.Matchers`).
+====
 
 === Version 2.11.0-a20261005-01
 
@@ -203,6 +254,7 @@ The following versions have been updated:
 [cols="a,a,a"]
 |===
 | Dependency                    | New version   | Previous version
+
 | Karibu                        | 2.7.3 | 2.7.2
 |===
 
@@ -217,8 +269,13 @@ A method `get<PropertyName>BadgeSeverity()` returning a `BadgeSeverity` must be 
 
 // https://faktorzehn.atlassian.net/browse/LIN-4151
 * [.api-change]*`linkki-bom` no longer imports the Vaadin BOM* +
-Importing `linkki-bom` alone no longer pins the versions of Vaadin artifacts, since this could conflict with the Vaadin version managed by a consuming application's own parent POM. +
+Importing `linkki-bom` alone no longer pins the versions of Vaadin artifacts, since this could conflict with the Vaadin version managed by a consuming application's own parent POM.
++
+.Migration
+[NOTE]
+====
 Projects that relied on `linkki-bom` to manage Vaadin versions transitively must now import `com.vaadin:vaadin-bom` themselves, or otherwise pin the Vaadin artifact versions they use directly.
+====
 
 ==== Bugfixes
 
@@ -305,7 +362,7 @@ The following versions have been updated:
 ==== Components, UI Annotations and Aspects
 
 // https://jira.convista.com/browse/LIN-4626
-* *UIOpenDialogButton mit ButtonVariant*
+* *UIOpenDialogButton mit ButtonVariant* +
 The annotation <<ui-open-dialog-button, `UIOpenDialogButton`>> now has an attribute `variants` to define the variants of the button.
 // https://jira.convista.com/browse/LIN-4875
 * *BindFormItemLabelWidth* +
@@ -320,5 +377,3 @@ For more information see <<ui-menulist, UIMenuList>>.
 * *`@UIOpenDialogButton`: dialog can now be shown conditionally* +
 The annotated method may now return `null` to indicate that no dialog should be opened under certain conditions.
 In this case, the binding context is still updated.
-
-

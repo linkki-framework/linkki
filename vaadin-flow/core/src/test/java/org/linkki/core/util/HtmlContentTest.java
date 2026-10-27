@@ -32,7 +32,7 @@ class HtmlContentTest {
         icon.setColor("red");
         assertThat(HtmlContent.icon(icon).toString())
                 .isEqualToIgnoringWhitespace("""
-                        <vaadin-icon icon="vaadin:tag" style="fill:red"></vaadin-icon>""");
+                        <vaadin-icon icon="vaadin:tag" style="fill:red;color:red"></vaadin-icon>""");
     }
 
     @Test
