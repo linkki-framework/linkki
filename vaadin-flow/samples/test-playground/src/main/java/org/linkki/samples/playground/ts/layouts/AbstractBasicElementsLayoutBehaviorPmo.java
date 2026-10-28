@@ -16,6 +16,7 @@ package org.linkki.samples.playground.ts.layouts;
 
 import static org.linkki.samples.playground.ts.layouts.AbstractBasicElementsLayoutBehaviorPmo.CSS_CLASS;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -559,7 +560,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     }
 
     public Set<SampleEnum> getEnumValuesCheckboxesAvailableValues() {
-        return Set.of(SampleEnum.values());
+        return EnumSet.allOf(SampleEnum.class);
     }
 
     @BindIcon(iconType = IconType.DYNAMIC)

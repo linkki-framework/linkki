@@ -16,7 +16,8 @@ package org.linkki.samples.playground.ts.formelements;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.linkki.core.ui.element.annotation.UIMultiSelect;
@@ -37,7 +38,7 @@ public class MultiSelectPmo {
         SUNDAY
     }
 
-    private Set<Day> days = new HashSet<>();
+    private Set<Day> days = EnumSet.noneOf(Day.class);
 
     @UIMultiSelect(position = 0, label = "Days")
     public Set<Day> getDays() {
@@ -45,7 +46,7 @@ public class MultiSelectPmo {
     }
 
     public void setDays(Set<Day> days) {
-        this.days = days;
+        this.days = new LinkedHashSet<>(days);
     }
 
     @UIMultiSelect(position = 10, label = "Selected Days")

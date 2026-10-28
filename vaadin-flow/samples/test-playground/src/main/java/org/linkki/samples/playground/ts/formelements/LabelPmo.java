@@ -18,6 +18,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -118,7 +119,7 @@ public class LabelPmo {
     }
 
     public Set<String> getRightAlignedLabelStyleNames() {
-        return Set.of(CUSTOM_STYLE, LumoUtility.TextAlignment.RIGHT);
+        return new LinkedHashSet<>(List.of(CUSTOM_STYLE, LumoUtility.TextAlignment.RIGHT));
     }
 
     @SuppressWarnings("deprecation")
