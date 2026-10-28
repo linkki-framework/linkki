@@ -47,7 +47,6 @@ import org.linkki.samples.playground.compare.TestCaseResult.Difference;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Browser.NewContextOptions;
 import com.microsoft.playwright.BrowserType.LaunchOptions;
-import com.microsoft.playwright.CLI;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
@@ -75,7 +74,7 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
             () -> Playwright.create(new Playwright.CreateOptions()
                     .setEnv(Map.of("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD", "1"))));
     private final ThreadLocal<Browser> threadBrowser = ThreadLocal.withInitial(
-            () -> threadPlaywright.get().chromium().launch(new LaunchOptions().setHeadless(true)));
+            () -> threadPlaywright.get().chromium().launch(launchOptions()));
     private final CopyOnWriteArrayList<Playwright> playwrights = new CopyOnWriteArrayList<>();
 
     public PlaygroundComparisonEngine(String testDeploymentUrl, String referenceDeploymentUrl, Path outputDir) {
@@ -97,18 +96,6 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
         } catch (IOException e) {
             throw new RuntimeException("Cannot prepare output dir: " + outputDir, e);
         }
-        // Install browser if needed (single-threaded, before parallel tests start)
-        try (var pw = Playwright.create(new Playwright.CreateOptions()
-                .setEnv(Map.of("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD", "1")))) {
-            var executablePath = pw.chromium().executablePath();
-            if (executablePath == null || !Files.exists(Path.of(executablePath))) {
-                try {
-                    CLI.main(new String[] { "install", "chromium" });
-                } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException("Failed to install Chromium", e);
-                }
-            }
-        }
         checkDeploymentReachable(testDeploymentUrl, TEST_LABEL);
         checkDeploymentReachable(referenceDeploymentUrl, REFERENCE_LABEL);
     }
@@ -118,6 +105,19 @@ public class PlaygroundComparisonEngine implements AutoCloseable {
         // track playwright instances for cleanup
         playwrights.addIfAbsent(threadPlaywright.get());
         return browser;
+    }
+
+    /**
+     * On Jenkins, the {@code withChrome} step links the selected Chrome to {@code ~/.local/bin/chrome}.
+     * Elsewhere, the system-wide Chrome is used.
+     */
+    private static LaunchOptions launchOptions() {
+        var options = new LaunchOptions().setHeadless(true);
+        var jenkinsChrome = Path.of(System.getProperty("user.home"), ".local", "bin", "chrome");
+        if (Files.isExecutable(jenkinsChrome)) {
+            return options.setExecutablePath(jenkinsChrome);
+        }
+        return options.setChannel("chrome");
     }
 
     private NewContextOptions contextOptions() {

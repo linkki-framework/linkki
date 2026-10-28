@@ -33,13 +33,15 @@ pipeline {
 
         stage('Playground Compare Test') {
             steps {
-                withMaven(publisherStrategy: 'EXPLICIT') {
-                    sh """mvn \
-                        -f vaadin-flow/samples/test-playground/playwright-compare/pom.xml \
-                        test \
-                        -Dcompare.url.test=${params.COMPARE_URL_TEST} \
-                        -Dcompare.url.reference=${params.COMPARE_URL_REFERENCE} \
-                        -Dmaven.test.failure.ignore=true"""
+                withChrome('149') {
+                    withMaven(publisherStrategy: 'EXPLICIT') {
+                        sh """mvn \
+                            -f vaadin-flow/samples/test-playground/playwright-compare/pom.xml \
+                            test \
+                            -Dcompare.url.test=${params.COMPARE_URL_TEST} \
+                            -Dcompare.url.reference=${params.COMPARE_URL_REFERENCE} \
+                            -Dmaven.test.failure.ignore=true"""
+                    }
                 }
 
                 archiveArtifacts allowEmptyArchive: true,
