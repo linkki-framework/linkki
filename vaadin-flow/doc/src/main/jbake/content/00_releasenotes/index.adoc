@@ -59,10 +59,10 @@ The following versions have been updated:
 
 ==== Bugfixes
 
-// https://jira.convista.com/browse/JTS-3376
+// https://faktorzehn.atlassian.net/browse/JTS-3376
 * *Testbench tests not closing Chrome handles in headless mode* +
 Executing <<ui-testing,UI tests,>> in headless mode spawned two ChromeDriver instances but only closed one at the end of each test.
-// https://jira.convista.com/browse/JTS-3405
+// https://faktorzehn.atlassian.net/browse/JTS-3405
 * *Testbench tests not closing Chrome handles on error* +
 Errors during initialization of <<ui-testing, UI tests>> spawned Chrome handles but did not close them.
 
@@ -96,7 +96,7 @@ The following versions have been updated:
 |===
 
 ==== Bugfixes
-// https://jira.convista.com/browse/LIN-3045
+// https://faktorzehn.atlassian.net/browse/LIN-3045
 * <<bind-read-only-behavior, @BindReadOnlyBehavior>> now also works with components other than UIButton.
 
 === Version 2.8.2
@@ -116,7 +116,7 @@ The following versions have been updated:
 
 ==== Bugfixes
 
-// https://jira.convista.com/browse/LIN-4561
+// https://faktorzehn.atlassian.net/browse/LIN-4561
 * In version `2.8.1`, entering a value to a cell inside a table created with `@UITableComponent` and traversing with the tab-key results in loosing focus.
 Starting with `2.8.2`, the behavior has been fixed.
 
@@ -137,11 +137,11 @@ The following versions have been updated:
 
 ==== Bugfixes
 
-// https://jira.convista.com/browse/LIN-4558
+// https://faktorzehn.atlassian.net/browse/LIN-4558
 * The linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries.
 This issue affects only version `2.8.0`.
 Starting with `2.8.1`, the BOM has been fixed and works as expected.
-// https://jira.convista.com/browse/LIN-4562
+// https://faktorzehn.atlassian.net/browse/LIN-4562
 * Testing: The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
 
 === Version 2.8.0
@@ -203,7 +203,7 @@ include::2_8_linkki_f10_migration.adoc[]
 
 * *UIHeadline* +
 A new UI component, `@UIHeadline`, is now available, providing a way to easily create <<headline, headlines>> that only display text.
-// https://jira.faktorzehn.de/browse/LIN-352
+// https://faktorzehn.atlassian.net/browse/LIN-352
 * *UIOpenDialogButton* +
 Sometimes, a value or a grid item should not be edited directly.
 Instead, a dialog should be opened upon a button click in which the user can edit the value in a more complex form.
@@ -282,8 +282,8 @@ The class `flex-basis-0` sets the initial size of flex items to zero, allowing f
 It is also available as the constant `LinkkiTheme.Flex.BASIS_NONE`.
 
 ==== Bugfixes
-// https://jira.faktorzehn.de/browse/LIN-4248
+// https://faktorzehn.atlassian.net/browse/LIN-4248
 * `SimpleItemSupplier` now throws a `NullPointerException` if the model object to PMO mapping supplier returns `null`.
-// https://jira.convista.com/browse/LIN-4262
+// https://faktorzehn.atlassian.net/browse/LIN-4262
 * `linkki-vaadin-flow-test` no longer includes `vaadin-dev`, and `linkki-vaadin-flow-testbench-extension` now marks `vaadin-core` as provided.
 This avoids unwanted dependencies in production.
