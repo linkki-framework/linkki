@@ -100,10 +100,10 @@ pipeline {
                             <h3>UI Test</h3>
                             <ul>
                                 <li><a href='${env.BUILD_URL}artifact/vaadin-flow/samples/test-playground/uitest/target/error-screenshots/' target="_blank">Error Screenshots</a></li>
-                                <li><a href='https://jira.convista.com/issues/?jql=project%20%3D%20LIN%20AND%20labels%20%3D%20UI-Tests' target="_blank">Jira Issues</a></li>
+                                <li><a href='https://faktorzehn.atlassian.net/issues/?jql=project%20%3D%20LIN%20AND%20labels%20%3D%20UI-Tests' target="_blank">Jira Issues</a></li>
                                 <li>Falls es noch kein Jira Issue gibt:
                                     <ul>
-                                        <li><a href='https://jira.convista.com/secure/CreateIssueDetails!init.jspa?pid=15370&issuetype=1&priority=6&components=16576&labels=UI-Tests&summary=UI-TestXXX&description=${env.BUILD_URL}' target="_blank">Issue anlegen</a></li>
+                                        <li><a href='https://faktorzehn.atlassian.net/secure/CreateIssueDetails!init.jspa?pid=10043&issuetype=10034&components=10282&labels=UI-Tests&summary=UI-TestXXX&description=${env.BUILD_URL}' target="_blank">Issue anlegen</a></li>
                                         <li>In der Test Methode die Beschreibung der Assertion um die Issuenummer ergänzen</li>
                                     </ul>
                                 </li>
