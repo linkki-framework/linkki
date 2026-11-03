@@ -31,7 +31,7 @@ import com.vaadin.flow.router.RouteParameters;
 
 /**
  * Workaround for resolving an error that occurs when navigating from a page to itself (see
- * <a href="https://jira.convista.com/browse/FCOM-1557">FCOM-1557</a>). Only use this workaround if
+ * <a href="https://faktorzehn.atlassian.net/browse/FCOM-1557">FCOM-1557</a>). Only use this workaround if
  * the described error occurs, specifically when navigating from a page to itself does not work
  * properly.
  * <p>

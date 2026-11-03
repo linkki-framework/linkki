@@ -21,7 +21,7 @@ class LinkkiSection extends LitElement {
       flex-wrap: wrap;
       flex-direction: column;
       align-items: baseline;
-      /* Sections should be scrollable see https://jira.faktorzehn.de/browse/LIN-2915 */
+      /* Sections should be scrollable see https://faktorzehn.atlassian.net/browse/LIN-2915 */
       overflow: auto;
       box-sizing: border-box;
       width: 100%;
