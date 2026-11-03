@@ -116,6 +116,18 @@
 
 === Version {vlinkki}
 
+==== Version Updates
+
+The following versions have been updated:
+
+// Only track dependencies that are relevant for downstream projects
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 25.3.5 (link:https://github.com/vaadin/platform/releases/tag/25.3.5[Release Notes]) | 25.3.4
+|===
+
 ==== Components, UI Annotations and Aspects
 
 // https://faktorzehn.atlassian.net/browse/LIN-5086

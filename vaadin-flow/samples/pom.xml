@@ -23,14 +23,14 @@
 
         <!-- Compile dependencies -->
         <!-- this property must also be updated in linkki-vaadin-flow -->
-        <vaadin.version>25.3.4</vaadin.version>
+        <vaadin.version>25.3.5</vaadin.version>
         <spring-boot.version>4.1.2</spring-boot.version>
         <spring-framework.version>7.0.10</spring-framework.version>
         <commons-lang3.version>3.21.0</commons-lang3.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 
         <!-- Maven plugin versions -->
-        <vaadin-maven-plugin.version>25.3.4</vaadin-maven-plugin.version>
+        <vaadin-maven-plugin.version>25.3.5</vaadin-maven-plugin.version>
         <maven-compiler-plugin.version>3.16.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
