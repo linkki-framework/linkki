@@ -89,7 +89,7 @@ The following versions have been updated:
 
 ==== Bugfixes
 
-// https://jira.convista.com/browse/LIN-4665
+// https://faktorzehn.atlassian.net/browse/LIN-4665
 * *Placeholder text color not visible in dark mode* +
 The empty state text color used for placeholders was not defined as a theme variable, causing insufficient contrast in dark mode.
 
@@ -111,10 +111,10 @@ If you are a customer of Faktor Zehn and you are having any problems, please con
 
 ==== Bugfixes
 
-// https://jira.convista.com/browse/JTS-3376
+// https://faktorzehn.atlassian.net/browse/JTS-3376
 * *Testbench tests not closing Chrome handles in headless mode* +
 Executing <<ui-testing, UI tests>> in headless mode spawned two ChromeDriver instances but only closed one at the end of each test.
-// https://jira.convista.com/browse/JTS-3405
+// https://faktorzehn.atlassian.net/browse/JTS-3405
 * *Testbench tests not closing Chrome handles on error* +
 Errors during initialization of <<ui-testing, UI tests>> spawned Chrome handles but did not close them.
 
@@ -191,7 +191,7 @@ The following versions have been updated:
 
 ==== Other Improvements
 
-// https://jira.convista.com/browse/LIN-4713
+// https://faktorzehn.atlassian.net/browse/LIN-4713
 * *APT validation for @BindClearButton* +
 The annotation processor now ensures that `@BindClearButton` is only used with non-primitive return types, as the clear button requires nullable values.
 
@@ -199,13 +199,13 @@ The annotation processor now ensures that `@BindClearButton` is only used with n
 
 ==== UI Annotations and Aspects
 
-// https://jira.convista.com/browse/LIN-4713
+// https://faktorzehn.atlassian.net/browse/LIN-4713
 * *UIDateField and UIDateTimeField are no longer created with clear button by default* +
 In version 2.9.2, `UIDateField` and `UIDateTimeField` create components with a clear button by default.
 This change is reverted based on the common feedback that the clearing of the value triggers unnecessary calculations and validations.
 To add a clear button to these fields, the new <<bind-clear-button, `@BindClearButton`>> annotation can be used.
 
-// https://jira.convista.com/browse/LIN-4713
+// https://faktorzehn.atlassian.net/browse/LIN-4713
 * *BindClearButton* +
 A new aspect annotation <<bind-clear-button, @BindClearButton>> has been added to set a clear button visibility on UI components that implement `HasClearButton` interface.
 
@@ -308,26 +308,26 @@ Elements with tooltips now expose a `has-tooltip' attribute.
 This attribute can be used to add visual indicators in CSS for when the tooltip is available.
 
 ==== UI Annotations and Aspects
-// https://jira.convista.com/browse/LIN-3148
+// https://faktorzehn.atlassian.net/browse/LIN-3148
 * *BindHeight* +
 A new aspect annotation <<bind-height, @BindHeight>> has been added to define the height of a UI component, e.g., to set a fixed size for table components or other components that benefit from a consistent display area.
-// https://jira.convista.com/browse/LIN-4605
+// https://faktorzehn.atlassian.net/browse/LIN-4605
 * *BindWidth* +
 A new aspect annotation <<bind-width, @BindWidth>> has been added to define the width of a UI component, e.g., to set a fixed size for date fields or other components that benefit from a consistent display area.
-// https://jira.convista.com/browse/LIN-4157
+// https://faktorzehn.atlassian.net/browse/LIN-4157
 * *BindHelperText* +
 A new aspect annotation <<bind-helper-text, @BindHelperText>> has been added to show additional information for a field, e.g., regarding its format requirement or purpose.
-// https://jira.convista.com/browse/LIN-4604
+// https://faktorzehn.atlassian.net/browse/LIN-4604
 * *UINestedComponent with multiple PMOs* +
 This version adds support for returning multiple PMOs as a `SequencedCollection<Object>` in the `UINestedComponent` annotation.
 See <<multiple-nested-pmos, chapter "Nested Components">> for more information.
-// https://jira.convista.com/browse/LIN-4530
+// https://faktorzehn.atlassian.net/browse/LIN-4530
 * *Clear button for UIDateField, UITimeField and UIDateTimeField* +
 Date and time fields now have a clear button to erase the current value.
 This helps in situations when it is faster to first erase the former value and then insert a new one.
 
 ==== Testing
-// https://jira.convista.com/browse/LIN-4635
+// https://faktorzehn.atlassian.net/browse/LIN-4635
 * [.api-change]*New utility class for set-up: KaribuUI* +
 linkki provides `KaribuUIExtension` that can be used with `@ExtendWith` or `@RegisterExtension` to set up the Vaadin UI for Karibu testing.
 However, this only works well for test classes in which the set-up is the same for each method. +
@@ -336,45 +336,45 @@ This can be used to create a different set-up for each method, as well as test c
 With this change, the configuration class `KaribuConfiguration` was moved to the top level.
 Static imports of this class may need to be adjusted.
 If the static method `withDefaults` is currently used with `KaribuUIExtension.withConfigution` (`KaribuUIExtension.withConfiguration(withDefaults().setSomething())`, consider changing the usage to `KaribuUIExtension.withConfiguration(config -> config.setSomething())`.
-// https://jira.convista.com/browse/LIN-4635
+// https://faktorzehn.atlassian.net/browse/LIN-4635
 * *KaribuUtils: browser refresh* +
 `KaribuUtils` now has a new method `UI#refresh` with which a browser refresh can be simulated.
 
 ==== Other Improvements
-// https://jira.convista.com/browse/LIN-4153
+// https://faktorzehn.atlassian.net/browse/LIN-4153
 * A localized converter for booleans replaces the previous default in the <<default-converters,*LinkkiConverterRegistry*>>.
 Booleans will now be displayed as a localized variant of "Yes" or "No" when used with @UILabel.
-// https://jira.convista.com/browse/LIN-4491
+// https://faktorzehn.atlassian.net/browse/LIN-4491
 * A new section <<tutorial-step-11, UI Tests>> has been added to the <<linkki-tutorial,linkki tutorial>>, demonstrating how to write unit UI tests with Karibu-Testing.
-// https://jira.convista.com/browse/LIN-4491
+// https://faktorzehn.atlassian.net/browse/LIN-4491
 * This version is tested for compatibility with Java 25. +
 Note that when using components that use `CompletableFuture` as return types in low-parallelism environments, it may be necessary to set the system property `java.util.concurrent.ForkJoinPool.common.parallelism` to a value of 2 or higher to avoid potential timeouts.
 
 ==== Bugfixes
-// https://jira.convista.com/browse/LIN-3289
+// https://faktorzehn.atlassian.net/browse/LIN-3289
 * [.api-change]*Grid selection only updates the bindings on changes from client* +
 Selection listeners in `GridSelectionAspectDefinition` now check `ComponentEvent#isFromClient` to ensure model updates only occur for user-initiated events.
 This reduces the number of unnecessary updates significantly. +
 With this fix, setting the selection programmatically using the Vaadin API does not result in an update of all bindings anymore.
 While this is the expected behaviors, implementations that previously relied on the binding update may need to be adjusted.
-// https://jira.convista.com/browse/LIN-4561
+// https://faktorzehn.atlassian.net/browse/LIN-4561
 * *No focus loss during tab traversal in @UITableComponent* +
 Entering a value into a cell inside a table created with `@UITableComponent` and traversing with the tab key no longer results in losing focus.
-// https://jira.convista.com/browse/LIN-3045
+// https://faktorzehn.atlassian.net/browse/LIN-3045
 * *@BindReadOnlyBehavior with components other than UIButton* +
 <<bind-read-only-behavior, @BindReadOnlyBehavior>> now also works with components other than UIButton.
-// https://jira.convista.com/browse/LIN-4518
+// https://faktorzehn.atlassian.net/browse/LIN-4518
 * *Testbench Extension: error screenshots before @AfterEach methods* +
 Failing UI tests now record an error screenshot before any cleanup is done in @AfterEach methods. +
 Before this change, error screenshots were taken after cleanup was done by these methods.
 This sometimes prevents seeing the actual UI state when the error occurred, e.g. when the cleanup logs out of the application.
-// https://jira.convista.com/browse/LIN-4562
+// https://faktorzehn.atlassian.net/browse/LIN-4562
 * *Testing: @WithLocale in parameterized tests* +
 The annotation `WithLocale` now works correctly with `@ParameterizedTest`.
-// https://jira.convista.com/browse/LIN-4636
+// https://faktorzehn.atlassian.net/browse/LIN-4636
 * *Testing: KaribuUIExtension sets locale on refresh* +
 When setting locale using `KaribuUIExtension` or `WithLocale`, the locale is now preserved upon `Page#reload`.
-// https://jira.convista.com/browse/LIN-4505
+// https://faktorzehn.atlassian.net/browse/LIN-4505
 * *Correct publishing of linkki-bom* +
 The linkki-bom was published incorrectly and did not contain any `dependencyManagement` entries.
 This issue affects only version `2.8.0` and previous alpha version.
