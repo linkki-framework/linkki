@@ -10,6 +10,17 @@
 
 === Version {vlinkki}
 
+==== Version Updates
+
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency | New version | Previous version
+
+| Vaadin | 24.7.19 (link:https://github.com/vaadin/platform/releases/tag/24.7.19[Release Notes]) | 24.7.17
+|===
+
 === Version 2.8.6
 
 ==== Version Updates
