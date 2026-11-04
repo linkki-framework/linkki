@@ -64,6 +64,18 @@
 
 === Version {vlinkki}
 
+
+// Only list versions that are in compile scope, not plugins, and not only used in samples.
+The following versions have been updated:
+
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Vaadin                        | 25.2.14 (link:https://github.com/vaadin/platform/releases/tag/25.2.14[Release Notes]) | 25.2.12
+| Spring Boot compatibility tested for | 4.1.2 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.1.2[Release Notes]) | 4.1.1
+|===
+
 === Version 2.10.6
 
 // Only list versions that are in compile scope, not plugins, and not only used in samples.
