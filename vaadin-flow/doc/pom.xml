@@ -69,7 +69,7 @@
                         <readmepath>${basedir.parent}</readmepath>
                         <vspotbugs>${spotbugs.version}</vspotbugs>
                         <vcommonslang>${commons-lang3.version}</vcommonslang>
-                        <vlinkki>${project.version}</vlinkki>
+                        <vproject>${project.version}</vproject>
                         <vvaadin>${vaadin.version}</vvaadin>
                         <homelink>https://doc.linkki-framework.org</homelink>
                         <logo>https://doc.linkki-framework.org/linkki.png</logo>

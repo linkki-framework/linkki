@@ -23,7 +23,7 @@ In order to do that, you execute the command:
 mvn archetype:generate \
 -DarchetypeGroupId=org.linkki-framework.archetypes \
 -DarchetypeArtifactId=linkki-archetype-spring-application-vaadin-flow \
--DarchetypeVersion={vlinkki}
+-DarchetypeVersion={vproject}
 ----
 
 You are prompted to choose several values for the project.
@@ -40,7 +40,7 @@ When selecting the archetype, choose
 
 * Group Id `org.linkki-framework.archetypes`
 * Artifact Id `linkki-archetype-spring-application-vaadin-flow` and
-* Version `{vlinkki}`.
+* Version `{vproject}`.
 
 .Selecting the archetype
 image::{images}{images-folder-name}/eclipse_select_archetype.png[]

@@ -35,11 +35,7 @@ pipeline {
                     prepareRelease {
                         additionalModule 'vaadin-flow/samples/test-playground/uitest'
                         additionalDevelopmentAction {
-                            insertReleaseNotesVersion(
-                                params.RELEASE_VERSION,
-                                'vaadin-flow/doc/src/main/jbake/content/00_releasenotes/index.adoc',
-                                '{vlinkki}'
-                            )
+                            insertReleaseNotesVersion()
                         }
                     }
                 }
