@@ -198,6 +198,16 @@ pipeline {
                                 """
                             }
                         }
+
+                        stage('External Link Tests') {
+                            steps {
+                                retry(3) {
+                                    withMaven(publisherStrategy: 'EXPLICIT') {
+                                        sh 'mvn -pl "vaadin-flow/doc" jade:test-external-links'
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
