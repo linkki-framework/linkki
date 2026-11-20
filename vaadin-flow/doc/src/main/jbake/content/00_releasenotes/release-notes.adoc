@@ -113,6 +113,21 @@
 
 === Version {vproject}
 
+==== Version Updates
+
+The following versions have been updated:
+
+// Only track dependencies that are relevant for downstream projects
+[cols="a,a,a"]
+|===
+| Dependency                    | New version                                                                        | Previous version
+
+| Faktor-IPS                    | 27.1.0.a20261113-01 (link:https://doc.faktorzehn.org/faktor-ips/27.1.0-a20261117-01/01_releasenotes/index.html[Release Notes]) | 27.1.0.a20261013-01
+| Apache Commons Lang 3         | 3.22.0 (link:https://commons.apache.org/proper/commons-lang/changes.html#a3.22.0[Release Notes]) | 3.21.0
+| Spring Boot compatibility tested for | 4.2.0 (link:https://github.com/spring-projects/spring-boot/releases/tag/v4.2.0[Release Notes]) | 4.1.2
+| Spring Framework | 7.1.0 (link:https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes[Release Notes]) | 7.0.10
+|===
+
 === Version 2.11.0-a20261103-01
 
 ==== Version Updates

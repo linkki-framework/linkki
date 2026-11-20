@@ -24,9 +24,9 @@
         <!-- Compile dependencies -->
         <!-- this property must also be updated in linkki-vaadin-flow -->
         <vaadin.version>25.3.5</vaadin.version>
-        <spring-boot.version>4.1.2</spring-boot.version>
-        <spring-framework.version>7.0.10</spring-framework.version>
-        <commons-lang3.version>3.21.0</commons-lang3.version>
+        <spring-boot.version>4.2.0</spring-boot.version>
+        <spring-framework.version>7.1.0</spring-framework.version>
+        <commons-lang3.version>3.22.0</commons-lang3.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 
         <!-- Maven plugin versions -->
