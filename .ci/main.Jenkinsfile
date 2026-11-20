@@ -21,6 +21,7 @@ pipeline {
     }
 
     options {
+        retry(3)
         timeout(time: 30, unit: 'MINUTES')
     }
 
